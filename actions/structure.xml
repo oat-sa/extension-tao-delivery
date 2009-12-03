@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension name="Delivery" url="/taoDelivery/Delivery/index" level="7">
+	<sections>
+		<section name="Manage deliveries" url="/taoDelivery/Delivery/index">
+			<actions />
+		</section>
+	</sections>
+</extension>
