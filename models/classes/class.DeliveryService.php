@@ -235,6 +235,31 @@ class taoDelivery_models_classes_DeliveryService
 
         return (bool) $returnValue;
     }
+	
+	
+	/**
+     * put information of the subject into a cache (record current information of the subjects at the moment the tested are taken)
+     */
+	public function subjectInfoCache(){
+	//foreach subject, get corresponding uri. 
+	
+	//fetch information for each of them from the uri and save it in a user data
+	
+	}
+	
+	/**
+     * create login/pass in a MySQL table to identify subjects when they will be taking the tests.
+     */
+	public function createSubjectLogin(){
+	
+	}
+	
+	/**
+     * check login/pass in a MySQL table to identify subjects when they will be taking the tests.
+     */
+	public function checkSubjectLogin(){
+	
+	}
 
 } /* end of class taoGroups_models_classes_GroupsService */
 

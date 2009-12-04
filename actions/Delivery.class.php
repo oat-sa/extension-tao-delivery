@@ -1,6 +1,6 @@
 <?php
 require_once('tao/actions/CommonModule.class.php');
-
+require_once('taoDelivery/helpers/class.Precompilator.php');
 
 class Delivery extends CommonModule {
 	
@@ -14,7 +14,7 @@ class Delivery extends CommonModule {
 	}
 
 	public function index(){
-	/*
+	/**
 	*Tests preliminaires
 	*/
 	/*
@@ -79,13 +79,66 @@ class Delivery extends CommonModule {
 		// $this->setView('index.tpl');
 		
 		$this->service->getSubjectInstances();
+	
+	/**
+	*Start of the real implementation
+	*/	
+		$allTests=array();
+		//fetch Test Instances from test ontology
+		
+		foreach($allTests as $test){
+			//get the values of the properties of each instance: label, some parameter, compiled or not
+			
+			//format the information to prepare it for the view
+			
+			//add "preview button"
+			
+		}
+		
 	}
 	
-	public function addDelivery(){
+	//asynchronus action
+	//TODO progress bar plus interruption or exception management
+	public function compile(){
+		//get the uri of the test to be compiled
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		$testId="";//get the unique id of the test, by extracting the id from the uri of the test reference $uri
+		$directory="taoDelivery/compiledTests/$testId/";//directory where all files related to this test(i.e media files and item xml files)
+		//create a directory:
+		mkdir($directory);
+		//create a new test.xml file
+		$xmlTest = "";//TODO:determine whether the language should be defined with the test...
 		
+		$Items=array();
+		//fetch all Items of the Test instance
 		
+		foreach ($Items as $Item){
+			//get item id from its uri
+			$itemId='';
+			
+			//get available language code for this item resource
+			$languages=array();
+			foreach ($languages as $language){
+				//get property of the instance of the item with the label ItemContent, which is a XML file.
+			$xmlItem="";
+			
+			//parse the XML file with the helper Precompilator:
+			$compilator = new tao_helpers_Precompilator();
+			$xmlItem=$compilator->parser($xmlItem,$directory);//media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+			
+			//add another parser to define in the Test.Language.xml file, the new path to the item's xml file. 
+			$xmlTest = "";//to be parsed
+			
+			//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+			$xmlItemPath = "$directory/$itemId.xml";//need to create a separate item.xml file for each language?
+			$handle = fopen($xmlItemPath,"wb");
+			$xmlItem = fwrite($handle,$xmlItem);
+			fclose($handle);
+			}
+		}
+		//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
+		
+		//then send the success message to the user
 	}
-	
-
 }
 ?>

@@ -58,21 +58,16 @@ class tao_helpers_Precompilator
 			$mediaList = array_merge($mediaList,$mediaListTemp);
 			//$exprArray[]=$expr;//for debug
 		}
-		
 		// print_r($exprArray);
 		// print_r($mediaList);
-		
 		foreach($mediaList[0] as $mediaUrl){
-			$mediaPath = $this->downloadFile($mediaUrl,$directory);echo $mediaPath."<br>";
+			$mediaPath = $this->downloadFile($mediaUrl,$directory);
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
-		
 		return $xml;
 	}
 	
-	public function subjectCache(){
 	
-	}
 	
 } /* end of class taoDelivery_helpers_Precompilator */
 
