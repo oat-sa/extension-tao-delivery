@@ -30,10 +30,6 @@ class tao_helpers_Precompilator
 		$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
 		$fileName = strrev($reverseUrl);
 		
-		//echo "Dans le xml je remplace ".$oldvalue." par ".$alendroit."<br>";
-		//$xml = str_replace($oldvalue,$alendroit,$xml);
-		//echo "le fichier ecrit est ".$alendroit."<br>";
-		
 		$finalFilePath = $directory."/".$fileName;
 		$handle = fopen($finalFilePath,"wb");
 		$fileContent = fwrite($handle,$fileContent);
@@ -54,58 +50,24 @@ class tao_helpers_Precompilator
 		$authorizedMedia = array_merge($defaultMedia,$authorizedMedia);
 		
 		$mediaList = array();
+		$exprArray = array();
 		foreach ($authorizedMedia as $mediaType){
-			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";echo $expr;
-			preg_match_all($expr,$xml,$mediaList);
+			$mediaListTemp=array();
+			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: to be optimized by only searching tags that could contain media.
+			preg_match_all($expr,$xml,$mediaListTemp);
+			$mediaList = array_merge($mediaList,$mediaListTemp);
+			//$exprArray[]=$expr;//for debug
 		}
 		
-		print_r($authorizedMedia);
+		// print_r($exprArray);
+		// print_r($mediaList);
+		
 		foreach($mediaList[0] as $mediaUrl){
 			$mediaPath = $this->downloadFile($mediaUrl,$directory);echo $mediaPath."<br>";
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
 		
 		return $xml;
-		
-		/*
-		$content = $xml;
-		$occurences =array();
-		$occurences2=array();
-		//$occurences = split ("<[^>]*>", $content );
-		//eregi(">[^<]*jpg|>[^<]*gif|>[^<]*mp3|>[^<]*swf",$content,$occurences) ;
-		$expr="/http:\/\/[^<'\" ]+.jpg/i";
-		preg_match_all($expr,$content,$occurences);
-		$expr="/http:\/\/[^<'\"]+.mp3/i";
-		preg_match_all($expr,$content,$occurences2);
-		$listing = array_merge($occurences[0],$occurences2[0]);
-		
-		//eregi('<image src=[^<]*>',$content,$occurences) ;
-		error_reporting(0);
-		if (is_array($occurences))
-		{
-			while(list($x,$value)=each($mediaList))
-			{		
-					$oldvalue = $value;
-					$toopen=str_replace(" ","%20",$value);
-					$value=str_replace(" ","SPACE",$value);
-					//echo "le fichier ouvert est ".$toopen."<br>";
-					$temp2 = file_get_contents($toopen);
-					
-					$alenvers = strrev($value);
-					$toujoursalenvers= substr($alenvers,0,strpos($alenvers,"/"));
-					$alendroit = strrev($toujoursalenvers);
-					//echo "Dans le xml je remplace ".$oldvalue." par ".$alendroit."<br>";
-					$xml = str_replace($oldvalue,$alendroit,$xml);
-					//$zipfile -> add_file($temp2, "dir/".$alendroit); 
-					//echo "le fichier ecrit est ".$alendroit."<br>";
-					$handle = fopen($directory."/".$alendroit,"wb");
-					$temp2 = fwrite($handle,$temp2);
-					fclose($handle);
-					//echo "<br><br>";
-			}
-		}
-		return$xml;
-		*/
 	}
 	
 	public function subjectCache(){
