@@ -106,36 +106,63 @@ class Delivery extends CommonModule {
 		$directory="taoDelivery/compiledTests/$testId/";//directory where all files related to this test(i.e media files and item xml files)
 		//create a directory:
 		mkdir($directory);
-		//create a new test.xml file
-		$xmlTest = "";//TODO:determine whether the language should be defined with the test...
 		
-		$Items=array();
-		//fetch all Items of the Test instance
+		//get language Code of the available languages for the test:
+		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
+		$languages=array();
+		$languages[]="EN";//for test
 		
-		foreach ($Items as $Item){
-			//get item id from its uri
-			$itemId='';
+		$testXML=array();//array of XML file
+		
+		foreach($languages as $language){
+			$testContent="";//string XML got from an API call
+			$testXML[$language]=new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
+			@$testXML[$language]->loadHTML($testContent);
 			
-			//get available language code for this item resource
-			$languages=array();
-			foreach ($languages as $language){
-				//get property of the instance of the item with the label ItemContent, which is a XML file.
-			$xmlItem="";
+			//fetch the uri of all Items of the Test instance in the given language:
+			$items=array();//getPropertyValuesCollection(Property relatedItem)
+			$items=$testXML[$language]->getElementsByTagName('citem');
+			$items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test
 			
-			//parse the XML file with the helper Precompilator:
-			$compilator = new tao_helpers_Precompilator();
-			$xmlItem=$compilator->parser($xmlItem,$directory);//media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+			$testXML[$language]=$testContent;//reload with the string value
 			
-			//add another parser to define in the Test.Language.xml file, the new path to the item's xml file. 
-			$xmlTest = "";//to be parsed
-			
-			//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-			$xmlItemPath = "$directory/$itemId.xml";//need to create a separate item.xml file for each language?
-			$handle = fopen($xmlItemPath,"wb");
-			$xmlItem = fwrite($handle,$xmlItem);
-			fclose($handle);
+			foreach ($items as $item){
+				$itemUri=$item->nodeValue;
+				//get item id from its uri (e.g. http://127.0.0.1/middleware/demoItems.rdf#113567805632546)
+				$itemId=substr($itemUri,stripos($itemUri,".rdf#")+5);//TODO check format of the uri
+				
+				//get ItemContent in the given language, which is an XML file
+				//getPropertyValuesCollection(Property relatedItem)
+				$itemContent="";//xml file in the given language
+				
+				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+				$compilator = new tao_helpers_Precompilator();
+				$itemContent=$compilator->parser($itemContent,$directory);
+				
+				//add another parser to define in the Test.Language.xml file, the new path to the item's xml file. 
+				preg_replace($itemUri, $itemId.$language, $testXML[$language], 1);
+				
+				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+				$itemXMLpath = "$directory/$itemId$language.xml";
+				$handle = fopen($xmlItemPath,"wb");
+				$xmlItem = fwrite($handle,$xmlItem);
+				fclose($handle);
+				
+				//TODO: handle the case when item éissing or other issues
 			}
+			//when a language is done, write the new test xml file associated to the language:
+			$handle = fopen("$directory/test$language.xml","wb");
+			$testXML[$language] = fwrite($handle,$testXML[$language]);
+			fclose($handle);
 		}
+		
+		//create a new test.xml file with link to all test languages
+		$testFile="";
+		
+		$handle = fopen("$directory/test.xml","wb");
+		$testFile = fwrite($handle,$testFile);
+		fclose($handle);
+		
 		//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 		
 		//then send the success message to the user
