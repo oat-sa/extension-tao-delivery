@@ -39,7 +39,7 @@ class tao_helpers_Precompilator
 		
 	}
     
-	public function parser($xml,$directory,$authorizedMedia=array()){
+	public function itemParser($xml,$directory,$authorizedMedia=array()){
 		
 		if(!file_exists($directory)){
 			throw new exception("the specified directory does not exist");
@@ -48,6 +48,7 @@ class tao_helpers_Precompilator
 		$defaultMedia = array("jpg","jpeg","png","gif","mp3","swf");
 		
 		$authorizedMedia = array_merge($defaultMedia,$authorizedMedia);
+		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
 		$exprArray = array();
@@ -67,6 +68,26 @@ class tao_helpers_Precompilator
 		return $xml;
 	}
 	
+	public function testParser(){
+	
+	}
+	
+	//copy plugins from different type of xml files: 
+	public function pluginCopy(){
+		
+	}
+	
+	public function stringToFile($content, $directory, $fileName){
+		if(!is_dir($directory)){
+			$created=mkdir($directory);
+			if($created===false){
+				die ("the folder $directory does not exist and can not be created");
+			}
+		}
+		$handle = fopen("$directory/$fileName","wb");
+		$content = fwrite($handle,$content);
+		fclose($handle);
+	}
 	
 	
 } /* end of class taoDelivery_helpers_Precompilator */

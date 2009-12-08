@@ -101,30 +101,38 @@ class Delivery extends CommonModule {
 	//TODO progress bar plus interruption or exception management
 	public function compile(){
 		//get the uri of the test to be compiled
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		$testId="";//get the unique id of the test, by extracting the id from the uri of the test reference $uri
-		$directory="taoDelivery/compiledTests/$testId/";//directory where all files related to this test(i.e media files and item xml files)
-		//create a directory:
-		mkdir($directory);
+		$testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		$testId="";//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
 		
-		//get language Code of the available languages for the test:
+		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
+		$directory="./taoDelivery/compiledTests/$testId/";
+		$directoryCreated = mkdir($directory);//TODO exception management
+		
+		//get the language Code of the available languages for the test:
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
 		$languages=array();
-		$languages[]="EN";//for test
+		$languages=array('EN','FR');//for test
 		
-		$testXML=array();//array of XML file
+		$testContentArray=array();//array of XML file containing the testContent in every available langauge
+		$testContentArray['EN']='';//for test
+		$testContentArray['FR']='';
+		
+		$compilator = new tao_helpers_Precompilator();
 		
 		foreach($languages as $language){
-			$testContent="";//string XML got from an API call
-			$testXML[$language]=new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
-			@$testXML[$language]->loadHTML($testContent);
+			$testContent="";//string XML got from an API call (depend on the implementation of the API that is being done)
+			
+			//string version of the testContent aimed at being modified
+			$testContentArray[$language]=$testContent;
+			
+			//dom version of testContent for easy parsing purpose
+			$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
+			@$testContentDom->loadHTML($testContent);
 			
 			//fetch the uri of all Items of the Test instance in the given language:
 			$items=array();//getPropertyValuesCollection(Property relatedItem)
-			$items=$testXML[$language]->getElementsByTagName('citem');
+			$items=$testContentDom->getElementsByTagName('citem');
 			$items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test
-			
-			$testXML[$language]=$testContent;//reload with the string value
 			
 			foreach ($items as $item){
 				$itemUri=$item->nodeValue;
@@ -133,35 +141,53 @@ class Delivery extends CommonModule {
 				
 				//get ItemContent in the given language, which is an XML file
 				//getPropertyValuesCollection(Property relatedItem)
-				$itemContent="";//xml file in the given language
+				$itemContent="";//xml file in the given language defined in $language
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-				$compilator = new tao_helpers_Precompilator();
-				$itemContent=$compilator->parser($itemContent,$directory);
-				
-				//add another parser to define in the Test.Language.xml file, the new path to the item's xml file. 
-				preg_replace($itemUri, $itemId.$language, $testXML[$language], 1);
+				$itemContent=$compilator->itemParser($itemContent,$directory);//rename to parserItem()
 				
 				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-				$itemXMLpath = "$directory/$itemId$language.xml";
-				$handle = fopen($xmlItemPath,"wb");
-				$xmlItem = fwrite($handle,$xmlItem);
-				fclose($handle);
+				// $itemXMLpath = "$directory/$itemId$language.xml";//createXMLfile($directory,$xmlString)
+				// $handle = fopen($xmlItemPath,"wb");
+				// $itemContent = fwrite($handle,$itemContent);
+				// fclose($handle);
+				$compilator->stringToFile($itemContent, $directory, "$itemId$language.xml");
 				
-				//TODO: handle the case when item éissing or other issues
+				//add another parser to define the new path to the item's xml file in the Test.Language.xml file. 
+				$escapedItemUri=preg_replace('/\//', "\/", $itemUri);
+				$testXML[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testXML[$language], 1);
+				
+				//hypothesis: direct access to required plugins with the parameter Item_model_runtime (e.g. $runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_RUNTIME_PROPERTY));)
+				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
+				//copy required component in the created test directory
+				$pluginUri = "./taoDelivery/models/ext/itemRuntime/";
+				$plugins=array();
+				foreach ($plugins as $plugin){
+					$compilator->downloadFile($pluginUri.$plugin,$directory,'');
+				}
+				
+				//TODO: handle the case when item missing or other issues
 			}
-			//when a language is done, write the new test xml file associated to the language:
-			$handle = fopen("$directory/test$language.xml","wb");
-			$testXML[$language] = fwrite($handle,$testXML[$language]);
-			fclose($handle);
+			//when the compilation in a language is done, write the new test xml file associated to the language:
+			// $handle = fopen("$directory/test$language.xml","wb");
+			// $testXML[$language] = fwrite($handle,$testXML[$language]);
+			// fclose($handle);
+			$compilator->stringToFile($testXML[$language], $directory, "test$language.xml");
 		}
 		
-		//create a new test.xml file with link to all test languages
-		$testFile="";
+		//create a new test.xml file with links to all test languages
+		$testXMLfile="";
+		$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
+		<tao:TEST rdfid="'.$testUri.'" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">';
+		foreach ($languages as $language){
+			$testXMLfile.="<tao:TESTcontent lang=\"$language\">$language</tao:TESTcontent>";
+		}
+		$testXMLfile.='</tao:TEST>';
 		
-		$handle = fopen("$directory/test.xml","wb");
-		$testFile = fwrite($handle,$testFile);
-		fclose($handle);
+		// $handle = fopen("$directory/test.xml","wb");
+		// $testFile = fwrite($handle,$testXMLfile);
+		// fclose($handle);
+		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
 		//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 		

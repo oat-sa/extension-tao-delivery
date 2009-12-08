@@ -39,7 +39,8 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var array
      */
-    protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+    //protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+	protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
 	
     // --- OPERATIONS ---
 
