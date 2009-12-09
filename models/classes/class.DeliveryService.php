@@ -8,8 +8,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 require_once('tao/models/classes/class.Service.php');
-require_once('taoTests/models/classes/class.TestsService.php');
-require_once('taoSubjects/models/classes/class.SubjectsService.php');
 
 class taoDelivery_models_classes_DeliveryService
     extends tao_models_classes_Service
@@ -56,10 +54,38 @@ class taoDelivery_models_classes_DeliveryService
 		$this->subjectService = tao_models_classes_ServiceFactory::get('Subjects');// ne fonctionne pas
     }
 	
+	//hypothesis: being able to access the external ontology 'subjects'
 	public function getSubjectInstances(){
-		$allInstances=$this->subjectService->getSubjects();
-		var_dump(json_encode( ($allInstances) ));
+		//connect to the class : 'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
+		$class = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
 	}
+	
+	
+	public function getTestInstances(){}
+	
+	/**
+	*more general version of getInstances method, applicable for Delivery, Subjects and Tests
+	*/
+	public function getAllInstances(core_kernel_classes_Class $clazz = null){
+		$instancesData = array();
+		foreach($clazz->getInstances(false) as $instance){
+			$instancesData[] = array(
+				'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
+				'attributes' => array(
+					'id' => tao_helpers_Uri::encode($instance->uriResource),
+					'class' => 'node-instance'
+				),
+				'properties' => $this->getProperties($clazz,true)
+			);
+		}
+		return $instancesData;
+	}
+	
+	
+	// public function getSubjectInstances(){
+		// $allInstances=$this->subjectService->getSubjects();
+		// var_dump(json_encode( ($allInstances) ));
+	// }
 	
     public function getDeliveryClass($uri = '')
     {
@@ -98,7 +124,7 @@ class taoDelivery_models_classes_DeliveryService
 	
 	/**
 	*
-	*Return all instances of a class of Delivery, equivalent de ce qui existe deja dans Groups conne la methode getGroups par exemple
+	*Return all instances of a class of Delivery, equivalent de ce qui existe deja dans Groups comme la methode getGroups par exemple
 	*/
 	public function getAllDeliveries(core_kernel_classes_Class $clazz = null){
 		$instancesData = array();
@@ -262,6 +288,6 @@ class taoDelivery_models_classes_DeliveryService
 	
 	}
 
-} /* end of class taoGroups_models_classes_GroupsService */
+} /* end of class taoGroups_models_classes_DeliveryService */
 
 ?>

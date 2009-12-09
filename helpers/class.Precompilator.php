@@ -11,8 +11,24 @@ class tao_helpers_Precompilator
     // --- ASSOCIATIONS ---
 
     // --- ATTRIBUTES ---
-
+	protected $completed = array();
+	
+	protected $error = array();
+	
+	
     // --- OPERATIONS ---
+	
+	public function __construct(){
+		$this->completed=array(
+					"file"=>array(),
+					"replace"=>array()
+					);
+		$this->error=array(
+					"file"=>array(),
+					"replace"=>array()
+					);			
+	}
+	
 	
 	//return the new location of the file or an empty string 
 	public function downloadFile($url,$directory,$newName=''){
@@ -21,7 +37,8 @@ class tao_helpers_Precompilator
 		
 		$fileContent = file_get_contents($url);
 		if ($fileContent === false){
-			throw new exception("could not open the remote file $url");
+			$this->error["file"][]=$url;
+			//throw new exception("could not open the remote file $url");
 			return $returnValue;
 		};
 		
@@ -31,12 +48,18 @@ class tao_helpers_Precompilator
 		$fileName = strrev($reverseUrl);
 		
 		$finalFilePath = $directory."/".$fileName;
-		$handle = fopen($finalFilePath,"wb");
-		$fileContent = fwrite($handle,$fileContent);
-		fclose($handle);
-				
-		return $returnValue = $finalFilePath;
 		
+		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
+		if(!in_array($url, $this->completed["file"])){
+			$handle = fopen($finalFilePath,"wb");
+			$fileContent = fwrite($handle,$fileContent);
+			fclose($handle);
+			
+			//record in the property "completed" that the file has been successfullly downloaded 
+			$this->completed["file"][]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
+		}
+				
+		return $returnValue = $fileName;
 	}
     
 	public function itemParser($xml,$directory,$authorizedMedia=array()){
@@ -61,7 +84,9 @@ class tao_helpers_Precompilator
 		}
 		// print_r($exprArray);
 		// print_r($mediaList);
-		foreach($mediaList[0] as $mediaUrl){
+					
+		$uniqueMediaList = 	array_unique($mediaList[0]);	
+		foreach($uniqueMediaList as $mediaUrl){
 			$mediaPath = $this->downloadFile($mediaUrl,$directory);
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
@@ -70,11 +95,6 @@ class tao_helpers_Precompilator
 	
 	public function testParser(){
 	
-	}
-	
-	//copy plugins from different type of xml files: 
-	public function pluginCopy(){
-		
 	}
 	
 	public function stringToFile($content, $directory, $fileName){

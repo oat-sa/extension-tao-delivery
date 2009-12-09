@@ -12,8 +12,12 @@ class Delivery extends CommonModule {
 		$this->service = tao_models_classes_ServiceFactory::get('Delivery');
 		$this->defaultData();
 	}
-
+	
 	public function index(){
+		echo GENERIS_TRUE;
+	}
+
+	public function index0(){
 	/**
 	*Tests preliminaires
 	*/
@@ -105,7 +109,7 @@ class Delivery extends CommonModule {
 		$testId="";//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
-		$directory="./taoDelivery/compiledTests/$testId/";
+		$directory="./taoDelivery/compiled/$testId/";
 		$directoryCreated = mkdir($directory);//TODO exception management
 		
 		//get the language Code of the available languages for the test:
@@ -173,7 +177,14 @@ class Delivery extends CommonModule {
 			// $testXML[$language] = fwrite($handle,$testXML[$language]);
 			// fclose($handle);
 			$compilator->stringToFile($testXML[$language], $directory, "test$language.xml");
-		}
+			
+			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
+			//the uri of the property "compiled" is 'http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'
+			$propertyCompiled = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'); 	
+			$testInstance->setPropertyValue($propertyCompiled,GENERIS_TRUE);
+			
+			
+		}//end of foreach language of test
 		
 		//create a new test.xml file with links to all test languages
 		$testXMLfile="";
@@ -189,7 +200,8 @@ class Delivery extends CommonModule {
 		// fclose($handle);
 		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
-		//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
+		//start.html file where the flash plugins will be embedded
+		$compilator->downloadFile("../models/ext/itemRuntime/start.php",$directory,'');
 		
 		//then send the success message to the user
 	}
