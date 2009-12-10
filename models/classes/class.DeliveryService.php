@@ -37,8 +37,8 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var array
      */
-    //protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
-	protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
+    protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+	// protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
 	
     // --- OPERATIONS ---
 
@@ -59,7 +59,6 @@ class taoDelivery_models_classes_DeliveryService
 		//connect to the class : 'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
 		$class = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
 	}
-	
 	
 	public function getTestInstances(){}
 	

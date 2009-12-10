@@ -20,24 +20,25 @@ class tao_helpers_Precompilator
 	
 	public function __construct(){
 		$this->completed=array(
-					"file"=>array(),
+					"copiedFiles"=>array(),
+					"createdFiles"=>array(),
 					"replace"=>array()
 					);
 		$this->error=array(
-					"file"=>array(),
+					"copiedFiles"=>array(),
+					"createdFiles"=>array(),
 					"replace"=>array()
 					);			
 	}
 	
-	
-	//return the new location of the file or an empty string 
-	public function downloadFile($url,$directory,$newName=''){
+	//return the name of the downloaded file or an empty string 
+	public function copyFile($url,$directory,$affectedObject){
 	
 		$returnValue = "";
 		
 		$fileContent = file_get_contents($url);
 		if ($fileContent === false){
-			$this->error["file"][]=$url;
+			$this->error["copiedFiles"][$affectedObject]=$url;
 			//throw new exception("could not open the remote file $url");
 			return $returnValue;
 		};
@@ -50,19 +51,19 @@ class tao_helpers_Precompilator
 		$finalFilePath = $directory."/".$fileName;
 		
 		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
-		if(!in_array($url, $this->completed["file"])){
+		if(!in_array($url, $this->completed["copiedFiles"])){
 			$handle = fopen($finalFilePath,"wb");
 			$fileContent = fwrite($handle,$fileContent);
 			fclose($handle);
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
-			$this->completed["file"][]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
+			$this->completed["copiedFiles"][$affectedObject]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
 		}
 				
 		return $returnValue = $fileName;
 	}
     
-	public function itemParser($xml,$directory,$authorizedMedia=array()){
+	public function itemParser($xml, $directory, $itemName, $authorizedMedia=array()){
 		
 		if(!file_exists($directory)){
 			throw new exception("the specified directory does not exist");
@@ -87,7 +88,7 @@ class tao_helpers_Precompilator
 					
 		$uniqueMediaList = 	array_unique($mediaList[0]);	
 		foreach($uniqueMediaList as $mediaUrl){
-			$mediaPath = $this->downloadFile($mediaUrl,$directory);
+			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName);
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
 		return $xml;
@@ -107,8 +108,13 @@ class tao_helpers_Precompilator
 		$handle = fopen("$directory/$fileName","wb");
 		$content = fwrite($handle,$content);
 		fclose($handle);
+		$this->completed["createdFiles"][]=$fileName;
 	}
 	
+	public function result(){
+		$returnValue=array("completed"=>$this->completed, "error"=>$this->error);
+		return $returnValue;
+	}
 	
 } /* end of class taoDelivery_helpers_Precompilator */
 

@@ -148,7 +148,7 @@ class Delivery extends CommonModule {
 				$itemContent="";//xml file in the given language defined in $language
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-				$itemContent=$compilator->itemParser($itemContent,$directory);//rename to parserItem()
+				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
 				
 				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
 				// $itemXMLpath = "$directory/$itemId$language.xml";//createXMLfile($directory,$xmlString)
@@ -167,7 +167,7 @@ class Delivery extends CommonModule {
 				$pluginUri = "./taoDelivery/models/ext/itemRuntime/";
 				$plugins=array();
 				foreach ($plugins as $plugin){
-					$compilator->downloadFile($pluginUri.$plugin,$directory,'');
+					$compilator->copyFile($pluginUri.$plugin,$directory,"$itemId$language.xml");
 				}
 				
 				//TODO: handle the case when item missing or other issues
@@ -182,7 +182,6 @@ class Delivery extends CommonModule {
 			//the uri of the property "compiled" is 'http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'
 			$propertyCompiled = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'); 	
 			$testInstance->setPropertyValue($propertyCompiled,GENERIS_TRUE);
-			
 			
 		}//end of foreach language of test
 		
@@ -200,8 +199,8 @@ class Delivery extends CommonModule {
 		// fclose($handle);
 		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
-		//start.html file where the flash plugins will be embedded
-		$compilator->downloadFile("../models/ext/itemRuntime/start.php",$directory,'');
+		//copy the start.php file to the compiled test folder, where the flash plugins will be embedded
+		$compilator->copyFile("../models/ext/itemRuntime/start.php",$directory,'testFolder');
 		
 		//then send the success message to the user
 	}
