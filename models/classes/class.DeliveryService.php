@@ -274,13 +274,6 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	/**
-     * create login/pass in a MySQL table to identify subjects when they will be taking the tests.
-     */
-	public function createSubjectLogin(){
-	
-	}
-	
-	/**
      * check login/pass in a MySQL table to identify subjects when they will be taking the tests.
      */
 	public function checkSubjectLogin($login,$password){

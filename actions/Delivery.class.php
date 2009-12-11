@@ -133,8 +133,7 @@ class Delivery extends CommonModule {
 			$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
 			@$testContentDom->loadHTML($testContent);
 			
-			//fetch the uri of all Items of the Test instance in the given language:
-			$items=array();//getPropertyValuesCollection(Property relatedItem)
+			//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
 			$items=$testContentDom->getElementsByTagName('citem');
 			$items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test
 			
