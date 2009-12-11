@@ -283,8 +283,40 @@ class taoDelivery_models_classes_DeliveryService
 	/**
      * check login/pass in a MySQL table to identify subjects when they will be taking the tests.
      */
-	public function checkSubjectLogin(){
+	public function checkSubjectLogin($login,$password){
+		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Login
+		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Password
+		
+		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+		$query = "SELECT s1.subject FROM statements AS s1 AND FROM statements AS s2
+			WHERE s1.subject=s2.subject
+			AND s1.predicate='http://www.tao.lu/Ontologies/TAOSubject.rdf#Login'
+			AND s1.object='$login'
+			AND s2.predicate='http://www.tao.lu/Ontologies/TAOSubject.rdf#Password'
+			AND	s2.object='$password'";
+		
+		$result = $db->execSql($query);
+		
+		//empty or not?	
+
+	}
 	
+	public function getTestsBySubject($subjectUri){
+		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Group
+		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Members
+		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests
+		
+		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+		$query = "SELECT s2.object FROM statements AS s1 AND statements AS s2
+			WHERE s1.subject=s2.subject  
+			AND s1.object='$subjectUri'
+			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
+			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
+		
+		$result = $db->execSql($query);
+		
+		//an array
+		
 	}
 
 } /* end of class taoGroups_models_classes_DeliveryService */

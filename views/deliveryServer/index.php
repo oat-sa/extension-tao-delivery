@@ -3,17 +3,18 @@
 //session_start();//already started in common.php
 
 if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) && ($_POST["password"]!="")){
+	session_start();
 
-	require_once('../../includes/common.php');
-	require_once('../../includes/constants.php');
-	require_once('../../includes/config.php');
-	require_once('../../models/classes/class.DeliveryService.php');
+	// require_once('../../includes/common.php');
+	// require_once('../../includes/constants.php');
+	// require_once('../../includes/config.php');
+	// require_once('../../models/classes/class.DeliveryService.php');
 
 	$login=$_POST["login"];
 	$password=$_POST["password"];
 
 	//connect to API here:
-	$deliveryService = new taoDelivery_models_classes_DeliveryService();
+	// $deliveryService = new taoDelivery_models_classes_DeliveryService();
 
 	//login check here:
 	$ok=true;

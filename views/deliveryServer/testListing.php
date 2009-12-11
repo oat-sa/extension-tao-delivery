@@ -24,9 +24,9 @@ if(!isset($_SESSION["subject"]["uri"])){
 	die("no user session defined, please login again");
 }
 
-//if a subject is loggued in, get available tests:
+//if a subject is loggued in, get available tests with their properties(uri,label,comment):
 $tests=array();
-$tests[]="45645645645";
+$tests[]="888";
 $tests[]="5645645645";
 $tests[]="33645645645";
 $tests[]="456907286945645";
@@ -62,80 +62,9 @@ for($i=$start_number; $i<=$end_number; $i++){
 $result=array();
 $result["tests"]=$tests_data;
 $result["pager"]=$pager_data;
+$result["subject"]["uri"]=$_SESSION["subject"]["uri"];
 
 echo json_encode($result);
 // echo 'result={"tests":' . json_encode($tests_data) . ', "pager":'. json_encode($pager_data) .'}';
-
-/*
-		$pager='';
-		if($nb_pages>1){
-			$pager .= '<p align="center">';
-			//page precedente
-			if ($page > 1) {
-				$url= "#".$option."/p".strval($page-1);
-		    	$pager .= '<a class="nav" href="'.$url.'">prev.</a>&nbsp;&nbsp;';
-		  	}
-		  	// --- listing des pages
-		  	$imax = min($nb_pages, 10);
-		  	for ($i=1; $i<=$imax; $i++) {
-				$url= "#".$option."/p".strval($i);
-		    	$pager .= '<a class="nav" href="'.$url.'">['.$i.']</a>';
-		  	}
-		  	// --- page suivante
-		  	if ($page < $nb_pages) {
-		 		$url= "#".$option."/p".strval($page+1);
-		    	$pager .= '&nbsp;&nbsp;<a class="nav" href="'.$url.'">next</a>';
-		  	}
-		  	$pager .= '</p>';
-		}
-		
-		//initialisation du message à imprimer
-		$msg_box='<table><thead>
-					<tr>
-						<td width="36"></td>
-						<td width="100">Sender</td>
-						<td width="342">Title</td>
-						<td width="133">Date</td>
-					</tr>
-				  </thead><tbody>';
-		$new_msg=0;
-		$i=0;
-		foreach ($tb_msg as $msg){
-			$i++;
-			($i%2==0)?($class="even"):($class="odd");
-			//$sender=array();// il n'y a plus besoin de ça grace à la requete optimisée de msg_box2()
-			//$sender=$hlp->user_info($msg['sender'],array('fields'=>'username, photoURL'));
-			if($option=='inbox'){
-				if($msg['read']=='0'){//utile de compter les nouveaux messages que pour l'inbox
-				$new_msg ++;
-				}
-			}
-			//creer une ligne de tableau:
-			$msg_box .='
-						<tr class="message '.$class.'" name="testo">
-							<td colspan="4"><input id="ck'.$msg["msg_id"].'" name="chosen" type="checkbox" class="l" />
-							<img src="/img/msg-reply.png" class="l"/>
-							<a title="read message" name="/msg_reader.php?msg='.$msg["msg_id"].'&box='.$option.'"
-							class="jqmtrigger">
-							
-							<div class="m1">'.$msg["username"].'</div> 
-							<div class="m2">'.$msg["subject"].'</div>
-							<div class="m3">'.$hlp_temp->date_GMT_to_local($msg['msg_date']).'</div>
-							</a>
-							</td>
-						</tr>
-					';	
-		}
-		$msg_box.="<tbody></table>";
-		
-		if($option=='inbox'){
-			echo "<p>you have $new_msg new messages</p>";
-		}
-		echo $msg_box;
-		echo $pager;
-		echo "<br/><br/>";
-	}
-*/
-
 
 ?>

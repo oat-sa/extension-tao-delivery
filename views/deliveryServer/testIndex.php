@@ -1,8 +1,9 @@
 <?php
-require_once('../../includes/common.php');
-require_once('../../includes/constants.php');
-require_once('../../includes/config.php');
-require_once('../../models/classes/class.DeliveryService.php');
+session_start();
+// require_once('../../includes/common.php');
+// require_once('../../includes/constants.php');
+// require_once('../../includes/config.php');
+// require_once('../../models/classes/class.DeliveryService.php');
 
 if(!isset($_SESSION["subject"]["uri"])){
 	header("location: index.php");
@@ -53,7 +54,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 							// following page
 							if (r.pager.current < r.pager.total) {
 								url = "get_tests(" + (parseInt(r.pager.current) + 1) + ")";
-								pager += '<a href="#" onclick="' + url + '">next</a>&nbsp;&nbsp;';
+								pager += '&nbsp;&nbsp;<a href="#" onclick="' + url + '">next</a>';
 							}
 							pager += '</p>';
 						}
@@ -70,11 +71,12 @@ if(!isset($_SESSION["subject"]["uri"])){
 								clazz = "even";
 							else
 								clazz = "odd";
-								
+							
+							var url="../../compiled/"+r.tests[i].uri +"/start.php?subject="+r.subject.uri;	
 							testTable += '<tr class="test_list ' + clazz + '">';
 							testTable += '<td>'+ i +'</td>';
-							testTable += '<td>'+ r.tests[i].label +'</td>';
-							testTable += '<td>'+ r.tests[i].uri +'</td>';
+							testTable += '<td><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
+							testTable += '<td>'+ r.tests[i].comment +'</td>';
 							testTable += '</tr>';
 						}
 						testTable += '</tbody></table>';
