@@ -33,9 +33,16 @@ $tests[]="456907286945645";
 $tests[]="45645645645";
 $tests[]="45645668875";
 $tests[]="45645645645";
+$tests[]="45645645645";
+$tests[]="5645645645";
+$tests[]="33645645645";
+$tests[]="456907286945645";
+$tests[]="45645645645";
+$tests[]="45645668875";
+$tests[]="45645645645";
 
 $total_number=count($tests);
-echo "** $total_number **";
+// echo "** $total_number **";
 $end_number=min($total_number-1, $end_number);//re-adjust the end_number, in case $end_number > $total_number (for the last page)
 		
 $totalPage=ceil($total_number/$tests_per_page);
@@ -52,8 +59,12 @@ for($i=$start_number; $i<=$end_number; $i++){
 	$tests_data[$i]["label"]="test $i";
 	$tests_data[$i]["comment"]="comment $i";
 }
+$result=array();
+$result["tests"]=$tests_data;
+$result["pager"]=$pager_data;
 
-echo 'result={"tests":' . json_encode($tests_data) . ', "pager":'. json_encode($pager_data) .'}';
+echo json_encode($result);
+// echo 'result={"tests":' . json_encode($tests_data) . ', "pager":'. json_encode($pager_data) .'}';
 
 /*
 		$pager='';
