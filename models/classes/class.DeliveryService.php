@@ -335,13 +335,14 @@ class taoDelivery_models_classes_DeliveryService
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 		$query = "SELECT s1.subject FROM statements AS s1 AND FROM statements AS s2
 			WHERE s1.subject=s2.subject
-			AND s1.predicate='http://www.tao.lu/Ontologies/TAOSubject.rdf#Login'
+			AND s1.predicate=SUBJECT_LOGIN_PROP
 			AND s1.object='$login'
-			AND s2.predicate='http://www.tao.lu/Ontologies/TAOSubject.rdf#Password'
+			AND s2.predicate=SUBJECT_PASSWORD_PROP
 			AND	s2.object='$password'";
 		
 		$result = $db->execSql($query);
 		
+		return $result;
 		//empty or not?	
 
 	}

@@ -13,7 +13,7 @@ class tao_helpers_Precompilator
     // --- ATTRIBUTES ---
 	protected $completed = array();
 	
-	protected $error = array();
+	protected $failed = array();
 	
 	
     // --- OPERATIONS ---
@@ -21,13 +21,11 @@ class tao_helpers_Precompilator
 	public function __construct(){
 		$this->completed=array(
 					"copiedFiles"=>array(),
-					"createdFiles"=>array(),
-					"replace"=>array()
+					"createdFiles"=>array()
 					);
-		$this->error=array(
+		$this->failed=array(
 					"copiedFiles"=>array(),
-					"createdFiles"=>array(),
-					"replace"=>array()
+					"createdFiles"=>array()
 					);			
 	}
 	
@@ -38,7 +36,7 @@ class tao_helpers_Precompilator
 		
 		$fileContent = file_get_contents($url);
 		if ($fileContent === false){
-			$this->error["copiedFiles"][$affectedObject]=$url;
+			$this->failed["copiedFiles"][$affectedObject][]=$url;
 			//throw new exception("could not open the remote file $url");
 			return $returnValue;
 		};
@@ -51,13 +49,21 @@ class tao_helpers_Precompilator
 		$finalFilePath = $directory."/".$fileName;
 		
 		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
-		if(!in_array($url, $this->completed["copiedFiles"])){
+		$isDownloaded=false;
+		foreach ($this->completed["copiedFiles"] as $copiedFiles){
+			//Check if it has not been downloaded yet
+			if(in_array($url, $copiedFiles)) {
+				$isDownloaded=true;
+				break;
+			}
+		}
+		if($isDownloaded===false){
 			$handle = fopen($finalFilePath,"wb");
 			$fileContent = fwrite($handle,$fileContent);
 			fclose($handle);
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
-			$this->completed["copiedFiles"][$affectedObject]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
+			$this->completed["copiedFiles"][$affectedObject][]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
 		}
 				
 		return $returnValue = $fileName;
@@ -81,10 +87,7 @@ class tao_helpers_Precompilator
 			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: to be optimized by only searching tags that could contain media.
 			preg_match_all($expr,$xml,$mediaListTemp);
 			$mediaList = array_merge($mediaList,$mediaListTemp);
-			//$exprArray[]=$expr;//for debug
 		}
-		// print_r($exprArray);
-		// print_r($mediaList);
 					
 		$uniqueMediaList = 	array_unique($mediaList[0]);	
 		foreach($uniqueMediaList as $mediaUrl){
@@ -92,10 +95,6 @@ class tao_helpers_Precompilator
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
 		return $xml;
-	}
-	
-	public function testParser(){
-	
 	}
 	
 	public function stringToFile($content, $directory, $fileName){
@@ -112,7 +111,7 @@ class tao_helpers_Precompilator
 	}
 	
 	public function result(){
-		$returnValue=array("completed"=>$this->completed, "error"=>$this->error);
+		$returnValue=array("completed"=>$this->completed, "failed"=>$this->failed);
 		return $returnValue;
 	}
 	

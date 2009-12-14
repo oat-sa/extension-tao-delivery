@@ -14,6 +14,7 @@ class Delivery extends CommonModule {
 	}
 	
 	public function index(){
+		// mkdir("./somewhere/");
 		$allTests=array();
 		//fetch Test Instances from test ontology
 		$testClass = $this->service->getTestClass();
@@ -26,7 +27,7 @@ class Delivery extends CommonModule {
 			$testUri=$test->uriResource;
 			
 			//format the information to prepare it for the view
-			$testListing.="<li>$testLabel: $testUri <a href=\"#\">compile</a></li>";
+			$testListing.="<li>$testLabel: $testUri <a href=\"compile\">compile</a></li>";
 			
 			//add "preview button"
 			
@@ -34,6 +35,8 @@ class Delivery extends CommonModule {
 		$testListing.="</ul>";
 		
 		$content=$testListing;
+		
+		self::compile();
 		$this->setData('content', $content);
 		$this->setView('index.tpl');
 	}
@@ -131,20 +134,26 @@ class Delivery extends CommonModule {
 	//asynchronus action
 	//TODO progress bar plus interruption or exception management
 	public function compile(){
+		//config:
+		$pluginPath="./models/ext/deliveryRuntime/";
+		
 		//get the uri of the test to be compiled
-		$testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		// $testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		$testUri = 'http://127.0.0.1/middleware/demo.rdf#125187505335708';//myCTest
+		$testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
 		$testId=tao_helpers_Precompilator::getUniqueId($testUri);//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
-		$directory="./taoDelivery/compiled/$testId/";
-		$directoryCreated = mkdir($directory);//TODO exception management
+		$directory="./compiled/$testId/";
+		if(!is_dir($directory)){
+			mkdir($directory);//TODO exception management
+		}
 		
 		//get the language Code of the available languages for the test:
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
 		$languages=array();
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
-		$testContentProperty = core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
 		//$languages=array('EN','FR');//for test only
 		
@@ -159,11 +168,12 @@ class Delivery extends CommonModule {
 			$testContentCollection = $aTestInstance->getPropertyValuesByLg($testContentProperty, $language);
 			if($testContentCollection->count() == 1){
 				//string version of the testContent aimed at being modified
-				$testContentArray[$language]=$testContentCollection->count(0);
+				$testContentArray[$language]=$testContentCollection->get(0)->literal;
 			}
 			else{
 				echo "error test collection empty";
 			}
+			// print_r($testContentArray);
 			
 			//dom version of testContent for easy parsing purpose
 			$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
@@ -171,8 +181,11 @@ class Delivery extends CommonModule {
 			
 			//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
 			$items=$testContentDom->getElementsByTagName('citem');
-
-			$items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test
+			
+			//debug
+			// $compilator->stringToFile($testContentArray[$language], $directory, "preparsed_$testId$language.xml");
+				
+			// $items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test only
 			
 			foreach ($items as $item){
 				$itemUri=$item->nodeValue;
@@ -181,17 +194,18 @@ class Delivery extends CommonModule {
 				$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
 				
 				$anItemInstance = new core_kernel_classes_Resource($itemUri);
-				$itemContentProperty = core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP);
-				$itemContentCollection = $anItemInstance->getPropertyValuesByLg($testContentProperty, $language);
-				
+				$itemContentProperty = new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP);
+				$itemContentCollection = $anItemInstance->getPropertyValuesByLg($itemContentProperty, $language);
 				//get ItemContent in the given language, which is an XML file, in the language defined by $language
 				if($itemContentCollection->count() == 1){//there should be only one per language
 					//string version of the testContent aimed at being modified
-					$itemContent=$itemContentCollection->count(0);
+					$itemContent=$itemContentCollection->get(0)->literal;
 				}
 				else{
 					echo "incorrect number of element in item collection";
 				}
+				//debug
+				// $compilator->stringToFile($itemContent, $directory, "preparsed_$itemId$language.xml");
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
@@ -205,15 +219,14 @@ class Delivery extends CommonModule {
 				
 				//add another parser to define the new path to the item's xml file in the Test.Language.xml file. 
 				$escapedItemUri=preg_replace('/\//', "\/", $itemUri);
-				$testXML[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testXML[$language], 1);
+				$testContentArray[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testContentArray[$language], 1);
 				
 				//hypothesis: direct access to required plugins with the parameter Item_model_runtime (e.g. $runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_RUNTIME_PROPERTY));)
 				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
 				//copy required component in the created test directory
-				$pluginUri = "./taoDelivery/models/ext/itemRuntime/";
-				$plugins=array();
-				foreach ($plugins as $plugin){
-					$compilator->copyFile($pluginUri.$plugin,$directory,"$itemId$language.xml");
+				$itemPlugins=array();
+				foreach ($itemPlugins as $itemPlugin){
+					$compilator->copyFile($pluginPath.$itemPlugin,$directory,"$itemId$language.xml");
 				}
 				
 				//TODO: handle the case when item missing or other issues
@@ -222,12 +235,12 @@ class Delivery extends CommonModule {
 			// $handle = fopen("$directory/test$language.xml","wb");
 			// $testXML[$language] = fwrite($handle,$testXML[$language]);
 			// fclose($handle);
-			$compilator->stringToFile($testXML[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
+			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 			//the uri of the property "compiled" is 'http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'
-			$propertyCompiled = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'); 	
-			$testInstance->setPropertyValue($propertyCompiled,GENERIS_TRUE);
+			// $propertyCompiled = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'); 	
+			// $testInstance->setPropertyValue($propertyCompiled,GENERIS_TRUE);
 			
 		}//end of foreach language of test
 		
@@ -246,9 +259,13 @@ class Delivery extends CommonModule {
 		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
 		//copy the start.php file to the compiled test folder, where the flash plugins will be embedded
-		$compilator->copyFile("../models/ext/itemRuntime/start.php",$directory,'testFolder');
+		$testPlugins=array("test.swf","CLLPlugin.swf","start.php");
+		foreach($testPlugins as $testPlugin){
+			$compilator->copyFile($pluginPath.$testPlugin, $directory, 'testFolder');
+		}
 		
 		//then send the success message to the user
+		print_r($compilator->result());
 	}
 }
 ?>
