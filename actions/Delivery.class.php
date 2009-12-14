@@ -14,7 +14,34 @@ class Delivery extends CommonModule {
 	}
 	
 	public function index(){
-		echo GENERIS_TRUE;
+		$allTests=array();
+		//fetch Test Instances from test ontology
+		$testClass = $this->service->getTestClass();
+		$allTests=$testClass->getInstances(true);
+		
+		$testListing="<ul>";
+		foreach($allTests as $test){
+			//get the values of the properties of each instance: label, some parameter, compiled or not
+			$testLabel=$test->getLabel();
+			$testUri=$test->uriResource;
+			
+			//format the information to prepare it for the view
+			$testListing.="<li>$testLabel: $testUri <a href=\"#\">compile</a></li>";
+			
+			//add "preview button"
+			
+		}
+		$testListing.="</ul>";
+		
+		$content=$testListing;
+		$this->setData('content', $content);
+		$this->setView('index.tpl');
+	}
+	
+	public function index1(){
+		// echo GENERIS_TRUE;
+		
+		print_r($this->service->getSubjectInstances());
 	}
 
 	public function index0(){
@@ -106,7 +133,8 @@ class Delivery extends CommonModule {
 	public function compile(){
 		//get the uri of the test to be compiled
 		$testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		$testId="";//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
+		$testUri = 'http://127.0.0.1/middleware/demo.rdf#125187505335708';//myCTest
+		$testId=tao_helpers_Precompilator::getUniqueId($testUri);//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
 		$directory="./taoDelivery/compiled/$testId/";
@@ -115,36 +143,55 @@ class Delivery extends CommonModule {
 		//get the language Code of the available languages for the test:
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
 		$languages=array();
-		$languages=array('EN','FR');//for test
+		$aTestInstance = new core_kernel_classes_Resource($testUri);
+		$testContentProperty = core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
+		//$languages=array('EN','FR');//for test only
 		
 		$testContentArray=array();//array of XML file containing the testContent in every available langauge
-		$testContentArray['EN']='';//for test
-		$testContentArray['FR']='';
+		// $testContentArray['EN']='';//for test only
+		// $testContentArray['FR']='';
 		
 		$compilator = new tao_helpers_Precompilator();
 		
 		foreach($languages as $language){
-			$testContent="";//string XML got from an API call (depend on the implementation of the API that is being done)
 			
-			//string version of the testContent aimed at being modified
-			$testContentArray[$language]=$testContent;
+			$testContentCollection = $aTestInstance->getPropertyValuesByLg($testContentProperty, $language);
+			if($testContentCollection->count() == 1){
+				//string version of the testContent aimed at being modified
+				$testContentArray[$language]=$testContentCollection->count(0);
+			}
+			else{
+				echo "error test collection empty";
+			}
 			
 			//dom version of testContent for easy parsing purpose
 			$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
-			@$testContentDom->loadHTML($testContent);
+			@$testContentDom->loadHTML($testContentArray[$language]);
 			
 			//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
 			$items=$testContentDom->getElementsByTagName('citem');
+
 			$items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test
 			
 			foreach ($items as $item){
 				$itemUri=$item->nodeValue;
 				//get item id from its uri (e.g. http://127.0.0.1/middleware/demoItems.rdf#113567805632546)
-				$itemId=substr($itemUri,stripos($itemUri,".rdf#")+5);//TODO check format of the uri
+				//$itemId=substr($itemUri,stripos($itemUri,".rdf#")+5);//TODO check format of the uri
+				$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
 				
-				//get ItemContent in the given language, which is an XML file
-				//getPropertyValuesCollection(Property relatedItem)
-				$itemContent="";//xml file in the given language defined in $language
+				$anItemInstance = new core_kernel_classes_Resource($itemUri);
+				$itemContentProperty = core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP);
+				$itemContentCollection = $anItemInstance->getPropertyValuesByLg($testContentProperty, $language);
+				
+				//get ItemContent in the given language, which is an XML file, in the language defined by $language
+				if($itemContentCollection->count() == 1){//there should be only one per language
+					//string version of the testContent aimed at being modified
+					$itemContent=$itemContentCollection->count(0);
+				}
+				else{
+					echo "incorrect number of element in item collection";
+				}
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
@@ -175,7 +222,7 @@ class Delivery extends CommonModule {
 			// $handle = fopen("$directory/test$language.xml","wb");
 			// $testXML[$language] = fwrite($handle,$testXML[$language]);
 			// fclose($handle);
-			$compilator->stringToFile($testXML[$language], $directory, "test$language.xml");
+			$compilator->stringToFile($testXML[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 			//the uri of the property "compiled" is 'http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'

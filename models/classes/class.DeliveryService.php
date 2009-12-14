@@ -23,41 +23,57 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var Class
      */
-    protected $deliveryClass = null;
+    //protected $deliveryClass = null;
 
 	protected $testClass = null;
 	
 	protected $subjectClass = null;
 	
-	protected $subjectService = null;
-	
+	protected $groupClass = null;
+		
     /**
      * Short description of attribute deliveryOntologies
      *
      * @access protected
      * @var array
      */
-    protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
-	// protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
+    //protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+	
+	protected $groupsOntologies = array('http://www.tao.lu/Ontologies/TAOGroup.rdf');
+	
+	protected $subjectsOntologies = array('http://www.tao.lu/Ontologies/TAOSubject.rdf');
+	
+	protected $testsOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
 	
     // --- OPERATIONS ---
 
     public function __construct()
     {
 		parent::__construct();
-		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$this->loadOntologies($this->deliveryOntologies);
+		// $this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+		// $this->loadOntologies($this->deliveryOntologies);
 		
-		//create instances of the tests and subjects model to retrieve information from the tests and subjects extensions.
-		//the controller Delivery.class.php will use available method to fetch information from tests and subjects ontologies.
-		$this->testClass = new taoTests_models_classes_TestsService();
-		$this->subjectService = tao_models_classes_ServiceFactory::get('Subjects');// ne fonctionne pas
+		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		$this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+		$this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		
+		$this->loadOntologies(array(
+			$this->testsOntologies,
+			$this->subjectsOntologies,
+			$this->groupsOntologies
+			));
     }
 	
 	//hypothesis: being able to access the external ontology 'subjects'
 	public function getSubjectInstances(){
+	
+		$instancesData = array();
+		
 		//connect to the class : 'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
-		$class = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+		$clazz = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOSubject.rdf#125187560431708');
+		$instancesData=$this->getAllInstances($clazz);
+		
+		return $instancesData;
 	}
 	
 	public function getTestInstances(){}
@@ -96,6 +112,23 @@ class taoDelivery_models_classes_DeliveryService
 		else{
 			$clazz = new core_kernel_classes_Class($uri);
 			if($this->isDeliveryClass($clazz)){
+				$returnValue = $clazz;
+			}
+		}
+
+        return $returnValue;
+    }
+	
+	public function getTestClass($uri = '')
+    {
+        $returnValue = null;
+
+		if(empty($uri) && !is_null($this->testClass)){
+			$returnValue = $this->testClass;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class($uri);
+			if($this->isTestClass($clazz)){
 				$returnValue = $clazz;
 			}
 		}
@@ -252,6 +285,25 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		else{
 			foreach($this->deliveryClass->getSubClasses() as $subclass){
+				if($clazz->uriResource == $subclass->uriResource){
+					$returnValue = true;
+					break;	
+				}
+			}
+		}
+
+        return (bool) $returnValue;
+    }
+	
+	public function isTestClass( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = (bool) false;
+
+		if($clazz->uriResource == $this->testClass->uriResource){
+			$returnValue = true;	
+		}
+		else{
+			foreach($this->testClass->getSubClasses() as $subclass){
 				if($clazz->uriResource == $subclass->uriResource){
 					$returnValue = true;
 					break;	

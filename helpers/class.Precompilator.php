@@ -116,6 +116,15 @@ class tao_helpers_Precompilator
 		return $returnValue;
 	}
 	
+	public function getUniqueId($uriRessource){
+		$returnValue='';
+		//TODO check format of the uri, preg_match()
+		
+		$returnValue=substr($uriRessource,stripos($uriRessource,".rdf#")+5);
+		
+		return $returnValue;
+	}
+	
 } /* end of class taoDelivery_helpers_Precompilator */
 
 ?>
