@@ -331,20 +331,23 @@ class taoDelivery_models_classes_DeliveryService
 	public function checkSubjectLogin($login,$password){
 		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Login
 		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Password
+		$returnValue='';
 		
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		$query = "SELECT s1.subject FROM statements AS s1 AND FROM statements AS s2
+		$query = "SELECT s1.subject FROM statements AS s1, statements AS s2
 			WHERE s1.subject=s2.subject
-			AND s1.predicate=SUBJECT_LOGIN_PROP
+			AND s1.predicate='".SUBJECT_LOGIN_PROP."'
 			AND s1.object='$login'
-			AND s2.predicate=SUBJECT_PASSWORD_PROP
+			AND s2.predicate='".SUBJECT_PASSWORD_PROP."'
 			AND	s2.object='$password'";
 		
 		$result = $db->execSql($query);
-		
-		return $result;
-		//empty or not?	
+		if(!$result->EOF) {
+			$returnValue=$result->fields["subject"];
+		}
 
+		return $returnValue;
+		//empty or not?	
 	}
 	
 	public function getTestsBySubject($subjectUri){
@@ -353,16 +356,23 @@ class taoDelivery_models_classes_DeliveryService
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests
 		
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		$query = "SELECT s2.object FROM statements AS s1 AND statements AS s2
+		$query = "SELECT s2.object FROM statements AS s1, statements AS s2
 			WHERE s1.subject=s2.subject  
 			AND s1.object='$subjectUri'
 			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
 			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
 		
+		$query = "SELECT s2.object FROM statements AS s1, statements AS s2
+			WHERE s1.subject=s2.subject  
+			AND s1.object='$subjectUri'
+			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
+			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
+			
 		$result = $db->execSql($query);
 		
-		//an array
+		return $result;
 		
+		//an array
 	}
 
 } /* end of class taoGroups_models_classes_DeliveryService */

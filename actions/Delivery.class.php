@@ -14,7 +14,6 @@ class Delivery extends CommonModule {
 	}
 	
 	public function index(){
-		// mkdir("./somewhere/");
 		$allTests=array();
 		//fetch Test Instances from test ontology
 		$testClass = $this->service->getTestClass();
@@ -35,8 +34,8 @@ class Delivery extends CommonModule {
 		$testListing.="</ul>";
 		
 		$content=$testListing;
-		
-		self::compile();
+		$content.='<a href="/taoDelivery/preview" >kljhkghhjg</a>';
+		//self::compile();
 		$this->setData('content', $content);
 		$this->setView('index.tpl');
 	}
@@ -151,15 +150,13 @@ class Delivery extends CommonModule {
 		
 		//get the language Code of the available languages for the test:
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
-		$languages=array();
+		
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
 		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+		$languages=array();
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
-		//$languages=array('EN','FR');//for test only
 		
 		$testContentArray=array();//array of XML file containing the testContent in every available langauge
-		// $testContentArray['EN']='';//for test only
-		// $testContentArray['FR']='';
 		
 		$compilator = new tao_helpers_Precompilator();
 		
@@ -194,8 +191,7 @@ class Delivery extends CommonModule {
 				$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
 				
 				$anItemInstance = new core_kernel_classes_Resource($itemUri);
-				$itemContentProperty = new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP);
-				$itemContentCollection = $anItemInstance->getPropertyValuesByLg($itemContentProperty, $language);
+				$itemContentCollection = $anItemInstance->getPropertyValuesByLg(new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP), $language);
 				//get ItemContent in the given language, which is an XML file, in the language defined by $language
 				if($itemContentCollection->count() == 1){//there should be only one per language
 					//string version of the testContent aimed at being modified
@@ -221,11 +217,11 @@ class Delivery extends CommonModule {
 				$escapedItemUri=preg_replace('/\//', "\/", $itemUri);
 				$testContentArray[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testContentArray[$language], 1);
 				
-				//hypothesis: direct access to required plugins with the parameter Item_model_runtime (e.g. $runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_RUNTIME_PROPERTY));)
+				//copy required the runtime component in the created test directory
+				//hypothesis: direct access to required plugins with the parameter Item_model_runtime
 				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
-				//copy required component in the created test directory
-				//assumption: one unique runtime for an item model
-				$itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP));
+				//assumption 3: one unique runtime for an item model
+				// $itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP));
 				if($itemModel instanceof core_kernel_classes_Resource){
 					$runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_MODEL_RUNTIME_PROP));
 					if($runtime instanceof core_kernel_classes_Literal ){
@@ -272,6 +268,15 @@ class Delivery extends CommonModule {
 		
 		//then send the success message to the user
 		print_r($compilator->result());
+	}
+	
+	public function preview(){
+		$uriDelivery='oihjbnj';
+		//check if it is compiled
+		echo $uriDelivery;
+		//
+		
+		
 	}
 }
 ?>

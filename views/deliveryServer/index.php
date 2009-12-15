@@ -1,30 +1,25 @@
 <?php 
 
-//session_start();//already started in common.php
-
 if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) && ($_POST["password"]!="")){
 	session_start();
-
-	require_once('../../includes/common.php');
-	require_once('../../includes/constants.php');
-	require_once('../../includes/config.php');
-	require_once('../../models/classes/class.DeliveryService.php');
+	require_once('config.php');
 
 	$login=$_POST["login"];
 	$password=$_POST["password"];
 
-	//connect to API here:
-	// $deliveryService = new taoDelivery_models_classes_DeliveryService();
-
-	//login check here:
-	$ok=true;
+	//connect to the delivery service:
+	$deliveryService = new taoDelivery_models_classes_DeliveryService();
 	
-	if($ok){
+	//login check here:
+	$subjectUri = $deliveryService->checkSubjectLogin($login,$password);
+	// echo $subjectUri;
+		
+	if($subjectUri){
+		$aSubjectInstance = new core_kernel_classes_Resource($subjectUri);
+		
 		$_SESSION["subject"]=array();
-
-		//identify the subject and get unique uri of the subject
-		$subjectUri="uri";
 		$_SESSION["subject"]["uri"]=$subjectUri;
+		$_SESSION["subject"]["label"]=$aSubjectInstance->getLabel();
 		
 		header("location: testIndex.php");	
 	}else{
@@ -54,27 +49,6 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 		//table {width:759px; height:569px; }
 	</style>
 	
-	<!--
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			alert("ok");
-			$("#submit").click(function(){
-				var data = "";
-				data ="usr="+$("#login").val();
-				data +="&pwd="+$("#password").val();
-				$.ajax({
-					type: "POST",
-					url: "login.php",
-					data: data,
-					success: function(msg){
-						$("#result").html(msg);
-					}
-				});
-			});
-		});
-	</script>
-	-->
 	<script type="text/javascript">
 	function validate_required(field,alerttxt){
 		var val = document.getElementById(field).value;

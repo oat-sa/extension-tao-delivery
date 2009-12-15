@@ -1,12 +1,6 @@
 <?php
-//TODO: ajouter les styles pour les class de balises dans le cas ou c'est read ou non, replied ou forwarded
 session_start();
-
-//recupererle type de msg box
-// $url= $_POST["data"];
-// $tb_url=explode("/",$url,2);
-// $option=$tb_url[0];
-
+require_once('config.php');
 
 //get the current page
 if(isset($_POST["page"])) $currentPage=intval($_POST["page"]);
@@ -19,14 +13,14 @@ if (!isset($tests_per_page)) $tests_per_page=10;
 $start_number = ($currentPage-1)*$tests_per_page;
 $end_number = $start_number+$tests_per_page; 
 
-//check whether an user is logged
+//check whether an user is logged in
 if(!isset($_SESSION["subject"]["uri"])){
 	die("no user session defined, please login again");
 }
 
-//if a subject is loggued in, get available tests with their properties(uri,label,comment):
+//if a subject is loged in, get available tests with their properties(uri,label,comment):
 $tests=array();
-$tests[]="888";
+$tests[]="8888";
 $tests[]="5645645645";
 $tests[]="33645645645";
 $tests[]="456907286945645";
