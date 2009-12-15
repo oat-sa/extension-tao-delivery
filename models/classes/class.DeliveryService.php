@@ -9,6 +9,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 require_once('tao/models/classes/class.Service.php');
 
+/**
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ *
+ */
 class taoDelivery_models_classes_DeliveryService
     extends tao_models_classes_Service
 {
