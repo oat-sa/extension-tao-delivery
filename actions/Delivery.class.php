@@ -224,11 +224,17 @@ class Delivery extends CommonModule {
 				//hypothesis: direct access to required plugins with the parameter Item_model_runtime (e.g. $runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_RUNTIME_PROPERTY));)
 				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
 				//copy required component in the created test directory
-				$itemPlugins=array();
-				foreach ($itemPlugins as $itemPlugin){
-					$compilator->copyFile($pluginPath.$itemPlugin,$directory,"$itemId$language.xml");
+				//assumption: one unique runtime for an item model
+				$itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP));
+				if($itemModel instanceof core_kernel_classes_Resource){
+					$runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_MODEL_RUNTIME_PROP));
+					if($runtime instanceof core_kernel_classes_Literal ){
+						if(preg_match("/\.swf$/", (string)$runtime)){
+							$compilator->copyFile($pluginPath.$runtime,$directory,"$itemId$language.xml");
+						}
+					}
 				}
-				
+								
 				//TODO: handle the case when item missing or other issues
 			}
 			//when the compilation in a language is done, write the new test xml file associated to the language:

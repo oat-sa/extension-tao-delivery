@@ -5,10 +5,10 @@
 if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) && ($_POST["password"]!="")){
 	session_start();
 
-	// require_once('../../includes/common.php');
-	// require_once('../../includes/constants.php');
-	// require_once('../../includes/config.php');
-	// require_once('../../models/classes/class.DeliveryService.php');
+	require_once('../../includes/common.php');
+	require_once('../../includes/constants.php');
+	require_once('../../includes/config.php');
+	require_once('../../models/classes/class.DeliveryService.php');
 
 	$login=$_POST["login"];
 	$password=$_POST["password"];
