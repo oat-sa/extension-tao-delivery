@@ -32,17 +32,37 @@ class Delivery extends CommonModule {
 			$testLabel=$test->getLabel();
 			$testUri=$test->uriResource;
 			
-			//format the information to prepare it for the view
-			$testListing.="<li>$testLabel: $testUri <a href=\"compile\">compile</a></li>";
+			//check whether it is active or not (i.e. available for compilation)
+			$testActive=$this->service->getTestStatus($test, "active");
+			// if($testActive) $testActiveVal="Active";//for ttest only
 			
-			//add "preview button"
+			$testCompiled=false;
+			foreach ($test->getPropertyValuesCollection(new core_kernel_classes_Property(TEST_COMPILED_PROP))->getIterator() as $value){
+				if($value instanceof core_kernel_classes_Resource ){
+					if ($value->uriResource == GENERIS_TRUE){
+						$testCompiled=true;
+						$testCompiledVal="Compiled";
+					}
+				}
+			}
+			
+			//format the information to prepare it for the view
+			$testListing.="<li>$testLabel: $testUri *$testActiveVal*$testCompiledVal*<a href=\"compile\">compile</a></li>";
+			
+			if($testCompiled){
+				//add "preview button"
+			}else{
+				//add "compile button"
+			}
 			
 		}
 		$testListing.="</ul>";
 		
 		$content=$testListing;
-		$content.='<a href="/taoDelivery/preview" >kljhkghhjg</a>';
-		//self::compile();
+		$content.='<a href="/taoDelivery/Delivery/preview?uri=123" >kljhkghhjg</a>';
+		
+		self::compile();
+		
 		$this->setData('content', $content);
 		$this->setView('index.tpl');
 	}
@@ -159,6 +179,12 @@ class Delivery extends CommonModule {
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
 		
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
+		
+		//check whether the test is active or not:
+		$testActive=$this->service->getTestStatus($aTestInstance, "active");
+		$testCompiled=$this->service->getTestStatus($aTestInstance, "compiled");
+		
+		//get available languages for the test
 		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
 		$languages=array();
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
@@ -214,10 +240,6 @@ class Delivery extends CommonModule {
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
 				
 				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-				// $itemXMLpath = "$directory/$itemId$language.xml";//createXMLfile($directory,$xmlString)
-				// $handle = fopen($xmlItemPath,"wb");
-				// $itemContent = fwrite($handle,$itemContent);
-				// fclose($handle);
 				$compilator->stringToFile($itemContent, $directory, "$itemId$language.xml");
 				
 				//add another parser to define the new path to the item's xml file in the Test.Language.xml file. 
@@ -237,19 +259,13 @@ class Delivery extends CommonModule {
 						}
 					}
 				}
-								
 				//TODO: handle the case when item missing or other issues
 			}
 			//when the compilation in a language is done, write the new test xml file associated to the language:
-			// $handle = fopen("$directory/test$language.xml","wb");
-			// $testXML[$language] = fwrite($handle,$testXML[$language]);
-			// fclose($handle);
 			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
-			//the uri of the property "compiled" is 'http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'
-			// $propertyCompiled = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOTest.rdf#i1260348091087274600'); 	
-			// $testInstance->setPropertyValue($propertyCompiled,GENERIS_TRUE);
+			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
 			
 		}//end of foreach language of test
 		
@@ -258,13 +274,10 @@ class Delivery extends CommonModule {
 		$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
 		<tao:TEST rdfid="'.$testUri.'" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">';
 		foreach ($languages as $language){
-			$testXMLfile.="<tao:TESTcontent lang=\"$language\">$language</tao:TESTcontent>";
+			$testXMLfile.="<tao:TESTcontent lang=\"$language\">test$language</tao:TESTcontent>";
 		}
 		$testXMLfile.='</tao:TEST>';
 		
-		// $handle = fopen("$directory/test.xml","wb");
-		// $testFile = fwrite($handle,$testXMLfile);
-		// fclose($handle);
 		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
 		//copy the start.php file to the compiled test folder, where the flash plugins will be embedded
@@ -278,12 +291,22 @@ class Delivery extends CommonModule {
 	}
 	
 	public function preview(){
-		$uriDelivery='oihjbnj';
-		//check if it is compiled
-		echo $uriDelivery;
-		//
+		$testUri=$_GET["uri"];
 		
+		//firstly check if the delivery instance is compiled or not
+		$aTestInstance = new core_kernel_classes_Resource($testUri);
+		try{
+			$testCompiled=$this->service->getTestStatus($aTestInstance, "compiled");
+		}
+		catch(Exception $e){ echo $e;}
 		
+		$testCompiled=true;
+		$testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
+		if($testCompiled){
+			$testId=tao_helpers_Precompilator::getUniqueId($testUri);
+			$testUrl="../compiled/$testId/start.php?testSubject=preview";
+			header("location: $testUrl");
+		}
 	}
 }
 ?>

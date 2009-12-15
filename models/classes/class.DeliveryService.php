@@ -8,6 +8,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 require_once('tao/models/classes/class.Service.php');
+require_once('taoDelivery/helpers/class.Precompilator.php');
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -378,6 +379,39 @@ class taoDelivery_models_classes_DeliveryService
 		return $result;
 		
 		//an array
+	}
+	
+	//check either the value of the properties "active" or "compiled" for a given test instance (a ressource)
+	//assumption: the status active or compiled is not language dependent
+	public function getTestStatus($aTestInstance, $status){
+		$returnValue=false;
+		
+		switch($status){
+			case "active":
+				$property=TEST_ACTIVE_PROP;
+				break;
+			case "compiled":
+				$property=TEST_COMPILED_PROP;
+				//check if the compiled folder exists
+				$testId=tao_helpers_Precompilator::getUniqueId($aTestInstance->uriResource);
+				if(!is_dir("../../compiled/$testId/")){
+					return $returnValue;
+				}
+				break;
+			default:
+				throw new Exception("wrong test status parameter");
+				return $returnValue;
+		}
+		
+		foreach ($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator() as $value){
+			if($value instanceof core_kernel_classes_Resource ){
+				if ($value->uriResource == GENERIS_TRUE){
+					$returnValue=true;
+				}	
+			}
+		}
+		
+		return $returnValue;
 	}
 
 } /* end of class taoGroups_models_classes_DeliveryService */
