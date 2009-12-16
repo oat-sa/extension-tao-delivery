@@ -6,9 +6,9 @@
 function splitXML($xml)
 {
 	
-	$hdl = fopen("log","wb");
-	fwrite($hdl,$xml);
-	fclose($hdl);
+	// $hdl = fopen("log.xml","wb");
+	// fwrite($hdl,$xml);
+	// fclose($hdl);
 	$header = substr($xml,0,strpos($xml,"<tao:TEST "));
 	$content=array();
 	

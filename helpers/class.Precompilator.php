@@ -20,10 +20,12 @@ class tao_helpers_Precompilator
 	
 	protected $failed = array();
 	
+	protected $pluginPath = "";
 	
+	protected $compiledPath = "";
     // --- OPERATIONS ---
 	
-	public function __construct(){
+	public function __construct($directory,$pluginPath){
 		$this->completed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
@@ -31,7 +33,16 @@ class tao_helpers_Precompilator
 		$this->failed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
-					);			
+					);
+		if(!is_dir($directory)){
+			throw new Exception("the directory $directory does not exist");
+		}
+		if(!is_dir($pluginPath)){
+			throw new Exception("the directory $pluginPath does not exist");
+		}
+		$this->compiledPath = $directory;
+		$this->pluginPath = $pluginPath;
+					
 	}
 	
 	//return the name of the downloaded file or an empty string 
@@ -74,6 +85,47 @@ class tao_helpers_Precompilator
 		return $returnValue = $fileName;
 	}
     
+	public function copyPlugins(){
+		$affectedObject='';
+		$plugins=array(
+			'bar.swf',
+			'CLLPlugin.swf',
+			'countdown.swf',
+			'ctest_item.swf',
+			'kohs_passation.swf',
+			'listen.swf',
+			'tao_item.swf',
+			'taotab.swf',
+			'Test.swf',
+			'upload_result.swf',
+			'start.html',
+			'theTest.php',
+			);
+		
+		$jsFiles=array(
+			'elements.js',
+			'init.js',
+			'jquery.js',
+			'swfobject.js'
+			);
+		mkdir($this->compiledPath."js/");	
+		foreach($jsFiles as $jsFile){
+			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."js/", 'testFolder/js');
+		}
+
+		$cssFiles=array(
+			'test_layout.css'
+			);
+		mkdir($this->compiledPath."css/");	
+		foreach($cssFiles as $cssFile){
+			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."css/", 'testFolder/css');
+		}		
+		
+		foreach($plugins as $plugin){
+			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'testFolder');
+		}		
+	}
+	
 	public function itemParser($xml, $directory, $itemName, $authorizedMedia=array()){
 		
 		if(!file_exists($directory)){

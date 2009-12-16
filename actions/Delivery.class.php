@@ -25,7 +25,7 @@ class Delivery extends CommonModule {
 		//fetch Test Instances from test ontology
 		$testClass = $this->service->getTestClass();
 		$allTests=$testClass->getInstances(true);
-		
+		print_r($allTests);
 		$testListing="<ul>";
 		foreach($allTests as $test){
 			//get the values of the properties of each instance: label, some parameter, compiled or not
@@ -174,6 +174,9 @@ class Delivery extends CommonModule {
 		if(!is_dir($directory)){
 			mkdir($directory);//TODO exception management
 		}
+		//copy plugin here:
+		$compilator = new tao_helpers_Precompilator($directory, $pluginPath);
+		$compilator->copyPlugins();
 		
 		//get the language Code of the available languages for the test:
 		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
@@ -190,8 +193,6 @@ class Delivery extends CommonModule {
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
 		
 		$testContentArray=array();//array of XML file containing the testContent in every available langauge
-		
-		$compilator = new tao_helpers_Precompilator();
 		
 		foreach($languages as $language){
 			
@@ -250,7 +251,7 @@ class Delivery extends CommonModule {
 				//hypothesis: direct access to required plugins with the parameter Item_model_runtime
 				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
 				//assumption 3: one unique runtime for an item model
-				// $itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP));
+				/*
 				if($itemModel instanceof core_kernel_classes_Resource){
 					$runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_MODEL_RUNTIME_PROP));
 					if($runtime instanceof core_kernel_classes_Literal ){
@@ -258,7 +259,7 @@ class Delivery extends CommonModule {
 							$compilator->copyFile($pluginPath.$runtime,$directory,"$itemId$language.xml");
 						}
 					}
-				}
+				}*/
 				//TODO: handle the case when item missing or other issues
 			}
 			//when the compilation in a language is done, write the new test xml file associated to the language:
@@ -281,10 +282,11 @@ class Delivery extends CommonModule {
 		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
 		
 		//copy the start.php file to the compiled test folder, where the flash plugins will be embedded
+		/*
 		$testPlugins=array("test.swf","CLLPlugin.swf","start.php");
 		foreach($testPlugins as $testPlugin){
 			$compilator->copyFile($pluginPath.$testPlugin, $directory, 'testFolder');
-		}
+		}*/
 		
 		//then send the success message to the user
 		print_r($compilator->result());

@@ -2,16 +2,6 @@
 /*
 called from tao_result_wsdl.php
    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
 
 */
 /**
@@ -81,7 +71,7 @@ fclose($fp);
 $server->add_to_map("isFullyOk", array("string"), array("string"));
 $server->add_to_map("setResult", array("string", "string","string","string"), array("string"));
 
- $server->service($HTTP_RAW_POST_DATA);
+$server->service($HTTP_RAW_POST_DATA);
 
 
 ?>

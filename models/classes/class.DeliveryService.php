@@ -102,12 +102,6 @@ class taoDelivery_models_classes_DeliveryService
 		return $instancesData;
 	}
 	
-	
-	// public function getSubjectInstances(){
-		// $allInstances=$this->subjectService->getSubjects();
-		// var_dump(json_encode( ($allInstances) ));
-	// }
-	
     public function getDeliveryClass($uri = '')
     {
         $returnValue = null;
@@ -320,16 +314,6 @@ class taoDelivery_models_classes_DeliveryService
         return (bool) $returnValue;
     }
 	
-	
-	/**
-     * put information of the subject into a cache (record current information of the subjects at the moment the tested are taken)
-     */
-	public function subjectInfoCache(){
-	//foreach subject, get corresponding uri. 
-	
-	//fetch information for each of them from the uri and save it in a user data
-	
-	}
 	
 	/**
      * check login/pass in a MySQL table to identify subjects when they will be taking the tests.

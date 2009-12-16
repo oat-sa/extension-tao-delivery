@@ -91,17 +91,18 @@ function getFullXml($xml, $IDresult, $seq, $length)
 		else
 		{
 			//if ($length==1) {return $xml;}
-			if ($length==1) { return base64_decode($xml);}
-			else
-				{	
+			// if ($length==1) { return base64_decode($xml);}
+			// else
+				// {	
 					$content=array();
 					$content[$seq]=$xml;
 					$content=serialize($content);
 					$handle = fopen($filename,"wb");
 					fwrite($handle,$content);
 					fclose($handle);
+					if ($length==1) {return $xml;} //just added
 					return false;
-				}
+				// }
 		}
 
 
@@ -119,9 +120,12 @@ function isFullyOkResult($IDresult,$numberElts)
 		fclose($handle);
 			
 		$content = unserialize($content);
-		if (sizeOf($content)==$numberElts) {return "OK;".$numberElts.";".$IDresult;} else 
-			
-		{	$missing=$numberElts-sizeOf($content);
+		if (sizeOf($content)==$numberElts) {
+			// return "OK";
+			return "OK;".$numberElts.";".$IDresult;
+		} 
+		else{	
+			$missing=$numberElts-sizeOf($content);
 			$i=0;
 			$indexmissing="";
 			while ($i<$numberElts)

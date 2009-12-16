@@ -1,9 +1,5 @@
 <?php
 session_start();
-// require_once('../../includes/common.php');
-// require_once('../../includes/constants.php');
-// require_once('../../includes/config.php');
-// require_once('../../models/classes/class.DeliveryService.php');
 
 if(!isset($_SESSION["subject"]["uri"])){
 	header("location: index.php");
