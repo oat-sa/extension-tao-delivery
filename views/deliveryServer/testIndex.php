@@ -27,7 +27,6 @@ if(!isset($_SESSION["subject"]["uri"])){
 		
 		function print_result(result){
 				// var json_string = result.substr(result.indexOf("result=") + 7);
-						// r = eval('(' + json_string + ')');
 						//var data= "test no="+r.tests[5]+" current page="+r.pager.current+" total="+r.pager.total;//for test only
 						r=result;
 						//pager creation

@@ -20,11 +20,11 @@ class Delivery extends CommonModule {
 		$this->defaultData();
 	}
 	
-	public function index(){
+	public function index1(){
 		$allTests=array();
 		//fetch Test Instances from test ontology
 		$testClass = $this->service->getTestClass();
-		$allTests=$testClass->getInstances(true);
+		$allTests=$this->service->getTestClass()->getInstances(true);
 		print_r($allTests);
 		$testListing="<ul>";
 		foreach($allTests as $test){
@@ -61,17 +61,49 @@ class Delivery extends CommonModule {
 		$content=$testListing;
 		$content.='<a href="/taoDelivery/Delivery/preview?uri=123" >kljhkghhjg</a>';
 		
-		self::compile();
+		// self::compile();
 		
 		$this->setData('content', $content);
 		$this->setView('index.tpl');
 	}
-	
-	public function index1(){
-		// echo GENERIS_TRUE;
-		
-		print_r($this->service->getSubjectInstances());
+	public function index(){
+		// $this->setData('content', $content);
+		$this->setView('index.tpl');
 	}
+	
+	
+	public function deliveryListing(){
+		$allTestArray=$this->service->getTestClass()->getInstances(true);
+		$testData=array();
+		$i=0;
+		foreach($allTestArray as $test){
+		
+			$testData[$i]=array();
+			$testData[$i]["label"]=$test->getLabel();
+			$testData[$i]["uri"]=$test->uriResource;
+			$testData[$i]["id"]=tao_helpers_Precompilator::getUniqueId($test->uriResource);
+			$testData[$i]["compiled"]=0;
+			$testData[$i]["active"]=0;
+			
+			//check whether it is compiled or not, and select only the compiled one
+			$isCompiled=$this->service->getTestStatus($test, "compiled");
+			if($isCompiled){
+				$testData[$i]["compiled"]=1;
+			}else{
+				//if not, check if it is active:
+				$isActive=$this->service->getTestStatus($test, "active");
+				if($isActive){
+					$testData[$i]["active"]=1;
+				}
+			}
+			$i++;
+		}
+		// var_dump($testData);
+		$result=array();
+		$result["tests"]=$testData;
+		echo json_encode($result);
+	}	
+	
 
 	public function index0(){
 	/**
@@ -155,6 +187,10 @@ class Delivery extends CommonModule {
 			
 		}
 		
+	}
+	
+	public function compile0(){
+		echo $_POST["id"];
 	}
 	
 	//asynchronus action
