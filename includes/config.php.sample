@@ -40,12 +40,8 @@ $GLOBALS['classpath']			= array(DIR_CORE,
 $GLOBALS['dir_theme']		= "templates/";
 
 # language
-$GLOBALS['lang']			= 'en';
+$GLOBALS['lang']			= 'EN';
 
-//@todo to remove when the user management is implemented
-define("API_LOGIN", "demo", true);
-define("API_PASS", md5("demo"), true);
-define("API_MODULE", "taotrans_delivery", true);
 
 #BASE PATH: the root path in the file system (usually the document root)
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/taoDelivery');
