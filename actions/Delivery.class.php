@@ -66,8 +66,17 @@ class Delivery extends CommonModule {
 		$this->setData('content', $content);
 		$this->setView('index.tpl');
 	}
+	public function index2(){
+		// $tests=$this->service->getTestsBySubject("http://127.0.0.1/middleware/demo.rdf#i1260883022085327900");
+		// var_dump($tests);
+		// var_dump($this->service->getTestStatus(new core_kernel_classes_Resource($tests[0]), "active"));
+		echo $this->service->getTestStatus(new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#9999'), "compiled");
+		// echo GENERIS_TRUE;
+	}
+	
 	public function index(){
 		// $this->setData('content', $content);
+		// self::compile();
 		$this->setView('index.tpl');
 	}
 	
@@ -89,6 +98,7 @@ class Delivery extends CommonModule {
 			$isCompiled=$this->service->getTestStatus($test, "compiled");
 			if($isCompiled){
 				$testData[$i]["compiled"]=1;
+				$testData[$i]["active"]=1;
 			}else{
 				//if not, check if it is active:
 				$isActive=$this->service->getTestStatus($test, "active");
@@ -193,7 +203,7 @@ class Delivery extends CommonModule {
 		echo $_POST["id"];
 	}
 	
-	//asynchronus action
+	//asynchronus action 
 	//TODO progress bar plus interruption or exception management
 	public function compile(){
 		//config:
@@ -201,9 +211,13 @@ class Delivery extends CommonModule {
 		
 		//get the uri of the test to be compiled
 		// $testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		$testUri = 'http://127.0.0.1/middleware/demo.rdf#125187505335708';//myCTest
-		$testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
-		$testId=tao_helpers_Precompilator::getUniqueId($testUri);//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
+		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#125187505335708';//myCTest
+		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#9999';
+		// $testId=tao_helpers_Precompilator::getUniqueId($testUri);//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
+		
+		//get the unique id from POST
+		$testUri=$_POST["uri"];
+		$testId=tao_helpers_Precompilator::getUniqueId($testUri);
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
 		$directory="./compiled/$testId/";
@@ -325,7 +339,16 @@ class Delivery extends CommonModule {
 		}*/
 		
 		//then send the success message to the user
-		print_r($compilator->result());
+		$resultArray=array();
+		$compilationResult=$compilator->result();
+		if(empty($compilationResult["failed"]["copiedFiles"]) && empty($compilationResult["failed"]["createdFiles"]) ){
+			$resultArray["success"]=1;
+			$resultArray["complete"]=$compilationResult["failed"];
+		}else{
+			$resultArray["success"]=0;
+			$resultArray["error"]=$compilationResult["failed"];
+		}
+		echo json_encode($resultArray);
 	}
 	
 	public function preview(){

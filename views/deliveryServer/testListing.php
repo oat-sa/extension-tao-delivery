@@ -1,7 +1,7 @@
 <?php
-session_start();
+// session_start();
 require_once('config.php');
-
+/*
 //get the current page
 if(isset($_POST["page"])) $currentPage=intval($_POST["page"]);
 else $currentPage=1;
@@ -22,7 +22,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 
 //connect to the delivery service:
 $deliveryService = new taoDelivery_models_classes_DeliveryService();
-$allTestArray=$deliveryService->getTestClass()->getInstances(true);
+$allTestArray=$deliveryService->getTestsBySubject($_SESSION["subject"]["uri"]);
 		
 $compiledTestArray=array();
 foreach($allTestArray as $test){
@@ -66,10 +66,17 @@ for($i=$start_number; $i<=$end_number; $i++){
 	$selectedTests_data[$i]["label"]=$compiledTestArray[$i]->getLabel();
 	$selectedTests_data[$i]["comment"]="comment of test no{$i+1}";
 }
+*/
+for($i=0; $i<=10; $i++){
+	$selectedTests_data[$i]["uri"]=rand();
+	$selectedTests_data[$i]["label"]=rand();
+	$selectedTests_data[$i]["comment"]=rand();
+}
+
 
 $result=array();
 $result["tests"]=$selectedTests_data;
-$result["pager"]=$pager_data;
+// $result["pager"]=$pager_data;
 $result["subject"]["uri"]=$_SESSION["subject"]["uri"];
 $result["subject"]["label"]=$_SESSION["subject"]["label"];
 

@@ -344,6 +344,7 @@ class taoDelivery_models_classes_DeliveryService
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Group
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Members
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests
+		$returnValue=array();
 		
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 		$query = "SELECT s2.object FROM statements AS s1, statements AS s2
@@ -352,15 +353,12 @@ class taoDelivery_models_classes_DeliveryService
 			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
 			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
 		
-		$query = "SELECT s2.object FROM statements AS s1, statements AS s2
-			WHERE s1.subject=s2.subject  
-			AND s1.object='$subjectUri'
-			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
-			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
-			
 		$result = $db->execSql($query);
+		if(!$result->EOF) {
+			$returnValue[]=$result->fields["object"];
+		}
 		
-		return $result;
+		return $returnValue;
 		
 		//an array
 	}
@@ -369,7 +367,6 @@ class taoDelivery_models_classes_DeliveryService
 	//assumption: the status active or compiled is not language dependent
 	public function getTestStatus($aTestInstance, $status){
 		$returnValue=false;
-		
 		switch($status){
 			case "active":
 				$property=TEST_ACTIVE_PROP;
@@ -378,7 +375,8 @@ class taoDelivery_models_classes_DeliveryService
 				$property=TEST_COMPILED_PROP;
 				//check if the compiled folder exists
 				$testId=tao_helpers_Precompilator::getUniqueId($aTestInstance->uriResource);
-				if(!is_dir("../../compiled/$testId/")){
+				
+				if(!is_dir("./compiled/$testId/")){
 					return $returnValue;
 				}
 				break;
@@ -386,12 +384,13 @@ class taoDelivery_models_classes_DeliveryService
 				throw new Exception("wrong test status parameter");
 				return $returnValue;
 		}
-		
+		// var_dump(new core_kernel_classes_Property($property));
+		// var_dump($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator());
 		foreach ($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator() as $value){
 			if($value instanceof core_kernel_classes_Resource ){
 				if ($value->uriResource == GENERIS_TRUE){
 					$returnValue=true;
-				}	
+				}
 			}
 		}
 		

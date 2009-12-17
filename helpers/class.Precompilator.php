@@ -30,16 +30,20 @@ class tao_helpers_Precompilator
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
 					);
+					
 		$this->failed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
 					);
+					
 		if(!is_dir($directory)){
-			throw new Exception("the directory $directory does not exist");
+			throw new Exception("the test directory $directory does not exist");
 		}
+		
 		if(!is_dir($pluginPath)){
-			throw new Exception("the directory $pluginPath does not exist");
+			throw new Exception("the plugin directory $pluginPath does not exist");
 		}
+		
 		$this->compiledPath = $directory;
 		$this->pluginPath = $pluginPath;
 					
@@ -108,7 +112,14 @@ class tao_helpers_Precompilator
 			'jquery.js',
 			'swfobject.js'
 			);
-		mkdir($this->compiledPath."js/");	
+			
+		foreach($plugins as $plugin){
+			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'testFolder');
+		}
+		
+		if(!is_dir($this->compiledPath."js/")){
+			mkdir($this->compiledPath."js/");
+		}	
 		foreach($jsFiles as $jsFile){
 			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."js/", 'testFolder/js');
 		}
@@ -116,13 +127,11 @@ class tao_helpers_Precompilator
 		$cssFiles=array(
 			'test_layout.css'
 			);
-		mkdir($this->compiledPath."css/");	
+		if(!is_dir($this->compiledPath."css/")){
+			mkdir($this->compiledPath."css/");
+		}	
 		foreach($cssFiles as $cssFile){
 			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."css/", 'testFolder/css');
-		}		
-		
-		foreach($plugins as $plugin){
-			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'testFolder');
 		}		
 	}
 	
