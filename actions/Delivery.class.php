@@ -252,7 +252,7 @@ class Delivery extends CommonModule {
 				$testContentArray[$language]=$testContentCollection->get(0)->literal;
 			}
 			else{
-				echo "error test collection empty";
+				die("error test collection empty");
 			}
 			// print_r($testContentArray);
 			
@@ -262,7 +262,11 @@ class Delivery extends CommonModule {
 			
 			//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
 			$items=$testContentDom->getElementsByTagName('citem');
+			//add the last item to upload the test result
 			
+			$sequence=$items->length+1;
+			$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
+
 			//debug
 			// $compilator->stringToFile($testContentArray[$language], $directory, "preparsed_$testId$language.xml");
 				
@@ -282,7 +286,7 @@ class Delivery extends CommonModule {
 					$itemContent=$itemContentCollection->get(0)->literal;
 				}
 				else{
-					echo "incorrect number of element in item collection";
+					die("incorrect number of element in item collection: ".$itemContentCollection->count() );
 				}
 				//debug
 				// $compilator->stringToFile($itemContent, $directory, "preparsed_$itemId$language.xml");
@@ -315,8 +319,7 @@ class Delivery extends CommonModule {
 			//when the compilation in a language is done, write the new test xml file associated to the language:
 			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
-			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
-			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+			
 			
 		}//end of foreach language of test
 		
@@ -341,12 +344,19 @@ class Delivery extends CommonModule {
 		//then send the success message to the user
 		$resultArray=array();
 		$compilationResult=$compilator->result();
+		// print_r($compilationResult);//debug
 		if(empty($compilationResult["failed"]["copiedFiles"]) && empty($compilationResult["failed"]["createdFiles"]) ){
 			$resultArray["success"]=1;
-			$resultArray["complete"]=$compilationResult["failed"];
+			
+			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
+			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"])){
+			//media missing
+			$resultArray["success"]=2;//success with warning
+			$resultArray["failed"]=$compilationResult["failed"];
 		}else{
 			$resultArray["success"]=0;
-			$resultArray["error"]=$compilationResult["failed"];
+			$resultArray["failed"]=$compilationResult["failed"];
 		}
 		echo json_encode($resultArray);
 	}

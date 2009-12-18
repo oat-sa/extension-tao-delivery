@@ -1,7 +1,7 @@
 <?php 
 
 if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) && ($_POST["password"]!="")){
-	session_start();
+	// session_start();
 	require_once('config.php');
 
 	$login=$_POST["login"];
@@ -108,17 +108,17 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 				<tr>
 				<td width="40px"></td>
 				<td></td>
-				<td><b>Login</b><input type="text" name="login" id="login" /></td>
+				<td align="right"><b>Login</b><input type="text" name="login" id="login" /></td>
 				</tr>
 				<tr>
 				<td width="40px"></td>
 				<td></td>
-				<td><b>Password</b><input type="password" name="password" id="password" /></td>
+				<td align="right"><b>Password</b><input type="password" name="password" id="password" /></td>
 				</tr>
 				<tr>
 				<td width="40px"></td>
 				<td></td>
-				<td><input type="submit" id="submit" value="login" /></td>
+				<td align="right"><input type="submit" id="submit" value="login" /></td>
 				</tr>			
 				</table>
 			</td>

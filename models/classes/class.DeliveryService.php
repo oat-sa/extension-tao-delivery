@@ -366,7 +366,14 @@ class taoDelivery_models_classes_DeliveryService
 	//check either the value of the properties "active" or "compiled" for a given test instance (a ressource)
 	//assumption: the status active or compiled is not language dependent
 	public function getTestStatus($aTestInstance, $status){
+		
 		$returnValue=false;
+		
+		if(!($aTestInstance instanceof core_kernel_classes_Resource) ){
+			throw new Exception("wrong resource in parameter");
+			return $returnValue;
+		}
+		
 		switch($status){
 			case "active":
 				$property=TEST_ACTIVE_PROP;

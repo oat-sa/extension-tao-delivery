@@ -104,6 +104,7 @@ class tao_helpers_Precompilator
 			'upload_result.swf',
 			'start.html',
 			'theTest.php',
+			'uploadItem.xml'
 			);
 		
 		$jsFiles=array(
