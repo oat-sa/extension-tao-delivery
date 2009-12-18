@@ -54,7 +54,6 @@ class Delivery extends CommonModule {
 			}else{
 				//add "compile button"
 			}
-			
 		}
 		$testListing.="</ul>";
 		
@@ -75,11 +74,9 @@ class Delivery extends CommonModule {
 	}
 	
 	public function index(){
-		// $this->setData('content', $content);
 		// self::compile();
 		$this->setView('index.tpl');
 	}
-	
 	
 	public function deliveryListing(){
 		$allTestArray=$this->service->getTestClass()->getInstances(true);
@@ -113,97 +110,7 @@ class Delivery extends CommonModule {
 		$result["tests"]=$testData;
 		echo json_encode($result);
 	}	
-	
-
-	public function index0(){
-	/**
-	*Tests preliminaires
-	*/
-	/*
-		$highlightUri = '';
-		//$content = json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri));
-		// $content = '';
-		// var_dump($this->service->getDeliveryClass());
 		
-		//test pour creer un delivery:
-		// var_dump($this->service->createDelivery('Test Delivery' ,  'It is the nieth test sequence'));
-		
-		//test pour creer afficher toutes les instances de la classe, avec les propietes:
-		//$allInstances=$this->service->getAllDeliveries($this->service->getDeliveryClass());
-		$allInstances=tao_models_classes_Service::toArray($this->service->getDeliveryClass());
-		var_dump(json_encode( ($allInstances) ));
-	*/	
-	
-	/*
-		//tests de creations:
-		
-		//creer une sous classe de Delivery avec les proprietes maxexec, start, end
-		// $properties = array("maxexec"=>"N/A",
-							// "start"=>"N/A",
-							// "end"=>"N/A");
-		// $this->service->createDeliveryClass(null, $label = 'Another class of Delivery',$properties);
-		
-		//uri de cette nouvelle classe de Delivery: http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004051938800		
-		$clazz = new core_kernel_classes_Class('http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004051938800');
-		// $clazz = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);//pour creer une instance a la classe de delivery a la racine
-		
-		//creer une sous sous classe de Delivery avec les prop subjects, groups et tests en plus
-		$properties = array("subjects"=>"N/A",
-							"groups"=>"N/A",
-							"tests"=>"N/A");
-		$newClazz = $this->service->createDeliveryClass($clazz, $label = 'Another sub-class of Delivery',$properties);
-		
-		//creer une instance de cette classe et associer les valeurs aux propietes, a partir de leurs uri
-		$anInstance = $this->service->createInstance($newClazz,"Brand new delivery!!!");
-		
-		$propertyValues = array();
-		$uri_maxexec = "http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004053436900";
-		$uri_start =  "http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004055337900";
-		$uri_end = "http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004057158400";
-		$propertyValues = array( $uri_maxexec => '5',
-								$uri_start => '2013',
-								$uri_end => '2014');
-		$group = $this->service->bindProperties($anInstance, $propertyValues);
-		
-	*/	
-		//afficher toutes les instances de delivery
-
-		
-		$allInstances=tao_models_classes_Service::toArray($this->service->getDeliveryClass('http://127.0.0.1/middleware/demoDelivery.rdf#i1259765004051938800'));
-		var_dump(json_encode( ($allInstances) ));
-		
-		// $uri_subjects="http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject";
-		// $subjectsInfo=$this->service->subjectClass->getSubjectClass();
-		// $subjects=tao_models_classes_Service::toArray($subjectsInfo);
-		// var_dump(json_encode( ($this->service->subjectClass) ));
-		// var_dump(json_encode( ($this->service) ));
-		// $this->setData('content', $content);
-		// $this->setView('index.tpl');
-		
-		$this->service->getSubjectInstances();
-	
-	/**
-	*Start of the real implementation
-	*/	
-		$allTests=array();
-		//fetch Test Instances from test ontology
-		
-		foreach($allTests as $test){
-			//get the values of the properties of each instance: label, some parameter, compiled or not
-			
-			//format the information to prepare it for the view
-			
-			//add "preview button"
-			
-		}
-		
-	}
-	
-	public function compile0(){
-		echo $_POST["id"];
-	}
-	
-	//asynchronus action 
 	//TODO progress bar plus interruption or exception management
 	public function compile(){
 		//config:
@@ -222,7 +129,7 @@ class Delivery extends CommonModule {
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
 		$directory="./compiled/$testId/";
 		if(!is_dir($directory)){
-			mkdir($directory);//TODO exception management
+			mkdir($directory);
 		}
 		//copy plugin here:
 		$compilator = new tao_helpers_Precompilator($directory, $pluginPath);
@@ -252,7 +159,7 @@ class Delivery extends CommonModule {
 				$testContentArray[$language]=$testContentCollection->get(0)->literal;
 			}
 			else{
-				die("error test collection empty");
+				throw new Exception("error test collection empty");
 			}
 			// print_r($testContentArray);
 			
@@ -262,14 +169,13 @@ class Delivery extends CommonModule {
 			
 			//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
 			$items=$testContentDom->getElementsByTagName('citem');
-			//add the last item to upload the test result
 			
+			//add the last item to upload the test result
 			$sequence=$items->length+1;
 			$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
 
 			//debug
 			// $compilator->stringToFile($testContentArray[$language], $directory, "preparsed_$testId$language.xml");
-				
 			// $items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test only
 			
 			foreach ($items as $item){
@@ -286,7 +192,7 @@ class Delivery extends CommonModule {
 					$itemContent=$itemContentCollection->get(0)->literal;
 				}
 				else{
-					die("incorrect number of element in item collection: ".$itemContentCollection->count() );
+					throw new Exception("incorrect number of element in item collection: ".$itemContentCollection->count() );
 				}
 				//debug
 				// $compilator->stringToFile($itemContent, $directory, "preparsed_$itemId$language.xml");
@@ -302,8 +208,8 @@ class Delivery extends CommonModule {
 				$testContentArray[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testContentArray[$language], 1);
 				
 				//copy required the runtime component in the created test directory
-				//hypothesis: direct access to required plugins with the parameter Item_model_runtime
-				//hypothesis 2: no need to rename the plugin file path in the item.xml or test.xml file
+				//assumption 1: direct access to required plugins with the parameter Item_model_runtime
+				//assumption 2: no need to rename the plugin file path in the item.xml or test.xml file
 				//assumption 3: one unique runtime for an item model
 				/*
 				if($itemModel instanceof core_kernel_classes_Resource){
@@ -319,11 +225,9 @@ class Delivery extends CommonModule {
 			//when the compilation in a language is done, write the new test xml file associated to the language:
 			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
-			
-			
 		}//end of foreach language of test
 		
-		//create a new test.xml file with links to all test languages
+		//create a test.xml file with links to all test languages
 		$testXMLfile="";
 		$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
 		<tao:TEST rdfid="'.$testUri.'" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">';
@@ -344,23 +248,32 @@ class Delivery extends CommonModule {
 		//then send the success message to the user
 		$resultArray=array();
 		$compilationResult=$compilator->result();
+		
 		// print_r($compilationResult);//debug
 		if(empty($compilationResult["failed"]["copiedFiles"]) && empty($compilationResult["failed"]["createdFiles"]) ){
+			//compilation success
 			$resultArray["success"]=1;
 			
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
-		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"])){
-			//media missing
-			$resultArray["success"]=2;//success with warning
+			
+		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"]) and empty($compilationResult["failed"]["copiedFiles"]["runtime"])){
+			//success with warning: media missing: some file copying failed but, every required runtime plugin is successfully copied.
+			$resultArray["success"]=2;
 			$resultArray["failed"]=$compilationResult["failed"];
+			
+			//unquote the following line if the compilation can be considered completed
+			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+			
 		}else{
+			//other cases: the compilation fails
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
 		}
 		echo json_encode($resultArray);
 	}
 	
+	/*
 	public function preview(){
 		$testUri=$_GET["uri"];
 		
@@ -379,5 +292,6 @@ class Delivery extends CommonModule {
 			header("location: $testUrl");
 		}
 	}
+	*/
 }
 ?>

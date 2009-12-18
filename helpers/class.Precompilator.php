@@ -57,7 +57,6 @@ class tao_helpers_Precompilator
 		$fileContent = file_get_contents($url);
 		if ($fileContent === false){
 			$this->failed["copiedFiles"][$affectedObject][]=$url;
-			//throw new exception("could not open the remote file $url");
 			return $returnValue;
 		};
 		
@@ -115,14 +114,14 @@ class tao_helpers_Precompilator
 			);
 			
 		foreach($plugins as $plugin){
-			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'testFolder');
+			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'delivery_runtime');
 		}
 		
 		if(!is_dir($this->compiledPath."js/")){
 			mkdir($this->compiledPath."js/");
 		}	
 		foreach($jsFiles as $jsFile){
-			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."js/", 'testFolder/js');
+			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."js/", 'delivery_runtime/js');
 		}
 
 		$cssFiles=array(
@@ -132,14 +131,14 @@ class tao_helpers_Precompilator
 			mkdir($this->compiledPath."css/");
 		}	
 		foreach($cssFiles as $cssFile){
-			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."css/", 'testFolder/css');
-		}		
+			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."css/", 'delivery_runtime/css');
+		}
 	}
 	
 	public function itemParser($xml, $directory, $itemName, $authorizedMedia=array()){
 		
 		if(!file_exists($directory)){
-			throw new exception("the specified directory does not exist");
+			throw new Exception("the specified directory does not exist");
 		}
 		
 		$defaultMedia = array("jpg","jpeg","png","gif","mp3","swf");

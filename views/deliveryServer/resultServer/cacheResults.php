@@ -32,17 +32,14 @@
 */
 function getFullXml($xml, $IDresult, $seq, $length)
 	{
-					$backuphandler = fopen("./partialResults/smBU".$IDresult."--".$seq."--".$length."--".rand(0,2000).".xml","wb");
-					fwrite($backuphandler,$xml);
-					fclose($backuphandler);
-
+		$backuphandler = fopen("./partialResults/smBU".$IDresult."--".$seq."--".$length."--".rand(0,2000).".xml","wb");
+		fwrite($backuphandler,$xml);
+		fclose($backuphandler);
 
 		$filename = "./partialResults/".$IDresult.".xml";
 		$exist = file_exists($filename);
 		
-		if ($exist)
-
-		{
+		if ($exist){
 			
 			$handle = fopen($filename,"r");
 			$content= fread($handle,filesize($filename));

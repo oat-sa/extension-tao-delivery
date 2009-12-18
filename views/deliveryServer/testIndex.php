@@ -38,9 +38,6 @@ if(!isset($_SESSION["subject"]["uri"])){
 				data: data,
 				dataType: "json",
 				success: function(result){
-					alert(result);
-					// alert(result);
-					// alert(result.pager.total);
 					 print_result(result);
 				}
 			});
@@ -49,8 +46,6 @@ if(!isset($_SESSION["subject"]["uri"])){
 		function print_result(result){
 				// var json_string = result.substr(result.indexOf("result=") + 7);
 						//var data= "test no="+r.tests[5]+" current page="+r.pager.current+" total="+r.pager.total;//for test only
-						
-						alert("fdf");
 						
 						r=result;
 						//pager creation

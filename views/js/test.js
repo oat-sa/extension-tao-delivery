@@ -24,11 +24,11 @@ function get_tests(){
 				var testStatus="";
 				if(r.tests[j].compiled==1){
 					//if the delivery has been compiled, add a preview button here:
-					testStatus='<a id="test'+r.tests[j].id+'" href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>';
+					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>';
 				}else{
 					if(r.tests[j].active==1){
 						//if the delivery is active, add a compile button here:
-						testStatus='<a id="test'+r.tests[j].id+'" href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">compile</a>';
+						testStatus='<a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">compile</a>';
 					}else{
 						//if it is inactive, simply let the user know:
 						testStatus="inactive";
@@ -39,7 +39,7 @@ function get_tests(){
 				testTable += '<tr class="ui-widget-content jqgrow ' + clazz + '">';
 				testTable += '<td style="text-align: center;" role="gridcell">'+ (j+1) +'</td>';
 				testTable += '<td style="text-align: center;" role="gridcell"><a href="'+ url +'" target="_blank">'+ r.tests[j].label +'</a></td>';
-				testTable += '<td style="text-align: center;" role="gridcell">'+ testStatus +'</td>';
+				testTable += '<td style="text-align: center;" role="gridcell"><span id="test'+r.tests[j].id+'">'+ testStatus +'</span></td>';
 				testTable += '</tr>';
 				testTable += '<tr><td colspan="3" id="result'+r.tests[j].id+'" class="ui-widget-content jqgrow ' + clazz + '"></td></tr>';
 			}
@@ -60,18 +60,21 @@ function compile(testUri){
 		type: "POST",
 		url: "/taoDelivery/Delivery/compile",
 		data: data,
-		// dataType: "json",
+		dataType: "json",
 		success: function(r){
-			alert(r);
-			var error=r.complete;//to be replaced by r.error 
 			if(r.success==1){
 				get_tests();
 			}else{
+				if(r.success==2){
+					$(testTag).html("compiled with warning");
+				}else{
+					$(testTag).html("compilation failed");
+				}
+				
 				resultTag="#result"+testUri.substr(testUri.indexOf(".rdf#")+5);
 				errorMessage="";
 				failedCopy="";
 				failedCreation="";
-				alert(r.failed.copiedFiles);
 				for(key in r.failed.copiedFiles) {
 					// alert("key="+key);
 					// alert(r.failed.copiedFiles[key]);
@@ -98,7 +101,7 @@ function compile(testUri){
 				errorMessage+=failedCreation;
 				errorMessage+='<br/><br/><a href="#" onclick="$(\''+resultTag+'\').hide(); return false;">close</a>';
 				errorMessage+="</div>";
-				$(testTag).html("compilation failed");
+				
 				$(resultTag).html(errorMessage);
 			}
 		}
