@@ -1,10 +1,10 @@
 <?php
-define('API_LOGIN','generis');
-define('API_PASSWORD','g3n3r1s');
+define('API_LOGIN','demo');
+define('API_PASSWORD',md5('demo'));
 define('TAODELIVERY_PATH','../../');
 
 
-require_once(TAODELIVERY_PATH .'../generis/common/inc.extension.php');
+require_once(TAODELIVERY_PATH.'../generis/common/inc.extension.php');
 require_once(TAODELIVERY_PATH.'includes/common.php');
 require_once(TAODELIVERY_PATH.'includes/constants.php');
 require_once(TAODELIVERY_PATH.'includes/config.php');

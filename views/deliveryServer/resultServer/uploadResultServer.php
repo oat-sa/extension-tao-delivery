@@ -62,13 +62,15 @@ $fp = fopen("./received/"."Result ".$today." ".$IDresult[0].".xml", "wb");
 fwrite($fp,$xml[0]);
 fclose($fp);
 
-$resultDom = new DomDocument();
-$resultDom->loadXML($xml[0]);
-$resultDom->save('nouveauFichier.xml');
+
 }
 
-	return "OK";
-	
+//call result processing here:
+$resultDom = new DomDocument();
+$resultDom->load("./received/"."Result ".$today." ".$IDresult[0].".xml");
+$resultDom->save('nouveauFichier.xml');
+
+return "OK";
 }
 
 

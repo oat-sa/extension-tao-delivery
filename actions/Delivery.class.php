@@ -115,6 +115,7 @@ class Delivery extends CommonModule {
 	public function compile(){
 		//config:
 		$pluginPath="./models/ext/deliveryRuntime/";
+		$compilationPath="./compiled/";
 		
 		//get the uri of the test to be compiled
 		// $testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
@@ -127,16 +128,17 @@ class Delivery extends CommonModule {
 		$testId=tao_helpers_Precompilator::getUniqueId($testUri);
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
-		$directory="./compiled/$testId/";
-		if(!is_dir($directory)){
-			mkdir($directory);
-		}
+		// $directory="./compiled/$testId/";
+		// if(!is_dir($directory)){
+			// mkdir($directory);
+		// }
+		
 		//copy plugin here:
-		$compilator = new tao_helpers_Precompilator($directory, $pluginPath);
+		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
+		// $compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that does manage directory creation errors properly
 		$compilator->copyPlugins();
 		
-		//get the language Code of the available languages for the test:
-		//use getUsedLanguages( java_lang_String $uriProperty) when it is implemented
+		$directory=$compilator->compiledPath;
 		
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
 		
@@ -144,7 +146,7 @@ class Delivery extends CommonModule {
 		$testActive=$this->service->getTestStatus($aTestInstance, "active");
 		$testCompiled=$this->service->getTestStatus($aTestInstance, "compiled");
 		
-		//get available languages for the test
+		//get the language code of available languages for the current test
 		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
 		$languages=array();
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
@@ -159,7 +161,7 @@ class Delivery extends CommonModule {
 				$testContentArray[$language]=$testContentCollection->get(0)->literal;
 			}
 			else{
-				throw new Exception("error test collection empty");
+				throw new Exception("The test collection for the language '$language' must not be empty");
 			}
 			// print_r($testContentArray);
 			
@@ -173,26 +175,22 @@ class Delivery extends CommonModule {
 			//add the last item to upload the test result
 			$sequence=$items->length+1;
 			$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
-
-			//debug
-			// $compilator->stringToFile($testContentArray[$language], $directory, "preparsed_$testId$language.xml");
-			// $items=array('http://127.0.0.1/middleware/demoItems.rdf#113567805632546');//for test only
 			
 			foreach ($items as $item){
 				$itemUri=$item->nodeValue;
-				//get item id from its uri (e.g. http://127.0.0.1/middleware/demoItems.rdf#113567805632546)
-				//$itemId=substr($itemUri,stripos($itemUri,".rdf#")+5);//TODO check format of the uri
+				//get an unique item id from its uri
 				$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
 				
 				$anItemInstance = new core_kernel_classes_Resource($itemUri);
 				$itemContentCollection = $anItemInstance->getPropertyValuesByLg(new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP), $language);
+				
 				//get ItemContent in the given language, which is an XML file, in the language defined by $language
 				if($itemContentCollection->count() == 1){//there should be only one per language
-					//string version of the testContent aimed at being modified
+					//string version of the itemContent aimed at being parsed and modified
 					$itemContent=$itemContentCollection->get(0)->literal;
 				}
 				else{
-					throw new Exception("incorrect number of element in item collection: ".$itemContentCollection->count() );
+					throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
 				}
 				//debug
 				// $compilator->stringToFile($itemContent, $directory, "preparsed_$itemId$language.xml");
@@ -226,7 +224,6 @@ class Delivery extends CommonModule {
 			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
 		}//end of foreach language of test
-		
 		//create a test.xml file with links to all test languages
 		$testXMLfile="";
 		$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
@@ -257,7 +254,7 @@ class Delivery extends CommonModule {
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
 			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
 			
-		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"]) and empty($compilationResult["failed"]["copiedFiles"]["runtime"])){
+		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"]) and empty($compilationResult["failed"]["copiedFiles"]["delivery_runtime"])){
 			//success with warning: media missing: some file copying failed but, every required runtime plugin is successfully copied.
 			$resultArray["success"]=2;
 			$resultArray["failed"]=$compilationResult["failed"];
@@ -270,6 +267,7 @@ class Delivery extends CommonModule {
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
 		}
+		
 		echo json_encode($resultArray);
 	}
 	

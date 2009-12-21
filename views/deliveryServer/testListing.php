@@ -3,7 +3,7 @@
 require_once('config.php');
 
 //get the current page
-if(isset($_POST["page"])) $currentPage=intval($_POST["page"]);
+if(isset($_POST["page"]) && intval($_POST["page"])>0 ) $currentPage=intval($_POST["page"]);
 else $currentPage=1;
 
 //define the number of tests per page
@@ -18,25 +18,27 @@ if(!isset($_SESSION["subject"]["uri"])){
 	die("no user session defined, please login again");
 }
 
-//if a subject is loged in, get available tests with their properties(uri,label,comment):
+//if a subject is logged in, get available tests with their properties(uri,label,comment):
 
 //connect to the delivery service:
 $deliveryService = new taoDelivery_models_classes_DeliveryService();
 //get an arry of test uri
-$allTestArray=$deliveryService->getTestsBySubject($_SESSION["subject"]["uri"]);
+$allTestUriArray=$deliveryService->getTestsBySubject($_SESSION["subject"]["uri"]);
 		
 $compiledTestArray=array();
-foreach($allTestArray as $test){
+foreach($allTestUriArray as $testUri){
+	//create the test instance object fron the testUri
+	$test=new core_kernel_classes_Resource($testUri);
 	//check whether it is compiled or not, and select only the compiled one
-	$isCompiled=$deliveryService->getTestStatus(new core_kernel_classes_Resource($test), "compiled");
+	$isCompiled=$deliveryService->getTestStatus($test, "compiled");
 	if($isCompiled){
 		$compiledTestArray[]=$test;
 	}
 }
-	
+
+//calculated the information for the paging	
 $total_number=count($compiledTestArray);
 $end_number=min($total_number-1, $end_number);//re-adjust the end_number, in the case $end_number > $total_number (for the last page)
-		
 $totalPage=ceil($total_number/$tests_per_page);
 $pager_data=array(
 	"current"=>$currentPage, 
@@ -44,16 +46,17 @@ $pager_data=array(
 	"start"=>$start_number,
 	"end"=>$end_number
 	);
-		
+
+//fill an array with information from selected compiled tests (within the range defined by the paging information):	
 $selectedTests_data=array();
 for($i=$start_number; $i<=$end_number; $i++){
 	// get the values of the properties of each instance: label, some parameter for 
-	$selectedTests_data[$i]["uri"]=$compiledTestArray[$i]->uriResource;
+	$selectedTests_data[$i]["uri"]=tao_helpers_Precompilator::getUniqueId($compiledTestArray[$i]->uriResource);
 	$selectedTests_data[$i]["label"]=$compiledTestArray[$i]->getLabel();
 	$selectedTests_data[$i]["comment"]="comment of test ";
 }
 
-
+/*
 //test only
 for($i=0; $i<=10; $i++){
 	$selectedTests_data[$i]["uri"]=rand();
@@ -66,8 +69,7 @@ $pager_data=array(
 	"start"=>0,
 	"end"=>10
 	);
-	
-	
+*/	
 
 
 $result=array();

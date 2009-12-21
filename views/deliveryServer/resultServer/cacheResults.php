@@ -87,7 +87,7 @@ function getFullXml($xml, $IDresult, $seq, $length)
 
 		else
 		{
-			//if ($length==1) {return $xml;}
+			// if ($length==1) {return $xml;}
 			// if ($length==1) { return base64_decode($xml);}
 			// else
 				// {	

@@ -340,6 +340,7 @@ class taoDelivery_models_classes_DeliveryService
 		//empty or not?	
 	}
 	
+	//return an array containing the uri of selected tests
 	public function getTestsBySubject($subjectUri){
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Group
 		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Members
@@ -354,13 +355,12 @@ class taoDelivery_models_classes_DeliveryService
 			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
 		
 		$result = $db->execSql($query);
-		if(!$result->EOF) {
+		while(!$result->EOF) {
 			$returnValue[]=$result->fields["object"];
+			$result->MoveNext();
 		}
 		
 		return $returnValue;
-		
-		//an array
 	}
 	
 	//check either the value of the properties "active" or "compiled" for a given test instance (a ressource)
@@ -370,7 +370,7 @@ class taoDelivery_models_classes_DeliveryService
 		$returnValue=false;
 		
 		if(!($aTestInstance instanceof core_kernel_classes_Resource) ){
-			throw new Exception("wrong resource in parameter");
+			throw new Exception("wrong resource in getTestStatus parameter");
 			return $returnValue;
 		}
 		
@@ -380,12 +380,16 @@ class taoDelivery_models_classes_DeliveryService
 				break;
 			case "compiled":
 				$property=TEST_COMPILED_PROP;
+				
 				//check if the compiled folder exists
+				/*
 				$testId=tao_helpers_Precompilator::getUniqueId($aTestInstance->uriResource);
 				
 				if(!is_dir("./compiled/$testId/")){
 					return $returnValue;
-				}
+				}*/ 
+				//causes problem when called from different relative path, e.g. fron the action and deliveryserver
+				
 				break;
 			default:
 				throw new Exception("wrong test status parameter");
@@ -400,7 +404,6 @@ class taoDelivery_models_classes_DeliveryService
 				}
 			}
 		}
-		
 		return $returnValue;
 	}
 

@@ -1,6 +1,6 @@
 <?php
-session_start();
-
+// session_start();
+require_once('config.php');
 if(!isset($_SESSION["subject"]["uri"])){
 	header("location: index.php");
 }
@@ -26,10 +26,10 @@ if(!isset($_SESSION["subject"]["uri"])){
 		tabCenter{align: center;}
 	</style>
 	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+	<script type="text/javascript" src="jquery-1.3.2.min.js"></script>
 	<script type="text/javascript">
 		function get_tests(page){
-			
 			page = parseInt(page);
 			data ="page="+page;
 			$.ajax({
@@ -86,7 +86,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 							else
 								clazz = "odd";
 							
-							var url="../../compiled/"+r.tests[i].uri +"/theTest.php?subject="+r.subject.uri;	
+							var url="<?=TAODELIVERY_PATH?>compiled/"+r.tests[i].uri +"/theTest.php?subject="+r.subject.uri;	
 							testTable += '<tr class="test_list ' + clazz + '">';
 							testTable += '<td>'+ i +'</td>';
 							testTable += '<td><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
@@ -101,7 +101,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 		$(document).ready(function(){
 			get_tests(1);
 			
-			$("#result").html();
+			// $("#result").html();
 		});
 	</script>
 </head>

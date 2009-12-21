@@ -22,10 +22,13 @@ class tao_helpers_Precompilator
 	
 	protected $pluginPath = "";
 	
-	protected $compiledPath = "";
+	public $compiledPath= "";
+	
+	protected $testUri = "";
+	
     // --- OPERATIONS ---
 	
-	public function __construct($directory,$pluginPath){
+	public function __construct($testUri, $compiledPath, $pluginPath){
 		$this->completed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
@@ -35,26 +38,39 @@ class tao_helpers_Precompilator
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
 					);
-					
-		if(!is_dir($directory)){
-			throw new Exception("the test directory $directory does not exist");
+		
+		//create a directory where all files related to this test(i.e media files and item xml files) will be copied:
+		$testId=self::getUniqueId($testUri);//get the an unique id for the test to be compiled
+		$directory="$compiledPath$testId/";		
+		if(!is_dir($compiledPath)){
+			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
+			throw new Exception("The main compiled test directory '$compiledPath' does not exist");
+		}else{
+			if(!is_dir($directory)){
+				$created=mkdir($directory);
+				if($created===false){
+					$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
+					throw new Exception("The compiled test directory '$directory' does not exist and can not be created");
+				}else{
+					$this->completed["createdFiles"][]=$directory;
+				}
+			}
 		}
 		
 		if(!is_dir($pluginPath)){
-			throw new Exception("the plugin directory $pluginPath does not exist");
+			throw new Exception("The plugin directory $pluginPath does not exist");
 		}
 		
 		$this->compiledPath = $directory;
 		$this->pluginPath = $pluginPath;
-					
 	}
 	
-	//return the name of the downloaded file or an empty string 
+	//return the "name.extension" of the copied or downloaded file. If it failsm it returns an empty string 
 	public function copyFile($url,$directory,$affectedObject){
 	
 		$returnValue = "";
 		
-		$fileContent = file_get_contents($url);
+		$fileContent = @file_get_contents($url);
 		if ($fileContent === false){
 			$this->failed["copiedFiles"][$affectedObject][]=$url;
 			return $returnValue;
@@ -167,7 +183,8 @@ class tao_helpers_Precompilator
 		if(!is_dir($directory)){
 			$created=mkdir($directory);
 			if($created===false){
-				die ("the folder $directory does not exist and can not be created");
+				$this->failed["createdFiles"][$directory]=$fileName;
+				throw new Exception("The folder $directory does not exist and can not be created");
 			}
 		}
 		$handle = fopen("$directory/$fileName","wb");
@@ -180,6 +197,16 @@ class tao_helpers_Precompilator
 		$returnValue=array("completed"=>$this->completed, "failed"=>$this->failed);
 		return $returnValue;
 	}
+	
+	// public function createDirectory($directory){
+		// if(!is_dir($directory)){
+			// $created=mkdir($directory);
+			// if($created===false){
+				// $this->failed["createdFiles"][$directory]=$fileName;
+				// throw new Exception("The folder $directory does not exist and can not be created");
+			// }
+		// }
+	// }
 	
 	public function getUniqueId($uriRessource){
 		$returnValue='';

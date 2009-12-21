@@ -24,7 +24,7 @@ function get_tests(){
 				var testStatus="";
 				if(r.tests[j].compiled==1){
 					//if the delivery has been compiled, add a preview button here:
-					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>';
+					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>/<a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">recompile</a>';
 				}else{
 					if(r.tests[j].active==1){
 						//if the delivery is active, add a compile button here:
@@ -62,6 +62,7 @@ function compile(testUri){
 		data: data,
 		dataType: "json",
 		success: function(r){
+			// alert(r);
 			if(r.success==1){
 				get_tests();
 			}else{
