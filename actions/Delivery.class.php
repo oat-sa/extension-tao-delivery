@@ -136,7 +136,7 @@ class Delivery extends CommonModule {
 			
 			//add the last item to upload the test result
 			$sequence=$items->length+1;
-			$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
+			$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'" itemModel="taotab.swf">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
 			
 			foreach ($items as $item){
 				$itemUri=$item->nodeValue;
@@ -228,7 +228,7 @@ class Delivery extends CommonModule {
 			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
 		}else{
-			echo "Sorry, but the test seems not to be compiled.<br/> Please compiled it first and retry again.";
+			echo "Sorry, but the test seems not to be compiled.<br/> Please compiled it first and try again.";
 		}
 	}
 	

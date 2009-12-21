@@ -1,6 +1,6 @@
 <?php
-define('API_LOGIN','demo');
-define('API_PASSWORD',md5('demo'));
+define('API_LOGIN','generis');
+define('API_PASSWORD',md5('g3n3r1s'));
 define('TAODELIVERY_PATH','../../');
 
 
@@ -12,7 +12,4 @@ require_once(TAODELIVERY_PATH.'models/classes/class.DeliveryService.php');
 
 core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
 
-// require_once('../../../generis/common/config.php');
-// require_once('../../models/classes/class.DeliveryServerService.php');
-// require_once('../../../generis/core/kernel/classes/class.DbWrapper.php');
 ?>

@@ -8,10 +8,14 @@ $_SESSION["movieparams"] = "Test.swf?TestXmlFile=Test.xml&subject=http://mod1.ta
 
 <?php 
 $subjectIp = $_SERVER['REMOTE_ADDR'];
+$noresult=0;
 
 if(isset($_GET['subject']) and $_GET['subject']!=''){
 	$subjectUri="uri_".$_GET['subject'];
 	$subjectLabel=$_GET['subject'];
+	if($_GET['subject']=="previewer"){
+		$noresult=1;
+	}
 }
 else{
 	if(isset($_SESSION["subject"]["uri"]) and $_SESSION["subject"]["uri"]!=''){
@@ -23,8 +27,8 @@ else{
 	}
 }
 
-//prevent the cache of share objects
-$time=time();
+
+
 
 $runtimeParameters="";
 $runtimeParameters="
@@ -35,8 +39,7 @@ $runtimeParameters="
 	&wsdlurl=http://127.0.0.1/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php
 	&taoIP=$subjectIp
 	&fullscreen=0
-	&noresult=0
-	&timestamp=$time";
+	&noresult=$noresult";
 	
 ?>
 
