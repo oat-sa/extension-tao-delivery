@@ -19,6 +19,10 @@ include("cacheResults.php");
 
 //soap library
 include_once("nusoap.php");
+
+//
+require_once($_SERVER['DOCUMENT_ROOT']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php");
+
 /**
 * implements server receiving informations about results
 * For A Client Application
@@ -70,6 +74,8 @@ $xmlString.=$xml[0];
 //call result processing here:
 $resultDom = new DomDocument();
 $resultDom->loadXML($xmlString);
+
+$il = new importLog($resultDom); 
 
 return "OK";
 }

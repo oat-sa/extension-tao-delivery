@@ -30,6 +30,9 @@ class Delivery extends CommonModule {
 
 	/**
 	 * Main action
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function index(){
@@ -39,7 +42,10 @@ class Delivery extends CommonModule {
 	
 	/**
 	 * Render json data to populate the list of available delivery 
-	 * It provides the value of the delivery properties such as label, uri and active and compiled status 
+	 * It provides the value of the delivery properties such as label, uri and active and compiled status
+	 *	 
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function deliveryListing(){
@@ -75,12 +81,15 @@ class Delivery extends CommonModule {
 		
 	/**
 	 * Compile a test by providing its uri, via POST method.
-	 * Its main purpose is to collect every required resources in a single folder so they become immediately available for test launch, without delay. 
+	 * Its main purpose is to collect every required resource to run the test in a single folder so they become immediately available for the test launch, without any delay. 
 	 * The resources are test and item runtime plugins and media files.
-	 * It parses the testContent and itemContent and save a copy of these files in the compiled test directory.
+	 * This action parses the testContent and itemContent and save a copy of these files in the compiled test directory.
 	 * The action compiles every available language for a given test at once.
 	 * It provides a json string to indicate the success or failure of the test compilation
 	 * The recompilation of an already compiled test will erase the previously created compiled files.
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function compile(){
@@ -103,24 +112,24 @@ class Delivery extends CommonModule {
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
 		
 		//check whether the test is active or not:
-		$testActive=$this->service->getTestStatus($aTestInstance, "active");
+		$testActive = $this->service->getTestStatus($aTestInstance, "active");
 		if(!$testActive){
 			throw new Exception("The test '$testUri' is not active so cannot be compiled.");
 		}
 		
 		//get the language code of available languages for the current test:
 		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
-		$languages=array();
+		$languages = array();
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
 		
-		$testContentArray=array();//array of XML files containing the testContent in every available langauge
+		$testContentArray = array();//array of XML files containing the testContent in every available langauge
 		
 		foreach($languages as $language){
 			
 			$testContentCollection = $aTestInstance->getPropertyValuesByLg($testContentProperty, $language);
 			if($testContentCollection->count() == 1){
 				//string version of the testContent aimed at being modified
-				$testContentArray[$language]=$testContentCollection->get(0)->literal;
+				$testContentArray[$language] = $testContentCollection->get(0)->literal;
 			}
 			else{
 				throw new Exception("The test collection for the language '$language' must not be empty");
@@ -153,8 +162,6 @@ class Delivery extends CommonModule {
 				else{
 					throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
 				}
-				//debug
-				// $compilator->stringToFile($itemContent, $directory, "preparsed_$itemId$language.xml");
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
@@ -210,6 +217,13 @@ class Delivery extends CommonModule {
 		echo json_encode($resultArray);
 	}
 	
+	/**
+	 * From the uri of a compiled test, this action will redirect the user to the compiled test folder
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function preview(){
 		//get encoded url
 		$testUri=urldecode($_GET["uri"]);
@@ -221,16 +235,13 @@ class Delivery extends CommonModule {
 		}
 		catch(Exception $e){ echo $e;}
 		
-		// $testCompiled=true;
-		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
 		if($testCompiled){
 			$testId=tao_helpers_Precompilator::getUniqueId($testUri);
 			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
 		}else{
-			echo "Sorry, but the test seems not to be compiled.<br/> Please compiled it first and try again.";
+			echo "Sorry, but the test seems not to be compiled.<br/> Please compile it first then try again.";
 		}
 	}
-	
 }
 ?>

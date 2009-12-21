@@ -1,6 +1,5 @@
 <?php
 session_start();
-session_unset();//problem becaue deconnect from the api session
-// unset($_SESSION["subject"]);
+session_unset();
 header("location: index.php");
 ?>

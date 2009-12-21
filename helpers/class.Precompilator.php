@@ -2,28 +2,75 @@
 
 error_reporting(E_ALL);
 
+/**
+ * The precompilator helper provides methods for the delivery compilation action
+ * such as file copy, error management or file parser
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @package taoDelivery
+ * @subpackage helpers
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ */
+ 
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
 
 /**
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * The precompilator helper provides methods for the delivery compilation action
+ * such as file copy, error management or file parser
  *
+ * @access public
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @package taoDelivery
+ * @subpackage helpers
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_helpers_Precompilator
 {
     // --- ASSOCIATIONS ---
 
     // --- ATTRIBUTES ---
+	/**
+     * The attribute completed contains the array of completed actions performed during the delivery compilation
+	 * (e.g. file copy, file or folder creation) 
+     *
+     * @access protected
+     * @var string
+     */
 	protected $completed = array();
 	
+	/**
+     * The attribute failed contains the array of failed actions performed during the delivery compilation
+	 * (e.g. file copy, file or folder creation) 
+     *
+     * @access protected
+     * @var string
+     */
 	protected $failed = array();
 	
+	/**
+     * Short description of attribute CSS
+     *
+     * @access protected
+     * @var string
+     */
 	protected $pluginPath = "";
 	
+	/**
+     * Short description of attribute CSS
+     *
+     * @access public
+     * @var string
+     */
 	public $compiledPath= "";
 	
+	/**
+     * Short description of attribute CSS
+     *
+     * @access protected
+     * @var string
+     */
 	protected $testUri = "";
 	
     // --- OPERATIONS ---

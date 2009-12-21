@@ -23,11 +23,11 @@ function get_tests(){
 				
 				var testStatus="";
 				if(r.tests[j].compiled==1){
-					//if the delivery has been compiled, add a preview button here:
+					//if the delivery has been compiled, add a preview button and offer the option to recompile:
 					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>/<a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">recompile</a>';
 				}else{
 					if(r.tests[j].active==1){
-						//if the delivery is active, add a compile button here:
+						//if the delivery is active ut not compiled yet, add a compile button:
 						testStatus='<a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">compile</a>';
 					}else{
 						//if it is inactive, simply let the user know:
@@ -46,11 +46,9 @@ function get_tests(){
 			testTable += '</tbody></table>';
 			
 			$("#tests").html(testTable);
-			
 		}
 	});
 }
-
 
 function compile(testUri){
 	var testTag="#test"+testUri.substr(testUri.indexOf(".rdf#")+5);
@@ -62,7 +60,7 @@ function compile(testUri){
 		data: data,
 		dataType: "json",
 		success: function(r){
-			// alert(r);
+		
 			if(r.success==1){
 				get_tests();
 			}else{
@@ -77,9 +75,9 @@ function compile(testUri){
 				failedCopy="";
 				failedCreation="";
 				for(key in r.failed.copiedFiles) {
-					// alert("key="+key);
-					// alert(r.failed.copiedFiles[key]);
+
 					failedCopy+="the following file(s) could not be copied for the test "+key+":";
+					
 					for(i=0;i<r.failed.copiedFiles[key].length;i++) {
 						failedCopy+="<ul>";
 						failedCopy+="<li>"+r.failed.copiedFiles[key][i]+"</li>";
@@ -88,7 +86,9 @@ function compile(testUri){
 				}
 				
 				for(key in r.failed.createdFiles) {
+				
 					failedCreation+="the following file(s) could not be created for the test:";
+					
 					for(i=0;i<r.failed.createdFiles[key].length;i++) {
 						failedCreation+="<ul>";
 						failedCreation+="<li>"+r.failed.createdFiles[key][i]+"</li>";
@@ -109,10 +109,6 @@ function compile(testUri){
 	});
 }
 
-function getUniqueId(uri){
-	return uri.substr(uri.indexOf(".rdf#")+5);
-}
-		
 $(document).ready(function(){
 	get_tests();
 });		

@@ -2,18 +2,45 @@
 
 error_reporting(E_ALL);
 
+/**
+ * Generis Object Oriented API -
+ *
+ * This file is part of Generis Object Oriented API.
+ *
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @package taoDelivery
+ * @subpackage models_classes
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
 
+/**
+ * The Service class is an abstraction of each service instance. 
+ * Used to centralize the behavior related to every service instances.
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ */
 require_once('tao/models/classes/class.Service.php');
+
+/**
+ * The Precompilator class provides many useful methods to accomplish the test compilation task
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ */
 require_once('taoDelivery/helpers/class.Precompilator.php');
 
 /**
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * The taoDelivery_models_classes_DeliveryService class provides methods to connect to several ontologies and interact with them.
  *
+ * @access public
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @package taoDelivery
+ * @subpackage models_classes
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_models_classes_DeliveryService
     extends tao_models_classes_Service
@@ -24,35 +51,81 @@ class taoDelivery_models_classes_DeliveryService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute deliveryClass
+     * The attribute deliveryClass contains the default TAO Delivery Class
      *
      * @access protected
      * @var Class
      */
     //protected $deliveryClass = null;
 
+	/**
+     * The attribute testClass contains the default TAO Test Class
+     *
+     * @access protected
+     * @var Class
+     */
 	protected $testClass = null;
 	
+	/**
+     * The attribute subjectClass contains the default TAO Subject Class
+     *
+     * @access protected
+     * @var Class
+     */
 	protected $subjectClass = null;
 	
+	/**
+     * The attribute groupClass contains the default TAO Group Class
+     *
+     * @access protected
+     * @var Class
+     */
 	protected $groupClass = null;
 		
     /**
-     * Short description of attribute deliveryOntologies
+     * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
      *
      * @access protected
      * @var array
      */
     //protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
 	
+	/**
+     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
+	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
+     *
+     * @access protected
+     * @var array
+     */
 	protected $groupsOntologies = array('http://www.tao.lu/Ontologies/TAOGroup.rdf');
 	
+	/**
+     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
+	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
+     *
+     * @access protected
+     * @var array
+     */
 	protected $subjectsOntologies = array('http://www.tao.lu/Ontologies/TAOSubject.rdf');
 	
+	/**
+     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
+	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
+     *
+     * @access protected
+     * @var array
+     */
 	protected $testsOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
 	
     // --- OPERATIONS ---
 
+	/**
+     * The method __construct intiates the DeliveryService class and loads the required ontologies from the other extensions 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return mixed
+     */	
     public function __construct()
     {
 		parent::__construct();
@@ -70,19 +143,14 @@ class taoDelivery_models_classes_DeliveryService
 			));
     }
 	
-	public function getSubjectInstances(){
-	
-		$instancesData = array();
-		
-		//connect to the class : 'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
-		$clazz = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOSubject.rdf#125187560431708');
-		$instancesData=$this->getAllInstances($clazz);
-		
-		return $instancesData;
-	}
-	
-	public function getTestInstances(){}
-	
+	/**
+     * Short description of method getGroupClass
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Class clazz
+     * @return core_kernel_classes_Class
+     */
 	/**
 	*more general version of getInstances method, applicable for Delivery, Subjects and Tests
 	*/
@@ -101,6 +169,15 @@ class taoDelivery_models_classes_DeliveryService
 		return $instancesData;
 	}
 	
+	/**
+     * The method getDeliveryClass return the current Delivery Class
+	 * (not used yet in the current implementation)
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string uri
+     * @return core_kernel_classes_Class
+     */
     public function getDeliveryClass($uri = '')
     {
         $returnValue = null;
@@ -118,6 +195,14 @@ class taoDelivery_models_classes_DeliveryService
         return $returnValue;
     }
 	
+	/**
+     * The method getGroupClass return the current Test Class
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string uri
+     * @return core_kernel_classes_Class
+     */
 	public function getTestClass($uri = '')
     {
         $returnValue = null;
@@ -136,9 +221,15 @@ class taoDelivery_models_classes_DeliveryService
     }
 	
 	/**
-	*
-	*Return a delivery by providing either its uri (default) or its label and the class of delivery
-	*/
+     * Returns a delivery by providing either its uri (default) or its label and the delivery class
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string identifier usually the test label or the ressource URI
+     * @param  string mode
+     * @param  Class clazz
+     * @return core_kernel_classes_Resource
+     */
      public function getDelivery($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
@@ -153,71 +244,16 @@ class taoDelivery_models_classes_DeliveryService
         return $returnValue;
     }
 	
-	/**
-	*
-	*Return all instances of a class of Delivery, equivalent de ce qui existe deja dans Groups comme la methode getGroups par exemple
-	*/
-	public function getAllDeliveries(core_kernel_classes_Class $clazz = null){
-		$instancesData = array();
-		foreach($clazz->getInstances(false) as $instance){
-			$instancesData[] = array(
-				'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
-				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($instance->uriResource),
-					'class' => 'node-instance'
-				),
-				'properties' => $this->getProperties($clazz,true)
-			);
-		}
-		return $instancesData;
-	}
-	
-	//utiliser service::createInstance($classOfDelivery, $label="") et service::bindProperty() à la place pour créer des instances
-	public function createDelivery($label='', $comment=''){
-        $returnValue = null;
-
-		$class = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$returnValue = $class->createInstance($label , $comment);
-		//http://127.0.0.1/middleware/demoDelivery.rdf#125966997638460 est l uri pour la ressource de la prop 1 maxexec
-		$maxexec = new core_kernel_classes_Property('http://127.0.0.1/middleware/demoDelivery.rdf#125966997638460'); 	
-		$returnValue->setPropertyValue($maxexec,"6");
-		
-        return $returnValue;
-    }
-	
-	/**
-	*return all properties+values of an instance of a class
-	*/
-	public function getProperties(core_kernel_classes_Class $instance = null, $debug=false){
-//		$clazz = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean');
-//		var_dump($class->getAllProperties());
-		$properties=array();
-		foreach ($instance->getAllProperties()->getIterator() as $prop) {
-//			var_dump($prop->uriResource,$property->uriResource);
-			$collection = $instance->getPropertyValuesCollection($prop);
-			$propertyValue='';
-			foreach ($collection->getIterator() as $value) {
-				//en supposant que ( $value instanceof core_kernel_classes_Literal) et non ($value instanceof core_kernel_classes_Resource )
-				var_dump($value);
-				$propertyValue .= $value->literal.'('.$value->uriResource.'), ';						
-			}
-			$propertyValue = substr_replace($propertyValue,'',-2);
-			
-			if($debug){
-				//$rdfTriples=$prop->getRdfTriples();
-				$properties[]=array("label"=>$prop->getLabel(),
-									"value"=>$propertyValue);
-			}else{
-				$properties[]=array("label"=>$prop->getLabel(),
-									"value"=>$propertyValue);
-			}
-		}
-		return $properties;
-	}
-
-    /**
+	 /**
      * Create a new class of Delivery, which is basically always a subclass of an existing Delivery class.
 	 * Require an array('propertyName' => 'propertyValue')
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Class clazz
+     * @param  string label
+     * @param  array properties
+     * @return core_kernel_classes_Class
      */
     public function createDeliveryClass( core_kernel_classes_Class $clazz = null, $label = '', $properties = array())
     {
@@ -236,28 +272,41 @@ class taoDelivery_models_classes_DeliveryService
 					$propertyName,
 					$propertyName . ' ' . $label .' subject property created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
 				);
-				
-				//@todo implement check if there is a widget key and/or a range key
 			}
 			$returnValue = $deliveryClass;
 		}
 
         return $returnValue;
     }
-
+	
+	/**
+     * Method to be called to delete a delivery instance
+     * (Method is not used in the current implementation yet)
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource delivery
+     * @return boolean
+     */
     public function deleteDelivery( core_kernel_classes_Resource $delivery)
     {
         $returnValue = (bool) false;
 		
 		if(!is_null($delivery)){
-			$returnValue = $group->delivery();
+			$returnValue = $delivery->delete();
 		}
 
         return (bool) $returnValue;
     }
 
     /**
-     * Delete a class of Delivery
+     * Method to be called to delete a delivery class
+     * (Method is not used in the current implementation yet)
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Class clazz
+     * @return boolean
      */
     public function deleteDeliveryClass( core_kernel_classes_Class $clazz)
     {
@@ -273,7 +322,13 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Check whether the class is a deliveryClass
+     * Check whether the object is a delivery class
+     * (Method is not used in the current implementation yet)
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Class clazz
+     * @return boolean
      */
     public function isDeliveryClass( core_kernel_classes_Class $clazz)
     {
@@ -294,6 +349,15 @@ class taoDelivery_models_classes_DeliveryService
         return (bool) $returnValue;
     }
 	
+	/**
+     * Check whether the object is a test class
+     * (Method is not used in the current implementation yet)
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Class clazz
+     * @return boolean
+     */
 	public function isTestClass( core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
@@ -313,11 +377,18 @@ class taoDelivery_models_classes_DeliveryService
         return (bool) $returnValue;
     }
 	
-	
-	/**
-     * check login/pass in a MySQL table to identify subjects when they will be taking the tests.
+	 /**
+     * Check the login/pass in a MySQL table to identify a subject when he/she takes the delivery.
+     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
+	 * It returns the uri of the identified subjectm and an empty string otherwise.
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string login
+	 * @param  string password
+     * @return string
      */
-	public function checkSubjectLogin($login,$password){
+	public function checkSubjectLogin($login, $password){
 		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Login
 		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Password
 		$returnValue='';
@@ -336,14 +407,20 @@ class taoDelivery_models_classes_DeliveryService
 		}
 
 		return $returnValue;
-		//empty or not?	
 	}
 	
-	//return an array containing the uri of selected tests
+	/**
+     * Get all tests available for the identified subject.
+     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
+	 * It returns an array containing the uri of selected tests or an empty array otherwise.
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string subjectUri
+     * @return array
+     */
 	public function getTestsBySubject($subjectUri){
-		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Group
-		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Members
-		//http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests
+		
 		$returnValue=array();
 		
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
@@ -362,8 +439,15 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
-	//check either the value of the properties "active" or "compiled" for a given test instance (a ressource)
-	//assumption: the status active or compiled is not language dependent
+	/**
+     * The methods getTestStatus checks the value of the property "active" OR "compiled" for a given test instance (a ressource)
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource aTestInstance
+	 * @param  string status
+     * @return boolean
+     */
 	public function getTestStatus($aTestInstance, $status){
 		
 		$returnValue=false;
@@ -377,25 +461,24 @@ class taoDelivery_models_classes_DeliveryService
 			case "active":
 				$property=TEST_ACTIVE_PROP;
 				break;
+				
 			case "compiled":
 				$property=TEST_COMPILED_PROP;
 				
-				//check if the compiled folder exists
+				//check if the compiled folder exists:
 				/*
 				$testId=tao_helpers_Precompilator::getUniqueId($aTestInstance->uriResource);
 				
-				if(!is_dir("./compiled/$testId/")){
+				if(!is_dir(BASE_PATH."/compiled/$testId/")){
 					return $returnValue;
 				}*/ 
-				//causes problem when called from different relative path, e.g. fron the action and deliveryserver
-				
 				break;
+				
 			default:
 				throw new Exception("wrong test status parameter");
 				return $returnValue;
 		}
-		// var_dump(new core_kernel_classes_Property($property));
-		// var_dump($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator());
+		
 		foreach ($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator() as $value){
 			if($value instanceof core_kernel_classes_Resource ){
 				if ($value->uriResource == GENERIS_TRUE){
@@ -403,6 +486,7 @@ class taoDelivery_models_classes_DeliveryService
 				}
 			}
 		}
+		
 		return $returnValue;
 	}
 
