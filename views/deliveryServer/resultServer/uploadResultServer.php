@@ -30,6 +30,7 @@ include_once("nusoap.php");
 $server = new nusoap_server();
 $server->debug_flag=true;
 
+error_reporting(0);
 
 /*
 *sends back the list of missing packets to the client
@@ -50,6 +51,7 @@ $return = getFullXml($xml[0], $IDresult[0], $seq[0], $length[0]);
 if (!($return)) {return "OK";die();} 
 else {$listXmls = splitXML($return);}
 
+$xmlString="";
 foreach ($listXmls as $key=> $val)
 {
 $xml =array($val);
@@ -62,13 +64,12 @@ $fp = fopen("./received/"."Result ".$today." ".$IDresult[0].".xml", "wb");
 fwrite($fp,$xml[0]);
 fclose($fp);
 
-
+$xmlString.=$xml[0];
 }
 
 //call result processing here:
 $resultDom = new DomDocument();
-$resultDom->load("./received/"."Result ".$today." ".$IDresult[0].".xml");
-$resultDom->save('nouveauFichier.xml');
+$resultDom->loadXML($xmlString);
 
 return "OK";
 }
