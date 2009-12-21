@@ -114,8 +114,8 @@ class Delivery extends CommonModule {
 	//TODO progress bar plus interruption or exception management
 	public function compile(){
 		//config:
-		$pluginPath="./models/ext/deliveryRuntime/";
-		$compilationPath="./compiled/";
+		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
+		$compilationPath=BASE_PATH."/compiled/";
 		
 		//get the uri of the test to be compiled
 		// $testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
@@ -271,9 +271,9 @@ class Delivery extends CommonModule {
 		echo json_encode($resultArray);
 	}
 	
-	/*
 	public function preview(){
-		$testUri=$_GET["uri"];
+		//get encoded url
+		$testUri=urldecode($_GET["uri"]);
 		
 		//firstly check if the delivery instance is compiled or not
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
@@ -282,14 +282,16 @@ class Delivery extends CommonModule {
 		}
 		catch(Exception $e){ echo $e;}
 		
-		$testCompiled=true;
-		$testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
+		// $testCompiled=true;
+		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#8888';
 		if($testCompiled){
 			$testId=tao_helpers_Precompilator::getUniqueId($testUri);
-			$testUrl="../compiled/$testId/start.php?testSubject=preview";
+			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
+		}else{
+			echo "Sorry, but the test seems not to be compiled.<br/> Please compiled it first and retry again.";
 		}
 	}
-	*/
+	
 }
 ?>
