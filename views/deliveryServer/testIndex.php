@@ -88,7 +88,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 							
 							var url="<?=TAODELIVERY_PATH?>compiled/"+r.tests[i].uri +"/theTest.php?subject="+r.subject.uri;	
 							testTable += '<tr class="test_list ' + clazz + '">';
-							testTable += '<td>'+ i +'</td>';
+							testTable += '<td>'+ (i+1) +'</td>';
 							testTable += '<td><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
 							testTable += '<td>'+ r.tests[i].comment +'</td>';
 							testTable += '</tr>';

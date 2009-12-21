@@ -23,6 +23,9 @@ else{
 	}
 }
 
+//prevent the cache of share objects
+$time=time();
+
 $runtimeParameters="";
 $runtimeParameters="
 	TestXmlFile=Test.xml
@@ -32,7 +35,8 @@ $runtimeParameters="
 	&wsdlurl=http://127.0.0.1/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php
 	&taoIP=$subjectIp
 	&fullscreen=0
-	&noresult=0";
+	&noresult=0
+	&timestamp=$time";
 	
 ?>
 

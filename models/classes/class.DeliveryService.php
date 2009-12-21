@@ -70,7 +70,6 @@ class taoDelivery_models_classes_DeliveryService
 			));
     }
 	
-	//hypothesis: being able to access the external ontology 'subjects'
 	public function getSubjectInstances(){
 	
 		$instancesData = array();

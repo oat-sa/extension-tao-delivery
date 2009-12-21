@@ -1,83 +1,47 @@
 <?php
-
-
 require_once('tao/actions/CommonModule.class.php');
 require_once('taoDelivery/helpers/class.Precompilator.php');
 
 /**
+ * Delivery Controller provide actions performed from url resolution
+ * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @package taoDelivery
+ * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- *
  */
+ 
 class Delivery extends CommonModule {
 	
+	/**
+	 * constructor: initialize the service and the default data
+	 * @return Groups
+	 */
 	public function __construct(){
-		
-		//parent::__construct();
 		
 		//the service is initialized by default
 		$this->service = tao_models_classes_ServiceFactory::get('Delivery');
 		$this->defaultData();
 	}
 	
-	public function index1(){
-		$allTests=array();
-		//fetch Test Instances from test ontology
-		$testClass = $this->service->getTestClass();
-		$allTests=$this->service->getTestClass()->getInstances(true);
-		print_r($allTests);
-		$testListing="<ul>";
-		foreach($allTests as $test){
-			//get the values of the properties of each instance: label, some parameter, compiled or not
-			$testLabel=$test->getLabel();
-			$testUri=$test->uriResource;
-			
-			//check whether it is active or not (i.e. available for compilation)
-			$testActive=$this->service->getTestStatus($test, "active");
-			// if($testActive) $testActiveVal="Active";//for ttest only
-			
-			$testCompiled=false;
-			foreach ($test->getPropertyValuesCollection(new core_kernel_classes_Property(TEST_COMPILED_PROP))->getIterator() as $value){
-				if($value instanceof core_kernel_classes_Resource ){
-					if ($value->uriResource == GENERIS_TRUE){
-						$testCompiled=true;
-						$testCompiledVal="Compiled";
-					}
-				}
-			}
-			
-			//format the information to prepare it for the view
-			$testListing.="<li>$testLabel: $testUri *$testActiveVal*$testCompiledVal*<a href=\"compile\">compile</a></li>";
-			
-			if($testCompiled){
-				//add "preview button"
-			}else{
-				//add "compile button"
-			}
-		}
-		$testListing.="</ul>";
-		
-		$content=$testListing;
-		$content.='<a href="/taoDelivery/Delivery/preview?uri=123" >kljhkghhjg</a>';
-		
-		// self::compile();
-		
-		$this->setData('content', $content);
-		$this->setView('index.tpl');
-	}
-	public function index2(){
-		// $tests=$this->service->getTestsBySubject("http://127.0.0.1/middleware/demo.rdf#i1260883022085327900");
-		// var_dump($tests);
-		// var_dump($this->service->getTestStatus(new core_kernel_classes_Resource($tests[0]), "active"));
-		echo $this->service->getTestStatus(new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#9999'), "compiled");
-		// echo GENERIS_TRUE;
-	}
-	
+/*
+ * controller actions
+ */
+
+	/**
+	 * Main action
+	 * @return void
+	 */
 	public function index(){
 		// self::compile();
 		$this->setView('index.tpl');
 	}
 	
+	/**
+	 * Render json data to populate the list of available delivery 
+	 * It provides the value of the delivery properties such as label, uri and active and compiled status 
+	 * @return void
+	 */
 	public function deliveryListing(){
 		$allTestArray=$this->service->getTestClass()->getInstances(true);
 		$testData=array();
@@ -91,7 +55,6 @@ class Delivery extends CommonModule {
 			$testData[$i]["compiled"]=0;
 			$testData[$i]["active"]=0;
 			
-			//check whether it is compiled or not, and select only the compiled one
 			$isCompiled=$this->service->getTestStatus($test, "compiled");
 			if($isCompiled){
 				$testData[$i]["compiled"]=1;
@@ -105,53 +68,52 @@ class Delivery extends CommonModule {
 			}
 			$i++;
 		}
-		// var_dump($testData);
 		$result=array();
 		$result["tests"]=$testData;
 		echo json_encode($result);
-	}	
+	}
 		
-	//TODO progress bar plus interruption or exception management
+	/**
+	 * Compile a test by providing its uri, via POST method.
+	 * Its main purpose is to collect every required resources in a single folder so they become immediately available for test launch, without delay. 
+	 * The resources are test and item runtime plugins and media files.
+	 * It parses the testContent and itemContent and save a copy of these files in the compiled test directory.
+	 * The action compiles every available language for a given test at once.
+	 * It provides a json string to indicate the success or failure of the test compilation
+	 * The recompilation of an already compiled test will erase the previously created compiled files.
+	 * @return void
+	 */
 	public function compile(){
 		//config:
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
 		$compilationPath=BASE_PATH."/compiled/";
 		
-		//get the uri of the test to be compiled
-		// $testUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#125187505335708';//myCTest
-		// $testUri = 'http://127.0.0.1/middleware/demo.rdf#9999';
-		// $testId=tao_helpers_Precompilator::getUniqueId($testUri);//get the unique id of the test, by extracting the id from the uri of the test reference $testUri
-		
-		//get the unique id from POST
+		//get the unique id of the test to be compiled from POST
 		$testUri=$_POST["uri"];
 		$testId=tao_helpers_Precompilator::getUniqueId($testUri);
 		
-		//create a directory where all files related to this test(i.e media files and item xml files) will be copied
-		// $directory="./compiled/$testId/";
-		// if(!is_dir($directory)){
-			// mkdir($directory);
-		// }
-		
-		//copy plugin here:
+		//copy runtime plugins:
 		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
-		// $compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that does manage directory creation errors properly
+		//$compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that does manage directory creation errors properly
 		$compilator->copyPlugins();
 		
+		//directory where all files required to launch the test yill be collected
 		$directory=$compilator->compiledPath;
 		
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
 		
 		//check whether the test is active or not:
 		$testActive=$this->service->getTestStatus($aTestInstance, "active");
-		$testCompiled=$this->service->getTestStatus($aTestInstance, "compiled");
+		if(!$testActive){
+			throw new Exception("The test '$testUri' is not active so cannot be compiled.");
+		}
 		
-		//get the language code of available languages for the current test
+		//get the language code of available languages for the current test:
 		$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
 		$languages=array();
 		$languages = $aTestInstance->getUsedLanguages($testContentProperty);
 		
-		$testContentArray=array();//array of XML file containing the testContent in every available langauge
+		$testContentArray=array();//array of XML files containing the testContent in every available langauge
 		
 		foreach($languages as $language){
 			
@@ -186,8 +148,7 @@ class Delivery extends CommonModule {
 				
 				//get ItemContent in the given language, which is an XML file, in the language defined by $language
 				if($itemContentCollection->count() == 1){//there should be only one per language
-					//string version of the itemContent aimed at being parsed and modified
-					$itemContent=$itemContentCollection->get(0)->literal;
+					$itemContent=$itemContentCollection->get(0)->literal;//string version of the itemContent aimed at being parsed and modified
 				}
 				else{
 					throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
@@ -204,27 +165,13 @@ class Delivery extends CommonModule {
 				//add another parser to define the new path to the item's xml file in the Test.Language.xml file. 
 				$escapedItemUri=preg_replace('/\//', "\/", $itemUri);
 				$testContentArray[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testContentArray[$language], 1);
-				
-				//copy required the runtime component in the created test directory
-				//assumption 1: direct access to required plugins with the parameter Item_model_runtime
-				//assumption 2: no need to rename the plugin file path in the item.xml or test.xml file
-				//assumption 3: one unique runtime for an item model
-				/*
-				if($itemModel instanceof core_kernel_classes_Resource){
-					$runtime = $itemModel->getUniquePropertyValue(new core_kernel_classes_Property(ITEM_MODEL_RUNTIME_PROP));
-					if($runtime instanceof core_kernel_classes_Literal ){
-						if(preg_match("/\.swf$/", (string)$runtime)){
-							$compilator->copyFile($pluginPath.$runtime,$directory,"$itemId$language.xml");
-						}
-					}
-				}*/
-				//TODO: handle the case when item missing or other issues
 			}
 			//when the compilation in a language is done, write the new test xml file associated to the language:
 			$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
 			
 		}//end of foreach language of test
-		//create a test.xml file with links to all test languages
+		
+		//create a test.xml file with links to the file of all test languages
 		$testXMLfile="";
 		$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
 		<tao:TEST rdfid="'.$testUri.'" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">';
@@ -233,20 +180,12 @@ class Delivery extends CommonModule {
 		}
 		$testXMLfile.='</tao:TEST>';
 		
-		$compilator->stringToFile($testXMLfile, $directory, "test.xml");
-		
-		//copy the start.php file to the compiled test folder, where the flash plugins will be embedded
-		/*
-		$testPlugins=array("test.swf","CLLPlugin.swf","start.php");
-		foreach($testPlugins as $testPlugin){
-			$compilator->copyFile($pluginPath.$testPlugin, $directory, 'testFolder');
-		}*/
+		$compilator->stringToFile($testXMLfile, $directory, "Test.xml");
 		
 		//then send the success message to the user
 		$resultArray=array();
 		$compilationResult=$compilator->result();
 		
-		// print_r($compilationResult);//debug
 		if(empty($compilationResult["failed"]["copiedFiles"]) && empty($compilationResult["failed"]["createdFiles"]) ){
 			//compilation success
 			$resultArray["success"]=1;
@@ -263,7 +202,7 @@ class Delivery extends CommonModule {
 			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
 			
 		}else{
-			//other cases: the compilation fails
+			//other cases: the compilation has failed
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
 		}
