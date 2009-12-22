@@ -9,7 +9,7 @@
 	<xul>
 		<stylesheet id="item_stylesheet" src="./item.css"/>
 		<box id="itemContainer_box" class="item">
-			<textbox id="problem_textbox" left="45" top="15" width="660" height="310" multiline="true" wrap="true" readonly="true" value="Thank you"/>
+			<textbox id="problem_textbox" left="45" top="15" width="660" height="310" multiline="true" wrap="true" readonly="true" value="Thank you for taking this test"/>
 			<image id="upload_progressmeter" disabled="false" src="upload_result.swf" top="350" left="145" height="100" width="400"/>
 		</box>
 	</xul>

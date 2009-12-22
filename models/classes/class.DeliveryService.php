@@ -56,7 +56,7 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var Class
      */
-    //protected $deliveryClass = null;
+    protected $deliveryClass = null;
 
 	/**
      * The attribute testClass contains the default TAO Test Class
@@ -88,7 +88,7 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var array
      */
-    //protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+    protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
 	
 	/**
      * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
@@ -142,32 +142,6 @@ class taoDelivery_models_classes_DeliveryService
 			$this->groupsOntologies
 			));
     }
-	
-	/**
-     * Short description of method getGroupClass
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Class clazz
-     * @return core_kernel_classes_Class
-     */
-	/**
-	*more general version of getInstances method, applicable for Delivery, Subjects and Tests
-	*/
-	public function getAllInstances(core_kernel_classes_Class $clazz = null){
-		$instancesData = array();
-		foreach($clazz->getInstances(false) as $instance){
-			$instancesData[] = array(
-				'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
-				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($instance->uriResource),
-					'class' => 'node-instance'
-				),
-				'properties' => $this->getProperties($clazz,true)
-			);
-		}
-		return $instancesData;
-	}
 	
 	/**
      * The method getDeliveryClass return the current Delivery Class
@@ -225,7 +199,7 @@ class taoDelivery_models_classes_DeliveryService
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string identifier usually the test label or the ressource URI
+     * @param  string identifier
      * @param  string mode
      * @param  Class clazz
      * @return core_kernel_classes_Resource

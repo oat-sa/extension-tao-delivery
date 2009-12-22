@@ -9,8 +9,8 @@ function get_tests(){
 				+'<thead>'
 				+'<tr class="ui-jqgrid-labels" role="rowheader">' 
 				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 20px;">Test no</th>'
-				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 150px;">Label</th>'
-				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 50px;"></th>'
+				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 250px;">Test Label</th>'
+				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 100px;"></th>'
 				+ '</tr></thead><tbody>';
 			var clazz = '';
 			
@@ -24,7 +24,7 @@ function get_tests(){
 				var testStatus="";
 				if(r.tests[j].compiled==1){
 					//if the delivery has been compiled, add a preview button and offer the option to recompile:
-					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a>/<a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">recompile</a>';
+					testStatus='<a href="../../taoDelivery/compiled/'+r.tests[j].id+'/theTest.php?subject=previewer" target="_blank">preview</a> / <a href="#" onclick="compile(\''+r.tests[j].uri+'\'); return false;">recompile</a>';
 				}else{
 					if(r.tests[j].active==1){
 						//if the delivery is active ut not compiled yet, add a compile button:
@@ -38,7 +38,7 @@ function get_tests(){
 				url="#";
 				testTable += '<tr class="ui-widget-content jqgrow ' + clazz + '">';
 				testTable += '<td style="text-align: center;" role="gridcell">'+ (j+1) +'</td>';
-				testTable += '<td style="text-align: center;" role="gridcell"><a href="'+ url +'" target="_blank">'+ r.tests[j].label +'</a></td>';
+				testTable += '<td style="text-align: center;" role="gridcell"><b>'+ r.tests[j].label +'</b></td>';
 				testTable += '<td style="text-align: center;" role="gridcell"><span id="test'+r.tests[j].id+'">'+ testStatus +'</span></td>';
 				testTable += '</tr>';
 				testTable += '<tr><td colspan="3" id="result'+r.tests[j].id+'" class="ui-widget-content jqgrow ' + clazz + '"></td></tr>';

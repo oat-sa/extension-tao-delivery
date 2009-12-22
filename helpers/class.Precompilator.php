@@ -32,25 +32,25 @@ class tao_helpers_Precompilator
 
     // --- ATTRIBUTES ---
 	/**
-     * The attribute completed contains the array of completed actions performed during the delivery compilation
+     * The attribute "completed" contains the array of completed actions performed during the delivery compilation
 	 * (e.g. file copy, file or folder creation) 
      *
      * @access protected
-     * @var string
+     * @var array
      */
 	protected $completed = array();
 	
 	/**
-     * The attribute failed contains the array of failed actions performed during the delivery compilation
+     * The attribute "failed" contains the array of failed actions performed during the delivery compilation
 	 * (e.g. file copy, file or folder creation) 
      *
      * @access protected
-     * @var string
+     * @var array
      */
 	protected $failed = array();
 	
 	/**
-     * Short description of attribute CSS
+     * The attribute "pluginPath" define the directory where all required runtime plugins are stored
      *
      * @access protected
      * @var string
@@ -58,7 +58,7 @@ class tao_helpers_Precompilator
 	protected $pluginPath = "";
 	
 	/**
-     * Short description of attribute CSS
+     * The attribute "compiledPath" define the directory where all compiled files for the test will be stored
      *
      * @access public
      * @var string
@@ -66,7 +66,7 @@ class tao_helpers_Precompilator
 	public $compiledPath= "";
 	
 	/**
-     * Short description of attribute CSS
+     * The attribute "testUri" define the uri of the test that is being compiled
      *
      * @access protected
      * @var string
@@ -75,7 +75,18 @@ class tao_helpers_Precompilator
 	
     // --- OPERATIONS ---
 	
+	/**
+     * The method __construct intiates the Precompilator class by setting the initial values to the attributes 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  string testUri
+	 * @param  string compiledPath
+	 * @param  string pluginPath
+     * @return mixed
+     */	
 	public function __construct($testUri, $compiledPath, $pluginPath){
+	
 		$this->completed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
@@ -112,8 +123,20 @@ class tao_helpers_Precompilator
 		$this->pluginPath = $pluginPath;
 	}
 	
-	//return the "name.extension" of the copied or downloaded file. If it failsm it returns an empty string 
-	public function copyFile($url,$directory,$affectedObject){
+	/**
+     * The method copyFile enable a precompilator instance to copy a file
+	 * Depending on the success or the failure of the operation, it records the result either in the class attribute "completed" or "failed"
+     * If the copy succeeds, it returns the name and the extension of the copied file, with the format "name.extension". 
+     * It returns an empty string otherwise.
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  string url
+	 * @param  string directory
+	 * @param  string affectedObject
+     * @return string
+     */		
+	public function copyFile($url, $directory, $affectedObject){
 	
 		$returnValue = "";
 		
@@ -133,7 +156,7 @@ class tao_helpers_Precompilator
 		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
 		$isDownloaded=false;
 		foreach ($this->completed["copiedFiles"] as $copiedFiles){
-			//Check if it has not been downloaded yet
+			//Check if it has not been copied yet
 			if(in_array($url, $copiedFiles)) {
 				$isDownloaded=true;
 				break;
@@ -145,12 +168,20 @@ class tao_helpers_Precompilator
 			fclose($handle);
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
-			$this->completed["copiedFiles"][$affectedObject][]=$url;//serait bien de faire: $this->completed["file"][$itemUri]=$url; pour connaitre la l'item impacté (par contre, definir la langue pas prévu)
+			$this->completed["copiedFiles"][$affectedObject][]=$url;
 		}
 				
 		return $returnValue = $fileName;
 	}
     
+	/**
+     * The method copyFile firstly defines the runtime files to be included in each compiled test folder
+	 * Then it calls the copyFile method to accomplish its task
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return void
+     */
 	public function copyPlugins(){
 		$affectedObject='';
 		$plugins=array(
@@ -198,6 +229,18 @@ class tao_helpers_Precompilator
 		}
 	}
 	
+	/**
+     * The method itemParser parses the ItemContent xml file and executes fileCOpy with media to be downloaded.
+	 * It also replaces the old link to the media file with the new ones in the ItemContent XML file and returns it as a string.
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  string xml
+	 * @param  string directory
+	 * @param  string itemName
+	 * @param  array authorizedMedia
+     * @return string
+     */	
 	public function itemParser($xml, $directory, $itemName, $authorizedMedia=array()){
 		
 		if(!file_exists($directory)){
@@ -213,7 +256,7 @@ class tao_helpers_Precompilator
 		$exprArray = array();
 		foreach ($authorizedMedia as $mediaType){
 			$mediaListTemp=array();
-			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: to be optimized by only searching tags that could contain media.
+			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: could be optimized by only searching tags that could contain media.
 			preg_match_all($expr,$xml,$mediaListTemp);
 			$mediaList = array_merge($mediaList,$mediaListTemp);
 		}
@@ -226,6 +269,17 @@ class tao_helpers_Precompilator
 		return $xml;
 	}
 	
+	/**
+	 * The method stringToFile is used to write the required test and item XML files in the local disk.
+	 * It also manages errors and exceptions of the operation by recording the result in the class attributes "completed" or "failed"
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  string content
+	 * @param  string directory
+	 * @param  string fileName
+     * @return void
+     */	
 	public function stringToFile($content, $directory, $fileName){
 		if(!is_dir($directory)){
 			$created=mkdir($directory);
@@ -240,22 +294,27 @@ class tao_helpers_Precompilator
 		$this->completed["createdFiles"][]=$fileName;
 	}
 	
+	/**
+	 * The method result returns the protected attributes "completed" and "failed" 
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return array
+     */	
 	public function result(){
 		$returnValue=array("completed"=>$this->completed, "failed"=>$this->failed);
 		return $returnValue;
 	}
 	
-	// public function createDirectory($directory){
-		// if(!is_dir($directory)){
-			// $created=mkdir($directory);
-			// if($created===false){
-				// $this->failed["createdFiles"][$directory]=$fileName;
-				// throw new Exception("The folder $directory does not exist and can not be created");
-			// }
-		// }
-	// }
-	
-	public function getUniqueId($uriRessource){
+	/**
+	 * The method getUniqueId provide an unique id for the ressource, which is a substring of the resource uri
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  string uriRessource
+     * @return string
+     */	
+	public static function getUniqueId($uriRessource){
 		$returnValue='';
 		//TODO check format of the uri, preg_match()
 		

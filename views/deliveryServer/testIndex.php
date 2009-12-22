@@ -75,9 +75,8 @@ if(!isset($_SESSION["subject"]["uri"])){
 						
 						//table creation
 						var testTable = '<table><thead><tr>' 
-							+ '<td>Test no</td>'
-							+ '<td>Label</td>'
-							+ '<td>Comment</td>'
+							+ '<td width="60px" style="text-align:right;"><b>Test no</b></td>'
+							+ '<td width="250px" style="text-align: center;"><b>Label</b></td>'
 							+ '</tr></thead><tbody>';
 						var clazz = '';
 						for (i = r.pager.start; i <= r.pager.end; i++) {
@@ -88,9 +87,8 @@ if(!isset($_SESSION["subject"]["uri"])){
 							
 							var url="<?=TAODELIVERY_PATH?>compiled/"+r.tests[i].uri +"/theTest.php?subject="+r.subject.uri;	
 							testTable += '<tr class="test_list ' + clazz + '">';
-							testTable += '<td>'+ (i+1) +'</td>';
-							testTable += '<td><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
-							testTable += '<td>'+ r.tests[i].comment +'</td>';
+							testTable += '<td style="text-align: center;">'+ (i+1) +'</td>';
+							testTable += '<td style="text-align: center;"><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
 							testTable += '</tr>';
 						}
 						testTable += '</tbody></table>';
@@ -100,20 +98,21 @@ if(!isset($_SESSION["subject"]["uri"])){
 			
 		$(document).ready(function(){
 			get_tests(1);
-			
-			// $("#result").html();
 		});
 	</script>
+	
 </head>
 <body>
 <div align="center" style="position:relative; top:50px;">
 <table  width="759px" height="569px" cellpadding="10" cellspacing="0" background="bg_index.jpg" style="border:thin solid #022E5F;">
 	<tr height="20px">
-		<td>You are currently logged in as <?=$_SESSION["subject"]["label"]?> <br/><a href="logout.php">logout</a></td>
+		<td>You are currently logged in as <b><?=$_SESSION["subject"]["label"]?></b><br/><a href="logout.php">logout</a></td>
+		<td/>
 	</tr>
-	<tr>
-		<td id="result">
-			<div id="result0"></div>
+	<tr height="150px"/>
+	<tr style="text-align: center; vertical-align:top;">
+		<td>Click on the label of a test to start:</td>
+		<td id="result" width="350px" >
 		</td>
 	</tr>
 </table>
