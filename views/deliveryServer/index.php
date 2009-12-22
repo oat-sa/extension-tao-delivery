@@ -21,7 +21,7 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 		$_SESSION["subject"]["uri"]=$subjectUri;
 		$_SESSION["subject"]["label"]=$aSubjectInstance->getLabel();
 		
-		header("location: testIndex.php");	
+		header("location: /taoDelivery/views/deliveryServer/testIndex.php");	
 	}else{
 		session_unset();
 		$errorLogin = "wrong login or/and password, please try agiain";
@@ -77,7 +77,7 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 
 <div align="center" style="position:relative; top:50px;">
 	<form onsubmit="return validate_form()" method="post" >
-	<table width="759px" height="569px" cellpadding="10" cellspacing="0" background="bg_index.jpg" style="border:thin solid #022E5F;">
+	<table width="759px" height="569px" cellpadding="10" cellspacing="0" background="/taoDelivery/views/deliveryServer/bg_index.jpg" style="border:thin solid #022E5F;">
 		<tr><td height="120px"></td></tr>
 		<tr>
 			<td>
