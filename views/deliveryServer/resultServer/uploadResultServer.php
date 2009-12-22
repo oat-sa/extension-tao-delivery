@@ -21,7 +21,7 @@ include("cacheResults.php");
 include_once("nusoap.php");
 
 //
-require_once($_SERVER['DOCUMENT_ROOT']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php");
+require_once('importLogToGenerisResult.php');
 
 /**
 * implements server receiving informations about results
@@ -34,7 +34,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/taoResults/models/ext/utrv1/classes/imp
 $server = new nusoap_server();
 $server->debug_flag=true;
 
-error_reporting(0);
+// error_reporting(0);
 
 /*
 *sends back the list of missing packets to the client
@@ -64,7 +64,7 @@ $today = date("F j, Y, g i a").time().rand(0,256);
 //Hack, an old bug in the xml of item caused problems with some items created by MRE
 $xml[0]=str_replace("http://mod1.tao.lu/middleware/MoniqueReichertItems.rdfhttp","http",$xml[0]);
 
-$fp = fopen("./received/"."Result ".$today." ".$IDresult[0].".xml", "wb");
+$fp = fopen("./received/"."Result ".$today." ".$IDresult[0].session_id().".xml", "wb");
 fwrite($fp,$xml[0]);
 fclose($fp);
 
@@ -72,10 +72,11 @@ $xmlString.=$xml[0];
 }
 
 //call result processing here:
-$resultDom = new DomDocument();
-$resultDom->loadXML($xmlString);
+// $resultDom = new DomDocument();
+// $resultDom->loadXML($xmlString);
 
-$il = new importLog($resultDom); 
+$location=$_SERVER['DOCUMENT_ROOT']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php?resultxml=".urlencode($xmlString);
+header("location: $location");
 
 return "OK";
 }
