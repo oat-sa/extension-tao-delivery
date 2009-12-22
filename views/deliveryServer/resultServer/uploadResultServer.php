@@ -59,12 +59,13 @@ $xmlString="";
 foreach ($listXmls as $key=> $val)
 {
 $xml =array($val);
-
 $today = date("F j, Y, g i a").time().rand(0,256);
+
+$xmlFile="Result ".$today." ".$IDresult[0].".xml";
 //Hack, an old bug in the xml of item caused problems with some items created by MRE
 $xml[0]=str_replace("http://mod1.tao.lu/middleware/MoniqueReichertItems.rdfhttp","http",$xml[0]);
 
-$fp = fopen("./received/"."Result ".$today." ".$IDresult[0].session_id().".xml", "wb");
+$fp = fopen("./received/$xmlFile", "wb");
 fwrite($fp,$xml[0]);
 fclose($fp);
 
@@ -74,8 +75,12 @@ $xmlString.=$xml[0];
 //call result processing here:
 // $resultDom = new DomDocument();
 // $resultDom->loadXML($xmlString);
+// $resultDom->save("yyy.xml");
 
-$location=$_SERVER['DOCUMENT_ROOT']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php?resultxml=".urlencode($xmlString);
+
+$xmlPath=dirname(__FILE__)."/received/$xmlFile";
+$location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php?resultxml=".urlencode($xmlPath);
+
 header("location: $location");
 
 return "OK";
