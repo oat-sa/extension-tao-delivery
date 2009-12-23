@@ -24,7 +24,7 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 		header("location: /taoDelivery/views/deliveryServer/testIndex.php");	
 	}else{
 		session_unset();
-		$errorLogin = "wrong login or/and password, please try agiain";
+		$errorLogin = "wrong login or/and password,<br/> please try again";
 	}
 }
 ?>
@@ -84,41 +84,36 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 				<table width="739px" cellpadding="4" cellspacing="3">
 				<tr>
 				<td width="40px"></td>
-				<td colspan="2"><b>WELCOME to the TAO demo portal!</b></td>
+				<td colspan="3"><b>WELCOME to the TAO demo portal!</b></td>
 				</tr>
 				<tr>
 				<td width="40px"></td>
-				<td colspan="2"><b>Please log in to experience the possibilities within TAO:</b></td>
+				<td colspan="3"><b>Please log in to experience the possibilities within TAO:</b></td>
+				</tr>
+				<tr>
+				<td colspan="4"></td>
+				</tr>
+				<tr>
+				<td colspan="4"></td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="2"><b><?php if(isset($errorLogin)) echo $errorLogin;?></b></td>
 				</tr>
 				<tr>
 				<td width="40px"></td>
-				<td width="44%"></td>
-				<td></td>
+				<td width="350px"></td>
+				<td align="left"><b>Login</b></td>
+				<td align="left"><input type="text" name="login" id="login" /></td>
 				</tr>
 				<tr>
-				<td width="40px"></td>
-				<td width="44%"></td>
-				<td></td>
+				<td colspan="2"></td>
+				<td align="left"><b>Password</b></td>
+				<td align="left"><input type="password" name="password" id="password" /></td>
 				</tr>
 				<tr>
-				<td width="40px"></td>
-				<td></td>
-				<td><b><?php if(isset($errorLogin)) echo $errorLogin;?></b></td>
-				</tr>
-				<tr>
-				<td width="40px"></td>
-				<td></td>
-				<td align="right"><b>Login</b><input type="text" name="login" id="login" /></td>
-				</tr>
-				<tr>
-				<td width="40px"></td>
-				<td></td>
-				<td align="right"><b>Password</b><input type="password" name="password" id="password" /></td>
-				</tr>
-				<tr>
-				<td width="40px"></td>
-				<td></td>
-				<td align="right"><input type="submit" id="submit" value="login" /></td>
+				<td colspan="3"></td>
+				<td align="left"><input type="submit" id="submit" value="  login  " /></td>
 				</tr>			
 				</table>
 			</td>
