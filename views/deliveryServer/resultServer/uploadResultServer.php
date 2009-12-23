@@ -18,9 +18,6 @@ include("cacheResults.php");
 //soap library
 include_once("nusoap.php");
 
-//
-require_once('importLogToGenerisResult.php');
-
 /**
 * implements server receiving informations about results
 * For A Client Application
