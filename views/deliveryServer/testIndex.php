@@ -85,7 +85,7 @@ if(!isset($_SESSION["subject"]["uri"])){
 							else
 								clazz = "odd";
 							
-							var url="<?=TAODELIVERY_PATH?>compiled/"+r.tests[i].uri +"/theTest.php?subject="+r.subject.uri;	
+							var url="<?=TAODELIVERY_PATH?>compiled/"+r.tests[i].uri +"/theTest.php";	
 							testTable += '<tr class="test_list ' + clazz + '">';
 							testTable += '<td style="text-align: center;">'+ (i+1) +'</td>';
 							testTable += '<td style="text-align: center;"><a href="'+ url +'" target="_blank">'+ r.tests[i].label +'</a></td>';
