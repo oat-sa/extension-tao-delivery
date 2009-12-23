@@ -2,7 +2,6 @@
  
 session_start();
 
-$_SESSION["movieparams"] = "Test.swf?TestXmlFile=Test.xml&subject=http://mod1.tao.lu/middleware/SustainabilitySubjects.rdfDIESE119729180246452&label=sussubject&comment=&wsdlurl=http://localhost/piaac.wsdl.php&printResult=off&fullscreen=&taoIP=158.64.4.15&noresult=0";
  
 ?>
 
@@ -26,9 +25,11 @@ else{
 		die("no user uri defined in the session, please login again.");
 	}
 }
+$subjectUri=urlencode($subjectUri);
+$subjectLabel=urlencode($subjectLabel);
 
-
-
+$wsdlUrl="http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
+$wsdlUrl=urlencode($wsdlUrl);
 
 $runtimeParameters="";
 $runtimeParameters="
