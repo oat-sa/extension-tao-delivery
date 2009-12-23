@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<tao:ITEM xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' rdf:ID="http://127.0.0.1/middleware/demo.rdf#i1261565291089420300" xmlns:tao='http://www.tao.lu/tao.rdfs#'
+ xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#'>
+<rdfs:LABEL lang="EN">QCM Item</rdfs:LABEL>
+<rdfs:COMMENT lang="EN"></rdfs:COMMENT>
+
+<tao:DISPLAYALLINQUIRIES></tao:DISPLAYALLINQUIRIES>
+
+<tao:DURATION></tao:DURATION>
+
+				<tao:ITEMPRESENTATION>
+						<xul>
+							<stylesheet id="item_stylesheet" src="./item.css"/>
+							<box id="itemContainer_box" class="item">
+								
+								<label id="problem_textbox" left="5" top="5" multiline="true" wrap="true" value="Hello, this is a &lt;i&gt;simple &lt;/i&gt;sample of a &lt;font color=&quot;#ff0000&quot;&gt;QCM &lt;/font&gt;Item. 
+
+&lt;br /&gt;It offer you different set of features to build your Items. &lt;br /&gt;
+
+&lt;br /&gt;"/>
+								
+								<box id="inquiryContainer_box" left="5" top="100"/>
+								
+							</box>
+						</xul>
+					</tao:ITEMPRESENTATION>
+			
+<tao:ITEMLISTENERS></tao:ITEMLISTENERS><tao:PROBLEM lang="EN" type="String">Hello, this is a &lt;i&gt;simple &lt;/i&gt;sample of a &lt;font color=&quot;#ff0000&quot;&gt;QCM &lt;/font&gt;Item. 
+
+&lt;br /&gt;It offer you different set of features to build your Items. &lt;br /&gt;
+
+&lt;br /&gt;</tao:PROBLEM><tao:INQUIRY order="1"><tao:QUESTION lang="EN" type="String">What type of Item is the most recent in TAO ?</tao:QUESTION>
+			<tao:INQUIRYDESCRIPTION><tao:PROPOSITIONTYPE>Exclusive Choice</tao:PROPOSITIONTYPE>
+			<tao:WIDGET>FLASH Radio Button</tao:WIDGET>
+			<tao:PROPLISTENERS><tao:ITEMBEHAVIOR tao:LISTENERNAME="Answered : What type of Item is the most recent in TAO ?" src="#{XPATH(/tao:ITEM/tao:INQUIRY[@order=1]/tao:INQUIRYDESCRIPTION/tao:HASPRESENTATIONLAYER/xul/box/box/radiogroup)}#"/></tao:PROPLISTENERS>
+			<tao:ANSWERTYPE>Exclusive Vector</tao:ANSWERTYPE>
+			<tao:EVALUATIONRULE>AND.swf</tao:EVALUATIONRULE>
+			<tao:HASGUIDE>technicalID.hlp</tao:HASGUIDE>
+			
+			<tao:HASPRESENTATIONLAYER><xul>
+                    <box id="inquiryContainer_box" left="0" top="0">
+					<textbox id="question_textbox" wrap="true" style="borderStyle:none" readonly="true" width="700" height="45" left="0" top="0" class="question" value="What type of Item is the most recent in TAO ?" />
+            			
+						<box id="propositions_box" left="10" top="13">
+                        <radiogroup id="propositions_radiogroup">
+								<radio id="proposition_1_radio" left="5" top="30" width="1000" selected="false" label="QCM Items"></radio>
+								<radio id="proposition_2_radio" left="5" top="50" width="1000" selected="false" label="Khos Items"></radio>
+								<radio id="proposition_3_radio" left="5" top="70" width="1000" selected="false" label="C-test Items"></radio>
+								<radio id="proposition_4_radio" left="5" top="90" width="1000" selected="false" label="HAWAI Items"></radio></radiogroup></box>
+                       
+                    </box>
+					
+                </xul></tao:HASPRESENTATIONLAYER>
+			
+			
+			<tao:LISTPROPOSITION><tao:PROPOSITION lang="EN" type="String" Id="1" order="1" answer="0">QCM Items</tao:PROPOSITION><tao:PROPOSITION lang="EN" type="String" Id="2" order="2" answer="0">Khos Items</tao:PROPOSITION><tao:PROPOSITION lang="EN" type="String" Id="3" order="3" answer="0">C-test Items</tao:PROPOSITION><tao:PROPOSITION lang="EN" type="String" Id="4" order="4" answer="0">HAWAI Items</tao:PROPOSITION></tao:LISTPROPOSITION>
+			<tao:HASANSWER>0001</tao:HASANSWER>
+			</tao:INQUIRYDESCRIPTION>
+			</tao:INQUIRY></tao:ITEM>

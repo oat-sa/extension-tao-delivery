@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+				<tao:TEST xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' rdf:ID="http://127.0.0.1/middleware/demo.rdf#i1261572267020194300" xmlns:tao='http://www.tao.lu/tao.rdfs#' xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#'>
+					<rdfs:LABEL lang="EN">Test_1</rdfs:LABEL>
+					<rdfs:COMMENT lang="EN"></rdfs:COMMENT><tao:TESTPRESENTATION>
+			<xul>
+				<stylesheet id="test_stylesheet" src="./test.css" />
+				<box id="testContainer_box"><box id="itemContainer_box" left="100" top="65"/>
+						<button id="prevItem_button" left="130" url="http://www.tao.lu/middleware/itempics/default/left.swf" top="400" label="Back" image="item_previous.jpg" disabled="true" oncommand="tao_test.prevItem"/>
+						 <button id="nextItem_button" left="200" url="http://www.tao.lu/middleware/itempics/default/right.swf" top="400" label="Next" image="item_next.jpg" disabled="true" oncommand="tao_test.nextItem"/>
+	        	</box>
+			</xul>
+		</tao:TESTPRESENTATION>	
+					<tao:PASSWORD></tao:PASSWORD>
+					<tao:DURATION></tao:DURATION>
+					<tao:HASSEQUENCEMODE  >SEQUENTIAL</tao:HASSEQUENCEMODE>
+					<tao:PREVIEW>FALSE</tao:PREVIEW>
+					<tao:REVIEW>FALSE</tao:REVIEW>
+					<tao:HOLDABLE>TRUE</tao:HOLDABLE>
+					<tao:RESPONSEPATTERN>dichotomic</tao:RESPONSEPATTERN>
+					<tao:HASSCORINGMETHOD Qmin="" Qmax="" Qiter="">CLASSICAL RATIO</tao:HASSCORINGMETHOD>
+					<tao:TESTLISTENERS></tao:TESTLISTENERS>
+					<tao:CUMULMODEL>CLASSICAL</tao:CUMULMODEL><tao:LAUNCH plugin="CLLPlugin"><cll:threshold></cll:threshold><cll:threshold></cll:threshold><cll:threshold></cll:threshold></tao:LAUNCH><tao:CITEM weight="1" Sequence="1" itemModel='tao_item.swf'  >i1261565291089420300EN</tao:CITEM><tao:CITEM weight="1" Sequence="2" itemModel='ctest_item.swf'  >i1261572123013289000EN</tao:CITEM><tao:CITEM weight="1" Sequence="3" itemModel='kohs_passation.swf'  >i1261565165029846800EN</tao:CITEM><tao:CITEM weight="1" Sequence="4" itemModel='hawai/hawai.swf'  >i1261571812010328500EN</tao:CITEM><tao:CITEM weight="0" Sequence="5" itemModel="taotab.swf">uploadItem</tao:CITEM></tao:TEST>
