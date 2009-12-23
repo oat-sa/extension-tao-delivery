@@ -153,15 +153,37 @@ class Delivery extends CommonModule {
 				$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
 				
 				$anItemInstance = new core_kernel_classes_Resource($itemUri);
-				$itemContentCollection = $anItemInstance->getPropertyValuesByLg(new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP), $language);
 				
-				//get ItemContent in the given language, which is an XML file, in the language defined by $language
-				if($itemContentCollection->count() == 1){//there should be only one per language
-					$itemContent=$itemContentCollection->get(0)->literal;//string version of the itemContent aimed at being parsed and modified
+				/*
+				 * @require taoItems extension 
+				 * @see taoItems_models_classes_ItemsService::getAuthoringFile
+				 */
+				$itemModel = null;
+				$itemContent = null;
+
+				//get the black file into file system instead of the RDF triple for the HAWAI item models
+				try{
+					$itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY));
+					if($itemModel instanceof core_kernel_classes_Resource){
+						if($itemModel->uriResource == TAO_ITEM_MODEL_WATERPHENIX){
+							$itemService = tao_models_classes_ServiceFactory::get('Items');
+							$itemContent = file_get_contents($itemService->getAuthoringFile($anItemInstance->uriResource));
+						}
+					}
 				}
-				else{
-					throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
+				catch(Exception $e){}
+				if(is_null($itemContent)){
+					$itemContentCollection = $anItemInstance->getPropertyValuesByLg(new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP), $language);
+				
+					//get ItemContent in the given language, which is an XML file, in the language defined by $language
+					if($itemContentCollection->count() == 1){//there should be only one per language
+						$itemContent=$itemContentCollection->get(0)->literal;//string version of the itemContent aimed at being parsed and modified
+					}
+					else{
+						throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
+					}
 				}
+				
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()

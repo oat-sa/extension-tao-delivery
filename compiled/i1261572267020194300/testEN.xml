@@ -5,8 +5,8 @@
 			<xul>
 				<stylesheet id="test_stylesheet" src="./test.css" />
 				<box id="testContainer_box"><box id="itemContainer_box" left="100" top="65"/>
-						<button id="prevItem_button" left="130" url="http://www.tao.lu/middleware/itempics/default/left.swf" top="400" label="Back" image="item_previous.jpg" disabled="true" oncommand="tao_test.prevItem"/>
-						 <button id="nextItem_button" left="200" url="http://www.tao.lu/middleware/itempics/default/right.swf" top="400" label="Next" image="item_next.jpg" disabled="true" oncommand="tao_test.nextItem"/>
+						<button id="prevItem_button" left="330" url="http://www.tao.lu/middleware/itempics/default/left.swf" top="10" label="Back" image="item_previous.jpg" disabled="true" oncommand="tao_test.prevItem"/>
+						 <button id="nextItem_button" left="400" url="http://www.tao.lu/middleware/itempics/default/right.swf" top="10" label="Next" image="item_next.jpg" disabled="true" oncommand="tao_test.nextItem"/><progressmeter id="test_progressmeter" left="" top="" mode="determined" value="0"/>
 	        	</box>
 			</xul>
 		</tao:TESTPRESENTATION>	
