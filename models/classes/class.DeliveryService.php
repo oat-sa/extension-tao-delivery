@@ -463,6 +463,108 @@ class taoDelivery_models_classes_DeliveryService
 		
 		return $returnValue;
 	}
+	
+	 /**
+     * get the list of subjects in the delivery in parameter
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource delivery
+     * @return array
+     */
+    public function getRelatedSubjects( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = array();
+		
+		if(!is_null($delivery)){
+			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_SUBJECTS_PROP));
+		}
+		
+        return (array) $returnValue;
+    }
+
+    /**
+     * define the list of subjects composing a delivery
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource delivery
+     * @param  array subjects
+     * @return boolean
+     */
+    public function setRelatedSubjects( core_kernel_classes_Resource $delivery, $subjects = array())
+    {
+        $returnValue = (bool) false;
+		
+		if(!is_null($delivery)){
+			
+			$memberProp = new core_kernel_classes_Property(TAO_DELIVERY_SUBJECTS_PROP);
+			
+			$delivery->removePropertyValues($memberProp);
+			$done = 0;
+			foreach($subjects as $subject){
+				if($delivery->setPropertyValue($memberProp, $subject)){
+					$done++;
+				}
+			}
+			if($done == count($subjects)){
+				$returnValue = true;
+			}
+		}
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * get the list of tests in the delivery in parameter
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource delivery
+     * @return array
+     */
+    public function getRelatedTests( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = array();
+		
+		if(!is_null($delivery)){
+			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_TESTS_PROP));
+		}
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * define the list of tests composing a delivery
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource delivery
+     * @param  array tests
+     * @return boolean
+     */
+    public function setRelatedTests( core_kernel_classes_Resource $delivery, $tests = array())
+    {
+        $returnValue = (bool) false;
+		
+		if(!is_null($delivery)){
+			
+			$testProp = new core_kernel_classes_Property(TAO_DELIVERY_TESTS_PROP);
+			
+			$delivery->removePropertyValues($testProp);
+			$done = 0;
+			foreach($tests as $test){
+				if($delivery->setPropertyValue($testProp, $test)){
+					$done++;
+				}
+			}
+			if($done == count($tests)){
+				$returnValue = true;
+			}
+		}
+
+        return (bool) $returnValue;
+    }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 

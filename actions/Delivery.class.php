@@ -118,7 +118,7 @@ class Delivery extends TaoModule {
 				$this->forward('Delivery', 'index');
 			}
 		}
-		/*
+		
 		$relatedSubjects = $this->service->getRelatedSubjects($delivery);
 		$relatedSubjects = array_map("tao_helpers_Uri::encode", $relatedSubjects);
 		$this->setData('relatedSubjects', json_encode($relatedSubjects));
@@ -126,7 +126,7 @@ class Delivery extends TaoModule {
 		$relatedTests = $this->service->getRelatedTests($delivery);
 		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
 		$this->setData('relatedTests', json_encode($relatedTests));
-		*/
+	
 		$this->setData('formTitle', 'Edit delivery');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
@@ -185,6 +185,121 @@ class Delivery extends TaoModule {
 		}
 		
 		echo json_encode(array('deleted'	=> $deleted));
+	}
+	
+	/**
+	 * Duplicate a devliery instance
+	 * @return void
+	 */
+	public function cloneDelivery(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$delivery = $this->getCurrentDelivery();
+		$clazz = $this->getCurrentClass();
+		
+		$clone = $this->service->createInstance($clazz);
+		if(!is_null($clone)){
+			
+			foreach($clazz->getProperties() as $property){
+				foreach($delivery->getPropertyValues($property) as $propertyValue){
+					$clone->setPropertyValue($property, $propertyValue);
+				}
+			}
+			$clone->setLabel($delivery->getLabel()."'");
+			echo json_encode(array(
+				'label'	=> $clone->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+			));
+		}
+	}
+	
+	/**
+	 * Get the data to populate the tree of delivery's subjects
+	 * @return void
+	 */
+	public function getSubjects(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		//pourrait éodifier la constante TAO SUBJECT CLASS par autres choses plus adaptee
+		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, ''));
+	}
+	
+	/**
+	 * Save the delivery's related subjects
+	 * @return void
+	 */
+	public function saveSubjects(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$saved = false;
+		
+		$subjects = array();
+		foreach($this->getRequestParameters() as $key => $value){
+			if(preg_match("/^instance_/", $key)){
+				array_push($subjects, tao_helpers_Uri::decode($value));
+			}
+		}
+		// $delivery = $this->getCurrentDelivery();
+		
+		if($this->service->setRelatedSubjects($this->getCurrentDelivery(), $subjects)){
+			$saved = true;
+		}
+		echo json_encode(array('saved'	=> $saved));
+	}
+	
+	/**
+	 * Get the data to populate the tree of delivery's tests
+	 * @return void
+	 */
+	public function getTests(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, ''));
+	}
+	
+	/**
+	 * Save the delivery related subjects
+	 * @return void
+	 */
+	public function saveTests(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$saved = false;
+		
+		$tests = array();
+		foreach($this->getRequestParameters() as $key => $value){
+			if(preg_match("/^instance_/", $key)){
+				array_push($tests, tao_helpers_Uri::decode($value));
+			}
+		}
+		
+		if($this->service->setRelatedTests($this->getCurrentDelivery(), $tests)){
+			$saved = true;
+		}
+		echo json_encode(array('saved'	=> $saved));
+	}
+	
+	public function testprop(){
+		$class = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean');
+
+		$property = $class->createProperty('tata','toto');
+		$property2 = $class->createProperty('tata2','toto2',true);
+		$this->assertTrue($property->getLabel() == 'tata');
+
+		$this->assertTrue($property->comment == 'toto');
+		$this->assertTrue($property2->isLgDependent());
+		$this->assertTrue($property->getDomain()->get(0)->uriResource ==$class->uriResource );
+		$property->delete();
+		$property2->delete();
+
 	}
 	
 	/**

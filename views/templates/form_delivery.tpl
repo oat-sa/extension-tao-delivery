@@ -2,7 +2,7 @@
 
 <div id="subject-container" >
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Select group testees')?>
+		<?=__('Select delivery testees')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
 		<div id="subject-tree"></div>
@@ -13,7 +13,7 @@
 </div>
 <div id="test-container" >
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Select group test')?>
+		<?=__('Select delivery test')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
 		<div id="test-tree"></div>
@@ -33,14 +33,14 @@
 <script type="text/javascript">
 /*
 $(function(){
-	new GenerisTreeFormClass('#subject-tree', "/taoGroups/Groups/getMembers", {
+	new GenerisTreeFormClass('#subject-tree', "/taoDelivery/Delivery/getSubjects", {
 		actionId: 'subject',
-		saveUrl : '/taoGroups/Groups/saveMembers',
+		saveUrl : '/taoDelivery/Delivery/saveSubjects',
 		checkedNodes : <?=get_data('relatedSubjects')?>
 	});
-	new GenerisTreeFormClass('#test-tree', "/taoGroups/Groups/getTests", {
+	new GenerisTreeFormClass('#test-tree', "/taoDelivery/Delivery/getTests", {
 		actionId: 'test',
-		saveUrl : '/taoGroups/Groups/saveTests',
+		saveUrl : '/taoDelivery/Delivery/saveTests',
 		checkedNodes : <?=get_data('relatedTests')?>
 	});
 });
