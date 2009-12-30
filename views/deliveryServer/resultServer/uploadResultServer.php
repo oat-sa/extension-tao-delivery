@@ -8,12 +8,15 @@ called from tao_result_wsdl.php
 * @author Plichart Patrick <patrick.plichart@tudor.lu>
 * @version 1.1
 */
+
 //split xml to an array containing all results
 include("split.php");
+
 //implements management of the packets got from the client, assemble packets to a complete xml file
 include("cacheResults.php");
 
-//include("config.php");
+//include import result data into results ontologies
+// require_once($_SERVER['DOCUMENT_ROOT'] . "/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php");
 
 //soap library
 include_once("nusoap.php");
@@ -68,7 +71,11 @@ foreach ($listXmls as $key=> $val){
 //send the link to the document to the taoResults extension
 $xmlPath=dirname(__FILE__)."/received/$xmlFile";
 $location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php?resultxml=".urlencode($xmlPath);
-header("location: $location");
+
+//Using the included scripts from the Result extension to import result data in Result Ontologies
+// $resultDOM=new DomDocument();
+// $resultDOM->loadXML($xmlString);
+// $importResult=new importLog($resultDOM);
 
 return "OK";
 }

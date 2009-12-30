@@ -1,5 +1,6 @@
 <?php
 require_once('tao/actions/CommonModule.class.php');
+require_once('tao/actions/TaoModule.class.php');
 require_once('taoDelivery/helpers/class.Precompilator.php');
 
 /**
@@ -11,13 +12,15 @@ require_once('taoDelivery/helpers/class.Precompilator.php');
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class Delivery extends CommonModule {
+class Delivery extends TaoModule {
 	
 	/**
 	 * constructor: initialize the service and the default data
-	 * @return Groups
+	 * @return Delivery
 	 */
 	public function __construct(){
+		
+		parent::__construct();
 		
 		//the service is initialized by default
 		$this->service = tao_models_classes_ServiceFactory::get('Delivery');
@@ -25,9 +28,165 @@ class Delivery extends CommonModule {
 	}
 	
 /*
+ * conveniance methods
+ */
+	
+	/**
+	 * get the selected delivery from the current context (from the uri and classUri parameter in the request)
+	 * @return core_kernel_classes_Resource $delivery
+	 */
+	private function getCurrentDelivery(){
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		if(is_null($uri) || empty($uri)){
+			throw new Exception("No valid uri found");
+		}
+		
+		$clazz = $this->getCurrentClass();
+		$delivery = $this->service->getDelivery($uri, 'uri', $clazz);
+		if(is_null($delivery)){
+			throw new Exception("No delivery found for the uri {$uri}");
+		}
+		
+		return $delivery;
+	}
+	
+/*
  * controller actions
  */
-
+	/**
+	 * Render json data to populate the delivery tree 
+	 * 'modelType' must be in the request parameters
+	 * @return void
+	 */
+	public function getDeliveries(){
+		
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$highlightUri = '';
+		if($this->hasSessionAttribute("showNodeUri")){
+			$highlightUri = $this->getSessionAttribute("showNodeUri");
+			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		} 
+		$filter = '';
+		if($this->hasRequestParameter('filter')){
+			$filter = $this->getRequestParameter('filter');
+		}
+		echo json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter));
+	}
+	
+	/**
+	 * Edit a delivery class
+	 * @see tao_helpers_form_GenerisFormFactory::classEditor
+	 * @return void
+	 */
+	public function editDeliveryClass(){
+		$clazz = $this->getCurrentClass();
+		$myForm = $this->editClass($clazz, $this->service->getDeliveryClass());
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				if($clazz instanceof core_kernel_classes_Resource){
+					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+				}
+				$this->setData('message', 'delivery class saved');
+				$this->setData('reload', true);
+				$this->forward('Delivery', 'index');
+			}
+		}
+		$this->setData('formTitle', 'Edit delivery class');
+		$this->setData('myForm', $myForm->render());
+		$this->setView('form.tpl');
+	}
+	
+	/**
+	 * Edit a delviery instance
+	 * @see tao_helpers_form_GenerisFormFactory::instanceEditor
+	 * @return void
+	 */
+	public function editDelivery(){
+		$clazz = $this->getCurrentClass();
+		$delivery = $this->getCurrentDelivery();
+		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
+				
+				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
+				$this->setData('message', 'delivery saved');
+				$this->setData('reload', true);
+				$this->forward('Delivery', 'index');
+			}
+		}
+		/*
+		$relatedSubjects = $this->service->getRelatedSubjects($delivery);
+		$relatedSubjects = array_map("tao_helpers_Uri::encode", $relatedSubjects);
+		$this->setData('relatedSubjects', json_encode($relatedSubjects));
+		
+		$relatedTests = $this->service->getRelatedTests($delivery);
+		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
+		$this->setData('relatedTests', json_encode($relatedTests));
+		*/
+		$this->setData('formTitle', 'Edit delivery');
+		$this->setData('myForm', $myForm->render());
+		$this->setView('form_delivery.tpl');
+	}
+	
+	/**
+	 * Add a delivery instance
+	 * @return void
+	 */
+	public function addDelivery(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$clazz = $this->getCurrentClass();
+		$delivery = $this->service->createInstance($clazz);
+		if(!is_null($delivery) && $delivery instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $delivery->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($delivery->uriResource)
+			));
+		}
+	}
+	
+	/**
+	 * Add a delivery subclass
+	 * @return void
+	 */
+	public function addDeliveryClass(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$clazz = $this->service->createDeliveryClass($this->getCurrentClass());
+		if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
+			echo json_encode(array(
+				'label'	=> $clazz->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($clazz->uriResource)
+			));
+		}
+	}
+	
+	/**
+	 * Delete a delivery or a delivery class
+	 * @return void
+	 */
+	public function delete(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$deleted = false;
+		if($this->getRequestParameter('uri')){
+			$deleted = $this->service->deleteDelivery($this->getCurrentDelivery());
+		}
+		else{
+			$deleted = $this->service->deleteDeliveryClass($this->getCurrentClass());
+		}
+		
+		echo json_encode(array('deleted'	=> $deleted));
+	}
+	
 	/**
 	 * Main action
 	 *
@@ -36,7 +195,11 @@ class Delivery extends CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		// self::compile();
+		
+		if($this->getData('reload') == true){
+			unset($_SESSION[SESSION_NAMESPACE]['uri']);
+			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+		}
 		$this->setView('index.tpl');
 	}
 	
@@ -103,7 +266,7 @@ class Delivery extends CommonModule {
 		
 		//copy runtime plugins:
 		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
-		//$compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that does manage directory creation errors properly
+		//$compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that didnt manage directory creation errors properly
 		$compilator->copyPlugins();
 		
 		//directory where all files required to launch the test yill be collected
@@ -262,8 +425,22 @@ class Delivery extends CommonModule {
 			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
 		}else{
-			echo "Sorry, but the test seems not to be compiled.<br/> Please compile it first then try again.";
+			echo "Sorry, the test seems not to be compiled.<br/> Please compile it then try again.";
 		}
 	}
+	
+	/*
+	 * @TODO implement the following actions
+	 */
+	
+	public function getMetaData(){
+		throw new Exception("Not yet implemented");
+	}
+	
+	public function saveComment(){
+		throw new Exception("Not yet implemented");
+	}
+	
+	
 }
 ?>

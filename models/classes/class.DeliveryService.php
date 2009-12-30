@@ -88,7 +88,12 @@ class taoDelivery_models_classes_DeliveryService
      * @access protected
      * @var array
      */
-    protected $deliveryOntologies = array('http://www.tao.lu/Ontologies/TAODelivery.rdf');
+    protected $deliveryOntologies = array(
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
+		'http://www.tao.lu/Ontologies/TAOGroup.rdf',
+		'http://www.tao.lu/Ontologies/TAOSubject.rdf',
+		'http://www.tao.lu/Ontologies/TAOTest.rdf'
+		);
 	
 	/**
      * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
@@ -100,8 +105,8 @@ class taoDelivery_models_classes_DeliveryService
 	protected $groupsOntologies = array('http://www.tao.lu/Ontologies/TAOGroup.rdf');
 	
 	/**
-     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
-	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
+     * The attribute subjectsOntologies contains the reference to the TAOSubject Ontologies.
+	 * It enables the DeliveryService Class to connect to them and fetch information about subjects from them
      *
      * @access protected
      * @var array
@@ -109,8 +114,8 @@ class taoDelivery_models_classes_DeliveryService
 	protected $subjectsOntologies = array('http://www.tao.lu/Ontologies/TAOSubject.rdf');
 	
 	/**
-     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
-	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
+     * The attribute testsOntologies contains the reference to the TAOSubject Ontologies.
+	 * It enables the DeliveryService Class to connect to them and fetch information about the tests from them
      *
      * @access protected
      * @var array
@@ -129,18 +134,13 @@ class taoDelivery_models_classes_DeliveryService
     public function __construct()
     {
 		parent::__construct();
-		// $this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		// $this->loadOntologies($this->deliveryOntologies);
 		
+		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
 		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		$this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
 		$this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 		
-		$this->loadOntologies(array(
-			$this->testsOntologies,
-			$this->subjectsOntologies,
-			$this->groupsOntologies
-			));
+		$this->loadOntologies($this->deliveryOntologies);
     }
 	
 	/**
@@ -170,7 +170,7 @@ class taoDelivery_models_classes_DeliveryService
     }
 	
 	/**
-     * The method getGroupClass return the current Test Class
+     * The method getTestClass return the current Test Class
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -204,14 +204,14 @@ class taoDelivery_models_classes_DeliveryService
      * @param  Class clazz
      * @return core_kernel_classes_Resource
      */
-     public function getDelivery($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
+    public function getDelivery($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
 
 		if(is_null($clazz)){
-			$clazz = $this->groupClass;
+			$clazz = $this->deliveryClass;
 		}
-		if($this->isGroupClass($clazz)){
+		if($this->isDeliveryClass($clazz)){
 			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
 		}
 		
@@ -312,7 +312,7 @@ class taoDelivery_models_classes_DeliveryService
 			$returnValue = true;	
 		}
 		else{
-			foreach($this->deliveryClass->getSubClasses() as $subclass){
+			foreach($this->deliveryClass->getSubClasses(true) as $subclass){
 				if($clazz->uriResource == $subclass->uriResource){
 					$returnValue = true;
 					break;	
@@ -464,6 +464,6 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 
-} /* end of class taoGroups_models_classes_DeliveryService */
+} /* end of class taoDelivery_models_classes_DeliveryService */
 
 ?>

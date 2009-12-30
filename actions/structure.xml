@@ -2,7 +2,28 @@
 <extension name="Delivery" url="/taoDelivery/Delivery/index" level="7">
 	<sections>
 		<section name="Manage deliveries" url="/taoDelivery/Delivery/index">
-			<actions />
+			<trees>
+				<tree name="Deliveries library" 
+					dataUrl="/taoDelivery/Delivery/getDeliveries" 
+					editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
+					editInstanceUrl="/taoDelivery/Delivery/editDelivery"
+					addInstanceUrl="/taoDelivery/Delivery/addDelivery"
+					addSubClassUrl="/taoDelivery/Delivery/addDeliveryClass"
+					deleteUrl="/taoDelivery/Delivery/delete"
+					duplicateUrl="/taoGroups/Groups/cloneGroup"
+				/>
+			</trees>
+			<actions>
+				<action name="new class" js="subClass" url="/taoDelivery/Delivery/addDeliveryClass" context="class" />
+				<action name="new delivery" js="instanciate" url="/taoDelivery/Delivery/addDelivery" context="class" />
+				<action name="delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
+				<action name="duplicate" js="cloneNode" url="/taoGroups/Groups/cloneGroup" context="instance" />
+				<action name="edit delivery" url="/taoDelivery/Delivery/editDelivery" context="instance" />
+				<action name="new property" js="addProperty" url="/taoGroups/Groups/addClassProperty" context="class" />
+				<action name="create table" js="resultTable" url="/taoResults/Results/createTable"  context="class" />
+				<action name="import" url="/taoDelivery/Delivery/import"  context="class" />
+				<action name="export" url="/taoDelivery/Delivery/export"  context="class" reload="true" />
+			</actions>
 		</section>
 	</sections>
 </extension>
