@@ -19,7 +19,7 @@
 				<action name="delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
 				<action name="duplicate" js="cloneNode" url="/taoDelivery/Delivery/cloneDelivery" context="instance" />
 				<action name="edit delivery" url="/taoDelivery/Delivery/editDelivery" context="instance" />
-				<action name="new property" js="addProperty" url="/taoGroups/Groups/addClassProperty" context="class" />
+				<action name="new property" js="addProperty" url="/taoDelivery/Delivery/addClassProperty" context="class" />
 				<action name="create table" js="resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="import" url="/taoDelivery/Delivery/import"  context="class" />
 				<action name="export" url="/taoDelivery/Delivery/export"  context="class" reload="true" />

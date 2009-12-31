@@ -31,7 +31,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-/*
+
 $(function(){
 	new GenerisTreeFormClass('#subject-tree', "/taoDelivery/Delivery/getSubjects", {
 		actionId: 'subject',
@@ -44,7 +44,7 @@ $(function(){
 		checkedNodes : <?=get_data('relatedTests')?>
 	});
 });
-*/
+
 </script>
 
 <?include('footer.tpl');?>
