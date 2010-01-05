@@ -75,6 +75,22 @@ class Delivery extends TaoModule {
 		echo json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter));
 	}
 	
+	public function getCampaigns(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$highlightUri = '';
+		if($this->hasSessionAttribute("showNodeUri")){
+			$highlightUri = $this->getSessionAttribute("showNodeUri");
+			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		} 
+		$filter = '';
+		if($this->hasRequestParameter('filter')){
+			$filter = $this->getRequestParameter('filter');
+		}
+		echo json_encode( $this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, $highlightUri, $filter));
+	}
+	
 	/**
 	 * Edit a delivery class
 	 * @see tao_helpers_form_GenerisFormFactory::classEditor
@@ -119,21 +135,34 @@ class Delivery extends TaoModule {
 			}
 		}
 		
+		//get the test(s) related to this delivery
+		$relatedTests = $this->service->getRelatedTests($delivery);
+		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
+		$this->setData('relatedTests', json_encode($relatedTests));
+		
+		//get the subjects related to the test(s) of the current delivery!	
 		$relatedSubjects = $this->service->getRelatedSubjects($delivery);
 		$relatedSubjects = array_map("tao_helpers_Uri::encode", $relatedSubjects);
 		$this->setData('relatedSubjects', json_encode($relatedSubjects));
 		
-		$relatedTests = $this->service->getRelatedTests($delivery);
-		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
-		$this->setData('relatedTests', json_encode($relatedTests));
-	
+		
+		//description of An algorithm:
+		
+		//From the test uri, find the associated Groups and populate the tree with related Subjects
+		
+		//Get the list of excluded subjects
+		
+		//send to client
+		
+		
+		
 		$this->setData('formTitle', 'Edit delivery');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
 	}
 	
 	/**
-	 * Add a delivery instance
+	 * Add a delivery instance        
 	 * @return void
 	 */
 	public function addDelivery(){
@@ -223,9 +252,18 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
+		//temporary section:
+		// $relatedSubjects=$this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS));
+		// $record=json_encode($relatedSubjects);
+		// $handle = fopen("/subjectTree.txt","wb");
+		// $fileContent = fwrite($handle,$record);
+		// fclose($handle);
 		
-		//pourrait éodifier la constante TAO SUBJECT CLASS par autres choses plus adaptee
+		//insérer dans l'arbre, les sujets dans les groupes correspondants au test
 		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, ''));
+		
+		//test arbre racourci:
+		// echo json_encode($this->service->toTree( new core_kernel_classes_Class("http://127.0.0.1/middleware/demo.rdf#i1262273018001661300"), true, true, ''));
 	}
 	
 	/**
@@ -285,21 +323,6 @@ class Delivery extends TaoModule {
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));
-	}
-	
-	public function testprop(){
-		$class = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean');
-
-		$property = $class->createProperty('tata','toto');
-		$property2 = $class->createProperty('tata2','toto2',true);
-		$this->assertTrue($property->getLabel() == 'tata');
-
-		$this->assertTrue($property->comment == 'toto');
-		$this->assertTrue($property2->isLgDependent());
-		$this->assertTrue($property->getDomain()->get(0)->uriResource ==$class->uriResource );
-		$property->delete();
-		$property2->delete();
-
 	}
 	
 	/**
@@ -524,7 +547,7 @@ class Delivery extends TaoModule {
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
-	public function preview(){
+	public function preview($testUri=''){
 		//get encoded url
 		$testUri=urldecode($_GET["uri"]);
 		
@@ -549,13 +572,20 @@ class Delivery extends TaoModule {
 	 */
 	
 	public function getMetaData(){
-		throw new Exception("Not yet implemented");
+		throw new Exception("Not implemented yet");
 	}
 	
 	public function saveComment(){
-		throw new Exception("Not yet implemented");
+		throw new Exception("Not implemented yet");
 	}
 	
+	public function viewHistory(){
+		$this->setView('index.tpl');
+	}
+	
+	public function addResultServer(){
+		$this->setView('index.tpl');
+	}
 	
 }
 ?>

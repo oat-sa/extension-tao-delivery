@@ -244,7 +244,7 @@ class taoDelivery_models_classes_DeliveryService
 			foreach($properties as $propertyName => $propertyValue){
 				$myProperty = $deliveryClass->createProperty(
 					$propertyName,
-					$propertyName . ' ' . $label .' subject property created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
+					$propertyName . ' ' . $label .' delivery property created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
 				);
 			}
 			$returnValue = $deliveryClass;
@@ -367,6 +367,8 @@ class taoDelivery_models_classes_DeliveryService
 		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Password
 		$returnValue='';
 		
+		//essayer d'utiliser $subjectSet = core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login) à la place
+		
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 		$query = "SELECT s1.subject FROM statements AS s1, statements AS s2
 			WHERE s1.subject=s2.subject
@@ -468,7 +470,7 @@ class taoDelivery_models_classes_DeliveryService
      * get the list of subjects in the delivery in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
      * @return array
      */
@@ -487,7 +489,7 @@ class taoDelivery_models_classes_DeliveryService
      * define the list of subjects composing a delivery
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
      * @param  array subjects
      * @return boolean
@@ -519,7 +521,7 @@ class taoDelivery_models_classes_DeliveryService
      * get the list of tests in the delivery in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
      * @return array
      */
@@ -538,7 +540,7 @@ class taoDelivery_models_classes_DeliveryService
      * define the list of tests composing a delivery
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
      * @param  array tests
      * @return boolean
