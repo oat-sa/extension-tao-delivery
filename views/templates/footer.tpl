@@ -4,6 +4,11 @@ var ctx_module 		= "<?=get_data('module')?>";
 var ctx_action 		= "<?=get_data('action')?>";
 $(function(){
 
+	tabs.bind('tabsshow', function(event, ui) {
+		//index = getTabIndexByName('manage_campaigns');
+		$("form[name=form_1]").html('');
+	});
+
 	<?if(get_data('reload') === true):?>	
 		
 	loadControls();
@@ -13,5 +18,7 @@ $(function(){
 	initActions();
 	
 	<?endif?>
+	
+	
 });
 </script>

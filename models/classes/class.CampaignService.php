@@ -288,7 +288,12 @@ class taoDelivery_models_classes_CampaignService
 			$oldRelatedDeliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
 			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
 				//TODO check if it is a delivery instance
-				$oldRelatedDelivery->removePropertyValues($campaignProp);
+				
+				//find a way to remove the property value associated to THIS campaign ONLY
+				$remove = core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource, '');
+				// $this->assertTrue($remove);
+				
+				// $oldRelatedDelivery->removePropertyValues($campaignProp);//issue with this implementation: delete all property values
 			}
 			
 			//assign the current compaign to the selected deliveries	
@@ -298,7 +303,7 @@ class taoDelivery_models_classes_CampaignService
 				$deliveryInstance=new core_kernel_classes_Resource($delivery);
 			
 				//remove the property value associated to another delivery in case ONE delivery can ONLY be associated to ONE campaign
-				//if so, then change the widget to checkbox in the delivery property definition
+				//if so, then change the widget from comboBox to treeView in the delivery property definition
 				// $deliveryInstance->removePropertyValues($campaignProp);
 				
 				//now, truly assigning the campaign uri to the affected deliveries

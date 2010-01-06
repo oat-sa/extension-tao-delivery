@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension name="Delivery" url="/taoDelivery/Delivery/index" level="7">
 	<sections>
-		<section name="Manage deliveries" url="/taoDelivery/Delivery/index">
+		<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 			<trees>
 				<tree name="Deliveries library" 
 					dataUrl="/taoDelivery/Delivery/getDeliveries" 
@@ -29,7 +29,7 @@
 			</actions>
 		</section>
 		
-		<section name="Manage Campaigns" url="/taoDelivery/Campaign/index">
+		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">
 			<trees>
 				<tree name="Campaigns library" 
 					dataUrl="/taoDelivery/Campaign/getCampaigns" 

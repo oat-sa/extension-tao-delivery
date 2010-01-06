@@ -42,6 +42,7 @@ class Campaign extends TaoModule {
 		}
 		
 		$clazz = $this->getCurrentClass();
+		
 		$campaign = $this->service->getCampaign($uri, 'uri', $clazz);
 		if(is_null($campaign)){
 			throw new Exception("No campaign found for the uri {$uri}");
@@ -105,6 +106,7 @@ class Campaign extends TaoModule {
 	 */
 	public function editCampaign(){
 		$clazz = $this->getCurrentClass();
+		
 		$campaign = $this->getCurrentCampaign();
 		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $campaign);
 		if($myForm->isSubmited()){
@@ -235,6 +237,7 @@ class Campaign extends TaoModule {
 		$saved = false;
 		
 		$deliveries = array();
+			
 		foreach($this->getRequestParameters() as $key => $value){
 			if(preg_match("/^instance_/", $key)){
 				array_push($deliveries, tao_helpers_Uri::decode($value));

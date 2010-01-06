@@ -525,42 +525,42 @@ class taoDelivery_models_classes_DeliveryService
      * @param  Resource delivery
      * @return array
      */
-    public function getRelatedTests( core_kernel_classes_Resource $delivery)
+    public function getRelatedCampaigns( core_kernel_classes_Resource $delivery)
     {
         $returnValue = array();
 		
 		if(!is_null($delivery)){
-			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_TESTS_PROP));
+			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP));
 		}
 
         return (array) $returnValue;
     }
 
     /**
-     * define the list of tests composing a delivery
+     * define the list of campaigns the delivery is associated to
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
-     * @param  array tests
+     * @param  array campaigns
      * @return boolean
      */
-    public function setRelatedTests( core_kernel_classes_Resource $delivery, $tests = array())
+    public function setRelatedCampaigns( core_kernel_classes_Resource $delivery, $campaigns = array())
     {
         $returnValue = (bool) false;
 		
 		if(!is_null($delivery)){
 			
-			$testProp = new core_kernel_classes_Property(TAO_DELIVERY_TESTS_PROP);
+			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
 			
-			$delivery->removePropertyValues($testProp);
+			$delivery->removePropertyValues($campaignProp);
 			$done = 0;
-			foreach($tests as $test){
-				if($delivery->setPropertyValue($testProp, $test)){
+			foreach($campaigns as $campaign){
+				if($delivery->setPropertyValue($campaignProp, $campaign)){
 					$done++;
 				}
 			}
-			if($done == count($tests)){
+			if($done == count($campaigns)){
 				$returnValue = true;
 			}
 		}

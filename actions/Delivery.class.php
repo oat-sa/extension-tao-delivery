@@ -75,22 +75,6 @@ class Delivery extends TaoModule {
 		echo json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter));
 	}
 	
-	public function getCampaigns(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		$highlightUri = '';
-		if($this->hasSessionAttribute("showNodeUri")){
-			$highlightUri = $this->getSessionAttribute("showNodeUri");
-			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		} 
-		$filter = '';
-		if($this->hasRequestParameter('filter')){
-			$filter = $this->getRequestParameter('filter');
-		}
-		echo json_encode( $this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, $highlightUri, $filter));
-	}
-	
 	/**
 	 * Edit a delivery class
 	 * @see tao_helpers_form_GenerisFormFactory::classEditor
@@ -135,10 +119,10 @@ class Delivery extends TaoModule {
 			}
 		}
 		
-		//get the test(s) related to this delivery
-		$relatedTests = $this->service->getRelatedTests($delivery);
-		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
-		$this->setData('relatedTests', json_encode($relatedTests));
+		//get the campaign(s) related to this delivery
+		$relatedCampaigns = $this->service->getRelatedCampaigns($delivery);
+		$relatedCampaigns = array_map("tao_helpers_Uri::encode", $relatedCampaigns);
+		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
 		
 		//get the subjects related to the test(s) of the current delivery!	
 		$relatedSubjects = $this->service->getRelatedSubjects($delivery);
@@ -252,18 +236,8 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		//temporary section:
-		// $relatedSubjects=$this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS));
-		// $record=json_encode($relatedSubjects);
-		// $handle = fopen("/subjectTree.txt","wb");
-		// $fileContent = fwrite($handle,$record);
-		// fclose($handle);
 		
-		//insérer dans l'arbre, les sujets dans les groupes correspondants au test
 		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, ''));
-		
-		//test arbre racourci:
-		// echo json_encode($this->service->toTree( new core_kernel_classes_Class("http://127.0.0.1/middleware/demo.rdf#i1262273018001661300"), true, true, ''));
 	}
 	
 	/**
@@ -291,35 +265,35 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
-	 * Get the data to populate the tree of delivery's tests
+	 * Get the data to populate the tree of delivery campaigns
 	 * @return void
 	 */
-	public function getTests(){
+	public function getCampaigns(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		
-		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, ''));
+		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS), true, true, ''));
 	}
 	
 	/**
-	 * Save the delivery related subjects
+	 * Save the delivery related campaigns
 	 * @return void
 	 */
-	public function saveTests(){
+	public function saveCampaigns(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		$saved = false;
 		
-		$tests = array();
+		$campaigns = array();
 		foreach($this->getRequestParameters() as $key => $value){
 			if(preg_match("/^instance_/", $key)){
-				array_push($tests, tao_helpers_Uri::decode($value));
+				array_push($campaigns, tao_helpers_Uri::decode($value));
 			}
 		}
 		
-		if($this->service->setRelatedTests($this->getCurrentDelivery(), $tests)){
+		if($this->service->setRelatedCampaigns($this->getCurrentDelivery(), $campaigns)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));

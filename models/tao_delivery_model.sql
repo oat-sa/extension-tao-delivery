@@ -121,7 +121,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Campaign', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
-(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign', 'http://www.w3.org/2000/01/rdf-schema#label', 'DeliveryCampaign', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign', 'http://www.w3.org/2000/01/rdf-schema#comment', 'DeliveryCampaign', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
