@@ -28,7 +28,7 @@ require_once('tao/models/classes/class.Service.php');
 
 
 /**
- * The taoDelivery_models_classes_CampaignService class provides methods to connect to several ontologies and interact with them.
+ * The taoDelivery_models_classes_DeliveryService class provides methods to connect to several ontologies and interact with them.
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -36,7 +36,7 @@ require_once('tao/models/classes/class.Service.php');
  * @subpackage models_classes
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class taoDelivery_models_classes_CampaignService
+class taoDelivery_models_classes_ResultServerService
     extends tao_models_classes_Service
 {
     // --- ASSOCIATIONS ---
@@ -45,12 +45,12 @@ class taoDelivery_models_classes_CampaignService
     // --- ATTRIBUTES ---
 
     /**
-     * The attribute campaignClass contains the default TAO Campaign Class
+     * The attribute resultServerClass contains the default TAO Delivery Class
      *
      * @access protected
      * @var Class
      */
-    protected $campaignClass = null;
+    protected $resultServerClass = null;
 	
     /**
      * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
@@ -69,7 +69,7 @@ class taoDelivery_models_classes_CampaignService
     // --- OPERATIONS ---
 
 	/**
-     * The method __construct intiates the CampaignService class and loads the required ontologies from the other extensions 
+     * The method __construct intiates the DeliveryService class and loads the required ontologies from the other extensions 
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -79,12 +79,12 @@ class taoDelivery_models_classes_CampaignService
     {
 		parent::__construct();
 		
-		$this->campaignClass = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+		$this->resultServerClass = new core_kernel_classes_Class(TAO_DELIVERY_RESULTSERVER_CLASS);
 		$this->loadOntologies($this->deliveryOntologies);
     }
 	
 	/**
-     * The method getCampaignClass return the current Campaign Class
+     * The method getResultServerClass return the current ResultServer Class
 	 * (not used yet in the current implementation)
      *
      * @access public
@@ -92,16 +92,16 @@ class taoDelivery_models_classes_CampaignService
      * @param  string uri
      * @return core_kernel_classes_Class
      */
-    public function getCampaignClass($uri = '')
+    public function getResultServerClass($uri = '')
     {
         $returnValue = null;
 
-		if(empty($uri) && !is_null($this->campaignClass)){
-			$returnValue = $this->campaignClass;
+		if(empty($uri) && !is_null($this->resultServerClass)){
+			$returnValue = $this->resultServerClass;
 		}
 		else{
 			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isCampaignClass($clazz)){
+			if($this->isResultServerClass($clazz)){
 				$returnValue = $clazz;
 			}
 		}
@@ -110,7 +110,7 @@ class taoDelivery_models_classes_CampaignService
     }
 		
 	/**
-     * Returns a campaign by providing either its uri (default) or its label and the campaign class
+     * Returns a delivery by providing either its uri (default) or its label and the delivery class
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -119,14 +119,14 @@ class taoDelivery_models_classes_CampaignService
      * @param  Class clazz
      * @return core_kernel_classes_Resource
      */
-    public function getCampaign($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
+    public function getResultServer($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
     {
         $returnValue = null;
 
 		if(is_null($clazz)){
-			$clazz = $this->campaignClass;
+			$clazz = $this->resultServerClass;
 		}
-		if($this->isCampaignClass($clazz)){
+		if($this->isResultServerClass($clazz)){
 			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
 		}
 		
@@ -134,7 +134,7 @@ class taoDelivery_models_classes_CampaignService
     }
 	
 	 /**
-     * Create a new subclass of Campaign, which is basically always a subclass of an existing Campaign class.
+     * Create a new subclass of ResultServer, which is basically always a subclass of an existing ResultServer class.
 	 * Require an array('propertyName' => 'propertyValue')
      *
      * @access public
@@ -144,52 +144,52 @@ class taoDelivery_models_classes_CampaignService
      * @param  array properties
      * @return core_kernel_classes_Class
      */
-    public function createCampaignClass( core_kernel_classes_Class $clazz = null, $label = '', $properties = array())
+    public function createResultServerClass( core_kernel_classes_Class $clazz = null, $label = '', $properties = array())
     {
         $returnValue = null;
 
 		if(is_null($clazz)){
-			$clazz = $this->campaignClass;
+			$clazz = $this->resultServerClass;
 		}
 		
-		if($this->isCampaignClass($clazz)){
+		if($this->isResultServerClass($clazz)){
 		
-			$campaignClass = $this->createSubClass($clazz, $label);//call method form TAO_model_service
+			$resultServerClass = $this->createSubClass($clazz, $label);//call method form TAO_model_service
 			
 			foreach($properties as $propertyName => $propertyValue){
-				$myProperty = $deliveryClass->createProperty(
+				$myProperty = $resultServerClass->createProperty(
 					$propertyName,
-					$propertyName . ' ' . $label .' campaign property from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
+					$propertyName . ' ' . $label .' resultServer property from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
 				);
 			}
-			$returnValue = $campaignClass;
+			$returnValue = $resultServerClass;
 		}
 
         return $returnValue;
     }
 	
 	/**
-     * Method to be called to delete a campaign instance
+     * Method to be called to delete a resultServer instance
      * (Method is not used in the current implementation yet)
 	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource campaign
+     * @param  Resource resultServer
      * @return boolean
      */
-    public function deleteCampaign( core_kernel_classes_Resource $campaign)
+    public function deleteResultServer( core_kernel_classes_Resource $resultServer)
     {
         $returnValue = (bool) false;
 		
-		if(!is_null($campaign)){
-			$returnValue = $campaign->delete();
+		if(!is_null($resultServer)){
+			$returnValue = $resultServer->delete();
 		}
 
         return (bool) $returnValue;
     }
 
     /**
-     * Method to be called to delete a campaign class
+     * Method to be called to delete a resultServer class
      * (Method is not used in the current implementation yet)
      *
      * @access public
@@ -197,12 +197,12 @@ class taoDelivery_models_classes_CampaignService
      * @param  Class clazz
      * @return boolean
      */
-    public function deleteCampaignClass( core_kernel_classes_Class $clazz)
+    public function deleteResultServerClass( core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
 
 		if(!is_null($clazz)){
-			if($this->isCampaignClass($clazz) && $clazz->uriResource != $this->campaignClass->uriResource){
+			if($this->isResultServerClass($clazz) && $clazz->uriResource != $this->resultServerClass->uriResource){
 				$returnValue = $clazz->delete();
 			}
 		}
@@ -211,7 +211,7 @@ class taoDelivery_models_classes_CampaignService
     }
 
     /**
-     * Check whether the object is a campaign class
+     * Check whether the object is a resultServer class
      * (Method is not used in the current implementation yet)
      *
      * @access public
@@ -219,15 +219,15 @@ class taoDelivery_models_classes_CampaignService
      * @param  Class clazz
      * @return boolean
      */
-    public function isCampaignClass( core_kernel_classes_Class $clazz)
+    public function isResultServerClass( core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
 
-		if($clazz->uriResource == $this->campaignClass->uriResource){
+		if($clazz->uriResource == $this->resultServerClass->uriResource){
 			$returnValue = true;	
 		}
 		else{
-			foreach($this->campaignClass->getSubClasses(true) as $subclass){
+			foreach($this->resultServerClass->getSubClasses(true) as $subclass){
 				if($clazz->uriResource == $subclass->uriResource){
 					$returnValue = true;
 					break;	
@@ -239,61 +239,56 @@ class taoDelivery_models_classes_CampaignService
     }
 			
     /**
-     * get the list of deliveries in the campaign in parameter
+     * get the list of deliveries in the resultServer in parameter
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource campaign
+     * @param  Resource resultServer
      * @return array
      */
-    public function getRelatedDeliveries( core_kernel_classes_Resource $campaign){
+    public function getRelatedDeliveries( core_kernel_classes_Resource $resultServer){
         $returnValue = array();
 		
-		if(!is_null($campaign)){
+		if(!is_null($resultServer)){
 		
-			//get the list of deliveries, by using getSubjects(TAO_DELIVERY_CAMPAIGN_PROP,$campaign->resourceUri);
-			$deliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
+			$deliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
 			foreach ($deliveries->getIterator() as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
 				}
 			}
-			
-			// foreach($campaign->getSubClasses(false) as $subclass){
-				// $returnValue = array_merge($returnValue, getRelatedDeliveries($subclass)); 
-			// }
 		}
 
         return (array) $returnValue;
     }
 
     /**
-     * define the list of tests composing a campaign
+     * define the list of tests composing a resultServer
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource campaign
+     * @param  Resource resultServer
      * @param  array deliveries
      * @return boolean
      */
-    public function setRelatedDeliveries( core_kernel_classes_Resource $campaign, $deliveries = array())
+    public function setRelatedDeliveries( core_kernel_classes_Resource $resultServer, $deliveries = array())
     {
         $returnValue = (bool) false;
 		
-		if(!is_null($campaign)){
+		if(!is_null($resultServer)){
 			//the property of the DELIVERIES that will be modified
-			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
+			$resultServerProp = new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP);
 			
-			//a way to remove the campaign property value of the delivery that are used to be associated to THIS campaign
-			$oldRelatedDeliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
+			//a way to remove the resultServer property value of the delivery that are used to be associated to THIS resultServer
+			$oldRelatedDeliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
 			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
 				//TODO check if it is a delivery instance
 				
-				//find a way to remove the property value associated to THIS campaign ONLY
-				$remove = core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource, '');
+				//find a way to remove the property value associated to THIS resultServer ONLY
+				$remove = core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
 				// $this->assertTrue($remove);
 				
-				// $oldRelatedDelivery->removePropertyValues($campaignProp);//issue with this implementation: delete all property values
+				// $oldRelatedDelivery->removePropertyValues($resultServerProp);//issue with this implementation: delete all property values
 			}
 			
 			//assign the current compaign to the selected deliveries	
@@ -302,12 +297,12 @@ class taoDelivery_models_classes_CampaignService
 				//the delivery instance to be modified
 				$deliveryInstance=new core_kernel_classes_Resource($delivery);
 			
-				//remove the property value associated to another delivery in case ONE delivery can ONLY be associated to ONE campaign
+				//remove the property value associated to another delivery in case ONE delivery can ONLY be associated to ONE resultServer
 				//if so, then change the widget from comboBox to treeView in the delivery property definition
-				// $deliveryInstance->removePropertyValues($campaignProp);
+				$deliveryInstance->removePropertyValues($resultServerProp);
 				
-				//now, truly assigning the campaign uri to the affected deliveries
-				if($deliveryInstance->setPropertyValue($campaignProp, $campaign->uriResource)){
+				//now, truly assigning the resultServer uri to the affected deliveries
+				if($deliveryInstance->setPropertyValue($resultServerProp, $resultServer->uriResource)){
 					$done++;
 				}
 			}
@@ -319,6 +314,6 @@ class taoDelivery_models_classes_CampaignService
         return (bool) $returnValue;
     }
 
-} /* end of class taoDelivery_models_classes_CampaignService */
+} /* end of class taoDelivery_models_classes_ResultServerService */
 
 ?>

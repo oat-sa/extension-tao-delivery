@@ -157,6 +157,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl', 'http://www.w3.org/2000/01/rdf-schema#comment', 'The Url to the WSDL of the ResultServer', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#SubjectCache', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#SubjectCache', 'http://www.w3.org/2000/01/rdf-schema#label', 'SubjectCache', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
