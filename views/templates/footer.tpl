@@ -5,9 +5,9 @@ var ctx_action 		= "<?=get_data('action')?>";
 $(function(){
 
 	tabs.bind('tabsshow', function(event, ui) {
-		//if($("form[name=form_1]").length){
+		if(ui.index>0){
 			$("form[name=form_1]").html('');
-		//}
+		}
 	});
 
 	<?if(get_data('reload') === true):?>	

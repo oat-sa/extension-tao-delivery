@@ -5,7 +5,7 @@
 		<?=__('Select delivery')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
-		<div id="delivery-tree"></div>
+		<div id="delivery-tree1"></div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
 		<input id="saver-action-test" type="button" value="<?=__('Save')?>" />
@@ -22,7 +22,7 @@
 <script type="text/javascript">
 
 $(function(){
-	new GenerisTreeFormClass('#delivery-tree', "/taoDelivery/Campaign/getDeliveries", {
+	new GenerisTreeFormClass('#delivery-tree1', "/taoDelivery/Campaign/getDeliveries", {
 		actionId: 'test',
 		saveUrl : '/taoDelivery/Campaign/saveDeliveries',
 		checkedNodes : <?=get_data('relatedDeliveries')?>

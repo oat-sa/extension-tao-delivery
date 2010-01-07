@@ -127,9 +127,11 @@ class ResultServer extends TaoModule {
 		$relatedDeliveries = array_map("tao_helpers_Uri::encode", $relatedDeliveries);
 		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
 		
+		
+		
 		$this->setData('formTitle', 'Edit ResultServer');
 		$this->setData('myForm', $myForm->render());
-		$this->setView('form_resultServer.tpl');
+		$this->setView('form_resultserver.tpl');
 	}
 	
 	/**
@@ -264,7 +266,7 @@ class ResultServer extends TaoModule {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
-		$this->setView('index_resultServer.tpl');
+		$this->setView('index_resultserver.tpl');
 	}
 		
 	

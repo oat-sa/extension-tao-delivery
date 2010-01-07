@@ -285,8 +285,7 @@ class taoDelivery_models_classes_ResultServerService
 				//TODO check if it is a delivery instance
 				
 				//find a way to remove the property value associated to THIS resultServer ONLY
-				$remove = core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
-				// $this->assertTrue($remove);
+				core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
 				
 				// $oldRelatedDelivery->removePropertyValues($resultServerProp);//issue with this implementation: delete all property values
 			}
