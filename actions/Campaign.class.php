@@ -167,7 +167,7 @@ class Campaign extends TaoModule {
 	}
 	
 	/**
-	 * Delete a delivery or a delivery class
+	 * Delete a campaign or a campaign class
 	 * @return void
 	 */
 	public function delete(){
@@ -177,36 +177,36 @@ class Campaign extends TaoModule {
 		
 		$deleted = false;
 		if($this->getRequestParameter('uri')){
-			$deleted = $this->service->deleteDelivery($this->getCurrentDelivery());
+			$deleted = $this->service->deleteCampaign($this->getCurrentCampaign());
 		}
 		else{
-			$deleted = $this->service->deleteDeliveryClass($this->getCurrentClass());
+			$deleted = $this->service->deleteCampaignClass($this->getCurrentClass());
 		}
 		
 		echo json_encode(array('deleted'	=> $deleted));
 	}
 	
 	/**
-	 * Duplicate a devliery instance
+	 * Duplicate a campaign instance
 	 * @return void
 	 */
-	public function cloneDelivery(){
+	public function cloneCampaign(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		
-		$delivery = $this->getCurrentDelivery();
+		$campaign = $this->getCurrentCampaign();
 		$clazz = $this->getCurrentClass();
 		
 		$clone = $this->service->createInstance($clazz);
 		if(!is_null($clone)){
 			
 			foreach($clazz->getProperties() as $property){
-				foreach($delivery->getPropertyValues($property) as $propertyValue){
+				foreach($campaign->getPropertyValues($property) as $propertyValue){
 					$clone->setPropertyValue($property, $propertyValue);
 				}
 			}
-			$clone->setLabel($delivery->getLabel()."'");
+			$clone->setLabel($campaign->getLabel()."'");
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)

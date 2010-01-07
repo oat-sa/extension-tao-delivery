@@ -38,19 +38,19 @@
 					addInstanceUrl="/taoDelivery/Campaign/addCampaign"
 					addSubClassUrl="/taoDelivery/Campaign/addCampaignClass"
 					deleteUrl="/taoDelivery/Campaign/delete"
-					duplicateUrl="/taoDelivery/Delivery/cloneDelivery"
+					duplicateUrl="/taoDelivery/Campaign/cloneCampaign"
 				/>
 			</trees>
 			<actions>
 				<action name="new class" js="subClass" url="/taoDelivery/Campaign/addCampaignClass" context="class" />
 				<action name="new campaign" js="instanciate" url="/taoDelivery/Campaign/addCampaign" context="class" />
 				<action name="delete" js="removeNode" url="/taoDelivery/Campaign/delete" context="resource" />
-				<action name="duplicate" js="cloneNode" url="/taoDelivery/Delivery/cloneDelivery" context="instance" />
+				<action name="duplicate" js="cloneNode" url="/taoDelivery/Campaign/cloneCampaign" context="instance" />
 				<action name="edit campaign" url="/taoDelivery/Campaign/editCampaign" context="instance" />
 				<action name="new property" js="addProperty" url="/taoDelivery/Campaign/addClassProperty" context="class" />
 				<action name="create table" js="resultTable" url="/taoResults/Results/createTable"  context="class" />
-				<action name="import" url="/taoDelivery/Delivery/import"  context="class" />
-				<action name="export" url="/taoDelivery/Delivery/export"  context="class" reload="true" />
+				<action name="import" url="/taoDelivery/Campaign/import"  context="class" />
+				<action name="export" url="/taoDelivery/Campaign/export"  context="class" reload="true" />
 			</actions>
 		</section>
 		

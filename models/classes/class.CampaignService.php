@@ -169,27 +169,27 @@ class taoDelivery_models_classes_CampaignService
     }
 	
 	/**
-     * Method to be called to delete a delivery instance
+     * Method to be called to delete a campaign instance
      * (Method is not used in the current implementation yet)
 	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource delivery
+     * @param  Resource campaign
      * @return boolean
      */
-    public function deleteDelivery( core_kernel_classes_Resource $delivery)
+    public function deleteCampaign( core_kernel_classes_Resource $campaign)
     {
         $returnValue = (bool) false;
 		
-		if(!is_null($delivery)){
-			$returnValue = $delivery->delete();
+		if(!is_null($campaign)){
+			$returnValue = $campaign->delete();
 		}
 
         return (bool) $returnValue;
     }
 
     /**
-     * Method to be called to delete a delivery class
+     * Method to be called to delete a campaign class
      * (Method is not used in the current implementation yet)
      *
      * @access public
@@ -197,12 +197,12 @@ class taoDelivery_models_classes_CampaignService
      * @param  Class clazz
      * @return boolean
      */
-    public function deleteDeliveryClass( core_kernel_classes_Class $clazz)
+    public function deleteCampaignClass( core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
 
 		if(!is_null($clazz)){
-			if($this->isDeliveryClass($clazz) && $clazz->uriResource != $this->deliveryClass->uriResource){
+			if($this->isCampaignClass($clazz) && $clazz->uriResource != $this->campaignClass->uriResource){
 				$returnValue = $clazz->delete();
 			}
 		}
@@ -211,7 +211,7 @@ class taoDelivery_models_classes_CampaignService
     }
 
     /**
-     * Check whether the object is a delivery class
+     * Check whether the object is a campaign class
      * (Method is not used in the current implementation yet)
      *
      * @access public
