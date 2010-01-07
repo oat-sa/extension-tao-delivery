@@ -2,7 +2,7 @@
 
 <div id="subject-container" >
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Select delivery testees')?>
+		<?=__('Select testees to be <b>excluded</b>')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
 		<div id="subject-tree"></div>
@@ -39,7 +39,7 @@ $(function(){
 	new GenerisTreeFormClass('#subject-tree', "/taoDelivery/Delivery/getSubjects", {
 		actionId: 'subject',
 		saveUrl : '/taoDelivery/Delivery/saveSubjects',
-		checkedNodes : <?=get_data('relatedSubjects')?>
+		checkedNodes : <?=get_data('excludedSubjects')?>
 	});
 	new GenerisTreeFormClass('#campaign-tree', "/taoDelivery/Delivery/getCampaigns", {
 		actionId: 'campaign',

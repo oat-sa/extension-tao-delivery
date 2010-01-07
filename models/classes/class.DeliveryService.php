@@ -467,26 +467,26 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	 /**
-     * get the list of subjects in the delivery in parameter
+     * get the list of excluded subjects of the delivery
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource delivery
      * @return array
      */
-    public function getRelatedSubjects( core_kernel_classes_Resource $delivery)
+    public function getExcludedSubjects( core_kernel_classes_Resource $delivery)
     {
         $returnValue = array();
 		
 		if(!is_null($delivery)){
-			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_SUBJECTS_PROP));
+			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
 		}
 		
         return (array) $returnValue;
     }
 
     /**
-     * define the list of subjects composing a delivery
+     * define the list of the subjects that are excluded from a delivery
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -494,13 +494,13 @@ class taoDelivery_models_classes_DeliveryService
      * @param  array subjects
      * @return boolean
      */
-    public function setRelatedSubjects( core_kernel_classes_Resource $delivery, $subjects = array())
+    public function setExcludedSubjects( core_kernel_classes_Resource $delivery, $subjects = array())
     {
         $returnValue = (bool) false;
 		
 		if(!is_null($delivery)){
 			
-			$memberProp = new core_kernel_classes_Property(TAO_DELIVERY_SUBJECTS_PROP);
+			$memberProp = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
 			
 			$delivery->removePropertyValues($memberProp);
 			$done = 0;

@@ -17,7 +17,8 @@ $todefine = array(
 	'SUBJECT_LOGIN_PROP' => 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Login',
 	'SUBJECT_PASSWORD_PROP' => 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Password',
 	
-	'TAO_DELIVERY_SUBJECTS_PROP'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Subjects',
+	// 'TAO_DELIVERY_SUBJECTS_PROP'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Subjects',
+	'TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects',
 	'TAO_DELIVERY_TESTS_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Tests',
 	
 	'TAO_ITEM_MODEL_PROPERTY' 			=> 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel', 
@@ -32,6 +33,7 @@ $todefine = array(
 	'TAO_DELIVERY_CAMPAIGN_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign',
 	'TAO_DELIVERY_RESULTSERVER_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',	
 	'TAO_DELIVERY_RESULTSERVER_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer'
+	
 	
 );
 foreach($todefine as $constName => $constValue){

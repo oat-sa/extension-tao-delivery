@@ -125,9 +125,9 @@ class Delivery extends TaoModule {
 		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
 		
 		//get the subjects related to the test(s) of the current delivery!	
-		$relatedSubjects = $this->service->getRelatedSubjects($delivery);
-		$relatedSubjects = array_map("tao_helpers_Uri::encode", $relatedSubjects);
-		$this->setData('relatedSubjects', json_encode($relatedSubjects));
+		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
+		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
+		$this->setData('excludedSubjects', json_encode($excludedSubjects));
 		
 		
 		//description of An algorithm:
@@ -241,7 +241,7 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
-	 * Save the delivery's related subjects
+	 * Save the delivery excluded subjects
 	 * @return void
 	 */
 	public function saveSubjects(){
@@ -258,7 +258,7 @@ class Delivery extends TaoModule {
 		}
 		// $delivery = $this->getCurrentDelivery();
 		
-		if($this->service->setRelatedSubjects($this->getCurrentDelivery(), $subjects)){
+		if($this->service->setExcludedSubjects($this->getCurrentDelivery(), $subjects)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));
@@ -504,6 +504,7 @@ class Delivery extends TaoModule {
 			
 			//unquote the following line if the compilation can be considered completed
 			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+			//$aTestInstance->editPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);//use this instead to erase the replace the old triplet
 			
 		}else{
 			//other cases: the compilation has failed
