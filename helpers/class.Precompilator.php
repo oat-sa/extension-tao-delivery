@@ -99,6 +99,9 @@ class tao_helpers_Precompilator
 		
 		//create a directory where all files related to this test(i.e media files and item xml files) will be copied:
 		$testId=self::getUniqueId($testUri);//get the an unique id for the test to be compiled
+		if(empty($testId)){
+			throw new Exception("The test Id to be compiled can not be empty");
+		}
 		$directory="$compiledPath$testId/";		
 		if(!is_dir($compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
@@ -136,9 +139,17 @@ class tao_helpers_Precompilator
 	 * @param  string affectedObject
      * @return string
      */		
-	public function copyFile($url, $directory, $affectedObject){
+	public function copyFile($url, $directory="", $affectedObject=""){
 	
 		$returnValue = "";
+		
+		if (empty($directory)){
+			$directory=$this->compiledPath;
+		}
+		
+		if (empty($affectedObject)){
+			$affectedObject="undefinedObject";
+		}
 		
 		$fileContent = @file_get_contents($url);
 		if ($fileContent === false){
@@ -151,7 +162,7 @@ class tao_helpers_Precompilator
 		$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
 		$fileName = strrev($reverseUrl);
 		
-		$finalFilePath = $directory."/".$fileName;
+		$finalFilePath = $directory.$fileName;
 		
 		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
 		$isDownloaded=false;
@@ -251,21 +262,22 @@ class tao_helpers_Precompilator
 			throw new Exception("the specified directory does not exist");
 		}
 		
-		$defaultMedia = array("jpg","jpeg","png","gif","mp3","swf");
+		$defaultMedia = array("jpg","jpeg","png","gif","mp3");
 		
 		$authorizedMedia = array_merge($defaultMedia,$authorizedMedia);
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
+		
+		
 		$mediaList = array();
-		$exprArray = array();
+		// $exprArray = array();
 		foreach ($authorizedMedia as $mediaType){
 			$mediaListTemp=array();
 			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: could be optimized by only searching tags that could contain media.
 			preg_match_all($expr,$xml,$mediaListTemp);
-			$mediaList = array_merge($mediaList,$mediaListTemp);
+			$mediaList = array_merge($mediaList,$mediaListTemp[0]);
 		}
-					
-		$uniqueMediaList = 	array_unique($mediaList[0]);	
+		$uniqueMediaList = 	array_unique($mediaList);	
 		foreach($uniqueMediaList as $mediaUrl){
 			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName);
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
