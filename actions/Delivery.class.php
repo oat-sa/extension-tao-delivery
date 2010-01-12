@@ -229,6 +229,38 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
+	 * display the authoring  template (load the tool into an iframe)
+	 * @return void
+	 */
+	public function authoring(){
+		$this->setData('error', false);
+		try{
+			$data = array();
+			$data['delivery'] = $this->getCurrentDelivery();
+			$data['clazz'] = $this->getCurrentClass();
+			
+			// $myFormContainer = new taoTests_actions_form_TestAuthoring($data);
+			// $myForm = $myFormContainer->getForm();
+			
+			// if($myForm->isSubmited()){
+				// if($myForm->isValid()){
+					// $this->setData('message', __('test saved'));
+				// }
+			// }
+			// $this->setData('myForm', $myForm->render());
+			$this->setData('formTitle', __('Delivery authoring'));
+			$this->setData('delivery', $data['delivery']);
+			$this->setData('clazz', $data['clazz']);
+			
+		}
+		catch(Exception $e){
+			$this->setData('error', true);
+			$this->setData('errorMessage', $e);
+		}
+		$this->setView('authoring.tpl');
+	}
+	
+	/**
 	 * Get the data to populate the tree of delivery's subjects
 	 * @return void
 	 */

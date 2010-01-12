@@ -79,5 +79,9 @@
 			</actions>
 		</section>
 		
+		<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
+			<actions />
+		</section>
+		
 	</sections>
 </extension>

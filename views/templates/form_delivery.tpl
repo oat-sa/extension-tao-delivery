@@ -28,7 +28,7 @@
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
-	<div id="form-container" class="ui-widget-content ui-corner-bottom ui-state-default">
+	<div id="form-container" class="ui-widget-content ui-corner-bottom">
 		<?=get_data('myForm')?>
 	</div>
 </div>
@@ -48,6 +48,17 @@ $(function(){
 	});
 });
 
+</script>
+
+<script type="text/javascript">
+$(function(){
+	// $("textarea").attr("rows","50");
+	// $("textarea").attr("cols","80");
+	$("div.xhtml_form div textarea").css("height",500);
+	$("div.xhtml_form div textarea").css("width",420);
+	$("div.main-container").css("height",550);
+	// alert($("textarea").attr("cols"));
+});
 </script>
 
 <?include('footer.tpl');?>
