@@ -404,6 +404,8 @@ class Delivery extends TaoModule {
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
 		$compilationPath=BASE_PATH."/compiled/";
 		
+		
+		
 		//get the unique id of the test to be compiled from POST
 		$testUri=$_POST["uri"];
 		$testId=tao_helpers_Precompilator::getUniqueId($testUri);
@@ -416,7 +418,11 @@ class Delivery extends TaoModule {
 		//directory where all files required to launch the test yill be collected
 		$directory=$compilator->compiledPath;
 		
+		//get the test object from the testUri
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
+		
+		//set the compiled status to "false" in case any unforseen problem should occur
+		$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
 		
 		//check whether the test is active or not:
 		$testActive = $this->service->getTestStatus($aTestInstance, "active");
@@ -527,7 +533,8 @@ class Delivery extends TaoModule {
 			$resultArray["success"]=1;
 			
 			//if everything works well, set the property of the delivery(for now, one single test only) "compiled" to "True" 
-			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+			// $aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
+			$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
 			
 		}elseif(!empty($compilationResult["failed"]["copiedFiles"]) and empty($compilationResult["failed"]["createdFiles"]) and empty($compilationResult["failed"]["copiedFiles"]["delivery_runtime"])){
 			//success with warning: media missing: some file copying failed but, every required runtime plugin is successfully copied.
@@ -535,13 +542,13 @@ class Delivery extends TaoModule {
 			$resultArray["failed"]=$compilationResult["failed"];
 			
 			//unquote the following line if the compilation can be considered completed
-			$aTestInstance->setPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
-			//$aTestInstance->editPropertyValue(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);//use this instead to erase the replace the old triplet
+			$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_TRUE);
 			
 		}else{
 			//other cases: the compilation has failed
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
+			
 		}
 		
 		echo json_encode($resultArray);
