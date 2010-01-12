@@ -3,7 +3,8 @@
 if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) && ($_POST["password"]!="")){
 	// session_start();
 	require_once('config.php');
-
+	
+	$subject=null;
 	$login=$_POST["login"];
 	$password=$_POST["password"];
 
@@ -11,15 +12,19 @@ if(isset($_POST["login"]) && ($_POST["login"]!="") && isset($_POST["password"]) 
 	$deliveryService = new taoDelivery_models_classes_DeliveryService();
 	
 	//login check here:
-	$subjectUri = $deliveryService->checkSubjectLogin($login,$password);
-	// echo $subjectUri;
-		
-	if($subjectUri){
-		$aSubjectInstance = new core_kernel_classes_Resource($subjectUri);
+	try{
+		$subject = $deliveryService->checkSubjectLogin($login,$password);
+	}
+	catch(Exception $e){
+		echo $e;
+	}
+	
+	if(!empty($subject)){
+		// $aSubjectInstance = new core_kernel_classes_Resource($subjectUri);
 		
 		$_SESSION["subject"]=array();
-		$_SESSION["subject"]["uri"]=$subjectUri;
-		$_SESSION["subject"]["label"]=$aSubjectInstance->getLabel();
+		$_SESSION["subject"]["uri"]=$subject->uriResource;
+		$_SESSION["subject"]["label"]=$subject->getLabel();
 		
 		header("location: /taoDelivery/views/deliveryServer/testIndex.php");	
 	}else{

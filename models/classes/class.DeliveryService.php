@@ -360,15 +360,14 @@ class taoDelivery_models_classes_DeliveryService
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  string login
 	 * @param  string password
-     * @return string
+     * @return object
      */
 	public function checkSubjectLogin($login, $password){
-		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Login
-		//http://www.tao.lu/Ontologies/TAOSubject.rdf#Password
-		$returnValue='';
+	
+		$returnValue = null;
 		
 		//essayer d'utiliser $subjectSet = core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login) à la place
-		
+		/*
 		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 		$query = "SELECT s1.subject FROM statements AS s1, statements AS s2
 			WHERE s1.subject=s2.subject
@@ -381,7 +380,17 @@ class taoDelivery_models_classes_DeliveryService
 		if(!$result->EOF) {
 			$returnValue=$result->fields["subject"];
 		}
-
+		*/
+		
+		$subjectsByLogin=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
+		$subjectsByPassword=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
+		
+		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
+		
+		if($subjects->count()>0){
+			$returnValue = $subjects->get(0);
+		}
+		
 		return $returnValue;
 	}
 	
@@ -407,10 +416,21 @@ class taoDelivery_models_classes_DeliveryService
 			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
 		
 		$result = $db->execSql($query);
-		while(!$result->EOF) {
+		while(!$result->EOF){
 			$returnValue[]=$result->fields["object"];
 			$result->MoveNext();
 		}
+		
+		/*
+		//to be unquoted and tested when core_kernel_classes_ApiModelOO::getObject() is implemented
+		$groups=core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
+		$deliveries = core_kernel_classes_ContainerCollection();
+		foreach ($groups->getIterator() as $group) {
+			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->resourceUri, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+		}
+		//eliminate duplicate deliveries (with a function like unique_array() ):
+		$returnValue=$deliveries;
+		*/
 		
 		return $returnValue;
 	}
