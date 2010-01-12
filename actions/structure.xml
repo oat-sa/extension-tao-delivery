@@ -24,8 +24,6 @@
 				<action name="import" url="/taoDelivery/Delivery/import"  context="class" />
 				<action name="export" url="/taoDelivery/Delivery/export"  context="class" reload="true" />
 				<action name="view history" url="/taoDelivery/Delivery/viewHistory" context="instance" />
-				<action name="manage campaigns" url="/taoDelivery/Delivery/addCompaign" context="resource" />
-				<action name="manage result servers" url="/taoDelivery/Delivery/addResultServer" context="resource" />
 			</actions>
 		</section>
 		

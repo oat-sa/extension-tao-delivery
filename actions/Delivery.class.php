@@ -574,6 +574,21 @@ class Delivery extends TaoModule {
 		}
 	}
 	
+	/**
+	 * create history table
+	 * @return void
+	 */
+	public function viewHistory(){
+		
+		$_SESSION['instances'] = array();
+		foreach($this->getRequestParameters() as $key => $value){
+			if(preg_match("/^uri_[0-9]+$/", $key)){
+				$_SESSION['instances'][tao_helpers_Uri::decode($value)] = tao_helpers_Uri::decode($value);
+			}
+		}
+		$this->setView("create_table.tpl");
+	}
+	
 	/*
 	 * @TODO implement the following actions
 	 */
@@ -584,14 +599,6 @@ class Delivery extends TaoModule {
 	
 	public function saveComment(){
 		throw new Exception("Not implemented yet");
-	}
-	
-	public function viewHistory(){
-		$this->setView('index.tpl');
-	}
-	
-	public function addResultServer(){
-		$this->setView('index.tpl');
 	}
 	
 }
