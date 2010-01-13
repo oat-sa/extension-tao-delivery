@@ -25,6 +25,8 @@ class Campaign extends TaoModule {
 		//the service is initialized by default
 		$this->service = new taoDelivery_models_classes_CampaignService();
 		$this->defaultData();
+		
+		Session::setAttribute('currentSection', 'campaign');
 	}
 	
 /*

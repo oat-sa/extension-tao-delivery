@@ -25,6 +25,8 @@ class Delivery extends TaoModule {
 		//the service is initialized by default
 		$this->service = tao_models_classes_ServiceFactory::get('Delivery');
 		$this->defaultData();
+		
+		Session::setAttribute('currentSection', 'delivery');
 	}
 	
 /*
@@ -344,6 +346,7 @@ class Delivery extends TaoModule {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
+		$this->setData('section',Session::getAttribute('currentSection'));
 		$this->setView('index.tpl');
 	}
 	
