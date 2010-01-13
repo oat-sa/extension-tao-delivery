@@ -587,6 +587,63 @@ class taoDelivery_models_classes_DeliveryService
 
         return (bool) $returnValue;
     }
+	
+	/**
+     * add history to
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string deliveryUri
+	 * @param  string subjectUri
+     * @return core_kernel_classes_ContainerCollection
+     */
+	public function getHistory($deliveryUri, $subjectUri=""){
+	
+		$historyCollection = null;
+		
+		if(empty($deliveryUri)){
+			throw new Exception("the delivery uri cannot be empty");
+		}
+		if(empty($subjectUri)){
+			//select History by delivery only (subject independent listing, i.e. select for all subjects)
+			$historyCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
+		}else{
+			
+			$validSubjectUri=true;//TODO check if it is a valid subject
+			if($validSubjectUri){
+				//select history by delivery and subject
+				$historyByDelivery=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
+				$historyBySubject=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subjectUri);
+				$historyCollection=$historyByDelivery->intersect($historyBySubject);
+			}else{
+				throw new Exception("invalid subject uri");
+			}
+		}
+		
+		return $historyCollection;
+		
+		//note: for maxExec check on delivery server, simply make the following comparison: $this->getHistory($deliveryUri, $subjectUri)->count() < $deliveryMaxExec 
+	}
+	
+	/**
+     * add history of delivery execution in the ontology
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string deliveryUri
+	 * @param  string subjectUri
+     * @return void
+     */
+	public function addHistory($deliveryUri, $subjectUri){
+		if(empty($subjectUri)) throw new Exception("the subject uri cannot be empty");
+		if(empty($deliveryUri)) throw new Exception("the delivery uri cannot be empty");
+		
+		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS));
+		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subjectUri);
+		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $deliveryUri);
+		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
+	
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 

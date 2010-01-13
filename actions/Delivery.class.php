@@ -596,6 +596,55 @@ class Delivery extends TaoModule {
 		$this->setView("create_table.tpl");
 	}
 	
+	/**
+     * historyListing returns the execution history related to a given delivery (and subject)
+     * 
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string deliveryUri
+	 * @param  string subjectUri
+     * @return array
+     */
+	public function historyListing($deliveryUri = "", $subjectUri = ""){
+		
+		$returnValue = array();
+		$historyCollection = null;
+		
+		//check deliveryUri validity
+		if(empty($deliveryUri)){
+			$currentDelivery = $this->getCurrentDelivery();
+			if(is_null($currentDelivery)){
+				//no need to throw exception here because it has already be done in the getCurrentDelivery() function
+				return $returnValue;
+			}else{
+				$deliveryUri = $currentDelivery->resourceUri;
+			}
+		}
+		
+		$historyCollection=$this->service->getHistory($deliveryUri, $subjectUri);
+		
+		$i=0;
+		foreach ($historyCollection->getIterator() as $history) {
+		
+			$returnValue[$i]=array();
+			
+			if(!empty($subjectUri)){
+				$subject=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP));
+				$returnValue[$i]["subject"] = $subject->getLabel(); //or $subject->literal to get the uri
+			}
+			$timestamp=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP));
+			$returnValue[$i]["timestamp"] = date('Y-m-d', $timestamp->literal);
+			
+			// $delivery=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP));//useless
+			
+			$i++;
+		}
+			
+		return $returnValue;
+		//TODO: history listing per subject???
+	}
+	
+	
 	/*
 	 * @TODO implement the following actions
 	 */
