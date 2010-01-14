@@ -139,7 +139,7 @@ class tao_helpers_Precompilator
 	 * @param  string affectedObject
      * @return string
      */		
-	public function copyFile($url, $directory="", $affectedObject=""){
+	public function copyFile($url, $directory="", $affectedObject="", $rename=false){
 	
 		$returnValue = "";
 		
@@ -151,38 +151,55 @@ class tao_helpers_Precompilator
 			$affectedObject="undefinedObject";
 		}
 		
-		$fileContent = @file_get_contents($url);
-		if ($fileContent === false){
-			$this->failed["copiedFiles"][$affectedObject][]=$url;
-			return $returnValue;
-		};
-		
-		//use of reverseUrl to get the last position of "/" and thus the fileName
-		$reverseUrl = strrev($url);
-		$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
-		$fileName = strrev($reverseUrl);
-		
-		$finalFilePath = $directory.$fileName;
-		
-		//check whether the file has been already downloaded: applicable for case when an item existing in several languages share the same multimedia file
-		$isDownloaded=false;
+		//check whether the file has been already downloaded: e.g. in the case an item existing in several languages share the same multimedia file
+		$isCopied=false;
 		foreach ($this->completed["copiedFiles"] as $copiedFiles){
 			//Check if it has not been copied yet
 			if(in_array($url, $copiedFiles)) {
-				$isDownloaded=true;
+				$isCopied=true;
 				break;
 			}
 		}
-		if($isDownloaded===false){
-			$handle = fopen($finalFilePath,"wb");
+		
+		if($isCopied === false){
+			
+			//since the file has not been downloaded yet, start downloading it
+			$fileContent = @file_get_contents($url);
+			if ($fileContent === false){
+				$this->failed["copiedFiles"][$affectedObject][]=$url;
+				return $returnValue;
+			};
+			
+			//use of reverseUrl to get the last position of "/" and thus the fileName
+			$reverseUrl = strrev($url);
+			$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
+			$fileName = strrev($reverseUrl);
+			
+			//check file name compatibility: 
+			//e.g. if a file with a common name (e.g. car.jpg, house.png, sound.mp3) already exists in the destination folder
+			while(file_exists($directory.$fileName) && $rename===true){
+				$reverseFileName = strrev($fileName); 
+				$reverseExt = substr($reverseFileName, 0, strpos($reverseFileName,"."));
+				$reverseName = substr($reverseFileName, strpos($reverseFileName,".")+1);
+				
+				//add an underscore so it becomes unique
+				$fileName = strrev($reverseName)."_.".strrev($reverseExt);
+			}
+			
+			$handle = fopen($directory.$fileName,"wb");
+			if($handle===false){
+				throw new Exception("the file $directory.$fileName cannot be written");
+			}
 			$fileContent = fwrite($handle,$fileContent);
 			fclose($handle);
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
 			$this->completed["copiedFiles"][$affectedObject][]=$url;
+			
+			$returnValue = $fileName;
 		}
 				
-		return $returnValue = $fileName;
+		return $returnValue;
 	}
     
 	/**
@@ -279,7 +296,7 @@ class tao_helpers_Precompilator
 		}
 		$uniqueMediaList = 	array_unique($mediaList);	
 		foreach($uniqueMediaList as $mediaUrl){
-			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName);
+			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
 			$xml = str_replace($mediaUrl,$mediaPath,$xml);
 		}
 		return $xml;
