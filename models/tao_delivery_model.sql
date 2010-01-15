@@ -42,6 +42,13 @@ CREATE TABLE IF NOT EXISTS `statements` (
 --
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `id`, `author`, `stread`, `stedit`, `stdelete`, `epoch`) VALUES
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.w3.org/2000/01/rdf-schema#label', 'Deliveries', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', '2009-12-04 16:59:53'),
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Deliveries', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', '2009-12-04 16:59:53'),
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(11, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', 'http://www.w3.org/2000/01/rdf-schema#label', 'Delivery', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Delivery', 'EN', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
@@ -171,4 +178,4 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
-(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null);
+(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null);

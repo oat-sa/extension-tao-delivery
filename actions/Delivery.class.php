@@ -130,18 +130,7 @@ class Delivery extends TaoModule {
 		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
 		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-		
-		
-		//description of An algorithm:
-		
-		//From the test uri, find the associated Groups and populate the tree with related Subjects
-		
-		//Get the list of excluded subjects
-		
-		//send to client
-		
-		
-		
+				
 		$this->setData('formTitle', 'Edit delivery');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
@@ -290,7 +279,6 @@ class Delivery extends TaoModule {
 				array_push($subjects, tao_helpers_Uri::decode($value));
 			}
 		}
-		// $delivery = $this->getCurrentDelivery();
 		
 		if($this->service->setExcludedSubjects($this->getCurrentDelivery(), $subjects)){
 			$saved = true;
@@ -388,7 +376,45 @@ class Delivery extends TaoModule {
 		$result["tests"]=$testData;
 		echo json_encode($result);
 	}
+	
+	public function initCompilation(){
+		//config:
+		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
+		$compilationPath=BASE_PATH."/compiled/";
 		
+		//get the uri of the test
+		$deliveryUri=$_POST["uri"];
+		$delivery = new core_kernel_classes_Resource($deliveryUri);
+		// $deliveryId=tao_helpers_Precompilator::getUniqueId($deliveryUri);
+		
+		//initiate compilator:
+		$compilator = new tao_helpers_Precompilator($deliveryUri, $compilationPath, $pluginPath);//new constructor
+		//delete the compiled delivery folder if it exists
+		$compilator->clearCompiledFolder();
+		
+		//get the tests list from the delivery id: likely, parsing the deliveryContent property value
+		$tests=array();//array of resource
+		
+		$deliveryData=array();
+		
+		//compilation state:
+		$deliveryData["compiled"]=0;
+		if($this->service->isCompiled($delivery)){
+			$deliveryData["compiled"]=1;
+			$deliveryData["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP) );
+		}
+		
+		$deliveryData['tests']=array();
+		foreach($tests as $test){
+			$deliveryData['tests'][]=array(
+				"label" => $delivery->getLabel(),
+				"uri" => $delivery->resourceUri
+			);
+		}
+		
+		echo json_encode($deliveryData);
+	}
+	
 	/**
 	 * Compile a test by providing its uri, via POST method.
 	 * Its main purpose is to collect every required resource to run the test in a single folder so they become immediately available for the test launch, without any delay. 
@@ -403,11 +429,11 @@ class Delivery extends TaoModule {
 	 * @return void
 	 */
 	public function compile(){
+		//should be renamed  "compileTest()" now
+		
 		//config:
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
 		$compilationPath=BASE_PATH."/compiled/";
-		
-		
 		
 		//get the unique id of the test to be compiled from POST
 		$testUri=$_POST["uri"];
@@ -415,11 +441,10 @@ class Delivery extends TaoModule {
 		
 		//copy runtime plugins:
 		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
-		//$compilator = new tao_helpers_Precompilator($directory, $pluginPath);//old constructor that didnt manage directory creation errors properly
 		$compilator->copyPlugins();
 		
-		//directory where all files required to launch the test yill be collected
-		$directory=$compilator->compiledPath;
+		//directory where all files required to launch the test will be collected
+		$directory=$compilator->getCompiledPath();
 		
 		//get the test object from the testUri
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
@@ -450,7 +475,6 @@ class Delivery extends TaoModule {
 			else{
 				throw new Exception("The test collection for the language '$language' must not be empty");
 			}
-			// print_r($testContentArray);
 			
 			//dom version of testContent for easy parsing purpose
 			$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
@@ -557,6 +581,23 @@ class Delivery extends TaoModule {
 		echo json_encode($resultArray);
 	}
 	
+	public function endCompilation(){
+	
+		$result = intval($_POST["result"]);
+		
+		$response = array();
+		$response["result"]=0;
+		
+		if($result == 1){
+			if ($aTestInstance->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP),GENERIS_TRUE)){
+				$response["result"] = 1;
+				$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP) );
+			}
+		}
+		
+		echo json_encode($response);
+	}
+	
 	/**
 	 * From the uri of a compiled test, this action will redirect the user to the compiled test folder
 	 *
@@ -617,7 +658,7 @@ class Delivery extends TaoModule {
 		if(empty($deliveryUri)){
 			$currentDelivery = $this->getCurrentDelivery();
 			if(is_null($currentDelivery)){
-				//no need to throw exception here because it has already be done in the getCurrentDelivery() function
+				//no need to throw en exception here because it has already be done in the getCurrentDelivery() function
 				return $returnValue;
 			}else{
 				$deliveryUri = $currentDelivery->resourceUri;
@@ -636,7 +677,7 @@ class Delivery extends TaoModule {
 				$returnValue[$i]["subject"] = $subject->getLabel(); //or $subject->literal to get the uri
 			}
 			$timestamp=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP));
-			$returnValue[$i]["timestamp"] = date('Y-m-d', $timestamp->literal);
+			$returnValue[$i]["timestamp"] = date('d-m-Y', $timestamp->literal);
 			
 			// $delivery=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP));//useless
 			
@@ -647,6 +688,13 @@ class Delivery extends TaoModule {
 		//TODO: history listing per subject???
 	}
 	
+	public function cache(){
+		$this->setView("cache.tpl");
+	}
+	
+	public function compile1(){
+		throw new Exception("Not implemented yet");
+	}
 	
 	/*
 	 * @TODO implement the following actions
