@@ -436,6 +436,33 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	/**
+     * Get all deliveries available for the identified subject.
+     * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
+	 * It returns an array containing the uri of selected deliveries or an empty array otherwise.
+	 * To be tested when core_kernel_classes_ApiModelOO::getObject() is implemented
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string subjectUri
+     * @return array
+     */
+	public function getDeliveriesBySubject($subjectUri){
+		
+		$returnValue=array();
+		
+		$groups = core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
+		$deliveries = core_kernel_classes_ContainerCollection();
+		foreach ($groups->getIterator() as $group) {
+			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->resourceUri, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+		}
+		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
+		$returnValue = $deliveries;
+		
+		
+		return $returnValue;
+	}
+	
+	/**
      * The methods getTestStatus checks the value of the property "active" OR "compiled" for a given test instance (a ressource)
      *
      * @access public
@@ -481,6 +508,105 @@ class taoDelivery_models_classes_DeliveryService
 					$returnValue=true;
 				}
 			}
+		}
+		
+		return $returnValue;
+	}
+	
+	/**
+     * The method isCompiled checks the value of the property "compiled" for a given delivery instance
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource aDeliveryInstance
+     * @return boolean
+     */
+	public function isCompiled(core_kernel_classes_Resource $aDeliveryInstance){
+		
+		$returnValue=false;
+		
+		if(!($aTestInstance instanceof core_kernel_classes_Resource) ){
+			throw new Exception("wrong resource in getTestStatus parameter");
+			return $returnValue;
+		}
+		
+		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->getIterator() as $value){
+			if($value instanceof core_kernel_classes_Resource ){
+				if ($value->uriResource == GENERIS_TRUE){
+					$returnValue=true;
+					break;
+				}
+			}
+		}
+		
+		return $returnValue;
+	}
+	
+	/**
+     * The method checks if the current time against the values of the properties PeriodStart and PeriodEnd.
+	 * It returns true if the delivery execution period is valid at the current time.
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource aDeliveryInstance
+     * @return boolean
+     */
+	public function checkPeriod(core_kernel_classes_Resource $aDeliveryInstance){
+		// http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
+		// http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
+		$validPeriod=false;
+		
+		//supposing that the literal value saved in the properties is in the right format: YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
+		$startDate=null;
+		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart'))->getIterator() as $value){
+			if($value instanceof core_kernel_classes_Literal ){
+				$startDate = date_create($value->literal);
+				break;
+			}
+		}
+		
+		$endDate=null;
+		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd'))->getIterator() as $value){
+			if($value instanceof core_kernel_classes_Literal ){
+				$endDate = date_create($value->literal);
+				break;
+			}
+		}
+		
+		if($startDate){
+			if($endDate) $validPeriod = (date_create()>$startDate and date_create()<$endDate);
+			else $validPeriod = (date_create()>$startDate);
+		}else{
+			if($endDate) $validPeriod = (date_create()<$endDate);
+			else $validPeriod = true;
+		}
+		
+		return $validPeriod;
+	}
+	
+	/**
+     * The the url of the select result server
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource aDeliveryInstance
+     * @return string
+     */
+	public function getResultServer(core_kernel_classes_Resource $aDeliveryInstance){
+		
+		$returnValue='';
+		
+		if(!is_null($delivery)){
+		
+			$aResultServerInstance = $aDeliveryInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer"));
+			if($aResultServerInstance instanceof core_kernel_classes_Resource){
+				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection()
+				$resultServerUrl = $aResultServerInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl"));
+				if($resultServerUrl instanceof core_kernel_classes_Literal){
+					$returnValue = $resultServerUrl->literal;
+				}
+			}
+			
 		}
 		
 		return $returnValue;
@@ -642,8 +768,8 @@ class taoDelivery_models_classes_DeliveryService
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subjectUri);
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $deliveryUri);
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
-	
 	}
+	
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
