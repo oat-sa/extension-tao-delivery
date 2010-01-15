@@ -391,6 +391,20 @@ class tao_helpers_Precompilator
 	public function clearCompiledFolder(){
 		$returnValue=false;
 		
+		//security check: detect directory traversal (deny the ../)
+		if(preg_match("/\.\.\//", $path)){
+			throw new Exception("forbidden path format");
+			return $returnValue;
+		}
+		
+		//security check:  detect the null byte poison by finding the null char injection
+		for($i = 0; $i < strlen($path); $i++){
+			if(ord($path[$i]) === 0){
+				throw new Exception("forbidden path format");
+				return $returnValue;
+			}
+		}
+		
 		$returnValue=$this->recursiveDelete($this->compiledPath, true);
 		
 		return $returnValue;
