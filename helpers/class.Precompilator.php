@@ -63,7 +63,7 @@ class tao_helpers_Precompilator
      * @access public
      * @var string
      */
-	public $compiledPath= "";
+	protected $compiledPath= "";
 	
 	/**
      * The attribute "testUri" define the uri of the test that is being compiled
@@ -72,6 +72,14 @@ class tao_helpers_Precompilator
      * @var string
      */
 	protected $testUri = "";
+	
+	/**
+     * The attribute "deliveryUri" define the uri of the delivery that is being compiled
+     *
+     * @access protected
+     * @var string
+     */
+	protected $deliveryUri = "";
 	
     // --- OPERATIONS ---
 	
@@ -86,7 +94,9 @@ class tao_helpers_Precompilator
      * @return mixed
      */	
 	public function __construct($testUri, $compiledPath, $pluginPath){
-	
+		
+		//TODO: change testUri to deliveryUri
+		
 		$this->completed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
@@ -102,6 +112,16 @@ class tao_helpers_Precompilator
 		if(empty($testId)){
 			throw new Exception("The test Id to be compiled can not be empty");
 		}
+		
+		if(!is_dir($pluginPath)){
+			throw new Exception("The plugin directory $pluginPath does not exist");
+		}
+		
+		if(!is_writable($compiledPath)){
+			throw new Exception("The compiled directory $compiledPath is not writable");
+		}
+		//TODO more security check on the compiled path
+		
 		$directory="$compiledPath$testId/";		
 		if(!is_dir($compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
@@ -118,12 +138,19 @@ class tao_helpers_Precompilator
 			}
 		}
 		
-		if(!is_dir($pluginPath)){
-			throw new Exception("The plugin directory $pluginPath does not exist");
-		}
-		
-		$this->compiledPath = $directory;
 		$this->pluginPath = $pluginPath;
+		$this->compiledPath = $directory;
+	}
+	
+	/**
+     * Returns the compilation path of the compilator
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return string
+     */	
+	public function getCompiledPath(){
+		return $this->compiledPath;
 	}
 	
 	/**
@@ -284,8 +311,6 @@ class tao_helpers_Precompilator
 		$authorizedMedia = array_merge($defaultMedia,$authorizedMedia);
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
-		
-		
 		$mediaList = array();
 		// $exprArray = array();
 		foreach ($authorizedMedia as $mediaType){
@@ -355,6 +380,53 @@ class tao_helpers_Precompilator
 		
 		return $returnValue;
 	}
+	
+	/**
+	 * The method clear the compiled folder
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return boolean
+     */	
+	public function clearCompiledFolder(){
+		$returnValue=false;
+		
+		$returnValue=$this->recursiveDelete($this->compiledPath, true);
+		
+		return $returnValue;
+	}
+	
+	/**
+	 * Delete a file or recursively delete a directory
+	 *
+	 * @access protected
+	 * @param string $toDelete
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return boolean
+     */	
+    protected function recursiveDelete($toDelete, $empty=true){
+		$returnValue=false;
+		
+        if(is_file($toDelete)){
+            if(@unlink($toDelete)){
+				$returnValue=true;
+			}else{
+				throw new Exception("the file $toDelete cannot be deleted, please check the access permission");
+			}
+        }
+        elseif(is_dir($toDelete)){
+            $scan = glob(rtrim($toDelete,'/').'/*');
+            foreach($scan as $index=>$path){
+                $returnValue = $this->recursiveDelete($path);
+            }
+			if($empty === true){
+				if (@rmdir($toDelete)) $returnValue=true;
+				else throw new Exception("the folder $toDelete cannot be deleted, please check the access permission");
+			}
+        }
+		
+		return $returnValue;
+    }
 	
 } /* end of class taoDelivery_helpers_Precompilator */
 
