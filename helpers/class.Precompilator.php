@@ -391,6 +391,8 @@ class tao_helpers_Precompilator
 	public function clearCompiledFolder(){
 		$returnValue=false;
 		
+		$path = $this->compiledPath;
+		
 		//security check: detect directory traversal (deny the ../)
 		if(preg_match("/\.\.\//", $path)){
 			throw new Exception("forbidden path format");

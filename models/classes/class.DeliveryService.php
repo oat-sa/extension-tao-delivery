@@ -525,7 +525,7 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$returnValue=false;
 		
-		if(!($aTestInstance instanceof core_kernel_classes_Resource) ){
+		if(!($aDeliveryInstance instanceof core_kernel_classes_Resource) ){
 			throw new Exception("wrong resource in getTestStatus parameter");
 			return $returnValue;
 		}

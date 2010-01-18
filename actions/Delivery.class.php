@@ -329,7 +329,6 @@ class Delivery extends TaoModule {
 	 * @return void
 	 */
 	public function index(){
-		
 		if($this->getData('reload') == true){
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
@@ -377,13 +376,48 @@ class Delivery extends TaoModule {
 		echo json_encode($result);
 	}
 	
+	public function compileView(){
+		$currentDelivery = $this->getCurrentDelivery();
+		if(!is_null($currentDelivery)){
+		
+			$this->setData("deliveryUri", urlencode($currentDelivery->uriResource));
+			$this->setData("deliveryLabel", $currentDelivery->getLabel());
+		
+			//compilation state:
+			$isCompiled=$this->service->isCompiled($currentDelivery);
+			$this->setData("isCompiled", $isCompiled);
+			if($isCompiled){
+				$compiledDate = $currentDelivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
+				$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
+			}
+		}
+		
+		$this->setView("compiling.tpl");
+	}
+	
+	public function compiletest(){
+		$deliveryData=array();
+		
+		// $currentDelivery = $this->getCurrentDelivery();
+		// if(is_null($currentDelivery)){
+			//no need to throw en exception here because it has already be done in the getCurrentDelivery() function
+			// throw new Exception("no current delivery identified");
+			
+		// }else{
+			// $deliveryUri = $currentDelivery->uriResource;
+		// }
+		
+		$deliveryUri=$_SESSION["aaa"];
+		echo json_encode(array('uri'=>$deliveryUri));
+	}
+	
 	public function initCompilation(){
 		//config:
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
 		$compilationPath=BASE_PATH."/compiled/";
 		
 		//get the uri of the test
-		$deliveryUri=$_POST["uri"];
+		$deliveryUri = urldecode($_POST["uri"]);
 		$delivery = new core_kernel_classes_Resource($deliveryUri);
 		// $deliveryId=tao_helpers_Precompilator::getUniqueId($deliveryUri);
 		
@@ -391,26 +425,35 @@ class Delivery extends TaoModule {
 		$compilator = new tao_helpers_Precompilator($deliveryUri, $compilationPath, $pluginPath);//new constructor
 		//delete the compiled delivery folder if it exists
 		$compilator->clearCompiledFolder();
-		
-		//get the tests list from the delivery id: likely, parsing the deliveryContent property value
-		$tests=array();//array of resource
-		
+
+		//init the value to be returned	
 		$deliveryData=array();
 		
 		//compilation state:
 		$deliveryData["compiled"]=0;
 		if($this->service->isCompiled($delivery)){
 			$deliveryData["compiled"]=1;
-			$deliveryData["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP) );
+			$deliveryData["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
 		}
 		
+		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
+		//array of resource, test set
+		$tests=array();
+		$tests=array(
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263198947080530400'),
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263807554074753100'),
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263807558034177900')
+			);
+			
 		$deliveryData['tests']=array();
 		foreach($tests as $test){
 			$deliveryData['tests'][]=array(
-				"label" => $delivery->getLabel(),
-				"uri" => $delivery->resourceUri
+				"label" => $test->getLabel(),
+				"uri" => $test->uriResource
 			);
 		}
+		
+		$deliveryData["uri"]=$deliveryUri;
 		
 		echo json_encode($deliveryData);
 	}
@@ -583,16 +626,16 @@ class Delivery extends TaoModule {
 	
 	public function endCompilation(){
 	
-		$result = intval($_POST["result"]);
+		$uri = urldecode($_POST["uri"]);
+		$delivery = new core_kernel_classes_Resource($uri);
 		
 		$response = array();
 		$response["result"]=0;
 		
-		if($result == 1){
-			if ($aTestInstance->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP),GENERIS_TRUE)){
-				$response["result"] = 1;
-				$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP) );
-			}
+		if ($delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP),GENERIS_TRUE)){
+			$response["result"] = 1;
+			$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
+			
 		}
 		
 		echo json_encode($response);
@@ -692,9 +735,7 @@ class Delivery extends TaoModule {
 		$this->setView("cache.tpl");
 	}
 	
-	public function compile1(){
-		throw new Exception("Not implemented yet");
-	}
+	
 	
 	/*
 	 * @TODO implement the following actions
