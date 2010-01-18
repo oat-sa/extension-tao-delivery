@@ -21,7 +21,9 @@
 		<br/>
 		
 		<script type="text/javascript" src="/taoDelivery/views/js/compiling.js"></script>
-		
+		<div id="progressbar"></div>
+		<br/>
+		<br/>
 		<div id="tests"></div>
 	</div>
 </div>

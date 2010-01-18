@@ -1,6 +1,9 @@
 var testUri= "";
 var testIndex = 0;
 var testArray = null;
+var progressbar = null;
+var progressbarStep = 0;
+var remainValue = 0;
 
 function updateProgress(){
 	//update progress bar
@@ -29,6 +32,7 @@ function initCompilation(uri){
 			//save the tests data in a global value
 			testUri = r.uri;
 			testArray = r.tests;
+			progressbarStep = Math.floor(100/parseInt(testArray.length));
 			
 			//table creation
 			var testTable = '<table id="user-list" class="ui-jqgrid-btable" cellspacing="0" cellpadding="0" border="0" role="grid" aria-multiselectable="false" aria-labelledby="gbox_user-list" style="width: 1047px;">'
@@ -60,6 +64,10 @@ function initCompilation(uri){
 			
 			$("#tests").html(testTable);
 			
+			//initiate the progressbar:
+			remainValue = 100-progressbarStep*testArray.length;
+			progressbar = $("#progressbar").progressbar({ value: 0 }).width("60%");
+			
 			updateProgress();
 		}
 	});
@@ -82,7 +90,13 @@ function compileTest(testUri){
 		success: function(r){
 		
 			if(r.success==1){
+				//let the user know that the compilation succeeded
 				$(testTag).html("ok");
+				
+				//update the progress bar
+				incrementProgressbar(progressbarStep);
+				
+				//go to next step
 				updateProgress();
 			}else{
 				if(r.success==2){
@@ -147,6 +161,7 @@ function endCompilation(uri){
 		dataType: "json",
 		success: function(r){
 			if(r.result == 1){
+				incrementProgressbar(remainValue);
 				$("#initCompilation").html("Recompile the delivery").show();
 			}else{
 				alert("the delivery has been successfully compiled but an issue happened with the delivery status update");
@@ -154,3 +169,9 @@ function endCompilation(uri){
 		}
 	});	
 }
+
+function incrementProgressbar(value){
+	//update the progress bar
+	progressbar.progressbar("option", "value", progressbar.progressbar("option", "value") + value);
+}
+
