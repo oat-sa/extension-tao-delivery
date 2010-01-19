@@ -24,7 +24,7 @@
 				<action name="import" url="/taoDelivery/Delivery/import"  context="class" />
 				<action name="export" url="/taoDelivery/Delivery/export"  context="class" reload="true" />
 				<action name="compile" url="/taoDelivery/Delivery/compileView" context="instance" />
-				<action name="cache" url="/taoDelivery/Delivery/cache" context="instance" />
+				<action name="cache" url="/taoDelivery/Delivery/cacheView" context="instance" />
 				<action name="view history" url="/taoDelivery/Delivery/viewHistory" context="instance" />
 			</actions>
 		</section>

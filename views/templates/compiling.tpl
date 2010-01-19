@@ -6,7 +6,7 @@
 		<br/>
 		
 		<?if(get_data('isCompiled')):?>
-			The delivery has been compiled on <?=get_data('compiledDate')?>.<br/><br/>
+			The delivery was last compiled on <?=get_data('compiledDate')?>.<br/><br/>
 		<?endif;?>
 		
 		<a href="#" id="initCompilation" onclick="initCompilation('<?=get_data('deliveryUri')?>')">

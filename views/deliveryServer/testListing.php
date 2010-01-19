@@ -23,18 +23,18 @@ if(!isset($_SESSION["subject"]["uri"])){
 //connect to the delivery service:
 $deliveryService = new taoDelivery_models_classes_DeliveryService();
 //get an arry of test uri
-$allTestUriArray=$deliveryService->getTestsBySubject($_SESSION["subject"]["uri"]);
+$allTests=$deliveryService->getTestsBySubject($_SESSION["subject"]["uri"]);
+// var_dump($allTests);
 		
 $compiledTestArray=array();
-foreach($allTestUriArray as $testUri){
-	//create the test instance object fron the testUri
-	$test=new core_kernel_classes_Resource($testUri);
+foreach($allTests->getIterator() as $test){
 	//check whether it is compiled or not, and select only the compiled one
 	$isCompiled=$deliveryService->getTestStatus($test, "compiled");
 	if($isCompiled){
 		$compiledTestArray[]=$test;
 	}
 }
+// var_dump($compiledTestArray);
 
 //calculated the information for the paging	
 $total_number=count($compiledTestArray);

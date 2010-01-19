@@ -23,6 +23,11 @@ function updateProgress(){
 function initCompilation(uri){
 	$("#initCompilation").hide();
 	
+	//detroying the progressbar, if it has been initiated
+	if( progressbar != null ){
+		progressbar.progressbar( 'destroy' );
+	}
+	
 	$.ajax({
 		type: "POST",
 		url: "/taoDelivery/Delivery/initCompilation",

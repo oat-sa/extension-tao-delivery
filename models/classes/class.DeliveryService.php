@@ -407,30 +407,15 @@ class taoDelivery_models_classes_DeliveryService
 	public function getTestsBySubject($subjectUri){
 		
 		$returnValue=array();
-		
-		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		$query = "SELECT s2.object FROM statements AS s1, statements AS s2
-			WHERE s1.subject=s2.subject  
-			AND s1.object='$subjectUri'
-			AND s1.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Members'
-			AND s2.predicate='http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'";
-		
-		$result = $db->execSql($query);
-		while(!$result->EOF){
-			$returnValue[]=$result->fields["object"];
-			$result->MoveNext();
-		}
-		
-		/*
+				
 		//to be unquoted and tested when core_kernel_classes_ApiModelOO::getObject() is implemented
 		$groups=core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = core_kernel_classes_ContainerCollection();
+		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->resourceUri, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
 		}
 		//eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue=$deliveries;
-		*/
 		
 		return $returnValue;
 	}
@@ -451,9 +436,9 @@ class taoDelivery_models_classes_DeliveryService
 		$returnValue=array();
 		
 		$groups = core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = core_kernel_classes_ContainerCollection();
+		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->resourceUri, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
 		}
 		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue = $deliveries;

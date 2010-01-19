@@ -731,11 +731,29 @@ class Delivery extends TaoModule {
 		//TODO: history listing per subject???
 	}
 	
-	public function cache(){
+	public function cacheView(){
 		$this->setView("cache.tpl");
 	}
 	
-	
+	/*
+	public function cache(){
+		//get the id of subscribed modules and connect to them
+		core_kernel_classes_ApiModelOO::getSubscription() : array(ids) NOT defined yet?
+		core_kernel_classes_ApiModelOO::connectOnRemoteModule($idSubscription) : boolean NIY
+		
+		//get rdf file of these modules AND parse the rdf files (input: rdf dom object? or file location?)
+		core_kernel_classes_ApiModelOO::exportXmlRdf() : String NIY
+
+		//generate a new and unique namespace (thus new modelId) for the (each?) modules
+		//store the triplets with this namespace:
+		core_kernel_classes_ApiModelOO::importXmlRdf( java_lang_String $targetNameSpace,  java_lang_String $fileLocation) : Boolean NIY
+
+		//save the reference to these new local namespaces ("s" for several modules) in the cache properties (one value for each cached module) of the 
+		//q? given a delivery and a module, allow multiple cache? should be no, since delivery is aimed at being used within a limited time period
+		
+		//return the success/failure status of each distant module caching
+	}
+	*/
 	
 	/*
 	 * @TODO implement the following actions
