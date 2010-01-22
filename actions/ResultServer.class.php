@@ -23,7 +23,7 @@ class ResultServer extends TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = new taoDelivery_models_classes_resultServerService();
+		$this->service = new taoDelivery_models_classes_ResultServerService();
 		$this->defaultData();
 		
 		Session::setAttribute('currentSection', 'result_server');
