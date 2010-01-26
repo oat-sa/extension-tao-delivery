@@ -11,12 +11,12 @@ $(function(){
 	});
 	
 	<?if(get_data('action') != 'authoring'):?>
-		<?if(get_data('uri') && get_data('classUri')):?>
 		index = getTabIndexByName('delivery_authoring');
+		<?if(get_data('uri') && get_data('classUri')):?>
 		UiBootstrap.tabs.tabs('url', index, "/taoTests/Tests/authoring?uri=<?=get_data('uri')?>&classUri=<?=get_data('classUri')?>");
 		UiBootstrap.tabs.tabs('enable', index);
 		<?else:?>
-			UiBootstrap.tabs.tabs('disable', getTabIndexByName('delivery_authoring'));
+			UiBootstrap.tabs.tabs('disable', index);
 		<?endif?>
 	<?endif?>
 	

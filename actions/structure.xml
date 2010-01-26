@@ -67,13 +67,13 @@
 				/>
 			</trees>
 			<actions>
-				<action name="new class" js="subClass" url="/taoDelivery/ResultServer/addResultServerClass" context="class" />
-				<action name="new result server" js="instanciate" url="/taoDelivery/ResultServer/addResultServer" context="class" />
-				<action name="delete" js="removeNode" url="/taoDelivery/ResultServer/delete" context="resource" />
-				<action name="duplicate" js="cloneNode" url="/taoDelivery/ResultServer/cloneResultServer" context="instance" />
+				<action name="new class" js="GenerisAction.subClass" url="/taoDelivery/ResultServer/addResultServerClass" context="class" />
+				<action name="new result server" js="GenerisAction.instanciate" url="/taoDelivery/ResultServer/addResultServer" context="class" />
+				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/ResultServer/delete" context="resource" />
+				<action name="duplicate" js="GenerisAction.cloneNode" url="/taoDelivery/ResultServer/cloneResultServer" context="instance" />
 				<action name="edit result server" url="/taoDelivery/ResultServer/editResultServer" context="instance" />
-				<action name="new property" js="addProperty" url="/taoDelivery/ResultServer/addClassProperty" context="class" />
-				<action name="create table" js="resultTable" url="/taoResults/Results/createTable"  context="class" />
+				<action name="new property" js="GenerisAction.addProperty" url="/taoDelivery/ResultServer/addClassProperty" context="class" />
+				<action name="create table" js="GenerisAction.resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="import" url="/taoDelivery/ResultServer/import"  context="class" />
 				<action name="export" url="/taoDelivery/ResultServer/export"  context="class" reload="true" />
 			</actions>
