@@ -1,0 +1,18 @@
+msgid "test saved"
+msgstr ""
+
+msgid "Delivery authoring"
+msgstr ""
+
+msgid "Select delivery"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Select testees to be <b>excluded</b>"
+msgstr ""
+
+msgid "Select delivery campaign"
+msgstr ""
+
