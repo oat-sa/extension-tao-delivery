@@ -1,4 +1,6 @@
 <?php
+define('NS_TAOQUAL', 'http://www.tao.lu/middleware/taoqual.rdf');
+
 $todefine = array(
 	'TAO_DELIVERY_CLASS' 		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 	'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject',
@@ -38,8 +40,18 @@ $todefine = array(
 	'TAO_DELIVERY_HISTORY_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',	
 	'TAO_DELIVERY_HISTORY_SUBJECT_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#HistorySubject',
 	'TAO_DELIVERY_HISTORY_DELIVERY_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryDelivery',
-	'TAO_DELIVERY_HISTORY_TIMESTAMP_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryTimestamp'
+	'TAO_DELIVERY_HISTORY_TIMESTAMP_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryTimestamp',
 	
+	'CLASS_PROCESS' => NS_TAOQUAL . '#118588753722590',
+	'CLASS_CALLOFSERVICES' => NS_TAOQUAL . '#118595077025536',
+	'CLASS_TRANSITIONRULES' => NS_TAOQUAL . '#122206969324866',
+	'CLASS_CONNECTORS' => NS_TAOQUAL . '#118589215756172',
+	'CLASS_ACTIVITIES' => NS_TAOQUAL . '#118588757437650',
+	'CLASS_SERVICEDEFINITION' => NS_TAOQUAL . '#118588759532084',
+	'CLASS_ROLE' => NS_TAOQUAL . '#118588820437156',
+	'CLASS_FORMALPARAMETER' => NS_TAOQUAL . '#118588904546812',
+	'CLASS_WEBSERVICES' => NS_TAOQUAL . '#118588763446870',
+	'CLASS_SUPPORTSERVICES' => NS_TAOQUAL . '#118588779325312'
 	
 );
 foreach($todefine as $constName => $constValue){
