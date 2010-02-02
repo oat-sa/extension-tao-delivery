@@ -24,4 +24,13 @@
 			instanceName:			"<?=$sectionName?>"
 		});
 	});
+	
+	$(function(){
+	<?if($sectionName == "serviceDefinition"):?>
+		//add a callback function to disable instantiating servicedefinition class directly
+		$("#tree-serviceDefinition > ul > li:first").removeClass("node-class");
+		//alert("sth:"+$("#tree-serviceDefinition>ul ").html());
+		//<li class="last"><a class="loading" href="#"><ins>&nbsp;</ins>Loading ...</a></li>
+	<?endif;?>
+	});
 </script>

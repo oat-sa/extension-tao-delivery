@@ -1,5 +1,5 @@
 <?$sectionName=get_data("section");?>
-<?$sectionName="serviceDefinition";//for test only?>
+
 
 <div id="<?=$sectionName?>-form">
 	<?=get_data("formPlus")?>
@@ -17,12 +17,12 @@ $(function(){
 			dataType: 'html',
 			success: function(response){
 				$("#<?=$sectionName?>-form").html(response);
-				//if ok, then reload the tree!!
+				//reload the tree
 				loadSectionTree("<?=$sectionName?>");
 			}
 		});
 	});
-	
+	// alert($("input[id=http%3A%2F%2Fwww__tao__lu%2Fmiddleware%2Ftaoqual__rdf%23118588892919658_8]").attr("name"));
 });
 
 </script>

@@ -67,10 +67,10 @@ class Campaign extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		$highlightUri = '';
-		if($this->hasSessionAttribute("showNodeUri")){
-			$highlightUri = $this->getSessionAttribute("showNodeUri");
-			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		} 
+		// if($this->hasSessionAttribute("showNodeUri")){
+			// $highlightUri = $this->getSessionAttribute("showNodeUri");
+			// unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		// } 
 		$filter = '';
 		if($this->hasRequestParameter('filter')){
 			$filter = $this->getRequestParameter('filter');

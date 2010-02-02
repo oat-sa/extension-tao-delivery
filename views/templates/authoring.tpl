@@ -19,7 +19,10 @@
 	<style type="text/css">
 	#draggable {padding: 0.5em;width:auto; }
 	#draggable1 {padding: 0.5em;width:auto;}
-	#accordion1 {position:absolute;left:1%;top:1%;width:25%;height=100%;}
+	
+	#accordion1 {position:absolute;left:0%;top:0%;width:22%;height=100%;}
+	#accordion_container_2 {position:absolute;left:78%;top:0%;width:22%;height=100%;}
+	
 	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
 	#main {width:1000px;height:700px;}
@@ -52,8 +55,33 @@
 			<div id="role_form"/>
 		</div>
 	</div><!--end accordion -->
-
-		
+	
+	<div id="accordion_container_2" style="height:100%">
+	<div id="accordion2" style="font-size:0.8em;">
+		<h3><a href="#">Activity Editor</a></h3>
+		<div>
+			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+			Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+		</div>
+		<h3><a href="#">Connector Editor</a></h3>
+		<div>
+			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+			Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+		</div>
+		<h3><a href="#">Process Property</a></h3>
+		<div>
+			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+			Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+		</div>
+	</div><!--end accordion -->
+	</div><!--end accordion_container_2 -->
+	
 	</div><!--end authoring-container -->
 	
 	<script type="text/javascript">
@@ -70,6 +98,19 @@
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
 		loadSectionTree("role");
+	});
+	
+	$(function(){
+		$("#accordion2").accordion({
+			fillSpace: false,
+			autoHeight: false,
+			collapsible: false,
+			
+			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
+		});
+		
+		//load the trees:
+		
 	});
 	
 	function loadSectionTree(section){

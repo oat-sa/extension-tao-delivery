@@ -68,7 +68,8 @@ class DeliveryAuthoring extends TaoModule {
 		$classUri='';
 		switch($instanceOf){
 			case 'servicedefinition': 
-				$classUri=CLASS_SERVICEDEFINITION;break;
+				$classUri=CLASS_SERVICEDEFINITION;// <=> CLASS_WEBSERVICES or CLASS_SUPPORTSERVICES
+				break;
 			case 'formalparameter': 
 				$classUri=CLASS_FORMALPARAMETER;break;
 			case 'activity': 
@@ -76,7 +77,7 @@ class DeliveryAuthoring extends TaoModule {
 			case 'role': 
 				$classUri=CLASS_ROLE;break;
 			default:
-				throw new Exception('unknown class ');break;
+				throw new Exception('unknown class');break;
 		}
 		// $classUri = CLASS_SERVICEDEFINITION;
 		//!!! currently, not the uri of the class is provided: better to pass it to "get" parameter somehow
@@ -87,10 +88,10 @@ class DeliveryAuthoring extends TaoModule {
 		}
 		
 		$highlightUri = '';
-		if($this->hasSessionAttribute("showNodeUri")){
-			$highlightUri = $this->getSessionAttribute("showNodeUri");
-			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		}
+		// if($this->hasSessionAttribute("showNodeUri")){
+			// $highlightUri = $this->getSessionAttribute("showNodeUri");
+			// unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		// }
 		
 		$filter = '';
 		if($this->hasRequestParameter('filter')){
@@ -134,18 +135,19 @@ class DeliveryAuthoring extends TaoModule {
 			$formName = "formalParameter";
 		}elseif(strcasecmp($clazz->uriResource, CLASS_ROLE) == 0){
 			$formName = "role";
-		}elseif(strcasecmp($clazz->uriResource, CLASS_SERVICEDEFINITION) == 0){
+		}elseif( (strcasecmp($clazz->uriResource, CLASS_WEBSERVICES) == 0) || (strcasecmp($clazz->uriResource, CLASS_SUPPORTSERVICES) == 0) ){
+			//note: direct instanciating CLASS_SERVICEDEFINITION should be forbidden
 			$formName = "serviceDefinition";
 		}elseif(strcasecmp($clazz->uriResource, CLASS_FORMALPARAMETER) == 0){
 			$formName = "formalParameter";
 		}else{
 			throw new Exception("attempt to editing an instance of an unsupported class");
 		}
-		
-		$myForm  = null;
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance, $formName, array("noSubmit"=>true,"noRevert"=>true));
+				
+		$myForm = null;
+		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor($clazz, $instance, $formName, array("noSubmit"=>true,"noRevert"=>true) , array('http://www.tao.lu/middleware/Interview.rdf#122354397139712') );
 		// $myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance, $formName);
-		
+		$myForm->setActions(array(), 'bottom');	
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$instance = $this->service->bindProperties($instance, $myForm->getValues());

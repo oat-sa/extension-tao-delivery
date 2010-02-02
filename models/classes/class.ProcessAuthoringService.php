@@ -63,6 +63,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	protected $roleClass = null;
 	protected $serviceDefinitionClass = null;
 	protected $formalParameterClass = null;
+	
+	protected $processUri = '';
 		
     /**
      * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
@@ -98,6 +100,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
 		$this->serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SERVICEDEFINITION);
 		$this->formalParameterClass = new core_kernel_classes_Class(CLASS_FORMALPARAMETER);
+		
+		//set processUri here
 		
 		$this->loadOntologies($this->processOntologies);
     }
@@ -276,7 +280,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			CLASS_SUPPORTSERVICES,
 			CLASS_FORMALPARAMETER,
 			CLASS_ROLE
-		);	
+		);
+		
 		if( in_array($clazz->uriResource, $authorizedClassUri) ){
 			$returnValue = true;	
 		}
@@ -347,6 +352,81 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $returnValue;
 	}
+	
+	public function createActivity(){
+	
+	}
+	
+	public function getActivitiesByProcess($processUri = ''){
+		
+		$returnValue = array();
+		
+		//eventually, put $processUri in a class property
+		if(empty($processUri)){
+			$processUri = $this->processUri;
+		}
+		if(empty($processUri)){
+			throw new Exception("no process Uri found");
+			return $returnValue;
+		}
+		
+		$process = new core_kernel_classes_Resource($processUri);
+		foreach ($process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->getIterator() as $value){
+			if($value instanceof core_kernel_classes_Resource ){
+				$returnValue[] = $value;
+			}
+		}
+		
+		return $returnValue;
+	}
+	
+	public function getActivityConnectors($activityUri, $option=array() ){
+			
+		//prev: the connectors that links to the current activity
+		//next: the connector (should be unique for an activiy that is not a connector itself) that follow the current activity
+		$returnValue = array(
+			'prev'=>array(),
+			'next'=>array()
+		);
+		
+		if(empty($option)){
+		//the default option: select all connectors
+			$option = array('prev','next');
+		}else{
+			$option = array_map('strtolower', $option);
+		}
+		
+		if(in_array('prev',$option)){
+		
+			$previousConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $activityUri);
+		
+			foreach ($previousConnectorsCollection->getIterator() as $connector){
+				if(!is_null($connector)){
+					if($connector instanceof core_kernel_classes_Resource ){
+						$returnValue['prev'][] = $connector; 
+					}
+				}
+			}
+		}
+		
+		if(in_array('next',$option)){
+		
+			$followingConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES, $activityUri);
+		
+			foreach ($followingConnectorsCollection->getIterator() as $connector){
+				if(!is_null($connector)){
+					if($connector instanceof core_kernel_classes_Resource ){
+						$returnValue['next'][] = $connector; 
+						//break; //select the unique FOLLOWING connector in case of a real activity  (i.e. not a connector)
+					}
+				}
+			}
+		}
+		
+		return $returnValue;
+	}
+	
+
 		
 	/**
      * The method checks if the current time against the values of the properties PeriodStart and PeriodEnd.
