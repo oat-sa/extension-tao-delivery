@@ -93,7 +93,6 @@ class Campaign extends TaoModule {
 				}
 				$this->setData('message', 'campaign class saved');
 				$this->setData('reload', true);
-				$this->forward('Campaign', 'index');
 			}
 		}
 		$this->setData('formTitle', 'Edit campaign class');
@@ -119,7 +118,6 @@ class Campaign extends TaoModule {
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($campaign->uriResource));
 				$this->setData('message', 'campaign saved');
 				$this->setData('reload', true);
-				$this->forward('campaign', 'index');
 			}
 		}
 		

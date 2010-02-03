@@ -94,7 +94,6 @@ class ResultServer extends TaoModule {
 				}
 				$this->setData('message', 'resultServer class saved');
 				$this->setData('reload', true);
-				$this->forward('ResultServer', 'index');
 			}
 		}
 		$this->setData('formTitle', 'Edit resultServer class');
@@ -120,7 +119,6 @@ class ResultServer extends TaoModule {
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
 				$this->setData('message', 'result server saved');
 				$this->setData('reload', true);
-				$this->forward('resultServer', 'index');
 			}
 		}
 		

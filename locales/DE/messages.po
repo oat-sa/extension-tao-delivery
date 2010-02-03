@@ -4,6 +4,12 @@ msgstr ""
 msgid "Delivery authoring"
 msgstr ""
 
+msgid "Please select a delivery aythoring it!"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
 msgid "Select delivery"
 msgstr ""
 
@@ -14,5 +20,17 @@ msgid "Select testees to be <b>excluded</b>"
 msgstr ""
 
 msgid "Select delivery campaign"
+msgstr ""
+
+msgid "Use the * character to replace any string"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Open all"
+msgstr ""
+
+msgid "Close all"
 msgstr ""
 

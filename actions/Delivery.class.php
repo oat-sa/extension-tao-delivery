@@ -92,7 +92,6 @@ class Delivery extends TaoModule {
 				}
 				$this->setData('message', 'delivery class saved');
 				$this->setData('reload', true);
-				$this->forward('Delivery', 'index');
 			}
 		}
 		$this->setData('formTitle', 'Edit delivery class');
@@ -117,7 +116,6 @@ class Delivery extends TaoModule {
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 				$this->setData('message', 'delivery saved');
 				$this->setData('reload', true);
-				$this->forward('Delivery', 'index');
 			}
 		}
 		
