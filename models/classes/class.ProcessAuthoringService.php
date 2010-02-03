@@ -236,6 +236,35 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
         return (bool) $returnValue;
     }
+	
+	//clean the ontology of a call of service and its related resource (i.e. actual parameters)
+	public function deleteActualParameters(core_kernel_classes_Resource $callOfService){
+		
+		$returnValue = (bool) false;
+		
+		if(is_null($callOfService) || !($callOfService instanceof core_kernel_classes_Resource)){
+			throw new Exception("not valid Call of Service in function parameter");
+			return $returnValue;
+		}
+			
+		//get all actual param of the current call of service
+		$actualParamCollection = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
+		$actualParamCollection = $actualParamCollection->union($callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT)));
+		
+		//delete all of them:
+		foreach($actualParamCollection->getIterator() as $actualParam){
+		
+			if($actualParam instanceof core_kernel_classes_Resource){
+				$returnValue=$actualParam->delete();
+				
+				if(!$returnValue) break;
+			}
+		}
+		
+		
+		
+		return (bool) $returnValue;
+	}
 
     /**
      * Method to be called to delete a delivery class
@@ -426,6 +455,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	
 
 		
 	/**
@@ -545,8 +575,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @return void
      */
 	public function addHistory($deliveryUri, $subjectUri){
-		if(empty($subjectUri)) throw new Exception("the subject uri cannot be empty");
-		if(empty($deliveryUri)) throw new Exception("the delivery uri cannot be empty");
+		// if(empty($subjectUri)) throw new Exception("the subject uri cannot be empty");
+		// if(empty($deliveryUri)) throw new Exception("the delivery uri cannot be empty");
 		
 		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS));
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subjectUri);

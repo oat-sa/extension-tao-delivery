@@ -123,6 +123,12 @@ class DeliveryAuthoring extends TaoModule {
 		// $this->setView('form.tpl');
 	// }
 	
+	public function getSectionTrees(){
+		$section = $_POST["section"];
+		$this->setData('section', $section);
+		$this->setView('tree.tpl');
+	}
+	
 	public function editInstance(){
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
@@ -158,6 +164,11 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setData('section', $formName);
 		$this->setData('formPlus', $myForm->render());
 		$this->setView('tree_form.tpl');
+	}
+	
+	public function editCallOfService(){
+		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource(NS_TAOQUAL . '#118595593412394'));
+		echo $myForm; 
 	}
 	
 	/**
@@ -216,6 +227,19 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode(array('deleted'	=> $deleted));
 	}
 	
+	public function deleteCallOfService(){
+		$callOfServiceUri = $_POST["uri"];
+		
+		//delete its related properties
+		$deleted = $this->service->deleteActualParameters(new core_kernel_classes_Resource ($callOfServiceUri));
+		
+		//delete call of service itself
+		$deleted = $this->service->deleteInstance(new core_kernel_classes_Resource ($callOfServiceUri));
+	
+		return $deleted;
+	}
+	
+	
 	/**
 	 * Duplicate an instance
 	 * @return void
@@ -246,24 +270,24 @@ class DeliveryAuthoring extends TaoModule {
 		}
 	}
 	
+	public function saveCallOfService(){
+		$callOfServiceUri = $_POST["uri"];
+		//compare service definition resource value:
 		
-	/**
-	 * Main action
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function index(){
-		if($this->getData('reload') == true){
-			unset($_SESSION[SESSION_NAMESPACE]['uri']);
-			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+		//change it if it is different and delete all related actual parameters
+		
+		//set new actual parameters : clear ALL and recreate new values at each save
+		$deleted = $this->service->deleteActualParameters(new core_kernel_classes_Resource($callOfServiceUri));
+		
+		if(empty($inputUri)){//place ce bloc dans la creation de call of service: cad retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
+			//if no actual parameter has been found above (since $inputUri==0) create an instance of actual parameter and associate it to the call of service:
+			$property_actualParam_formalParam = new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM);
+			$class_actualParam = new core_kernel_classes_Class(CLASS_ACTUALPARAM);
+			$newActualParameter = $class_actualParam->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+			$newActualParameter->setPropertyValue($property_actualParam_formalParam, $formalParam->uriResource);
 		}
-		$this->setData('section',Session::getAttribute('currentSection'));
-		$this->setView('index.tpl');
-	}
 		
-
+	}
 	
 	/**
 	 *

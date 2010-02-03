@@ -65,12 +65,9 @@
 			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
 			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
 		</div>
-		<h3><a href="#">Connector Editor</a></h3>
+		<h3><a href="#">Specialized form</a></h3>
 		<div>
-			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-			Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+			<div id="spForm"></div>
 		</div>
 		<h3><a href="#">Process Property</a></h3>
 		<div>
@@ -98,6 +95,15 @@
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
 		loadSectionTree("role");
+		
+		$.ajax({
+			url: '/taoDelivery/DeliveryAuthoring/editCallOfService',
+			type: "POST",
+			dataType: 'html',
+			success: function(response){
+				$("#spForm").html(response);
+			}
+		});
 	});
 	
 	$(function(){
@@ -116,7 +122,7 @@
 	function loadSectionTree(section){
 	//section in [serviceDefinition, formalParameter, role]
 		$.ajax({
-			url: '/taoDelivery/Delivery/getSectionTrees',
+			url: '/taoDelivery/DeliveryAuthoring/getSectionTrees',
 			type: "POST",
 			data: {section: section},
 			dataType: 'html',
@@ -125,6 +131,8 @@
 			}
 		});
 	}
+	
+	
 	</script>
 	
 <?endif?>
