@@ -142,7 +142,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
     }
 	
 	//$callOfService already created beforehand in the model
-	public static function callOfServiceEditor(core_kernel_classes_Resource $callOfService,core_kernel_classes_Resource $serviceDefinition = null){
+	public static function callOfServiceEditor(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $serviceDefinition = null){
 		
 		$returnValue = "";
 		$returnValue = "<ul>";
@@ -158,18 +158,25 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			}
 			else{
 				foreach ($collection->getIterator() as $value){
-					if($value instanceof core_kernel_classes_Resource ){
+					if($value instanceof core_kernel_classes_Resource){
 						$serviceDefinition = $value;
+						break;
 						//a service definition has been found
 					}
+				}
+				if(empty($serviceDefinition)){
+					//if still empty:
+					throw new Exception("no service definition has been found for the call of service that is being edited");
+					return $returnValue;
 				}
 			}
 		}
 		
 		//else continue to build the form associated to the selected service:
 		//get list of parameters from the service definition PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT and IN
-		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, "formalParameterIn");
-		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, "formalParameterOut");
+		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterIn");
+		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterOut");
+		
 		
 		//for each parameter, get the default value if exists:
 		//PROPERTY_SERVICESDEFINITION_FORMALPARAM -> PROPERTY_CALLOFSERVICES_ACTUALPARAM
@@ -190,21 +197,25 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			throw new Exception('serviceDefinition must be a resource');
 			return $returnValue;
 		}
+		if(!($callOfService instanceof core_kernel_classes_Resource)){
+			throw new Exception('callOfService must be a resource');
+			return $returnValue;
+		}
 		
 		$formalParameterType = '';
-		$actualParameterType = '';
+		$actualParameterInOutType = '';
 		if(strtolower($paramType) == "formalparameterin"){
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMIN;
-			$actualParameterType = PROPERTY_CALLOFSERVICES_FORMALPARAMIN;
+			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
 		}elseif(strtolower($paramType) == "formalparameterout"){
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT;
-			$actualParameterType = PROPERTY_CALLOFSERVICES_FORMALPARAMOUT;
+			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
 		}else{
 			throw new Exception("unsupported formalParameter type : $paramType");
 		}
 		
 		//start creating the BLOC of form element
-		$returnValue .= "<li>$formalParameterType:</li>";
+		$returnValue .= "<li>$paramType:</li>";
 		
 		$collection = $serviceDefinition->getPropertyValuesCollection(new core_kernel_classes_Property($formalParameterType));
 		foreach ($collection->getIterator() as $formalParam){
@@ -213,14 +224,14 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 				//create a form element:
 				$inputName = $formalParam->getLabel();//which will be equal to $actualParam->getLabel();
 				$inputUri = $formalParam->uriResource;
-				$inputUri = "";
+				// $inputUri = "";
 				$inputValue = "";
 				
 				//get current value:PROPERTY_ACTUALPARAM_CONSTANTVALUE
 				//find actual param first!
 				$actualParamValue='';
 				$actualParamFromFormalParam = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_ACTUALPARAM_FORMALPARAM, $formalParam->uriResource);
-				$actualParamFromCallOfServices = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property($actualParameterType)); 
+				$actualParamFromCallOfServices = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property($formalParameterInOutType)); 
 				
 				//make an intersect with $collection = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT));
 				$actualParam = $actualParamFromFormalParam->intersect($actualParamFromCallOfServices);
@@ -228,11 +239,16 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 					if($actualParam->get(0) instanceof core_kernel_classes_Resource){
 						//the actual param associated to the formal parameter of THE call of services has been found!
 						
-						$inputUri = $actualParam->uriResource;
+						//to be clarified(which one to use, how and when???):
+						$actualParameterType = PROPERTY_ACTUALPARAM_PROCESSVARIABLE; //PROPERTY_ACTUALPARAM_CONSTANTVALUE;//PROPERTY_ACTUALPARAM_PROCESSVARIABLE //PROPERTY_ACTUALPARAM_QUALITYMETRIC
 						
-						$actualParamValueCollection = $actualParam->get(0)->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_CONSTANTVALUE));
+						$actualParamValueCollection = $actualParam->get(0)->getPropertyValuesCollection(new core_kernel_classes_Property($actualParameterType));
 						if($actualParamValueCollection->count() > 0){
-							$actualParamValue = $actualParamValueCollection->get(0)->literal;
+							if($actualParamValueCollection->get(0) instanceof core_kernel_classes_Resource){
+								$actualParamValue = $actualParamValueCollection->get(0)->uriResource;
+							}elseif($actualParamValueCollection->get(0) instanceof core_kernel_classes_Literal){
+								$actualParamValue = $actualParamValueCollection->get(0)->literal;
+							}
 							$inputValue = $actualParamValue;
 						}
 						
@@ -249,8 +265,9 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 					// }
 				// }
 				
+				/*
 				if(empty($inputUri)){//place ce bloc dans la creation de call of service: cad retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
-					//if no actual parameter has been found above (since $inputUri==0) create an instance of actual parameter and associate it to the call of service:
+					// if no actual parameter has been found above (since $inputUri==0) create an instance of actual parameter and associate it to the call of service:
 					$property_actualParam_formalParam = new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM);
 					$class_actualParam = new core_kernel_classes_Class(CLASS_ACTUALPARAM);
 					$newActualParameter = $class_actualParam->createInstance($formalParam->getLabel(), "created by ProcessFormFactory");
@@ -258,8 +275,9 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 					
 					// $inputUri = $newActualParameter->uriResource;//we add an "empty" value in 
 				}
+				*/
 				
-				if(empty($actualParamValue)){
+				if(empty($inputValue)){
 					//if no value set yet, try finding the default value:
 					$defaultValue = "";
 					$paramValueCollection = $formalParam->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_FORMALPARAM_DEFAULTVALUE));
