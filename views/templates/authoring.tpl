@@ -98,7 +98,7 @@
 		
 		$.ajax({
 			url: '/taoDelivery/DeliveryAuthoring/editCallOfService',
-			type: "POST",
+			type: "GET",
 			dataType: 'html',
 			success: function(response){
 				$("#spForm").html(response);

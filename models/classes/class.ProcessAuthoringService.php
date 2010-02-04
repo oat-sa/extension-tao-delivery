@@ -98,7 +98,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		$this->activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
 		$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$this->serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SERVICEDEFINITION);
+		$this->serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SERVICESDEFINITION);
 		$this->formalParameterClass = new core_kernel_classes_Class(CLASS_FORMALPARAMETER);
 		
 		//set processUri here
@@ -246,7 +246,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			throw new Exception("not valid Call of Service in function parameter");
 			return $returnValue;
 		}
-			
+		
 		//get all actual param of the current call of service
 		$actualParamCollection = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
 		$actualParamCollection = $actualParamCollection->union($callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT)));
@@ -256,12 +256,15 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 			if($actualParam instanceof core_kernel_classes_Resource){
 				$returnValue=$actualParam->delete();
-				
-				if(!$returnValue) break;
+				if(!$returnValue) {
+					return (bool) $returnValue;
+				}
 			}
 		}
 		
-		
+		//remove the property values in the call of service instance
+		$returnValue = $callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN));
+		$returnValue = $callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT));
 		
 		return (bool) $returnValue;
 	}
@@ -304,7 +307,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
 		$authorizedClassUri=array(
 			CLASS_ACTIVITIES,
-			CLASS_SERVICEDEFINITION,
+			CLASS_SERVICESDEFINITION,
 			CLASS_WEBSERVICES,
 			CLASS_SUPPORTSERVICES,
 			CLASS_FORMALPARAMETER,

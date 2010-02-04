@@ -144,51 +144,87 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 	//$callOfService already created beforehand in the model
 	public static function callOfServiceEditor(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $serviceDefinition = null){
 		
-		$returnValue = "";
-		$returnValue = "<ul>";
+		$myForm = null;
+		// $returnValue = "<ul>";
+		$myForm = tao_helpers_form_FormFactory::getForm('callOfServiceEditor', array());
+		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
 		
+		//add a hidden input to post the uri of the call of service that is being edited
+		$classUriElt = tao_helpers_form_FormFactory::getElement('callOfServiceUri', 'Hidden');
+		$classUriElt->setValue(tao_helpers_Uri::encode($callOfService->uriResource));
+		// $classUriElt->setLevel($level);
+		$myForm->addElement($classUriElt);
+		
+		//add a drop down select input to allow selecting ServiceDefinition
+		$elementServiceDefinition = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), 'Combobox');
+		$elementServiceDefinition->setDescription(__('Service Definition'));
+		$range = new core_kernel_classes_Class(CLASS_SERVICESDEFINITION);
+		if($range != null){
+			$options = array();
+			foreach($range->getInstances(true) as $rangeInstance){
+				$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+			}
+			$elementServiceDefinition->setOptions($options);
+		}
+		$myForm->addElement($elementServiceDefinition);
+				
 		//check if the property value serviceDefiniiton PROPERTY_CALLOFSERVICES_SERVICEDEFINITION of the current callOfService exists
 		if(empty($serviceDefinition)){
 			
+			//get list of available service definition
+			$collection = null;
 			$collection = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
 			if($collection->count()<=0){
 				//if the serviceDefinition is not set yet, simply return a dropdown menu of available servicedefinition
-				$returnValue .= "<li>dropdown</li><ul>";
-				return $returnValue;
+				return $myForm;
 			}
 			else{
 				foreach ($collection->getIterator() as $value){
-					if($value instanceof core_kernel_classes_Resource){
+					if($value instanceof core_kernel_classes_Resource){//a service definition has been found!
 						$serviceDefinition = $value;
-						break;
-						//a service definition has been found
+						break;//stop at the first occurence, which should be the unique one
 					}
 				}
-				if(empty($serviceDefinition)){
-					//if still empty:
-					throw new Exception("no service definition has been found for the call of service that is being edited");
-					return $returnValue;
-				}
+				
 			}
 		}
 		
-		//else continue to build the form associated to the selected service:
+		//if the service definition is still not set here,there is a problem
+		if(empty($serviceDefinition)){
+			throw new Exception("no service definition has been found for the call of service that is being edited");
+			return $myForm;
+		}
+		
+		//useless because already in the select field
+		/*else{
+			//add a hidden input element to allow easier form value submit
+			$serviceDefinitionUriElt = tao_helpers_form_FormFactory::getElement('serviceDefinitionUri', 'Hidden');
+			$serviceDefinitionUriElt->setValue(tao_helpers_Uri::encode($serviceDefinition->uriResource));
+			// $classUriElt->setLevel($level);
+			$myForm->addElement($serviceDefinitionUriElt);
+		}*/
+		
+		//continue building the form associated to the selected service:
 		//get list of parameters from the service definition PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT and IN
-		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterIn");
-		$returnValue .= self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterOut");
-		
-		
-		//for each parameter, get the default value if exists:
-		//PROPERTY_SERVICESDEFINITION_FORMALPARAM -> PROPERTY_CALLOFSERVICES_ACTUALPARAM
-				
 		//create a form element and fill the content with the default value
-		$returnValue .= "</ul>";		
-        return $returnValue;
+		$elementInputs = array_merge(
+			self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterIn"),
+			self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterOut")
+		);
+		
+		// $elementInputs = self::getCallOfServiceFormElements($serviceDefinition, $callOfService, "formalParameterin");
+		foreach($elementInputs as $elementInput){
+			$myForm->addElement($elementInput);
+		}
+		
+		// $returnValue .= "</ul>";	
+			
+        return $myForm;
 	}
 	
 	private static function getCallOfServiceFormElements(core_kernel_classes_Resource $serviceDefinition, core_kernel_classes_Resource $callOfService, $paramType){
 	
-		$returnValue = "";//array();
+		$returnValue = array();//array();
 		if(empty($paramType) || empty($serviceDefinition)){
 			return $returnValue;
 		}
@@ -204,19 +240,30 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		
 		$formalParameterType = '';
 		$actualParameterInOutType = '';
+		$formalParameterName = '';
+		$formalParameterSuffix = '';
 		if(strtolower($paramType) == "formalparameterin"){
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMIN;
 			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
+			$formalParameterName = __('Formal Parameter IN'); 
+			$formalParameterSuffix = '_IN';
 		}elseif(strtolower($paramType) == "formalparameterout"){
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT;
 			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
+			$formalParameterName = __('Formal Parameter OUT');
+			$formalParameterSuffix = '_OUT';			
 		}else{
 			throw new Exception("unsupported formalParameter type : $paramType");
 		}
 		
 		//start creating the BLOC of form element
-		$returnValue .= "<li>$paramType:</li>";
+		// $returnValue .= "<li>$paramType:</li>";
+		$descriptionElement = tao_helpers_form_FormFactory::getElement($paramType, 'Free');
+		$descriptionElement->setValue($formalParameterName.' :');
+		$returnValue[$paramType]=$descriptionElement;
 		
+		//get the other parameter input elements
+		$collection = null;
 		$collection = $serviceDefinition->getPropertyValuesCollection(new core_kernel_classes_Property($formalParameterType));
 		foreach ($collection->getIterator() as $formalParam){
 			if($formalParam instanceof core_kernel_classes_Resource){
@@ -226,6 +273,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 				$inputUri = $formalParam->uriResource;
 				// $inputUri = "";
 				$inputValue = "";
+				
 				
 				//get current value:PROPERTY_ACTUALPARAM_CONSTANTVALUE
 				//find actual param first!
@@ -290,7 +338,13 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 				}
 				
 				//create the form element here:
-				$returnValue .= "<li>name:$inputName uri:$inputUri value:$inputValue</li>";
+				// $returnValue .= "<li>name:$inputName uri:$inputUri value:$inputValue</li>";
+				
+				$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($inputUri), 'Textbox');
+				$element->setDescription($inputName);
+				$element->setValue($inputValue);
+				
+				$returnValue[tao_helpers_Uri::encode($inputUri).$formalParameterSuffix] = $element;
 			}
 		}
 		

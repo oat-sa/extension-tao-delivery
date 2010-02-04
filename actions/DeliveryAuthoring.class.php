@@ -68,7 +68,7 @@ class DeliveryAuthoring extends TaoModule {
 		$classUri='';
 		switch($instanceOf){
 			case 'servicedefinition': 
-				$classUri=CLASS_SERVICEDEFINITION;// <=> CLASS_WEBSERVICES or CLASS_SUPPORTSERVICES
+				$classUri=CLASS_SERVICESDEFINITION;// <=> CLASS_WEBSERVICES or CLASS_SUPPORTSERVICES
 				break;
 			case 'formalparameter': 
 				$classUri=CLASS_FORMALPARAMETER;break;
@@ -168,7 +168,8 @@ class DeliveryAuthoring extends TaoModule {
 	
 	public function editCallOfService(){
 		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource(NS_TAOQUAL . '#118595593412394'));
-		echo $myForm; 
+		$this->setData('formInteractionService', $myForm->render());
+		$this->setView('form_interactiveServices.tpl');
 	}
 	
 	/**
@@ -271,20 +272,59 @@ class DeliveryAuthoring extends TaoModule {
 	}
 	
 	public function saveCallOfService(){
-		$callOfServiceUri = $_POST["uri"];
-		//compare service definition resource value:
+		$callOfServiceUri = $_POST["callOfServiceUri"];
 		
-		//change it if it is different and delete all related actual parameters
+		//decode uri:
+		$callOfServiceUri = tao_helpers_Uri::decode($callOfServiceUri);
+		$callOfService = new core_kernel_classes_Resource($callOfServiceUri);
 		
-		//set new actual parameters : clear ALL and recreate new values at each save
-		$deleted = $this->service->deleteActualParameters(new core_kernel_classes_Resource($callOfServiceUri));
+		//edit service definition resource value:
+		$serviceDefinition = new core_kernel_classes_Resource( tao_helpers_Uri::decode($_POST["callOfServiceUri"]) );
+		$callOfService->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
 		
-		if(empty($inputUri)){//place ce bloc dans la creation de call of service: cad retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
-			//if no actual parameter has been found above (since $inputUri==0) create an instance of actual parameter and associate it to the call of service:
-			$property_actualParam_formalParam = new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM);
-			$class_actualParam = new core_kernel_classes_Class(CLASS_ACTUALPARAM);
-			$newActualParameter = $class_actualParam->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
-			$newActualParameter->setPropertyValue($property_actualParam_formalParam, $formalParam->uriResource);
+		//reset new actual parameters : clear ALL and recreate new values at each save
+		$deleted = $this->service->deleteActualParameters($callOfService);
+		
+		//Place the bloc below in the service after applying uridecode to every key (and value?)
+		$inputs=array('id'=>"value");
+		foreach($inputs as $key=>$value){
+			$formalParamUri=tao_helpers_Uri::decode($key);
+			//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
+			$formalParam = new core_kernel_classes_Resource($formalParamUri);
+			
+			$parameterInOrOut='';
+			$formalParameterType = core_kernel_classes_ApiModelOO::getPredicate($serviceDefinition->uriResource, $formalParam->uriResource);
+			if(strcasecmp($formalParameterType->uriResource, PROPERTY_SERVICESDEFINITION_FORMALPARAMIN)==0){
+				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
+			}elseif(strcasecmp($formalParameterType->uriResource, PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT)==0){
+				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
+			}else{
+				//unknown actual parameter type to be bind to the current call of service
+				continue;
+			}
+			
+			// $index=0;
+			// if($index=strpos($key, '_forActualParameterIn')){
+				// $formalParamUri = substr($key,0,$index);
+				// $parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
+			// }elseif($index=strpos($key, '_forActualParameterOut')){
+				// $formalParamUri = substr($key,0,$index);
+				// $parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
+			// }else{
+				// continue;
+			// }
+			
+			//to be clarified:
+			$actualParameterType = PROPERTY_ACTUALPARAM_CONSTANTVALUE;//PROPERTY_ACTUALPARAM_PROCESSVARIABLE //PROPERTY_ACTUALPARAM_QUALITYMETRIC
+			
+			//place ce bloc dans la creation de call of service: cad retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
+			$actualParameterClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
+			
+			$newActualParameter = $actualParameterClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+			$newActualParameter->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM), $formalParam->uriResource);
+			$newActualParameter->setPropertyValue(new core_kernel_classes_Property($actualParameterType), $value);
+		
+			$callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $formalParam->uriResource);
 		}
 		
 	}
