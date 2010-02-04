@@ -547,8 +547,16 @@ class Delivery extends TaoModule {
 					$itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY));
 					if($itemModel instanceof core_kernel_classes_Resource){
 						if($itemModel->uriResource == TAO_ITEM_MODEL_WATERPHENIX){
+							
+							//get content into black file
 							$itemService = tao_models_classes_ServiceFactory::get('Items');
-							$itemContent = file_get_contents($itemService->getAuthoringFile($anItemInstance->uriResource));
+							
+							//Common black file not used now
+							//$itemContent = file_get_contents($itemService->getAuthoringFile($anItemInstance->uriResource));
+							
+							//Temp Common black file used instead
+							//@todo use the common and clean black file once the runtime implement it
+							$itemContent = file_get_contents($itemService->getTempAuthoringFile($anItemInstance->uriResource));
 						}
 					}
 				}
