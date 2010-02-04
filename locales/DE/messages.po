@@ -4,6 +4,75 @@ msgstr ""
 msgid "Delivery authoring"
 msgstr ""
 
+msgid "Delivery"
+msgstr ""
+
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "Deliveries library"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "new delivery"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "duplicate"
+msgstr ""
+
+msgid "edit delivery"
+msgstr ""
+
+msgid "new property"
+msgstr ""
+
+msgid "create table"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "export"
+msgstr ""
+
+msgid "compile"
+msgstr ""
+
+msgid "cache"
+msgstr ""
+
+msgid "view history"
+msgstr ""
+
+msgid "Manage Campaigns"
+msgstr ""
+
+msgid "Campaigns library"
+msgstr ""
+
+msgid "new campaign"
+msgstr ""
+
+msgid "edit campaign"
+msgstr ""
+
+msgid "Manage Result Servers"
+msgstr ""
+
+msgid "Result Servers library"
+msgstr ""
+
+msgid "new result server"
+msgstr ""
+
+msgid "edit result server"
+msgstr ""
+
 msgid "Please select a delivery aythoring it!"
 msgstr ""
 
@@ -33,4 +102,5 @@ msgstr ""
 
 msgid "Close all"
 msgstr ""
+
 
