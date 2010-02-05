@@ -10,9 +10,10 @@ $subjectIp = $_SERVER['REMOTE_ADDR'];
 $noresult=0;
 
 if(isset($_GET['subject']) and $_GET['subject']!=''){
-	$subjectUri="uri_".$_GET['subject'];
-	$subjectLabel=$_GET['subject'];
+	$subjectUri=$_GET['subject'];
+	$subjectLabel="previewer";
 	if($_GET['subject']=="previewer"){
+		$subjectUri .= time();
 		$noresult=1;
 	}
 }
