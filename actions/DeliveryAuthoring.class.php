@@ -185,7 +185,7 @@ class DeliveryAuthoring extends TaoModule {
 			// $deleted = $this->service->deleteDeliveryClass($this->getCurrentClass());
 		// }
 		
-		echo json_encode(array('deleted'	=> $deleted));
+		echo json_encode(array('deleted' => $deleted));
 	}
 	
 	public function deleteCallOfService(){
@@ -286,7 +286,7 @@ class DeliveryAuthoring extends TaoModule {
 			}
 			
 			$formalParam = new core_kernel_classes_Resource($formalParamUri);
-			$this->service->setActualParameter($callOfService, $formalParam, $value, $parameterInOrOut, '')
+			$this->service->setActualParameter($callOfService, $formalParam, $value, $parameterInOrOut, '');
 			
 		}
 	}
