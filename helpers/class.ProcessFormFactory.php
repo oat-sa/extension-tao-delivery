@@ -194,15 +194,14 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			throw new Exception("no service definition has been found for the call of service that is being edited");
 			return $myForm;
 		}
-		
 		//useless because already in the select field
-		/*else{
-			//add a hidden input element to allow easier form value submit
+		else{
+			//add a hidden input element to allow easier form value evaluation after submit
 			$serviceDefinitionUriElt = tao_helpers_form_FormFactory::getElement('serviceDefinitionUri', 'Hidden');
 			$serviceDefinitionUriElt->setValue(tao_helpers_Uri::encode($serviceDefinition->uriResource));
 			// $classUriElt->setLevel($level);
 			$myForm->addElement($serviceDefinitionUriElt);
-		}*/
+		}
 		
 		//continue building the form associated to the selected service:
 		//get list of parameters from the service definition PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT and IN

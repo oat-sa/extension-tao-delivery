@@ -237,13 +237,38 @@ class taoDelivery_models_classes_ProcessAuthoringService
         return (bool) $returnValue;
     }
 	
-	//clean the ontology of a call of service and its related resource (i.e. actual parameters)
+	public function createInteractiveService(core_kernel_classes_Resource $activity){
+		//retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
+		//an interactive service of an activity is a call of service:
+		$callOfServiceClass = new core_kernel_classes_Class(CLASS_CALLOFERVICES);
+		
+		//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
+		$callOfService = $callOfServiceClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+	}
+
+	public function setActualParameter(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $formalParam, $value, $parameterInOrOut, $actualParameterType=''){
+		
+		//to be clarified:
+		$actualParameterType = PROPERTY_ACTUALPARAM_PROCESSVARIABLE; //PROPERTY_ACTUALPARAM_CONSTANTVALUE;//PROPERTY_ACTUALPARAM_PROCESSVARIABLE //PROPERTY_ACTUALPARAM_QUALITYMETRIC
+		
+		//retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
+		$actualParameterClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
+		
+		//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
+		$newActualParameter = $actualParameterClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+		$newActualParameter->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM), $formalParam->uriResource);
+		$newActualParameter->setPropertyValue(new core_kernel_classes_Property($actualParameterType), $value);
+	
+		$callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $formalParam->uriResource);
+	}
+	
+	//clean the triples for a call of service and its related resource (i.e. actual parameters)
 	public function deleteActualParameters(core_kernel_classes_Resource $callOfService){
 		
 		$returnValue = (bool) false;
 		
 		if(is_null($callOfService) || !($callOfService instanceof core_kernel_classes_Resource)){
-			throw new Exception("not valid Call of Service in function parameter");
+			throw new Exception("no valid Call of Service in function parameter");
 			return $returnValue;
 		}
 		

@@ -100,29 +100,7 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode( $this->service->toTree( $clazz, true, true, $highlightUri, $filter));
 	}
 	
-	/**
-	 * Edit a class ... allowed??
-	 * @see tao_helpers_form_GenerisFormFactory::classEditor
-	 * @return void
-	 */
-	// public function editDeliveryClass(){
-		// $clazz = $this->getCurrentClass();
-		// $myForm = $this->editClass($clazz, $this->service->getDeliveryClass());
-		// if($myForm->isSubmited()){
-			// if($myForm->isValid()){
-				// if($clazz instanceof core_kernel_classes_Resource){
-					// $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
-				// }
-				// $this->setData('message', 'delivery class saved');
-				// $this->setData('reload', true);
-				// $this->forward('Delivery', 'index');
-			// }
-		// }
-		// $this->setData('formTitle', 'Edit delivery class');
-		// $this->setData('myForm', $myForm->render());
-		// $this->setView('form.tpl');
-	// }
-	
+		
 	public function getSectionTrees(){
 		$section = $_POST["section"];
 		$this->setData('section', $section);
@@ -189,25 +167,7 @@ class DeliveryAuthoring extends TaoModule {
 			));
 		}
 	}
-	
-	/**
-	 * Add a delivery subclass
-	 * @return void
-	 */
-	 //same: unquote and edit only if additional class is allowed in the workflow model
-	// public function addDeliveryClass(){
-		// if(!tao_helpers_Request::isAjax()){
-			// throw new Exception("wrong request mode");
-		// }
-		// $clazz = $this->service->createDeliveryClass($this->getCurrentClass());
-		// if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
-			// echo json_encode(array(
-				// 'label'	=> $clazz->getLabel(),
-				// 'uri' 	=> tao_helpers_Uri::encode($clazz->uriResource)
-			// ));
-		// }
-	// }
-	
+		
 	/**
 	 * Delete a delivery or a delivery class
 	 * @return void
@@ -272,27 +232,36 @@ class DeliveryAuthoring extends TaoModule {
 	}
 	
 	public function saveCallOfService(){
-		$callOfServiceUri = $_POST["callOfServiceUri"];
 		
 		//decode uri:
-		$callOfServiceUri = tao_helpers_Uri::decode($callOfServiceUri);
-		$callOfService = new core_kernel_classes_Resource($callOfServiceUri);
+		$data = array();
+		foreach($_POST as $key=>$value){
+			$data[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+		}
+		
+		$callOfService = new core_kernel_classes_Resource($data["callOfServiceUri"]);
+		unset($data["callOfServiceUri"]);
 		
 		//edit service definition resource value:
-		$serviceDefinition = new core_kernel_classes_Resource( tao_helpers_Uri::decode($_POST["callOfServiceUri"]) );
-		$callOfService->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
+		$serviceDefinition = new core_kernel_classes_Resource($data["serviceDefinitionUri"]);
+		unset($data["serviceDefinitionUri"]);
+		// $callOfService->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
+		$this->service->bindProperties($callOfService, array(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION=>$serviceDefinition->uriResource));
 		
 		//reset new actual parameters : clear ALL and recreate new values at each save
 		$deleted = $this->service->deleteActualParameters($callOfService);
 		
 		//Place the bloc below in the service after applying uridecode to every key (and value?)
-		$inputs=array('id'=>"value");
-		foreach($inputs as $key=>$value){
-			$formalParamUri=tao_helpers_Uri::decode($key);
-			//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
-			$formalParam = new core_kernel_classes_Resource($formalParamUri);
+		foreach($data as $key=>$value){
+			$formalParamUri = $key;
 			
 			$parameterInOrOut='';
+			
+			//find whether it is a parameter IN or OUT:
+			
+			//method 1: use the connection relation between the subject serviceDefinition and the object formalParameter: 
+			//issue with the use of the same instance of formal parameter for both parameter in and out of an instance of a service definiton
+			/*
 			$formalParameterType = core_kernel_classes_ApiModelOO::getPredicate($serviceDefinition->uriResource, $formalParam->uriResource);
 			if(strcasecmp($formalParameterType->uriResource, PROPERTY_SERVICESDEFINITION_FORMALPARAMIN)==0){
 				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
@@ -302,31 +271,24 @@ class DeliveryAuthoring extends TaoModule {
 				//unknown actual parameter type to be bind to the current call of service
 				continue;
 			}
+			*/
 			
-			// $index=0;
-			// if($index=strpos($key, '_forActualParameterIn')){
-				// $formalParamUri = substr($key,0,$index);
-				// $parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
-			// }elseif($index=strpos($key, '_forActualParameterOut')){
-				// $formalParamUri = substr($key,0,$index);
-				// $parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
-			// }else{
-				// continue;
-			// }
+			//method2: use the suffix of the name of the form input:
+			$index=0;
+			if($index=strpos($key, '_IN')){
+				$formalParamUri = substr($key,0,$index);
+				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
+			}elseif($index=strpos($key, '_OUT')){
+				$formalParamUri = substr($key,0,$index);
+				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
+			}else{
+				continue;
+			}
 			
-			//to be clarified:
-			$actualParameterType = PROPERTY_ACTUALPARAM_CONSTANTVALUE;//PROPERTY_ACTUALPARAM_PROCESSVARIABLE //PROPERTY_ACTUALPARAM_QUALITYMETRIC
+			$formalParam = new core_kernel_classes_Resource($formalParamUri);
+			$this->service->setActualParameter($callOfService, $formalParam, $value, $parameterInOrOut, '')
 			
-			//place ce bloc dans la creation de call of service: cad retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
-			$actualParameterClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
-			
-			$newActualParameter = $actualParameterClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
-			$newActualParameter->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM), $formalParam->uriResource);
-			$newActualParameter->setPropertyValue(new core_kernel_classes_Property($actualParameterType), $value);
-		
-			$callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $formalParam->uriResource);
 		}
-		
 	}
 	
 	/**
