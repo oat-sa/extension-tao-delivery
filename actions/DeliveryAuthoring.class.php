@@ -36,7 +36,7 @@ class DeliveryAuthoring extends TaoModule {
 	 * get the selected instance from the current context (from the uri and classUri parameter in the request)
 	 * @return core_kernel_classes_Resource $instance
 	 */
-	private function getCurrentInstance(){
+	protected function getCurrentInstance(){
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri)){
 			throw new Exception("No valid uri found");
@@ -98,6 +98,20 @@ class DeliveryAuthoring extends TaoModule {
 			$filter = $this->getRequestParameter('filter');
 		}
 		echo json_encode( $this->service->toTree( $clazz, true, true, $highlightUri, $filter));
+	}
+	
+	public function getActivityTree(){
+		//getCurrentProcess from delivery
+		
+		// $processUri = tao_helpers_Uri::decode($_POST["processUri"]);
+		$processUri = "http://127.0.0.1/middleware/demo.rdf#i1265636054002217400";
+		$processUri = "http://www.tao.lu/middleware/taoqual.rdf#118589073043506";
+		if(!empty($processUri)){
+			echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
+		}else{
+			throw new Exception("no process uri found");
+		}
+		
 	}
 	
 		
