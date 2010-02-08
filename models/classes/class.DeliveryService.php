@@ -366,28 +366,13 @@ class taoDelivery_models_classes_DeliveryService
 	
 		$returnValue = null;
 		
-		//essayer d'utiliser $subjectSet = core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login) à la place
-		/*
-		$db = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		$query = "SELECT s1.subject FROM statements AS s1, statements AS s2
-			WHERE s1.subject=s2.subject
-			AND s1.predicate='".SUBJECT_LOGIN_PROP."'
-			AND s1.object='$login'
-			AND s2.predicate='".SUBJECT_PASSWORD_PROP."'
-			AND	s2.object='$password'";
-		
-		$result = $db->execSql($query);
-		if(!$result->EOF) {
-			$returnValue=$result->fields["subject"];
-		}
-		*/
-		
 		$subjectsByLogin=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
 		$subjectsByPassword=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
 		
 		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
 		
 		if($subjects->count()>0){
+			//TODO: unicity of login/password pair to be implemented
 			$returnValue = $subjects->get(0);
 		}
 		
@@ -408,13 +393,12 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$returnValue=array();
 				
-		//to be unquoted and tested when core_kernel_classes_ApiModelOO::getObject() is implemented
 		$groups=core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
 		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
 			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
 		}
-		//eliminate duplicate deliveries (with a function like unique_array() ):
+		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue=$deliveries;
 		
 		return $returnValue;
@@ -585,7 +569,7 @@ class taoDelivery_models_classes_DeliveryService
 		
 			$aResultServerInstance = $aDeliveryInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer"));
 			if($aResultServerInstance instanceof core_kernel_classes_Resource){
-				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection()
+				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection() or store encoded url only in
 				$resultServerUrl = $aResultServerInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl"));
 				if($resultServerUrl instanceof core_kernel_classes_Literal){
 					$returnValue = $resultServerUrl->literal;
@@ -755,6 +739,14 @@ class taoDelivery_models_classes_DeliveryService
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
 	}
 	
+	public function createInstance(core_kernel_classes_Class $clazz, $label = ''){
+		$deliveryInstance = parent::createInstance($clazz, $label);
+		//create a process instance at the same time:
+		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS), "Process of delivery ".$deliveryInstance->getLabel());//the label could be updated
+		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
+
+		return $deliveryInstance;		
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
