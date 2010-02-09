@@ -266,11 +266,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$actualParameterClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
 		
 		//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
-		$newActualParameter = $actualParameterClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+		$newActualParameter = $actualParameterClass->createInstance($formalParam->getLabel(), "created by Process Authoring Service");
 		$newActualParameter->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAM), $formalParam->uriResource);
 		$newActualParameter->setPropertyValue(new core_kernel_classes_Property($actualParameterType), $value);
 	
-		$callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $formalParam->uriResource);
+		return $callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $newActualParameter->uriResource);
 	}
 	
 	//clean the triples for a call of service and its related resource (i.e. actual parameters)
@@ -286,6 +286,9 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		//get all actual param of the current call of service
 		$actualParamCollection = $callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
 		$actualParamCollection = $actualParamCollection->union($callOfService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT)));
+		if($actualParamCollection->count()<=0){
+			return true;//no need to delete anything
+		}
 		
 		//delete all of them:
 		foreach($actualParamCollection->getIterator() as $actualParam){
@@ -299,8 +302,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		
 		//remove the property values in the call of service instance
-		$returnValue = $callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN));
-		$returnValue = $callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT));
+		$callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN));
+		$callOfService->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT));
 		
 		return (bool) $returnValue;
 	}

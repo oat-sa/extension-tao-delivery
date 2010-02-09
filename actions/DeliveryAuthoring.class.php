@@ -89,15 +89,6 @@ class DeliveryAuthoring extends TaoModule {
 		return $instance;
 	}
 
-	/**
-	 * @see TaoModule::getRootClass
-	 * @return core_kernel_classes_Classes
-	 */
-	protected function getRootClass(){
-		return null;
-	}
-	
-
 /*
  * controller actions
  */
@@ -235,12 +226,7 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setView('tree_form.tpl');
 	}
 	
-	public function editCallOfService(){
-		$callOfServiceUri = tao_helpers_Uri::decode($_POST['uri']);
-		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri));//NS_TAOQUAL . '#118595593412394'
-		$this->setData('formInteractionService', $myForm->render());
-		$this->setView('form_interactiveServices.tpl');
-	}
+	
 	
 	/**
 	 * Add an instance        
@@ -295,35 +281,48 @@ class DeliveryAuthoring extends TaoModule {
 	
 	/**
 	 * Duplicate an instance
+	 * A bit more complicated here
 	 * @return void
 	 */
-	public function cloneInstance(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
+	// public function cloneInstance(){
+		// if(!tao_helpers_Request::isAjax()){
+			// throw new Exception("wrong request mode");
+		// }
 		
-		$instance = $this->getCurrentInstance();
-		$clazz = $this->getCurrentClass();
-		if(! $this->service->isAuthorizedClass($clazz)){
-			throw new Exception("attempt to clone an instance of an unauthorized class!");
-		}
-		$clone = $this->service->createInstance($clazz);
-		if(!is_null($clone)){
+		// $instance = $this->getCurrentInstance();
+		// $clazz = $this->getCurrentClass();
+		// if(! $this->service->isAuthorizedClass($clazz)){
+			// throw new Exception("attempt to clone an instance of an unauthorized class!");
+		// }
+		// $clone = $this->service->createInstance($clazz);
+		// if(!is_null($clone)){
 			
-			foreach($clazz->getProperties() as $property){
-				foreach($instance->getPropertyValues($property) as $propertyValue){
-					$clone->setPropertyValue($property, $propertyValue);
-				}
-			}
-			$clone->setLabel($instance->getLabel()."'");
-			echo json_encode(array(
-				'label'	=> $clone->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
-			));
-		}
+			// foreach($clazz->getProperties() as $property){
+				// foreach($instance->getPropertyValues($property) as $propertyValue){
+					// $clone->setPropertyValue($property, $propertyValue);
+				// }
+			// }
+			// $clone->setLabel($instance->getLabel()."'");
+			// echo json_encode(array(
+				// 'label'	=> $clone->getLabel(),
+				// 'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+			// ));
+		// }
+	// }
+	
+	public function editCallOfService(){
+		$callOfServiceUri = tao_helpers_Uri::decode($_POST['uri']);
+		
+		$formName="callOfServiceEditor";
+		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri), null, $formName);//NS_TAOQUAL . '#118595593412394'
+		
+		$this->setData('formId', $formName);
+		$this->setData('formInteractionService', $myForm->render());
+		$this->setView('form_interactiveServices.tpl');
 	}
 	
 	public function saveCallOfService(){
+		$saved = true;
 		
 		//decode uri:
 		$data = array();
@@ -335,18 +334,28 @@ class DeliveryAuthoring extends TaoModule {
 		unset($data["callOfServiceUri"]);
 		
 		//edit service definition resource value:
-		$serviceDefinition = new core_kernel_classes_Resource($data["serviceDefinitionUri"]);
-		unset($data["serviceDefinitionUri"]);
-		// $callOfService->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
-		$this->service->bindProperties($callOfService, array(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION=>$serviceDefinition->uriResource));
+		if(!isset($data[PROPERTY_CALLOFSERVICES_SERVICEDEFINITION])){
+			throw new Exception("no service definition uri found in POST");
+		}
+		$serviceDefinition = new core_kernel_classes_Resource($data[PROPERTY_CALLOFSERVICES_SERVICEDEFINITION]);
+		unset($data[PROPERTY_CALLOFSERVICES_SERVICEDEFINITION]);
+		
+		//edit label
+		$label = $data["label"];
+		$this->service->bindProperties($callOfService, array(
+			PROPERTY_CALLOFSERVICES_SERVICEDEFINITION => $serviceDefinition->uriResource,
+			'http://www.w3.org/2000/01/rdf-schema#label' => $label
+		));
+		//note: equivalent to $callOfService->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
 		
 		//reset new actual parameters : clear ALL and recreate new values at each save
 		$deleted = $this->service->deleteActualParameters($callOfService);
+		if(!$deleted){
+			throw new Exception("the actual parameters related to the call of service cannot be removed");
+		}
 		
-		//Place the bloc below in the service after applying uridecode to every key (and value?)
 		foreach($data as $key=>$value){
-			$formalParamUri = $key;
-			
+			$formalParamUri = '';
 			$parameterInOrOut='';
 			
 			//find whether it is a parameter IN or OUT:
@@ -378,9 +387,13 @@ class DeliveryAuthoring extends TaoModule {
 			}
 			
 			$formalParam = new core_kernel_classes_Resource($formalParamUri);
-			$this->service->setActualParameter($callOfService, $formalParam, $value, $parameterInOrOut, '');
-			
+			$saved = $this->service->setActualParameter($callOfService, $formalParam, $value, $parameterInOrOut, '');
+			if(!$saved){
+				break;
+			}
 		}
+		
+		echo json_encode(array("saved" => $saved));
 	}
 	
 	/**
