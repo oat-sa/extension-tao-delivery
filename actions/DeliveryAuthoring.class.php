@@ -51,6 +51,14 @@ class DeliveryAuthoring extends TaoModule {
 		return $instance;
 	}
 	
+	/**
+	 * @see TaoModule::getRootClass
+	 * @return core_kernel_classes_Classes
+	 */
+	protected function getRootClass(){
+		return null;
+	}
+	
 /*
  * controller actions
  */

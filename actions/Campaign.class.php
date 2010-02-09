@@ -53,6 +53,22 @@ class Campaign extends TaoModule {
 		return $campaign;
 	}
 	
+	/**
+	 * @see TaoModule::getCurrentInstance
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function getCurrentInstance(){
+		return $this->getCurrentCampaign();
+	}
+	
+	/**
+	 * @see TaoModule::getRootClass
+	 * @return core_kernel_classes_Classes
+	 */
+	protected function getRootClass(){
+		return $this->service->getCampaignClass();
+	}
+	
 /*
  * controller actions
  */

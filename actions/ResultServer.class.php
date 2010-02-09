@@ -53,6 +53,22 @@ class ResultServer extends TaoModule {
 		return $resultServer;
 	}
 	
+	/**
+	 * @see TaoModule::getCurrentInstance
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function getCurrentInstance(){
+		return $this->getCurrentResultServer();
+	}
+	
+	/**
+	 * @see TaoModule::getRootClass
+	 * @return core_kernel_classes_Classes
+	 */
+	protected function getRootClass(){
+		return $this->service->getResultServerClass();
+	}
+	
 /*
  * controller actions
  */

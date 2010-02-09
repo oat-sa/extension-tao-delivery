@@ -52,6 +52,22 @@ class Delivery extends TaoModule {
 		return $delivery;
 	}
 	
+	/**
+	 * @see TaoModule::getCurrentInstance
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function getCurrentInstance(){
+		return $this->getCurrentDelivery();
+	}
+	
+	/**
+	 * @see TaoModule::getRootClass
+	 * @return core_kernel_classes_Classes
+	 */
+	protected function getRootClass(){
+		return $this->service->getDeliveryClass();
+	}
+	
 /*
  * controller actions
  */
