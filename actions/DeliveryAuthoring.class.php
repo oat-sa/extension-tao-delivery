@@ -59,6 +59,45 @@ class DeliveryAuthoring extends TaoModule {
 		return null;
 	}
 	
+	
+
+	protected function getCurrentActivity(){
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('activityUri'));
+		if(is_null($uri) || empty($uri)){
+			throw new Exception("No valid activity uri found");
+		}
+		
+		$instance = $this->service->getInstance($uri, 'uri', new core_kernel_classes_Class(CLASS_ACTIVITIES));
+		if(is_null($instance)){
+			throw new Exception("No instance of the class Activities found for the uri {$uri}");
+		}
+		
+		return $instance;
+	}
+	
+	protected function getCurrentProcess(){
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('processUri'));
+		if(is_null($uri) || empty($uri)){
+			throw new Exception("No valid process uri found");
+		}
+		
+		$instance = $this->service->getInstance($uri, 'uri', new core_kernel_classes_Class(CLASS_PROCESS));
+		if(is_null($instance)){
+			throw new Exception("No instance of the class Process found for the uri {$uri}");
+		}
+		
+		return $instance;
+	}
+
+	/**
+	 * @see TaoModule::getRootClass
+	 * @return core_kernel_classes_Classes
+	 */
+	protected function getRootClass(){
+		return null;
+	}
+	
+
 /*
  * controller actions
  */
@@ -113,7 +152,7 @@ class DeliveryAuthoring extends TaoModule {
 		
 		// $processUri = tao_helpers_Uri::decode($_POST["processUri"]);
 		$processUri = "http://127.0.0.1/middleware/demo.rdf#i1265636054002217400";
-		$processUri = "http://www.tao.lu/middleware/taoqual.rdf#118589073043506";
+		// $processUri = "http://www.tao.lu/middleware/taoqual.rdf#118589073043506";//item exemple itemtranslation
 		if(!empty($processUri)){
 			echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
 		}else{
@@ -122,7 +161,37 @@ class DeliveryAuthoring extends TaoModule {
 		
 	}
 	
+	public function addActivity(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
 		
+		$currentProcess = $this->getCurrentProcess();
+		$newActivity = $this->service->createActivity($currentProcess);
+		//attach the created activity to the process
+		if(!is_null($newActivity) && $newActivity instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $newActivity->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($newActivity->uriResource)
+			));
+		}
+	}
+	
+	public function addInteractiveService(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$currentActivity = $this->getCurrentActivity();
+		$newService = $this->service->createInteractiveService($currentActivity);
+		if(!is_null($newService) && $newService instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $newService->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($newService->uriResource)
+			));
+		}
+	}
+
+	
 	public function getSectionTrees(){
 		$section = $_POST["section"];
 		$this->setData('section', $section);
@@ -167,7 +236,8 @@ class DeliveryAuthoring extends TaoModule {
 	}
 	
 	public function editCallOfService(){
-		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource(NS_TAOQUAL . '#118595593412394'));
+		$callOfServiceUri = tao_helpers_Uri::decode($_POST['uri']);
+		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri));//NS_TAOQUAL . '#118595593412394'
 		$this->setData('formInteractionService', $myForm->render());
 		$this->setView('form_interactiveServices.tpl');
 	}

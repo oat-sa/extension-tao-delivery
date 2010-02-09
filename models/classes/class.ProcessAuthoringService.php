@@ -238,12 +238,23 @@ class taoDelivery_models_classes_ProcessAuthoringService
     }
 	
 	public function createInteractiveService(core_kernel_classes_Resource $activity){
-		//retrouver systematiquement l'actual parameter associé à chaque fois, à partir du formal parameter et call of service, lors de la sauvegarde
+		$number = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->count();
+		$number += 1;
+		
 		//an interactive service of an activity is a call of service:
-		$callOfServiceClass = new core_kernel_classes_Class(CLASS_CALLOFERVICES);
+		$callOfServiceClass = new core_kernel_classes_Class(CLASS_CALLOFSERVICES);
 		
 		//create new resource for the property value of the current call of service PROPERTY_CALLOFSERVICES_ACTUALPARAMIN or PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT
-		$callOfService = $callOfServiceClass->createInstance($formalParam->getLabel(), "created by DeliveryAuthoring.Class");
+		$callOfService = $callOfServiceClass->createInstance("InteractiveService_$number", "created by ProcessAuthoringService.Class");
+		
+		if(!empty($callOfService)){
+			//associate the new instance to the activity instance
+			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES), $callOfService->uriResource);
+		}else{
+			throw new Exception("the interactive service cannot be created for the activity {$activity->uriResource}");
+		}
+		
+		return $callOfService;
 	}
 
 	public function setActualParameter(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $formalParam, $value, $parameterInOrOut, $actualParameterType=''){
@@ -336,7 +347,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			CLASS_WEBSERVICES,
 			CLASS_SUPPORTSERVICES,
 			CLASS_FORMALPARAMETER,
-			CLASS_ROLE
+			CLASS_ROLE,
+			CLASS_PROCESS
 		);
 		
 		if( in_array($clazz->uriResource, $authorizedClassUri) ){
@@ -410,8 +422,20 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	public function createActivity(){
-	
+	public function createActivity(core_kernel_classes_Resource $process){
+		$number = $process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->count();
+		$number += 1;
+		
+		$activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
+		$activity = $activityClass->createInstance("Activity_$number", "created by ProcessAuthoringService.Class");
+		
+		if(!empty($activity)){
+			//associate the new instance to the process instance
+			$process->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activity->uriResource);
+		}else{
+			throw new Exception("the activity cannot be created for the process {$process->uriResource}");
+		}
+		return $activity;
 	}
 	
 	public function getActivitiesByProcess($processUri = ''){
@@ -504,7 +528,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			'data' => __("Process Activities"),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($process->uriResource),
-				'class' => 'node-main'
+				'class' => 'node-root'
 			),
 			
 			'children' => array()
@@ -525,15 +549,17 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			
 			//set property node:
 			$activityData['children'][] = array(
-				'data' => __("properties"),
+				'data' => __("Property"),
 				'attributes' => array(
 					'id' => "prop_".tao_helpers_Uri::encode($activity->uriResource),
 					'class' => 'node-property'
 				)
 			);
 			
+			
+			
 			//get connectors
-			$connectors = getActivityConnectors($activity->uriResource);
+			$connectors = $this->getActivityConnectors($activity->uriResource);
 			
 			
 			if(!empty($connectors['prev'])){
@@ -692,7 +718,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			//get iservices
 			$services = null;
 			$services = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-			foreach($services->getIterator as $service){
+			foreach($services->getIterator() as $service){
 				if($service instanceof core_kernel_classes_Resource){
 					$activityData['children'][] = array(
 						'data' => $service->getLabel(),
@@ -705,6 +731,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			}
 			
 			//get related rules
+			
 			
 			
 			$data["children"][] = $activityData;

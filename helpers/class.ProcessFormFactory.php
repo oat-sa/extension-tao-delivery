@@ -145,7 +145,6 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 	public static function callOfServiceEditor(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $serviceDefinition = null){
 		
 		$myForm = null;
-		// $returnValue = "<ul>";
 		$myForm = tao_helpers_form_FormFactory::getForm('callOfServiceEditor', array());
 		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
 		
@@ -185,7 +184,6 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 						break;//stop at the first occurence, which should be the unique one
 					}
 				}
-				
 			}
 		}
 		
@@ -221,7 +219,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
         return $myForm;
 	}
 	
-	private static function getCallOfServiceFormElements(core_kernel_classes_Resource $serviceDefinition, core_kernel_classes_Resource $callOfService, $paramType){
+	protected static function getCallOfServiceFormElements(core_kernel_classes_Resource $serviceDefinition, core_kernel_classes_Resource $callOfService, $paramType){
 	
 		$returnValue = array();//array();
 		if(empty($paramType) || empty($serviceDefinition)){
@@ -242,21 +240,25 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$formalParameterName = '';
 		$formalParameterSuffix = '';
 		if(strtolower($paramType) == "formalparameterin"){
+		
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMIN;
 			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
 			$formalParameterName = __('Formal Parameter IN'); 
 			$formalParameterSuffix = '_IN';
+			
 		}elseif(strtolower($paramType) == "formalparameterout"){
+		
 			$formalParameterType = PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT;
 			$formalParameterInOutType = PROPERTY_CALLOFSERVICES_ACTUALPARAMOUT;
 			$formalParameterName = __('Formal Parameter OUT');
-			$formalParameterSuffix = '_OUT';			
+			$formalParameterSuffix = '_OUT';
+			
 		}else{
 			throw new Exception("unsupported formalParameter type : $paramType");
 		}
 		
 		//start creating the BLOC of form element
-		// $returnValue .= "<li>$paramType:</li>";
+		
 		$descriptionElement = tao_helpers_form_FormFactory::getElement($paramType, 'Free');
 		$descriptionElement->setValue($formalParameterName.' :');
 		$returnValue[$paramType]=$descriptionElement;

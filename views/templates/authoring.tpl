@@ -96,14 +96,14 @@
 		loadSectionTree("formalParameter");
 		loadSectionTree("role");
 		
-		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/editCallOfService',
-			type: "GET",
-			dataType: 'html',
-			success: function(response){
-				$("#spForm").html(response);
-			}
-		});
+		// $.ajax({
+			// url: '/taoDelivery/DeliveryAuthoring/editCallOfService',
+			// type: "GET",
+			// dataType: 'html',
+			// success: function(response){
+				// $("#spForm").html(response);
+			// }
+		// });
 	});
 	
 	$(function(){
@@ -134,8 +134,10 @@
 	
 	$(function(){
 		new ActivityTreeClass('#activity_tree', "/taoDelivery/DeliveryAuthoring/getActivityTree", {
-			formContainer: 			"#activity_form"
-		
+			formContainer: 			"#activity_form",
+			createActivityAction: "/taoDelivery/DeliveryAuthoring/addActivity",
+			createInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/addInteractiveService",
+			editInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/editCallOfService"
 		});
 	});
 	

@@ -55,7 +55,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						instance.nodeSelected = true;	//select it only on first load
 					}
 					else{
-						TREE_OBJ.open_branch($("li.node-main:first"));
+						TREE_OBJ.open_branch($("li.node-root:first"));
 					}
 				},
 				ondata: function(DATA, TREE_OBJ){
@@ -105,7 +105,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 					}else if( $(NODE).hasClass('node-interactive-service') && instance.options.editInteractiveServiceAction){
 						_load(instance.options.formContainer, 
 							instance.options.editInteractiveServiceAction,
-							{classUri:$(NODE).attr('id')}
+							{uri:$(NODE).attr('id')}
 						);
 					}
 					return false;
@@ -119,10 +119,10 @@ function ActivityTreeClass(selector, dataUrl, options){
 							label: "Edit",
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
-								if( $(NODE).hasClass('node-main') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
-									return false;
+								if( $(NODE).hasClass('node-root') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
+									return -1;
 								}
-								return true;
+								return 1;
 							},
 							action  : function(NODE, TREE_OBJ){
 								TREE_OBJ.select_branch(NODE);
@@ -133,12 +133,12 @@ function ActivityTreeClass(selector, dataUrl, options){
 							icon: "/tao/views/img/class_add.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
-									return false; 
+									return -1; 
 								}
-								if($(NODE).hasClass('node-main') && TREE_OBJ.check("creatable", NODE) ){ 
-									return true;
+								if(($(NODE).hasClass('node-root')||$(NODE).hasClass('node-connector')) && TREE_OBJ.check("creatable", NODE) && instance.options.createActivityAction){ 
+									return 1;
 								}
-								return false;
+								return -1;
 							},
 							action  : function(NODE, TREE_OBJ){
 								ActivityTreeClass.addActivity({
@@ -148,12 +148,34 @@ function ActivityTreeClass(selector, dataUrl, options){
 									TREE_OBJ: TREE_OBJ,
 									cssClass: instance.options.instanceClass
 								});
-							},
+							}
 						},
-						// addInteractiveService: {
-							// label: "Add Interactive Service",
+						addInteractiveService: {
+							label: "Add Interactive Service",
+							icon: "/tao/views/img/instance_add.png",
+							visible : function (NODE, TREE_OBJ) {
+								if(NODE.length != 1) {
+									return -1; 
+								}
+								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
+									return 1;
+								}
+								return -1;
+							},
+							action  : function(NODE, TREE_OBJ){
+								ActivityTreeClass.addInteractiveService({
+									url: instance.options.createInteractiveServiceAction,
+									id: $(NODE).attr('id'),
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ,
+									cssClass: instance.options.instanceClass
+								});
+							}
+						},
+						// addStatementAssignation: {
+							// label: "Add statement assignation",
 							// icon: "/tao/views/img/instance_add.png",
-							// visible : function (NODE, TREE_OBJ) {
+							// visible : function (NODE, TREE_OBJ){
 								// if(NODE.length != 1) {
 									// return false; 
 								// }
@@ -172,39 +194,17 @@ function ActivityTreeClass(selector, dataUrl, options){
 								// });
 							// }
 						// },
-						addStatementAssignation: {
-							label: "Add Interactive Service",
-							icon: "/tao/views/img/instance_add.png",
-							visible : function (NODE, TREE_OBJ){
-								if(NODE.length != 1) {
-									return false; 
-								}
-								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
-									return true;
-								}
-								return false;
-							},
-							action  : function(NODE, TREE_OBJ){
-								ActivityTreeClass.addActivity({
-									url: instance.options.createInteractiveServiceAction,
-									id: $(NODE).attr('id'),
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ,
-									cssClass: instance.options.instanceClass
-								});
-							}
-						},
 						addConsistencyRule: {
 							label: "Add Consistency Rule",
 							icon: "/tao/views/img/instance_add.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
-									return false; 
+									return -1; 
 								}
 								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
-									return true;
+									return 1;
 								}
-								return false;
+								return -1;
 							},
 							action  : function(NODE, TREE_OBJ){
 								ActivityTreeClass.addActivity({
@@ -225,7 +225,8 @@ function ActivityTreeClass(selector, dataUrl, options){
 									if( ($(NODE).hasClass('node-activity')|| $(NODE).hasClass('node-interactive-service') || $(NODE).hasClass('node-consistency-rule')) 
 									&& instance.options.deleteAction 
 									&& (TREE_OBJ.check("deletable", this) == true)){
-										return ok = 1;
+										ok = 1;
+										return 1;
 									}
 								});
 								return ok;
@@ -244,9 +245,9 @@ function ActivityTreeClass(selector, dataUrl, options){
 							icon	: "/tao/views/img/instance_add.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity-goto') || $(NODE).hasClass('node-connector-goto')){ 
-									return true;
+									return 1;
 								}
-								return false;
+								return -1;
 							}, 
 							action	: function (NODE, TREE_OBJ) {
 								//hightlight the target node
@@ -296,7 +297,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 ActivityTreeClass.addActivity = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
-	var  cssClass = 'node-instance';
+	var  cssClass = 'node-activity';
 	if(options.cssClass){
 		 cssClass += ' ' + options.cssClass;
 	}
@@ -304,7 +305,48 @@ ActivityTreeClass.addActivity = function(options){
 	$.ajax({
 		url: options.url,
 		type: "POST",
-		data: {classUri: options.id, type: 'instance'},
+		data: {processUri: options.id, type: 'activity'},
+		dataType: 'json',
+		success: function(response){
+			if (response.uri) {
+				TREE_OBJ.select_branch(TREE_OBJ.create({
+					data: response.label,
+					attributes: {
+						id: response.uri,
+						'class': cssClass
+					}
+				}, TREE_OBJ.get_node(NODE[0])));
+				
+				//create property node:
+				TREE_OBJ.create({
+					data: 'property',
+					attributes: {
+						id: 'prop_'+response.uri,
+						'class': cssClass
+					}
+				});
+				
+			}
+		}
+	});
+}
+
+/**
+ * add an activity
+ * @param {Object} options
+ */
+ActivityTreeClass.addInteractiveService = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	var  cssClass = 'node-interactive-service';
+	if(options.cssClass){
+		 cssClass += ' ' + options.cssClass;
+	}
+	
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {activityUri: options.id, type: 'interactive-service'},
 		dataType: 'json',
 		success: function(response){
 			if (response.uri) {
@@ -319,6 +361,7 @@ ActivityTreeClass.addActivity = function(options){
 		}
 	});
 }
+
 
 /**
  * select a node in the current tree
