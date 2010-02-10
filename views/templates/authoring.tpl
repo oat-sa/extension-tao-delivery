@@ -91,6 +91,9 @@
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
 		
+		//load activity tree:
+		loadActivityTree();
+		
 		//load the trees:
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
@@ -132,32 +135,19 @@
 		});
 	}
 	
-	$(function(){
-		new ActivityTreeClass('#activity_tree', "/taoDelivery/DeliveryAuthoring/getActivityTree", {
-			formContainer: 			"#activity_form",
-			createActivityAction: "/taoDelivery/DeliveryAuthoring/addActivity",
-			createInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/addInteractiveService",
-			editInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/editCallOfService"
+	function loadActivityTree(){
+		$.ajax({
+			url: '/taoDelivery/DeliveryAuthoring/getActivityTree',
+			type: "POST",
+			data: {section: "activity"},
+			dataType: 'html',
+			success: function(response){
+				$('#activity_tree').html(response);
+			}
 		});
-	});
+	}
 	
-	/*
-	$(function(){
-		new ActivityTreeClass('#activity_tree', "/taoDelivery/DeliveryAuthoring/getActivityTree", {
-			formContainer: 			"#activity_form",
-			actionId: 				"activity",
-			// editInstanceAction: 	"/taoDelivery/DeliveryAuthoring/editInstance",
-			// createInstanceAction: 	"/taoDelivery/DeliveryAuthoring/addInstance",
-			deleteAction: 			"/taoDelivery/DeliveryAuthoring/delete",
-			// duplicateAction: 		"/taoDelivery/DeliveryAuthoring/cloneInstance",
-			editActivityPropertyAction:			"/taoDelivery/DeliveryAuthoring/",
-			editConnectorAction:	"/taoDelivery/DeliveryAuthoring/",
-			editInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/",
-			createActivityAction: "/taoDelivery/DeliveryAuthoring/",
-			createInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/"
-		});
-	});
-	*/
+	
 	</script>
 	
 <?endif?>

@@ -13,6 +13,11 @@ $(function(){
 	// alert($("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION)?>]").html());
 	$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION)?>]").change(function(e){
 		if(confirm(__("Sure?"))){
+			
+			$("#<?=get_data("formId")?> :INPUT :gt(3)").attr("disabled","disabled");
+			$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION)?>]").removeAttr("disabled");
+			$("#<?=get_data("formId")?>").append("<p>reloading form...</p>");
+			
 			//send the form
 			$.ajax({
 				url: '/taoDelivery/DeliveryAuthoring/saveCallOfService',
@@ -22,7 +27,7 @@ $(function(){
 				success: function(response){
 					if(response.saved){
 						//call ajax function again to get the new form
-						
+						ActivityTreeClass.selectTreeNode($("#callOfServiceUri").val());
 					}else{
 						$("#interactiveService-form").html("save failed:" + response);
 					}
@@ -43,9 +48,9 @@ $(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.saved){
-					$("#interactiveService-form").html("saved");
+					$("#interactiveService-form").html("interactive service saved");
 				}else{
-					$("#interactiveService-form").html("save failed:" + response);
+					$("#interactiveService-form").html("interactive service save failed:" + response);
 				}
 			}
 		});

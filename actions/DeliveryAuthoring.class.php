@@ -138,7 +138,7 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode( $this->service->toTree( $clazz, true, true, $highlightUri, $filter));
 	}
 	
-	public function getActivityTree(){
+	public function getActivities(){
 		//getCurrentProcess from delivery
 		
 		// $processUri = tao_helpers_Uri::decode($_POST["processUri"]);
@@ -149,7 +149,10 @@ class DeliveryAuthoring extends TaoModule {
 		}else{
 			throw new Exception("no process uri found");
 		}
-		
+	}
+	
+	public function getActivityTree(){	
+		$this->setView('tree_activity.tpl');
 	}
 	
 	public function addActivity(){

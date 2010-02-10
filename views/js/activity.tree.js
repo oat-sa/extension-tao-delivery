@@ -362,6 +362,12 @@ ActivityTreeClass.addInteractiveService = function(options){
 	});
 }
 
+/**
+ * @return {Object} the tree instance
+ */
+ActivityTreeClass.prototype.getTree = function(){
+	return $.tree.reference(this.selector);
+}
 
 /**
  * select a node in the current tree
@@ -372,8 +378,8 @@ ActivityTreeClass.selectTreeNode = function(id){
 	i=0;
 	while(i < ActivityTreeClass.instances.length){
 		anActivityTree = ActivityTreeClass.instances[i];
-		if(aGenerisTree){
-			aJsTree = aActivityTree.getTree();
+		if(anActivityTree){
+			aJsTree = anActivityTree.getTree();
 			if(aJsTree){
 				if(aJsTree.select_branch($("li[id='"+id+"']"))){
 					return true;
@@ -419,4 +425,5 @@ ActivityTreeClass.removeNode = function(options){
 		}); 
 	}
 }
+
 
