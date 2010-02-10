@@ -397,6 +397,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
         return (bool) $returnValue;
     }
+	
+	
 			
 	/**
      * Get all deliveries available for the identified subject.
@@ -425,12 +427,19 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	public function createActivity(core_kernel_classes_Resource $process){
-		$number = $process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->count();
-		$number += 1;
+	public function createActivity(core_kernel_classes_Resource $process, $label=''){
+		
+		$activityLabel = "";
+		if(empty($label)){
+			$number = $process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->count();
+			$number += 1;
+			$activityLabel = "Activity_$number";
+		}else{
+			$activityLabel = $label;
+		}
 		
 		$activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
-		$activity = $activityClass->createInstance("Activity_$number", "created by ProcessAuthoringService.Class");
+		$activity = $activityClass->createInstance($activityLabel, "created by ProcessAuthoringService.Class");
 		
 		if(!empty($activity)){
 			//associate the new instance to the process instance

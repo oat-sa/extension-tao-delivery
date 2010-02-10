@@ -151,17 +151,21 @@ class DeliveryAuthoring extends TaoModule {
 		}
 	}
 	
-	public function getActivityTree(){	
-		$this->setView('tree_activity.tpl');
+	public function getActivityTree(){
+		$this->setView('process_tree_activity.tpl');
 	}
 	
 	public function addActivity(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
+		$label='';
+		if(isset($_POST['label'])){
+			$label = $_POST['label'];
+		}
 		
 		$currentProcess = $this->getCurrentProcess();
-		$newActivity = $this->service->createActivity($currentProcess);
+		$newActivity = $this->service->createActivity($currentProcess, $label);
 		//attach the created activity to the process
 		if(!is_null($newActivity) && $newActivity instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
@@ -189,7 +193,7 @@ class DeliveryAuthoring extends TaoModule {
 	public function getSectionTrees(){
 		$section = $_POST["section"];
 		$this->setData('section', $section);
-		$this->setView('tree.tpl');
+		$this->setView('process_tree.tpl');
 	}
 	
 	public function editInstance(){
@@ -226,7 +230,7 @@ class DeliveryAuthoring extends TaoModule {
 		
 		$this->setData('section', $formName);
 		$this->setData('formPlus', $myForm->render());
-		$this->setView('tree_form.tpl');
+		$this->setView('process_form_tree.tpl');
 	}
 	
 	public function editActivityProperty(){
@@ -350,7 +354,7 @@ class DeliveryAuthoring extends TaoModule {
 		
 		$this->setData('formId', $formName);
 		$this->setData('formInteractionService', $myForm->render());
-		$this->setView('form_interactiveServices.tpl');
+		$this->setView('process_form_interactiveServices.tpl');
 	}
 	
 	

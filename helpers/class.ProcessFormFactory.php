@@ -384,6 +384,173 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		
 		return $returnValue;
 	}
+	
+	public function connectorEditor(core_kernel_classes_Resource $connector, core_kernel_classes_Resource $connectorType=null){
+		if(empty($formName)){
+			$formName = 'connectorForm';
+		}
+		$myForm = null;
+		$myForm = tao_helpers_form_FormFactory::getForm($formName, array());
+		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
+		
+		//add a hidden input to post the uri of the call of service that is being edited
+		$elementConnectorUri = tao_helpers_form_FormFactory::getElement('connectorUri', 'Hidden');
+		$elementConnectorUri->setValue(tao_helpers_Uri::encode($connector->uriResource));
+		// $classUriElt->setLevel($level);
+		$myForm->addElement($elementConnectorUri);
+		
+		//add label input: authorize connector label editing or not?
+		// $elementLabel = tao_helpers_form_FormFactory::getElement('label', 'Textbox');
+		// $elementLabel->setDescription(__('Label'));
+		// $elementLabel->setValue($callOfService->getLabel());
+		// $myForm->addElement($elementLabel);
+		
+		//add a drop down select input to allow selecting Type of Connector
+		$elementConnectorType = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE), 'Combobox');
+		$elementConnectorType->setDescription(__('Connector Type'));
+		$range = new core_kernel_classes_Class(CLASS_TYPEOFCONNNECTORS);
+		if($range != null){
+			$options = array();
+			foreach($range->getInstances(true) as $rangeInstance){
+				$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+			}
+			$elementConnectorType->setOptions($options);
+		}
+		
+		//check if the property value "type of connector" of the current connector exists
+		if(empty($connectorType)){
+			
+			//get list of available types of connector
+			$collection = null;
+			$collection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
+			if($collection->count()<=0){
+				//if the type of connector is not set yet, simply return a dropdown menu of available type of connector
+				$myForm->addElement($elementConnectorType);
+				return $myForm;
+			}
+			else{
+				foreach ($collection->getIterator() as $value){
+					if($value instanceof core_kernel_classes_Resource){//a connector type has been found!
+						$connectorType = $value;
+						$elementConnectorType->setValue($connectorType->uriResource);//no need to use tao_helpers_Uri::encode here: seems like that it would be done sw else
+						$myForm->addElement($elementConnectorType);
+						break;//stop at the first occurence, which should be the unique one
+					}
+				}
+			}
+		}
+		
+		//if the type of connector is still not set here,there is a problem
+		if(empty($connectorType)){
+			throw new Exception("an empty value of service definition has been found for the call of service that is being edited");
+			return $myForm;
+		}
+		
+		//continue building the form according the the type of connector:
+		$elementInputs=array();
+		if($connectorType->uriResource == TYPEOFCONNECTORS_SEQUENCE){
+			$elementInputs = $this->nextActivityEditor($connector, $type);//next, then, else
+		}else if($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
+		
+		}else{
+			throw new Exception("the selected type of connector {$connectorType->getLabel()} is not supported yet")
+		}
+		
+		foreach($elementInputs as $elementInput){
+			$myForm->addElement($elementInput);
+		}
+		
+        return $myForm;
+	}
+	
+	public function nextActivityEditor(core_kernel_classes_Resource $connector, $type){
+		$returnValue = array();
+		
+		$nextActivity = null;
+		//find the next activity if available
+		switch(strtolower($type)){
+			case 'next':
+				$nextActivityCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
+				foreach($nextActivityCollection->getIterator() as $activity){
+					if($activity instanceof core_kernel_classes_Resource){
+						$nextActivity = $activity;//we take the last one...(note: there should be only one though)
+					}
+				}
+				break;
+			case 'then':
+				$transitionRuleCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+				foreach($nextActivityCollection->getIterator() as $transitionRule){
+					if($transitionRule instanceof core_kernel_classes_Resource){
+						foreach($transitionRule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN))->getIterator() as $then){
+							if($then instanceof core_kernel_classes_Resource){
+								$nextActivity = $then;
+							}
+						};
+					}
+				}
+				break;
+			case 'else':
+				$transitionRuleCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+				foreach($nextActivityCollection->getIterator() as $transitionRule){
+					if($transitionRule instanceof core_kernel_classes_Resource){
+						foreach($transitionRule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE))->getIterator() as $else){
+							if($else instanceof core_kernel_classes_Resource){
+								$nextActivity = $else;
+							}
+						};
+					}
+				}
+				break;
+			default:
+				throw new Exception("unknown type for the next activity");
+		}
+		
+		//create the description element
+		$descriptionElement = tao_helpers_form_FormFactory::getElement($type, 'Free');
+		$descriptionElement->setValue(strtoupper($type).' :');
+		$returnValue[$type] = $descriptionElement;
+		
+		//the default radio button to select between the 3 possibilities:
+		$elementChoice = tao_helpers_form_FormFactory::getElement("activityOrConnector", 'Radiobox');
+		$elementChoice->setDescription(__('Activity or Connector'));
+		$options = array(
+			"unknown" => __("Edit Later"),
+			"activity" => __("Activity"),
+			"connector" => __("Connector")
+		);
+		$elementChoice->setOptions($options);
+		
+		//TODO: decide to directly use the property uri in the form or not?
+		$elementActivities = tao_helpers_form_FormFactory::getElement("activityUri", 'Combobox');
+		$elementActivities->setDescription(__('Activity'));
+		//require the authoring service model here to get: 1- the process associated to the connector(connector->activity->process) and 2-the list of activities of the process
+		
+		$range = new core_kernel_classes_Class(CLASS_SERVICESDEFINITION);
+		if($range != null){
+			$options = array();
+			$options["newActivity"]=__("create new activity");
+			foreach($range->getInstances(true) as $rangeInstance){
+				$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+			}
+			$elementActivities->setOptions($options);
+		}
+		
+		
+		if(empty($nextActivity)){
+			//set the default form
+			
+		}else{
+			//is it an activity or another connector?
+			$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($prev->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
+			if( $activityType == CLASS_ACTIVITIES){
+				$elementChoice->setValue("activity");
+			}elseif($activityType == CLASS_CONNECTORS){
+				$elementChoice->setValue("connector");
+			}
+			
+		}
+		
+	}
     
 } /* end of class taoDelivery_helpers_ProcessFormFactory */
 
