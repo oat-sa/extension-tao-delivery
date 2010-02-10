@@ -220,7 +220,7 @@ class DeliveryAuthoring extends TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$instance = $this->service->bindProperties($instance, $myForm->getValues());
-				echo "saved";exit;
+				echo __("saved");exit;
 			}
 		}
 		
@@ -229,7 +229,36 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setView('tree_form.tpl');
 	}
 	
-	
+	public function editActivityProperty(){
+		$formName = "activityPropertyEditor";
+		$activity = $this->getCurrentActivity();
+		$excludedProperty = array(
+			PROPERTY_ACTIVITIES_INTERACTIVESERVICES,
+			PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE,
+			PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE,
+			PROPERTY_ACTIVITIES_CONSISTENCYRULE
+		);
+		
+		$this->setData('saved', false);
+		
+		$myForm = null;
+		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor(new core_kernel_classes_Class(CLASS_ACTIVITIES), $activity, $formName, array("noSubmit"=>true,"noRevert"=>true), $excludedProperty);
+		$myForm->setActions(array(), 'bottom');	
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$activity = $this->service->bindProperties($activity, $myForm->getValues());
+				
+				//replace with a clean template upload
+				$this->setData('saved', true);
+				$this->setView('process_form_activity.tpl');
+				exit;
+			}
+		}
+		
+		$this->setData('section', $formName);
+		$this->setData('myForm', $myForm->render());
+		$this->setView('process_form_activity.tpl');
+	}
 	
 	/**
 	 * Add an instance        
@@ -323,6 +352,8 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setData('formInteractionService', $myForm->render());
 		$this->setView('form_interactiveServices.tpl');
 	}
+	
+	
 	
 	public function saveCallOfService(){
 		$saved = true;

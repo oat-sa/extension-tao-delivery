@@ -74,7 +74,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						}
 						_load(instance.options.formContainer, 
 							instance.options.editActivityPropertyAction, 
-							{uri: activityUri}//put encoded uri as the id of the activity node
+							{ activityUri: activityUri}//put encoded uri as the id of the activity node
 						);
 					}else if( $(NODE).hasClass('node-activity-goto') && instance.options.editActivityPropertyAction){
 						//hightlight the target node
@@ -83,7 +83,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 							var activityUri = $(NODE).attr('id').substring(0,index);
 							_load(instance.options.formContainer, 
 								instance.options.editActivityPropertyAction, 
-								{uri: activityUri}
+								{ activityUri: activityUri}
 							);
 						}
 					}else if( $(NODE).hasClass('node-connector') && instance.options.editConnectorAction){
