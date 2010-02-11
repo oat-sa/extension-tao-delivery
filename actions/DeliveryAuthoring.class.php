@@ -145,7 +145,11 @@ class DeliveryAuthoring extends TaoModule {
 		$processUri = "http://127.0.0.1/middleware/demo.rdf#i1265636054002217400";
 		// $processUri = "http://www.tao.lu/middleware/taoqual.rdf#118589073043506";//item exemple itemtranslation
 		if(!empty($processUri)){
-			echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
+			// echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
+			
+			//new implementation:
+			$processTreeService = new taoDelivery_models_classes_ProcessTreeService();
+			echo json_encode($processTreeService->activityTree(new core_kernel_classes_Resource($processUri)));
 		}else{
 			throw new Exception("no process uri found");
 		}
