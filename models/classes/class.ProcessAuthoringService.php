@@ -897,8 +897,12 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$returnValue = false;
 		
 		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-		if( $activityType == CLASS_ACTIVITIES){
-			$returnValue = true;
+		if($activityType->count()>0){
+			if($activityType->get(0) instanceof core_kernel_classes_Resource){//should be a generis class
+				if( $activityType->get(0)->uriResource == CLASS_ACTIVITIES){
+					$returnValue = true;
+				}
+			}
 		}
 		
 		return $returnValue;
@@ -907,9 +911,13 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	public static function isConnector(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		
-		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-		if( $activityType == CLASS_CONNECTORS){
-			$returnValue = true;
+		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')->literal;
+		if($activityType->count()>0){
+			if($activityType->get(0) instanceof core_kernel_classes_Resource){
+				if( $activityType->get(0)->uriResource == CLASS_CONNECTORS){
+					$returnValue = true;
+				}
+			}
 		}
 		
 		return $returnValue;

@@ -453,7 +453,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		}else if($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
 		
 		}else{
-			throw new Exception("the selected type of connector {$connectorType->getLabel()} is not supported yet")
+			throw new Exception("the selected type of connector {$connectorType->getLabel()} is not supported yet");
 		}
 		
 		foreach($elementInputs as $elementInput){

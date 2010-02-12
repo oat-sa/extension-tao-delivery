@@ -90,14 +90,18 @@ class taoDelivery_models_classes_ProcessTreeService
 		
 		//instanciate the processAuthoring service
 		$processAuthoringService = new taoDelivery_models_classes_ProcessAuthoringService();
-		
+	
+		$activities = array();
 		$activities = $processAuthoringService->getActivitiesByProcess($process->uriResource);
+		
 		
 		foreach($activities as $activity){
 			
 			$this->currentActivity = $activity;
 			
-			$activityData = $this->activityNode('$activity', 'next', false);
+			$activityData = array();
+			$activityData = $this->activityNode($activity, 'next', false);
+			
 			
 			//set property node:
 			$activityData['children'][] = array(
@@ -109,7 +113,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			);
 			
 			//get connectors
-			$connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
+			// $connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
 			
 			
 			if(!empty($connectors['prev'])){
@@ -138,7 +142,7 @@ class taoDelivery_models_classes_ProcessTreeService
 												
 					}elseif(strtolower($connectorType->getLabel()) == "sequence"){
 						$prev = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
-						if(!self::isActivity($prev)){
+						if(!taoDelivery_models_classes_ProcessAuthoringService::isActivity($prev)){
 							throw new Exception("the previous activity of a sequence connector must be an activity");
 						}
 						$connectorData[] = $this->activityNode($prev, 'next', true);
@@ -184,6 +188,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			
 			$data["children"][] = $activityData;
 		}
+		// throw new Exception("data=".var_dump($data));
 		return $data;
 	}
 	
@@ -205,7 +210,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			//get the "THEN"
 			$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN));
 			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-			if(self::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
+			if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
 				if($recursive){
 					$connectorData[] = $this->connectorNode($then, true);
 				}else{
@@ -218,7 +223,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			//same for the "ELSE"
 			$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE));
 			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-			if(self::isConnector($else) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
+			if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
 				if($recursive){
 					$connectorData[] = $this->connectorNode($else, true);
 				}else{
@@ -267,11 +272,10 @@ class taoDelivery_models_classes_ProcessTreeService
 		$class = '';
 		$linkAttribute = 'id';
 		
-		if(self::isActivity($activity)){
+		if(taoDelivery_models_classes_ProcessAuthoringService::isActivity($activity)){
 			$class = 'node-activity';
-		}elseif(self::isConnector($activity)){
+		}elseif(taoDelivery_models_classes_ProcessAuthoringService::isConnector($activity)){
 			$class = 'node-connector';
-			
 		}else{
 			return $nodeData;//unknown type
 		}
@@ -321,7 +325,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		
 		$nextActivity = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property($property));
 		$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-		if(self::isConnector($nextActivity) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($nextActivity->uriResource, $this->addedConnectors)){
+		if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($nextActivity) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($nextActivity->uriResource, $this->addedConnectors)){
 			if($recursive=true){//TODO: keep it or not?
 				$returnValue = $this->connectorNode($nextActivity, true);
 			}else{

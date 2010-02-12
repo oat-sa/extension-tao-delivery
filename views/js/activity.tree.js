@@ -267,25 +267,25 @@ function ActivityTreeClass(selector, dataUrl, options){
 		//create the tree
 		$(selector).tree(this.treeOptions);
 		
-		$("#open-action-" + options.actionId).click(function(){
-			$.tree.reference(instance.selector).open_all();
-		});
-		$("#close-action-" + options.actionId).click(function(){
-			$.tree.reference(instance.selector).close_all();
-		});
+		// $("#open-action-" + options.actionId).click(function(){
+			// $.tree.reference(instance.selector).open_all();
+		// });
+		// $("#close-action-" + options.actionId).click(function(){
+			// $.tree.reference(instance.selector).close_all();
+		// });
 		
-		$("#filter-action-" + options.actionId).click(function(){
-			$.tree.reference(instance.selector).refresh();
-		});
-		$("#filter-content-" + options.actionId).bind('keypress', function(e) {
-	        if(e.keyCode==13 && this.value.length > 0){
-				$.tree.reference(instance.selector).refresh();
-	        }
-		});
+		// $("#filter-action-" + options.actionId).click(function(){
+			// $.tree.reference(instance.selector).refresh();
+		// });
+		// $("#filter-content-" + options.actionId).bind('keypress', function(e) {
+	        // if(e.keyCode==13 && this.value.length > 0){
+				// $.tree.reference(instance.selector).refresh();
+	        // }
+		// });
 
 	}
 	catch(exp){
-		console.log(exp);
+		// console.log(exp);
 	}
 }
 
