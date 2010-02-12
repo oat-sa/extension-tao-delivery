@@ -113,9 +113,8 @@ class taoDelivery_models_classes_ProcessTreeService
 			);
 			
 			//get connectors
-			// $connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
-			
-			
+			$connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
+						
 			if(!empty($connectors['prev'])){
 			
 				$this->currentConnector = null;
@@ -158,6 +157,16 @@ class taoDelivery_models_classes_ProcessTreeService
 						'children' => $connectorData
 					);
 				}
+			}else{
+				//add the default "empty" connector node:
+				$activityData[] = array(
+					'data' => __("next").' : '.__("empty connector"),
+					'attributes' => array(
+						'rel' => tao_helpers_Uri::encode($connector->uriResource),
+						'class' => 'node-connector-prev'
+					),
+					'children' => $connectorData
+				);
 			}
 			
 			//following nodes:
