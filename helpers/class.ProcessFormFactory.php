@@ -381,7 +381,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		return $returnValue;
 	}
 	
-	public function connectorEditor(core_kernel_classes_Resource $connector, core_kernel_classes_Resource $connectorType=null){
+	public function connectorEditor(core_kernel_classes_Resource $connector, core_kernel_classes_Resource $connectorType=null, $formName=''){
 		if(empty($formName)){
 			$formName = 'connectorForm';
 		}
@@ -419,7 +419,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			//get the type of connector of the current connector
 			$collection = null;
 			$collection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-			if($collection->count()<=0){
+			if($collection->isEmpty()){
 				//if the type of connector is not set yet, simply return a dropdown menu of available type of connector
 				$myForm->addElement($elementConnectorType);
 				return $myForm;
@@ -445,12 +445,21 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		//continue building the form according the the type of connector:
 		$elementInputs=array();
 		if($connectorType->uriResource == TYPEOFCONNECTORS_SEQUENCE){
-			$elementInputs = $this->nextActivityEditor($connector, 'next');//next, then, else
-		}elseif($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
 			
+			$elementInputs = self::nextActivityElements($connector, 'next');///????
+			
+		}else if($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
+			$elementActivityLabel = tao_helpers_form_FormFactory::getElement("if", 'Textbox');
+			$elementActivityLabel->setDescription(__('if'));
+			
+			$elementInputs[] = $elementActivityLabel;
+			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'then'));
+			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'else'));
 		}else{
 			throw new Exception("the selected type of connector {$connectorType->getLabel()} is not supported yet");
 		}
+		
+		// throw new Exception("elts:".var_dump($elementInputs));
 		
 		foreach($elementInputs as $elementInput){
 			$myForm->addElement($elementInput);
@@ -459,27 +468,42 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
         return $myForm;
 	}
 	
-	public function nextActivityEditor(core_kernel_classes_Resource $connector, $type){
+	
+	public function nextActivityEditor(core_kernel_classes_Resource $connector, $type, $formName='nextActivityEditor'){
+		if(!in_array($type, array('next', 'then', 'else'))){
+			throw new Exception('unknown type of next activity');
+		}
+		$myForm = tao_helpers_form_FormFactory::getForm($formName, array());
+		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
+		
 		$elements = $this->nextActivityElements($connector, $type);
+		foreach($elements as $element){
+			$myForm->addElement($element);
+		}
+		
+        return $myForm;
 	}
 	
 	public function nextActivityElements(core_kernel_classes_Resource $connector, $type){
 		$returnValue = array();
-		
+		$idPrefix = '';
 		$nextActivity = null;
+		
 		//find the next activity if available
 		switch(strtolower($type)){
 			case 'next':
+					
 				$nextActivityCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
 				foreach($nextActivityCollection->getIterator() as $activity){
 					if($activity instanceof core_kernel_classes_Resource){
 						$nextActivity = $activity;//we take the last one...(note: there should be only one though)
 					}
 				}
+				$idPrefix = 'next';
 				break;
 			case 'then':
 				$transitionRuleCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-				foreach($nextActivityCollection->getIterator() as $transitionRule){
+				foreach($transitionRuleCollection->getIterator() as $transitionRule){
 					if($transitionRule instanceof core_kernel_classes_Resource){
 						foreach($transitionRule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN))->getIterator() as $then){
 							if($then instanceof core_kernel_classes_Resource){
@@ -488,10 +512,11 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 						};
 					}
 				}
+				$idPrefix = 'then';
 				break;
 			case 'else':
 				$transitionRuleCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-				foreach($nextActivityCollection->getIterator() as $transitionRule){
+				foreach($transitionRuleCollection->getIterator() as $transitionRule){
 					if($transitionRule instanceof core_kernel_classes_Resource){
 						foreach($transitionRule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE))->getIterator() as $else){
 							if($else instanceof core_kernel_classes_Resource){
@@ -500,11 +525,12 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 						};
 					}
 				}
+				$idPrefix = 'else';
 				break;
 			default:
 				throw new Exception("unknown type for the next activity");
 		}
-				
+			
 		$activityOptions = array();
 		$connectorOptions = array();
 		
@@ -513,7 +539,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$connectorOptions["newConnector"] = __("create new connector");
 		
 		//the activity associated to the connector:
-		$referencedActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));//mandatory property 
+		$referencedActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));//mandatory property value, initiated at the connector creation
 		if($referencedActivity instanceof core_kernel_classes_Resource){
 			$processCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_PROCESS_ACTIVITIES, $referencedActivity->uriResource);
 			if($processCollection->count()>0){
@@ -536,30 +562,29 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		}
 		
 		//create the description element
-		$elementDescription = tao_helpers_form_FormFactory::getElement($type, 'Free');
+		$elementDescription = tao_helpers_form_FormFactory::getElement($idPrefix, 'Free');
 		$elementDescription->setValue(strtoupper($type).' :');
 		
 		//the default radio button to select between the 3 possibilities:
-		$elementChoice = tao_helpers_form_FormFactory::getElement("activityOrConnector", 'Radiobox');
+		$elementChoice = tao_helpers_form_FormFactory::getElement($idPrefix."_activityOrConnector", 'Radiobox');
 		$elementChoice->setDescription(__('Activity or Connector'));
 		$options = array(
-			"unknown" => __("Edit Later"),
 			"activity" => __("Activity"),
 			"connector" => __("Connector")
 		);
 		$elementChoice->setOptions($options);
 		
 		//create the activity select element:
-		$elementActivities = tao_helpers_form_FormFactory::getElement("activityUri", 'Combobox');
+		$elementActivities = tao_helpers_form_FormFactory::getElement($idPrefix."_activityUri", 'Combobox');
 		$elementActivities->setDescription(__('Activity'));
 		$elementActivities->setOptions($activityOptions);
 		
-		//create the activity label element
-		$elementActivityLabel = tao_helpers_form_FormFactory::getElement("activityLabel", 'textbox');
+		//create the activity label element (used only in case of new activity craetion)
+		$elementActivityLabel = tao_helpers_form_FormFactory::getElement($idPrefix."_activityLabel", 'Textbox');
 		$elementActivityLabel->setDescription(__('Label'));
 				
 		//create the connector select element:
-		$elementConnectors = tao_helpers_form_FormFactory::getElement("connectorUri", 'Combobox');
+		$elementConnectors = tao_helpers_form_FormFactory::getElement($idPrefix."_connectorUri", 'Combobox');
 		$elementConnectors->setDescription(__('Connector'));
 		$elementConnectors->setOptions($connectorOptions);
 		
@@ -574,10 +599,11 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		}
 		
 		//put all elements in the return value:
-		$returnValue[$type] = $elementDescription;
-		$returnValue[$type] = $elementChoice;
-		$returnValue[$type] = $elementActivities;
-		$returnValue[$type] = $elementActivityLabel;
+		$returnValue[$idPrefix.'_description'] = $elementDescription;
+		$returnValue[$idPrefix.'_choice'] = $elementChoice;
+		$returnValue[$idPrefix.'_activities'] = $elementActivities;
+		$returnValue[$idPrefix.'_label'] = $elementActivityLabel;
+		$returnValue[$idPrefix.'_connectors'] = $elementConnectors;
 		
 		return $returnValue;
 	}

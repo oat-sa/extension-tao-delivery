@@ -180,43 +180,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 				
         return $returnValue;
     }
-	
-	 /**
-     * Create a new class of Delivery, which is basically always a subclass of an existing Delivery class.
-	 * Require an array('propertyName' => 'propertyValue')
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Class clazz
-     * @param  string label
-     * @param  array properties
-     * @return core_kernel_classes_Class
-     */
-	 //UL
-    // public function createDeliveryClass( core_kernel_classes_Class $clazz = null, $label = '', $properties = array())
-    // {
-        // $returnValue = null;
-
-		// if(is_null($clazz)){
-			// $clazz = $this->deliveryClass;
-		// }
 		
-		// if($this->isDeliveryClass($clazz)){
-		
-			// $deliveryClass = $this->createSubClass($clazz, $label);//call method form TAO_model_service
-			
-			// foreach($properties as $propertyName => $propertyValue){
-				// $myProperty = $deliveryClass->createProperty(
-					// $propertyName,
-					// $propertyName . ' ' . $label .' delivery property created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
-				// );
-			// }
-			// $returnValue = $deliveryClass;
-		// }
-
-        // return $returnValue;
-    // }
-	
 	/**
      * Method to be called to delete an instance
      * (Method is not used in the current implementation yet)
@@ -308,28 +272,13 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return (bool) $returnValue;
 	}
 
-    /**
-     * Method to be called to delete a delivery class
-     * (Method is not used in the current implementation yet)
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Class clazz
-     * @return boolean
-     */
-	 //UL
-    // public function deleteDeliveryClass( core_kernel_classes_Class $clazz)
-    // {
-        // $returnValue = (bool) false;
-
-		// if(!is_null($clazz)){
-			// if($this->isDeliveryClass($clazz) && $clazz->uriResource != $this->deliveryClass->uriResource){
-				// $returnValue = $clazz->delete();
-			// }
-		// }
-
-        // return (bool) $returnValue;
-    // }
+	public function deleteRule(core_kernel_classes_Resource $rule){
+		//get the rule type:
+		
+		//get the uri of the related properties: THEN and ELSE:
+		
+		//delete the resources
+	}
 
     /**
      * Check whether the object is a delivery class
@@ -450,6 +399,103 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $activity;
 	}
 	
+	public function createConnector(core_kernel_classes_Resource $activity, $label=''){
+		$connectorLabel = "";
+		if(empty($label)){
+			$connectorLabel = $activity->getLabel()."_c";//warning: could exist duplicate for children of a split connector
+		}else{
+			$connectorLabel = $label;
+		}
+		
+		$connectorClass = new core_kernel_classes_Class(CLASS_CONNECTORS);
+		$connector = $connectorClass->createInstance($connectorLabel, "created by ProcessAuthoringService.Class");
+		
+		if(!empty($connector)){
+			//associate the connector to the activity
+			$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES), $activity->uriResource);
+			
+			//set the activity reference of the connector:
+			$activityRefProp = new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE);
+			if($this->isActivity($activity)){
+				$connector->setPropertyValue($activityRefProp, $activity->uriResource);
+			}elseif($this->isConnector($activity)){
+				$connector->setPropertyValue($activityRefProp, $activity->getUniquePropertyValue($activityRefProp)->uriResource);
+			}else{
+				throw new Exception("invalid resource type for the activity parameter: {$activity->uriResource}");
+			}
+		}else{
+			throw new Exception("the connector cannot be created for the activity {$activity->uriResource}");
+		}
+		return $connector;
+	}
+	
+	public function createSequenceActivity(core_kernel_classes_Resource $connector, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel = ''){
+		if(is_null($followingActivity)){
+			//get the process associate to the connector to create a new instance of activity
+			$relatedActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));
+			$processCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_PROCESS_ACTIVITIES, $relatedActivity);
+			if(!$processCollection->isEmpty()){
+				$followingActivity = $this->createActivity($processCollection->get(0), $newActivityLabel);
+			}else{
+				throw new Exception("no related process instance found to create an activity");
+			}
+		}
+		if($followingActivity instanceof core_kernel_classes_Resource){
+			//associate it to the property value of the connector
+			$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));//use this function and not editPropertyValue!
+		}
+	}
+	
+	public function createRule(){
+		//associate it to the property value of the connector
+		$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));//use this function and not editPropertyValue!
+		$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+		
+		if(empty($transitionRule)){
+			//create an instance of transition rule:
+			$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
+			$transitionRule = $transitionRuleClass->createInstance();
+		}
+	}
+	
+	public function createSplitActivity(core_kernel_classes_Resource $connector, $connectorType, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel ='', $followingActivityisConnector = false){
+
+		if(is_null($followingActivity)){
+			
+			if($followingActivityisConnector){
+				//create a new connector:
+				$followingActivity = $this->createConnector($connector);
+			}else{
+				//get the process associate to the connector to create a new instance of activity
+				$relatedActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));
+				$processCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_PROCESS_ACTIVITIES, $relatedActivity);
+				if(!$processCollection->isEmpty()){
+					$followingActivity = $this->createActivity($processCollection->get(0), $newActivityLabel);
+				}else{
+					throw new Exception("no related process instance found to create an activity");
+				}
+			}
+		}
+		
+		if($followingActivity instanceof core_kernel_classes_Resource){
+			//associate it to the property value of the connector
+			$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));//use this function and not editPropertyValue!
+			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+			
+			if(empty($transitionRule)){
+				//create an instance of transition rule:
+				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
+				$transitionRule = $transitionRuleClass->createInstance();
+			}
+			
+			if(strtolower($connectorType) == 'then'){
+				$transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN), $followingActivity->uriResource);
+			}elseif(strtolower($connectorType) == 'else'){
+				$transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE), $followingActivity->uriResource);
+			}
+		}
+	}
+	
 	public function getActivitiesByProcess($processUri = ''){
 		
 		$returnValue = array();
@@ -478,7 +524,9 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$connectors = array();
 		foreach($activities as $activity){
 			$tempConnectorArray = array();
-			$tempConnectorArray = $this->getConnectorsByActivity($activity->uriResource, array('next'));
+			$tempConnectorArray = $this->getConnectorsByActivity($activity->uriResource, array('next'));//connectors of connector are not included here!
+			//use the property value: activity reference here:	
+			
 		}
 	
 	}
@@ -501,7 +549,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		if(in_array('prev',$option)){
 		
-			$previousConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $activityUri);
+			$previousConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES, $activityUri);
 		
 			foreach ($previousConnectorsCollection->getIterator() as $connector){
 				if(!is_null($connector)){
@@ -514,7 +562,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		if(in_array('next',$option)){
 		
-			$followingConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES, $activityUri);
+			$followingConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $activityUri);
 		
 			foreach ($followingConnectorsCollection->getIterator() as $connector){
 				if(!is_null($connector)){

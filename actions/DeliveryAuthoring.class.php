@@ -3,6 +3,7 @@ require_once('tao/actions/CommonModule.class.php');
 require_once('tao/actions/TaoModule.class.php');
 
 
+
 /**
  * DeliveryAuthoring Controller provide actions to edit a delivery
  * 
@@ -13,6 +14,8 @@ require_once('tao/actions/TaoModule.class.php');
  */
  
 class DeliveryAuthoring extends TaoModule {
+	
+	protected $processTreeService = null;
 	
 	/**
 	 * constructor: initialize the service and the default data
@@ -26,6 +29,8 @@ class DeliveryAuthoring extends TaoModule {
 		$this->service = new taoDelivery_models_classes_ProcessAuthoringService();
 		$this->defaultData();
 		
+		//add the tree service
+		$this->processTreeService = new taoDelivery_models_classes_ProcessTreeService();
 	}
 	
 /*
@@ -147,9 +152,7 @@ class DeliveryAuthoring extends TaoModule {
 		if(!empty($processUri)){
 			// echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
 			
-			//new implementation:
-			$processTreeService = new taoDelivery_models_classes_ProcessTreeService();
-			echo json_encode($processTreeService->activityTree(new core_kernel_classes_Resource($processUri)));
+			echo json_encode($this->processTreeService->activityTree(new core_kernel_classes_Resource($processUri)));
 		}else{
 			throw new Exception("no process uri found");
 		}
@@ -170,11 +173,14 @@ class DeliveryAuthoring extends TaoModule {
 		
 		$currentProcess = $this->getCurrentProcess();
 		$newActivity = $this->service->createActivity($currentProcess, $label);
+		$newConnector = $this->service->createConnector($newActivity);
+		
 		//attach the created activity to the process
 		if(!is_null($newActivity) && $newActivity instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
 				'label'	=> $newActivity->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($newActivity->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($newActivity->uriResource),
+				'connector' => $this->processTreeService->defaultConnectorNode($newConnector)
 			));
 		}
 	}
@@ -360,9 +366,7 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setData('formInteractionService', $myForm->render());
 		$this->setView('process_form_interactiveServices.tpl');
 	}
-	
-	
-	
+			
 	public function saveCallOfService(){
 		$saved = true;
 		
@@ -438,6 +442,99 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode(array("saved" => $saved));
 	}
 	
+	public function editConnector(){
+		$connectorUri = tao_helpers_Uri::decode($_POST['connectorUri']);
+		
+		$formName="connectorEditor";
+		$myForm = taoDelivery_helpers_ProcessFormFactory::connectorEditor(new core_kernel_classes_Resource($connectorUri), null, $formName);
+		
+		$this->setData('formId', $formName);
+		$this->setData('formConnector', $myForm->render());
+		$this->setView('process_form_connector.tpl');
+	}
+	
+	public function saveConnector(){
+		$saved = true;
+		
+		//decode uri:
+		$data = array();
+		foreach($_POST as $key=>$value){
+			$data[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+		}
+		
+		if(!isset($data["connectorUri"])){
+			$saved = false;
+			throw new Exception("no connector uri found in POST");
+		}else{	
+			$connectorInstance = new core_kernel_classes_Resource($data["connectorUri"]);
+		}
+		
+		//edit service definition resource value:
+		if(!isset($data[PROPERTY_CONNECTORS_TYPE])){
+			$saved = false;
+			throw new Exception("no connector type uri found in POST");
+		}
+		$this->service->bindProperties($connectorInstance, array(PROPERTY_CONNECTORS_TYPE => $data[PROPERTY_CONNECTORS_TYPE]));
+		
+		$followingActivity = null;
+		if($data[PROPERTY_CONNECTORS_TYPE] == TYPEOFCONNECTORS_SEQUENCE){
+			//get form input starting with "next_"
+			if(isset($data["next_activityUri"])){
+				if($data["next_activityUri"]=="newActivity"){
+					$this->service->createSequenceActivity($connectorInstance, null, $data["next_activityLabel"]);
+				}else{
+					$followingActivity = new core_kernel_classes_Resource($data["next_activityUri"]);
+					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
+				}
+			}
+		}elseif($data[PROPERTY_CONNECTORS_TYPE] == TYPEOFCONNECTORS_SPLIT){
+			//delete the old rule:
+			// $deleted = $this->service->deleteRule($transitionRule);
+			// if(!$deleted){
+				// throw new Exception("the transition rule related to the connector cannot be removed");
+			// }
+			//save the new rule here:
+			
+		
+			//save the activity in "THEN":
+			if(isset($data["then_activityUri"])){
+				if($data["then_activityUri"]=="newActivity"){
+					$this->service->createSplitActivity($connectorInstance, 'then', null, $data["then_activityLabel"], false);
+				}else{
+					$followingActivity = new core_kernel_classes_Resource($data["then_activityUri"]);
+					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
+				}
+			}elseif(isset($data["then_connectorUri"])){
+				if($data["then_connectorUri"]=="newConnector"){
+					$this->service->createSplitActivity($connectorInstance, 'then', null, '', true);
+				}else{
+					$followingActivity = new core_kernel_classes_Resource($data["then_connectorUri"]);
+					$this->service->createSplitActivity($connectorInstance, 'then', $followingActivity, '', true);
+				}
+			}
+			
+			//save the activity in "ELSE":
+			if(isset($data["else_activityUri"])){
+				if($data["else_activityUri"]=="newActivity"){
+					$this->service->createSplitActivity($connectorInstance, 'else', null, $data["then_activityLabel"], false);
+				}else{
+					$followingActivity = new core_kernel_classes_Resource($data["else_activityUri"]);
+					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
+				}
+			}elseif(isset($data["else_connectorUri"])){
+				if($data["else_connectorUri"]=="newConnector"){
+					$this->service->createSplitActivity($connectorInstance, 'else', null, '', true);
+				}else{
+					$followingActivity = new core_kernel_classes_Resource($data["else_connectorUri"]);
+					$this->service->createSplitActivity($connectorInstance, 'else', $followingActivity, '', true);
+				}
+			}
+		}
+		
+		echo json_encode(array("saved" => $saved));
+	}
+	
+
 	/**
 	 *
 	 *

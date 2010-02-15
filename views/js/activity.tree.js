@@ -89,11 +89,14 @@ function ActivityTreeClass(selector, dataUrl, options){
 					}else if( $(NODE).hasClass('node-connector') && instance.options.editConnectorAction){
 						_load(instance.options.formContainer, 
 							instance.options.editConnectorAction,
-							{classUri:$(NODE).attr('id')}
+							{connectorUri:$(NODE).attr('id')}
 						);
-					}else if( $(NODE).hasClass('node-connector-goto') && instance.options.editConnectorAction){
+					}else if( ($(NODE).hasClass('node-connector-goto')||$(NODE).hasClass('node-connector-prev')) && instance.options.editConnectorAction){
 						//hightlight the target node
 						var index = $(NODE).attr('id').lastIndexOf('_goto');
+						if(index<=0){
+							var index = $(NODE).attr('id').lastIndexOf('_prev');
+						}
 						if(index > 0){
 							// TREE_OBJ.select_branch(NODE);
 							var connectorUri = $(NODE).attr('id').substring(0,index);
@@ -135,7 +138,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 								if(NODE.length != 1) {
 									return -1; 
 								}
-								if(($(NODE).hasClass('node-root')||$(NODE).hasClass('node-connector')) && TREE_OBJ.check("creatable", NODE) && instance.options.createActivityAction){ 
+								if($(NODE).hasClass('node-root') && TREE_OBJ.check("creatable", NODE) && instance.options.createActivityAction){ 
 									return 1;
 								}
 								return -1;
@@ -322,15 +325,29 @@ ActivityTreeClass.addActivity = function(options){
 					data: 'property',
 					attributes: {
 						id: 'prop_'+response.uri,
-						'class': cssClass
+						'class': 'node-property'
 					}
 				});
 				
+				
+				//TODO: to be debugged
+				if(response.connector){
+					//create next connector node:
+					TREE_OBJ.create({
+						data: response.connector.data,
+						attributes: {
+							id: response.connector.id,
+							'class': response.connector.class
+						}
+					});
+				}
 			}
 		}
 	});
 }
 
+
+		
 /**
  * add an activity
  * @param {Object} options
