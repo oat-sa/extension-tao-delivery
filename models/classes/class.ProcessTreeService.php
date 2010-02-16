@@ -114,7 +114,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			//get connectors
 			$connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
 			// throw new Exception("data=".var_dump($connectors));	
-			
+			/*
 			if(!empty($connectors['prev'])){
 			
 				$this->currentConnector = null;
@@ -125,9 +125,10 @@ class taoDelivery_models_classes_ProcessTreeService
 					$this->currentConnector = $connector;
 					
 					$connectorData = array();
-					
+						
 					//type of connector:
 					$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
+					
 					
 					//if it is a split type
 					if( strtolower($connectorType->getLabel()) == "split"){
@@ -174,16 +175,17 @@ class taoDelivery_models_classes_ProcessTreeService
 					)
 				);
 			}
-			
+			*/
 			//following nodes:
 			if(!empty($connectors['next'])){
 				//connector following the current activity: there should be only one
 				foreach($connectors['next'] as $connector){
 					$this->currentConnector = $connector;
-					$activityData['children'][] = $this->connectorNode($connector, true);
+					$activityData['children'][] = $this->connectorNode($connector, '', true);
 				}
 			}else{
 				// throw new Exception("no connector associated to the activity: {$activity->uriResource}");
+				
 			}
 			
 			//get interactive services
@@ -211,7 +213,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $data;
 	}
 	
-	public function connectorNode($connector, $recursive=false){//put the current activity as a protected property of the class Process aythoring Tree
+	public function connectorNode($connector, $nodeClass='', $recursive=false){//put the current activity as a protected property of the class Process aythoring Tree
 		
 		$returnValue = array();
 		$connectorData = array();
@@ -221,7 +223,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		$connectorType = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE), false);
 		if(is_null($connectorType)){
 			//create default connector node:
-			$returnValue = $this->defaultConnectorNode($connector);
+			$returnValue = self::addNodePrefix($this->defaultConnectorNode($connector),$nodeClass);
 			return $returnValue;
 		}
 		
@@ -230,39 +232,41 @@ class taoDelivery_models_classes_ProcessTreeService
 			//get the rule
 			$connectorRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), false);
 			if(!is_null($connectorRule)){
+				//continue getting connector data: 
 				$connectorData[] = $this->ruleNode($connectorRule);
-			}
-			
-			//get the "THEN"
-			$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN), false);
-			if(!is_null($then)){
-				$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-				if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
-					if($recursive){
-						$connectorData[] = $this->connectorNode($then, true);
+				
+				//get the "THEN"
+				$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN), false);
+				if(!is_null($then)){
+					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
+					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
+						if($recursive){
+							$connectorData[] = $this->connectorNode($then, 'then', true);
+						}else{
+							$connectorData[] = $this->activityNode($then, 'then', false);
+						}
 					}else{
-						$connectorData[] = $this->activityNode($then, 'then', false);
+						$connectorData[] = $this->activityNode($then, 'then', true);
 					}
-				}else{
-					$connectorData[] = $this->activityNode($then, 'then', true);
 				}
-			}
-			//same for the "ELSE"
-			$else = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE), false);
-			if(!is_null($else)){
-				$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-				if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
-					if($recursive){
-						$connectorData[] = $this->connectorNode($else, true);
+				//same for the "ELSE"
+				$else = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE), false);
+				if(!is_null($else)){
+					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));
+					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else) && ($connectorActivityReference->uriResource == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
+						if($recursive){
+							$connectorData[] = $this->connectorNode($else, 'else', true);
+						}else{
+							$connectorData[] = $this->activityNode($else, 'else', false);
+						}
 					}else{
-						$connectorData[] = $this->activityNode($else, 'else', false);
+						$connectorData[] = $this->activityNode($else, 'else', true);
 					}
-				}else{
-					$connectorData[] = $this->activityNode($else, 'else', true);
 				}
 			}
 		}elseif(strtolower($connectorType->getLabel()) == "sequence"){
 			$next = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), false);
+			
 			if(!is_null($next)){
 				$connectorData[] = $this->activityNode($next, 'next', true);
 			}
@@ -278,6 +282,7 @@ class taoDelivery_models_classes_ProcessTreeService
 				'class' => 'node-connector'
 			)
 		);
+		$returnValue = self::addNodePrefix($returnValue, $nodeClass);
 		
 		if(!empty($connectorData)){
 			$returnValue['children'] = $connectorData;
@@ -286,10 +291,34 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $returnValue;
 	}
 	
+	public function addNodePrefix($node, $prefix=''){
+		$newNode = $node;
+		$labelPrefix = '';
+		switch(strtolower($prefix)){
+			case 'prev':
+				break;
+			case 'next':
+				break;
+			case 'if':
+				$labelPrefix = __('If').' ';
+				break;	
+			case 'then':
+				$labelPrefix = __('Then').' ';
+				break;
+			case 'else':
+				$labelPrefix = __('Else').' ';
+				break;
+		}
+		if(!empty($labelPrefix)){
+			$newNode['data'] = $labelPrefix.$node['data'];
+		}
+		return $newNode;
+	}
+	
 	public function defaultConnectorNode(core_kernel_classes_Resource $connector, $prev = false){
 		
 		$returnValue = array(
-			'data' => $connector->getLabel()
+			'data' => __("type??").":".$connector->getLabel()
 		);
 		
 		if(!$prev){
@@ -307,15 +336,16 @@ class taoDelivery_models_classes_ProcessTreeService
 	}
 						
 	public function ruleNode(core_kernel_classes_Resource $rule){
-		$labelPrefix = __("if").' ';
 		
 		$nodeData = array(
-			'data' => $labelPrefix.$rule->getLabel(),
+			'data' => $rule->getLabel(),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($rule->uriResource),
 				'class' => 'node-rule'
 			)
 		);
+		
+		$nodeData = self::addNodePrefix($nodeData, 'if');
 		
 		return $nodeData;
 	}
@@ -338,29 +368,15 @@ class taoDelivery_models_classes_ProcessTreeService
 			$class .= "-goto";
 			$linkAttribute = "rel";
 		}
-		
-		$labelPrefix = '';
-		switch(strtolower($nodeClass)){
-			case 'prev':
-				break;
-			case 'next':
-				break;
-			case 'then':
-				$labelPrefix = __('then').' ';
-				break;
-			case 'else':
-				$labelPrefix = __('else').' ';
-				break;
-		}
-		
+				
 		$nodeData = array(
-			'data' => $labelPrefix.$activity->getLabel(),
+			'data' => $activity->getLabel(),
 			'attributes' => array(
 				$linkAttribute => tao_helpers_Uri::encode($activity->uriResource),
 				'class' => $class
 			)
 		);
-		
+		$nodeData = self::addNodePrefix($nodeData, $nodeClass);
 		return $nodeData;
 	}
 	

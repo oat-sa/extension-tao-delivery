@@ -48,10 +48,10 @@ $(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.saved){
-					$("#connector-form").html("interactive service saved");
+					$("#connector-form").html("connector saved");
 					ActivityTreeClass.selectTreeNode($("#connectorUri").val());
 				}else{
-					$("#connector-form").html("interactive service save failed:" + response);
+					$("#connector-form").html("connector save failed:" + response);
 				}
 			}
 		});
@@ -66,39 +66,40 @@ $(function(){
 	}
 
 });
-	function initActivitySwitch(clazz){
-		switchActivityType(clazz);
-		$("input:radio[name="+clazz+"_activityOrConnector]").change(function(){switchActivityType(clazz);});
-		$("#"+clazz+"_activityUri").change(function(){switchActivityType(clazz);});
-	}
-	
-	function switchActivityType(clazz){
-		var value = $("input:radio[name="+clazz+"_activityOrConnector]:checked").val();
-		if(value == 'connector'){
-			disable($("#"+clazz+"_activityUri"));
-			disable($("#"+clazz+"_activityLabel"));
-			enable($("#"+clazz+"_connectorUri"));
-		}else if(value == 'activity'){
-			enable($("#"+clazz+"_activityUri"));
-			disable($("#"+clazz+"_activityLabel"));
-			if($("#"+clazz+"_activityUri").val() == 'newActivity'){
-				enable($("#"+clazz+"_activityLabel"));
-			}
-			disable($("#"+clazz+"_connectorUri"));
-		}else{
-			disable($("#"+clazz+"_activityUri"));
-			disable($("#"+clazz+"_activityLabel"));
-			disable($("#"+clazz+"_connectorUri"));
+
+function initActivitySwitch(clazz){
+	switchActivityType(clazz);
+	$("input:radio[name="+clazz+"_activityOrConnector]").change(function(){switchActivityType(clazz);});
+	$("#"+clazz+"_activityUri").change(function(){switchActivityType(clazz);});
+}
+
+function switchActivityType(clazz){
+	var value = $("input:radio[name="+clazz+"_activityOrConnector]:checked").val();
+	if(value == 'connector'){
+		disable($("#"+clazz+"_activityUri"));
+		disable($("#"+clazz+"_activityLabel"));
+		enable($("#"+clazz+"_connectorUri"));
+	}else if(value == 'activity'){
+		enable($("#"+clazz+"_activityUri"));
+		disable($("#"+clazz+"_activityLabel"));
+		if($("#"+clazz+"_activityUri").val() == 'newActivity'){
+			enable($("#"+clazz+"_activityLabel"));
 		}
+		disable($("#"+clazz+"_connectorUri"));
+	}else{
+		disable($("#"+clazz+"_activityUri"));
+		disable($("#"+clazz+"_activityLabel"));
+		disable($("#"+clazz+"_connectorUri"));
 	}
-	
-	function disable(object){
-		object.parent().attr("disabled","disabled");
-		object.parent().hide();
-	}
-	
-	function enable(object){
-		object.parent().removeAttr("disabled");
-		object.parent().show();
-	}
+}
+
+function disable(object){
+	object.parent().attr("disabled","disabled");
+	object.parent().hide();
+}
+
+function enable(object){
+	object.parent().removeAttr("disabled");
+	object.parent().show();
+}
 </script>

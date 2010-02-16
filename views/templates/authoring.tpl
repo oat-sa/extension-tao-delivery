@@ -22,7 +22,7 @@
 	#draggable1 {padding: 0.5em;width:auto;}
 	
 	#accordion1 {position:absolute;left:0%;top:0%;width:22%;height=100%;}
-	#accordion_container_2 {position:absolute;left:78%;top:0%;width:22%;height=100%;}
+	#accordion_container_2 {position:absolute;left:73%;top:0%;width:27%;height=100%;}
 	
 	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}

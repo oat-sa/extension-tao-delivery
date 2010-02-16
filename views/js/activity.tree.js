@@ -78,14 +78,12 @@ function ActivityTreeClass(selector, dataUrl, options){
 						);
 					}else if( $(NODE).hasClass('node-activity-goto') && instance.options.editActivityPropertyAction){
 						//hightlight the target node
-						var index = $(NODE).attr('id').lastIndexOf('_goto');
-						if(index > 0){
-							var activityUri = $(NODE).attr('id').substring(0,index);
-							_load(instance.options.formContainer, 
-								instance.options.editActivityPropertyAction, 
-								{ activityUri: activityUri}
-							);
-						}
+						var activityUri = $(NODE).attr('rel');
+						_load(instance.options.formContainer, 
+							instance.options.editActivityPropertyAction, 
+							{ activityUri: activityUri}
+						);
+						
 					}else if( $(NODE).hasClass('node-connector') && instance.options.editConnectorAction){
 						_load(instance.options.formContainer, 
 							instance.options.editConnectorAction,
@@ -93,18 +91,12 @@ function ActivityTreeClass(selector, dataUrl, options){
 						);
 					}else if( ($(NODE).hasClass('node-connector-goto')||$(NODE).hasClass('node-connector-prev')) && instance.options.editConnectorAction){
 						//hightlight the target node
-						var index = $(NODE).attr('id').lastIndexOf('_goto');
-						if(index<=0){
-							var index = $(NODE).attr('id').lastIndexOf('_prev');
-						}
-						if(index > 0){
-							// TREE_OBJ.select_branch(NODE);
-							var connectorUri = $(NODE).attr('id').substring(0,index);
-							_load(instance.options.formContainer, 
-								instance.options.editConnectorAction,
-								{classUri: connectorUri}
-							);
-						}
+						// TREE_OBJ.select_branch(NODE);
+						var connectorUri = $(NODE).attr('rel');
+						_load(instance.options.formContainer, 
+							instance.options.editConnectorAction,
+							{classUri: connectorUri}
+						);
 					}else if( $(NODE).hasClass('node-interactive-service') && instance.options.editInteractiveServiceAction){
 						_load(instance.options.formContainer, 
 							instance.options.editInteractiveServiceAction,

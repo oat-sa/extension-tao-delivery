@@ -495,38 +495,43 @@ class DeliveryAuthoring extends TaoModule {
 			// }
 			//save the new rule here:
 			
-		
-			//save the activity in "THEN":
-			if(isset($data["then_activityUri"])){
-				if($data["then_activityUri"]=="newActivity"){
-					$this->service->createSplitActivity($connectorInstance, 'then', null, $data["then_activityLabel"], false);
-				}else{
-					$followingActivity = new core_kernel_classes_Resource($data["then_activityUri"]);
-					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
-				}
-			}elseif(isset($data["then_connectorUri"])){
-				if($data["then_connectorUri"]=="newConnector"){
-					$this->service->createSplitActivity($connectorInstance, 'then', null, '', true);
-				}else{
-					$followingActivity = new core_kernel_classes_Resource($data["then_connectorUri"]);
-					$this->service->createSplitActivity($connectorInstance, 'then', $followingActivity, '', true);
-				}
-			}
 			
-			//save the activity in "ELSE":
-			if(isset($data["else_activityUri"])){
-				if($data["else_activityUri"]=="newActivity"){
-					$this->service->createSplitActivity($connectorInstance, 'else', null, $data["then_activityLabel"], false);
-				}else{
-					$followingActivity = new core_kernel_classes_Resource($data["else_activityUri"]);
-					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
+			//clean old value of property (use bind property with empty input?)
+			$connectorInstance->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
+			
+			//save the activity in "THEN":
+			if(isset($data['if'])){
+				if(($data['then_activityOrConnector']=="activity") && isset($data["then_activityUri"])){
+					if($data["then_activityUri"]=="newActivity"){
+						$this->service->createSplitActivity($connectorInstance, 'then', null, $data["then_activityLabel"], false);
+					}else{
+						$followingActivity = new core_kernel_classes_Resource($data["then_activityUri"]);
+						$this->service->createSplitActivity($connectorInstance, 'then', $followingActivity, '', false);
+					}
+				}elseif(($data['then_activityOrConnector']=="connector") && isset($data["then_connectorUri"])){
+					if($data["then_connectorUri"]=="newConnector"){
+						$this->service->createSplitActivity($connectorInstance, 'then', null, '', true);
+					}else{
+						$followingActivity = new core_kernel_classes_Resource($data["then_connectorUri"]);
+						$this->service->createSplitActivity($connectorInstance, 'then', $followingActivity, '', true);
+					}
 				}
-			}elseif(isset($data["else_connectorUri"])){
-				if($data["else_connectorUri"]=="newConnector"){
-					$this->service->createSplitActivity($connectorInstance, 'else', null, '', true);
-				}else{
-					$followingActivity = new core_kernel_classes_Resource($data["else_connectorUri"]);
-					$this->service->createSplitActivity($connectorInstance, 'else', $followingActivity, '', true);
+			
+				//save the activity in "ELSE":
+				if(($data['else_activityOrConnector']=="activity") && isset($data["else_activityUri"])){
+					if($data["else_activityUri"]=="newActivity"){
+						$this->service->createSplitActivity($connectorInstance, 'else', null, $data["else_activityLabel"], false);
+					}else{
+						$followingActivity = new core_kernel_classes_Resource($data["else_activityUri"]);
+						$this->service->createSplitActivity($connectorInstance, 'else', $followingActivity, '', false);
+					}
+				}elseif(($data['else_activityOrConnector']=="connector") && isset($data["else_connectorUri"])){
+					if($data["else_connectorUri"]=="newConnector"){
+						$this->service->createSplitActivity($connectorInstance, 'else', null, '', true);
+					}else{
+						$followingActivity = new core_kernel_classes_Resource($data["else_connectorUri"]);
+						$this->service->createSplitActivity($connectorInstance, 'else', $followingActivity, '', true);
+					}
 				}
 			}
 		}

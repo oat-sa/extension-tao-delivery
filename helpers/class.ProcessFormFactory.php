@@ -554,7 +554,9 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 						$activityOptions[ tao_helpers_Uri::encode($activityTemp->uriResource) ] = $activityTemp->getLabel();
 						$connectorCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_CONNECTORS_ACTIVITYREFERENCE, $activityTemp->uriResource);
 						foreach($connectorCollection->getIterator() as $connectorTemp){
-							$connectorOptions[ tao_helpers_Uri::encode($connectorTemp->uriResource) ] = $connectorTemp->getLabel();
+							if( $connector->uriResource!=$connectorTemp->uriResource){
+								$connectorOptions[ tao_helpers_Uri::encode($connectorTemp->uriResource) ] = $connectorTemp->getLabel();
+							}
 						}
 					}
 				}
@@ -589,12 +591,17 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$elementConnectors->setOptions($connectorOptions);
 		
 		if(!empty($nextActivity)){
-			if(core_kernel_classes_ApiModelOO::isActivity($nextActivity)){
+			if(taoDelivery_models_classes_ProcessAuthoringService::isActivity($nextActivity)){
 				$elementChoice->setValue("activity");
-				$elementActivities->setValue(tao_helpers_Uri::encode($nextActivity->uriResource));
-			}elseif(core_kernel_classes_ApiModelOO::isConnector($nextActivity)){
+				$elementActivities->setValue($nextActivity->uriResource);//no need for tao_helpers_Uri::encode
+				
+			}
+			if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($nextActivity)){
+			
+				// throw new Exception("uri=".$elementActivities->render());
+				
 				$elementChoice->setValue("connector");
-				$elementConnectors->setValue(tao_helpers_Uri::encode($nextActivity->uriResource));
+				$elementConnectors->setValue($nextActivity->uriResource);
 			}
 		}
 		
