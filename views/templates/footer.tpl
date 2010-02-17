@@ -10,14 +10,12 @@ $(function(){
 		}
 	});
 	
-	<?if(get_data('action') != 'authoring'):?>
-		index = getTabIndexByName('delivery_authoring');
-		<?if(get_data('uri') && get_data('classUri')):?>
-		UiBootstrap.tabs.tabs('url', index, "/taoTests/Tests/authoring?uri=<?=get_data('uri')?>&classUri=<?=get_data('classUri')?>");
-		UiBootstrap.tabs.tabs('enable', index);
-		<?else:?>
-			UiBootstrap.tabs.tabs('disable', index);
-		<?endif?>
+	
+	
+	<?if(get_data('uri') && get_data('classUri')):?>
+		updateTabUrl(UiBootstrap.tabs, 'delivery_authoring', "<?=_url('authoring', 'Delivery', array('uri' => get_data('uri'), 'classUri' => get_data('classUri') ))?>");
+	<?else:?>
+		// UiBootstrap.tabs.tabs('disable', getTabIndexByName('delivery_authoring'));//temporary, to accelerate testing
 	<?endif?>
 	
 	<?if(get_data('reload')):?>
