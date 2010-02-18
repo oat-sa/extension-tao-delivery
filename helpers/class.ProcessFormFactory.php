@@ -59,7 +59,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
      * @param  array options
      * @return tao_helpers_form_Form
      */
-    public static function instanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $name = '', $options = array(), $excludedProp = array())
+    public static function instanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $name = '', $options = array(), $excludedProp = array(), $displayCode=false)
     {
         $returnValue = null;
 
@@ -87,7 +87,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 				$property->feed();
 				
 				//map properties widgets to form elments 
-				$element = self::elementMap($property);
+				$element = self::elementMap($property, $displayCode);
 				
 				if(!is_null($element)){
 			
@@ -138,6 +138,58 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			$returnValue = self::$forms[$name];
 		}
 		
+        return $returnValue;
+    }
+	
+	public static function elementMap( core_kernel_classes_Property $property, $displayCode=false){
+	
+        $returnValue = null;
+		
+		//create the element from the right widget
+		$widgetResource = $property->getWidget();
+		if(is_null($widgetResource)){
+			return null;
+		}
+		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
+		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
+		if(!is_null($element)){
+			if($element->getWidget() != $widgetResource->uriResource){
+				return null;
+			}
+	
+			//use the property label as element description
+			(strlen(trim($property->getLabel())) > 0) ? $propDesc = tao_helpers_Display::textCleaner($property->getLabel(), ' ') : $propDesc = 'field '.(count($myForm->getElements())+1);	
+			$element->setDescription($propDesc);
+			
+			//multi elements use the property range as options
+			if(method_exists($element, 'setOptions')){
+				$range = $property->getRange();
+				if($range != null){
+					$options = array();
+					foreach($range->getInstances(true) as $rangeInstance){
+						$value = $rangeInstance->getLabel();
+						if($displayCode){
+							//get the code of the process variable:
+							$code = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CODE));
+							if(!empty($code) && $code instanceof core_kernel_classes_Literal){
+								$value .= " (code:{$code->literal})";
+							}
+						}
+						$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $value;
+					}
+					
+					//set the default value to an empty space
+					if(method_exists($element, 'setEmptyOption')){
+						$element->setEmptyOption(' ');
+					}
+					
+					//complete the options listing
+					$element->setOptions($options);
+				}
+			}
+			$returnValue = $element;
+		}
+
         return $returnValue;
     }
 	
@@ -431,7 +483,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 						$connectorType = $value;
 						$elementConnectorType->setValue($connectorType->uriResource);//no need to use tao_helpers_Uri::encode here: seems like that it would be done sw else
 						$myForm->addElement($elementConnectorType);
-						break;//stop at the first occurence, which should be the unique one
+						break;//stop at the first occurence, which should be the unique one (use newly added getOnePropertyValue here instead)
 					}
 				}
 			}
@@ -447,13 +499,20 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$elementInputs=array();
 		if($connectorType->uriResource == TYPEOFCONNECTORS_SEQUENCE){
 			
-			$elementInputs = self::nextActivityElements($connector, 'next');///????
+			$elementInputs = self::nextActivityElements($connector, 'next');
 			
 		}else if($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
-			$elementActivityLabel = tao_helpers_form_FormFactory::getElement("if", 'Textbox');
-			$elementActivityLabel->setDescription(__('if'));
+			$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
+			$elementCondition->setDescription(__('IF'));
+			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+			if(!is_null($transitionRule)){
+				$if = $transitionRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+				if(!is_null($if) && $if instanceof core_kernel_classes_Resource){
+					$elementCondition->setValue($if->getLabel());
+				}
+			}	
+			$elementInputs[] = $elementCondition;
 			
-			$elementInputs[] = $elementActivityLabel;
 			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'then'));
 			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'else'));
 		}else{

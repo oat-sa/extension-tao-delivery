@@ -329,8 +329,8 @@ ActivityTreeClass.addActivity = function(options){
 					TREE_OBJ.create({
 						data: response.connector.data,
 						attributes: {
-							id: response.connector.id,
-							'class': response.connector.class
+							id: response.connector.attributes.id,
+							'class': response.connector.attributes.class
 						}
 					});
 				}

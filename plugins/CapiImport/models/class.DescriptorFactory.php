@@ -634,7 +634,7 @@ class DescriptorFactory{
 		//base case, the first time it is called the domelement is not an operation but a condition, shift it to the unqieu operation in it then call recursively
 		if ($conditionDom->nodeName == "condition")
 		{
-			echo "\nA new condition is being created :\n "."";
+			// echo "\nA new condition is being created :\n "."";
 			foreach ($conditionDom->childNodes as $operation)
 			{
 				if ($operation->nodeName == "operator")
@@ -658,7 +658,7 @@ class DescriptorFactory{
 		//terminal case (I added answered but the import does not do anything with it)
 		if (in_array($conditionDom->attributes->getNamedItem('type')->value,array("equal","notEqual","greater","greaterEqual","less","lessEqual","+","-","*","/",".","answered")))
 		{	
-			echo "<i>".$conditionDom->attributes->getNamedItem('type')->value."</i>(";
+			// echo "<i>".$conditionDom->attributes->getNamedItem('type')->value."</i>(";
 
 			//check if we are comparing terms , feed cmp operator
 			if (in_array($conditionDom->attributes->getNamedItem('type')->value,array("equal","notEqual","greater","greaterEqual","less","lessEqual","answered")))
@@ -679,7 +679,7 @@ class DescriptorFactory{
 					if ($leftPart)
 					{
 						$conditionDescriptor->leftPart = $variable->attributes->getNamedItem('name')->value;
-						echo $conditionDescriptor->leftPart.",";
+						// echo $conditionDescriptor->leftPart.",";
 						$conditionDescriptor->leftPartType="variable";
 						$leftPart = false;
 					}
@@ -687,7 +687,7 @@ class DescriptorFactory{
 					{
 						$conditionDescriptor->rightPart = $variable->attributes->getNamedItem('name')->value;
 						$conditionDescriptor->rightPartType="variable";
-						echo $conditionDescriptor->rightPart."";
+						// echo $conditionDescriptor->rightPart."";
 					}
 				}
 				if ($variable->nodeName == "constant")
@@ -695,16 +695,16 @@ class DescriptorFactory{
 					if ($leftPart)
 					{
 						$conditionDescriptor->leftPart = $variable->textContent;
-						echo $conditionDescriptor->leftPart;
+						// echo $conditionDescriptor->leftPart;
 						$conditionDescriptor->leftPartType="constant";
 						$leftPart=false;
-						echo $conditionDescriptor->leftPart.",";
+						// echo $conditionDescriptor->leftPart.",";
 					}
 					else
 					{
 						$conditionDescriptor->rightPart = $variable->textContent;
 						$conditionDescriptor->rightPartType="constant";
-						echo $conditionDescriptor->rightPart;
+						// echo $conditionDescriptor->rightPart;
 					}
 				}
 
@@ -724,21 +724,21 @@ class DescriptorFactory{
 					}
 				}
 			}
-			echo ")";
+			// echo ")";
 		}
 		else //boolean operator and or, not, 
 		{
-			echo "<b>".$conditionDom->attributes->getNamedItem('type')->value."</b> (";
+			// echo "<b>".$conditionDom->attributes->getNamedItem('type')->value."</b> (";
 			$conditionDescriptor->bool = $conditionDom->attributes->getNamedItem('type')->value;
 			foreach ($conditionDom->childNodes as $booleanOperation) {
 				if ($booleanOperation->nodeName == "operator")
 				{
 					$subConditionDescriptor = self::getConditionDescriptor($booleanOperation);
 					$conditionDescriptor->subConditionsList[]=$subConditionDescriptor;
-					echo ",";
+					// echo ",";
 				}
 			}	
-			echo ")";
+			// echo ")";
 		}
 		return $conditionDescriptor;
 	}

@@ -282,7 +282,7 @@ class DeliveryAuthoring extends TaoModule {
 		$this->setData('sectionName', 'process');
 		
 		$myForm = null;
-		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor(new core_kernel_classes_Class(CLASS_PROCESS), $process, $formName, array("noSubmit"=>true,"noRevert"=>true), $excludedProperty);
+		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor(new core_kernel_classes_Class(CLASS_PROCESS), $process, $formName, array("noSubmit"=>true,"noRevert"=>true), $excludedProperty, true);
 		$myForm->setActions(array(), 'bottom');	
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -514,19 +514,35 @@ class DeliveryAuthoring extends TaoModule {
 				}
 			}
 		}elseif($data[PROPERTY_CONNECTORS_TYPE] == TYPEOFCONNECTORS_SPLIT){
-			//delete the old rule:
-			// $deleted = $this->service->deleteRule($transitionRule);
-			// if(!$deleted){
-				// throw new Exception("the transition rule related to the connector cannot be removed");
-			// }
-			//save the new rule here:
-			
 			
 			//clean old value of property (use bind property with empty input?)
 			$connectorInstance->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
 			
 			//save the activity in "THEN":
 			if(isset($data['if'])){
+				
+				//delete the old rule, if exists:
+				$oldRule = $connectorInstance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+				if(!empty($oldRule)){
+					$deleted = $this->service->deleteRule($oldRule);
+					// if(!$deleted){
+						// throw new Exception("the old transition rule related to the connector cannot be removed");
+					// }
+				}
+								
+				//save the new rule here:
+				$condition = $data['if'];
+				
+				// throw new Exception("mghjpogim".stripos($condition, 'if'));
+				
+				if(!empty($condition) && stripos($condition, 'if')>=0){
+					
+					if(!$this->service->createRule($connectorInstance, $condition)){
+						throw new Exception("the condition \"{$condition}\" cannot be created");
+					}
+				}
+				
+				//save the "then" and the "else" activity (or connector)
 				if(($data['then_activityOrConnector']=="activity") && isset($data["then_activityUri"])){
 					if($data["then_activityUri"]=="newActivity"){
 						$this->service->createSplitActivity($connectorInstance, 'then', null, $data["then_activityLabel"], false);

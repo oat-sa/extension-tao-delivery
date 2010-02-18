@@ -278,12 +278,40 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
 	public function deleteRule(core_kernel_classes_Resource $rule){
 		//get the rule type:
+		if($rule instanceof core_kernel_classes_Resource){
+			//if it is a transition rule: get the uri of the related properties: THEN and ELSE:
+			//delete the expression of the conditio and its related terms
+			$expressionCollection = $rule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+			foreach($expressionCollection->getIterator() as $expression){
+				$this->deleteExpression($expression);
+			}
+			
+			//delete the resources
+			$rule->delete();
+		}
 		
-		//get the uri of the related properties: THEN and ELSE:
-		
-		//delete the resources
 	}
-
+	
+	//note: always recursive:
+	public function deleteExpression(core_kernel_classes_Resource $expression){
+		if($expression instanceof core_kernel_classes_Resource){
+			
+			//delete related expressions
+			$firstExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_FIRSTEXPRESSION));
+			$secondExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_SECONDEXPRESSION));
+			$expressionCollection = $firstExpressionCollection->union($secondExpressionCollection);
+			foreach($expressionCollection->getIterator() as $exp){
+					$this->deleteExpression($exp);
+			}
+			
+			$terminalExpression = $expression->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_EXPRESSION_TERMINALEXPRESSION));
+			if(!empty($terminalExpression) && $terminalExpression instanceof core_kernel_classes_Resource){
+				$terminalExpression->delete();
+			}
+		}
+	}
+	
+	
     /**
      * Check whether the object is a delivery class
      * (Method is not used in the current implementation yet)
@@ -451,18 +479,9 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 	}
 	
-	public function createRule($condition){
-		/*
-		//associate it to the property value of the connector
-		$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));//use this function and not editPropertyValue!
-		$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+	public function createRule(core_kernel_classes_Resource $connector, $condition=''){
 		
-		if(empty($transitionRule)){
-			//create an instance of transition rule:
-			$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
-			$transitionRule = $transitionRuleClass->createInstance();
-		}
-		*/
+		$returnValue = true;
 		
 		//place the following bloc in a helper
 		if (!empty($condition))
@@ -470,9 +489,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		else
 			$question = "";
 		
-		$question = "IF    (11+B_Q01a*3)>=2 AND (B_Q01c=2 OR B_Q01c=7)    	THEN ^variable := 2*(B_Q01a+7)-^variable";
-		  // Magic quotes are deprecated
-		  if (get_magic_quotes_gpc()) $question = stripslashes($question);
+		//question test:
+		//$question = "IF    (11+B_Q01a*3)>=2 AND (B_Q01c=2 OR B_Q01c=7)    	THEN ^variable := 2*(B_Q01a+7)-^variable";
+		
+		//analyse the condiiton string and convert to an XML document:
+		if (get_magic_quotes_gpc()) $question = stripslashes($question);// Magic quotes are deprecated
 
 		if (!empty($question)){ // something to parse
 			// str_replace taken from the MsReader class
@@ -487,11 +508,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 				// $xml = htmlspecialchars($tokens->getXmlString(true));
 				// $xml = $tokens->getXmlString(true);
 				$xmlDom = $tokens->getXml();
-				
+				// throw new Exception("name={$xmlDom->nodeName} XMLcontent={$xmlDom->saveXML()}");
 			}catch(Exception $e){
 				throw new Exception("CapiXML error: {$e->getMessage()}");
 			}
 		}
+		
+		//create the expression instance:
+		$expressionInstance = null;
 		foreach ($xmlDom->childNodes as $childNode) {
 			foreach ($childNode->childNodes as $childOfChildNode) {
 				if ($childOfChildNode->nodeName == "condition"){
@@ -500,16 +524,28 @@ class taoDelivery_models_classes_ProcessAuthoringService
 					// throw new Exception("descriptor=".var_dump($conditionDescriptor));
 					
 					$expressionInstance = $conditionDescriptor->import();
-					throw new Exception("expression uri = {$expressionInstance->uriResource}");
+					break 2;//once is enough...
+					// throw new Exception("expression uri = {$expressionInstance->uriResource}");
 				}
 			}
 		}
 		
-		// throw new Exception("name={$xmlDom->nodeName} XMLcontent={$xmlDom->saveXML()}");
-				
-		// $ok = $conditionDescriptor->import();
+		// throw new Exception("dump".var_dump($expressionInstance));
+		if($expressionInstance instanceof core_kernel_classes_Resource){
+			//associate the newly create expression with the transition rule of the connector
+			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+			if(empty($transitionRule)){
+				//create an instance of transition rule:
+				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
+				$transitionRule = $transitionRuleClass->createInstance();
+			}
+			$returnValue = $transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_RULE_IF), $expressionInstance->uriResource);
+		}
+		
+		
+		return $returnValue;
 	}
-	
+		
 	//remove property PROPERTY_CONNECTORS_NEXTACTIVITIES values on connector before:
 	public function createSplitActivity(core_kernel_classes_Resource $connector, $connectorType, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel ='', $followingActivityisConnector = false){
 
@@ -781,7 +817,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 						);
 						
 						//get the "THEN"
-						$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN));
+						$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN));
 						//is it a connector or an activity??
 						$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($then->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
 						if( $activityType == CLASS_ACTIVITIES){
@@ -810,7 +846,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 						$connectorData[] = $this->activityNode($then, 'then', $goto);
 						
 						//get the "ELSE"
-						$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE));
+						$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE));
 						//is it a connector or an activity??
 						$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($else->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
 						if( $activityType == CLASS_ACTIVITIES){
@@ -893,7 +929,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			$connectorData[] = $this->ruleNode($connectorRule);
 			
 			//get the "THEN"
-			$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN));
+			$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN));
 			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
 			if(self::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
 				if($recursive){
@@ -906,7 +942,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			}
 			
 			//same for the "ELSE"
-			$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE));
+			$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE));
 			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
 			if(self::isConnector($else) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
 				if($recursive){

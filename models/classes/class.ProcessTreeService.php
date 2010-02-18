@@ -236,7 +236,7 @@ class taoDelivery_models_classes_ProcessTreeService
 				$connectorData[] = $this->ruleNode($connectorRule);
 				
 				//get the "THEN"
-				$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_THEN), false);
+				$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN), false);
 				if(!is_null($then)){
 					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
 					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
@@ -250,7 +250,7 @@ class taoDelivery_models_classes_ProcessTreeService
 					}
 				}
 				//same for the "ELSE"
-				$else = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULE_ELSE), false);
+				$else = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE), false);
 				if(!is_null($else)){
 					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));
 					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else) && ($connectorActivityReference->uriResource == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
@@ -337,8 +337,15 @@ class taoDelivery_models_classes_ProcessTreeService
 						
 	public function ruleNode(core_kernel_classes_Resource $rule){
 		
+		$data='';
+		$if = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+		if(!is_null($if)){
+			$data = $if->getLabel();
+		}else{
+			$data = __("(still undefined)");
+		}
 		$nodeData = array(
-			'data' => $rule->getLabel(),
+			'data' => $data,
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($rule->uriResource),
 				'class' => 'node-rule'
@@ -385,9 +392,9 @@ class taoDelivery_models_classes_ProcessTreeService
 		$returnValue = null;
 		
 		if($type=='then'){
-			$property = PROPERTY_TRANSITIONRULE_THEN;
+			$property = PROPERTY_TRANSITIONRULES_THEN;
 		}elseif($type=='else'){
-			$property = PROPERTY_TRANSITIONRULE_ELSE;
+			$property = PROPERTY_TRANSITIONRULES_ELSE;
 		}else{
 			throw new Exception('choose either "then" or "else"');
 			return $returnValue ;
