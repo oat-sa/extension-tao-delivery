@@ -539,7 +539,10 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode(array("saved" => $saved));
 	}
 	
-
+	public function saveRule(){
+		$condition = '';
+		$this->service->createRule($condition);
+	}
 	/**
 	 *
 	 *

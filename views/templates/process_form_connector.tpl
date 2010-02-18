@@ -27,8 +27,10 @@ $(function(){
 				dataType: 'json',
 				success: function(response){
 					if(response.saved){
-						//call ajax function again to get the new form
-						ActivityTreeClass.selectTreeNode($("#connectorUri").val());
+						var selectedNode = $("#connectorUri").val();
+						$("#connector-form").html("connector saved");
+						initActivityTree();
+						ActivityTreeClass.selectTreeNode(selectedNode);
 					}else{
 						$("#connector-form").html("save failed:" + response);
 					}
@@ -48,8 +50,10 @@ $(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.saved){
+					var selectedNode = $("#connectorUri").val();
 					$("#connector-form").html("connector saved");
-					ActivityTreeClass.selectTreeNode($("#connectorUri").val());
+					initActivityTree();
+					ActivityTreeClass.selectTreeNode(selectedNode);
 				}else{
 					$("#connector-form").html("connector save failed:" + response);
 				}

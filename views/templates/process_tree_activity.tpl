@@ -6,6 +6,10 @@
 			
 <script type="text/javascript">
 	$(function(){
+		initActivityTree();
+	});
+	
+	function initActivityTree(){
 		new ActivityTreeClass('#tree-activity', "/taoDelivery/DeliveryAuthoring/getActivities", {
 			formContainer: 			"#activity_form",
 			createActivityAction: "/taoDelivery/DeliveryAuthoring/addActivity",
@@ -14,8 +18,7 @@
 			editActivityPropertyAction: "/taoDelivery/DeliveryAuthoring/editActivityProperty",
 			editConnectorAction: "/taoDelivery/DeliveryAuthoring/editConnector"
 		});
-	});
-	
+	}
 	/*
 	$(function(){
 		new ActivityTreeClass('#activity_tree', "/taoDelivery/DeliveryAuthoring/getActivityTree", {

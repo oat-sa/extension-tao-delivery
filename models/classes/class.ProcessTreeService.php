@@ -143,7 +143,7 @@ class taoDelivery_models_classes_ProcessTreeService
 					}elseif(strtolower($connectorType->getLabel()) == "sequence"){
 						$prev = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
 						if(!taoDelivery_models_classes_ProcessAuthoringService::isActivity($prev)){
-							throw new Exception("the previous activity of a sequence connector must be an activity");
+							throw new Exception("the previous activity of a sequence connector {$connector->uriResource} must be an activity {$prev->uriResource}");
 						}
 						$connectorData[] = $this->activityNode($prev, 'next', true);
 					}
@@ -174,8 +174,8 @@ class taoDelivery_models_classes_ProcessTreeService
 						'class' => 'node-connector-prev'
 					)
 				);
-			}
-			*/
+			}*/
+			
 			//following nodes:
 			if(!empty($connectors['next'])){
 				//connector following the current activity: there should be only one

@@ -66,7 +66,7 @@
 		</div>
 		<h3><a href="#">Specialized form</a></h3>
 		<div>
-			<div id="spForm"></div>
+			<div id="spForm"><a id="ancre_spForm" href="#">spForm</a></div>
 		</div>
 		<h3><a href="#"><?=__('Process Property')?></a></h3>
 		<div>
@@ -99,14 +99,7 @@
 		loadSectionTree("formalParameter");
 		loadSectionTree("role");
 		
-		// $.ajax({
-			// url: '/taoDelivery/DeliveryAuthoring/editCallOfService',
-			// type: "GET",
-			// dataType: 'html',
-			// success: function(response){
-				// $("#spForm").html(response);
-			// }
-		// });
+		$("#ancre_spForm").click(spForm);
 	});
 	
 	$(function(){
@@ -147,6 +140,16 @@
 		});
 	}
 	
+	function spForm(){
+		$.ajax({
+			url: '/taoDelivery/DeliveryAuthoring/saveRule',
+			type: "GET",
+			dataType: 'html',
+			success: function(response){
+				$("#spForm").html(response);
+			}
+		});
+	}
 	
 	</script>
 	

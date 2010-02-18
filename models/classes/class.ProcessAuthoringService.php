@@ -26,6 +26,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 require_once('tao/models/classes/class.Service.php');
 
+
+require_once('taoDelivery/plugins/CapiXML/models/class.ConditionalTokenizer.php');
+
+require_once('taoDelivery/plugins/CapiImport/models/class.DescriptorFactory.php');
 /**
  * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
@@ -446,7 +450,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 	}
 	
-	public function createRule(){
+	public function createRule($condition){
+		/*
 		//associate it to the property value of the connector
 		$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));//use this function and not editPropertyValue!
 		$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
@@ -456,6 +461,52 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
 			$transitionRule = $transitionRuleClass->createInstance();
 		}
+		*/
+		
+		//place the following bloc in a helper
+		if (!empty($condition))
+			$question = $condition;
+		else
+			$question = "";
+		
+		$question = "IF    (11+B_Q01a*3)>=2 AND (B_Q01c=2 OR B_Q01c=7)    	THEN ^variable := 2*(B_Q01a+7)-^variable";
+		  // Magic quotes are deprecated
+		  if (get_magic_quotes_gpc()) $question = stripslashes($question);
+
+		if (!empty($question)){ // something to parse
+			// str_replace taken from the MsReader class
+			$question = str_replace("’", "'", $question); // utf8...
+			$question = str_replace("‘", "'", $question); // utf8...
+			$question = str_replace("“", "\"", $question);
+			$question = str_replace("”", "\"", $question);
+			try{
+				$analyser = new Analyser();
+				$tokens = $analyser->analyse($question);
+
+				// $xml = htmlspecialchars($tokens->getXmlString(true));
+				// $xml = $tokens->getXmlString(true);
+				$xmlDom = $tokens->getXml();
+				
+			}catch(Exception $e){
+				throw new Exception("CapiXML error: {$e->getMessage()}");
+			}
+		}
+		foreach ($xmlDom->childNodes as $childNode) {
+			foreach ($childNode->childNodes as $childOfChildNode) {
+				if ($childOfChildNode->nodeName == "condition"){
+					// throw new Exception("parent={$childNode->nodeName} <br/> XMLcontent=".$childOfChildNode->textContent." <br/>compare to {$tokens->getXmlString(true)}");
+					$conditionDescriptor = DescriptorFactory::getConditionDescriptor($childOfChildNode);
+					// throw new Exception("descriptor=".var_dump($conditionDescriptor));
+					
+					$expressionInstance = $conditionDescriptor->import();
+					throw new Exception("expression uri = {$expressionInstance->uriResource}");
+				}
+			}
+		}
+		
+		// throw new Exception("name={$xmlDom->nodeName} XMLcontent={$xmlDom->saveXML()}");
+				
+		// $ok = $conditionDescriptor->import();
 	}
 	
 	//remove property PROPERTY_CONNECTORS_NEXTACTIVITIES values on connector before:

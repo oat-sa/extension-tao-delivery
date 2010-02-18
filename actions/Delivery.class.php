@@ -82,14 +82,19 @@ class Delivery extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		$highlightUri = '';
-		if($this->hasSessionAttribute("showNodeUri")){
-			$highlightUri = $this->getSessionAttribute("showNodeUri");
-			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		} 
+		// if($this->hasSessionAttribute("showNodeUri")){
+			// $highlightUri = $this->getSessionAttribute("showNodeUri");
+			// unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		// } 
 		$filter = '';
 		if($this->hasRequestParameter('filter')){
 			$filter = $this->getRequestParameter('filter');
 		}
+		
+		// $handle = fopen("/deliverytree.txt","wb");
+		// $fileContent = fwrite($handle, json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter)));
+		// fclose($handle);
+		
 		echo json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter));
 	}
 	
@@ -144,11 +149,67 @@ class Delivery extends TaoModule {
 		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
 		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-				
+		
+		// $handle = fopen("/formRender.html","wb");
+		// $content = fwrite($handle,$myForm->render());
+		// fclose($handle);
+		
+		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setData('formTitle', 'Edit delivery');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
 	}
+	
+	public function editDelivery2(){
+		$clazz = $this->getCurrentClass();
+		$delivery = $this->getCurrentDelivery();
+		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
+				
+				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
+				$this->setData('message', 'delivery saved');
+				$this->setData('reload', true);exit;
+			}
+		}
+			
+		
+		// $handle = fopen("/formRender.html","wb");
+		// $content = fwrite($handle,$myForm->render());
+		// fclose($handle);
+		$this->setData('secret', "somethign");
+		$this->setData('formPlus', $myForm->render());
+		$this->setView('cool.tpl');
+	}
+	
+	//function test of 
+	public function formPlus(){
+		$clazz = $this->getCurrentClass();
+		$delivery = $this->getCurrentDelivery();
+		$formName="formPlus";
+		
+		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery, $formName, array("noSubmit"=>true,"noRevert"=>true));
+		// $myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery, $formName);
+		
+		$element = tao_helpers_form_FormFactory::getElement("buttonId", "Button");
+		$myForm->addElement($element);
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
+				echo "ok!";exit;
+			}
+		}
+		
+		$this->setData('section', $formName);
+		$this->setData('formPlus', $myForm->render());
+		$this->setView('tree_form.tpl');
+	}
+	
+	
 	
 	/**
 	 * Add a delivery instance        
@@ -234,29 +295,18 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
-	 * display the authoring  template (load the tool into an iframe)
+	 * display the authoring  template 
 	 * @return void
 	 */
 	public function authoring(){
 		$this->setData('error', false);
 		try{
-			$data = array();
-			$data['delivery'] = $this->getCurrentDelivery();
-			$data['clazz'] = $this->getCurrentClass();
+			// $deliveryInstance = $this->getCurrentDelivery();
+			// $processInstance = $deliveryInstance->getUniquePropertyValue(new core_kernel_classes_Resource(TAO_DELIVERY_DELIVERYCONTENT));
 			
-			// $myFormContainer = new taoTests_actions_form_TestAuthoring($data);
-			// $myForm = $myFormContainer->getForm();
-			
-			// if($myForm->isSubmited()){
-				// if($myForm->isValid()){
-					// $this->setData('message', __('test saved'));
-				// }
-			// }
-			// $this->setData('myForm', $myForm->render());
-			$this->setData('formTitle', __('Delivery authoring'));
-			$this->setData('delivery', $data['delivery']);
-			$this->setData('clazz', $data['clazz']);
-			
+			// $this->setData('delivery', tao_helpers_Uri::encode($deliveryInstance->uriResource));
+			// $this->setData('process', tao_helpers_Uri::encode($processInstance->uriResource));	
+		
 		}
 		catch(Exception $e){
 			$this->setData('error', true);

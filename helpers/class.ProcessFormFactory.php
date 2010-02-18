@@ -412,6 +412,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			}
 			$elementConnectorType->setOptions($options);
 		}
+		//TODO: check if the parent of the current connector is a connector as well: if so, only allow the split type connector, since there will be no use of a sequential one
 		
 		//check if the property value "type of connector" of the current connector exists
 		if(empty($connectorType)){
