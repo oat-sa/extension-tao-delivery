@@ -115,8 +115,8 @@ class DeliveryAuthoring extends TaoModule {
 				break;
 			case 'formalparameter': 
 				$classUri=CLASS_FORMALPARAMETER;break;
-			case 'activity': 
-				$classUri=CLASS_ACTIVITIES;break;
+			case 'variable': 
+				$classUri=CLASS_PROCESSVARIABLES;break;
 			case 'role': 
 				$classUri=CLASS_ROLE;break;
 			default:
@@ -147,12 +147,11 @@ class DeliveryAuthoring extends TaoModule {
 		//getCurrentProcess from delivery
 		
 		// $processUri = tao_helpers_Uri::decode($_POST["processUri"]);
-		$processUri = "http://127.0.0.1/middleware/demo.rdf#i1265636054002217400";
-		// $processUri = "http://www.tao.lu/middleware/taoqual.rdf#118589073043506";//item exemple itemtranslation
-		if(!empty($processUri)){
-			// echo json_encode($this->service->activityTree(new core_kernel_classes_Resource($processUri)));
-			
-			echo json_encode($this->processTreeService->activityTree(new core_kernel_classes_Resource($processUri)));
+		// $processUri = "http://127.0.0.1/middleware/demo.rdf#i1265636054002217400";
+		$currentProcess = null;
+		$currentProcess = $this->getCurrentProcess();
+		if(!empty($currentProcess)){
+			echo json_encode($this->processTreeService->activityTree($currentProcess));
 		}else{
 			throw new Exception("no process uri found");
 		}
@@ -212,24 +211,21 @@ class DeliveryAuthoring extends TaoModule {
 		
 		$formName="";
 		//define the type of instance to be edited:
-		if(strcasecmp($clazz->uriResource, CLASS_ACTIVITIES) == 0){
-			$formName = "activity";
-		}elseif(strcasecmp($clazz->uriResource, CLASS_FORMALPARAMETER) == 0){
+		if(strcasecmp($clazz->uriResource, CLASS_FORMALPARAMETER) == 0){
 			$formName = "formalParameter";
 		}elseif(strcasecmp($clazz->uriResource, CLASS_ROLE) == 0){
 			$formName = "role";
 		}elseif( (strcasecmp($clazz->uriResource, CLASS_WEBSERVICES) == 0) || (strcasecmp($clazz->uriResource, CLASS_SUPPORTSERVICES) == 0) ){
 			//note: direct instanciating CLASS_SERVICEDEFINITION should be forbidden
 			$formName = "serviceDefinition";
-		}elseif(strcasecmp($clazz->uriResource, CLASS_FORMALPARAMETER) == 0){
-			$formName = "formalParameter";
+		}elseif(strcasecmp($clazz->uriResource, CLASS_PROCESSVARIABLES) == 0){
+			$formName = "variable";
 		}else{
 			throw new Exception("attempt to editing an instance of an unsupported class");
 		}
 				
 		$myForm = null;
 		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor($clazz, $instance, $formName, array("noSubmit"=>true,"noRevert"=>true) , array('http://www.tao.lu/middleware/Interview.rdf#122354397139712') );
-		// $myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance, $formName);
 		$myForm->setActions(array(), 'bottom');	
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -254,6 +250,7 @@ class DeliveryAuthoring extends TaoModule {
 		);
 		
 		$this->setData('saved', false);
+		$this->setData('sectionName', 'activity');
 		
 		$myForm = null;
 		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor(new core_kernel_classes_Class(CLASS_ACTIVITIES), $activity, $formName, array("noSubmit"=>true,"noRevert"=>true), $excludedProperty);
@@ -264,15 +261,44 @@ class DeliveryAuthoring extends TaoModule {
 				
 				//replace with a clean template upload
 				$this->setData('saved', true);
-				$this->setView('process_form_activity.tpl');
+				$this->setView('process_form_property.tpl');
 				exit;
 			}
 		}
 		
-		$this->setData('section', $formName);
 		$this->setData('myForm', $myForm->render());
-		$this->setView('process_form_activity.tpl');
+		$this->setView('process_form_property.tpl');
 	}
+	
+	
+	public function editProcessProperty(){
+		$formName = "processPropertyEditor";
+		$process = $this->getCurrentProcess();
+		$excludedProperty = array(
+			PROPERTY_PROCESS_ACTIVITIES
+		);
+		
+		$this->setData('saved', false);
+		$this->setData('sectionName', 'process');
+		
+		$myForm = null;
+		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor(new core_kernel_classes_Class(CLASS_PROCESS), $process, $formName, array("noSubmit"=>true,"noRevert"=>true), $excludedProperty);
+		$myForm->setActions(array(), 'bottom');	
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$process = $this->service->bindProperties($process, $myForm->getValues());
+				
+				//replace with a clean template upload
+				$this->setData('saved', true);
+				$this->setView('process_form_property.tpl');
+				exit;
+			}
+		}
+		
+		$this->setData('myForm', $myForm->render());
+		$this->setView('process_form_property.tpl');
+	}
+	
 	
 	/**
 	 * Add an instance        

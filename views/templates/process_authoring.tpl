@@ -55,6 +55,11 @@
 			<div id="role_tree"/>
 			<div id="role_form"/>
 		</div>
+		<h3><a href="#"><?=__('Process Variables')?></a></h3>
+		<div>
+			<div id="variable_tree"/>
+			<div id="variable_form"/>
+		</div>
 	</div><!--end accordion -->
 	
 	<div id="accordion_container_2" style="height:100%">
@@ -70,10 +75,7 @@
 		</div>
 		<h3><a href="#"><?=__('Process Property')?></a></h3>
 		<div>
-			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-			Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-			ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-			lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+			<div id="process_form"/>
 		</div>
 	</div><!--end accordion -->
 	</div><!--end accordion_container_2 -->
@@ -82,6 +84,8 @@
 	
 	<script type="text/javascript" src="/taoDelivery/views/js/activity.tree.js"></script>
 	<script type="text/javascript">
+	var processUri = "<?=get_data("processUri")?>";
+	
 	$(function(){
 		$("#accordion1").accordion({
 			fillSpace: false,
@@ -98,6 +102,9 @@
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
 		loadSectionTree("role");
+		loadSectionTree("variable");
+		
+		processProperty();
 		
 		$("#ancre_spForm").click(spForm);
 	});
@@ -114,6 +121,13 @@
 		//load the trees:
 		
 	});
+	
+	function processProperty(){
+		_load("#process_form", 
+			"/taoDelivery/DeliveryAuthoring/editProcessProperty", 
+			{processUri: processUri}
+		);
+	}
 	
 	function loadSectionTree(section){
 	//section in [serviceDefinition, formalParameter, role]

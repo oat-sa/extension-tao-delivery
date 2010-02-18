@@ -299,6 +299,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
 		$authorizedClassUri=array(
 			CLASS_ACTIVITIES,
+			CLASS_PROCESSVARIABLES,
 			CLASS_SERVICESDEFINITION,
 			CLASS_WEBSERVICES,
 			CLASS_SUPPORTSERVICES,

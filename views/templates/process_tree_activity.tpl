@@ -11,7 +11,8 @@
 	
 	function initActivityTree(){
 		new ActivityTreeClass('#tree-activity', "/taoDelivery/DeliveryAuthoring/getActivities", {
-			formContainer: 			"#activity_form",
+			processUri: processUri,
+			formContainer: "#activity_form",
 			createActivityAction: "/taoDelivery/DeliveryAuthoring/addActivity",
 			createInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/addInteractiveService",
 			editInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/editCallOfService",

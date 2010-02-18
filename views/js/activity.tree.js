@@ -45,7 +45,8 @@ function ActivityTreeClass(selector, dataUrl, options){
 			callback : {
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
-						type : $(TREE_OBJ.container).attr('id')
+						type : $(TREE_OBJ.container).attr('id'),
+						processUri : instance.options.processUri
 						// filter: $("#filter-content-" + options.actionId).val()
 					}
 				},
