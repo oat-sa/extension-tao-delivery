@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension name="Delivery" url="/taoDelivery/Delivery/index" level="7">
+<extension name="Delivery" url="/taoDelivery/Delivery/index" level="4">
 	<sections>
 		<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 			<trees>
