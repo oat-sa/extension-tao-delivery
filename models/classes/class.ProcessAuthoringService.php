@@ -545,7 +545,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $returnValue;
 	}
-		
+	
 	//remove property PROPERTY_CONNECTORS_NEXTACTIVITIES values on connector before:
 	public function createSplitActivity(core_kernel_classes_Resource $connector, $connectorType, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel ='', $followingActivityisConnector = false){
 
