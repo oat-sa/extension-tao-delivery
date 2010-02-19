@@ -26,10 +26,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 require_once('tao/models/classes/class.Service.php');
 
-
 require_once('taoDelivery/plugins/CapiXML/models/class.ConditionalTokenizer.php');
 
 require_once('taoDelivery/plugins/CapiImport/models/class.DescriptorFactory.php');
+
 /**
  * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
@@ -98,6 +98,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
     {
 		parent::__construct();
 		
+		
+		//TODO: clean that
 		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
 		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		$this->activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
@@ -137,31 +139,6 @@ class taoDelivery_models_classes_ProcessAuthoringService
         return $returnValue;
     }
 	
-	/**
-     * The method getTestClass return the current Test Class
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string uri
-     * @return core_kernel_classes_Class
-     */
-	 //UL
-	public function getTestClass($uri = '')
-    {
-        $returnValue = null;
-
-		if(empty($uri) && !is_null($this->testClass)){
-			$returnValue = $this->testClass;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isTestClass($clazz)){
-				$returnValue = $clazz;
-			}
-		}
-
-        return $returnValue;
-    }
 	
 	/**
      * Returns a delivery by providing either its uri (default) or its label and the delivery class
@@ -173,8 +150,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @param  Class clazz
      * @return core_kernel_classes_Resource
      */
-    public function getInstance($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
-    {
+    public function getInstance($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null){
         $returnValue = null;
 
 		if(is_null($clazz) || !$this->isAuthorizedClass($clazz)){
@@ -194,8 +170,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @param  Resource instance
      * @return boolean
      */
-    public function deleteInstance( core_kernel_classes_Resource $instance)
-    {
+    public function deleteInstance( core_kernel_classes_Resource $instance){
         $returnValue = (bool) false;
 		
 		if(!is_null($instance)){
@@ -294,21 +269,20 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	//note: always recursive:
 	public function deleteExpression(core_kernel_classes_Resource $expression){
-		if($expression instanceof core_kernel_classes_Resource){
 			
-			//delete related expressions
-			$firstExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_FIRSTEXPRESSION));
-			$secondExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_SECONDEXPRESSION));
-			$expressionCollection = $firstExpressionCollection->union($secondExpressionCollection);
-			foreach($expressionCollection->getIterator() as $exp){
-					$this->deleteExpression($exp);
-			}
-			
-			$terminalExpression = $expression->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_EXPRESSION_TERMINALEXPRESSION));
-			if(!empty($terminalExpression) && $terminalExpression instanceof core_kernel_classes_Resource){
-				$terminalExpression->delete();
-			}
+		//delete related expressions
+		$firstExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_FIRSTEXPRESSION));
+		$secondExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_SECONDEXPRESSION));
+		$expressionCollection = $firstExpressionCollection->union($secondExpressionCollection);
+		foreach($expressionCollection->getIterator() as $exp){
+				$this->deleteExpression($exp);
 		}
+		
+		$terminalExpression = $expression->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_EXPRESSION_TERMINALEXPRESSION));
+		if(!empty($terminalExpression) && $terminalExpression instanceof core_kernel_classes_Resource){
+			$terminalExpression->delete();
+		}
+	
 	}
 	
 	
@@ -339,49 +313,10 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		if( in_array($clazz->uriResource, $authorizedClassUri) ){
 			$returnValue = true;	
 		}
-		//unquote and edit the block below only if subclass for workflow process definition is authorized
-		// else{
-			// foreach($this->everyAuthorizeClass->getSubClasses(true) as $subclass){
-				// if($clazz->uriResource == $subclass->uriResource){
-					// $returnValue = true;
-					// break;	
-				// }
-			// }
-		// }
-
+		
         return (bool) $returnValue;
     }
-	
-	/**
-     * Check whether the object is a test class
-     * (Method is not used in the current implementation yet)
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Class clazz
-     * @return boolean
-     */
-	public function isTestClass( core_kernel_classes_Class $clazz)
-    {
-        $returnValue = (bool) false;
-
-		if($clazz->uriResource == $this->testClass->uriResource){
-			$returnValue = true;	
-		}
-		else{
-			foreach($this->testClass->getSubClasses() as $subclass){
-				if($clazz->uriResource == $subclass->uriResource){
-					$returnValue = true;
-					break;	
-				}
-			}
-		}
-
-        return (bool) $returnValue;
-    }
-	
-	
-			
+				
 	/**
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
@@ -671,367 +606,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $returnValue;
 	}
-	
-	public function activityTree(core_kernel_classes_Resource $process = null){
 		
-		$data = array();
-		
-		if(empty($process) && !empty($this->processUri)){
-			$process = new core_kernel_classes_Resource($this->processUri);
-		}
-		if(empty($process)){
-			throw new Exception("no process instance to populate the activity tree");
-			return $data;
-		}
-		
-		//initiate the return data value:
-		$data = array(
-			'data' => __("Process Activities"),
-			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($process->uriResource),
-				'class' => 'node-root'
-			),
-			'children' => array()
-		);
-	
-		$activities = $this->getActivitiesByProcess($process->uriResource);
-		
-		foreach($activities as $activity){
-			
-			$activityData = array(
-				'data' => $activity->getLabel(),
-				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($activity->uriResource),
-					'class' => 'node-activity'
-				),
-				'children' => array()
-			);
-			
-			//set property node:
-			$activityData['children'][] = array(
-				'data' => __("Property"),
-				'attributes' => array(
-					'id' => "prop_".tao_helpers_Uri::encode($activity->uriResource),
-					'class' => 'node-property'
-				)
-			);
-			
-			
-			
-			//get connectors
-			$connectors = $this->getConnectorsByActivity($activity->uriResource);
-			
-			
-			if(!empty($connectors['prev'])){
-				//activity connected to a previous one:
-				foreach($connectors['prev'] as $connector){
-				
-					$connectorData = array();
-					
-					//type of connector:
-					$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-					
-					//if it is a split type
-					if( strtolower($connectorType->getLabel()) == "split"){
-						//get the rule
-						$connectorRule = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-						$connectorData[] = array(
-							'data' => $connectorRule->getLabel(),
-							'attributes' => array(
-								'rel' => tao_helpers_Uri::encode($connectorRule->uriResource),
-								'class' => 'node-rule'
-							)
-						);
-						
-						//get the "PREC"
-						$prev = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
-						/*//is it a connector or an activity??
-						$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($prev->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-						if( $activityType == CLASS_ACTIVITIES){//use static method isActivity($prev) instead
-							//it is an activity:
-							$nodeClass = 'node-activity-goto';
-						}elseif($activityType == CLASS_CONNECTORS){
-							$nodeClass = 'node-connector-goto';
-						}else{
-							continue;//unknown type...
-						}
-						
-						$connectorData[] = array(
-							'data' => $prev->getLabel(),
-							'attributes' => array(
-								'rel' => tao_helpers_Uri::encode($prev->uriResource),
-								'class' => $nodeClass
-							)
-						);*/
-						$connectorData[] = $this->activityNode($prev, 'prec', true);
-												
-					}elseif(strtolower($connectorType->getLabel()) == "sequence"){
-						$prev = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
-						if(!self::isActivity($prev)){
-							throw new Exception("the previous activity of a sequence connector must be an activity");
-						}
-						$connectorData[] = $this->activityNode($prev, 'next', true);
-						
-						// $connectorData[] = array(
-							// 'data' => $prev->getLabel(),
-							// 'attributes' => array(
-								// 'rel' => tao_helpers_Uri::encode($prev->uriResource),
-								// 'class' => 'node-activity-goto'
-							// )
-						// );
-					}
-					
-					//add to activity data
-					$activityData[] = array(
-						'data' => $connectorType->getLabel().":".$connector->getLabel(),
-						'attributes' => array(
-							'rel' => tao_helpers_Uri::encode($connector->uriResource),
-							'class' => 'node-connector-prev'
-						),
-						'children' => $connectorData
-					);
-				}
-				
-			}
-			
-			//following nodes:
-			if(!empty($connectors['next'])){
-				//connector following the current activity: there should be only one
-				foreach($connectors['next'] as $connector){
-				
-					$this->connectorNode($connector, true);
-					$connectorData = array();
-					
-					//type of connector:
-					$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-					//if it is a split type
-					if( strtolower($connectorType->getLabel()) == "split"){
-						//get the rule
-						$connectorRule = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-						$connectorData[] = array(
-							'data' => "IF ".$connectorRule->getLabel(),
-							'attributes' => array(
-								'id' => tao_helpers_Uri::encode($connectorRule->uriResource),
-								'class' => 'node-rule'
-							)
-						);
-						
-						//get the "THEN"
-						$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN));
-						//is it a connector or an activity??
-						$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($then->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-						if( $activityType == CLASS_ACTIVITIES){
-							//it is an activity:
-							$nodeClass = 'node-activity-goto';
-						}elseif($activityType == CLASS_CONNECTORS){
-							$nodeClass = 'node-connector-goto';
-						}else{
-							continue;//unknown type...
-						}
-						$connectorData[] = array(
-							'data' => __('then').' '.$then->getLabel(),
-							'attributes' => array(
-								'rel' => tao_helpers_Uri::encode($then->uriResource),
-								'class' => $nodeClass
-							)
-						);
-						
-						//compare if the current connector is created from the current activity or is simply a link to another one:
-						$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-						$goto = true;
-						if ($connectorActivityReference == $activity->uriResource){
-							$goto = false;
-							//recursive node building with activity
-						}
-						$connectorData[] = $this->activityNode($then, 'then', $goto);
-						
-						//get the "ELSE"
-						$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE));
-						//is it a connector or an activity??
-						$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($else->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-						if( $activityType == CLASS_ACTIVITIES){
-							//it is an activity:
-							$nodeClass = 'node-activity-goto';
-						}elseif($activityType == CLASS_CONNECTORS){
-							$nodeClass = 'node-connector-goto';
-						}else{
-							continue;//unknown type...
-						}
-						$connectorData[] = array(
-							'data' => __('else').' '.$else->getLabel(),
-							'attributes' => array(
-								'rel' => tao_helpers_Uri::encode($else->uriResource),
-								'class' => $nodeClass
-							)
-						);
-					}elseif(strtolower($connectorType->getLabel()) == "sequence"){
-						$next = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
-						
-						$connectorData[] = array(
-							'data' => $next->getLabel(),
-							'attributes' => array(
-								'rel' => tao_helpers_Uri::encode($next->uriResource),
-								'class' => 'node-activity-goto'
-							)
-						);
-					}
-					
-					//add to data
-					$activityData['children'][] = array(
-						'data' => $connectorType->getLabel().":".$connector->getLabel(),
-						'attributes' => array(
-							'id' => tao_helpers_Uri::encode($connector->uriResource),
-							'class' => 'node-connector-next'
-						),
-						'children' => $connectorData
-					);
-					
-				}
-			}
-			
-			//get iservices
-			$services = null;
-			$services = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-			foreach($services->getIterator() as $service){
-				if($service instanceof core_kernel_classes_Resource){
-					$activityData['children'][] = array(
-						'data' => $service->getLabel(),
-						'attributes' => array(
-							'id' => tao_helpers_Uri::encode($service->uriResource),
-							'class' => 'node-interactive-service'
-						)
-					);
-				}
-			}
-			
-			//get related rules
-			
-			
-			
-			$data["children"][] = $activityData;
-		}
-		return $data;
-	}
-	
-	public function connectorNode($connector, $recursive=false){//put the current activity as a protected property of the class Process aythoring Tree
-		// $this->connectorNode($connector, true); call of function
-		
-		$returnValue = array();
-		$connectorData = array();
-					
-		//type of connector:
-		$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-					
-		//if it is a split type
-		if( strtolower($connectorType->getLabel()) == "split"){
-			//get the rule
-			$connectorRule = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-			$connectorData[] = $this->ruleNode($connectorRule);
-			
-			//get the "THEN"
-			$then = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN));
-			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-			if(self::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
-				if($recursive){
-					$connectorData[] = $this->connectorNode($then, true);
-				}else{
-					$connectorData[] = $this->activityNode($then, 'then', false);
-				}
-			}else{
-				$connectorData[] = $this->activityNode($then, 'then', true);
-			}
-			
-			//same for the "ELSE"
-			$else = $connectorRule->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE));
-			$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->literal;
-			if(self::isConnector($else) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
-				if($recursive){
-					$connectorData[] = $this->connectorNode($else, true);
-				}else{
-					$connectorData[] = $this->activityNode($else, 'else', false);
-				}
-			}else{
-				$connectorData[] = $this->activityNode($else, 'else', true);
-			}
-		}elseif(strtolower($connectorType->getLabel()) == "sequence"){
-			$next = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
-			$connectorData[] = $this->activityNode($next, 'next', true);
-		}else{
-			throw new Exception("unknown connector type");
-		}
-					
-		//add to data
-		$returnValue = array(
-			'data' => $connectorType->getLabel().":".$connector->getLabel(),
-			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($connector->uriResource),
-				'class' => 'node-connector-next'
-			),
-			'children' => $connectorData
-		);
-		
-		return $returnValue;
-	}
-						
-	public function ruleNode(core_kernel_classes_Resource $rule){
-		$labelPrefix = __("if").' ';
-		
-		$nodeData = array(
-			'data' => $labelPrefix.$rule->getLabel(),
-			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($rule->uriResource),
-				'class' => 'node-rule'
-			)
-		);
-		
-		return $nodeData;
-	}
-
-	
-	public function activityNode(core_kernel_classes_Resource $activity, $nodeClass='', $goto=false){
-		$nodeData = array();
-		$class = '';
-		$linkAttribute = 'id';
-		
-		if(self::isActivity($activity)){
-			$class = 'node-activity';
-		}elseif(self::isConnector($activity)){
-			$class = 'node-connector';
-			
-		}else{
-			return $nodeData;//unknown type
-		}
-		
-		if($goto){
-			$class .= "-goto";
-			$linkAttribute = "rel";
-		}
-		
-		$labelPrefix = '';
-		switch(strtolower($nodeClass)){
-			case 'prev':
-				break;
-			case 'next':
-				break;
-			case 'then':
-				$labelPrefix = __('then').' ';
-				break;
-			case 'else':
-				$labelPrefix = __('else').' ';
-				break;
-		}
-		
-		$nodeData = array(
-			'data' => $labelPrefix.$activity->getLabel(),
-			'attributes' => array(
-				$linkAttribute => tao_helpers_Uri::encode($activity->uriResource),
-				'class' => $class
-			)
-		);
-		
-		return $nodeData;
-	}
-	
 	public static function isActivity(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		

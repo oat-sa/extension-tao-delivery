@@ -3,8 +3,9 @@
 <div id="<?=$sectionName?>-property-form">
 	<?if(!get_data("saved")):?>
 		<?=get_data("myForm")?>
-		<input type="button" name="submit-<?=$sectionName?>-property" id="submit-<?=$sectionName?>-property" value="save"/>
-	
+		<input type="button" name="submit-<?=$sectionName?>-property" id="submit-<?=$sectionName?>-property" value="<?=__("save")?>"/>
+		<input type="button" id="reload-<?=$sectionName?>-property" value="<?=__("reload")?>"/>
+		<input type="button" id="cancel-<?=$sectionName?>-property" value="<?=__("cancel")?>"/>
 		<script type="text/javascript">
 			$(function(){
 				//edit the id of the tag of uri:
@@ -24,6 +25,21 @@
 							<?endif;?>
 						}
 					});
+				});
+				
+				$("#reload-<?=$sectionName?>-property").click(function(){
+					<?if($sectionName=="process"):?>
+						processProperty();
+					<?endif;?>
+					
+					<?if($sectionName=="activity"):?>
+						//reselect the node
+						ActivityTreeClass.selectTreeNode($("#<?=$sectionName?>-property-form input[id=uri]").val());
+					<?endif;?>
+				});
+				
+				$("#cancel-<?=$sectionName?>-property").click(function(){
+					$("#<?=$sectionName?>-property-form").html('');
 				});
 			});
 		</script>

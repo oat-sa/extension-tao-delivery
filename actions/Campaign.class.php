@@ -107,11 +107,11 @@ class Campaign extends TaoModule {
 				if($clazz instanceof core_kernel_classes_Resource){
 					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
 				}
-				$this->setData('message', 'campaign class saved');
+				$this->setData('message', __('Campaign Class saved'));
 				$this->setData('reload', true);
 			}
 		}
-		$this->setData('formTitle', 'Edit campaign class');
+		$this->setData('formTitle', __('Edit campaign class'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl');
 	}
@@ -132,7 +132,7 @@ class Campaign extends TaoModule {
 				$campaign = $this->service->bindProperties($campaign, $myForm->getValues());
 				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($campaign->uriResource));
-				$this->setData('message', 'campaign saved');
+				$this->setData('message', __('Campaign saved'));
 				$this->setData('reload', true);
 			}
 		}
@@ -142,7 +142,7 @@ class Campaign extends TaoModule {
 		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
 		$this->setData('relatedDeliveries', json_encode($relatedTests));
 		
-		$this->setData('formTitle', 'Edit Campaign');
+		$this->setData('formTitle', __('Edit Campaign'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_campaign.tpl');
 	}

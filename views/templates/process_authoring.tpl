@@ -69,13 +69,14 @@
 			<div id="activity_tree"/>
 			<div id="activity_form"/>
 		</div>
-		<h3><a href="#">Specialized form</a></h3>
+		<!--<h3><a href="#">Specialized form</a></h3>
 		<div>
 			<div id="spForm"><a id="ancre_spForm" href="#">spForm</a></div>
-		</div>
+		</div>-->
 		<h3><a href="#"><?=__('Process Property')?></a></h3>
 		<div>
-			<div id="process_form"/>
+			<!--<div id="process_info"><?=__('loading...')?></div>-->
+			<div id="process_form"><?=__('loading...')?></div>
 		</div>
 	</div><!--end accordion -->
 	</div><!--end accordion_container_2 -->
@@ -106,7 +107,7 @@
 		
 		processProperty();
 		
-		$("#ancre_spForm").click(spForm);
+		// $("#ancre_spForm").click(spForm);
 	});
 	
 	$(function(){
@@ -154,16 +155,16 @@
 		});
 	}
 	
-	function spForm(){
-		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/saveRule',
-			type: "GET",
-			dataType: 'html',
-			success: function(response){
-				$("#spForm").html(response);
-			}
-		});
-	}
+	// function spForm(){
+		// $.ajax({
+			// url: '/taoDelivery/DeliveryAuthoring/saveRule',
+			// type: "GET",
+			// dataType: 'html',
+			// success: function(response){
+				// $("#spForm").html(response);
+			// }
+		// });
+	// }
 	
 	</script>
 	

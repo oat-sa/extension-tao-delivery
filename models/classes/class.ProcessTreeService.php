@@ -58,10 +58,11 @@ class taoDelivery_models_classes_ProcessTreeService
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return mixed
      */	
-    public function __construct($currentProcess = null)
-    {
+    public function __construct($currentProcess = null){
+	
 		$this->currentProcess = $currentProcess;
-    }
+    
+	}
 	
 	
 	public function activityTree(core_kernel_classes_Resource $process = null){

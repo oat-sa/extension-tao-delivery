@@ -108,11 +108,11 @@ class ResultServer extends TaoModule {
 				if($clazz instanceof core_kernel_classes_Resource){
 					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
 				}
-				$this->setData('message', 'resultServer class saved');
+				$this->setData('message', __('Result Server class saved'));
 				$this->setData('reload', true);
 			}
 		}
-		$this->setData('formTitle', 'Edit resultServer class');
+		$this->setData('formTitle', __('Edit resultServer class'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl');
 	}
@@ -133,7 +133,7 @@ class ResultServer extends TaoModule {
 				$resultServer = $this->service->bindProperties($resultServer, $myForm->getValues());
 				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
-				$this->setData('message', 'result server saved');
+				$this->setData('message', __('Result Server saved'));
 				$this->setData('reload', true);
 			}
 		}
@@ -145,7 +145,7 @@ class ResultServer extends TaoModule {
 		
 		
 		
-		$this->setData('formTitle', 'Edit ResultServer');
+		$this->setData('formTitle', __('Edit ResultServer'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_resultserver.tpl');
 	}

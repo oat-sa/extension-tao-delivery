@@ -111,11 +111,11 @@ class Delivery extends TaoModule {
 				if($clazz instanceof core_kernel_classes_Resource){
 					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
 				}
-				$this->setData('message', 'delivery class saved');
+				$this->setData('message', __('Delivery Class saved'));
 				$this->setData('reload', true);
 			}
 		}
-		$this->setData('formTitle', 'Edit delivery class');
+		$this->setData('formTitle', __('Edit delivery class'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl');
 	}
@@ -135,7 +135,7 @@ class Delivery extends TaoModule {
 				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
 				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
-				$this->setData('message', 'delivery saved');
+				$this->setData('message', __('Delivery saved'));
 				$this->setData('reload', true);
 			}
 		}
@@ -156,7 +156,7 @@ class Delivery extends TaoModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setData('formTitle', 'Edit delivery');
+		$this->setData('formTitle', __('Edit delivery'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
 	}
@@ -171,7 +171,7 @@ class Delivery extends TaoModule {
 				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
 				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
-				$this->setData('message', 'delivery saved');
+				$this->setData('message', __('Delivery saved'));
 				$this->setData('reload', true);exit;
 			}
 		}
