@@ -285,6 +285,131 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	}
 	
+	public function deleteActivity(core_kernel_classes_Resource $activity){
+		
+		$apiModel = core_kernel_classes_ApiModelOO::singleton();
+		
+		//delete the activity reference in the process instance.
+		$processCollection = $apiModel->getSubject(PROPERTY_PROCESS_ACTIVITIES , $activity->uriResource);
+		if(!$processCollection->empty()){
+			$apiModel->removeStatement($processCollection->get(0)->uriResource, PROPERTY_PROCESS_ACTIVITIES, $activity->uriResource, '');
+		}else{
+			return false;
+		}
+		
+		//delete related connector
+		$connectorCollection = $apiModel->getSubject(PROPERTY_CONNECTORS_ACTIVITYREFERENCE , $activity->uriResource);
+		foreach($connectorCollection->getIterator() as $connector){
+			$this->deleteConnector($connector);
+		}
+		
+		//delete reference to this activity from previous ones, via connectors
+		$prevConnectorCollection = $apiModel->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES , $activity->uriResource);
+		foreach($prevConnectorCollection->getIterator() as $prevConnector){
+			$apiModel->removeStatement($prevConnector->uriResource, PROPERTY_CONNECTORS_NEXTACTIVITIES, $activity->uriResource, '');
+			
+			/*
+			//cleaner method to delete all the reference but much slower
+			//get the type of connector is "split", delete the reference in the transition rule: either PROPERTY_TRANSITIONRULES_THEN or ELSE
+			if($prevConnector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE))->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
+				
+				//get the transition rule:
+				$transitonRule = $prevConnector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+				if(!is_null($transitonRule) && $transitonRule instanceof core_kernel_classes_Resource){
+					
+					$then = $transitonRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN));
+					if(!is_null($then) && $then instanceof core_kernel_classes_Resource){
+						if($then->uriResource == $activity->uriResource){
+						
+						}
+					}
+				
+				}
+			
+			}
+			*/
+		}
+		
+		//clean reference in transition rule (faster)
+		$thenCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_THEN , $activity->uriResource);
+		foreach($thenCollection->getIterator() as $transitionRule){
+			$apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_THEN, $activity->uriResource, '');
+		}
+		$elseCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_ELSE , $activity->uriResource);
+		foreach($elseCollection->getIterator() as $transitionRule){
+			$apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_ELSE, $activity->uriResource, '');
+		}
+			
+		//delete activity itself:
+		$activity->delete();
+	}
+	
+	public function deleteConnector(core_kernel_classes_Resource $connector){
+		
+		//get the type of connector:
+		$connectorType = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
+		if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
+			//delete the related rule:
+			$relatedRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+			if(!is_null($relatedRule)){
+				$this->deleteRule($relatedRule);
+			}
+			
+		}
+		
+		//manage the connection to the previous activities: clean the reference to this connector:
+		$previousActivityCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
+		foreach($previousActivityCollection->getIterator() as $previousActivity){
+			if($this->isConnector($previousActivity)){
+				core_kernel_classes_ApiModelOO::singleton()->removeStatement($previousActivity->uriResource, PROPERTY_CONNECTORS_NEXTACTIVITIES, $connector->uriResource, '');
+			}
+		}
+		
+		//manage the connection to the following activities
+		$activityRef = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
+		$nextActivityCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
+		foreach($nextActivityCollection->getIterator() as $nextActivity){
+			if($this->isConnector($nextActivity)){
+				$nextActivityRef = $nextActivity->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
+				if($nextActivityRef == $activityRef){
+					$this->deleteConnector($nextActivity);
+				}
+			}
+		}
+		
+		//delete connector itself:
+		$connector->delete();
+	}
+	
+	public function deleteCallOfService(core_kernel_classes_Resource $callOfService){
+		
+		$returnValue = $this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES), $callOfService);
+	
+	}
+	
+	public function deleteReference(core_kernel_classes_Property $property, core_kernel_classes_Resource $object, $multiple = false){
+		$returnValue = false;
+		
+		//delete the activity reference in the process instance.
+		$subjectCollection = $apiModel->getSubject($property->uriResource , $object->uriResource);
+		if(!$subjectCollection->empty()){
+			if($multiple){
+				$returnValue = true;
+				foreach($subjectCollection->getIterator() as $subject){
+					if(!core_kernel_classes_ApiModelOO::singleton()->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '')){
+						$returnValue = false;
+						break;
+					}
+				}
+			}else{
+				$returnValue = core_kernel_classes_ApiModelOO::singleton()->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '');
+			}
+		}else{
+			$returnValue = true;
+		}
+		
+		return $returnValue;
+	}
 	
     /**
      * Check whether the object is a delivery class
@@ -295,8 +420,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @param  Class clazz
      * @return boolean
      */
-    public function isAuthorizedClass( core_kernel_classes_Class $clazz)
-    {
+    public function isAuthorizedClass( core_kernel_classes_Class $clazz){
+	
         $returnValue = (bool) false;
 
 		$authorizedClassUri=array(
@@ -436,6 +561,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			$question = str_replace("‘", "'", $question); // utf8...
 			$question = str_replace("“", "\"", $question);
 			$question = str_replace("”", "\"", $question);
+			$question = "if ".$question;
 			try{
 				$analyser = new Analyser();
 				$tokens = $analyser->analyse($question);
