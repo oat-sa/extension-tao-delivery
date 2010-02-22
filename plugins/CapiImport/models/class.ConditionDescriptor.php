@@ -27,7 +27,8 @@ class ConditionDescriptor
 	public function __toString(){
 		if (sizeOf($this->subConditionsList)>1) //sic test 
 		{
-			return ' ( '. $this->subConditionsList[0] .' ' .  $this->bool . '' . $this->subConditionsList[1].")";
+			// return ' ( '. $this->subConditionsList[0] .' ' .  $this->bool . '' . $this->subConditionsList[1].")";
+			return '('. $this->subConditionsList[0] .') ' .  $this->bool . ' (' . $this->subConditionsList[1].')';
 		}
 		else {
 		
@@ -45,7 +46,22 @@ class ConditionDescriptor
 				$right = $this->rightPart;
 			}
 			
-			return ' '. $left .' '. $this->cmp .' '. $right;
+			$operator='';
+			if(!empty($this->cmp)){
+				switch($this->cmp){
+					case 'equal': { $operator = '='; break;}
+					case 'notEqual': { $operator = '!='; break;}
+					case 'greater': { $operator = '='; break;}
+					case 'greaterEqual': { $operator = '='; break;}
+					case 'less': { $operator = '='; break;}
+					case 'lessEqual': { $operator = '='; break;}
+					default: { $operator = '??'; break;}
+				}
+			}elseif(!empty($this->arithmeticOperator)){
+				$operator = $this->arithmeticOperator;
+			}
+			
+			return '('. $left .' '. $operator .' '. $right .')';
 		}
 	}
 
