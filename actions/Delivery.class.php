@@ -625,7 +625,7 @@ class Delivery extends TaoModule {
 							
 							//Temp Common black file used instead
 							//@todo use the common and clean black file once the runtime implement it
-							$itemContent = file_get_contents($itemService->getTempAuthoringFile($anItemInstance->uriResource));
+							$itemContent = file_get_contents($itemService->getTempAuthoringFile($anItemInstance->uriResource, true));
 						}
 					}
 				}

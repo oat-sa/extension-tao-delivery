@@ -1,7 +1,40 @@
-msgid "test saved"
+msgid "Campaign Class saved"
 msgstr ""
 
-msgid "Delivery authoring"
+msgid "Edit campaign class"
+msgstr ""
+
+msgid "Campaign saved"
+msgstr ""
+
+msgid "Edit Campaign"
+msgstr ""
+
+msgid "Delivery Class saved"
+msgstr ""
+
+msgid "Edit delivery class"
+msgstr ""
+
+msgid "Delivery saved"
+msgstr ""
+
+msgid "Edit delivery"
+msgstr ""
+
+msgid "saved"
+msgstr ""
+
+msgid "Result Server class saved"
+msgstr ""
+
+msgid "Edit resultServer class"
+msgstr ""
+
+msgid "Result Server saved"
+msgstr ""
+
+msgid "Edit ResultServer"
 msgstr ""
 
 msgid "Delivery"
@@ -32,9 +65,6 @@ msgid "new property"
 msgstr ""
 
 msgid "create table"
-msgstr ""
-
-msgid "import"
 msgstr ""
 
 msgid "export"
@@ -73,10 +103,67 @@ msgstr ""
 msgid "edit result server"
 msgstr ""
 
-msgid "Please select a delivery aythoring it!"
+msgid "Delivery authoring"
 msgstr ""
 
-msgid "Back"
+msgid "Label"
+msgstr ""
+
+msgid "Service Definition"
+msgstr ""
+
+msgid "Formal Parameter IN"
+msgstr ""
+
+msgid "Formal Parameter OUT"
+msgstr ""
+
+msgid "Connector Type"
+msgstr ""
+
+msgid "IF"
+msgstr ""
+
+msgid "create new activity"
+msgstr ""
+
+msgid "create new connector"
+msgstr ""
+
+msgid "Activity or Connector"
+msgstr ""
+
+msgid "Activity"
+msgstr ""
+
+msgid "Connector"
+msgstr ""
+
+msgid "Process Activities"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
+msgid "undefined"
+msgstr ""
+
+msgid "If"
+msgstr ""
+
+msgid "Then"
+msgstr ""
+
+msgid "Else"
+msgstr ""
+
+msgid "type??"
+msgstr ""
+
+msgid "(still undefined)"
+msgstr ""
+
+msgid "Please confirm deletion"
 msgstr ""
 
 msgid "Select delivery"
@@ -89,6 +176,60 @@ msgid "Select testees to be <b>excluded</b>"
 msgstr ""
 
 msgid "Select delivery campaign"
+msgstr ""
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr ""
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr ""
+
+msgid "Campaign"
+msgstr ""
+
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr ""
+
+msgid "Result Server"
+msgstr ""
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr ""
+
+msgid "Please select a delivery before authoring it!"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Formal Parameter"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Process Variables"
+msgstr ""
+
+msgid "Activity Editor"
+msgstr ""
+
+msgid "Process Property"
+msgstr ""
+
+msgid "loading..."
+msgstr ""
+
+msgid "Sure?"
+msgstr ""
+
+msgid "save"
+msgstr ""
+
+msgid "reload"
+msgstr ""
+
+msgid "cancel"
 msgstr ""
 
 msgid "Use the * character to replace any string"
@@ -114,3 +255,4 @@ msgstr "German"
 
 msgid "LU"
 msgstr "Luxemburgish"
+
