@@ -400,11 +400,12 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	
 	public function deleteReference(core_kernel_classes_Property $property, core_kernel_classes_Resource $object, $multiple = false){
+		
 		$returnValue = false;
 		
 		$apiModel = core_kernel_classes_ApiModelOO::singleton();
 		
-		$subjectCollection = $apiModel->getSubject($property->uriResource , $object->uriResource);
+		$subjectCollection = $apiModel->getSubject($property->uriResource, $object->uriResource);
 		if(!$subjectCollection->isEmpty()){
 			if($multiple){
 				$returnValue = true;
@@ -542,6 +543,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			$processCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_PROCESS_ACTIVITIES, $relatedActivity->uriResource);
 			if(!$processCollection->isEmpty()){
 				$followingActivity = $this->createActivity($processCollection->get(0), $newActivityLabel);
+				$newConnector = $this->createConnector($followingActivity);
 			}else{
 				throw new Exception("no related process instance found to create an activity");
 			}
@@ -597,7 +599,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 					$conditionDescriptor = DescriptorFactory::getConditionDescriptor($childOfChildNode);
 					// throw new Exception("descriptor=".var_dump($conditionDescriptor));
 					
-					$expressionInstance = $conditionDescriptor->import();
+					$expressionInstance = $conditionDescriptor->import();//(3*(^var +  1) = 2 or ^var > 7) AND ^RRR
 					break 2;//once is enough...
 					// throw new Exception("expression uri = {$expressionInstance->uriResource}");
 				}
@@ -634,6 +636,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 				$processCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_PROCESS_ACTIVITIES, $relatedActivity->uriResource);
 				if(!$processCollection->isEmpty()){
 					$followingActivity = $this->createActivity($processCollection->get(0), $newActivityLabel);
+					$newConnector = $this->createConnector($followingActivity);
 				}else{
 					throw new Exception("no related process instance found to create an activity");
 				}

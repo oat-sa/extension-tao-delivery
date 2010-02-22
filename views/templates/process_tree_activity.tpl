@@ -23,6 +23,15 @@
 			deleteInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/deleteCallOfService"
 		});
 	}
+	
+	function refreshActivityTree(){
+		$.tree.reference('#tree-activity').refresh();
+		$.tree.reference('#tree-activity').reselect();
+	}
+	
+	function reselectActivityTree(){
+		$.tree.reference('#tree-activity').reselect();
+	}
 	/*
 	$(function(){
 		new ActivityTreeClass('#activity_tree', "/taoDelivery/DeliveryAuthoring/getActivityTree", {

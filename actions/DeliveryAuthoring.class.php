@@ -424,7 +424,7 @@ class DeliveryAuthoring extends TaoModule {
 	public function editCallOfService(){
 		$callOfServiceUri = tao_helpers_Uri::decode($_POST['uri']);
 		
-		$formName="callOfServiceEditor";
+		$formName=uniqid("callOfServiceEditor_");
 		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri), null, $formName);//NS_TAOQUAL . '#118595593412394'
 		
 		$this->setData('formId', $formName);
@@ -510,7 +510,7 @@ class DeliveryAuthoring extends TaoModule {
 	public function editConnector(){
 		$connectorUri = tao_helpers_Uri::decode($_POST['connectorUri']);
 		
-		$formName="connectorEditor";
+		$formName=uniqid("connectorEditor_");
 		$myForm = taoDelivery_helpers_ProcessFormFactory::connectorEditor(new core_kernel_classes_Resource($connectorUri), null, $formName);
 		
 		$this->setData('formId', $formName);

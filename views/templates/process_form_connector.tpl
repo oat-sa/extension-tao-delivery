@@ -1,7 +1,7 @@
 <div id="connector-form">
 	
 	<?=get_data("formConnector")?>
-	<input type="button" name="submit-connector" id="submit-connector" value="save"/>
+	<input type="button" name="submit-connector" id="submit-connector-<?=get_data("formId")?>" value="save"/>
 </div>
 
 <script type="text/javascript">
@@ -29,7 +29,8 @@ $(function(){
 					if(response.saved){
 						var selectedNode = $("#connectorUri").val();
 						$("#connector-form").html("connector saved");
-						initActivityTree();
+						// initActivityTree();
+						refreshActivityTree();
 						ActivityTreeClass.selectTreeNode(selectedNode);
 					}else{
 						$("#connector-form").html("save failed:" + response);
@@ -42,7 +43,7 @@ $(function(){
 		}
 	});
 	
-	$("#submit-connector").click(function(){
+	$("#submit-connector-<?=get_data("formId")?>").click(function(){
 		$.ajax({
 			url: '/taoDelivery/DeliveryAuthoring/saveConnector',
 			type: "POST",
@@ -52,8 +53,10 @@ $(function(){
 				if(response.saved){
 					var selectedNode = $("#connectorUri").val();
 					$("#connector-form").html("connector saved");
-					initActivityTree();
-					ActivityTreeClass.selectTreeNode(selectedNode);
+					// initActivityTree();
+					refreshActivityTree();
+					// reselectActivityTree();
+					// ActivityTreeClass.selectTreeNode(selectedNode);
 				}else{
 					$("#connector-form").html("connector save failed:" + response);
 				}

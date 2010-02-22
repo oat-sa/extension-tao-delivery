@@ -57,6 +57,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 					}
 					else{
 						TREE_OBJ.open_branch($("li.node-root:first"));
+						// TREE_OBJ.reselect(true);
 					}
 				},
 				ondata: function(DATA, TREE_OBJ){
@@ -111,6 +112,22 @@ function ActivityTreeClass(selector, dataUrl, options){
 			plugins: {
 				contextmenu : {
 					items : {
+						refreshTree: {
+							label: "Refresh",
+							icon: "/tao/views/img/pencil.png",
+							visible : function (NODE, TREE_OBJ) {
+								if( $(NODE).hasClass('node-root')){
+									return 1;
+								}
+								return -1;
+							},
+							action  : function(NODE, TREE_OBJ){
+								ActivityTreeClass.refreshTree({
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
+								});
+							}
+						},
 						select: {
 							label: "Edit",
 							icon: "/tao/views/img/pencil.png",
@@ -412,7 +429,16 @@ ActivityTreeClass.addActivity = function(options){
 	});
 }
 
-
+/**
+ * refresh the tree
+ * @param {Object} options
+ */
+ActivityTreeClass.refreshTree = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	TREE_OBJ.refresh();
+	// TREE_OBJ.reselect(true);
+}
 		
 /**
  * add an activity
