@@ -62,7 +62,8 @@ $runtimeParameters="
 <param name="quality" value="high" />
 <param name="bgcolor" value="#ffffff" />
 <param name="salign" value="lt" />
-<embed src="Test.swf?<? echo $runtimeParameters; ?>" quality="high" bgcolor="#ffffff" width="1000" height="720" name="testcommand" align="middle" swLiveConnect="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+<param name="wmode" value="opaque" />
+<embed src="Test.swf?<? echo $runtimeParameters; ?>" quality="high" bgcolor="#ffffff" width="1000" height="720" name="testcommand" wmode="opaque" align="middle" swLiveConnect="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </object>
 
 </body>
