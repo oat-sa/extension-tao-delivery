@@ -355,18 +355,41 @@ class DeliveryAuthoring extends TaoModule {
 	}
 	
 	public function deleteCallOfService(){
-		$callOfServiceUri = $_POST["uri"];
+		$callOfService = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST["serviceUri"]));
 		
 		//delete its related properties
-		$deleted = $this->service->deleteActualParameters(new core_kernel_classes_Resource ($callOfServiceUri));
+		$deleted = $this->service->deleteActualParameters($callOfService);
+		
+		//remove the reference from this interactive service
+		$deleted = $this->service->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES), $callOfService);
 		
 		//delete call of service itself
-		$deleted = $this->service->deleteInstance(new core_kernel_classes_Resource ($callOfServiceUri));
+		$deleted = $this->service->deleteInstance($callOfService);
 	
-		return $deleted;
+		echo json_encode(array('deleted' => $deleted));
 	}
 	
+	public function deleteConnector(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		if(empty($_POST["connectorUri"])){
+			$deleted = false;
+		}
+		$deleted = $this->service->deleteConnector(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST["connectorUri"])));
 	
+		echo json_encode(array('deleted' => $deleted));
+	}
+	
+	public function deleteActivity(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$deleted = $this->service->deleteActivity($this->getCurrentActivity());
+	
+		echo json_encode(array('deleted' => $deleted));
+	}
 	/**
 	 * Duplicate an instance
 	 * A bit more complicated here

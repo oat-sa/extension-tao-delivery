@@ -289,11 +289,13 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	public function deleteActivity(core_kernel_classes_Resource $activity){
 		
+		$returnValue = false;
+		
 		$apiModel = core_kernel_classes_ApiModelOO::singleton();
 		
 		//delete the activity reference in the process instance.
 		$processCollection = $apiModel->getSubject(PROPERTY_PROCESS_ACTIVITIES , $activity->uriResource);
-		if(!$processCollection->empty()){
+		if(!$processCollection->isEmpty()){
 			$apiModel->removeStatement($processCollection->get(0)->uriResource, PROPERTY_PROCESS_ACTIVITIES, $activity->uriResource, '');
 		}else{
 			return false;
@@ -343,20 +345,32 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 			
 		//delete activity itself:
-		$activity->delete();
+		$returnValue = $this->deleteInstance($activity);
+		
+		return $returnValue;
 	}
 	
 	public function deleteConnector(core_kernel_classes_Resource $connector){
 		
+		$returnValue = false;
+		
+		if(!self::isConnector($connector)){
+			throw new Exception("the resource in the parameter is not a connector");
+			return $returnValue;
+		}
+		
 		//get the type of connector:
 		$connectorType = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-		if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
-			//delete the related rule:
-			$relatedRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-			if(!is_null($relatedRule)){
-				$this->deleteRule($relatedRule);
+		if(!is_null($connectorType) && $connectorType instanceof core_kernel_classes_Resource){
+			if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
+				//delete the related rule:
+				$relatedRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+				if(!is_null($relatedRule)){
+					$this->deleteRule($relatedRule);
+				}
 			}
 		}
+		
 		
 		//manage the connection to the previous activities: clean the reference to this connector:
 		$previousActivityCollection = $connector->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
@@ -379,31 +393,29 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		
 		//delete connector itself:
-		$connector->delete();
-	}
-	
-	public function deleteCallOfService(core_kernel_classes_Resource $callOfService){
+		$returnValue = $this->deleteInstance($connector);
 		
-		$returnValue = $this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES), $callOfService);
-	
+		return $returnValue;
 	}
+	
 	
 	public function deleteReference(core_kernel_classes_Property $property, core_kernel_classes_Resource $object, $multiple = false){
 		$returnValue = false;
 		
-		//delete the activity reference in the process instance.
+		$apiModel = core_kernel_classes_ApiModelOO::singleton();
+		
 		$subjectCollection = $apiModel->getSubject($property->uriResource , $object->uriResource);
-		if(!$subjectCollection->empty()){
+		if(!$subjectCollection->isEmpty()){
 			if($multiple){
 				$returnValue = true;
 				foreach($subjectCollection->getIterator() as $subject){
-					if(!core_kernel_classes_ApiModelOO::singleton()->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '')){
+					if( !$apiModel->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '') ){
 						$returnValue = false;
 						break;
 					}
 				}
 			}else{
-				$returnValue = core_kernel_classes_ApiModelOO::singleton()->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '');
+				$returnValue = $apiModel->removeStatement($subjectCollection->get(0)->uriResource, $property->uriResource, $object->uriResource, '');
 			}
 		}else{
 			$returnValue = true;

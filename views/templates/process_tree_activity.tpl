@@ -17,7 +17,10 @@
 			createInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/addInteractiveService",
 			editInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/editCallOfService",
 			editActivityPropertyAction: "/taoDelivery/DeliveryAuthoring/editActivityProperty",
-			editConnectorAction: "/taoDelivery/DeliveryAuthoring/editConnector"
+			editConnectorAction: "/taoDelivery/DeliveryAuthoring/editConnector",
+			deleteConnectorAction: "/taoDelivery/DeliveryAuthoring/deleteConnector",
+			deleteActivityAction: "/taoDelivery/DeliveryAuthoring/deleteActivity",
+			deleteInteractiveServiceAction: "/taoDelivery/DeliveryAuthoring/deleteCallOfService"
 		});
 	}
 	/*

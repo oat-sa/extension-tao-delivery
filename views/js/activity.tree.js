@@ -190,28 +190,28 @@ function ActivityTreeClass(selector, dataUrl, options){
 								// });
 							// }
 						// },
-						addConsistencyRule: {
-							label: "Add Consistency Rule",
-							icon: "/tao/views/img/instance_add.png",
-							visible : function (NODE, TREE_OBJ) {
-								if(NODE.length != 1) {
-									return -1; 
-								}
-								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
-									return 1;
-								}
-								return -1;
-							},
-							action  : function(NODE, TREE_OBJ){
-								ActivityTreeClass.addActivity({
-									url: instance.options.createConsistencyRuleAction,
-									id: $(NODE).attr('id'),
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ,
-									cssClass: instance.options.instanceClass
-								});
-							}
-						},
+						// addConsistencyRule: {
+							// label: "Add Consistency Rule",
+							// icon: "/tao/views/img/instance_add.png",
+							// visible : function (NODE, TREE_OBJ) {
+								// if(NODE.length != 1) {
+									// return -1; 
+								// }
+								// if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
+									// return 1;
+								// }
+								// return -1;
+							// },
+							// action  : function(NODE, TREE_OBJ){
+								// ActivityTreeClass.addActivity({
+									// url: instance.options.createConsistencyRuleAction,
+									// id: $(NODE).attr('id'),
+									// NODE: NODE,
+									// TREE_OBJ: TREE_OBJ,
+									// cssClass: instance.options.instanceClass
+								// });
+							// }
+						// },
 						del:{
 							label	: "Remove",
 							icon	: "/tao/views/img/delete.png",
@@ -230,6 +230,79 @@ function ActivityTreeClass(selector, dataUrl, options){
 							action	: function (NODE, TREE_OBJ){ 
 								ActivityTreeClass.removeNode({
 									url: instance.options.deleteAction,
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
+								});
+								return false;
+							} 
+						},
+						deleteActivity:{
+							label	: "Remove activity",
+							icon	: "/tao/views/img/delete.png",
+							visible	: function (NODE, TREE_OBJ){
+								var ok = -1;
+								$.each(NODE, function (){
+									if( $(NODE).hasClass('node-activity')
+									&& instance.options.deleteActivityAction 
+									&& (TREE_OBJ.check("deletable", this) == true)){
+										ok = 1;
+										return 1;
+									}
+								});
+								return ok;
+							}, 
+							action	: function (NODE, TREE_OBJ){
+								ActivityTreeClass.removeNode({
+									url: instance.options.deleteActivityAction,
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
+								});
+								return false;
+							} 
+						},
+						deleteConnector:{
+							label	: "Remove connector",
+							icon	: "/tao/views/img/delete.png",
+							visible	: function (NODE, TREE_OBJ){
+								var ok = -1;
+								$.each(NODE, function (){
+									if( $(NODE).hasClass('node-connector')
+									&& TREE_OBJ.parent(NODE).hasClass('node-connector')
+									&& instance.options.deleteConnectorAction 
+									&& (TREE_OBJ.check("deletable", this) == true)){
+										ok = 1;
+										return 1;
+									}
+								});
+								return ok;
+							}, 
+							action	: function (NODE, TREE_OBJ){
+								ActivityTreeClass.removeNode({
+									url: instance.options.deleteConnectorAction,
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
+								});
+								return false;
+							} 
+						},
+						deleteService:{
+							label	: "Remove interactive service",
+							icon	: "/tao/views/img/delete.png",
+							visible	: function (NODE, TREE_OBJ){
+								var ok = -1;
+								$.each(NODE, function (){
+									if( $(NODE).hasClass('node-interactive-service')
+									&& instance.options.deleteInteractiveServiceAction 
+									&& (TREE_OBJ.check("deletable", this) == true)){
+										ok = 1;
+										return 1;
+									}
+								});
+								return ok;
+							}, 
+							action	: function (NODE, TREE_OBJ){
+								ActivityTreeClass.removeNode({
+									url: instance.options.deleteInteractiveServiceAction,
 									NODE: NODE,
 									TREE_OBJ: TREE_OBJ
 								});
@@ -405,7 +478,7 @@ ActivityTreeClass.selectTreeNode = function(id){
  * remove a resource
  * @param {Object} options
  */
-ActivityTreeClass.removeNode = function(options){
+ActivityTreeClass.removeNode0 = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
 	if(confirm(__("Please confirm deletion"))){
@@ -436,4 +509,43 @@ ActivityTreeClass.removeNode = function(options){
 	}
 }
 
+/**
+ * remove an activity or a connector node:
+ * @param {Object} options
+ */
+ActivityTreeClass.removeNode = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	if(confirm(__("Please confirm deletion? warning: the related connectors may be affected"))){
+		// $.each(NODE, function (){
+			data = false;
+			// var selectedNode = this;
+			if(NODE.hasClass('node-connector')){
+				// PNODE = TREE_OBJ.parent(selectedNode);
+				data =  {connectorUri: NODE.attr('id')};
+			}
+			if(NODE.hasClass('node-activity')){
+				// PNODE = TREE_OBJ.parent(selectedNode);
+				data =  {activityUri: NODE.attr('id')};
+			}
+			if(NODE.hasClass('node-interactive-service')){
+				// PNODE = TREE_OBJ.parent(selectedNode);
+				data =  {serviceUri: NODE.attr('id')};
+			}
+			if(data){
+				$.ajax({
+					url: options.url,
+					type: "POST",
+					data: data,
+					dataType: 'json',
+					success: function(response){
+						if(response.deleted){
+							TREE_OBJ.refresh();
+						}
+					}
+				});
+			}
+		// }); 
+	}
+}
 
