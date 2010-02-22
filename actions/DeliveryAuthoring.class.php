@@ -519,7 +519,7 @@ class DeliveryAuthoring extends TaoModule {
 		$this->service->bindProperties($connectorInstance, array(PROPERTY_CONNECTORS_TYPE => $data[PROPERTY_CONNECTORS_TYPE]));
 		
 		$followingActivity = null;
-		if($data[PROPERTY_CONNECTORS_TYPE] == TYPEOFCONNECTORS_SEQUENCE){
+		if($data[PROPERTY_CONNECTORS_TYPE] == INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
 			//get form input starting with "next_"
 			if(isset($data["next_activityUri"])){
 				if($data["next_activityUri"]=="newActivity"){
@@ -529,7 +529,7 @@ class DeliveryAuthoring extends TaoModule {
 					$this->service->createSequenceActivity($connectorInstance, $followingActivity);
 				}
 			}
-		}elseif($data[PROPERTY_CONNECTORS_TYPE] == TYPEOFCONNECTORS_SPLIT){
+		}elseif($data[PROPERTY_CONNECTORS_TYPE] == INSTANCE_TYPEOFCONNECTORS_SPLIT){
 			
 			//clean old value of property (use bind property with empty input?)
 			$connectorInstance->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));

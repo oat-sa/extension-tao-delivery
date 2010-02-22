@@ -96,7 +96,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						var connectorUri = $(NODE).attr('rel');
 						_load(instance.options.formContainer, 
 							instance.options.editConnectorAction,
-							{classUri: connectorUri}
+							{connectorUri: connectorUri}
 						);
 					}else if( $(NODE).hasClass('node-interactive-service') && instance.options.editInteractiveServiceAction){
 						_load(instance.options.formContainer, 

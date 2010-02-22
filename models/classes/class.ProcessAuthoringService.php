@@ -267,7 +267,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 	}
 	
-	//note: always recursive:
+	//note: always recursive: delete the expressions that make up the current expression
 	public function deleteExpression(core_kernel_classes_Resource $expression){
 			
 		//delete related expressions
@@ -282,7 +282,9 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		if(!empty($terminalExpression) && $terminalExpression instanceof core_kernel_classes_Resource){
 			$terminalExpression->delete();
 		}
-	
+		
+		//delete the expression itself:
+		$expression->delete();
 	}
 	
 	public function deleteActivity(core_kernel_classes_Resource $activity){
@@ -330,7 +332,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			*/
 		}
 		
-		//clean reference in transition rule (faster)
+		//clean reference in transition rule (faster method)
 		$thenCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_THEN , $activity->uriResource);
 		foreach($thenCollection->getIterator() as $transitionRule){
 			$apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_THEN, $activity->uriResource, '');
@@ -354,7 +356,6 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			if(!is_null($relatedRule)){
 				$this->deleteRule($relatedRule);
 			}
-			
 		}
 		
 		//manage the connection to the previous activities: clean the reference to this connector:
@@ -372,7 +373,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			if($this->isConnector($nextActivity)){
 				$nextActivityRef = $nextActivity->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
 				if($nextActivityRef == $activityRef){
-					$this->deleteConnector($nextActivity);
+					$this->deleteConnector($nextActivity);//delete following connectors only if they have the same activity reference
 				}
 			}
 		}

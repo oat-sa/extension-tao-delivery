@@ -456,7 +456,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		//add a drop down select input to allow selecting Type of Connector
 		$elementConnectorType = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE), 'Combobox');
 		$elementConnectorType->setDescription(__('Connector Type'));
-		$range = new core_kernel_classes_Class(CLASS_TYPEOFCONNNECTORS);
+		$range = new core_kernel_classes_Class(CLASS_TYPEOFCONNECTORS);
 		if($range != null){
 			$options = array();
 			foreach($range->getInstances(true) as $rangeInstance){
@@ -497,11 +497,11 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		
 		//continue building the form according the the type of connector:
 		$elementInputs=array();
-		if($connectorType->uriResource == TYPEOFCONNECTORS_SEQUENCE){
+		if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
 			
 			$elementInputs = self::nextActivityElements($connector, 'next');
 			
-		}else if($connectorType->uriResource == TYPEOFCONNECTORS_SPLIT){
+		}else if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
 			$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
 			$elementCondition->setDescription(__('IF'));
 			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));

@@ -68,7 +68,7 @@ class taoDelivery_models_classes_ProcessTreeService
 	public function activityTree(core_kernel_classes_Resource $process = null){
 		
 		$this->currentActivity = null;
-		$this->addedConnectors = array();;
+		// $this->addedConnectors = array();//reinitialized for each activity loop
 		$data = array();
 		
 		if(empty($process) && !empty($this->currentProcess)){
@@ -98,6 +98,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		foreach($activities as $activity){
 			
 			$this->currentActivity = $activity;
+			$this->addedConnectors = array();//required to prevent cyclic connexion between connectors of a given activity
 			
 			$activityData = array();
 			$activityData = $this->activityNode($activity, 'next', false);
@@ -182,6 +183,11 @@ class taoDelivery_models_classes_ProcessTreeService
 				//connector following the current activity: there should be only one
 				foreach($connectors['next'] as $connector){
 					$this->currentConnector = $connector;
+					//compare the activity reference of the connector and compare it with the current activity.
+					// if($this->currentConnector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource == $this->currentActivity->uriResource){
+					
+					// }
+					
 					$activityData['children'][] = $this->connectorNode($connector, '', true);
 				}
 			}else{
@@ -239,26 +245,37 @@ class taoDelivery_models_classes_ProcessTreeService
 				//get the "THEN"
 				$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN), false);
 				if(!is_null($then)){
-					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
-					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then) && ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors)){
-						if($recursive){
-							$connectorData[] = $this->connectorNode($then, 'then', true);
+					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($then)){
+						$connectorActivityReference = $then->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
+						if( ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($then->uriResource, $this->addedConnectors) ){
+							if($recursive){
+								$connectorData[] = $this->connectorNode($then, 'then', true);
+								//throw new Exception("ogihfhm  ".$this->currentConnector->uriResource);//http://127.0.0.1/middleware/demo.rdf#i1266498881014202100
+							}else{
+								$connectorData[] = $this->activityNode($then, 'then', false);
+							}
 						}else{
-							$connectorData[] = $this->activityNode($then, 'then', false);
+							$connectorData[] = $this->activityNode($then, 'then', true);
 						}
 					}else{
 						$connectorData[] = $this->activityNode($then, 'then', true);
 					}
 				}
+				
 				//same for the "ELSE"
 				$else = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE), false);
 				if(!is_null($else)){
-					$connectorActivityReference = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE));
-					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else) && ($connectorActivityReference->uriResource == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors)){
-						if($recursive){
-							$connectorData[] = $this->connectorNode($else, 'else', true);
+					if(taoDelivery_models_classes_ProcessAuthoringService::isConnector($else)){
+						$connectorActivityReference = $else->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource;
+						if( ($connectorActivityReference == $this->currentActivity->uriResource) && !in_array($else->uriResource, $this->addedConnectors) ){
+							if($recursive){
+								$connectorData[] = $this->connectorNode($else, 'else', true);
+								//throw new Exception("ogihfhm  ".$this->currentConnector->uriResource);//http://127.0.0.1/middleware/demo.rdf#i1266498881014202100
+							}else{
+								$connectorData[] = $this->activityNode($else, 'else', false);
+							}
 						}else{
-							$connectorData[] = $this->activityNode($else, 'else', false);
+							$connectorData[] = $this->activityNode($else, 'else', true);
 						}
 					}else{
 						$connectorData[] = $this->activityNode($else, 'else', true);
@@ -288,6 +305,8 @@ class taoDelivery_models_classes_ProcessTreeService
 		if(!empty($connectorData)){
 			$returnValue['children'] = $connectorData;
 		}
+		
+		$this->addedConnectors[] = $connector->uriResource;
 		
 		return $returnValue;
 	}
