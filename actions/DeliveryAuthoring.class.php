@@ -557,7 +557,6 @@ class DeliveryAuthoring extends TaoModule {
 			//clean old value of property (use bind property with empty input?)
 			$connectorInstance->removePropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
 			
-			//save the activity in "THEN":
 			if(isset($data['if'])){
 				
 				//delete the old rule, if exists:
@@ -574,7 +573,7 @@ class DeliveryAuthoring extends TaoModule {
 				
 				// throw new Exception("mghjpogim".stripos($condition, 'if'));
 				
-				if(!empty($condition) && stripos($condition, 'if')>=0){
+				if(!empty($condition)){
 					
 					if(!$this->service->createRule($connectorInstance, $condition)){
 						throw new Exception("the condition \"{$condition}\" cannot be created");

@@ -612,12 +612,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
 			if(empty($transitionRule)){
 				//create an instance of transition rule:
+				// throw new Exception("dfgfdmhfho");
 				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
 				$transitionRule = $transitionRuleClass->createInstance();
+				//Associate the newly created transition rule to the connector:
+				$connector->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), $transitionRule->uriResource);
 			}
 			$returnValue = $transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_RULE_IF), $expressionInstance->uriResource);
 		}
-		
 		
 		return $returnValue;
 	}

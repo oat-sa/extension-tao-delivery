@@ -51,10 +51,10 @@ class ConditionDescriptor
 				switch($this->cmp){
 					case 'equal': { $operator = '='; break;}
 					case 'notEqual': { $operator = '!='; break;}
-					case 'greater': { $operator = '='; break;}
-					case 'greaterEqual': { $operator = '='; break;}
-					case 'less': { $operator = '='; break;}
-					case 'lessEqual': { $operator = '='; break;}
+					case 'greater': { $operator = '>'; break;}
+					case 'greaterEqual': { $operator = '>='; break;}
+					case 'less': { $operator = '<'; break;}
+					case 'lessEqual': { $operator = '<='; break;}
 					default: { $operator = '??'; break;}
 				}
 			}elseif(!empty($this->arithmeticOperator)){
