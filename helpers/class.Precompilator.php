@@ -55,7 +55,7 @@ class tao_helpers_Precompilator
      * @access protected
      * @var string
      */
-	protected $pluginPath = "";
+	protected $pluginPath = '';
 	
 	/**
      * The attribute "compiledPath" define the directory where all compiled files for the test will be stored
@@ -63,7 +63,7 @@ class tao_helpers_Precompilator
      * @access public
      * @var string
      */
-	protected $compiledPath= "";
+	protected $compiledPath = '';
 	
 	/**
      * The attribute "testUri" define the uri of the test that is being compiled
@@ -93,7 +93,7 @@ class tao_helpers_Precompilator
 	 * @param  string pluginPath
      * @return mixed
      */	
-	public function __construct($testUri, $compiledPath, $pluginPath){
+	public function __construct($testUri, $compiledPath='', $pluginPath=''){
 		
 		//TODO: change testUri to deliveryUri
 		
@@ -113,19 +113,29 @@ class tao_helpers_Precompilator
 			throw new Exception("The test Id to be compiled can not be empty");
 		}
 		
-		if(!is_dir($pluginPath)){
-			throw new Exception("The plugin directory $pluginPath does not exist");
+		if(!empty($pluginPath)){
+			$this->pluginPath = $pluginPath;
+		}else{
+			$this->pluginPath = DIR_MODELS."ext/deliveryRuntime/";
 		}
-		
-		if(!is_writable($compiledPath)){
-			throw new Exception("The compiled directory $compiledPath is not writable");
+		if(!is_dir($this->pluginPath)){
+			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
+		}
+		throw new Exception("The plugin directory ".DIR_COMPILED." does not exist");
+		if(!empty($compiledPath)){
+			$this->compiledPath = $compiledPath;
+		}else{
+			$this->compiledPath = DIR_COMPILED;
+		}
+		if(!is_writable($this->compiledPath)){
+			throw new Exception("The compiled directory '{$this->compiledPath}' is not writable");
 		}
 		//TODO more security check on the compiled path
 		
-		$directory="$compiledPath$testId/";		
-		if(!is_dir($compiledPath)){
+		$directory = $this->compiledPath.$testId.'/';		
+		if(!is_dir($this->compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
-			throw new Exception("The main compiled test directory '$compiledPath' does not exist");
+			throw new Exception("The main compiled test directory '{$this->compiledPath}' does not exist");
 		}else{
 			if(!is_dir($directory)){
 				$created=mkdir($directory);
@@ -138,7 +148,7 @@ class tao_helpers_Precompilator
 			}
 		}
 		
-		$this->pluginPath = $pluginPath;
+		// $this->pluginPath = $pluginPath;
 		$this->compiledPath = $directory;
 	}
 	
