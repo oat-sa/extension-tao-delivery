@@ -141,6 +141,7 @@ class Campaign extends TaoModule {
 		$relatedTests = $this->service->getRelatedDeliveries($campaign);
 		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
 		$this->setData('relatedDeliveries', json_encode($relatedTests));
+		$this->setData('index', '1');
 		
 		$this->setData('formTitle', __('Edit Campaign'));
 		$this->setData('myForm', $myForm->render());

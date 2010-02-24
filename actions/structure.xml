@@ -14,6 +14,7 @@
 				/>
 			</trees>
 			<actions>
+				<action name="search" url="/taoDelivery/Delivery/search" context="*" />
 				<action name="new class" js="GenerisAction.subClass" url="/taoDelivery/Delivery/addDeliveryClass" context="class" />
 				<action name="new delivery" js="GenerisAction.instanciate" url="/taoDelivery/Delivery/addDelivery" context="class" />
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
@@ -42,6 +43,7 @@
 				/>
 			</trees>
 			<actions>
+				<action name="search" url="/taoDelivery/Campaign/search" context="*" />
 				<action name="new class" js="GenerisAction.subClass" url="/taoDelivery/Campaign/addCampaignClass" context="class" />
 				<action name="new campaign" js="GenerisAction.instanciate" url="/taoDelivery/Campaign/addCampaign" context="class" />
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/Campaign/delete" context="resource" />
@@ -67,6 +69,7 @@
 				/>
 			</trees>
 			<actions>
+				<action name="search" url="/taoDelivery/ResultServer/search" context="*" />
 				<action name="new class" js="GenerisAction.subClass" url="/taoDelivery/ResultServer/addResultServerClass" context="class" />
 				<action name="new result server" js="GenerisAction.instanciate" url="/taoDelivery/ResultServer/addResultServer" context="class" />
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/ResultServer/delete" context="resource" />

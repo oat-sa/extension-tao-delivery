@@ -46,6 +46,9 @@ msgstr ""
 msgid "Deliveries library"
 msgstr ""
 
+msgid "search"
+msgstr ""
+
 msgid "new class"
 msgstr ""
 
@@ -166,16 +169,16 @@ msgstr ""
 msgid "Please confirm deletion"
 msgstr ""
 
-msgid "Select delivery"
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr ""
+
+msgid "Select delivery campaign"
 msgstr ""
 
 msgid "Save"
 msgstr ""
 
-msgid "Select testees to be <b>excluded</b>"
-msgstr ""
-
-msgid "Select delivery campaign"
+msgid "Select delivery"
 msgstr ""
 
 msgid "The Delivery module allows users to define tests delivery parameters."
@@ -242,6 +245,9 @@ msgid "Open all"
 msgstr ""
 
 msgid "Close all"
+msgstr ""
+
+msgid "Select testees to be <b>excluded</b>"
 msgstr ""
 
 msgid "EN"

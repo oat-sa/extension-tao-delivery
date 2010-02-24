@@ -142,7 +142,7 @@ class ResultServer extends TaoModule {
 		$relatedDeliveries = $this->service->getRelatedDeliveries($resultServer);
 		$relatedDeliveries = array_map("tao_helpers_Uri::encode", $relatedDeliveries);
 		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
-		
+		$this->setData('index', '2');
 		
 		
 		$this->setData('formTitle', __('Edit ResultServer'));
