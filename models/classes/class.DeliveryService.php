@@ -574,6 +574,9 @@ class taoDelivery_models_classes_DeliveryService
 				if($resultServerUrl instanceof core_kernel_classes_Literal){
 					$returnValue = $resultServerUrl->literal;
 				}
+				if($resultServerUrl instanceof core_kernel_classes_Resource){
+					$returnValue = $resultServerUrl->uriResource;
+				}
 			}
 			
 		}

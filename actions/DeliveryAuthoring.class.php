@@ -1,7 +1,7 @@
 <?php
 require_once('tao/actions/CommonModule.class.php');
 require_once('tao/actions/TaoModule.class.php');
-
+require_once('taoDelivery/helpers/class.Precompilator.php');
 
 
 /**
@@ -157,6 +157,45 @@ class DeliveryAuthoring extends TaoModule {
 		}
 	}
 	
+	public function getTestData(){
+		
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$tests = $this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, '', '');
+		// throw new Exception(var_dump($tests));
+		$reformatedTreeData =array(
+			'data' => $tests['data'],
+			'attributes' => $tests['attributes']
+		);
+		
+		if(isset($tests['children']) && !empty($tests['children'])){
+			$reformatedTreeData['children'] = $this->reformatTestData($tests['children']);
+		}
+		
+		echo json_encode($reformatedTreeData);
+	}
+	
+	private function reformatTestData($tests){
+		$instancesData = array();
+		foreach($tests as $test){
+			if($test['attributes']['class'] == 'node-instance'){
+				$testId = tao_helpers_Precompilator::getUniqueId( tao_helpers_Uri::decode($test['attributes']['id']) );
+				if(!empty($testId)){
+					$test['attributes']['val'] = BASE_URL."/compiled/{$testId}/theTest.php";	
+				}
+				
+			}elseif($test['attributes']['class'] == 'node-class'){
+				if(isset($test['children']) && !empty($test['children'])){
+					$test['children'] = $this->reformatTestData($test['children']);
+				}
+			}
+			$instancesData[] = $test;
+		}
+		return $instancesData;
+	}
+	
 	public function getActivityTree(){
 		$this->setView('process_tree_activity.tpl');
 	}
@@ -209,6 +248,9 @@ class DeliveryAuthoring extends TaoModule {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
 		
+		$excludedProperty = array();
+		$excludedProperty[] = 'http://www.tao.lu/middleware/Interview.rdf#122354397139712';
+		
 		$formName="";
 		//define the type of instance to be edited:
 		if(strcasecmp($clazz->uriResource, CLASS_FORMALPARAMETER) == 0){
@@ -218,6 +260,8 @@ class DeliveryAuthoring extends TaoModule {
 		}elseif( (strcasecmp($clazz->uriResource, CLASS_WEBSERVICES) == 0) || (strcasecmp($clazz->uriResource, CLASS_SUPPORTSERVICES) == 0) ){
 			//note: direct instanciating CLASS_SERVICEDEFINITION should be forbidden
 			$formName = "serviceDefinition";
+			$excludedProperty[] = PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT;
+			$excludedProperty[] = PROPERTY_SERVICESDEFINITION_FORMALPARAMIN;
 		}elseif(strcasecmp($clazz->uriResource, CLASS_PROCESSVARIABLES) == 0){
 			$formName = "variable";
 		}else{
@@ -225,7 +269,7 @@ class DeliveryAuthoring extends TaoModule {
 		}
 				
 		$myForm = null;
-		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor($clazz, $instance, $formName, array("noSubmit"=>true,"noRevert"=>true) , array('http://www.tao.lu/middleware/Interview.rdf#122354397139712') );
+		$myForm = taoDelivery_helpers_ProcessFormFactory::instanceEditor($clazz, $instance, $formName, array("noSubmit"=>true,"noRevert"=>true) , $excludedProperty );
 		$myForm->setActions(array(), 'bottom');	
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

@@ -1,20 +1,21 @@
-<?php
- 
+<?php 
+
 session_start();
 
- 
-?>
-
-<?php 
+//initiate runtime parameter value:
 $subjectIp = $_SERVER['REMOTE_ADDR'];
-$noresult=0;
+$noresult = 0;
+$wsdlUrl = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
 
 if(isset($_GET['subject']) and $_GET['subject']!=''){
-	$subjectUri=$_GET['subject'];
-	$subjectLabel="previewer";
+	$subjectUri = $_GET['subject'];
+	$subjectLabel = "previewer";
 	if($_GET['subject']=="previewer"){
 		$subjectUri .= time();
 		$noresult=1;
+	}else{
+		//if the subject in GET is considered as a subject's uri: it is a real test, so a valid wsdl link is required
+			
 	}
 }
 else{
@@ -29,7 +30,7 @@ else{
 $subjectUri=urlencode($subjectUri);
 $subjectLabel=urlencode($subjectLabel);
 
-$wsdlUrl="http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
+
 $wsdlUrl=urlencode($wsdlUrl);
 
 $runtimeParameters="";
