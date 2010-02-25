@@ -11,7 +11,7 @@ require_once('tao/actions/TaoModule.class.php');
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class DeliveryServer{
+class DeliveryServer extends Module{
 	
 	/**
 	 * constructor: initialize the service and the default data
@@ -19,24 +19,35 @@ class DeliveryServer{
 	 */
 	public function __construct(){
 		
-		parent::__construct();
-		
 		//the service is initialized by default
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
-		$this->defaultData();
 		
 		// Session::setAttribute('currentSection', 'delivery');
 	}
 	
-	public function login(){
-		$login = $_POST["login"];
-		$password = $_POST["password"];
-		$subject = $this->service->checkSubjectLogin($login, $password);
-		
-		if(is_null($subject)){
-			//return error message: "wrong login pass";	
+	public function index(){
+	
+		if(isset($_POST["login"]) && isset($_POST["password"])){
+			$login = $_POST["login"];
+			$password = $_POST["password"];
+			$subject = $this->service->checkSubjectLogin($login, $password);
+			
+			if(is_null($subject)){
+				$this->setData('login_message', __("wrong login or/and password,<br/> please try again"));
+			}else{
+				//fromthis point, the subject is identified (his/her role too)
+				$_SESSION["subject"] = $subject;
+				
+				//goto next view: wfengine
+				// header("location: /wfengine/");	
+				$this->redirect("/wfengine/");
+			}
 		}
 		
+		$this->setView('deliveryServer.tpl');
+	}
+
+	public function getDeliveries($subject){
 		//get list of available deliveries for this subject:
 		$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
 		
@@ -84,6 +95,7 @@ class DeliveryServer{
 			if(!$historyCollection->isEmpty()){
 				if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
 					$deliveries['maxExecExceeded'][] = $delivery;
+					continue;
 				}
 			}
 			
@@ -95,8 +107,9 @@ class DeliveryServer{
 		foreach($deliveries['ok'] as $availableDelivery){
 			$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		}
-		//return this array to the workflow controller: extended from main
 		
+		//return this array to the workflow controller: extended from main
+		return $availableProcessDefinition;
 	}
 	
 	public function initDeliveryExecution(){
@@ -104,6 +117,10 @@ class DeliveryServer{
 		
 		//get the process execution:
 		$processInstance = null;
+		
+		//process instance -> process def -> delivery
+		$subject = $_SESSION["subject"];
+		$delivery = null;
 		
 		//set the process variable values form the variables wsdl and subject (mandatory!)
 		//use $processInstance->editPropertyValues( prop of process instance and instance of process var "wsdl location", get the wsdl url of the delivery  );
