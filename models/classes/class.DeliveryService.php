@@ -499,6 +499,7 @@ class taoDelivery_models_classes_DeliveryService
 			return $returnValue;
 		}
 		
+		//could use the function getOnePropertyValue($prop, true) instead
 		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->getIterator() as $value){
 			if($value instanceof core_kernel_classes_Resource ){
 				if ($value->uriResource == GENERIS_TRUE){
@@ -695,27 +696,22 @@ class taoDelivery_models_classes_DeliveryService
 	 * @param  string subjectUri
      * @return core_kernel_classes_ContainerCollection
      */
-	public function getHistory($deliveryUri, $subjectUri=""){
+	public function getHistory($delivery, $subject = null){
 	
-		$historyCollection = null;
+		$historyCollection = new core_kernel_classes_ContainerCollection(new common_Object());
 		
-		if(empty($deliveryUri)){
-			throw new Exception("the delivery uri cannot be empty");
+		if(empty($delivery)){
+			throw new Exception("the delivery instance cannot be empty");
 		}
-		if(empty($subjectUri)){
+		
+		if(empty($subject)){
 			//select History by delivery only (subject independent listing, i.e. select for all subjects)
-			$historyCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
+			$historyCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
 		}else{
-			
-			$validSubjectUri=true;//TODO check if it is a valid subject
-			if($validSubjectUri){
-				//select history by delivery and subject
-				$historyByDelivery=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
-				$historyBySubject=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subjectUri);
-				$historyCollection=$historyByDelivery->intersect($historyBySubject);
-			}else{
-				throw new Exception("invalid subject uri");
-			}
+			//select history by delivery and subject
+			$historyByDelivery = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
+			$historyBySubject = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subject->uriResource);
+			$historyCollection = $historyByDelivery->intersect($historyBySubject);
 		}
 		
 		return $historyCollection;
