@@ -3,23 +3,59 @@
 
 <div id="<?=$sectionName?>-form">
 	<?=get_data("formPlus")?>
-	<input type="button" name="submit-<?=$sectionName?>" id="submit-<?=$sectionName?>" value="save"/>
+	<input type="button" name="submit-<?=$sectionName?>" id="submit-<?=$sectionName?>" value="save" disabled="disabled"/>
 </div>
 <script type="text/javascript" src="/taoDelivery/views/js/processResourceSelector.js"></script>
 <script type="text/javascript">
 $(function(){
-
-	// resourceListing("input[id=http%3A%2F%2Fwww__tao__lu%2Fmiddleware%2Ftaoqual__rdf%2311858886911216]","tests");
 	
-		var textBox = $("input[id=http%3A%2F%2Fwww__tao__lu%2Fmiddleware%2Ftaoqual__rdf%2311858886911216]");
+	//bloc specific to delivery authoring tool:
+	var supportServiceUrlInput = "input[id=<?=tao_helpers_Uri::encode(PROPERTY_SUPPORTSERVICES_URL)?>]";
+	if($(supportServiceUrlInput).length){
 		textBoxControl = $('<a href="#">Browse Tests</a>');
 		textBoxControl.click(function(){
-			// alert(textBox.attr('id'));
-			resourceSelector("input[id=http%3A%2F%2Fwww__tao__lu%2Fmiddleware%2Ftaoqual__rdf%2311858886911216]","tests");
+			resourceSelector(supportServiceUrlInput,"tests");
 			return false;
 		});
-		textBoxControl.insertAfter(textBox);
+		textBoxControl.insertAfter($(supportServiceUrlInput));
+	}
 	
+	//bloc to check if an identical code already exists
+	var processVarCodeInput = "input[id=<?=tao_helpers_Uri::encode(PROPERTY_CODE)?>]";
+	if($(processVarCodeInput).length){
+		$("#submit-<?=$sectionName?>").attr('disabled','disabled');
+		$(processVarCodeInput).parent("div").append('<a id="codeCheckTrigger" href="#">'+__('check code')+'</a><br/>');
+		
+		$("#codeCheckTrigger").click(function(){
+			$(this).parent("div").append('<span id="codeCheckMsg"/>');
+			$("#codeCheckMsg").html(__("checking the code..."));
+			
+			var code = $(processVarCodeInput).val();
+			var varUri = $("input[name=uri]:last").val();
+			
+			$.ajax({
+				type: "POST",
+				url: "/taoDelivery/DeliveryAuthoring/checkCode",
+				dataType: "json",
+				data: {code : code, varUri:varUri},
+				success: function(response){
+					if(response.exist){
+						var message = __('the chosen code has already been used for the process variable')+' "'+response.label+'"';
+						message += ', ';
+						message += __('please choose another one');
+						$("#codeCheckMsg").html(message);
+						$("#codeCheckMsg").addClass('ui-state-highlight');
+					}else{
+						//enable submit
+						$("#codeCheckMsg").append(__("ok")).fadeOut(4000, function(){ $(this).remove(); });
+						$("#submit-<?=$sectionName?>").removeAttr('disabled');
+					}
+				}
+			});
+		});
+		
+	}
+			
 
 	//change to submit event interception would be "cleaner" than adding a button
 	$("#submit-<?=$sectionName?>").click(function(){
@@ -36,8 +72,6 @@ $(function(){
 			}
 		});
 	});
-	// alert($("input[id=http%3A%2F%2Fwww__tao__lu%2Fmiddleware%2Ftaoqual__rdf%23118588892919658_8]").attr("name"));
-	//C:\wamp\www\TAO2\taoDelivery\views\js\processResourceSelector.js
 });
 
 </script>

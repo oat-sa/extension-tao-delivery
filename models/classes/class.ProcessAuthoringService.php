@@ -455,34 +455,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
         return (bool) $returnValue;
     }
-				
-	/**
-     * Get all deliveries available for the identified subject.
-     * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
-	 * It returns an array containing the uri of selected deliveries or an empty array otherwise.
-	 * To be tested when core_kernel_classes_ApiModelOO::getObject() is implemented
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string subjectUri
-     * @return array
-     */
-	public function getDeliveriesBySubject($subjectUri){
-		
-		$returnValue=array();
-		
-		$groups = core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
-		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
-		}
-		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
-		$returnValue = $deliveries;
-		
-		
-		return $returnValue;
-	}
-	
+			
 	public function createActivity(core_kernel_classes_Resource $process, $label=''){
 		
 		$activityLabel = "";
@@ -754,7 +727,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	public static function isActivity(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		
-		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
+		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, RDF_TYPE);
 		if($activityType->count()>0){
 			if($activityType->get(0) instanceof core_kernel_classes_Resource){//should be a generis class
 				if( $activityType->get(0)->uriResource == CLASS_ACTIVITIES){
@@ -769,7 +742,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	public static function isConnector(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		
-		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
+		$activityType = core_kernel_classes_ApiModelOO::singleton()->getObject($resource->uriResource, RDF_TYPE);
 		if($activityType->count()>0){
 			if($activityType->get(0) instanceof core_kernel_classes_Resource){
 				if( $activityType->get(0)->uriResource == CLASS_CONNECTORS){
@@ -781,132 +754,17 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	/**
-     * The method checks if the current time against the values of the properties PeriodStart and PeriodEnd.
-	 * It returns true if the delivery execution period is valid at the current time.
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource aDeliveryInstance
-     * @return boolean
-     */
-	public function checkPeriod(core_kernel_classes_Resource $aDeliveryInstance){
-		// http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
-		// http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
-		$validPeriod=false;
+	public function getProcessVariable($code){
+		$returnValue = null;
 		
-		//supposing that the literal value saved in the properties is in the right format: YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
-		$startDate=null;
-		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart'))->getIterator() as $value){
-			if($value instanceof core_kernel_classes_Literal ){
-				$startDate = date_create($value->literal);
-				break;
-			}
-		}
-		
-		$endDate=null;
-		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd'))->getIterator() as $value){
-			if($value instanceof core_kernel_classes_Literal ){
-				$endDate = date_create($value->literal);
-				break;
-			}
-		}
-		
-		if($startDate){
-			if($endDate) $validPeriod = (date_create()>$startDate and date_create()<$endDate);
-			else $validPeriod = (date_create()>$startDate);
-		}else{
-			if($endDate) $validPeriod = (date_create()<$endDate);
-			else $validPeriod = true;
-		}
-		
-		return $validPeriod;
-	}
-	
-	/**
-     * The the url of the select result server
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource aDeliveryInstance
-     * @return string
-     */
-	public function getResultServer(core_kernel_classes_Resource $aDeliveryInstance){
-		
-		$returnValue='';
-		
-		if(!is_null($delivery)){
-		
-			$aResultServerInstance = $aDeliveryInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer"));
-			if($aResultServerInstance instanceof core_kernel_classes_Resource){
-				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection() or store encoded url only in
-				$resultServerUrl = $aResultServerInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl"));
-				if($resultServerUrl instanceof core_kernel_classes_Literal){
-					$returnValue = $resultServerUrl->literal;
-				}
-			}
-			
+		$processVarCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
+		if(!$processVarCollection->isEmpty()){
+			$returnValue = $processVarCollection->get(0);
 		}
 		
 		return $returnValue;
 	}
 		
-	/**
-     * add history to
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string deliveryUri
-	 * @param  string subjectUri
-     * @return core_kernel_classes_ContainerCollection
-     */
-	public function getHistory($deliveryUri, $subjectUri=""){
-	
-		$historyCollection = null;
-		
-		if(empty($deliveryUri)){
-			throw new Exception("the delivery uri cannot be empty");
-		}
-		if(empty($subjectUri)){
-			//select History by delivery only (subject independent listing, i.e. select for all subjects)
-			$historyCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
-		}else{
-			
-			$validSubjectUri=true;//TODO check if it is a valid subject
-			if($validSubjectUri){
-				//select history by delivery and subject
-				$historyByDelivery=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $deliveryUri);
-				$historyBySubject=core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subjectUri);
-				$historyCollection=$historyByDelivery->intersect($historyBySubject);
-			}else{
-				throw new Exception("invalid subject uri");
-			}
-		}
-		
-		return $historyCollection;
-		
-		//note: for maxExec check on delivery server, simply make the following comparison: $this->getHistory($deliveryUri, $subjectUri)->count() < $deliveryMaxExec 
-	}
-	
-	/**
-     * add history of delivery execution in the ontology
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string deliveryUri
-	 * @param  string subjectUri
-     * @return void
-     */
-	public function addHistory($deliveryUri, $subjectUri){
-		// if(empty($subjectUri)) throw new Exception("the subject uri cannot be empty");
-		// if(empty($deliveryUri)) throw new Exception("the delivery uri cannot be empty");
-		
-		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS));
-		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subjectUri);
-		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $deliveryUri);
-		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
-	}
-	
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 

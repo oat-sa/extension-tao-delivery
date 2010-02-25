@@ -663,10 +663,25 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode(array("saved" => $saved));
 	}
 	
-	public function saveRule(){
-		$condition = '';
-		$this->service->createRule($condition);
+	public function checkCode(){
+	
+		$code = $_POST['code'];
+		$processVarUri = tao_helpers_Uri::decode($_POST['varUri']);
+		
+		$returnValue = array('exist' => false);
+		
+		$processVar = $this->service->getProcessVariable($code);
+		if(!is_null($processVar)){
+			if($processVarUri != $processVar->uriResource){
+				$returnValue['exist'] = true;
+			$returnValue['label'] = $processVar->getLabel();
+			}
+		}
+		
+		echo json_encode($returnValue);
 	}
+	
+	
 	/**
 	 *
 	 *
