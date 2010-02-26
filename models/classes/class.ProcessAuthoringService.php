@@ -30,6 +30,8 @@ require_once('taoDelivery/plugins/CapiXML/models/class.ConditionalTokenizer.php'
 
 require_once('taoDelivery/plugins/CapiImport/models/class.DescriptorFactory.php');
 
+require_once('taoDelivery/helpers/class.Precompilator.php');//to be displaced to DeliveryAuthoringService
+
 /**
  * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
@@ -639,20 +641,20 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 	}
 	
-	public function getActivitiesByProcess($processUri = ''){
+	public function getActivitiesByProcess(core_kernel_classes_Resource $process){
 		
 		$returnValue = array();
 		
 		//eventually, put $processUri in a class property
-		if(empty($processUri) && !empty($this->processUri)){
-			$processUri = $this->processUri;
+		if(empty($process) && !empty($this->processUri)){
+			$process = new core_kernel_classes_Resource($this->processUri);
 		}
-		if(empty($processUri)){
-			throw new Exception("no process Uri found");
+		if(is_null($process)){
+			throw new Exception("the process cannot be null");
 			return $returnValue;
 		}
 		
-		$process = new core_kernel_classes_Resource($processUri);
+		
 		foreach ($process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->getIterator() as $activity){
 			if($activity instanceof core_kernel_classes_Resource){
 				$returnValue[$activity->uriResource] = $activity;
@@ -662,19 +664,19 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	public function getConnectorsByProcess($processUri = ''){
-		$activities = $this->getActivitiesByProcess($processUri);
+	public function getConnectorsByProcess(core_kernel_classes_Resource $process){
+		$activities = $this->getActivitiesByProcess($process);
 		$connectors = array();
 		foreach($activities as $activity){
 			$tempConnectorArray = array();
-			$tempConnectorArray = $this->getConnectorsByActivity($activity->uriResource, array('next'));//connectors of connector are not included here!
+			$tempConnectorArray = $this->getConnectorsByActivity($activity, array('next'));//connectors of connector are not included here!
 			//use the property value: activity reference here:	
 			
 		}
 	
 	}
 	
-	public function getConnectorsByActivity($activityUri, $option=array(), $isConnector=false ){
+	public function getConnectorsByActivity(core_kernel_classes_Resource $activity, $option=array(), $isConnector=false ){
 			
 		//prev: the connectors that links to the current activity
 		//next: the connector (should be unique for an activiy that is not a connector itself) that follows the current activity
@@ -692,7 +694,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		if(in_array('prev',$option)){
 		
-			$previousConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES, $activityUri);
+			$previousConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_NEXTACTIVITIES, $activity->uriResource);
 		
 			foreach ($previousConnectorsCollection->getIterator() as $connector){
 				if(!is_null($connector)){
@@ -705,7 +707,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		if(in_array('next',$option)){
 		
-			$followingConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $activityUri);
+			$followingConnectorsCollection=core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $activity->uriResource);
 		
 			foreach ($followingConnectorsCollection->getIterator() as $connector){
 				if(!is_null($connector)){
@@ -760,6 +762,38 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$processVarCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
 		if(!$processVarCollection->isEmpty()){
 			$returnValue = $processVarCollection->get(0);
+		}
+		
+		return $returnValue;
+	}
+	
+	//use in delivery compilator
+	public function getTestByActivity(core_kernel_classes_Resource $activity){
+		$returnValue = null;
+		
+		if(!empty($activity)){
+		
+			foreach ($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->getIterator() as $iService){
+				if($iService instanceof core_kernel_classes_Resource){
+						
+					$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+					if(!is_null($serviceDefinition)){
+					
+						$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
+						//NOTE: PROPERTY_SUPPORTSERVICES_URL only valid for support service and not for web services
+						if(!is_null($serviceUrl) && $serviceUrl instanceof core_kernel_classes_Resource){//the problem is that an url is interpreted as a uri so it the getOnePropertyValue return it as a resource
+							//check if the url is a compiled test one:
+							$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl->uriResource);
+							if(!empty($testUri)){
+								$returnValue = core_kernel_classes_Resource($testUri);
+							}
+						}
+						
+					}
+						
+				}
+			}
+			
 		}
 		
 		return $returnValue;

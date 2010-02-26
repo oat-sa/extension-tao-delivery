@@ -93,8 +93,8 @@ class taoDelivery_models_classes_ProcessTreeService
 		$processAuthoringService = new taoDelivery_models_classes_ProcessAuthoringService();
 	
 		$activities = array();
-		$activities = $processAuthoringService->getActivitiesByProcess($process->uriResource);
-		
+		$activities = $processAuthoringService->getActivitiesByProcess($process);
+		// throw new Exception(var_dump($activities));
 		foreach($activities as $activity){
 			
 			$this->currentActivity = $activity;
@@ -114,7 +114,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			);
 			
 			//get connectors
-			$connectors = $processAuthoringService->getConnectorsByActivity($activity->uriResource);
+			$connectors = $processAuthoringService->getConnectorsByActivity($activity);
 			// throw new Exception("data=".var_dump($connectors));	
 			/*
 			if(!empty($connectors['prev'])){
@@ -183,15 +183,10 @@ class taoDelivery_models_classes_ProcessTreeService
 				//connector following the current activity: there should be only one
 				foreach($connectors['next'] as $connector){
 					$this->currentConnector = $connector;
-					//compare the activity reference of the connector and compare it with the current activity.
-					// if($this->currentConnector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_ACTIVITYREFERENCE))->uriResource == $this->currentActivity->uriResource){
-					
-					// }
-					
 					$activityData['children'][] = $this->connectorNode($connector, '', true);
 				}
 			}else{
-				// throw new Exception("no connector associated to the activity: {$activity->uriResource}");
+				throw new Exception("no connector associated to the activity: {$activity->uriResource}");
 				
 			}
 			

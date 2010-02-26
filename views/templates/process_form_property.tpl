@@ -1,4 +1,4 @@
-<?$sectionName = get_data("sectionName");//should be either activity or process?>
+<?$sectionName = get_data("sectionName");//must be either activity or process?>
 
 <div id="<?=$sectionName?>-property-form">
 	<?if(!get_data("saved")):?>
@@ -20,9 +20,15 @@
 						dataType: 'html',
 						success: function(response){
 							$("#<?=$sectionName?>-property-form").html(response);
+							
 							<?if($sectionName=="process"):?>
 							processProperty();
 							<?endif;?>
+							
+							<?if($sectionName=="activity"):?>
+							refreshActivityTree();
+							<?endif;?>
+							
 						}
 					});
 				});

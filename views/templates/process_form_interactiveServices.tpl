@@ -16,7 +16,7 @@ $(function(){
 			
 			$("#<?=get_data("formId")?> :INPUT :gt(3)").attr("disabled","disabled");
 			$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION)?>]").removeAttr("disabled");
-			$("#<?=get_data("formId")?>").append("<p>reloading form...</p>");
+			$("#<?=get_data("formId")?>").append("<p>"+__('reloading form...')+"</p>");
 			
 			//send the form
 			$.ajax({
@@ -29,7 +29,7 @@ $(function(){
 						//call ajax function again to get the new form
 						ActivityTreeClass.selectTreeNode($("#callOfServiceUri").val());
 					}else{
-						$("#interactiveService-form").html("save failed:" + response);
+						$("#interactiveService-form").html("save failed:" + response);//debug
 					}
 				}
 			});
@@ -48,9 +48,10 @@ $(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.saved){
-					$("#interactiveService-form").html("interactive service saved");
+					$("#interactiveService-form").html(__("interactive service saved"));
+					refreshActivityTree();
 				}else{
-					$("#interactiveService-form").html("interactive service save failed:" + response);
+					$("#interactiveService-form").html("interactive service save failed:" + response);//debug
 				}
 			}
 		});

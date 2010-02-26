@@ -608,7 +608,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 					//get list of activities and connectors for the current process:
 					
 					$processAuthoringService = new taoDelivery_models_classes_ProcessAuthoringService();
-					$activities = $processAuthoringService->getActivitiesByProcess($process->uriResource);
+					$activities = $processAuthoringService->getActivitiesByProcess($process);
 					
 					foreach($activities as $activityTemp){
 						$activityOptions[ tao_helpers_Uri::encode($activityTemp->uriResource) ] = $activityTemp->getLabel();
