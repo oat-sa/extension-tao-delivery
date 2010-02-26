@@ -745,10 +745,12 @@ class taoDelivery_models_classes_DeliveryService
 	
 	public function createInstance(core_kernel_classes_Class $clazz, $label = ''){
 		$deliveryInstance = parent::createInstance($clazz, $label);
+		
 		//create a process instance at the same time:
-		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS), "Process ".$deliveryInstance->getLabel());//the label could be updated
+		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
-
+		$this->updateProcessLabel($deliveryInstance);
+		
 		return $deliveryInstance;		
 	}
 	
@@ -768,6 +770,7 @@ class taoDelivery_models_classes_DeliveryService
 		$returnValue = $this->createInstance($clazz);
 		if(!is_null($returnValue)){
 			foreach($clazz->getProperties(true) as $property){
+			
 				if($property->uriResource != TAO_DELIVERY_DELIVERYCONTENT){
 					//allow clone of every property value but the deliverycontent, which is a process:
 					//TODO: cloning a process, idea: using recursive cloning method, i.e. for each prop, if prop is a resource, get the type then clone it again. Idea to be tested
@@ -775,12 +778,18 @@ class taoDelivery_models_classes_DeliveryService
 						$returnValue->setPropertyValue($property, $propertyValue);
 					}
 				}
+				
 			}
 			$returnValue->setLabel($instance->getLabel()." bis");
 		}
 
         return $returnValue;
     }
+	
+	public function updateProcessLabel(core_kernel_classes_Resource $delivery){
+		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		$process->setLabel("Process ".$delivery->getLabel());
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
