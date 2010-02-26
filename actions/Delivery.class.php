@@ -314,9 +314,9 @@ class Delivery extends TaoModule {
 			
 			
 			//get process instance to be authored
-			$delivery = $this->getCurrentDelivery();
-			$processDefinition = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-			// $processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
+			// $delivery = $this->getCurrentDelivery();
+			// $processDefinition = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			$processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
 			$this->setData('processUri', tao_helpers_Uri::encode($processDefinition->uriResource));
 		}
 		catch(Exception $e){
@@ -487,20 +487,23 @@ class Delivery extends TaoModule {
 	}
 	
 	public function initCompilation(){
-		//config:
-		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
-		$compilationPath=BASE_PATH."/compiled/";
-		
 		//get the uri of the test
 		$deliveryUri = urldecode($_POST["uri"]);
 		$delivery = new core_kernel_classes_Resource($deliveryUri);
 		// $deliveryId=tao_helpers_Precompilator::getUniqueId($deliveryUri);
 		
+		//unquote the following section only in the unlikely case when every delivery has its own compiled folder
+		/*
+		//config:
+		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
+		$compilationPath=BASE_PATH."/compiled/";
+				
 		//initiate compilator:
 		$compilator = new tao_helpers_Precompilator($deliveryUri, $compilationPath, $pluginPath);//new constructor
 		//delete the compiled delivery folder if it exists
 		$compilator->clearCompiledFolder();
-
+		*/
+		
 		//init the value to be returned	
 		$deliveryData=array();
 		
@@ -547,7 +550,6 @@ class Delivery extends TaoModule {
 	 * @return void
 	 */
 	public function compile(){
-		//should be renamed  "compileTest()" now
 		
 		//config:
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
@@ -559,6 +561,7 @@ class Delivery extends TaoModule {
 		
 		//copy runtime plugins:
 		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
+		// $compilator->clearCompiledFolder();
 		$compilator->copyPlugins();
 		
 		//directory where all files required to launch the test will be collected
@@ -747,7 +750,7 @@ class Delivery extends TaoModule {
 			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
 		}else{
-			echo "Sorry, the test seems not to be compiled.<br/> Please compile it then try again.";
+			echo __("Sorry, the test seems not to be compiled.<br/> Please compile it then try again.");
 		}
 	}
 	

@@ -78,6 +78,11 @@
 			<!--<div id="process_info"><?=__('loading...')?></div>-->
 			<div id="process_form"><?=__('loading...')?></div>
 		</div>
+		<h3><a href="#"><?=__('Compilation')?></a></h3>
+		<div>
+			<div id="compile_info"><?=__('loading...')?></div>
+			<div id="compile_form"></div>
+		</div>
 	</div><!--end accordion -->
 	</div><!--end accordion_container_2 -->
 	
@@ -107,6 +112,7 @@
 		
 		processProperty();
 		
+		loadCompilationForm();
 		// $("#ancre_spForm").click(spForm);
 	});
 	
@@ -154,6 +160,19 @@
 			}
 		});
 	}
+	
+	function loadCompilationForm(){
+		$.ajax({
+			url: '/taoDelivery/DeliveryAuthoring/compileView',
+			type: "POST",
+			data: {processUri: processUri},
+			dataType: 'html',
+			success: function(response){
+				$('#compile_info').html(response);
+			}
+		});
+	}
+	
 	
 	// function spForm(){
 		// $.ajax({

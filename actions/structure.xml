@@ -30,6 +30,10 @@
 			</actions>
 		</section>
 		
+		<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
+			<actions />
+		</section>
+		
 		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">
 			<trees>
 				<tree name="Campaigns library" 
@@ -80,10 +84,6 @@
 				<!--<action name="import" url="/taoDelivery/ResultServer/import"  context="class" />-->
 				<action name="export" url="/taoDelivery/ResultServer/export"  context="class" reload="true" />
 			</actions>
-		</section>
-		
-		<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
-			<actions />
 		</section>
 		
 	</sections>

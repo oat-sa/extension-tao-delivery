@@ -63,7 +63,9 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 						//NOTE: PROPERTY_SUPPORTSERVICES_URL only valid for support service and not for web services
 						if(!is_null($serviceUrl) && $serviceUrl instanceof core_kernel_classes_Resource){//the problem is that an url is interpreted as a uri so it the getOnePropertyValue return it as a resource
 							//check if the url is a compiled test one:
+							
 							$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl->uriResource);
+							
 							if(!empty($testUri)){
 								$returnValue = core_kernel_classes_Resource($testUri);
 							}

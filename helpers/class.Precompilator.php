@@ -120,7 +120,7 @@ class tao_helpers_Precompilator
 		if(!is_dir($this->pluginPath)){
 			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
 		}
-		throw new Exception("The plugin directory ".DIR_COMPILED." does not exist");
+		
 		if(!empty($compiledPath)){
 			$this->compiledPath = $compiledPath;
 		}else{
@@ -141,7 +141,7 @@ class tao_helpers_Precompilator
 				$created=mkdir($directory);
 				if($created===false){
 					$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
-					throw new Exception("The compiled test directory '$directory' does not exist and can not be created");
+					throw new Exception("The compiled test directory '{$directory}' does not exist and can not be created");
 				}else{
 					$this->completed["createdFiles"][]=$directory;
 				}
@@ -432,7 +432,7 @@ class tao_helpers_Precompilator
 			}
 		}
 		
-		$returnValue=$this->recursiveDelete($this->compiledPath, true);
+		$returnValue=$this->recursiveDelete($this->compiledPath, false);
 		
 		return $returnValue;
 	}
@@ -460,7 +460,7 @@ class tao_helpers_Precompilator
             foreach($scan as $index=>$path){
                 $returnValue = $this->recursiveDelete($path);
             }
-			if($empty === true){
+			if($empty === false){
 				if (@rmdir($toDelete)) $returnValue=true;
 				else throw new Exception("the folder $toDelete cannot be deleted, please check the access permission");
 			}
