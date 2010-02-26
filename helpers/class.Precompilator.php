@@ -100,14 +100,13 @@ class tao_helpers_Precompilator
 		$this->completed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
-					);
+			);
 					
 		$this->failed=array(
 					"copiedFiles"=>array(),
 					"createdFiles"=>array()
-					);
+			);
 		
-		//create a directory where all files related to this test(i.e media files and item xml files) will be copied:
 		$testId=self::getUniqueId($testUri);//get the an unique id for the test to be compiled
 		if(empty($testId)){
 			throw new Exception("The test Id to be compiled can not be empty");
@@ -132,6 +131,7 @@ class tao_helpers_Precompilator
 		}
 		//TODO more security check on the compiled path
 		
+		//create a directory where all files related to this test(i.e media files and item xml files) will be copied:
 		$directory = $this->compiledPath.$testId.'/';		
 		if(!is_dir($this->compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;

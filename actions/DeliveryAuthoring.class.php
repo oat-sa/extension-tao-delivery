@@ -26,7 +26,7 @@ class DeliveryAuthoring extends TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = new taoDelivery_models_classes_ProcessAuthoringService();
+		$this->service = new taoDelivery_models_classes_DeliveryAuthoringService();
 		$this->defaultData();
 		
 		//add the tree service
@@ -291,7 +291,8 @@ class DeliveryAuthoring extends TaoModule {
 			PROPERTY_ACTIVITIES_INTERACTIVESERVICES,
 			PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE,
 			PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE,
-			PROPERTY_ACTIVITIES_CONSISTENCYRULE
+			PROPERTY_ACTIVITIES_CONSISTENCYRULE,
+			'http://www.tao.lu/middleware/Interview.rdf#122354397139712'
 		);
 		
 		$this->setData('saved', false);
@@ -320,7 +321,8 @@ class DeliveryAuthoring extends TaoModule {
 		$formName = "processPropertyEditor";
 		$process = $this->getCurrentProcess();
 		$excludedProperty = array(
-			PROPERTY_PROCESS_ACTIVITIES
+			PROPERTY_PROCESS_ACTIVITIES,
+			'http://www.tao.lu/middleware/Interview.rdf#122354397139712'
 		);
 		
 		$this->setData('saved', false);
@@ -679,6 +681,22 @@ class DeliveryAuthoring extends TaoModule {
 		}
 		
 		echo json_encode($returnValue);
+	}
+	
+	public function getTests(){
+		$process = $this->getCurrentProcess();
+		$activities = $this->service->getActivitiesByProcess($process);
+		$tests = array();
+		
+		foreach($activities as $activity){
+			$test = $this->service->getTestByActivity($activity);
+			if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
+				$tests[$test->uriResource] = $test;
+			}
+		}
+		
+		return $tests;
+		
 	}
 	
 	

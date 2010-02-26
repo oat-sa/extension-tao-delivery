@@ -134,6 +134,10 @@ class Delivery extends TaoModule {
 				
 				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
 				
+				//edit process label:
+				$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+				$process->editPropertyValues(new core_kernel_classes_Property(RDFS_LABEL), "Process ".$delivery->getLabel());
+				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 				$this->setData('message', __('Delivery saved'));
 				$this->setData('reload', true);
@@ -149,11 +153,7 @@ class Delivery extends TaoModule {
 		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
 		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-		
-		// $handle = fopen("/formRender.html","wb");
-		// $content = fwrite($handle,$myForm->render());
-		// fclose($handle);
-		
+				
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setData('formTitle', __('Edit delivery'));
@@ -161,6 +161,7 @@ class Delivery extends TaoModule {
 		$this->setView('form_delivery.tpl');
 	}
 	
+	/*
 	public function editDelivery2(){
 		$clazz = $this->getCurrentClass();
 		$delivery = $this->getCurrentDelivery();
@@ -184,6 +185,7 @@ class Delivery extends TaoModule {
 		$this->setData('formPlus', $myForm->render());
 		$this->setView('cool.tpl');
 	}
+	*/
 	
 	//function test of 
 	public function formPlus(){
@@ -221,7 +223,10 @@ class Delivery extends TaoModule {
 		}
 		$clazz = $this->getCurrentClass();
 		$delivery = $this->service->createInstance($clazz);
+			//create an instance of process at the same time and associate it to the new delivery is done in the method createInstance
+		
 		if(!is_null($delivery) && $delivery instanceof core_kernel_classes_Resource){
+			
 			echo json_encode(array(
 				'label'	=> $delivery->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($delivery->uriResource)
@@ -307,9 +312,13 @@ class Delivery extends TaoModule {
 			// $this->setData('delivery', tao_helpers_Uri::encode($deliveryInstance->uriResource));
 			// $this->setData('process', tao_helpers_Uri::encode($processInstance->uriResource));
 			
+			
+			
 			//get process instance to be authored
-			$processInstance = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
-			$this->setData('processUri', tao_helpers_Uri::encode($processInstance->uriResource));
+			// $delivery = $this->getCurrentDelivery();
+			// $processDefinition = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			$processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
+			$this->setData('processUri', tao_helpers_Uri::encode($processDefinition->uriResource));
 		}
 		catch(Exception $e){
 			$this->setData('error', true);
@@ -507,9 +516,9 @@ class Delivery extends TaoModule {
 		//array of resource, test set
 		$tests=array();
 		$tests=array(
-			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263198947080530400'),
-			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263807554074753100'),
-			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1263807558034177900')
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267004996028090400'),
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267085626030276800'),
+			new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267085574017356000')
 			);
 			
 		$deliveryData['tests']=array();

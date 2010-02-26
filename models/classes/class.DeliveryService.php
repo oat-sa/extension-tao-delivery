@@ -267,6 +267,11 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = (bool) false;
 		
 		if(!is_null($delivery)){
+			//delete the process associated to the delivery:
+			$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			$processAuthoringService = new taoDelivery_models_classes_DeliveryAuthoringService();
+			$processAuthoringService->deleteProcess($process);
+			
 			$returnValue = $delivery->delete();
 		}
 
@@ -741,11 +746,41 @@ class taoDelivery_models_classes_DeliveryService
 	public function createInstance(core_kernel_classes_Class $clazz, $label = ''){
 		$deliveryInstance = parent::createInstance($clazz, $label);
 		//create a process instance at the same time:
-		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS), "Process of delivery ".$deliveryInstance->getLabel());//the label could be updated
+		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS), "Process ".$deliveryInstance->getLabel());//the label could be updated
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
 
 		return $deliveryInstance;		
 	}
+	
+	 /**
+     * Short description of method cloneInstance
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource instance
+     * @param  Class clazz
+     * @return core_kernel_classes_Resource
+     */
+    public function cloneDelivery( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
+    {
+        $returnValue = null;
+		
+		$returnValue = $this->createInstance($clazz);
+		if(!is_null($returnValue)){
+			foreach($clazz->getProperties(true) as $property){
+				if($property->uriResource != TAO_DELIVERY_DELIVERYCONTENT){
+					//allow clone of every property value but the deliverycontent, which is a process:
+					//TODO: cloning a process, idea: using recursive cloning method, i.e. for each prop, if prop is a resource, get the type then clone it again. Idea to be tested
+					foreach($instance->getPropertyValues($property) as $propertyValue){
+						$returnValue->setPropertyValue($property, $propertyValue);
+					}
+				}
+			}
+			$returnValue->setLabel($instance->getLabel()." bis");
+		}
+
+        return $returnValue;
+    }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 

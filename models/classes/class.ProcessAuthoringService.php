@@ -30,8 +30,6 @@ require_once('taoDelivery/plugins/CapiXML/models/class.ConditionalTokenizer.php'
 
 require_once('taoDelivery/plugins/CapiImport/models/class.DescriptorFactory.php');
 
-require_once('taoDelivery/helpers/class.Precompilator.php');//to be displaced to DeliveryAuthoringService
-
 /**
  * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
@@ -287,6 +285,24 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		//delete the expression itself:
 		$expression->delete();
+	}
+	
+	public function deleteProcess(core_kernel_classes_Resource $process){
+		
+		$returnValue = false;
+		
+		if(!is_null($process)){
+			$activities = $this->getActivitiesByProcess($process);
+			foreach($activities as $activity){
+				if(!$this->deleteActivity($activity)){
+					return $returnValue;
+				}
+			}
+			
+			$returnValue = $process->delete();
+		}
+		
+		return $returnValue;
 	}
 	
 	public function deleteActivity(core_kernel_classes_Resource $activity){
@@ -767,37 +783,6 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	//use in delivery compilator
-	public function getTestByActivity(core_kernel_classes_Resource $activity){
-		$returnValue = null;
-		
-		if(!empty($activity)){
-		
-			foreach ($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->getIterator() as $iService){
-				if($iService instanceof core_kernel_classes_Resource){
-						
-					$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-					if(!is_null($serviceDefinition)){
-					
-						$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-						//NOTE: PROPERTY_SUPPORTSERVICES_URL only valid for support service and not for web services
-						if(!is_null($serviceUrl) && $serviceUrl instanceof core_kernel_classes_Resource){//the problem is that an url is interpreted as a uri so it the getOnePropertyValue return it as a resource
-							//check if the url is a compiled test one:
-							$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl->uriResource);
-							if(!empty($testUri)){
-								$returnValue = core_kernel_classes_Resource($testUri);
-							}
-						}
-						
-					}
-						
-				}
-			}
-			
-		}
-		
-		return $returnValue;
-	}
 		
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
