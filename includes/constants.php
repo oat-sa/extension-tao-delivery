@@ -2,6 +2,7 @@
 define('NS_TAOQUAL', 'http://www.tao.lu/middleware/taoqual.rdf');
 
 $todefine = array(
+	'NS_LOCAL' => 'http://127.0.0.1/middleware/demo.rdf',
 	'TAO_OBJECT_CLASS' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_DELIVERY_CLASS' 		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 	'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject',
@@ -87,7 +88,7 @@ $todefine = array(
 	// 'TYPEOFCONNECTORS_SPLIT' => NS_TAOQUAL . '#118589220353990',
 	'PROPERTY_TRANSITIONRULES_THEN' => NS_TAOQUAL . '#122207070428322',
 	'PROPERTY_TRANSITIONRULES_ELSE' => NS_TAOQUAL . '#122207096147834',
-	'VAR_PROCESSINSTANCE_URI' => NS_TAOQUAL . '#var_processinstance',
+	// 'VAR_PROCESSINSTANCE_URI' => NS_TAOQUAL . '#var_processinstance',
 	'PROPERTY_CODE' => NS_TAOQUAL . '#code',
 	'INSTANCE_TYPEOFCONNECTORS_SPLIT' => NS_TAOQUAL . '#118589220353990',
 	'INSTANCE_TYPEOFCONNECTORS_SEQUENCE' => NS_TAOQUAL . '#118589243226718',

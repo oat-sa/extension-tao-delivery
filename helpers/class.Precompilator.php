@@ -391,6 +391,21 @@ class tao_helpers_Precompilator
 		return $returnValue;
 	}
 	
+	public static function getTestUri($url){
+	
+		$returnValue = '';
+		
+		$urlPart = explode('/', $url);
+		if(array_pop($urlPart) == 'theTest.php'){
+			$uri = array_pop($urlPart);
+			if(!empty($uri)){
+				$returnValue =  NS_LOCAL.'#'.$uri;
+			}
+		}
+		
+		return $returnValue;
+	}
+	
 	/**
 	 * The method clear the compiled folder
 	 *
