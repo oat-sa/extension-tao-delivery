@@ -247,7 +247,7 @@ class ConditionDescriptor
 		
 			$processInstanceProperty = $processInstancePropertyCollection->get(0);
 			
-			$termInstance->setPropertyValue($subjectProperty , VAR_PROCESSINSTANCE_URI);
+			$termInstance->setPropertyValue($subjectProperty , 'VAR_PROCESS_INSTANCE');
 			$termInstance->setPropertyValue($predicateProperty , $processInstanceProperty->uriResource);
 		}
 		else{
