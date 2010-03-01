@@ -30,7 +30,7 @@
 		//add a callback function to disable instantiating servicedefinition class directly
 		$("#tree-serviceDefinition > ul > li:first").removeClass("node-class");
 		// $("li[id=<?=tao_helpers_Uri::encode(CLASS_SERVICESDEFINITION)?>]").removeClass("node-class");
-		alert("id=<?=tao_helpers_Uri::encode(CLASS_SERVICESDEFINITION)?>and"+$("li[id=<?=tao_helpers_Uri::encode(CLASS_SERVICESDEFINITION)?>]").html());
+		// alert("id=<?=tao_helpers_Uri::encode(CLASS_SERVICESDEFINITION)?>and"+$("li[id=<?=tao_helpers_Uri::encode(CLASS_SERVICESDEFINITION)?>]").html());
 		//alert("sth:"+$("#tree-serviceDefinition>ul ").html());
 		//<li class="last"><a class="loading" href="#"><ins>&nbsp;</ins>Loading ...</a></li>
 	<?endif;?>

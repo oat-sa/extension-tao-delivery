@@ -100,8 +100,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		
 		//TODO: clean that
-		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		// $this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+		// $this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		$this->activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
 		$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
 		$this->serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SERVICESDEFINITION);
