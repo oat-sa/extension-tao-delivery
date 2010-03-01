@@ -273,7 +273,7 @@ class DeliveryAuthoring extends TaoModule {
 		$myForm->setActions(array(), 'bottom');	
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$instance = $this->service->bindProperties($instance, $myForm->getValues());
+				$instance = $this->service->bindProperties($instance, array_map('trim', $myForm->getValues()));
 				
 				echo __("saved");exit;
 			}
