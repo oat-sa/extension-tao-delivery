@@ -841,16 +841,17 @@ class Delivery extends TaoModule {
 	}
 	*/
 	
-	/*
-	 * @TODO implement the following actions
-	 */
-	
-	public function getMetaData(){
-		throw new Exception("Not implemented yet");
-	}
-	
-	public function saveComment(){
-		throw new Exception("Not implemented yet");
+	public function getTests(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		if($this->hasRequestParameter('uri')){
+			$tests = $this->service->getRelatedTests(
+				$this->getCurrentInstance()
+			);
+			$this->setData('tests', $tests);
+			$this->setView('deliveryTests.tpl');
+		}
 	}
 	
 }

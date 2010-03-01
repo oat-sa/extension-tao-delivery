@@ -791,6 +791,36 @@ class taoDelivery_models_classes_DeliveryService
 		$process->setLabel("Process ".$delivery->getLabel());
 	}
 
+	/**
+	 * Get all the tests composing a delivery 
+	 * @param core_kernel_classes_Resource $delivery 
+	 * @return array of core_kernel_classes_Resource for each Test instance 
+	 */
+	public function getRelatedTests(core_kernel_classes_Resource $delivery){
+		 $returnValue = array();
+
+		if(!is_null($delivery)){
+		try{
+		 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		 	$process = $delivery->getUniquePropertyValue(
+				new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)
+			);
+			if(!is_null($process)){
+				$activities = $authoringService->getActivitiesByProcess($process);
+			
+				foreach($activities as $activity){
+					$test = $returnValue->getTestByActivity($activity);
+					if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
+						$returnValue[$test->uriResource] = $test;
+					}
+				}
+			}
+		}
+		catch(Exception $e){}
+		}
+		return $returnValue;
+	}
+
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
 ?>
