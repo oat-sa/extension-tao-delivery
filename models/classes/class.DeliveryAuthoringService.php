@@ -52,7 +52,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		$returnValue = null;
 		
 		if(!empty($activity)){
-		
+			
 			foreach ($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->getIterator() as $iService){
 				if($iService instanceof core_kernel_classes_Resource){
 						
@@ -66,14 +66,18 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 							
 							$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl->uriResource);
 							
+								// throw new Exception("sdgdsg==".var_dump($serviceUrl)."&$testUri");
+							
+							
 							if(!empty($testUri)){
-								$returnValue = core_kernel_classes_Resource($testUri);
+								$returnValue = new core_kernel_classes_Resource($testUri);
 							}
 						}
 						
 					}
 						
 				}
+				
 			}
 			
 		}

@@ -699,7 +699,7 @@ class DeliveryAuthoring extends TaoModule {
 				$tests[$test->uriResource] = $test;
 			}
 		}
-		throw new Exception("sdf ".var_dump($tests));
+		
 		return $tests;
 	}
 	
@@ -769,7 +769,7 @@ class DeliveryAuthoring extends TaoModule {
 		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 		//array of resource, test set
 		$tests = array();
-		$tests = $this->getProcessTests($process);throw new Exception("sdfmdsl ".var_dump($tests));
+		$tests = $this->getProcessTests($process);
 		// $tests = array(
 			// new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267004996028090400'),
 			// new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267085626030276800'),

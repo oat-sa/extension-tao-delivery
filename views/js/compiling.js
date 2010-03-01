@@ -168,6 +168,7 @@ function endCompilation(){
 			if(r.result == 1){
 				incrementProgressbar(remainValue);
 				$("#initCompilation").html( __("Recompile the delivery") ).show();
+				$("#compiledDate").html(r.compiledDate);
 			}else{
 				alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
 			}
