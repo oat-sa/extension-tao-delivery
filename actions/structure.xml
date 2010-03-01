@@ -31,7 +31,7 @@
 		</section>
 		
 		<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
-			<actions />
+			<actions/>
 		</section>
 		
 		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">

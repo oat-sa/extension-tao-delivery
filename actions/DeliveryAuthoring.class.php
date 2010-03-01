@@ -683,6 +683,16 @@ class DeliveryAuthoring extends TaoModule {
 		echo json_encode($returnValue);
 	}
 	
+	public function getDeliveryTests(core_kernel_classes_Resource $delivery){
+		$returnValue = array();
+		
+		if(!is_null($delivery)){
+			$returnValue = $this->getProcessTests($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
+		}
+		
+		return $returnValue;
+	}
+	
 	public function getProcessTests(core_kernel_classes_Resource $process){
 	
 		if(is_null($process)){
@@ -737,45 +747,14 @@ class DeliveryAuthoring extends TaoModule {
 			throw new Exception("no delivery found for the current process");
 		}
 		
-		//get the uri of the test
-		// $deliveryUri = urldecode($_POST["uri"]);
-		// $delivery = new core_kernel_classes_Resource($deliveryUri);
-		
-		// $deliveryId=tao_helpers_Precompilator::getUniqueId($deliveryUri);
-		
-		//unquote the following section only in the unlikely case when every delivery has its own compiled folder
-		/*
-		//config:
-		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
-		$compilationPath=BASE_PATH."/compiled/";
-				
-		//initiate compilator:
-		$compilator = new tao_helpers_Precompilator($deliveryUri, $compilationPath, $pluginPath);//new constructor
-		//delete the compiled delivery folder if it exists
-		$compilator->clearCompiledFolder();
-		*/
-		
 		//init the value to be returned	
 		$deliveryData=array();
-		
-		//compilation state:
-		// $deliveryData["compiled"]=0;
-		// $deliveryService = tao_models_classes_ServiceFactory::get('Delivery');
-		// if($deliveryService->isCompiled($delivery)){
-			// $deliveryData["compiled"]=1;
-			// $deliveryData["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
-		// }
 		
 		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 		//array of resource, test set
 		$tests = array();
 		$tests = $this->getProcessTests($process);
-		// $tests = array(
-			// new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267004996028090400'),
-			// new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267085626030276800'),
-			// new core_kernel_classes_Resource('http://127.0.0.1/middleware/demo.rdf#i1267085574017356000')
-			// );
-			
+	
 		$deliveryData['tests'] = array();
 		foreach($tests as $test){
 			$deliveryData['tests'][] = array(
