@@ -38,6 +38,9 @@ class DeliveryServer extends Module{
 				//fromthis point, the subject is identified (his/her role too)
 				$_SESSION["subject"] = $subject;
 				
+				//log into generis:
+				core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
+				
 				//goto next view: wfengine
 				// header("location: /wfengine/");	
 				$this->redirect("/wfengine/");

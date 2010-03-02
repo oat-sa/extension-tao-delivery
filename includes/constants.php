@@ -132,4 +132,8 @@ foreach($todefine as $constName => $constValue){
 	}
 }
 unset($todefine);
+
+define('API_LOGIN','generis');
+define('API_PASSWORD',md5('g3n3r1s'));
+
 ?>
