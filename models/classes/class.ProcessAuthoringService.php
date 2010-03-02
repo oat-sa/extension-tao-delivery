@@ -76,7 +76,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @access protected
      * @var array
      */
-    protected $processOntologies = array(
+    protected $processAuthoringOntologies = array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
 		'http://www.tao.lu/Ontologies/TAOTest.rdf',
 		'http://www.tao.lu/middleware/hyperclass.rdf',
@@ -109,7 +109,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		//set processUri here
 		
-		$this->loadOntologies($this->processOntologies);
+		$this->loadOntologies($this->processAuthoringOntologies);
     }
 	
 	/**

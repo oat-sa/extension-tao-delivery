@@ -88,9 +88,10 @@
 	
 	</div><!--end authoring-container -->
 	
-	<script type="text/javascript" src="/taoDelivery/views/js/activity.tree.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
 	<script type="text/javascript">
 	var processUri = "<?=get_data("processUri")?>";
+	var authoringControllerPath = '/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
 		$("#accordion1").accordion({
@@ -113,7 +114,7 @@
 		processProperty();
 		
 		loadCompilationForm();
-		// $("#ancre_spForm").click(spForm);
+		
 	});
 	
 	$(function(){
@@ -131,7 +132,7 @@
 	
 	function processProperty(){
 		_load("#process_form", 
-			"/taoDelivery/DeliveryAuthoring/editProcessProperty", 
+			authoringControllerPath+"editProcessProperty", 
 			{processUri: processUri}
 		);
 	}
@@ -139,7 +140,7 @@
 	function loadSectionTree(section){
 	//section in [serviceDefinition, formalParameter, role]
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/getSectionTrees',
+			url: authoringControllerPath+'getSectionTrees',
 			type: "POST",
 			data: {section: section},
 			dataType: 'html',
@@ -151,7 +152,7 @@
 	
 	function loadActivityTree(){
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/getActivityTree',
+			url: authoringControllerPath+'getActivityTree',
 			type: "POST",
 			data: {section: "activity"},
 			dataType: 'html',
@@ -160,10 +161,12 @@
 			}
 		});
 	}
+	</script>
 	
+	<script type="text/javascript">
 	function loadCompilationForm(){
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/compileView',
+			url: authoringControllerPath+'compileView',
 			type: "POST",
 			data: {processUri: processUri},
 			dataType: 'html',
@@ -172,19 +175,6 @@
 			}
 		});
 	}
-	
-	
-	// function spForm(){
-		// $.ajax({
-			// url: '/taoDelivery/DeliveryAuthoring/saveRule',
-			// type: "GET",
-			// dataType: 'html',
-			// success: function(response){
-				// $("#spForm").html(response);
-			// }
-		// });
-	// }
-	
 	</script>
 	
 <?endif?>

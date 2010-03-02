@@ -14,13 +14,13 @@
 			
 <script type="text/javascript">
 	$(function(){
-		new GenerisTreeClass('#tree-<?=$sectionName?>', "/taoDelivery/DeliveryAuthoring/getInstancesOf?instanceof=<?=$sectionName?>", {
+		new GenerisTreeClass('#tree-<?=$sectionName?>', authoringControllerPath+"getInstancesOf?instanceof=<?=$sectionName?>", {
 			formContainer: 			"#<?=$sectionName?>_form",
 			actionId: 				"<?=$sectionName?>",
-			editInstanceAction: 	"/taoDelivery/DeliveryAuthoring/editInstance",
-			createInstanceAction: 	"/taoDelivery/DeliveryAuthoring/addInstance",
-			deleteAction: 			"/taoDelivery/DeliveryAuthoring/delete",
-			duplicateAction: 		"/taoDelivery/DeliveryAuthoring/cloneInstance",
+			editInstanceAction: 	authoringControllerPath+"editInstance",
+			createInstanceAction: 	authoringControllerPath+"addInstance",
+			deleteAction: 			authoringControllerPath+"delete",
+			duplicateAction: 		authoringControllerPath+"cloneInstance",
 			instanceName:			"<?=$sectionName?>"
 		});
 	});

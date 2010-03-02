@@ -20,7 +20,7 @@ $(function(){
 			
 			//send the form
 			$.ajax({
-				url: '/taoDelivery/DeliveryAuthoring/saveCallOfService',
+				url: authoringControllerPath+'saveCallOfService',
 				type: "POST",
 				data: $("#<?=get_data("formId")?>").serialize(),
 				dataType: 'json',
@@ -37,12 +37,12 @@ $(function(){
 			//reset the option:
 			$("#<?=get_data("formId")?> option[value="+initalSelectedValue+"]").attr("selected","selected");
 		}
-		// alert(confirmed+" and "+JSON.stringify(e));
+		
 	});
 	
 	$("#submit-interactiveService").click(function(){
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/saveCallOfService',
+			url: authoringControllerPath+'saveCallOfService',
 			type: "POST",
 			data: $("#<?=get_data("formId")?>").serialize(),
 			dataType: 'json',
@@ -56,11 +56,7 @@ $(function(){
 			}
 		});
 	});
-	
-	// $('#submit-interactiveService').click(function(){
-		// alert($("#callOfServiceEditor").serialize());
-	// });
-	
+		
 });
 
 </script>

@@ -14,7 +14,7 @@
 				//change to submit event interception would be "cleaner" than adding a button
 				$("#submit-<?=$sectionName?>-property").click(function(){
 					$.ajax({
-						url: '/taoDelivery/DeliveryAuthoring/edit<?=ucfirst($sectionName)?>Property',
+						url: authoringControllerPath+'edit<?=ucfirst($sectionName)?>Property',
 						type: "POST",
 						data: $("#<?=$sectionName?>-property-form :input").serialize(),
 						dataType: 'html',

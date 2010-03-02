@@ -21,7 +21,7 @@ $(function(){
 			
 			//send the form
 			$.ajax({
-				url: '/taoDelivery/DeliveryAuthoring/saveConnector',
+				url: authoringControllerPath+'saveConnector',
 				type: "POST",
 				data: $("#<?=get_data("formId")?>").serialize(),
 				dataType: 'json',
@@ -45,7 +45,7 @@ $(function(){
 	
 	$("#submit-connector-<?=get_data("formId")?>").click(function(){
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/saveConnector',
+			url: authoringControllerPath+'saveConnector',
 			type: "POST",
 			data: $("#<?=get_data("formId")?>").serialize(),
 			dataType: 'json',

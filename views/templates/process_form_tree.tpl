@@ -5,21 +5,27 @@
 	<?=get_data("formPlus")?>
 	<input type="button" name="submit-<?=$sectionName?>" id="submit-<?=$sectionName?>" value="save" disabled="disabled"/>
 </div>
+
 <script type="text/javascript" src="/taoDelivery/views/js/processResourceSelector.js"></script>
 <script type="text/javascript">
 $(function(){
-	
 	//bloc specific to delivery authoring tool:
+	
 	var supportServiceUrlInput = "input[id=<?=tao_helpers_Uri::encode(PROPERTY_SUPPORTSERVICES_URL)?>]";
 	if($(supportServiceUrlInput).length){
-		textBoxControl = $('<a href="#">Browse Tests</a>');
+		textBoxControl = $('<a href="#">'+__("Browse Tests")+'</a>');
 		textBoxControl.click(function(){
 			resourceSelector(supportServiceUrlInput,"tests");
 			return false;
 		});
 		textBoxControl.insertAfter($(supportServiceUrlInput));
 	}
-	
+});
+</script>
+
+
+<script type="text/javascript">
+$(function(){	
 	//bloc to check if an identical code already exists
 	var processVarCodeInput = "input[id=<?=tao_helpers_Uri::encode(PROPERTY_CODE)?>]";
 	if($(processVarCodeInput).length){
@@ -35,7 +41,7 @@ $(function(){
 			
 			$.ajax({
 				type: "POST",
-				url: "/taoDelivery/DeliveryAuthoring/checkCode",
+				url: authoringControllerPath+"checkCode",
 				dataType: "json",
 				data: {code : code, varUri:varUri},
 				success: function(response){
@@ -59,9 +65,9 @@ $(function(){
 
 	//change to submit event interception would be "cleaner" than adding a button
 	$("#submit-<?=$sectionName?>").click(function(){
-		// alert($("#<?=$sectionName?> :input").serialize());
+		
 		$.ajax({
-			url: '/taoDelivery/DeliveryAuthoring/editInstance',
+			url: authoringControllerPath+'editInstance',
 			type: "POST",
 			data: $("#<?=$sectionName?>-form :input").serialize(),
 			dataType: 'html',

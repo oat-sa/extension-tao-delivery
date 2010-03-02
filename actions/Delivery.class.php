@@ -323,7 +323,7 @@ class Delivery extends TaoModule {
 			$this->setData('error', true);
 			$this->setData('errorMessage', $e);
 		}
-		$this->setView('process_authoring.tpl');
+		$this->setView('process_authoring_tool.tpl');
 	}
 	
 	/**
