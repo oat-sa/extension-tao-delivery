@@ -161,9 +161,7 @@
 			}
 		});
 	}
-	</script>
 	
-	<script type="text/javascript">
 	function loadCompilationForm(){
 		$.ajax({
 			url: authoringControllerPath+'compileView',

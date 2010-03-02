@@ -21,9 +21,8 @@ class DeliveryServer extends Module{
 
 		//log into generis:
 		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
+		
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
-
-		// Session::setAttribute('currentSection', 'delivery');
 	}
 
 	public function index(){
@@ -71,46 +70,52 @@ class DeliveryServer extends Module{
 			'maxExecExceeded' => array(),
 			'ok' => array()
 		);
-
+		
 		foreach($deliveriesCollection->getIterator() as $delivery){
-
-			//check if it is compiled:
-			$isCompiled = $this->service->isCompiled($delivery);
-			if(!$isCompiled){
-				$deliveries['notCompiled'][] = $delivery;
-				continue;
-			}
-
-			//check if it has valid resultServer defined:
-			$resultServer = $this->service->getResultServer($delivery);
-			if(empty($resultServer)){
-				$deliveries['noResultServer'][] = $delivery;
-				continue;
-			}
-
-			//check if the subject is excluded:
-			$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
-			if(!$isExcluded){
-				$deliveries['subjectExcluded'][] = $delivery;
-				continue;
-			}
-
-			//check the period
-			$isRightPeriod = $this->service->checkPeriod($delivery);
-			if(!$isRightPeriod){
-				$deliveries['wrongPeriod'][] = $delivery;
-				continue;
-			}
-
-			//check maxexec: how many times the subject has already taken the current delivery?
-			$historyCollection = $this->service->getHistory($delivery, $subject);
-			if(!$historyCollection->isEmpty()){
-				if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
-					$deliveries['maxExecExceeded'][] = $delivery;
+			
+			try{
+				throw new Exception("dsfd");
+				//check if it is compiled:
+				$isCompiled = $this->service->isCompiled($delivery);
+				if(!$isCompiled){
+					$deliveries['notCompiled'][] = $delivery;
 					continue;
 				}
-			}
 
+				//check if it has valid resultServer defined:
+				$resultServer = $this->service->getResultServer($delivery);
+				if(empty($resultServer)){
+					$deliveries['noResultServer'][] = $delivery;
+					continue;
+				}
+
+				//check if the subject is excluded:
+				$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
+				if(!$isExcluded){
+					$deliveries['subjectExcluded'][] = $delivery;
+					continue;
+				}
+
+				//check the period
+				$isRightPeriod = $this->service->checkPeriod($delivery);
+				if(!$isRightPeriod){
+					$deliveries['wrongPeriod'][] = $delivery;
+					continue;
+				}
+
+				//check maxexec: how many times the subject has already taken the current delivery?
+				$historyCollection = $this->service->getHistory($delivery, $subject);
+				if(!$historyCollection->isEmpty()){
+					if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
+						$deliveries['maxExecExceeded'][] = $delivery;
+						continue;
+					}
+				}
+				
+				
+			}catch(Exception $e){
+				echo "error: ".$e->getMessage();
+			}
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
 		}
@@ -119,7 +124,7 @@ class DeliveryServer extends Module{
 		foreach($deliveries['ok'] as $availableDelivery){
 			$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		}
-
+		var_dump($deliveries);
 		//return this array to the workflow controller: extended from main
 		return $availableProcessDefinition;
 	}
@@ -131,9 +136,17 @@ class DeliveryServer extends Module{
 		$processInstance = null;
 
 		//process instance -> process def -> delivery
+		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess($processDefinition);
 		$subject = $_SESSION["subject"];
-		$delivery = null;
+		if(is_null($delivery)){
+			throw new Exception("no delivery found for the selected process definition");
+		}
 
+		$wsdlContract = $this->service->getResultServer($delivery);
+		if(empty($wsdlContract)){
+			throw new Exception("no wsdl found for the current delivery");
+		}
+		
 		//set the process variable values form the variables wsdl and subject (mandatory!)
 		//use $processInstance->editPropertyValues( prop of process instance and instance of process var "wsdl location", get the wsdl url of the delivery  );
 		//same for subjectUri
@@ -143,22 +156,46 @@ class DeliveryServer extends Module{
 
 		//move on to the next activity:
 	}
-
+	
+	private function isSubjectSession(){
+		$subject = $_SESSION["subject"];
+		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
+			$this->redirect('../DeliveryServer/');
+		}else{
+			return $subject;
+		}
+	}
 
 	public function processAuthoring($processDefinitionUri)
 	{
+		
+		$subject = $this->isSubjectSession();
+		
+		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
+		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess($processDefinition);
+		if(is_null($delivery)){
+			throw new Exception("no delivery found for the selected process definition");
+		}
 
+		$wsdlContract = $this->service->getResultServer($delivery);
+		if(empty($wsdlContract)){
+			throw new Exception("no wsdl found for the current delivery");
+		}
+		
 		ini_set('max_execution_time', 200);
 
 		$processExecutionFactory = new ProcessExecutionFactory();
 			
-		$processExecutionFactory->name = 'TOTO';
+		$processExecutionFactory->name = $delivery->getLabel();
 		$processExecutionFactory->comment = 'Created ' . date(DATE_ISO8601);
 			
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
 			
-		$processExecutionFactory->variables = $posted["variables"];
+		$processExecutionFactory->variables = array(
+			VAR_SUBJECTURI => $subject->uriResource,
+			VAR_WSDL => $wsdlContract
+		);
 
 		$newProcessExecution = $processExecutionFactory->create();
 			
@@ -168,12 +205,13 @@ class DeliveryServer extends Module{
 
 		$processUri = urlencode($newProcessExecution->uri);
 		$viewState = "../ProcessBrowser/index?processUri=${processUri}";
-
+		
+		$this->service->addHistory($delivery, $subject);
 }
 
 public function deliveryIndex()
 {
-
+	$subject = $this->isSubjectSession();
 
 	$wfEngine 			= $_SESSION["WfEngine"];
 	$userViewData 		= UsersHelper::buildCurrentUserForView();
@@ -252,8 +290,8 @@ public function deliveryIndex()
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
-		$availableProcessDefinition = $processClass->getInstances();
-
+		// $availableProcessDefinition = $processClass->getInstances();
+		$availableProcessDefinition = $this->getDeliveries($subject);
 
 
 		$this->setData('availableProcessDefinition',$availableProcessDefinition);

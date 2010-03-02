@@ -236,11 +236,11 @@ class taoDelivery_models_classes_DeliveryServerService
 	 * @param  string subjectUri
      * @return void
      */
-	public function addHistory($delivery, $subject){
+	public function addHistory(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $subject){
 		if(empty($subject)) throw new Exception("the subject cannot be empty");
-		if($delivery) throw new Exception("the delivery cannot be empty");
+		if(empty($delivery)) throw new Exception("the delivery cannot be empty");
 		
-		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS));
+		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS), "Execution of {$delivery->getLabel()} by {$subject->getLabel()}");
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subject->uriResource);
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $delivery->uriResource);
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
