@@ -1,0 +1,135 @@
+@import url(frontend_user.css);
+
+#welcome_message
+{
+	width:930px;
+	margin:15px auto 15px auto;
+	font-size: 18px;
+	font-weight: bold;
+	padding-left: 20px;
+	color: #255581;
+}
+
+.section_title
+{
+	color: #255581;
+	font-weight: bold;
+	background: url(../img/bullet.png) no-repeat 5px;
+	padding-left: 20px;
+	font-size: 14px;
+}
+
+#active_processes
+{
+	margin-top: 20px;
+	margin-left: 10px;
+	width: 930px;
+}
+
+#active_processes th
+{
+	font-weight: bold;
+	padding-bottom: 10px;	
+}
+
+#active_processes td
+{
+	border-collapse: separate;
+	border: 1px solid #fff;
+	background-color: #E5F2FF;
+	padding-left: 3px;
+	padding-top: 3px;
+	vertical-align: top;
+	height: 20px;
+}
+
+#active_processes .type
+{
+	width: 350px;
+	
+	color: #000000;
+	text-align: left;
+}
+
+#active_process .label
+{
+	width: auto;
+	
+	color: #000000;
+	text-align: left;
+}
+
+#active_processes .join
+{
+	width: auto;
+	
+	color: #000000;
+	text-align: left;
+}
+
+#active_processes .join a
+{
+	display: block;
+	
+	color: #000000;
+	text-align: left;
+	padding: 0 0 0 20px;
+	height: 16px;
+	background: transparent url(../img/join_activity.png) no-repeat 0px -1px;
+}
+
+#active_processes .join a:link, #active_processes .join a:visited
+{
+	color: #000000;
+	text-decoration: none;	
+}
+
+#active_processes .join a:hover, #active_processes .join a:active
+{
+	color: #000000;
+	text-decoration: underline;	
+}
+
+#active_processes .status
+{
+	width: 50px;
+
+	color: #000000;
+	text-align: center;	
+}
+
+#active_processes .situation
+{
+	width: 50px;
+
+	color: #000000;
+	text-align: center;	
+}
+
+#roles
+{
+	margin-left: 10px;
+	width: 930px;	
+}
+
+#roles li
+{
+	padding: 3px;
+	margin: 20px 0px 1px 0px;
+	background: #E5F2FF;
+}
+
+#new_process
+{
+	display: block;
+	margin: 10px 0 20px 20px;
+}
+
+#process_view
+{
+	position: absolute;
+	display: none;
+	margin: 0 auto 0 auto;
+	
+	z-index: 9999;
+}

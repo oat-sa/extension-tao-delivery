@@ -4,54 +4,65 @@ require_once('tao/actions/TaoModule.class.php');
 
 /**
  * Delivery Controller provide actions performed from url resolution
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
- 
+
 class DeliveryServer extends Module{
-	
+
 	/**
 	 * constructor: initialize the service and the default data
 	 * @return DeliveryServer
 	 */
 	public function __construct(){
-		
+
 		//log into generis:
 		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
-		
+
 		// Session::setAttribute('currentSection', 'delivery');
 	}
-	
+
 	public function index(){
-	
+
 		if(isset($_POST["login"]) && isset($_POST["password"])){
 			$login = $_POST["login"];
 			$password = $_POST["password"];
 			$subject = $this->service->checkSubjectLogin($login, $password);
-			
+
 			if(is_null($subject)){
 				$this->setData('login_message', __("wrong login or/and password,<br/> please try again"));
 			}else{
 				//fromthis point, the subject is identified (his/her role too)
 				$_SESSION["subject"] = $subject;
-				
+
 				//goto next view: wfengine
-				// header("location: /wfengine/");	
-				$this->redirect("/wfengine/");
+				// header("location: /wfengine/");
+
+				$_SESSION["WfEngine"] 		= WfEngine::singleton($login, $password);
+				//		$_SESSION["userObject"] 	= WfEngine::singleton()->getUser();
+				core_kernel_classes_Session::singleton()->setLg("EN");
+					
+				// Taoqual authentication and language markers.
+				$_SESSION['taoqual.authenticated'] 		= true;
+				$_SESSION['taoqual.lang']				= 'EN';
+				$_SESSION['taoqual.serviceContentLang'] = 'EN';
+				$_SESSION['taoqual.userId']				= $login;
+
+				$this->redirect("../DeliveryServer/deliveryIndex");
 			}
 		}
-		
+
 		$this->setView('deliveryServer.tpl');
 	}
 
 	public function getDeliveries($subject){
 		//get list of available deliveries for this subject:
 		$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
-		
+
 		$deliveries = array(
 			'notCompiled' => array(),
 			'noResultServer' => array(),
@@ -60,78 +71,197 @@ class DeliveryServer extends Module{
 			'maxExecExceeded' => array(),
 			'ok' => array()
 		);
-		
+
 		foreach($deliveriesCollection->getIterator() as $delivery){
-		
+
 			//check if it is compiled:
 			$isCompiled = $this->service->isCompiled($delivery);
 			if(!$isCompiled){
 				$deliveries['notCompiled'][] = $delivery;
 				continue;
 			}
-			
+
 			//check if it has valid resultServer defined:
 			$resultServer = $this->service->getResultServer($delivery);
 			if(empty($resultServer)){
 				$deliveries['noResultServer'][] = $delivery;
 				continue;
 			}
-			
+
 			//check if the subject is excluded:
 			$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
 			if(!$isExcluded){
 				$deliveries['subjectExcluded'][] = $delivery;
 				continue;
 			}
-			
+
 			//check the period
 			$isRightPeriod = $this->service->checkPeriod($delivery);
 			if(!$isRightPeriod){
 				$deliveries['wrongPeriod'][] = $delivery;
 				continue;
 			}
-			
+
 			//check maxexec: how many times the subject has already taken the current delivery?
-			$historyCollection = $this->service->getHistory($delivery, $subject); 
+			$historyCollection = $this->service->getHistory($delivery, $subject);
 			if(!$historyCollection->isEmpty()){
 				if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
 					$deliveries['maxExecExceeded'][] = $delivery;
 					continue;
 				}
 			}
-			
+
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
 		}
-		
+
 		$availableProcessDefinition = array();
 		foreach($deliveries['ok'] as $availableDelivery){
 			$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		}
-		
+
 		//return this array to the workflow controller: extended from main
 		return $availableProcessDefinition;
 	}
-	
+
 	public function initDeliveryExecution(){
 		//should be the first service of the first activity of the process, to be executed right after a process instanciation
-		
+
 		//get the process execution:
 		$processInstance = null;
-		
+
 		//process instance -> process def -> delivery
 		$subject = $_SESSION["subject"];
 		$delivery = null;
-		
+
 		//set the process variable values form the variables wsdl and subject (mandatory!)
 		//use $processInstance->editPropertyValues( prop of process instance and instance of process var "wsdl location", get the wsdl url of the delivery  );
 		//same for subjectUri
-		
+
 		//addhistory:
 		$this->service->addHistory($delivery, $subject);
-		
-		//move on to the next activity: 
+
+		//move on to the next activity:
 	}
+
+
+	public function processAuthoring($processDefinitionUri)
+	{
+
+		ini_set('max_execution_time', 200);
+
+		$processExecutionFactory = new ProcessExecutionFactory();
+			
+		$processExecutionFactory->name = 'TOTO';
+		$processExecutionFactory->comment = 'Created ' . date(DATE_ISO8601);
+			
+		$processExecutionFactory->execution = $processDefinitionUri;
+			
+			
+		$processExecutionFactory->variables = $posted["variables"];
+
+		$newProcessExecution = $processExecutionFactory->create();
+			
+
+		$newProcessExecution->feed();
+
+
+		$processUri = urlencode($newProcessExecution->uri);
+		$viewState = "../ProcessBrowser/index?processUri=${processUri}";
+
+}
+
+public function deliveryIndex()
+{
+
+
+	$wfEngine 			= $_SESSION["WfEngine"];
+	$userViewData 		= UsersHelper::buildCurrentUserForView();
+	$this->setData('userViewData',$userViewData);
+	$processes 			= $wfEngine->getProcessExecutions();
+
+
+
+	$processViewData 	= array();
+
+	$uiLanguages		= I18nUtil::getAvailableLanguages();
+	$this->setData('uiLanguages',$uiLanguages);
+	foreach ($processes as $proc)
+	{
+
+		$type 	= $proc->process->label;
+		$label 	= $proc->label;
+		$uri 	= $proc->uri;
+		$status = $proc->status;
+		$persid	= "-";
+
+		//			$procVariables = Utils::processVarsToArray($proc->getVariables());
+		//			$intervieweeInst = new core_kernel_classes_Resource($procVariables[VAR_INTERVIEWEE_URI],__METHOD__);
+
+
+
+		//			if($property)
+		//			{
+		//				$caseIdProp = new core_kernel_classes_Property($property,__METHOD__);
+			//
+			//				$results = $intervieweeInst->getPropertyValuesCollection($caseIdProp);
+			//
+			//				foreach ($results->sequence as $result){
+			//					if (isset($result->literal)){
+			//						$persid	= $result->literal;
+			//
+			//					}
+			//				}
+			//			}
+
+			/** In case of ---  if we want to embed svg into the html page
+				* $proc->editMode=false;
+				* $processStatus = Utils::renderSvg($uri,$proc->drawSvg());;
+				*/
+			$currentActivities = array();
+
+			foreach ($proc->currentActivity as $currentActivity)
+			{
+				$activity = $currentActivity;
+
+				//if (UsersHelper::mayAccessProcess($proc->process))
+				if (true)
+				{
+					$currentActivities[] = array('label' 			=> $currentActivity->label,
+													 'uri' 				=> $currentActivity->uri,
+													 'may_participate'	=> !$proc->isFinished());
+
+
+				}
+				$this->setData('currentActivities',$currentActivities);
+			}
+
+			if (true)
+			{
+				$processViewData[] = array('type' 		=> $type,
+										  	   'label' 		=> $label,
+											   'uri' 		=> $uri,
+												'persid'	=> $persid,
+										   	   'activities' => $currentActivities,
+											   'status'		=> $status);
+
+
+			}
+
+
+		}
+		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
+
+		$availableProcessDefinition = $processClass->getInstances();
+
+
+
+		$this->setData('availableProcessDefinition',$availableProcessDefinition);
+		$this->setData('processViewData',$processViewData);
+		$this->setView('deliveryIndex.tpl');
+	}
+
+
 
 }
 ?>

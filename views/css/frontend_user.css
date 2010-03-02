@@ -1,0 +1,166 @@
+@import url(misc.css);
+
+/* The layout body is the main container of the entire view. This CSS tag selector
+   is relevant to the body HTML tag. */
+body 
+{
+	line-height: 1;
+	
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333;
+	
+	background: #FFFFFF url(../img/background.png) repeat-x;
+}
+
+/* The control area contains a list of various actions/items that are always reachable
+   through the graphical user interface, such as change the UI language,
+   return to the main page and logoff. It also contains the identifier
+   of the current user. */
+#control
+{
+	width: 960px;
+	height:17px;
+	margin: 0px auto 0px auto;
+	padding: 3px 10px 0px 0px;
+	
+	text-align:right;
+	
+	border-bottom: 1px solid #000000;
+	background: #CCCCCC;
+}
+
+.icon
+{
+background-repeat:no-repeat;
+background-position:0 -1px;
+padding-left:18px;
+}
+
+.separator
+{
+background-repeat:no-repeat;
+background-image:url('../img/separator.png');
+padding-left:5px;
+margin-left:5px;
+margin-right:5px;
+}
+
+#activityContentLanguages
+{
+background-image:url('../img/change_content_language.png');
+padding-top:5px;
+background-position: -1px 3px;
+}
+
+#uiLanguages
+{
+background-image:url('../img/change_language.png');
+background-position: 0px 0px;
+padding-top: 1px;
+padding-left: 22px;
+}
+#pause
+{
+background-image:url('../img/cup_key.png');
+}
+#connecteduser
+{
+background-image:url('../img/user.png');
+}
+
+#breakOff
+{
+background-image:url('../img/delete.png');
+}
+#logout
+{
+background-image:url('../img/door_in.png');
+}
+#export
+{
+background-image:url('../img/database_save.png');
+}
+#home
+{
+background-image:url('../img/home.png');	
+}
+
+/* The list of items available in the control area. */
+#control li
+{
+	display:inline;
+}
+
+/* Links of the control area relevant to the language. */
+#control li .language
+{
+	color: #000000;	
+	text-decoration: none;
+	padding:0; /*overrides padding set to other link of control*/
+}
+
+/* When a link of the control area relevant to the language is 
+   simply displayed, the following style attributes are applied to it.
+ */
+#control li .language:link, #control li .language:visited
+{
+	color: #000000;	
+	text-decoration: none;
+}
+
+/* When a link of the control area relevant to the language is 
+   flyed over by the mouse or clicked, the following style attributes 
+   are applied to it.
+ */
+#control li .language:hover, #control li .language:active
+{
+	color: #000000;
+	text-decoration: underline;	
+}
+
+/* Links of the control area relevant to basic actions such
+   as "go to the home page" or "logoff". */
+#control li .action
+{
+	color: #000000;	
+	text-decoration: none;
+}
+
+/* When an action link of the control area  is simply displayed, 
+   the following style attributes are applied to it.
+ */
+#control li .action:link, #control li .action:visited
+{
+	color: #000000;
+	text-decoration: none;	
+}
+
+/* When an action link of the control area  is flyed over by the mouse or clicked, 
+   the following style attributes are applied to it.
+ */
+#control li .action:hover, #control li .action:active
+{
+	color: #000000;
+	text-decoration: underline;	
+}
+
+/* The user's identifier in the control area. */
+#control li #username
+{
+	color: #000000;
+	font-weight: bold;
+}
+
+/* The business area containing the business'
+   graphical elements related to a specific template. */
+#business
+{
+	position: relative;
+	width: 938px;
+	margin: 0 auto 0 auto;
+}
+
+/* Utilities */	
+.hidden { visibility: hidden; }
+.nodisplay { display: none; }

@@ -1,0 +1,23 @@
+a:1:{i:0;s:1140:"<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF[ 
+<!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+<!ENTITY rdfs 'http://www.w3.org/TR/1999/PR-rdf-schema-19990303#'>
+<!ENTITY tao 'http://www.tao.lu/tao.rdfs#'>]>
+<rdf:RDF xmlns:tao="&tao;"  xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;">
+<tao:Result>
+<tao:TEST  rdfid="http://localhost/middleware/tao.rdf#i1267460020032982600" rdfs:Label="Test_1" rdfs:Comment="undefined">
+
+<tao:SUBJECT rdfid="http://localhost/middleware/tao.rdf" rdfs:Label="previewer" rdfs:Comment=""/>
+
+<tao:HASSCORINGMETHOD tao:NAME="CLASSICAL RATIO"/>
+<tao:CUMULMODEL tao:NAME="CLASSICAL"/>
+<tao:SCORE tao:VALUE="314.2%"/>
+
+<tao:TESTBEHAVIOR tao:LISTENERNAME="SError" tao:LISTENERVALUE="0"/>
+<tao:TESTBEHAVIOR tao:LISTENERNAME="displayedResult" tao:LISTENERVALUE="%3Cb%3ETest%20Results%3A%3C%2Fb%3E%3Cbr%20%2F%3E%3Cbr%20%2F%3ESubject%3A%20previewer%3Cbr%20%2F%3ETest%3A%20Test%5F1%3Cbr%20%2F%3EScoring%20Method%3A%20CLASSICAL%20RATIO%3Cbr%20%2F%3ECumul%20Method%3A%20CLASSICAL%3Cbr%20%2F%3E%3Cbr%20%2F%3E%3Cbr%20%2F%3E%3Cb%3EFinal%20Score%3A%20%3C%2Fb%3E314%2E2%25"/>
+
+
+</tao:TEST>
+
+</tao:Result>
+</rdf:RDF>";}
