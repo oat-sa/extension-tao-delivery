@@ -19,7 +19,8 @@ class DeliveryServer extends Module{
 	 */
 	public function __construct(){
 		
-		//the service is initialized by default
+		//log into generis:
+		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
 		
 		// Session::setAttribute('currentSection', 'delivery');
@@ -37,9 +38,6 @@ class DeliveryServer extends Module{
 			}else{
 				//fromthis point, the subject is identified (his/her role too)
 				$_SESSION["subject"] = $subject;
-				
-				//log into generis:
-				core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
 				
 				//goto next view: wfengine
 				// header("location: /wfengine/");	
