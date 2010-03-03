@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $GLOBALS['lang']; ?>" lang="<?php echo $GLOBALS['lang']; ?>">
 	<head>
-		<title><?php echo __("WorkflowEngine Process Browser "); ?></title>
+		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/jquery.js"/></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/wfEngine.js"/></script>
 		<style media="screen">
@@ -28,14 +28,14 @@
         	
          	
          	<li>
-         		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServer/index"><?php echo __("Logout"); ?></a>
+         		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServer/logout"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
 		
 		<div id="content">
-			<h1 id="welcome_message"><?php echo __("Welcome to TAO Process Engine"); ?></h1>	
+			<h1 id="welcome_message"><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
 			<div id="business">
-				<h2 class="section_title"><?php echo __("Active Process"); ?></h2>
+				<h2 class="section_title"><?php echo __("Active Tests"); ?></h2>
 			<table id="active_processes">
 				<thead>
 					<tr>
@@ -73,7 +73,7 @@
 			
 			<!-- End of Active Processes -->
 			<?php if(!empty($availableProcessDefinition)) : ?>
-				<h2 class="section_title"><?php echo __("Initialize new Process"); ?></h2>
+				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
 				<form id="authoring_form" action="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring" method="get" >
 					<?php foreach($availableProcessDefinition as $procDef) : ?>
 						<li>
@@ -82,7 +82,7 @@
 							</input>
 						</li>
 					<?php endforeach;  ?>					
-					<input id="new_process" type="submit" value="<?php echo __("New Process") ?>" />
+					<input id="new_process" type="submit" value="<?php echo __("New Test") ?>" />
 				</form>
 			<?php endif; ?>
 
