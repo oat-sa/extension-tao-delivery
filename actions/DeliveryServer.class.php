@@ -232,13 +232,14 @@ class DeliveryServer extends Module{
 
 
 		$processUri = urlencode($newProcessExecution->uri);
-		$viewState = "../ProcessBrowser/index?processUri=${processUri}";
+
 		
 
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject);
-		
-		$this->redirect($viewState);
+
+		$param = array( 'processUri' => $processUri);
+		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
 }
 
 public function deliveryIndex()

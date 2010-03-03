@@ -171,19 +171,20 @@ class ProcessBrowser extends Module
 			{
 				$processUri = urlencode($processUri);
 	
-				if (!ENABLE_HTTP_REDIRECT_PROCESS_BROWSER)
-				$this->index($processUri);
+				if (!ENABLE_HTTP_REDIRECT_PROCESS_BROWSER) {
+					$this->index($processUri);
+				}
 				else
 				{
-					$processUri = urlencode($processUri);
-					$this->redirect("processBrowser/index?processUri=${processUri}");
+					$param = array( 'processUri' => $processUri);
+					$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
 				}
 			}
 			else
 			{
 
-				
-				$this->redirect('DeliveryServer/deliveryIndex');
+				$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
+//				$this->redirect('DeliveryServer/deliveryIndex');
 				
 			}
 		}
@@ -216,6 +217,8 @@ class ProcessBrowser extends Module
 
 		$processExecution->pause();
 		$_SESSION["processUri"]= null;
+		
+		$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
 		$this->redirect('DeliveryServer/deliveryIndex');
 	}
 

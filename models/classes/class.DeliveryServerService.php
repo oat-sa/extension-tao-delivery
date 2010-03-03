@@ -286,7 +286,7 @@ class taoDelivery_models_classes_DeliveryServerService
 	}
 	
 	public function getProcessVariable($code){
-		$procVar = null
+		$procVar = null;
 		
 		$varCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
 		if(!$varCollection->isEmpty()){
