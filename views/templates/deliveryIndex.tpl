@@ -28,7 +28,7 @@
         	
          	
          	<li>
-         		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/authentication/logout"><?php echo __("Logout"); ?></a>
+         		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServer/index"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
 		
