@@ -1,4 +1,4 @@
-<div id="test-container" class="data-container">
+<div id="campaign-container" class="data-container">
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=__('Select delivery campaign')?>
 	</div>

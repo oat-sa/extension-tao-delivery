@@ -1,10 +1,8 @@
 <?include('header.tpl')?>
 
-<?include('subjects.tpl')?>
+<?include('delivery_tests.tpl')?>
 
-<?include('delivery_campaign.tpl')?>
-
-<div class="main-container">
+<div class="main-container" style="height:500px;">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
@@ -12,9 +10,10 @@
 		<?=get_data('myForm')?>
 	</div>
 </div>
+<div></div>
 
-<script type="text/javascript">
-$("div.main-container").css("height",550);
-</script>
+<?include('subjects.tpl')?>
+
+<?include('delivery_campaign.tpl')?>
 
 <?include('footer.tpl');?>

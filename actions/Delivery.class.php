@@ -139,6 +139,27 @@ class Delivery extends TaoModule {
 			}
 		}
 		
+		$allTests = array();
+		$testClazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		foreach($testClazz->getInstances(true) as $test){
+			$allTests['test_'.tao_helpers_Uri::encode($test->uriResource)] = $test->getLabel();
+		}
+		$this->setData('allTests', json_encode($allTests));
+		
+		$relatedTest = $this->service->getRelatedTests($delivery);
+		$relatedTest = array_map("tao_helpers_Uri::encode", $relatedTest);
+		$this->setData('relatedTests', json_encode($relatedTest));
+		
+		$testSequence = array();
+		foreach($relatedTest as $index => $testUri){
+			$test = new core_kernel_classes_Resource($testUri);
+			$testSequence[$index] = array(
+				'uri' 	=> tao_helpers_Uri::encode($testUri),
+				'label' => $test->getLabel()
+			);
+		}
+		$this->setData('testSequence', $testSequence);
+		
 		//get the campaign(s) related to this delivery
 		$relatedCampaigns = $this->service->getRelatedCampaigns($delivery);
 		$relatedCampaigns = array_map("tao_helpers_Uri::encode", $relatedCampaigns);
@@ -758,6 +779,10 @@ class Delivery extends TaoModule {
 	}
 	*/
 	
+	/**
+	 * services to render the delivery tests
+	 * @return 
+	 */
 	public function getTests(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
@@ -769,6 +794,40 @@ class Delivery extends TaoModule {
 			$this->setData('tests', $tests);
 			$this->setView('deliveryTests.tpl');
 		}
+	}
+	
+	/**
+	 * get all the tests instances in a json response
+	 * @return void
+	 */
+	public function getAllTests(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, ''));
+	}
+	
+	/**
+	 * Save the delivery related tests
+	 * @return void
+	 */
+	public function saveTests(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$saved = false;
+		
+		$tests = array();
+		foreach($this->getRequestParameters() as $key => $value){
+			if(preg_match("/^instance_/", $key)){
+				array_push($tests, tao_helpers_Uri::decode($value));
+			}
+		}
+		
+		if($this->service->setRelatedTests($this->getCurrentDelivery(), $tests)){
+			$saved = true;
+		}
+		echo json_encode(array('saved'	=> $saved));
 	}
 	
 }
