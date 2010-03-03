@@ -103,6 +103,13 @@ class taoDelivery_models_classes_ProcessTreeService
 			$activityData = array();
 			$activityData = $this->activityNode($activity, 'next', false);
 			
+			//check if it is the first activity node:
+			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#119018447833116
+			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
+				if($isIntial->uriResource == GENERIS_TRUE){	
+					$activityData = $this->addNodeClass($activityData, "node-activity-initial");
+				}
+			}
 			
 			//set property node:
 			$activityData['children'][] = array(
@@ -186,8 +193,9 @@ class taoDelivery_models_classes_ProcessTreeService
 					$activityData['children'][] = $this->connectorNode($connector, '', true);
 				}
 			}else{
-				throw new Exception("no connector associated to the activity: {$activity->uriResource}");
-				
+				// throw new Exception("no connector associated to the activity: {$activity->uriResource}");
+				//Simply not add a connector here: this should be considered as the last activity:
+				$activityData = $this->addNodeClass($activityData, 'node-activity-last');			
 			}
 			
 			//get interactive services
@@ -284,7 +292,7 @@ class taoDelivery_models_classes_ProcessTreeService
 				$connectorData[] = $this->activityNode($next, 'next', true);
 			}
 		}else{
-			throw new Exception("unknown connector type");
+			throw new Exception("unknown connector type: {$connectorType->getLabel()} for connector {$connector->uriResource}");
 		}
 					
 		//add to data
@@ -399,6 +407,15 @@ class taoDelivery_models_classes_ProcessTreeService
 			)
 		);
 		$nodeData = self::addNodePrefix($nodeData, $nodeClass);
+		return $nodeData;
+	}
+	
+	public function addNodeClass( $nodeData=array(), $newClass ){
+		
+		if(isset($nodeData['attributes']['class']) && !empty($newClass)){
+			$nodeData['attributes']['class'] .= " ".$newClass;
+		}
+		// throw new Exception("sdfdsf".var_dump($nodeData));
 		return $nodeData;
 	}
 	
