@@ -82,8 +82,8 @@
 /* The area containing Interactive tools (e.g. HyperViews, CLI, ...) */
 #tools
 {
-  width: 940px;
-  height : 600px;
+  width: 1024px;
+  height : 800px;
   margin: 0px auto 0px auto;
 }
 	
