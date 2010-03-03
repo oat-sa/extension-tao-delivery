@@ -137,7 +137,7 @@ class DeliveryServer extends Module{
 					}
 				}
 			
-			}//end if
+			}//endif of "check"
 			
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
@@ -214,10 +214,16 @@ class DeliveryServer extends Module{
 			
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
-		$processExecutionFactory->variables = array(
-			VAR_SUBJECTURI => $subject->uriResource,
-			VAR_WSDL => $wsdlContract
-		);
+		$var_subjectUri = $this->service->getProcessVariable("subjectUri");
+		$var_wsdl = $this->service->getProcessVariable("wsdl");
+		if(!is_null($var_subjectUri) && !is_null($var_wsdl)){
+			$processExecutionFactory->variables = array(
+				$var_subjectUri->uriResource => $subject->uriResource,
+				$var_wsdl->uriResource => $wsdlContract
+			);
+		}else{
+			throw new Exception('the required process variables "subjectUri" and/or "wsdl" waere not found');
+		}
 
 		$newProcessExecution = $processExecutionFactory->create();
 

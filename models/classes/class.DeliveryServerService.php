@@ -284,6 +284,17 @@ class taoDelivery_models_classes_DeliveryServerService
 		
 		return $returnValue;
 	}
+	
+	public function getProcessVariable($code){
+		$procVar = null
+		
+		$varCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
+		if(!$varCollection->isEmpty()){
+			$procVar = $varCollection->get(0);
+		}
+		
+		return $procVar;
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryServerService */
 
