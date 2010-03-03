@@ -21,7 +21,7 @@ class DeliveryServer extends Module{
 
 		//log into generis:
 		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
-		
+
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
 	}
 
@@ -65,7 +65,7 @@ class DeliveryServer extends Module{
 		}catch(Exception $e){
 			echo "error: ".$e->getMessage();
 		}
-		
+
 		$deliveries = array(
 			'notCompiled' => array(),
 			'noResultServer' => array(),
@@ -74,11 +74,11 @@ class DeliveryServer extends Module{
 			'maxExecExceeded' => array(),
 			'ok' => array()
 		);
-		
+
 		foreach($deliveriesCollection->getIterator() as $delivery){
-			
+
 			if($check){
-				
+
 				//check if it is compiled:
 				try{
 					$isCompiled = $this->service->isCompiled($delivery);
@@ -93,7 +93,7 @@ class DeliveryServer extends Module{
 				//check if it has valid resultServer defined:
 				try{
 					$resultServer = $this->service->getResultServer($delivery);
-					
+
 				}catch(Exception $e){
 					echo "error: ".$e->getMessage();
 				}
@@ -136,19 +136,27 @@ class DeliveryServer extends Module{
 						continue;
 					}
 				}
-			
+					
 			}//endif of "check"
-			
+
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
 		}
 
 		$availableProcessDefinition = array();
 		foreach($deliveries['ok'] as $availableDelivery){
-			$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			if($check) {
+				$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			}
+			else{
+				$res = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+				if($res !=null) {
+					$availableProcessDefinition[ $availableDelivery->uriResource ] = $res->uriResource;
+				}
+			}
 		}
 		// var_dump($deliveries);
-		
+
 		//return this array to the workflow controller: extended from main
 		return $availableProcessDefinition;
 	}
@@ -170,7 +178,7 @@ class DeliveryServer extends Module{
 		if(empty($wsdlContract)){
 			throw new Exception("no wsdl found for the current delivery");
 		}
-		
+
 		//set the process variable values form the variables wsdl and subject (mandatory!)
 		//use $processInstance->editPropertyValues( prop of process instance and instance of process var "wsdl location", get the wsdl url of the delivery  );
 		//same for subjectUri
@@ -180,7 +188,7 @@ class DeliveryServer extends Module{
 
 		//move on to the next activity:
 	}
-	
+
 	private function isSubjectSession(){
 		$subject = $_SESSION["subject"];
 		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
@@ -192,7 +200,7 @@ class DeliveryServer extends Module{
 
 	public function processAuthoring($processDefinitionUri)
 	{
-		
+
 		$subject = $this->isSubjectSession();
 		$processDefinitionUri = urldecode($processDefinitionUri);
 		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess(new core_kernel_classes_Resource($processDefinitionUri));
@@ -204,7 +212,7 @@ class DeliveryServer extends Module{
 		if(empty($wsdlContract)){
 			throw new Exception("no wsdl found for the current delivery");
 		}
-		
+
 		ini_set('max_execution_time', 200);
 
 		$processExecutionFactory = new ProcessExecutionFactory();
@@ -218,8 +226,8 @@ class DeliveryServer extends Module{
 		$var_wsdl = $this->service->getProcessVariable("wsdl");
 		if(!is_null($var_subjectUri) && !is_null($var_wsdl)){
 			$processExecutionFactory->variables = array(
-				$var_subjectUri->uriResource => $subject->uriResource,
-				$var_wsdl->uriResource => $wsdlContract
+			$var_subjectUri->uriResource => $subject->uriResource,
+			$var_wsdl->uriResource => $wsdlContract
 			);
 		}else{
 			throw new Exception('the required process variables "subjectUri" and/or "wsdl" waere not found');
@@ -233,61 +241,77 @@ class DeliveryServer extends Module{
 
 		$processUri = urlencode($newProcessExecution->uri);
 
-		
+
 
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject);
 
 		$param = array( 'processUri' => $processUri);
 		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
-}
+	}
 
-public function deliveryIndex()
-{
-	$subject = $this->isSubjectSession();
-
-	$wfEngine 			= $_SESSION["WfEngine"];
-	$login = $_SESSION['taoqual.userId'];
-//	$userViewData 		= UsersHelper::buildCurrentUserForView();
-	$this->setData('login',$login);
-	$processes 			= $wfEngine->getProcessExecutions();
-
-
-
-	$processViewData 	= array();
-
-	$uiLanguages		= I18nUtil::getAvailableLanguages();
-	$this->setData('uiLanguages',$uiLanguages);
-	foreach ($processes as $proc)
+	public function deliveryIndex()
 	{
+		if (!isset($_SESSION['taoqual.authenticated'])){
+			$this->redirect($this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer')));
+		}
 
-		$type 	= $proc->process->label;
-		$label 	= $proc->label;
-		$uri 	= $proc->uri;
-		$status = $proc->status;
-		$persid	= "-";
+		$subject = $this->isSubjectSession();
 
-			$currentActivities = array();
+		$wfEngine 			= $_SESSION["WfEngine"];
+		$login = $_SESSION['taoqual.userId'];
 
-			foreach ($proc->currentActivity as $currentActivity)
-			{
-				$activity = $currentActivity;
+		$this->setData('login',$login);
+		$processes 			= $wfEngine->getProcessExecutions();
 
-				//if (UsersHelper::mayAccessProcess($proc->process))
-				if (true)
-				{
-					$currentActivities[] = array('label' 			=> $currentActivity->label,
+
+
+		$processViewData 	= array();
+
+		$uiLanguages		= I18nUtil::getAvailableLanguages();
+		$this->setData('uiLanguages',$uiLanguages);
+
+		$visibleProcess =$this->getDeliveries($subject,false);
+
+		foreach ($processes as $proc)
+		{
+
+			$type 	= $proc->process->label;
+			$label 	= $proc->label;
+			$uri 	= $proc->uri;
+			$status = $proc->status;
+			$persid	= "-";
+
+			$executionOfProp = new core_kernel_classes_Property(EXECUTION_OF);
+			$res = $proc->resource->getOnePropertyValue($executionOfProp);
+			if($res !=null && $res instanceof core_kernel_classes_Resource){
+				$uri = $res->uriResource;
+
+					
+				if(in_array($uri,$visibleProcess)){
+
+						
+					$currentActivities = array();
+
+					foreach ($proc->currentActivity as $currentActivity)
+					{
+						$activity = $currentActivity;
+
+						//if (UsersHelper::mayAccessProcess($proc->process))
+						if (true)
+						{
+							$currentActivities[] = array('label' 			=> $currentActivity->label,
 													 'uri' 				=> $currentActivity->uri,
 													 'may_participate'	=> !$proc->isFinished());
 
 
-				}
-				$this->setData('currentActivities',$currentActivities);
-			}
+						}
+						$this->setData('currentActivities',$currentActivities);
+					}
 
-			if (true)
-			{
-				$processViewData[] = array('type' 		=> $type,
+					if (true)
+					{
+						$processViewData[] = array('type' 		=> $type,
 										  	   'label' 		=> $label,
 											   'uri' 		=> $uri,
 												'persid'	=> $persid,
@@ -295,14 +319,15 @@ public function deliveryIndex()
 											   'status'		=> $status);
 
 
+					}
+				}
 			}
-
 
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
-//		$availableProcessDefinition = $processClass->getInstances();
-		 $availableProcessDefinition = $this->getDeliveries($subject);
+		//		$availableProcessDefinition = $processClass->getInstances();
+		$availableProcessDefinition = $this->getDeliveries($subject);
 
 
 		$this->setData('availableProcessDefinition',$availableProcessDefinition);
@@ -310,7 +335,14 @@ public function deliveryIndex()
 		$this->setView('deliveryIndex.tpl');
 	}
 
-
+	/**
+	 * Logout, destroy the session and back to the login page
+	 * @return
+	 */
+	public function logout(){
+		unset($_SESSION['taoqual.authenticated']);
+		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
+	}
 
 }
 ?>

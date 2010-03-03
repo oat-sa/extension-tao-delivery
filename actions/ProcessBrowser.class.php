@@ -3,8 +3,13 @@ class ProcessBrowser extends Module
 {
 	public function index($processUri)
 	{
+
+		if (!isset($_SESSION['taoqual.authenticated'])){
+			$this->redirect($this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer')));
+		}
+		
 		$_SESSION["processUri"]= $processUri;
-		UsersHelper::checkAuthentication();
+
 
 		$processUri 		= urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri',$processUri);
