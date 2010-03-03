@@ -728,6 +728,139 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		return $returnValue;
 	}
+	
+	public function setDeliveryProcess(core_kernel_classes_Resource $delivery, $tests){
+		
+		$returnValue = false;
+		
+		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		
+		//delete old process, and its reference to the delivery
+		$deliveryContentProp = new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT);
+		$oldProcess = $delivery->getUniquePropertyValue($deliveryContentProp);
+		$authoringService->deleteReference($deliveryContentProp, $oldProcess);
+		$authoringService->deleteProcess($oldProcess);
+		
+		//recreate a new process
+		$process = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
+		$delivery->setPropertyValue($deliveryContentProp, $process->uriResource);
+		$this->updateProcessLabel($delivery);
+		
+		//create the list of activities and interactive services and tests plus their appropriate property values:
+		$totalNumber = count($tests);//0...n
+		for($i=0;$i<$totalNumber;$i++){
+			$test = $tests[$i];
+			
+			//create an activity
+			$activity = $authoringService->createActivity($process, "activity_".$i)
+			if($i==0){
+				//set the property value as initial
+				$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
+			}
+			
+			//set property value visible to true
+			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_TRUE);
+			
+			//get the service definition with the wanted test uri (if doesn't exist, create one)
+			$testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
+			$testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";
+			
+			$serviceDefinitionCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
+			if(!$serviceDefinitionCollection->isEmpty() && ($serviceDefinitionCollection->get(0) instanceof core_kernel_classes_Resource)){
+				$serviceDefinition = $serviceDefinitionCollection->get(0);
+			}else{
+				//create a service definition:
+				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
+				$serviceDefinition = $serviceDefinitionClass->createInstance($test->getLabel(), 'created by delivery service');
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), $testUrl);
+				
+			}
+			//create a call of service and associate the service definition to it:
+			$interactiveService = $this->createInteractiveService($activity);
+			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
+			
+			if($i<$totalNumber-1){
+				//get the connector created as the same time as the activity and set the type to "sequential" and the next activity as the selected service definition:
+				$connector = $this->createConnector($activity);
+			}else{
+				//if it is the last test of the array, no need to add a connector
+				//every action is performed:
+				$returnValue = true;
+			}
+		}
+		
+		return $returnValue;
+	}
+	
+	public function getDeliveryProcess(core_kernel_classes_Resource $delivery){
+		
+		$tests = array();
+		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		
+		//get the associated process:
+		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		
+		//get list of all activities:
+		$activities = $authoringService->getActivitiesByProcess($process);
+		$totalNumber = count($activities);
+		
+		//find the first one: property isinitial == true (must be only one, if not error) and set as the currentActivity:
+		$currentActivity = null;
+		foreach($activities as $activity){
+			$isIntial = $activity->onePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));
+			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
+				if($isIntial->uriResource == GENERIS_TRUE){
+					$currentActivity = $activity;
+					break;
+				}
+			}
+		}
+		if(is_null($currentActivity)){
+			//error
+		}
+		
+		//start the loop:
+		for($i=0;$i<$totalNumber;$i++){
+			//get the FIRST interactive service
+			$iService = $currentActivity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
+			if(is_null($iService)){
+				//error.
+			}
+			//get the service definition
+			$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+			
+			//get the url
+			$serviceUrl = $serviceDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
+			
+			//regenerated the test uri
+			$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
+			
+			//set the test in the table:
+			$tests[$i] = new core_kernel_classes_Resource($testUri);
+			
+			
+			//get its connector (check the type is "sequential) if ok, get the next activity
+			$connectorCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $currentActivity->uriResource);
+			$nextActivity = null;
+			foreach($connectorCollection->getIterator() as $connector){
+				$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
+				if($connectorType->uriResource = INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
+					$nextActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
+					break;
+				}
+			}
+			if(!is_null($nextActivity)){
+				$currentActivity = $nextActivity;
+			}else{
+				//error
+			}
+		}
+		
+		//final check:
+		
+		return $tests;
+	}
+	
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
