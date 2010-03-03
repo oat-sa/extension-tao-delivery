@@ -276,7 +276,7 @@ class taoDelivery_models_classes_DeliveryServerService
 		if(!is_null($delivery)){
 			$maxExec = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP));
 			if($maxExec instanceof core_kernel_classes_Literal){
-				$returnValue = intval($maxExec);
+				$returnValue = intval($maxExec->literal);
 			}
 		}
 		
