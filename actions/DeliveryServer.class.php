@@ -28,8 +28,8 @@ class DeliveryServer extends Module{
 	public function index(){
 
 		if(isset($_POST["login"]) && isset($_POST["password"])){
-			$login = $_POST["login"];
-			$password = $_POST["password"];
+			$login = mysql_real_escape_string($_POST["login"]);
+			$password = mysql_real_escape_string($_POST["password"]);
 			$subject = $this->service->checkSubjectLogin($login, $password);
 
 			if(is_null($subject)){
@@ -58,7 +58,7 @@ class DeliveryServer extends Module{
 		$this->setView('deliveryServer.tpl');
 	}
 
-	public function getDeliveries(core_kernel_classes_Resource $subject){
+	public function getDeliveries(core_kernel_classes_Resource $subject, $check = true){
 		//get list of available deliveries for this subject:
 		try{
 			$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
@@ -77,7 +77,7 @@ class DeliveryServer extends Module{
 		
 		foreach($deliveriesCollection->getIterator() as $delivery){
 			
-			
+			if($check){
 				
 				//check if it is compiled:
 				try{
@@ -131,11 +131,13 @@ class DeliveryServer extends Module{
 					echo "error: ".$e->getMessage();
 				}
 				if(!$historyCollection->isEmpty()){
-					if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
+					if($historyCollection->count() >= $this->service->getMaxExec($delivery) ){
 						$deliveries['maxExecExceeded'][] = $delivery;
 						continue;
 					}
 				}
+			
+			}//end if
 			
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
@@ -227,6 +229,7 @@ class DeliveryServer extends Module{
 		$processUri = urlencode($newProcessExecution->uri);
 		$viewState = "../ProcessBrowser/index?processUri=${processUri}";
 		
+		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject);
 }
 
@@ -311,8 +314,8 @@ public function deliveryIndex()
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
-		// $availableProcessDefinition = $processClass->getInstances();
-		$availableProcessDefinition = $this->getDeliveries($subject);
+		$availableProcessDefinition = $processClass->getInstances();
+		// $availableProcessDefinition = $this->getDeliveries($subject);
 
 
 		$this->setData('availableProcessDefinition',$availableProcessDefinition);
