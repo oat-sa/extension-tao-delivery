@@ -207,7 +207,7 @@ class ProcessAuthoring extends TaoModule {
 		$instance = $this->getCurrentInstance();
 		
 		$excludedProperty = array();
-		$excludedProperty[] = 'http://www.tao.lu/middleware/Interview.rdf#122354397139712';
+		$excludedProperty[] = 'http://www.tao.lu/middleware/Interview.rdf#i122354397139712';
 		
 		$formName="";
 		//define the type of instance to be edited:
@@ -250,7 +250,7 @@ class ProcessAuthoring extends TaoModule {
 			PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE,
 			PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE,
 			PROPERTY_ACTIVITIES_CONSISTENCYRULE,
-			'http://www.tao.lu/middleware/Interview.rdf#122354397139712'
+			'http://www.tao.lu/middleware/Interview.rdf#i122354397139712'
 		);
 		
 		$this->setData('saved', false);
@@ -280,7 +280,7 @@ class ProcessAuthoring extends TaoModule {
 		$process = $this->getCurrentProcess();
 		$excludedProperty = array(
 			PROPERTY_PROCESS_ACTIVITIES,
-			'http://www.tao.lu/middleware/Interview.rdf#122354397139712'
+			'http://www.tao.lu/middleware/Interview.rdf#i122354397139712'
 		);
 		
 		$this->setData('saved', false);
@@ -429,7 +429,7 @@ class ProcessAuthoring extends TaoModule {
 		$callOfServiceUri = tao_helpers_Uri::decode($_POST['uri']);
 		
 		$formName=uniqid("callOfServiceEditor_");
-		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri), null, $formName);//NS_TAOQUAL . '#118595593412394'
+		$myForm = taoDelivery_helpers_ProcessFormFactory::callOfServiceEditor(new core_kernel_classes_Resource($callOfServiceUri), null, $formName);//NS_TAOQUAL . '#i118595593412394'
 		
 		$this->setData('formId', $formName);
 		$this->setData('formInteractionService', $myForm->render());
