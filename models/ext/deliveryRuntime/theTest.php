@@ -34,10 +34,9 @@ else{
 		die("no user uri defined in the session, please login again.");
 	}
 }
+
 $subjectUri=urlencode($subjectUri);
 $subjectLabel=urlencode($subjectLabel);
-
-
 $wsdlUrl=urlencode($wsdlUrl);
 
 $runtimeParameters="";

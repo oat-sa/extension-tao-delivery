@@ -458,9 +458,9 @@ class tao_helpers_Precompilator
         elseif(is_dir($toDelete)){
             $scan = glob(rtrim($toDelete,'/').'/*');
             foreach($scan as $index=>$path){
-                $returnValue = $this->recursiveDelete($path);
+                $returnValue = $this->recursiveDelete($path);//delete entirely the subfolders (currently /css and /js)
             }
-			if($empty === false){
+			if($empty === true){
 				if (@rmdir($toDelete)) $returnValue=true;
 				else throw new Exception("the folder $toDelete cannot be deleted, please check the access permission");
 			}
