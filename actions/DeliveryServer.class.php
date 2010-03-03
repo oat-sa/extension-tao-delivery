@@ -285,10 +285,10 @@ class DeliveryServer extends Module{
 			$executionOfProp = new core_kernel_classes_Property(EXECUTION_OF);
 			$res = $proc->resource->getOnePropertyValue($executionOfProp);
 			if($res !=null && $res instanceof core_kernel_classes_Resource){
-				$uri = $res->uriResource;
+				$defUri = $res->uriResource;
 
 					
-				if(in_array($uri,$visibleProcess)){
+				if(in_array($defUri,$visibleProcess)){
 
 						
 					$currentActivities = array();
