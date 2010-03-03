@@ -396,13 +396,14 @@ class tao_helpers_Precompilator
 		$returnValue = '';
 		
 		$urlPart = explode('/', $url);
-		if(array_pop($urlPart) == 'theTest.php'){
+		$lastPart = array_pop($urlPart);
+		// $paramStartIndex = strpos($lastPart,'?');throw new Exception($paramStartIndex);
+		$lastPart = substr($lastPart,0,strpos($lastPart,'?'));
+		if($lastPart == 'theTest.php'){
 			$uri = array_pop($urlPart);
-			if(!empty($uri)){
-				$returnValue =  NS_LOCAL.'#'.$uri;
-			}
+			$returnValue =  NS_LOCAL.'#'.$uri;
 		}
-		
+				
 		return $returnValue;
 	}
 	

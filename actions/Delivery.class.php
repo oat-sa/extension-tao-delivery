@@ -313,7 +313,7 @@ class Delivery extends TaoModule {
 			//get process instance to be authored
 			 $delivery = $this->getCurrentDelivery();
 			 $processDefinition = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-//			$processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
+			// $processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
 			$this->setData('processUri', tao_helpers_Uri::encode($processDefinition->uriResource));
 		}
 		catch(Exception $e){

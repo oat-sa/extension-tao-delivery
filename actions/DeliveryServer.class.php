@@ -223,14 +223,14 @@ class DeliveryServer extends Module{
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
 		$var_subjectUri = $this->service->getProcessVariable("subjectUri");
-		$var_wsdl = $this->service->getProcessVariable("wsdl");
+		$var_wsdl = $this->service->getProcessVariable("wsdlContract");
 		if(!is_null($var_subjectUri) && !is_null($var_wsdl)){
 			$processExecutionFactory->variables = array(
 			$var_subjectUri->uriResource => $subject->uriResource,
 			$var_wsdl->uriResource => $wsdlContract
 			);
 		}else{
-			throw new Exception('the required process variables "subjectUri" and/or "wsdl" waere not found');
+			throw new Exception('the required process variables "subjectUri" and/or "wsdlContract" waere not found');
 		}
 
 		$newProcessExecution = $processExecutionFactory->create();
