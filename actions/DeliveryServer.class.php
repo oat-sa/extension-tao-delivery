@@ -58,10 +58,14 @@ class DeliveryServer extends Module{
 		$this->setView('deliveryServer.tpl');
 	}
 
-	public function getDeliveries($subject){
+	public function getDeliveries(core_kernel_classes_Resource $subject){
 		//get list of available deliveries for this subject:
-		$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
-
+		try{
+			$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
+		}catch(Exception $e){
+			echo "error: ".$e->getMessage();
+		}
+		
 		$deliveries = array(
 			'notCompiled' => array(),
 			'noResultServer' => array(),
@@ -73,49 +77,66 @@ class DeliveryServer extends Module{
 		
 		foreach($deliveriesCollection->getIterator() as $delivery){
 			
-			try{
-				throw new Exception("dsfd");
+			
+				
 				//check if it is compiled:
-				$isCompiled = $this->service->isCompiled($delivery);
+				try{
+					$isCompiled = $this->service->isCompiled($delivery);
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
 				if(!$isCompiled){
 					$deliveries['notCompiled'][] = $delivery;
 					continue;
 				}
 
 				//check if it has valid resultServer defined:
-				$resultServer = $this->service->getResultServer($delivery);
+				try{
+					$resultServer = $this->service->getResultServer($delivery);
+					
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
 				if(empty($resultServer)){
 					$deliveries['noResultServer'][] = $delivery;
 					continue;
 				}
 
 				//check if the subject is excluded:
-				$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
-				if(!$isExcluded){
+				try{
+					$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
+				if($isExcluded){
 					$deliveries['subjectExcluded'][] = $delivery;
 					continue;
 				}
 
 				//check the period
-				$isRightPeriod = $this->service->checkPeriod($delivery);
+				try{
+					$isRightPeriod = $this->service->checkPeriod($delivery);
+				}catch(Exception $e){
+					echo "error$isRightPeriod: ".$e->getMessage();
+				}
 				if(!$isRightPeriod){
 					$deliveries['wrongPeriod'][] = $delivery;
 					continue;
 				}
 
 				//check maxexec: how many times the subject has already taken the current delivery?
-				$historyCollection = $this->service->getHistory($delivery, $subject);
+				try{
+					$historyCollection = $this->service->getHistory($delivery, $subject);
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
 				if(!$historyCollection->isEmpty()){
 					if($historyCollection->count() >= $this->service->getMaxExec($delivery)){
 						$deliveries['maxExecExceeded'][] = $delivery;
 						continue;
 					}
 				}
-				
-				
-			}catch(Exception $e){
-				echo "error: ".$e->getMessage();
-			}
+			
 			//all check performed:
 			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
 		}
@@ -124,7 +145,8 @@ class DeliveryServer extends Module{
 		foreach($deliveries['ok'] as $availableDelivery){
 			$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		}
-		var_dump($deliveries);
+		// var_dump($deliveries);
+		
 		//return this array to the workflow controller: extended from main
 		return $availableProcessDefinition;
 	}
@@ -171,8 +193,7 @@ class DeliveryServer extends Module{
 		
 		$subject = $this->isSubjectSession();
 		
-		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
-		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess($processDefinition);
+		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess(new core_kernel_classes_Resource($processDefinitionUri));
 		if(is_null($delivery)){
 			throw new Exception("no delivery found for the selected process definition");
 		}

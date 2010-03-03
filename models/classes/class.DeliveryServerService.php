@@ -172,27 +172,32 @@ class taoDelivery_models_classes_DeliveryServerService
 		$startDate=null;
 		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart'))->getIterator() as $value){
 			if($value instanceof core_kernel_classes_Literal ){
-				$startDate = date_create($value->literal);
-				break;
+				if(!empty($value->literal)){
+					$startDate = date_create($value->literal);
+					break;
+				}
 			}
 		}
 		
 		$endDate=null;
 		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd'))->getIterator() as $value){
 			if($value instanceof core_kernel_classes_Literal ){
-				$endDate = date_create($value->literal);
-				break;
+				if(!empty($value->literal)){
+					$endDate = date_create($value->literal);
+					break;
+				}
 			}
 		}
-		
-		if($startDate){
-			if($endDate) $validPeriod = (date_create()>$startDate and date_create()<$endDate);
-			else $validPeriod = (date_create()>$startDate);
+		// var_dump($startDate);var_dump($endDate);var_dump( date_create('2010-03-01') );die();
+		if(!empty($startDate)){
+			if($endDate) {$validPeriod = (date_create()>=$startDate and date_create()<=$endDate); }
+			else  {$validPeriod = (date_create()>=$startDate);}
 		}else{
-			if($endDate) $validPeriod = (date_create()<$endDate);
+			if(!empty($endDate)) {$validPeriod = (date_create()<=$endDate);}
 			else $validPeriod = true;
 		}
-		
+		// throw new Exception("hjgfghm".$validPeriod." ");
+		// var_dump($validPeriod);die();
 		return $validPeriod;
 	}
 	
@@ -254,9 +259,9 @@ class taoDelivery_models_classes_DeliveryServerService
 			return $returnValue;
 		}
 		
-		$excludedSubjectCollection = $this->getExcludedSubjects($delivery);
-		foreach($excludedSubjectCollection->getIterator() as $excludedSubject){
-			if($excludedSubject->uriResource == $subject->uriResource){
+		$excludedSubjectArray = $this->getExcludedSubjects($delivery);
+		foreach($excludedSubjectArray as $excludedSubject){
+			if($excludedSubject == $subject->uriResource){
 				$returnValue = true;
 			}
 		}
