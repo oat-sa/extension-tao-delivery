@@ -652,6 +652,16 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	
+	public function createInstance(core_kernel_classes_Class $clazz, $label = ''){
+		$deliveryInstance = parent::createInstance($clazz, $label);
+		
+		//create a process instance at the same time:
+		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
+		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
+		$this->updateProcessLabel($deliveryInstance);
+		
+		return $deliveryInstance;		
+	}
 	 /**
      * Short description of method cloneInstance
      *
