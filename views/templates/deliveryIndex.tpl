@@ -23,7 +23,7 @@
 
 			    
         	<li>
-        		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $userViewData['username']; ?></span> </span><span class="separator" />
+        		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
         	</li>
         	
          	
@@ -72,24 +72,20 @@
 			</table>
 			
 			<!-- End of Active Processes -->
-			<h2 class="section_title"><?php echo __("Initialize new Process"); ?></h2>
-			<form id="authoring_form" action="<?php echo BASE_URL;?>/processes/authoring" method="get" >
-				<?php foreach($availableProcessDefinition as $procDef) : ?>
-					<li>
-						<input type="radio"  value="<?php echo urlencode($procDef->uriResource); ?>" name="processDefinitionUri" >  
-							<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?>
-						</input>
-					</li>
-				<?php endforeach;  ?>					
-				<input id="new_process" type="submit" value="<?php echo __("New Process") ?>" />
-			</form>
-			<h2 class="section_title"><?php echo __("My roles"); ?></h2>
-			<ul id="roles">
-				<?php foreach ($userViewData['roles'] as $role): ?>
-					<li><?php echo $role['label']; ?></li>
-				<?php endforeach; ?>
-			</ul>
-			<!-- End of Roles -->
+			<?php if(!empty($availableProcessDefinition)) : ?>
+				<h2 class="section_title"><?php echo __("Initialize new Process"); ?></h2>
+				<form id="authoring_form" action="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring" method="get" >
+					<?php foreach($availableProcessDefinition as $procDef) : ?>
+						<li>
+							<input type="radio"  value="<?php echo urlencode($procDef->uriResource); ?>" name="processDefinitionUri" >  
+								<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?>
+							</input>
+						</li>
+					<?php endforeach;  ?>					
+					<input id="new_process" type="submit" value="<?php echo __("New Process") ?>" />
+				</form>
+			<?php endif; ?>
+
 			</div>
 			
 		</div>

@@ -9,8 +9,8 @@ class ProcessBrowser extends Module
 		$processUri 		= urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri',$processUri);
 		
-		$userViewData 		= UsersHelper::buildCurrentUserForView(); // user data for browser view.
-		$this->setData('userViewData',$userViewData);
+		$user 		= $_SESSION['taoqual.userId']; // user data for browser view.
+		$this->setData('user',$user);
 		$browserViewData 	= array(); // general data for browser view.
 
 		$process 			= new ProcessExecution($processUri);
@@ -126,6 +126,7 @@ class ProcessBrowser extends Module
 		$servicesViewData 	= array();
 
 		$services = $activityExecution->getInteractiveServices();
+
 		$this->setData('services',$services);
 
 		$this->setData('browserViewData', $browserViewData);

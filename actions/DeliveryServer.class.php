@@ -194,7 +194,7 @@ class DeliveryServer extends Module{
 	{
 		
 		$subject = $this->isSubjectSession();
-		
+		$processDefinitionUri = urldecode($processDefinitionUri);
 		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess(new core_kernel_classes_Resource($processDefinitionUri));
 		if(is_null($delivery)){
 			throw new Exception("no delivery found for the selected process definition");
@@ -214,14 +214,13 @@ class DeliveryServer extends Module{
 			
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
-			
 		$processExecutionFactory->variables = array(
 			VAR_SUBJECTURI => $subject->uriResource,
 			VAR_WSDL => $wsdlContract
 		);
 
 		$newProcessExecution = $processExecutionFactory->create();
-			
+
 
 		$newProcessExecution->feed();
 
@@ -229,8 +228,11 @@ class DeliveryServer extends Module{
 		$processUri = urlencode($newProcessExecution->uri);
 		$viewState = "../ProcessBrowser/index?processUri=${processUri}";
 		
+
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject);
+		
+		$this->redirect($viewState);
 }
 
 public function deliveryIndex()
@@ -238,8 +240,9 @@ public function deliveryIndex()
 	$subject = $this->isSubjectSession();
 
 	$wfEngine 			= $_SESSION["WfEngine"];
-	$userViewData 		= UsersHelper::buildCurrentUserForView();
-	$this->setData('userViewData',$userViewData);
+	$login = $_SESSION['taoqual.userId'];
+//	$userViewData 		= UsersHelper::buildCurrentUserForView();
+	$this->setData('login',$login);
 	$processes 			= $wfEngine->getProcessExecutions();
 
 
@@ -257,29 +260,6 @@ public function deliveryIndex()
 		$status = $proc->status;
 		$persid	= "-";
 
-		//			$procVariables = Utils::processVarsToArray($proc->getVariables());
-		//			$intervieweeInst = new core_kernel_classes_Resource($procVariables[VAR_INTERVIEWEE_URI],__METHOD__);
-
-
-
-		//			if($property)
-		//			{
-		//				$caseIdProp = new core_kernel_classes_Property($property,__METHOD__);
-			//
-			//				$results = $intervieweeInst->getPropertyValuesCollection($caseIdProp);
-			//
-			//				foreach ($results->sequence as $result){
-			//					if (isset($result->literal)){
-			//						$persid	= $result->literal;
-			//
-			//					}
-			//				}
-			//			}
-
-			/** In case of ---  if we want to embed svg into the html page
-				* $proc->editMode=false;
-				* $processStatus = Utils::renderSvg($uri,$proc->drawSvg());;
-				*/
 			$currentActivities = array();
 
 			foreach ($proc->currentActivity as $currentActivity)
@@ -314,8 +294,8 @@ public function deliveryIndex()
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
-		$availableProcessDefinition = $processClass->getInstances();
-		// $availableProcessDefinition = $this->getDeliveries($subject);
+//		$availableProcessDefinition = $processClass->getInstances();
+		 $availableProcessDefinition = $this->getDeliveries($subject);
 
 
 		$this->setData('availableProcessDefinition',$availableProcessDefinition);

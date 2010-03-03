@@ -39,6 +39,9 @@ $GLOBALS['classpath']			= array(DIR_CORE,
 # theme directory
 $GLOBALS['dir_theme']		= "templates/";
 
+# Process Browser page title.
+define('PROCESS_BROWSER_TITLE', 'Process BrowserEngine');
+
 #BASE PATH: the root path in the file system (usually the document root)
 define('BASE_PATH', ROOT_PATH . '/taoDelivery');
 
