@@ -84,7 +84,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			'data' => __("Process Activities"),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($process->uriResource),
-				'class' => 'node-root'
+				'class' => 'node-process-root'
 			),
 			'children' => array()
 		);

@@ -1,6 +1,6 @@
 <div>
 	
-		<h1><img src="<?=BASE_WWW?>img/taoDelivery.png" /><?=__('Compilation of the Process')?> <?=get_data('processLabel')?></h1>
+		<h1><img src="<?=BASE_WWW?>img/delivery_compilation.png" /><?=__('Compilation of the Process')?> <?=get_data('processLabel')?></h1>
 		<br/>
 		
 		<?if(get_data('isCompiled')):?>
@@ -17,7 +17,6 @@
 		<br/>
 		<br/>
 		<br/>
-		
 		<script type="text/javascript" src="/taoDelivery/views/js/compiling.js"></script>
 		<div id="progressbar"></div>
 		<br/>

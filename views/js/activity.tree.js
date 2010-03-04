@@ -56,7 +56,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						instance.nodeSelected = true;	//select it only on first load
 					}
 					else{
-						TREE_OBJ.open_branch($("li.node-root:first"));
+						TREE_OBJ.open_branch($("li.node-process-root:first"));
 						// TREE_OBJ.reselect(true);
 					}
 				},
@@ -116,7 +116,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 							label: "Refresh",
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
-								if( $(NODE).hasClass('node-root')){
+								if( $(NODE).hasClass('node-process-root')){
 									return 1;
 								}
 								return -1;
@@ -132,7 +132,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 							label: "Edit",
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
-								if( $(NODE).hasClass('node-root') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
+								if( $(NODE).hasClass('node-process-root') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
 									return -1;
 								}
 								return 1;
@@ -148,7 +148,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 								if(NODE.length != 1) {
 									return -1; 
 								}
-								if($(NODE).hasClass('node-root') && TREE_OBJ.check("creatable", NODE) && instance.options.createActivityAction){ 
+								if($(NODE).hasClass('node-process-root') && TREE_OBJ.check("creatable", NODE) && instance.options.createActivityAction){ 
 									return 1;
 								}
 								return -1;
