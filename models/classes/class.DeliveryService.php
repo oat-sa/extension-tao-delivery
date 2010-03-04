@@ -729,12 +729,13 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
-	public function setDeliveryProcess(core_kernel_classes_Resource $delivery, $tests){
+	public function setDeliveryTests(core_kernel_classes_Resource $delivery, $tests){
 		
 		$returnValue = false;
 		
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 		
+		/*
 		//delete old process, and its reference to the delivery
 		$deliveryContentProp = new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT);
 		$oldProcess = $delivery->getUniquePropertyValue($deliveryContentProp);
@@ -745,31 +746,52 @@ class taoDelivery_models_classes_DeliveryService
 		$process = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
 		$delivery->setPropertyValue($deliveryContentProp, $process->uriResource);
 		$this->updateProcessLabel($delivery);
+		*/
+		
+		// get the current process:
+		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		
+		//delete all related activities:
+		$activities = $authoringService->getActivitiesByProcess($process);
+		foreach($activities as $activity){
+			if(!$this->deleteActivity($activity)){
+				return $returnValue;
+			}
+		}
 		
 		//create the list of activities and interactive services and tests plus their appropriate property values:
 		$totalNumber = count($tests);//0...n
+		$previousConnector = null; 
 		for($i=0;$i<$totalNumber;$i++){
 			$test = $tests[$i];
+			if(!($test instanceof core_kernel_classes_Resource)){
+				throw new Exception("the array element n°$i is not a Resource");
+			}
 			
 			//create an activity
-			$activity = $authoringService->createActivity($process, "activity_".$i)
+			$activity = null;
+			$activity = $authoringService->createActivity($process, "activity_".$i);
 			if($i==0){
 				//set the property value as initial
 				$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 			}
 			
 			//set property value visible to true
-			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_TRUE);
+			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
 			$testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
 			$testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";
 			
+			$serviceDefinition = null;
 			$serviceDefinitionCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
-			if(!$serviceDefinitionCollection->isEmpty() && ($serviceDefinitionCollection->get(0) instanceof core_kernel_classes_Resource)){
-				$serviceDefinition = $serviceDefinitionCollection->get(0);
-			}else{
-				//create a service definition:
+			if(!$serviceDefinitionCollection->isEmpty()){
+				if($serviceDefinitionCollection->get(0) instanceof core_kernel_classes_Resource){
+					$serviceDefinition = $serviceDefinitionCollection->get(0);
+				}
+			}
+			if(is_null($serviceDefinition)){
+				//if no corresponding service def found, create a service definition:
 				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
 				$serviceDefinition = $serviceDefinitionClass->createInstance($test->getLabel(), 'created by delivery service');
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), $testUrl);
@@ -782,8 +804,19 @@ class taoDelivery_models_classes_DeliveryService
 			if($i<$totalNumber-1){
 				//get the connector created as the same time as the activity and set the type to "sequential" and the next activity as the selected service definition:
 				$connector = $this->createConnector($activity);
+				if(!($connector instanceof core_kernel_classes_Resource)){
+					throw new Exception("the created connector is not a resource");
+					return $returnValue;
+				}
+				$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE), INSTANCE_TYPEOFCONNECTORS_SEQUENCE);
+				
+				if($i>0){
+					$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $activity->uriResource);
+				}
+				$previousConnector = $connector;//set the current connector as "the previous one" for the next loop	
 			}else{
-				//if it is the last test of the array, no need to add a connector
+				//if it is the last test of the array, no need to add a connector: just connect the previous connector to the last activity
+				$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $activity->uriResource);
 				//every action is performed:
 				$returnValue = true;
 			}
@@ -792,7 +825,7 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
-	public function getDeliveryProcess(core_kernel_classes_Resource $delivery){
+	public function getDeliveryTests(core_kernel_classes_Resource $delivery){
 		
 		$tests = array();
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
@@ -816,7 +849,7 @@ class taoDelivery_models_classes_DeliveryService
 			}
 		}
 		if(is_null($currentActivity)){
-			//error
+			throw new Exception("no activity specified as initial");
 		}
 		
 		//start the loop:
@@ -824,7 +857,7 @@ class taoDelivery_models_classes_DeliveryService
 			//get the FIRST interactive service
 			$iService = $currentActivity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
 			if(is_null($iService)){
-				//error.
+				throw new Exception('the current activity have no interactive service');
 			}
 			//get the service definition
 			$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
@@ -852,7 +885,11 @@ class taoDelivery_models_classes_DeliveryService
 			if(!is_null($nextActivity)){
 				$currentActivity = $nextActivity;
 			}else{
-				//error
+				if($i == $totalNumber-1){
+					//ok
+				}else{
+					throw new Exception('the next activity of the connector is not found');
+				}	
 			}
 		}
 		
