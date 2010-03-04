@@ -748,13 +748,14 @@ class taoDelivery_models_classes_DeliveryService
 		$this->updateProcessLabel($delivery);
 		*/
 		
+		
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		//delete all related activities:
 		$activities = $authoringService->getActivitiesByProcess($process);
 		foreach($activities as $activity){
-			if(!$this->deleteActivity($activity)){
+			if(!$authoringService->deleteActivity($activity)){
 				return $returnValue;
 			}
 		}
@@ -765,7 +766,7 @@ class taoDelivery_models_classes_DeliveryService
 		for($i=0;$i<$totalNumber;$i++){
 			$test = $tests[$i];
 			if(!($test instanceof core_kernel_classes_Resource)){
-				throw new Exception("the array element n°$i is not a Resource");
+				throw new Exception("the array element n$i is not a Resource");
 			}
 			
 			//create an activity
@@ -798,23 +799,30 @@ class taoDelivery_models_classes_DeliveryService
 				
 			}
 			//create a call of service and associate the service definition to it:
-			$interactiveService = $this->createInteractiveService($activity);
+			$interactiveService = $authoringService->createInteractiveService($activity);
 			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
 			
+			if($totalNumber == 1){
+				if(!is_null($interactiveService) && $interactiveService instanceof core_kernel_classes_Resource){
+					return true;
+				}
+			}
 			if($i<$totalNumber-1){
 				//get the connector created as the same time as the activity and set the type to "sequential" and the next activity as the selected service definition:
-				$connector = $this->createConnector($activity);
-				if(!($connector instanceof core_kernel_classes_Resource)){
+				$connector = $authoringService->createConnector($activity);
+				if(!($connector instanceof core_kernel_classes_Resource) || is_null($connector)){
 					throw new Exception("the created connector is not a resource");
 					return $returnValue;
 				}
+			
 				$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE), INSTANCE_TYPEOFCONNECTORS_SEQUENCE);
 				
-				if($i>0){
+				if(!is_null($previousConnector)){
 					$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $activity->uriResource);
 				}
 				$previousConnector = $connector;//set the current connector as "the previous one" for the next loop	
-			}else{
+			}
+			else{
 				//if it is the last test of the array, no need to add a connector: just connect the previous connector to the last activity
 				$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $activity->uriResource);
 				//every action is performed:
@@ -840,7 +848,8 @@ class taoDelivery_models_classes_DeliveryService
 		//find the first one: property isinitial == true (must be only one, if not error) and set as the currentActivity:
 		$currentActivity = null;
 		foreach($activities as $activity){
-			$isIntial = $activity->onePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));
+			
+			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));
 			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
 				if($isIntial->uriResource == GENERIS_TRUE){
 					$currentActivity = $activity;
@@ -848,8 +857,9 @@ class taoDelivery_models_classes_DeliveryService
 				}
 			}
 		}
+		
 		if(is_null($currentActivity)){
-			throw new Exception("no activity specified as initial");
+			return $tests;
 		}
 		
 		//start the loop:
@@ -864,7 +874,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			//get the url
 			$serviceUrl = $serviceDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-			
+
 			//regenerated the test uri
 			$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
 			

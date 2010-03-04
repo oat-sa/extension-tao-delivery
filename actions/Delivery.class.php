@@ -146,19 +146,19 @@ class Delivery extends TaoModule {
 		}
 		$this->setData('allTests', json_encode($allTests));
 		
-		$relatedTest = $this->service->getRelatedTests($delivery);
-		$relatedTest = array_map("tao_helpers_Uri::encode", $relatedTest);
-		$this->setData('relatedTests', json_encode($relatedTest));
+		var_dump($this->service->getDeliveryTests($delivery));
 		
+		$relatedTest = array();
 		$testSequence = array();
-		foreach($relatedTest as $index => $testUri){
-			$test = new core_kernel_classes_Resource($testUri);
+		foreach($this->service->getDeliveryTests($delivery) as $index => $test){
+			$relatedTest[] = tao_helpers_Uri::encode($test->uriResource);
 			$testSequence[$index] = array(
-				'uri' 	=> tao_helpers_Uri::encode($testUri),
+				'uri' 	=> tao_helpers_Uri::encode($test->uriResource),
 				'label' => $test->getLabel()
 			);
 		}
 		$this->setData('testSequence', $testSequence);
+		$this->setData('relatedTests', json_encode($relatedTest));
 		
 		//get the campaign(s) related to this delivery
 		$relatedCampaigns = $this->service->getRelatedCampaigns($delivery);
@@ -820,11 +820,10 @@ class Delivery extends TaoModule {
 		$tests = array();
 		foreach($this->getRequestParameters() as $key => $value){
 			if(preg_match("/^instance_/", $key)){
-				array_push($tests, tao_helpers_Uri::decode($value));
+				array_push($tests, new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)));
 			}
 		}
-		
-		if($this->service->setRelatedTests($this->getCurrentDelivery(), $tests)){
+		if($this->service->setDeliveryTests($this->getCurrentDelivery(), $tests)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));

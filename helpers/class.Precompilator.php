@@ -394,16 +394,17 @@ class tao_helpers_Precompilator
 	public static function getTestUri($url){
 	
 		$returnValue = '';
-		
-		$urlPart = explode('/', $url);
+		$urlPart = explode('/', strip_tags($url));
 		$lastPart = array_pop($urlPart);
 		// $paramStartIndex = strpos($lastPart,'?');throw new Exception($paramStartIndex);
 		$lastPart = substr($lastPart,0,strpos($lastPart,'?'));
+		
 		if($lastPart == 'theTest.php'){
 			$uri = array_pop($urlPart);
-			$returnValue =  NS_LOCAL.'#'.$uri;
+			$session = core_kernel_classes_Session::singleton();
+			$returnValue =  $session->getNameSpace().'#'.$uri;
 		}
-				
+		
 		return $returnValue;
 	}
 	

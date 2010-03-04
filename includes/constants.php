@@ -113,9 +113,7 @@ define('PROPERTY_FINISHED_ACTIVITIES',					NS_TAOQUAL.'#i12525951541482');
 
 
 
-
 $todefine = array(
-	'NS_LOCAL' => 'http://127.0.0.1/middleware/demo.rdf',
 	'TAO_OBJECT_CLASS' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_DELIVERY_CLASS' 		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 	'TAO_SUBJECT_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject',
