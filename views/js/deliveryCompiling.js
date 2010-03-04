@@ -28,6 +28,7 @@ function initCompilation(uri,clazz){
 	classUri = clazz;
 	//detroying the progressbar, if it has been initiated
 	if( progressbar != null ){
+		$("#progressbar").empty();
 		progressbar.progressbar( 'destroy' );
 	}
 	
@@ -172,6 +173,9 @@ function endCompilation(){
 				incrementProgressbar(remainValue);
 				$("#initCompilation").html( __("Recompile the delivery") ).show();
 				$("#compiledDate").html(r.compiledDate);
+				$("#progressbar").append(__('complete!'));				
+				$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/ok.png" }).appendTo($("#progressbar"));
+
 			}else{
 				alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
 			}
