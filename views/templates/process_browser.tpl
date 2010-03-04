@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $GLOBALS['lang']; ?>" lang="<?php echo $GLOBALS['lang']; ?>">
 	<head>
-		<title><?php echo PROCESS_BROWSER_TITLE; ?></title>
+		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
 		
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.js"></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.ui.js"></script>
