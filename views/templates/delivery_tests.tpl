@@ -57,11 +57,11 @@ $(document).ready(function(){
 	if(ctx_extension){
 		url = '/' + ctx_extension + '/' + ctx_module + '/';
 	}
-	getUrl = url + 'getAllTests';
-	setUrl = url + 'saveTests';
-	new GenerisTreeFormClass('#test-tree', getUrl, {
+	getTestUrl = url + 'getAllTests';
+	setTestUrl = url + 'saveTests';
+	new GenerisTreeFormClass('#test-tree', getTestUrl, {
 		actionId: 'test',
-		saveUrl : setUrl,
+		saveUrl : setTestUrl,
 		saveCallback: function (data){
 			if (buildTestList != undefined) {
 				tests = {};
@@ -110,7 +110,7 @@ $(document).ready(function(){
 		toSend.uri = $("input[name=uri]").val();
 		toSend.classUri = $("input[name=classUri]").val();
 		$.ajax({
-			url: setUrl,
+			url: setTestUrl,
 			type: "POST",
 			data: toSend,
 			dataType: 'json',

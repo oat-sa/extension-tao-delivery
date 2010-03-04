@@ -140,9 +140,8 @@ class Delivery extends TaoModule {
 		}
 		
 		$allTests = array();
-		$testClazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		foreach($testClazz->getInstances(true) as $test){
-			$allTests['test_'.tao_helpers_Uri::encode($test->uriResource)] = $test->getLabel();
+		foreach($this->service->getAllTests() as $testUri => $testLabel){
+			$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
 		}
 		$this->setData('allTests', json_encode($allTests));
 		

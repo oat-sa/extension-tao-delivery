@@ -908,6 +908,17 @@ class taoDelivery_models_classes_DeliveryService
 		return $tests;
 	}
 	
+	public function getAllTests(){
+		
+		$returnValue = array();
+		
+		$testClazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		foreach($testClazz->getInstances(true) as $instance){
+			$returnValue[$instance->uriResource] = $instance->getLabel();
+		}
+		
+		return $returnValue;
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
