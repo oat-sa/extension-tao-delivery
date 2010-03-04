@@ -146,8 +146,6 @@ class Delivery extends TaoModule {
 		}
 		$this->setData('allTests', json_encode($allTests));
 		
-		var_dump($this->service->getDeliveryTests($delivery));
-		
 		$relatedTest = array();
 		$testSequence = array();
 		foreach($this->service->getDeliveryTests($delivery) as $index => $test){
