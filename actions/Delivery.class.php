@@ -294,18 +294,11 @@ class Delivery extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$delivery = $this->getCurrentDelivery();
-		$clazz = $this->getCurrentClass();
+		// $delivery = $this->getCurrentDelivery();
+		// $clazz = $this->getCurrentClass();
 		
-		$clone = $this->service->createInstance($clazz);
+		$clone = $this->service->cloneDelivery($this->getCurrentDelivery(), $this->getCurrentClass());
 		if(!is_null($clone)){
-			
-			foreach($clazz->getProperties() as $property){
-				foreach($delivery->getPropertyValues($property) as $propertyValue){
-					$clone->setPropertyValue($property, $propertyValue);
-				}
-			}
-			$clone->setLabel($delivery->getLabel()."'");
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)

@@ -671,7 +671,7 @@ class taoDelivery_models_classes_DeliveryService
      * @param  Class clazz
      * @return core_kernel_classes_Resource
      */
-    public function cloneDelivery( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
+    public function cloneDelivery( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz)
     {
         $returnValue = null;
 		
