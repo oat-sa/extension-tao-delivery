@@ -23,15 +23,13 @@
 				<action name="new property" js="GenerisAction.addProperty" url="/taoDelivery/Delivery/addClassProperty" context="class" />
 				<action name="create table" js="GenerisAction.resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="export" url="/taoDelivery/Delivery/export"  context="*" /> 
-				<!--<action name="compile" url="/taoDelivery/Delivery/compileView" context="instance" />
-				<action name="cache" url="/taoDelivery/Delivery/cacheView" context="instance" />
-				<action name="view history" url="/taoDelivery/Delivery/viewHistory" context="instance" />-->
+				<action name="compile" url="/taoDelivery/Delivery/compileView" context="instance" />
 			</actions>
 		</section>
 		
-		<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
+		<!--<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
 			<actions/>
-		</section>
+		</section>-->
 		
 		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">
 			<trees>

@@ -8,9 +8,7 @@
 		<?=__('This Delivery Management Section allows to add and delete deliveries and to edit their property values.')?> </p>
 		<!-- <?=get_data('content')?> -->
 	
-		<script type="text/javascript" src="/taoDelivery/views/js/test.js"></script>
 		
-		<div id="tests"></div>
 	</div>
 </div>
 
