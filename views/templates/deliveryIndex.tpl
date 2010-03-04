@@ -40,7 +40,7 @@
 				<thead>
 					<tr>
 						<th><?php echo __("Status"); ?></th>
-						<th><?php echo __("Process"); ?></th>
+						<th><?php echo __("Test"); ?></th>
 						<th><?php echo __("Start/Resume the case"); ?></th>
 					</tr>
 				</thead>
