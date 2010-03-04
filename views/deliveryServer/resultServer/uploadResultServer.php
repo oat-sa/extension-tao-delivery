@@ -75,8 +75,8 @@ function setResult($xml,$IDresult,$seq,$length) {
 
 //send the link to the document to the taoResults extension
     $xmlPath=dirname(__FILE__)."/received/$xmlFile";
-    $location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/importLogToGenerisResult.php";//?resultxml=".urlencode($xmlPath);
-    /*//send with curl
+    $location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/class.ImportLogToGenerisResult.php";//?resultxml=".urlencode($xmlPath);
+    /*send with curl
     $url = $location;
 
     $ch = curl_init();
@@ -97,7 +97,7 @@ function setResult($xml,$IDresult,$seq,$length) {
 
     //send th XML itself
     $url = $location;
-//send path of the file and the content too.
+    //send path of the file and the content too.
     $postFileds = array ();
 
     $postFileds['pathLogFile'] = urlencode($xmlPath);
