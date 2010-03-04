@@ -735,22 +735,20 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 		
-		/*
-		//delete old process, and its reference to the delivery
-		$deliveryContentProp = new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT);
-		$oldProcess = $delivery->getUniquePropertyValue($deliveryContentProp);
-		$authoringService->deleteReference($deliveryContentProp, $oldProcess);
-		$authoringService->deleteProcess($oldProcess);
-		
-		//recreate a new process
-		$process = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
-		$delivery->setPropertyValue($deliveryContentProp, $process->uriResource);
-		$this->updateProcessLabel($delivery);
-		*/
-		
-		
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		
+		//set the process variables subjectUri and wsdlContract
+		$var_subjectUri = $this->getProcessVariable("subjectUri");
+		$var_wsdl = $this->getProcessVariable("wsdlContract");
+		if(is_null($var_subjectUri) || is_null($var_wsdl)){
+			throw new Exception('the required process variables "subjectUri" and/or "wsdlContract" not found');
+		}else{
+			$processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
+			$process->removePropertyValues($processVarProp);
+			$process->setPropertyValue($processVarProp, $var_subjectUri->uriResource);
+			$process->setPropertyValue($processVarProp, $var_wsdl->uriResource);
+		}
 		
 		//delete all related activities:
 		$activities = $authoringService->getActivitiesByProcess($process);
@@ -867,7 +865,7 @@ class taoDelivery_models_classes_DeliveryService
 			//get the FIRST interactive service
 			$iService = $currentActivity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
 			if(is_null($iService)){
-				throw new Exception('the current activity have no interactive service');
+				throw new Exception('the current activity has no interactive service');
 			}
 			//get the service definition
 			$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
@@ -896,7 +894,7 @@ class taoDelivery_models_classes_DeliveryService
 				$currentActivity = $nextActivity;
 			}else{
 				if($i == $totalNumber-1){
-					//ok
+					//it is normal, since it is the last activity and test
 				}else{
 					throw new Exception('the next activity of the connector is not found');
 				}	
@@ -918,6 +916,19 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		return $returnValue;
+	}
+	
+	public function getProcessVariable($code){
+		$procVar = null;
+		
+		$varCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
+		if(!$varCollection->isEmpty()){
+			if($varCollection->get(0) instanceof core_kernel_classes_Resource){
+			$procVar = $varCollection->get(0);
+			}
+		}
+		
+		return $procVar;
 	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */

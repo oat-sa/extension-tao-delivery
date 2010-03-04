@@ -210,7 +210,7 @@ class DeliveryServer extends Module{
 
 		$wsdlContract = $this->service->getResultServer($delivery);
 		if(empty($wsdlContract)){
-			throw new Exception("no wsdl found for the current delivery");
+			throw new Exception("no wsdl contract found for the current delivery");
 		}
 
 		ini_set('max_execution_time', 200);
