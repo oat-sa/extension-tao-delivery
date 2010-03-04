@@ -826,5 +826,65 @@ class Delivery extends TaoModule {
 		echo json_encode(array('saved'	=> $saved));
 	}
 	
+	public function compileView(){
+	
+		$delivery = $this->getCurrentDelivery();
+		
+		$this->setData("processUri", tao_helpers_Uri::encode($delivery->uriResource));//currentprocess
+		$this->setData("processLabel", $delivery->getLabel());
+		$this->setData("deliveryClass", tao_helpers_Uri::encode($this->getCurrentClass()->uriResource));
+		
+		//compilation state:
+		$isCompiled = $this->service->isCompiled($delivery);
+		$this->setData("isCompiled", $isCompiled);
+		if($isCompiled){
+			$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
+			$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
+		}
+		
+		$this->setView("delivery_compiling.tpl");
+	}
+	
+	public function initCompilation(){
+		
+		$delivery = $this->getCurrentDelivery();
+		
+		//init the value to be returned	
+		$deliveryData=array();
+		
+		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
+		//array of resource, test set
+		$tests = array();
+		$tests = $this->service->getRelatedTests($delivery);
+	
+		$deliveryData['tests'] = array();
+		foreach($tests as $test){
+			$deliveryData['tests'][] = array(
+				"label" => $test->getLabel(),
+				"uri" => $test->uriResource
+			);//url encode maybe?
+		}
+		
+		$deliveryData["uri"] = $delivery->uriResource;
+		
+		echo json_encode($deliveryData);
+	}
+	
+	public function endCompilation(){
+	
+		$delivery = $this->getCurrentDelivery();
+		
+		$response = array();
+		$response["result"]=0;
+		
+		if ($delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP), GENERIS_TRUE)){
+			$response["result"] = 1;
+			$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
+			
+		}
+		
+		echo json_encode($response);
+	}
+	
 }
 ?>

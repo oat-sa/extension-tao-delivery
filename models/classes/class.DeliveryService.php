@@ -706,7 +706,7 @@ class taoDelivery_models_classes_DeliveryService
 	 */
 	public function getRelatedTests(core_kernel_classes_Resource $delivery){
 		 $returnValue = array();
-
+	
 		if(!is_null($delivery)){
 		try{
 		 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
@@ -717,7 +717,7 @@ class taoDelivery_models_classes_DeliveryService
 				$activities = $authoringService->getActivitiesByProcess($process);
 			
 				foreach($activities as $activity){
-					$test = $returnValue->getTestByActivity($activity);
+					$test = $authoringService->getTestByActivity($activity);
 					if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
 						$returnValue[$test->uriResource] = $test;
 					}
