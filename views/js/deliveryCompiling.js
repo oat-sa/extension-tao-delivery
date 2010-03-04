@@ -6,6 +6,7 @@ var testArray = null;
 var progressbar = null;
 var progressbarStep = 0;
 var remainValue = 0;
+var warning = false;
 
 function updateProgress(){
 	//update progress bar
@@ -109,9 +110,15 @@ function compileTest(testUri){
 				updateProgress();
 			}else{
 				if(r.success==2){
+					warning = true;
 					$(testTag).html( __("compiled with warning") );
+					incrementProgressbar(progressbarStep);
+					updateProgress();
 				}else{
 					$(testTag).html( __("compilation failed") );
+					//quit compilation and annonce it as failed: print recompile option:
+					$("#initCompilation").html( __("Recompile the delivery") ).show();
+					finalMessage(__('failed!'),'failed.png');
 				}
 				
 				resultTag="#result"+ getTestId(testUri);
@@ -173,9 +180,11 @@ function endCompilation(){
 				incrementProgressbar(remainValue);
 				$("#initCompilation").html( __("Recompile the delivery") ).show();
 				$("#compiledDate").html(r.compiledDate);
-				$("#progressbar").append(__('complete!'));				
-				$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/ok.png" }).appendTo($("#progressbar"));
-
+				if(warning){
+					finalMessage(__('complete with warning'),'warning.png');
+				}else{
+					finalMessage(__('complete!'),'ok.png');
+				}
 			}else{
 				alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
 			}
@@ -186,5 +195,10 @@ function endCompilation(){
 function incrementProgressbar(value){
 	//update the progress bar
 	progressbar.progressbar("option", "value", progressbar.progressbar("option", "value") + value);
+}
+
+function finalMessage(msg, imageFile){
+	$("#progressbar").append(msg);				
+	$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/"+imageFile}).appendTo($("#progressbar"));
 }
 
