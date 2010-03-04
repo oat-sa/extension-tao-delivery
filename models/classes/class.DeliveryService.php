@@ -675,20 +675,22 @@ class taoDelivery_models_classes_DeliveryService
     {
         $returnValue = null;
 		
-		$returnValue = $this->createInstance($clazz);
-		if(!is_null($returnValue)){
+		$clone = $this->createInstance($clazz);
+		if(!is_null($clone)){
 			foreach($clazz->getProperties(true) as $property){
 			
-				if($property->uriResource != TAO_DELIVERY_DELIVERYCONTENT){
+				if($property->uriResource != TAO_DELIVERY_DELIVERYCONTENT && $property->uriResource != TAO_DELIVERY_COMPILED_PROP){
 					//allow clone of every property value but the deliverycontent, which is a process:
 					//TODO: cloning a process, idea: using recursive cloning method, i.e. for each prop, if prop is a resource, get the type then clone it again. Idea to be tested
 					foreach($instance->getPropertyValues($property) as $propertyValue){
-						$returnValue->setPropertyValue($property, $propertyValue);
+						$clone->setPropertyValue($property, $propertyValue);
 					}
 				}
 				
 			}
-			$returnValue->setLabel($instance->getLabel()." bis");
+			$clone->setLabel($instance->getLabel()." bis");
+			$this->updateProcessLabel($clone);
+			$returnValue = $clone;
 		}
 
         return $returnValue;
