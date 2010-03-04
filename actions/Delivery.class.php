@@ -149,7 +149,7 @@ class Delivery extends TaoModule {
 		$testSequence = array();
 		foreach($this->service->getDeliveryTests($delivery) as $index => $test){
 			$relatedTest[] = tao_helpers_Uri::encode($test->uriResource);
-			$testSequence[$index] = array(
+			$testSequence[$index+1] = array(
 				'uri' 	=> tao_helpers_Uri::encode($test->uriResource),
 				'label' => $test->getLabel()
 			);
