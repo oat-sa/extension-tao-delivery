@@ -62,7 +62,7 @@
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php else: ?>
-								<span><?php echo __("Finished Process"); ?></span>
+								<span><?php echo __("Finished Test"); ?></span>
 							<?php endif; ?>
 						</td>
 						<!--<td class="situation"><a href="#"><img onclick="openProcess('../../../WorkFlowEngine/index.php?do=processInstance&param1=<?php echo urlencode($procData['uri']); ?>')" src="<?php echo BASE_WWW;?>/<?php echo $GLOBALS['dir_theme']; ?>img/open_process_view.png"/></a></td>-->
