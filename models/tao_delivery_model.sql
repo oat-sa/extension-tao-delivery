@@ -193,5 +193,5 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#code', 'http://www.w3.org/2000/01/rdf-schema#label', 'Code', 'EN', 'taoqual', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#code', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'taoqual', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#code', 'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent', 'http://www.tao.lu/Ontologies/generis.rdf#False', '', 'taoqual', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(15, 'http://www.tao.lu/middleware/taoqual.rdf#code', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'taoqual', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#code', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'taoqual', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
