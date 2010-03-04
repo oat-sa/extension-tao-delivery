@@ -173,60 +173,7 @@ class Delivery extends TaoModule {
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
 	}
-	
-	/*
-	public function editDelivery2(){
-		$clazz = $this->getCurrentClass();
-		$delivery = $this->getCurrentDelivery();
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery);
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
-				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
-				$this->setData('message', __('Delivery saved'));
-				$this->setData('reload', true);exit;
-			}
-		}
-			
 		
-		// $handle = fopen("/formRender.html","wb");
-		// $content = fwrite($handle,$myForm->render());
-		// fclose($handle);
-		$this->setData('secret', "somethign");
-		$this->setData('formPlus', $myForm->render());
-		$this->setView('cool.tpl');
-	}
-	*/
-	
-	/*
-	//function test of 
-	public function formPlus(){
-		$clazz = $this->getCurrentClass();
-		$delivery = $this->getCurrentDelivery();
-		$formName="formPlus";
-		
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery, $formName, array("noSubmit"=>true,"noRevert"=>true));
-		// $myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery, $formName);
-		
-		$element = tao_helpers_form_FormFactory::getElement("buttonId", "Button");
-		$myForm->addElement($element);
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
-				echo "ok!";exit;
-			}
-		}
-		
-		$this->setData('section', $formName);
-		$this->setData('formPlus', $myForm->render());
-		$this->setView('tree_form.tpl');
-	}*/
-	
-	
-	
 	/**
 	 * Add a delivery instance        
 	 * @return void
@@ -286,16 +233,13 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
-	 * Duplicate a devliery instance
+	 * Duplicate a delivery instance
 	 * @return void
 	 */
 	public function cloneDelivery(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
-		// $delivery = $this->getCurrentDelivery();
-		// $clazz = $this->getCurrentClass();
 		
 		$clone = $this->service->cloneDelivery($this->getCurrentDelivery(), $this->getCurrentClass());
 		if(!is_null($clone)){
@@ -313,13 +257,6 @@ class Delivery extends TaoModule {
 	public function authoring(){
 		$this->setData('error', false);
 		try{
-			// $deliveryInstance = $this->getCurrentDelivery();
-			// $processInstance = $deliveryInstance->getUniquePropertyValue(new core_kernel_classes_Resource(TAO_DELIVERY_DELIVERYCONTENT));
-			
-			// $this->setData('delivery', tao_helpers_Uri::encode($deliveryInstance->uriResource));
-			// $this->setData('process', tao_helpers_Uri::encode($processInstance->uriResource));
-			
-			
 			
 			//get process instance to be authored
 			 $delivery = $this->getCurrentDelivery();
@@ -423,7 +360,8 @@ class Delivery extends TaoModule {
 	/**
 	 * Render json data to populate the list of available delivery 
 	 * It provides the value of the delivery properties such as label, uri and active and compiled status
-	 *	 
+	 * (Note: For the old implementation of delivery when 1 delivery = 1 test)
+	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
@@ -458,29 +396,7 @@ class Delivery extends TaoModule {
 		$result["tests"]=$testData;
 		echo json_encode($result);
 	}
-	
-	/*
-	public function compileView(){
-		$currentDelivery = $this->getCurrentDelivery();
-		if(!is_null($currentDelivery)){
-		
-			$this->setData("deliveryUri", urlencode($currentDelivery->uriResource));
-			$this->setData("deliveryLabel", $currentDelivery->getLabel());
-		
-			//compilation state:
-			$isCompiled=$this->service->isCompiled($currentDelivery);
-			$this->setData("isCompiled", $isCompiled);
-			if($isCompiled){
-				$compiledDate = $currentDelivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
-				$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
-			}
-		}
-		
-		$this->setView("compiling.tpl");
-	}*/
-		
-	
-	
+			
 	/**
 	 * Compile a test by providing its uri, via POST method.
 	 * Its main purpose is to collect every required resource to run the test in a single folder so they become immediately available for the test launch, without any delay. 
@@ -597,8 +513,7 @@ class Delivery extends TaoModule {
 						throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
 					}
 				}
-				
-				
+								
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 				$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
 				
@@ -744,11 +659,7 @@ class Delivery extends TaoModule {
 		return $returnValue;
 		//TODO: history listing per subject???
 	}
-	
-	public function cacheView(){
-		$this->setView("cache.tpl");
-	}
-	
+		
 	/*
 	public function cache(){
 		//get the id of subscribed modules and connect to them

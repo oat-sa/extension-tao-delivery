@@ -94,34 +94,7 @@ class taoDelivery_models_classes_DeliveryService
 		'http://www.tao.lu/Ontologies/TAOSubject.rdf',
 		'http://www.tao.lu/Ontologies/TAOTest.rdf'
 		);
-	
-	/**
-     * The attribute groupsOntologies contains the reference to the TAOGroup Ontologies.
-	 * It enables the DeliveryService Class to connect to them and fetch information about groups from them
-     *
-     * @access protected
-     * @var array
-     */
-	protected $groupsOntologies = array('http://www.tao.lu/Ontologies/TAOGroup.rdf');
-	
-	/**
-     * The attribute subjectsOntologies contains the reference to the TAOSubject Ontologies.
-	 * It enables the DeliveryService Class to connect to them and fetch information about subjects from them
-     *
-     * @access protected
-     * @var array
-     */
-	protected $subjectsOntologies = array('http://www.tao.lu/Ontologies/TAOSubject.rdf');
-	
-	/**
-     * The attribute testsOntologies contains the reference to the TAOSubject Ontologies.
-	 * It enables the DeliveryService Class to connect to them and fetch information about the tests from them
-     *
-     * @access protected
-     * @var array
-     */
-	protected $testsOntologies = array('http://www.tao.lu/Ontologies/TAOTest.rdf');
-	
+		
     // --- OPERATIONS ---
 
 	/**
@@ -136,9 +109,9 @@ class taoDelivery_models_classes_DeliveryService
 		parent::__construct();
 		
 		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-		$this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		// $this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		// $this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+		// $this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 		
 		$this->loadOntologies($this->deliveryOntologies);
     }
@@ -168,32 +141,7 @@ class taoDelivery_models_classes_DeliveryService
 
         return $returnValue;
     }
-	
-	/**
-     * The method getTestClass return the current Test Class
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string uri
-     * @return core_kernel_classes_Class
-     */
-	public function getTestClass($uri = '')
-    {
-        $returnValue = null;
-
-		if(empty($uri) && !is_null($this->testClass)){
-			$returnValue = $this->testClass;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isTestClass($clazz)){
-				$returnValue = $clazz;
-			}
-		}
-
-        return $returnValue;
-    }
-	
+		
 	/**
      * Returns a delivery by providing either its uri (default) or its label and the delivery class
      *
@@ -327,68 +275,13 @@ class taoDelivery_models_classes_DeliveryService
 
         return (bool) $returnValue;
     }
-	
-	/**
-     * Check whether the object is a test class
-     * (Method is not used in the current implementation yet)
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Class clazz
-     * @return boolean
-     */
-	public function isTestClass( core_kernel_classes_Class $clazz)
-    {
-        $returnValue = (bool) false;
-
-		if($clazz->uriResource == $this->testClass->uriResource){
-			$returnValue = true;	
-		}
-		else{
-			foreach($this->testClass->getSubClasses() as $subclass){
-				if($clazz->uriResource == $subclass->uriResource){
-					$returnValue = true;
-					break;	
-				}
-			}
-		}
-
-        return (bool) $returnValue;
-    }
-	
-	 /**
-     * Check the login/pass in a MySQL table to identify a subject when he/she takes the delivery.
-     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
-	 * It returns the uri of the identified subjectm and an empty string otherwise.
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string login
-	 * @param  string password
-     * @return object
-     */
-	public function checkSubjectLogin($login, $password){
-	
-		$returnValue = null;
-		
-		$subjectsByLogin=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
-		$subjectsByPassword=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
-		
-		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
-		
-		if($subjects->count()>0){
-			//TODO: unicity of login/password pair to be implemented
-			$returnValue = $subjects->get(0);
-		}
-		
-		return $returnValue;
-	}
-	
+			
 	/**
      * Get all tests available for the identified subject.
      * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
 	 * It returns an array containing the uri of selected tests or an empty array otherwise.
-     *
+     * (Note: For the old implementation of delivery when 1 delivery = 1 test)
+	 * 
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  string subjectUri
@@ -438,7 +331,8 @@ class taoDelivery_models_classes_DeliveryService
 	
 	/**
      * The methods getTestStatus checks the value of the property "active" OR "compiled" for a given test instance (a ressource)
-     *
+     * (Note: For the old implementation of delivery when 1 delivery = 1 test)
+	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  Resource aTestInstance
@@ -647,8 +541,6 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		return $historyCollection;
-		
-		//note: for maxExec check on delivery server, simply make the following comparison: $this->getHistory($deliveryUri, $subjectUri)->count() < $deliveryMaxExec 
 	}
 	
 	
@@ -662,6 +554,7 @@ class taoDelivery_models_classes_DeliveryService
 		
 		return $deliveryInstance;		
 	}
+	
 	 /**
      * Short description of method cloneInstance
      *
@@ -740,7 +633,7 @@ class taoDelivery_models_classes_DeliveryService
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
-		//set the process variables subjectUri and wsdlContract
+		//set the required process variables subjectUri and wsdlContract
 		$var_subjectUri = $this->getProcessVariable("subjectUri");
 		$var_wsdl = $this->getProcessVariable("wsdlContract");
 		if(is_null($var_subjectUri) || is_null($var_wsdl)){
