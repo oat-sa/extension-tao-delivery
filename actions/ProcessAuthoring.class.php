@@ -575,10 +575,7 @@ class ProcessAuthoring extends TaoModule {
 				//save the new rule here:
 				$condition = $data['if'];
 				
-				// throw new Exception("mghjpogim".stripos($condition, 'if'));
-				
 				if(!empty($condition)){
-					
 					if(!$this->service->createRule($connectorInstance, $condition)){
 						throw new Exception("the condition \"{$condition}\" cannot be created");
 					}

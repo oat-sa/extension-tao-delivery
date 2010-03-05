@@ -575,7 +575,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 				// $xml = htmlspecialchars($tokens->getXmlString(true));
 				// $xml = $tokens->getXmlString(true);
 				$xmlDom = $tokens->getXml();
-				// throw new Exception("name={$xmlDom->nodeName} XMLcontent={$xmlDom->saveXML()}");
+				
 			}catch(Exception $e){
 				throw new Exception("CapiXML error: {$e->getMessage()}");
 			}
@@ -597,13 +597,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			}
 		}
 		
-		// throw new Exception("dump".var_dump($expressionInstance));
 		if($expressionInstance instanceof core_kernel_classes_Resource){
 			//associate the newly create expression with the transition rule of the connector
 			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
 			if(empty($transitionRule)){
 				//create an instance of transition rule:
-				// throw new Exception("dfgfdmhfho");
 				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
 				$transitionRule = $transitionRuleClass->createInstance();
 				//Associate the newly created transition rule to the connector:
@@ -785,6 +783,6 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 		
 
-} /* end of class taoDelivery_models_classes_DeliveryService */
+} /* end of class taoDelivery_models_classes_ProcessAuthoringService */
 
 ?>
