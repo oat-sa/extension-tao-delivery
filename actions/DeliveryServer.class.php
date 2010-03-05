@@ -91,16 +91,16 @@ class DeliveryServer extends Module{
 				}
 
 				//check if it has valid resultServer defined:
-				try{
-					$resultServer = $this->service->getResultServer($delivery);
+				// try{
+					// $resultServer = $this->service->getResultServer($delivery);
 
-				}catch(Exception $e){
-					echo "error: ".$e->getMessage();
-				}
-				if(empty($resultServer)){
-					$deliveries['noResultServer'][] = $delivery;
-					continue;
-				}
+				// }catch(Exception $e){
+					// echo "error: ".$e->getMessage();
+				// }
+				// if(empty($resultServer)){
+					// $deliveries['noResultServer'][] = $delivery;
+					// continue;
+				// }
 
 				//check if the subject is excluded:
 				try{
@@ -123,20 +123,23 @@ class DeliveryServer extends Module{
 					$deliveries['wrongPeriod'][] = $delivery;
 					continue;
 				}
-
+				
 				//check maxexec: how many times the subject has already taken the current delivery?
-				try{
-					$historyCollection = $this->service->getHistory($delivery, $subject);
-				}catch(Exception $e){
-					echo "error: ".$e->getMessage();
-				}
-				if(!$historyCollection->isEmpty()){
-					if($historyCollection->count() >= $this->service->getMaxExec($delivery) ){
-						$deliveries['maxExecExceeded'][] = $delivery;
-						continue;
+				$maxExec = $this->service->getMaxExec($delivery);
+				if($maxExec>=0){//check only is the value is defined. If no value for maxexec is defined, the returned value for getMaxExec is -1
+					try{
+						$historyCollection = $this->service->getHistory($delivery, $subject);
+					}catch(Exception $e){
+						echo "error: ".$e->getMessage();
+					}
+				
+					if(!$historyCollection->isEmpty()){
+						if($historyCollection->count() >= $maxExec ){
+							$deliveries['maxExecExceeded'][] = $delivery;
+							continue;
+						}
 					}
 				}
-					
 			}//endif of "check"
 
 			//all check performed:
@@ -161,34 +164,6 @@ class DeliveryServer extends Module{
 		return $availableProcessDefinition;
 	}
 
-	public function initDeliveryExecution(){
-		//should be the first service of the first activity of the process, to be executed right after a process instanciation
-
-		//get the process execution:
-		$processInstance = null;
-
-		//process instance -> process def -> delivery
-		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess($processDefinition);
-		$subject = $_SESSION["subject"];
-		if(is_null($delivery)){
-			throw new Exception("no delivery found for the selected process definition");
-		}
-
-		$wsdlContract = $this->service->getResultServer($delivery);
-		if(empty($wsdlContract)){
-			throw new Exception("no wsdl found for the current delivery");
-		}
-
-		//set the process variable values form the variables wsdl and subject (mandatory!)
-		//use $processInstance->editPropertyValues( prop of process instance and instance of process var "wsdl location", get the wsdl url of the delivery  );
-		//same for subjectUri
-
-		//addhistory:
-		$this->service->addHistory($delivery, $subject);
-
-		//move on to the next activity:
-	}
-
 	private function isSubjectSession(){
 		$subject = $_SESSION["subject"];
 		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
@@ -208,10 +183,11 @@ class DeliveryServer extends Module{
 			throw new Exception("no delivery found for the selected process definition");
 		}
 
-		$wsdlContract = $this->service->getResultServer($delivery);
-		if(empty($wsdlContract)){
-			throw new Exception("no wsdl contract found for the current delivery");
-		}
+		// $wsdlContract = $this->service->getResultServer($delivery);
+		// if(empty($wsdlContract)){
+			// throw new Exception("no wsdl contract found for the current delivery");
+		// }
+		$wsdlContract = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
 
 		ini_set('max_execution_time', 200);
 
@@ -226,7 +202,7 @@ class DeliveryServer extends Module{
 		$var_wsdl = $this->service->getProcessVariable("wsdlContract");
 		if(!is_null($var_subjectUri) && !is_null($var_wsdl)){
 			$processExecutionFactory->variables = array(
-			$var_subjectUri->uriResource => $subject->uriResource,
+			$var_subjectUri->uriResource => urlencode($subject->uriResource),
 			$var_wsdl->uriResource => $wsdlContract
 			);
 		}else{
