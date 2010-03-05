@@ -14,7 +14,7 @@ if(isset($_GET['wsdl'])){
 	//if no wsdl contract found, use the default one, on localhost
 	$wsdlUrl = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
 }
-
+$wsdlUrl = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
 if(isset($_GET['subject']) and $_GET['subject']!=''){
 	$subjectUri = $_GET['subject'];
 	$subjectLabel = "previewer";
