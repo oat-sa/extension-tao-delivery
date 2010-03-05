@@ -166,7 +166,15 @@ class Delivery extends TaoModule {
 		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
 		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-				
+		
+		//compilation state:
+		$isCompiled = $this->service->isCompiled($delivery);
+		$this->setData("isCompiled", $isCompiled);
+		if($isCompiled){
+			$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
+			$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
+		}
+		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setData('formTitle', __('Edit delivery'));
