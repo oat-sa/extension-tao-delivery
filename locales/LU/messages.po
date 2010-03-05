@@ -1,4 +1,4 @@
-msgid ""
+ï»¿msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
@@ -10,43 +10,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Campaign Class saved"
-msgstr "Campagne Klass gespäichert"
+msgstr "Campagne Klass gespÃ¤ichert"
 
 msgid "Edit campaign class"
-msgstr "Editéier Campagne Klass"
+msgstr "EditÃ©ier Campagne Klass"
 
 msgid "Campaign saved"
-msgstr "Campagne gespäichert"
+msgstr "Campagne gespÃ¤ichert"
 
 msgid "Edit Campaign"
-msgstr "Editéier Campagne"
+msgstr "EditÃ©ier Campagne"
 
 msgid "Delivery Class saved"
-msgstr "Ausliwwerungsklass gespäichert"
+msgstr "Ausliwwerungsklass gespÃ¤ichert"
 
 msgid "Edit delivery class"
-msgstr "Editéier Ausliwwerungsklass"
+msgstr "EditÃ©ier Ausliwwerungsklass"
 
 msgid "Delivery saved"
-msgstr "Ausliwwerung gespäichert"
+msgstr "Ausliwwerung gespÃ¤ichert"
 
 msgid "Edit delivery"
-msgstr "Editéier Ausliwwerung"
+msgstr "EditÃ©ier Ausliwwerung"
 
 msgid "saved"
-msgstr "gespäichert"
+msgstr "gespÃ¤ichert"
 
 msgid "Result Server class saved"
-msgstr "Resultatserver Klass gespäichert"
+msgstr "Resultatserver Klass gespÃ¤ichert"
 
 msgid "Edit resultServer class"
-msgstr "Editéier Resultatserver Klass"
+msgstr "EditÃ©ier Resultatserver Klass"
 
 msgid "Result Server saved"
-msgstr "Resultatserver gespäichert"
+msgstr "Resultatserver gespÃ¤ichert"
 
 msgid "Edit ResultServer"
-msgstr "Editéier Resultatserver"
+msgstr "EditÃ©ier Resultatserver"
 
 msgid "Delivery"
 msgstr "Ausliwwerung"
@@ -67,25 +67,25 @@ msgid "new delivery"
 msgstr "nei Ausliwwerung"
 
 msgid "delete"
-msgstr "läschen"
+msgstr "lÃ¤schen"
 
 msgid "duplicate"
-msgstr "duplizéieren"
+msgstr "duplizÃ©ieren"
 
 msgid "edit delivery"
-msgstr "editéier Ausliwwerung"
+msgstr "editÃ©ier Ausliwwerung"
 
 msgid "new property"
-msgstr "nei Propriétéit"
+msgstr "nei PropriÃ©tÃ©it"
 
 msgid "create table"
 msgstr "Tabell erschafen"
 
 msgid "export"
-msgstr "exportéieren"
+msgstr "exportÃ©ieren"
 
 msgid "compile"
-msgstr "kompiléieren"
+msgstr "kompilÃ©ieren"
 
 msgid "cache"
 msgstr "Cache"
@@ -103,7 +103,7 @@ msgid "new campaign"
 msgstr "nei Campagne"
 
 msgid "edit campaign"
-msgstr "editéier Campagne"
+msgstr "editÃ©ier Campagne"
 
 msgid "Manage Result Servers"
 msgstr "Resultatserver managen"
@@ -115,7 +115,7 @@ msgid "new result server"
 msgstr "neie Resultatserver"
 
 msgid "edit result server"
-msgstr "editéier Resultatserver"
+msgstr "editÃ©ier Resultatserver"
 
 msgid "Delivery authoring"
 msgstr "Ausliwwerungs Editioun"
@@ -124,7 +124,7 @@ msgid "Label"
 msgstr "Etiquette"
 
 msgid "Service Definition"
-msgstr "Service Définitioun"
+msgstr "Service DÃ©finitioun"
 
 msgid "Formal Parameter IN"
 msgstr "Formalen Agangsparameter"
@@ -139,28 +139,28 @@ msgid "IF"
 msgstr "WANN"
 
 msgid "create new activity"
-msgstr "erschaf nei Aktivitéit"
+msgstr "erschaf nei AktivitÃ©it"
 
 msgid "create new connector"
 msgstr "erschaf nei Konnektioun"
 
 msgid "Activity or Connector"
-msgstr "Aktivitéit oder Konnektioun"
+msgstr "AktivitÃ©it oder Konnektioun"
 
 msgid "Activity"
-msgstr "Aktivitéit"
+msgstr "AktivitÃ©it"
 
 msgid "Connector"
 msgstr "Konnektioun"
 
 msgid "Process Activities"
-msgstr "Aktivitéieten beschaffen"
+msgstr "AktivitÃ©ieten beschaffen"
 
 msgid "Property"
-msgstr "Propriétéit"
+msgstr "PropriÃ©tÃ©it"
 
 msgid "undefined"
-msgstr "ondéfinéiert"
+msgstr "ondÃ©finÃ©iert"
 
 msgid "If"
 msgstr "Wann"
@@ -175,46 +175,46 @@ msgid "type??"
 msgstr "Typ??"
 
 msgid "(still undefined)"
-msgstr "(nach ëmmer ondéfinéiert)"
+msgstr "(nach Ã«mmer ondÃ©finÃ©iert)"
 
 msgid "Please confirm deletion"
-msgstr "Wirklech Läschen?"
+msgstr "Wirklech LÃ¤schen?"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
+msgstr "Wirklech LÃ¤schen? Achtung: dÃ©i verbonne Konnektioune kÃ«nnen betraff sinn"
 
 msgid "Select delivery campaign"
 msgstr "Ausliwwerungs Campagne wielen"
 
 msgid "Save"
-msgstr "Späicheren"
+msgstr "SpÃ¤icheren"
 
 msgid "Select delivery"
 msgstr "Ausliwwerung wielen"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze définéieren"
+msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze dÃ©finÃ©ieren"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bäizefügen oder ze läschen an hir Propriétéiten ze veränneren"
+msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bÃ¤izefÃ¼gen oder ze lÃ¤schen an hir PropriÃ©tÃ©iten ze verÃ¤nneren"
 
 msgid "Campaign"
 msgstr "Campagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
+msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bÃ¤izefÃ¼gen, ze editÃ©ieren a matt Ausliwwerungs Campagnen ze verbannen."
 
 msgid "Result Server"
 msgstr "Resultatserver"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bäizefügen, ze editéieren oder matt Ausliwwerungen ze verbannen."
+msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bÃ¤izefÃ¼gen, ze editÃ©ieren oder matt Ausliwwerungen ze verbannen."
 
 msgid "Please select a delivery before authoring it!"
 msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
 
 msgid "Back"
-msgstr "Zréck"
+msgstr "ZrÃ©ck"
 
 msgid "Formal Parameter"
 msgstr "Formal Parameter"
@@ -226,19 +226,19 @@ msgid "Process Variables"
 msgstr "Prozess Variablen"
 
 msgid "Activity Editor"
-msgstr "Aktivitéits Editor"
+msgstr "AktivitÃ©its Editor"
 
 msgid "Process Property"
-msgstr "Prozess Propriétéit"
+msgstr "Prozess PropriÃ©tÃ©it"
 
 msgid "loading..."
 msgstr "lueden..."
 
 msgid "Sure?"
-msgstr "Sëcher?"
+msgstr "SÃ«cher?"
 
 msgid "save"
-msgstr "späicheren"
+msgstr "spÃ¤icheren"
 
 msgid "reload"
 msgstr "nei lueden"
@@ -259,16 +259,16 @@ msgid "Close all"
 msgstr "All zoumaachen"
 
 msgid "Select testees to be <b>excluded</b>"
-msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
+msgstr "Wielt d'Testkandidaten dÃ©i <b>ausgeschloss</b> solle ginn"
 
 msgid "EN"
 msgstr "Englesch"
 
 msgid "FR"
-msgstr "Franséisch"
+msgstr "FransÃ©isch"
 
 msgid "DE"
-msgstr "Däitsch"
+msgstr "DÃ¤itsch"
 
 msgid "LU"
 msgstr "Letzebuergesch"
