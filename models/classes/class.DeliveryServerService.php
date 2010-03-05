@@ -201,36 +201,7 @@ class taoDelivery_models_classes_DeliveryServerService
 		return $validPeriod;
 	}
 	
-	/**
-     * The the url of the select result server
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource aDeliveryInstance
-     * @return string
-     */
-	public function getResultServer(core_kernel_classes_Resource $aDeliveryInstance){
-		
-		$returnValue='';
-		
-		if(!is_null($aDeliveryInstance)){
-		
-			$aResultServerInstance = $aDeliveryInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer"));
-			if($aResultServerInstance instanceof core_kernel_classes_Resource){
-				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection() or store encoded url only in
-				$resultServerUrl = $aResultServerInstance->getUniquePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl"));
-				if($resultServerUrl instanceof core_kernel_classes_Literal){
-					$returnValue = $resultServerUrl->literal;
-				}
-				if($resultServerUrl instanceof core_kernel_classes_Resource){
-					$returnValue = $resultServerUrl->uriResource;
-				}
-			}
-			
-		}
-		
-		return $returnValue;
-	}
+	
 	
 	/**
      * add history of delivery execution in the ontology

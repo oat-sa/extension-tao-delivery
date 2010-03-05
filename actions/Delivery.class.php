@@ -756,20 +756,28 @@ class Delivery extends TaoModule {
 		//init the value to be returned	
 		$deliveryData=array();
 		
-		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
-		//array of resource, test set
-		$tests = array();
-		$tests = $this->service->getRelatedTests($delivery);
-	
-		$deliveryData['tests'] = array();
-		foreach($tests as $test){
-			$deliveryData['tests'][] = array(
-				"label" => $test->getLabel(),
-				"uri" => $test->uriResource
-			);//url encode maybe?
-		}
-		
 		$deliveryData["uri"] = $delivery->uriResource;
+		
+		//check if a wsdl contract is set to upload the result:
+		$resultServer = $this->service->getResultServer($delivery);
+		$deliveryData['resultServer'] = $resultServer;
+		
+		$deliveryData['tests'] = array();
+		if(!empty($resultServer)){//a "valid" wsdl contract has been found
+		//TODO: check validity of the wsdl
+		
+			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
+			//array of resource, test set
+			$tests = array();
+			$tests = $this->service->getRelatedTests($delivery);
+			
+			foreach($tests as $test){
+				$deliveryData['tests'][] = array(
+					"label" => $test->getLabel(),
+					"uri" => $test->uriResource
+				);//url encode maybe?
+			}
+		}
 		
 		echo json_encode($deliveryData);
 	}

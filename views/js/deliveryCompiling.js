@@ -39,46 +39,54 @@ function initCompilation(uri,clazz){
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
-			//save the tests data in a global value
-			// deliveryUri = r.uri;
-			testArray = r.tests;
-			progressbarStep = Math.floor(100/parseInt(testArray.length));
-			
-			//table creation
-			var testTable = '<table id="user-list" class="ui-jqgrid-btable" cellspacing="0" cellpadding="0" border="0" role="grid" aria-multiselectable="false" aria-labelledby="gbox_user-list" style="width: 100%;">'
-				+'<thead>'
-				+'<tr class="ui-jqgrid-labels" role="rowheader">' 
-				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 10px;">Test no</th>'
-				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 100px;">Test Label</th>'
-				+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 250px;"></th>'
-				+ '</tr></thead><tbody>';
-			var clazz = '';
-			
-			for (j = 0; j < testArray.length; j++){
-				if ((j % 2) == 0)
-					clazz = "even";
-				else
-					clazz = "odd";
+		
+			if(r.resultServer.length>9){
+				//proceed with the test compilation:
+				//save the tests data in a global value
+				testArray = r.tests;
+				progressbarStep = Math.floor(100/parseInt(testArray.length));
 				
-				var testStatus= __("stand by");
+				//table creation
+				var testTable = '<table id="user-list" class="ui-jqgrid-btable" cellspacing="0" cellpadding="0" border="0" role="grid" aria-multiselectable="false" aria-labelledby="gbox_user-list" style="width: 100%;">'
+					+'<thead>'
+					+'<tr class="ui-jqgrid-labels" role="rowheader">' 
+					+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 10px;">Test no</th>'
+					+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 100px;">Test Label</th>'
+					+ '<th class="ui-state-default ui-th-column " role="columnheader" style="width: 250px;"></th>'
+					+ '</tr></thead><tbody>';
+				var clazz = '';
 				
-				url="#";
-				testTable += '<tr class="ui-widget-content jqgrow ' + clazz + '">';
-				testTable += '<td style="text-align: center;" role="gridcell">'+ (j+1) +'</td>';
-				testTable += '<td style="text-align: center;" role="gridcell"><b>'+ r.tests[j].label +'</b></td>';
-				testTable += '<td style="text-align: center;" role="gridcell"><span id="test_compiling_'+getTestId(r.tests[j].uri)+'">'+ testStatus +'</span></td>';
-				testTable += '</tr>';
-				testTable += '<tr><td colspan="3" id="result'+getTestId(r.tests[j].uri)+'" class="ui-widget-content jqgrow ' + clazz + '"></td></tr>';
+				for (j = 0; j < testArray.length; j++){
+					if ((j % 2) == 0)
+						clazz = "even";
+					else
+						clazz = "odd";
+					
+					var testStatus= __("stand by");
+					
+					url="#";
+					testTable += '<tr class="ui-widget-content jqgrow ' + clazz + '">';
+					testTable += '<td style="text-align: center;" role="gridcell">'+ (j+1) +'</td>';
+					testTable += '<td style="text-align: center;" role="gridcell"><b>'+ r.tests[j].label +'</b></td>';
+					testTable += '<td style="text-align: center;" role="gridcell"><span id="test_compiling_'+getTestId(r.tests[j].uri)+'">'+ testStatus +'</span></td>';
+					testTable += '</tr>';
+					testTable += '<tr><td colspan="3" id="result'+getTestId(r.tests[j].uri)+'" class="ui-widget-content jqgrow ' + clazz + '"></td></tr>';
+				}
+				testTable += '</tbody></table>';
+				
+				$("#testsContainer").html(testTable);
+				
+				//initiate the progressbar:
+				remainValue = 100-progressbarStep*testArray.length;
+				progressbar = $("#progressbar").progressbar({ value: 0 }).width("60%");
+				
+				updateProgress();
+				
+			}else{
+				var msg = __('No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again.');
+				finalMessage(msg, 'failed.png');
 			}
-			testTable += '</tbody></table>';
 			
-			$("#testsContainer").html(testTable);
-			
-			//initiate the progressbar:
-			remainValue = 100-progressbarStep*testArray.length;
-			progressbar = $("#progressbar").progressbar({ value: 0 }).width("60%");
-			
-			updateProgress();
 		}
 	});
 }
@@ -198,7 +206,7 @@ function incrementProgressbar(value){
 }
 
 function finalMessage(msg, imageFile){
-	$("#progressbar").append(msg);				
 	$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/"+imageFile}).appendTo($("#progressbar"));
+	$("#progressbar").append(msg);	
 }
 

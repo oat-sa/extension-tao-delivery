@@ -825,6 +825,47 @@ class taoDelivery_models_classes_DeliveryService
 		
 		return $procVar;
 	}
+	
+	/**
+     * The the url of the select result server
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  Resource aDeliveryInstance
+     * @return string
+     */
+	public function getResultServer(core_kernel_classes_Resource $delivery){
+		
+		$returnValue='';
+		
+		if(!is_null($delivery)){
+		
+			$resultServer = $delivery->getOnePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer"));
+			if(!is_null($resultServer) && $resultServer instanceof core_kernel_classes_Resource){
+				//potential issue with the use of common_Utils::isUri in getPropertyValuesCollection() or store encoded url only in
+				$resultServerUrl = $resultServer->getOnePropertyValue(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl"));
+				if(!is_null($resultServerUrl)){
+					$wsdlContractPath = '';
+					if($resultServerUrl instanceof core_kernel_classes_Literal){
+						$wsdlContractPath = $resultServerUrl->literal;
+					}
+					if($resultServerUrl instanceof core_kernel_classes_Resource){
+						$wsdlContractPath = $resultServerUrl->uriResource;
+					}
+					if(!empty($wsdlContractPath)){
+						//TODO verify more thoroughly the validity of the wsdl contract
+						// if(file_exists($wsdlContractPath)){//use is_readable?
+							// $returnValue = $wsdlContractPath;
+						// }
+						$returnValue = $wsdlContractPath;
+					}
+				}
+			}
+			
+		}
+		
+		return $returnValue;
+	}
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
