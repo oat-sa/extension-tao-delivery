@@ -28,8 +28,8 @@ function initCompilation(uri,clazz){
 	deliveryUri = uri;
 	classUri = clazz;
 	//detroying the progressbar, if it has been initiated
+	$("#progressbar").empty();
 	if( progressbar != null ){
-		$("#progressbar").empty();
 		progressbar.progressbar( 'destroy' );
 	}
 	
@@ -195,6 +195,9 @@ function endCompilation(){
 				}
 			}else{
 				alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
+			}
+			if( progressbar != null ){
+				progressbar.progressbar( 'destroy' );
 			}
 		}
 	});	
