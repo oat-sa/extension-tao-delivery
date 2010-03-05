@@ -1,264 +1,265 @@
 msgid "Campaign Class saved"
-msgstr ""
+msgstr "Klasse \"Kampagne\" gespeichert"
 
 msgid "Edit campaign class"
-msgstr ""
+msgstr "Klasse \"Kampagne\" bearbeiten"
 
 msgid "Campaign saved"
-msgstr ""
+msgstr "Kampagne gespeichert"
 
 msgid "Edit Campaign"
-msgstr ""
+msgstr "Kampagne bearbeiten"
 
 msgid "Delivery Class saved"
-msgstr ""
+msgstr "Klasse \"Delivery\" gespeichert"
 
 msgid "Edit delivery class"
-msgstr ""
+msgstr "Klasse\"Delivery\" bearbeiten"
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Klasse\"Delivery\" gespeichert"
 
 msgid "Edit delivery"
-msgstr ""
+msgstr "Delivery bearbeiten"
 
 msgid "saved"
-msgstr ""
+msgstr "gespeichert"
 
 msgid "Result Server class saved"
-msgstr ""
+msgstr "Klasse \"Ergebnis-Server\" gespeichert"
 
 msgid "Edit resultServer class"
-msgstr ""
+msgstr "Klasse \"Ergebnis-Server\" bearbeiten"
 
 msgid "Result Server saved"
-msgstr ""
+msgstr "Ergebnis-Server gespeichert"
 
 msgid "Edit ResultServer"
-msgstr ""
+msgstr "Ergebnis-Server bearbeiten"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Delivery"
 
 msgid "Manage deliveries"
-msgstr ""
+msgstr "Deliveries verwalten"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Deliveries-Bibliothek"
 
 msgid "search"
-msgstr ""
+msgstr "suchen"
 
 msgid "new class"
-msgstr ""
+msgstr "neue Klasse"
 
 msgid "new delivery"
-msgstr ""
+msgstr "neues Delivery"
 
 msgid "delete"
-msgstr ""
+msgstr "löschen"
 
 msgid "duplicate"
-msgstr ""
+msgstr "duplizieren"
 
 msgid "edit delivery"
-msgstr ""
+msgstr "Delivery bearbeiten"
 
 msgid "new property"
-msgstr ""
+msgstr "neue Eigenschaft"
 
 msgid "create table"
-msgstr ""
+msgstr "Tabelle erstellen"
 
 msgid "export"
-msgstr ""
+msgstr "Export"
 
 msgid "compile"
-msgstr ""
+msgstr "kompilieren"
 
 msgid "cache"
-msgstr ""
+msgstr "Cache"
 
 msgid "view history"
-msgstr ""
+msgstr "History anschauen"
 
 msgid "Manage Campaigns"
-msgstr ""
+msgstr "Kampagnen verwalten"
 
 msgid "Campaigns library"
-msgstr ""
+msgstr "Kampagnen-Bibliotheky"
 
 msgid "new campaign"
-msgstr ""
+msgstr "neue Kampagne"
 
 msgid "edit campaign"
-msgstr ""
+msgstr "Kampagne bearbeiten"
 
 msgid "Manage Result Servers"
-msgstr ""
+msgstr "Ergebnis-Server verwalten"
 
 msgid "Result Servers library"
-msgstr ""
+msgstr "Ergebnis-Server-Bibliothek"
 
 msgid "new result server"
-msgstr ""
+msgstr "neuer Ergebnis-Server"
 
 msgid "edit result server"
-msgstr ""
+msgstr "Ergebnis-Server bearbeiten"
 
 msgid "Delivery authoring"
-msgstr ""
+msgstr "Delivery-Authoring"
 
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 msgid "Service Definition"
-msgstr ""
+msgstr "Dienst-Definiton"
 
 msgid "Formal Parameter IN"
-msgstr ""
+msgstr "Formaler Parameter IN"
 
 msgid "Formal Parameter OUT"
-msgstr ""
+msgstr "Formaler Parameter OUT"
 
 msgid "Connector Type"
-msgstr ""
+msgstr "Konnektor-Typ"
 
 msgid "IF"
-msgstr ""
+msgstr "IF"
 
 msgid "create new activity"
-msgstr ""
+msgstr "neue Aktivität erstellen"
 
 msgid "create new connector"
-msgstr ""
+msgstr "neuen Konnektor erstellen"
 
 msgid "Activity or Connector"
-msgstr ""
+msgstr "Aktivität oder Konnektor"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivität"
 
 msgid "Connector"
-msgstr ""
+msgstr "Konnektor"
 
 msgid "Process Activities"
-msgstr ""
+msgstr "Prozess-Aktivitäten"
 
 msgid "Property"
-msgstr ""
+msgstr "Eigenschaften"
 
 msgid "undefined"
-msgstr ""
+msgstr "undefiniert"
 
 msgid "If"
-msgstr ""
+msgstr "If"
 
 msgid "Then"
-msgstr ""
+msgstr "Then"
 
 msgid "Else"
-msgstr ""
+msgstr "Else"
 
 msgid "type??"
-msgstr ""
+msgstr "TyP??"
 
 msgid "(still undefined)"
-msgstr ""
+msgstr "(noch immer undefiniert)"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Wollen Sie wirklich löschen?"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr ""
+msgstr "Wollen Sie wirklich löschen? Warnung: die abhängigen Konnektoren können betroffen sein"
 
 msgid "Select delivery campaign"
-msgstr ""
+msgstr "Delivery-Kampagne auswählen"
 
 msgid "Save"
-msgstr ""
+msgstr "Sichern"
 
 msgid "Select delivery"
-msgstr ""
+msgstr "Delivery auswählen"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr ""
+msgstr "Das Delivery-Modul erlaubt Benutzern, die Definition der Test-Delivery-Parameter,"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr ""
+msgstr "Dieser Bereich der Deliver-Verwaltung ermöglicht das Hinzufügen und Löschen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
 
 msgid "Campaign"
-msgstr ""
+msgstr "Kampagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr ""
+msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
 
 msgid "Result Server"
-msgstr ""
+msgstr "Ergebnis-Server"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr ""
+msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
 
 msgid "Please select a delivery before authoring it!"
-msgstr ""
+msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
 
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 msgid "Formal Parameter"
-msgstr ""
+msgstr "Formale Parameter"
 
 msgid "Role"
-msgstr ""
+msgstr "Rolle"
 
 msgid "Process Variables"
-msgstr ""
+msgstr "Prozess Variablen"
 
 msgid "Activity Editor"
-msgstr ""
+msgstr "Aktivitäten Editor"
 
 msgid "Process Property"
-msgstr ""
+msgstr "Prozess-Eigenschaft"
 
 msgid "loading..."
-msgstr ""
+msgstr "Ladevorgang ..."
 
 msgid "Sure?"
-msgstr ""
+msgstr "Sind Sie sich sicher?"
 
 msgid "save"
-msgstr ""
+msgstr "speichern"
 
 msgid "reload"
-msgstr ""
+msgstr "neu laden"
 
 msgid "cancel"
-msgstr ""
+msgstr "abbrechen"
 
 msgid "Use the * character to replace any string"
-msgstr ""
+msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 msgid "Open all"
-msgstr ""
+msgstr "Alles öffnen"
 
 msgid "Close all"
-msgstr ""
+msgstr "Alles schließen"
 
 msgid "Select testees to be <b>excluded</b>"
-msgstr ""
+msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
 
 msgid "EN"
-msgstr "English"
+msgstr "Englisch"
 
 msgid "FR"
-msgstr "French"
+msgstr "Französisch"
 
 msgid "DE"
-msgstr "German"
+msgstr "Deutsch"
 
 msgid "LU"
-msgstr "Luxemburgish"
+msgstr "Luxemburgisch"
+
 

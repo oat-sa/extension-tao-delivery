@@ -1,264 +1,275 @@
-msgid "Campaign Class saved"
+msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Eric J. Francois <eric.francois@uni.lu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Campaign Class saved"
+msgstr "Campagne Klass gespäichert"
 
 msgid "Edit campaign class"
-msgstr ""
+msgstr "Editéier Campagne Klass"
 
 msgid "Campaign saved"
-msgstr ""
+msgstr "Campagne gespäichert"
 
 msgid "Edit Campaign"
-msgstr ""
+msgstr "Editéier Campagne"
 
 msgid "Delivery Class saved"
-msgstr ""
+msgstr "Ausliwwerungsklass gespäichert"
 
 msgid "Edit delivery class"
-msgstr ""
+msgstr "Editéier Ausliwwerungsklass"
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Ausliwwerung gespäichert"
 
 msgid "Edit delivery"
-msgstr ""
+msgstr "Editéier Ausliwwerung"
 
 msgid "saved"
-msgstr ""
+msgstr "gespäichert"
 
 msgid "Result Server class saved"
-msgstr ""
+msgstr "Resultatserver Klass gespäichert"
 
 msgid "Edit resultServer class"
-msgstr ""
+msgstr "Editéier Resultatserver Klass"
 
 msgid "Result Server saved"
-msgstr ""
+msgstr "Resultatserver gespäichert"
 
 msgid "Edit ResultServer"
-msgstr ""
+msgstr "Editéier Resultatserver"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Ausliwwerung"
 
 msgid "Manage deliveries"
-msgstr ""
+msgstr "Ausliwwerungen managen"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Ausliwwerungs Sammlung"
 
 msgid "search"
-msgstr ""
+msgstr "duerchsichen"
 
 msgid "new class"
-msgstr ""
+msgstr "nei Klass"
 
 msgid "new delivery"
-msgstr ""
+msgstr "nei Ausliwwerung"
 
 msgid "delete"
-msgstr ""
+msgstr "läschen"
 
 msgid "duplicate"
-msgstr ""
+msgstr "duplizéieren"
 
 msgid "edit delivery"
-msgstr ""
+msgstr "editéier Ausliwwerung"
 
 msgid "new property"
-msgstr ""
+msgstr "nei Propriétéit"
 
 msgid "create table"
-msgstr ""
+msgstr "Tabell erschafen"
 
 msgid "export"
-msgstr ""
+msgstr "exportéieren"
 
 msgid "compile"
-msgstr ""
+msgstr "kompiléieren"
 
 msgid "cache"
-msgstr ""
+msgstr "Cache"
 
 msgid "view history"
-msgstr ""
+msgstr "Log uweisen"
 
 msgid "Manage Campaigns"
-msgstr ""
+msgstr "Campagnen managen"
 
 msgid "Campaigns library"
-msgstr ""
+msgstr "Campagne Sammlung"
 
 msgid "new campaign"
-msgstr ""
+msgstr "nei Campagne"
 
 msgid "edit campaign"
-msgstr ""
+msgstr "editéier Campagne"
 
 msgid "Manage Result Servers"
-msgstr ""
+msgstr "Resultatserver managen"
 
 msgid "Result Servers library"
-msgstr ""
+msgstr "Resultatserver Sammlung"
 
 msgid "new result server"
-msgstr ""
+msgstr "neie Resultatserver"
 
 msgid "edit result server"
-msgstr ""
+msgstr "editéier Resultatserver"
 
 msgid "Delivery authoring"
-msgstr ""
+msgstr "Ausliwwerungs Editioun"
 
 msgid "Label"
-msgstr ""
+msgstr "Etiquette"
 
 msgid "Service Definition"
-msgstr ""
+msgstr "Service Définitioun"
 
 msgid "Formal Parameter IN"
-msgstr ""
+msgstr "Formalen Agangsparameter"
 
 msgid "Formal Parameter OUT"
-msgstr ""
+msgstr "Formalen Ausgangsparameter"
 
 msgid "Connector Type"
-msgstr ""
+msgstr "Konnektiounstyp"
 
 msgid "IF"
-msgstr ""
+msgstr "WANN"
 
 msgid "create new activity"
-msgstr ""
+msgstr "erschaf nei Aktivitéit"
 
 msgid "create new connector"
-msgstr ""
+msgstr "erschaf nei Konnektioun"
 
 msgid "Activity or Connector"
-msgstr ""
+msgstr "Aktivitéit oder Konnektioun"
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitéit"
 
 msgid "Connector"
-msgstr ""
+msgstr "Konnektioun"
 
 msgid "Process Activities"
-msgstr ""
+msgstr "Aktivitéieten beschaffen"
 
 msgid "Property"
-msgstr ""
+msgstr "Propriétéit"
 
 msgid "undefined"
-msgstr ""
+msgstr "ondéfinéiert"
 
 msgid "If"
-msgstr ""
+msgstr "Wann"
 
 msgid "Then"
-msgstr ""
+msgstr "Dann"
 
 msgid "Else"
-msgstr ""
+msgstr "Soss"
 
 msgid "type??"
-msgstr ""
+msgstr "Typ??"
 
 msgid "(still undefined)"
-msgstr ""
+msgstr "(nach ëmmer ondéfinéiert)"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Wirklech Läschen?"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr ""
+msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
 
 msgid "Select delivery campaign"
-msgstr ""
+msgstr "Ausliwwerungs Campagne wielen"
 
 msgid "Save"
-msgstr ""
+msgstr "Späicheren"
 
 msgid "Select delivery"
-msgstr ""
+msgstr "Ausliwwerung wielen"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr ""
+msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze définéieren"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr ""
+msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bäizefügen oder ze läschen an hir Propriétéiten ze veränneren"
 
 msgid "Campaign"
-msgstr ""
+msgstr "Campagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr ""
+msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
 
 msgid "Result Server"
-msgstr ""
+msgstr "Resultatserver"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr ""
+msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bäizefügen, ze editéieren oder matt Ausliwwerungen ze verbannen."
 
 msgid "Please select a delivery before authoring it!"
-msgstr ""
+msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
 
 msgid "Back"
-msgstr ""
+msgstr "Zréck"
 
 msgid "Formal Parameter"
-msgstr ""
+msgstr "Formal Parameter"
 
 msgid "Role"
-msgstr ""
+msgstr "Roll"
 
 msgid "Process Variables"
-msgstr ""
+msgstr "Prozess Variablen"
 
 msgid "Activity Editor"
-msgstr ""
+msgstr "Aktivitéits Editor"
 
 msgid "Process Property"
-msgstr ""
+msgstr "Prozess Propriétéit"
 
 msgid "loading..."
-msgstr ""
+msgstr "lueden..."
 
 msgid "Sure?"
-msgstr ""
+msgstr "Sëcher?"
 
 msgid "save"
-msgstr ""
+msgstr "späicheren"
 
 msgid "reload"
-msgstr ""
+msgstr "nei lueden"
 
 msgid "cancel"
-msgstr ""
+msgstr "ofbriechen"
 
 msgid "Use the * character to replace any string"
-msgstr ""
+msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen "
 
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 msgid "Open all"
-msgstr ""
+msgstr "All opmaachen"
 
 msgid "Close all"
-msgstr ""
+msgstr "All zoumaachen"
 
 msgid "Select testees to be <b>excluded</b>"
-msgstr ""
+msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
 
 msgid "EN"
-msgstr "English"
+msgstr "Englesch"
 
 msgid "FR"
-msgstr "French"
+msgstr "Franséisch"
 
 msgid "DE"
-msgstr "German"
+msgstr "Däitsch"
 
 msgid "LU"
-msgstr "Luxemburgish"
+msgstr "Letzebuergesch"
 

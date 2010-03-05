@@ -1,3 +1,6 @@
+msgid ""
+msgstr ""
+
 msgid "Campaign Class saved"
 msgstr ""
 
@@ -197,7 +200,7 @@ msgid "Result Server"
 msgstr ""
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr ""
+msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
 
 msgid "Please select a delivery before authoring it!"
 msgstr ""
