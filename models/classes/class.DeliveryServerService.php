@@ -249,13 +249,120 @@ class taoDelivery_models_classes_DeliveryServerService
 		if(!is_null($delivery)){
 			$maxExec = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP));
 			if($maxExec instanceof core_kernel_classes_Literal){
-				$returnValue = intval($maxExec->literal);
+				if( trim($maxExec->literal) != '' ){
+					$returnValue = intval($maxExec->literal);
+				}
 			}
 		}
 		
 		return $returnValue;
 	}
 	
+	public function getDeliveries(core_kernel_classes_Resource $subject, $check = true){
+		//get list of available deliveries for this subject:
+		try{
+			$deliveriesCollection = $this->getDeliveriesBySubject($subject->uriResource);
+		}catch(Exception $e){
+			echo "error: ".$e->getMessage();
+		}
+
+		$deliveries = array(
+			'notCompiled' => array(),
+			'noResultServer' => array(),
+			'subjectExcluded' => array(),
+			'wrongPeriod' => array(),
+			'maxExecExceeded' => array(),
+			'ok' => array()
+		);
+
+		foreach($deliveriesCollection->getIterator() as $delivery){
+
+			if($check){
+
+				//check if it is compiled:
+				try{
+					$isCompiled = $this->isCompiled($delivery);
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
+				if(!$isCompiled){
+					$deliveries['notCompiled'][] = $delivery;
+					continue;
+				}
+
+				// check if it has valid resultServer defined:
+				try{
+					$resultServer = $this->getResultServer($delivery);
+
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
+				if(empty($resultServer)){
+					$deliveries['noResultServer'][] = $delivery;
+					continue;
+				}
+
+				//check if the subject is excluded:
+				try{
+					$isExcluded = $this->isExcludedSubject($subject, $delivery);
+				}catch(Exception $e){
+					echo "error: ".$e->getMessage();
+				}
+				if($isExcluded){
+					$deliveries['subjectExcluded'][] = $delivery;
+					continue;
+				}
+
+				//check the period
+				try{
+					$isRightPeriod = $this->checkPeriod($delivery);
+				}catch(Exception $e){
+					echo "error$isRightPeriod: ".$e->getMessage();
+				}
+				if(!$isRightPeriod){
+					$deliveries['wrongPeriod'][] = $delivery;
+					continue;
+				}
+				
+				//check maxexec: how many times the subject has already taken the current delivery?
+				$maxExec = $this->getMaxExec($delivery);
+				if($maxExec>=0){//check only is the value is defined. If no value for maxexec is defined, the returned value for getMaxExec is -1
+					try{
+						$historyCollection = $this->getHistory($delivery, $subject);
+					}catch(Exception $e){
+						echo "error: ".$e->getMessage();
+					}
+				
+					if(!$historyCollection->isEmpty()){
+						if($historyCollection->count() >= $maxExec ){
+							$deliveries['maxExecExceeded'][] = $delivery;
+							continue;
+						}
+					}
+				}
+			}//endif of "check"
+
+			//all check performed:
+			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
+		}
+
+		$availableProcessDefinition = array();
+		foreach($deliveries['ok'] as $availableDelivery){
+			if($check) {
+				$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			}
+			else{
+				$res = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+				if($res !=null) {
+					$availableProcessDefinition[ $availableDelivery->uriResource ] = $res->uriResource;
+				}
+			}
+		}
+		// var_dump($deliveries);
+
+		//return this array to the workflow controller: extended from main
+		return $availableProcessDefinition;
+	}
 	
 
 } /* end of class taoDelivery_models_classes_DeliveryServerService */

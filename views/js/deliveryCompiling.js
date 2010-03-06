@@ -29,9 +29,9 @@ function initCompilation(uri,clazz){
 	classUri = clazz;
 	//detroying the progressbar, if it has been initiated
 	$("#progressbar").empty();
-	if( progressbar != null ){
-		progressbar.progressbar( 'destroy' );
-	}
+	// if( progressbar != null ){
+		// progressbar.progressbar( 'destroy' );
+	// }
 	
 	$.ajax({
 		type: "POST",
@@ -40,7 +40,7 @@ function initCompilation(uri,clazz){
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
 		
-			if(r.resultServer.length>9){
+			if(r.resultServer.length>8){
 				//proceed with the test compilation:
 				//save the tests data in a global value
 				testArray = r.tests;
@@ -210,6 +210,9 @@ function incrementProgressbar(value){
 
 function finalMessage(msg, imageFile){
 	$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/"+imageFile}).appendTo($("#progressbar"));
-	$("#progressbar").append(msg);	
+	$("#progressbar").append(msg);
+	if( progressbar != null ){
+		progressbar.progressbar( 'destroy' );
+	}
 }
 

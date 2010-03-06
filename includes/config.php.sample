@@ -58,4 +58,6 @@ define('TAOBASE_WWW',  ROOT_URL  . '/tao/' . DIR_VIEWS);
 define('TAOVIEW_PATH', ROOT_PATH . '/tao/' . DIR_VIEWS);
 define('TAO_TPL_PATH', ROOT_PATH . '/tao/' . DIR_VIEWS . $GLOBALS['dir_theme']);
 
+#default wsdl contract on localhost:
+define('LOCAL_RESULT_SERVER',  "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php");
 ?>

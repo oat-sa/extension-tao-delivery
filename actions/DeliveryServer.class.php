@@ -58,112 +58,6 @@ class DeliveryServer extends Module{
 		$this->setView('deliveryServer.tpl');
 	}
 
-	public function getDeliveries(core_kernel_classes_Resource $subject, $check = true){
-		//get list of available deliveries for this subject:
-		try{
-			$deliveriesCollection = $this->service->getDeliveriesBySubject($subject->uriResource);
-		}catch(Exception $e){
-			echo "error: ".$e->getMessage();
-		}
-
-		$deliveries = array(
-			'notCompiled' => array(),
-			'noResultServer' => array(),
-			'subjectExcluded' => array(),
-			'wrongPeriod' => array(),
-			'maxExecExceeded' => array(),
-			'ok' => array()
-		);
-
-		foreach($deliveriesCollection->getIterator() as $delivery){
-
-			if($check){
-
-				//check if it is compiled:
-				try{
-					$isCompiled = $this->service->isCompiled($delivery);
-				}catch(Exception $e){
-					echo "error: ".$e->getMessage();
-				}
-				if(!$isCompiled){
-					$deliveries['notCompiled'][] = $delivery;
-					continue;
-				}
-
-				//check if it has valid resultServer defined:
-				// try{
-					// $resultServer = $this->service->getResultServer($delivery);
-
-				// }catch(Exception $e){
-					// echo "error: ".$e->getMessage();
-				// }
-				// if(empty($resultServer)){
-					// $deliveries['noResultServer'][] = $delivery;
-					// continue;
-				// }
-
-				//check if the subject is excluded:
-				try{
-					$isExcluded = $this->service->isExcludedSubject($subject, $delivery);
-				}catch(Exception $e){
-					echo "error: ".$e->getMessage();
-				}
-				if($isExcluded){
-					$deliveries['subjectExcluded'][] = $delivery;
-					continue;
-				}
-
-				//check the period
-				try{
-					$isRightPeriod = $this->service->checkPeriod($delivery);
-				}catch(Exception $e){
-					echo "error$isRightPeriod: ".$e->getMessage();
-				}
-				if(!$isRightPeriod){
-					$deliveries['wrongPeriod'][] = $delivery;
-					continue;
-				}
-				
-				//check maxexec: how many times the subject has already taken the current delivery?
-				$maxExec = $this->service->getMaxExec($delivery);
-				if($maxExec>=0){//check only is the value is defined. If no value for maxexec is defined, the returned value for getMaxExec is -1
-					try{
-						$historyCollection = $this->service->getHistory($delivery, $subject);
-					}catch(Exception $e){
-						echo "error: ".$e->getMessage();
-					}
-				
-					if(!$historyCollection->isEmpty()){
-						if($historyCollection->count() >= $maxExec ){
-							$deliveries['maxExecExceeded'][] = $delivery;
-							continue;
-						}
-					}
-				}
-			}//endif of "check"
-
-			//all check performed:
-			$deliveries['ok'][] = $delivery; //the process uri is contained in the property DeliveryContent of the delivery
-		}
-
-		$availableProcessDefinition = array();
-		foreach($deliveries['ok'] as $availableDelivery){
-			if($check) {
-				$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-			}
-			else{
-				$res = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-				if($res !=null) {
-					$availableProcessDefinition[ $availableDelivery->uriResource ] = $res->uriResource;
-				}
-			}
-		}
-		// var_dump($deliveries);
-
-		//return this array to the workflow controller: extended from main
-		return $availableProcessDefinition;
-	}
-
 	private function isSubjectSession(){
 		$subject = $_SESSION["subject"];
 		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
@@ -183,11 +77,11 @@ class DeliveryServer extends Module{
 			throw new Exception("no delivery found for the selected process definition");
 		}
 
-		// $wsdlContract = $this->service->getResultServer($delivery);
-		// if(empty($wsdlContract)){
-			// throw new Exception("no wsdl contract found for the current delivery");
-		// }
-		$wsdlContract = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
+		$wsdlContract = $this->service->getResultServer($delivery);
+		if(empty($wsdlContract)){
+			throw new Exception("no wsdl contract found for the current delivery");
+		}
+		// $wsdlContract = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
 
 		ini_set('max_execution_time', 200);
 
@@ -199,14 +93,16 @@ class DeliveryServer extends Module{
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
 		$var_subjectUri = $this->service->getProcessVariable("subjectUri");
+		$var_subjectLabel = $this->service->getProcessVariable("subjectLabel");
 		$var_wsdl = $this->service->getProcessVariable("wsdlContract");
-		if(!is_null($var_subjectUri) && !is_null($var_wsdl)){
+		if(!is_null($var_subjectUri) && !is_null($var_wsdl) && !is_null($var_subjectLabel)){
 			$processExecutionFactory->variables = array(
 			$var_subjectUri->uriResource => urlencode($subject->uriResource),
-			$var_wsdl->uriResource => $wsdlContract
+			$var_subjectLabel->uriResource => urlencode($subject->getLabel()),
+			$var_wsdl->uriResource => urlencode($wsdlContract)
 			);
 		}else{
-			throw new Exception('the required process variables "subjectUri" and/or "wsdlContract" waere not found');
+			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}
 
 		$newProcessExecution = $processExecutionFactory->create();
@@ -247,7 +143,7 @@ class DeliveryServer extends Module{
 		$uiLanguages		= I18nUtil::getAvailableLanguages();
 		$this->setData('uiLanguages',$uiLanguages);
 
-		$visibleProcess =$this->getDeliveries($subject,false);
+		$visibleProcess =$this->service->getDeliveries($subject,false);
 
 		foreach ($processes as $proc)
 		{
@@ -303,7 +199,7 @@ class DeliveryServer extends Module{
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
 		//		$availableProcessDefinition = $processClass->getInstances();
-		$availableProcessDefinition = $this->getDeliveries($subject);
+		$availableProcessDefinition = $this->service->getDeliveries($subject);
 
 
 		$this->setData('availableProcessDefinition',$availableProcessDefinition);

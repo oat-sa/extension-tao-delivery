@@ -4,36 +4,36 @@ session_start();
 
 //initiate runtime parameter value:
 $subjectIp = $_SERVER['REMOTE_ADDR'];
-$noresult = 0;
+$noresult = 1;
 $wsdlUrl='';
 $subjectUri='';
+$subjectLabel = "anonymous";
 
-if(isset($_GET['wsdl'])){
-	$wsdlUrl = $_GET['wsdl'];
-}else{
-	//if no wsdl contract found, use the default one, on localhost
-	$wsdlUrl = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
-}
-$wsdlUrl = "http://".$_SERVER['HTTP_HOST']."/taoDelivery/views/deliveryServer/wsdlContract/tao_result_wsdl.php";
-if(isset($_GET['subject']) and $_GET['subject']!=''){
+if(isset($_GET['subject']) && !empty($_GET['subject'])){
 	$subjectUri = $_GET['subject'];
-	$subjectLabel = "previewer";
+	
 	if($_GET['subject']=="previewer"){
-		$subjectUri .= "_".time();
-		$noresult=1;
+		$subjectUri .= "_".time();//preventing cache
+		
 	}else{
-		//if the subject in GET is considered as a subject's uri: it is a real test, so a valid wsdl link is required
 		$subjectUri	= $_GET['subject'];
+		
+		//real test, so test results are required
+		$noresult = 0;
+		
+		//if the subject in GET is considered as a subject's uri: it is a real test, so a valid wsdl link is required
+		if(isset($_GET['wsdl']) && !empty($_GET['wsdl'])){
+			$wsdlUrl = $_GET['wsdl'];
+		}else{
+			die("no wsdl contract for the result server");
+		}
+		
+		if(isset($_GET['subjectLabel']) && !empty($_GET['subjectLabel'])){
+			$subjectLabel = $_GET['subjectLabel'];
+		}
 	}
-}
-else{
-	if(isset($_SESSION["subject"]["uri"]) and $_SESSION["subject"]["uri"]!=''){
-		$subjectUri=$_SESSION["subject"]["uri"];
-		$subjectLabel=$_SESSION["subject"]["label"];
-	}else
-	{
-		die("no user uri defined in the session, please login again.");
-	}
+}else{
+	die("no subject uri found");
 }
 
 $subjectUri=urlencode($subjectUri);

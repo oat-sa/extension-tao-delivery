@@ -163,11 +163,10 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 	/**
      * Method to be called to delete an instance
-     * (Method is not used in the current implementation yet)
 	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource instance
+     * @param  core_kernel_classes_Resource instance
      * @return boolean
      */
     public function deleteInstance( core_kernel_classes_Resource $instance){
@@ -180,6 +179,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
         return (bool) $returnValue;
     }
 	
+	/**
+     * Description
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource activity
+     * @return core_kernel_classes_Resource
+     */
 	public function createInteractiveService(core_kernel_classes_Resource $activity){
 		$number = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->count();
 		$number += 1;
@@ -199,7 +206,15 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $callOfService;
 	}
-
+	
+	/**
+     * Description
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource activity
+     * @return core_kernel_classes_Resource
+     */
 	public function setActualParameter(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $formalParam, $value, $parameterInOrOut, $actualParameterType=''){
 		
 		//to be clarified:
@@ -444,8 +459,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	}
 	
     /**
-     * Check whether the object is a delivery class
-     * (Method is not used in the current implementation yet)
+     * Check whether the class is authorized 
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -473,10 +487,22 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
         return (bool) $returnValue;
     }
-			
+	
+	/**
+     * Description
+     *
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource process
+	 * @param  string label
+     * @return core_kernel_classes_Resource
+     */	
 	public function createActivity(core_kernel_classes_Resource $process, $label=''){
 		
+		$activity = null;
 		$activityLabel = "";
+		
 		if(empty($label)){
 			$number = $process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->count();
 			$number += 1;

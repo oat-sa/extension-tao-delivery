@@ -635,13 +635,15 @@ class taoDelivery_models_classes_DeliveryService
 		
 		//set the required process variables subjectUri and wsdlContract
 		$var_subjectUri = $this->getProcessVariable("subjectUri");
+		$var_subjectLabel = $this->getProcessVariable("subjectLabel");
 		$var_wsdl = $this->getProcessVariable("wsdlContract");
-		if(is_null($var_subjectUri) || is_null($var_wsdl)){
-			throw new Exception('the required process variables "subjectUri" and/or "wsdlContract" not found');
+		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel)){
+			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}else{
 			$processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
 			$process->removePropertyValues($processVarProp);
 			$process->setPropertyValue($processVarProp, $var_subjectUri->uriResource);
+			$process->setPropertyValue($processVarProp, $var_subjectLabel->uriResource);
 			$process->setPropertyValue($processVarProp, $var_wsdl->uriResource);
 		}
 		
@@ -664,7 +666,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			//create an activity
 			$activity = null;
-			$activity = $authoringService->createActivity($process, "activity_".$i);
+			$activity = $authoringService->createActivity($process, "test: {$test->getLabel()}");
 			if($i==0){
 				//set the property value as initial
 				$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
@@ -674,8 +676,10 @@ class taoDelivery_models_classes_DeliveryService
 			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
-			$testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
-			$testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";
+			// $testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
+			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";
+			
+			$testUrl = tao_helpers_Precompilator::getCompiledTestUrl($test->uriResource);
 			
 			$serviceDefinition = null;
 			$serviceDefinitionCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
@@ -853,11 +857,16 @@ class taoDelivery_models_classes_DeliveryService
 						$wsdlContractPath = $resultServerUrl->uriResource;
 					}
 					if(!empty($wsdlContractPath)){
-						//TODO verify more thoroughly the validity of the wsdl contract
-						// if(file_exists($wsdlContractPath)){//use is_readable?
-							// $returnValue = $wsdlContractPath;
-						// }
-						$returnValue = $wsdlContractPath;
+						if(strtolower($wsdlContractPath) == 'localhost'){
+							//if "localhost" is specified, use the default local result server
+							$returnValue = LOCAL_RESULT_SERVER;//check value on the config.php file
+						}else{
+							//TODO verify more thoroughly the validity of the wsdl contract
+							// if(file_exists($wsdlContractPath)){//use is_readable?
+								// $returnValue = $wsdlContractPath;
+							// }
+							$returnValue = $wsdlContractPath;
+						}
 					}
 				}
 			}

@@ -385,8 +385,9 @@ class tao_helpers_Precompilator
 	public static function getUniqueId($uriRessource){
 		$returnValue='';
 		//TODO check format of the uri, preg_match()
-		
-		$returnValue=substr($uriRessource,stripos($uriRessource,".rdf#")+5);
+		if(stripos($uriRessource,".rdf#")>0){
+			$returnValue = substr($uriRessource,stripos($uriRessource,".rdf#")+5);
+		}
 		
 		return $returnValue;
 	}
@@ -406,6 +407,17 @@ class tao_helpers_Precompilator
 		}
 		
 		return $returnValue;
+	}
+	
+	public static function getCompiledTestUrl($testUri){
+		$testUrl ='';
+		
+		$testUniqueId = self::getUniqueId($testUri);
+		if(!empty($testUniqueId)){
+			$testUrl = BASE_URL."/compiled/{$testUniqueId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
+		}
+		
+		return $testUrl;
 	}
 	
 	/**
