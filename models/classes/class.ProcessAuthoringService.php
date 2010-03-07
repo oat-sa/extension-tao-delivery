@@ -26,12 +26,22 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 require_once('tao/models/classes/class.Service.php');
 
+/**
+ * 
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ */
 require_once('taoDelivery/plugins/CapiXML/models/class.ConditionalTokenizer.php');
 
+/**
+ * 
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ */
 require_once('taoDelivery/plugins/CapiImport/models/class.DescriptorFactory.php');
 
 /**
- * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
+ * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to access and edit the process ontology
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -43,35 +53,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
     extends tao_models_classes_Service
 {
     // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * The attribute deliveryClass contains the default TAO Delivery Class
-     *
-     * @access protected
-     * @var Class
-     */
-    protected $deliveryClass = null;
-
-	/**
-     * The attribute testClass contains the default TAO Test Class
-     *
-     * @access protected
-     * @var Class
-     */
-	protected $testClass = null;
-	
-	protected $activityClass = null;
-	protected $roleClass = null;
-	protected $serviceDefinitionClass = null;
-	protected $formalParameterClass = null;
 	
 	protected $processUri = '';
 		
     /**
-     * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
+     * The attribute deliveryOntologies contains the reference to the required Ontologies
      *
      * @access protected
      * @var array
@@ -98,47 +84,10 @@ class taoDelivery_models_classes_ProcessAuthoringService
     {
 		parent::__construct();
 		
-		
-		//TODO: clean that
-		// $this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		// $this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$this->activityClass = new core_kernel_classes_Class(CLASS_ACTIVITIES);
-		$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$this->serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SERVICESDEFINITION);
-		$this->formalParameterClass = new core_kernel_classes_Class(CLASS_FORMALPARAMETER);
-		
 		//set processUri here
 		
 		$this->loadOntologies($this->processAuthoringOntologies);
     }
-	
-	/**
-     * The method getDeliveryClass return the current Delivery Class
-	 * (not used yet in the current implementation)
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string uri
-     * @return core_kernel_classes_Class
-     */
-	 //UL
-    public function getDeliveryClass($uri = '')
-    {
-        $returnValue = null;
-
-		if(empty($uri) && !is_null($this->deliveryClass)){
-			$returnValue = $this->deliveryClass;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isDeliveryClass($clazz)){
-				$returnValue = $clazz;
-			}
-		}
-
-        return $returnValue;
-    }
-	
 	
 	/**
      * Returns a delivery by providing either its uri (default) or its label and the delivery class
@@ -213,7 +162,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  core_kernel_classes_Resource activity
-     * @return core_kernel_classes_Resource
+	 * @param  core_kernel_classes_Resource formalParam
+	 * @param  string value
+	 * @param  string parameterInOrOut
+	 * @param  string actualParameterType
+     * @return boolean
      */
 	public function setActualParameter(core_kernel_classes_Resource $callOfService, core_kernel_classes_Resource $formalParam, $value, $parameterInOrOut, $actualParameterType=''){
 		
@@ -231,7 +184,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $callOfService->setPropertyValue(new core_kernel_classes_Property($parameterInOrOut), $newActualParameter->uriResource);
 	}
 	
-	//clean the triples for a call of service and its related resource (i.e. actual parameters)
+	/**
+     * Clean the triples for a call of service and its related resource (i.e. actual parameters)
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource callOfService
+     * @return boolean
+     */
 	public function deleteActualParameters(core_kernel_classes_Resource $callOfService){
 		
 		$returnValue = (bool) false;
@@ -265,10 +225,20 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return (bool) $returnValue;
 	}
-
+	
+	/**
+     * Clean the triples for a rule and its related resource
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource rule
+     * @return boolean
+     */
 	public function deleteRule(core_kernel_classes_Resource $rule){
+		$returnValue = false;
+		
 		//get the rule type:
-		if($rule instanceof core_kernel_classes_Resource){
+		if(!is_null($rule)){
 			//if it is a transition rule: get the uri of the related properties: THEN and ELSE:
 			//delete the expression of the conditio and its related terms
 			$expressionCollection = $rule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_RULE_IF));
@@ -277,14 +247,25 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			}
 			
 			//delete the resources
-			$rule->delete();
+			$returnValue = $rule->delete();
 		}
 		
+		return $returnValue;
 	}
 	
-	//note: always recursive: delete the expressions that make up the current expression
+	/**
+     * Clean the triples for an expression and its related resource
+	 * note: always recursive: delete the expressions that make up the current expression
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource expression
+     * @return boolean
+     */
 	public function deleteExpression(core_kernel_classes_Resource $expression){
-			
+		
+		$returnValue = false;
+		
 		//delete related expressions
 		$firstExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_FIRSTEXPRESSION));
 		$secondExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_SECONDEXPRESSION));
@@ -299,9 +280,19 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		
 		//delete the expression itself:
-		$expression->delete();
+		$returnValue = $expression->delete();
+		
+		return $returnValue;
 	}
 	
+	/**
+     * Clean the ontology from a process triples
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource process
+     * @return boolean
+     */
 	public function deleteProcess(core_kernel_classes_Resource $process){
 		
 		$returnValue = false;
@@ -320,6 +311,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * Clean the ontology from an activity triples
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource activity
+     * @return boolean
+     */
 	public function deleteActivity(core_kernel_classes_Resource $activity){
 		
 		$returnValue = false;
@@ -383,6 +382,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * delete a connector and its related resources
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource connector
+     * @return boolean
+     */
 	public function deleteConnector(core_kernel_classes_Resource $connector){
 		
 		$returnValue = false;
@@ -431,7 +438,16 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	
+	/**
+     * delete the reference to an object via a given property
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource property
+	 * @param  core_kernel_classes_Resource object
+	 * @param  boolean multiple
+     * @return boolean
+     */
 	public function deleteReference(core_kernel_classes_Property $property, core_kernel_classes_Resource $object, $multiple = false){
 		
 		$returnValue = false;
@@ -489,7 +505,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
     }
 	
 	/**
-     * Description
+     * Create an activity for a process
      *
      *
      * @access public
@@ -523,6 +539,15 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $activity;
 	}
 	
+	/**
+     * Create a connector for an activity
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource activity
+	 * @param  string label
+     * @return core_kernel_classes_Resource
+     */	
 	public function createConnector(core_kernel_classes_Resource $activity, $label=''){
 		$connectorLabel = "";
 		if(empty($label)){
@@ -553,6 +578,16 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $connector;
 	}
 	
+	/**
+     * Description
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource connector
+	 * @param  core_kernel_classes_Resource followingActivity
+	 * @param  string newActivityLabel
+     * @return void
+     */	
 	public function createSequenceActivity(core_kernel_classes_Resource $connector, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel = ''){
 		if(is_null($followingActivity)){
 			//get the process associate to the connector to create a new instance of activity
@@ -571,6 +606,15 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 	}
 	
+	/**
+	 * Create a rule according to a condition
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource connector
+	 * @param  string condiiton
+     * @return boolean
+     */	
 	public function createRule(core_kernel_classes_Resource $connector, $condition=''){
 		
 		$returnValue = true;
@@ -612,13 +656,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		foreach ($xmlDom->childNodes as $childNode) {
 			foreach ($childNode->childNodes as $childOfChildNode) {
 				if ($childOfChildNode->nodeName == "condition"){
-					// throw new Exception("parent={$childNode->nodeName} <br/> XMLcontent=".$childOfChildNode->textContent." <br/>compare to {$tokens->getXmlString(true)}");
-					$conditionDescriptor = DescriptorFactory::getConditionDescriptor($childOfChildNode);
-					// throw new Exception("descriptor=".var_dump($conditionDescriptor));
 					
+					$conditionDescriptor = DescriptorFactory::getConditionDescriptor($childOfChildNode);
 					$expressionInstance = $conditionDescriptor->import();//(3*(^var +  1) = 2 or ^var > 7) AND ^RRR
 					break 2;//once is enough...
-					// throw new Exception("expression uri = {$expressionInstance->uriResource}");
+				
 				}
 			}
 		}
@@ -638,10 +680,21 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $returnValue;
 	}
-	
-	//remove property PROPERTY_CONNECTORS_NEXTACTIVITIES values on connector before:
+		
+	/**
+     * Description
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource connector
+	 * @param  string connectorType
+	 * @param  core_kernel_classes_Resource followingActivity
+	 * @param  string newActivityLabel
+	 * @param  boolean followingActivityisConnector
+     * @return void
+     */	
 	public function createSplitActivity(core_kernel_classes_Resource $connector, $connectorType, core_kernel_classes_Resource $followingActivity = null, $newActivityLabel ='', $followingActivityisConnector = false){
-
+		//remove property PROPERTY_CONNECTORS_NEXTACTIVITIES values on connector before:
 		if(is_null($followingActivity)){
 			
 			if($followingActivityisConnector){
@@ -681,6 +734,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 	}
 	
+	/**
+     * Get an array of activities of the process
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource process
+     * @return array
+     */	
 	public function getActivitiesByProcess(core_kernel_classes_Resource $process){
 		
 		$returnValue = array();
@@ -704,6 +765,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * Get all connectors of a process
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource process
+     * @return array
+     */	
 	public function getConnectorsByProcess(core_kernel_classes_Resource $process){
 		$activities = $this->getActivitiesByProcess($process);
 		$connectors = array();
@@ -716,6 +785,16 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	}
 	
+	/**
+     * Get all connectors of an activity
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource activity
+	 * @param  array option
+	 * @param  boolean isConnector
+     * @return array
+     */
 	public function getConnectorsByActivity(core_kernel_classes_Resource $activity, $option=array(), $isConnector=false ){
 			
 		//prev: the connectors that links to the current activity
@@ -765,7 +844,15 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		return $returnValue;
 	}
-		
+	
+	/**
+     * Check if the resource is an activity instance
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource resource
+     * @return boolean
+     */	
 	public static function isActivity(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		
@@ -781,6 +868,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * Check if the resource is a connector instance
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource resource
+     * @return boolean
+     */	
 	public static function isConnector(core_kernel_classes_Resource $resource){
 		$returnValue = false;
 		
@@ -796,6 +891,14 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * Get the process variable with a given code
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string code
+     * @return core_kernel_classes_Resource
+     */
 	public function getProcessVariable($code){
 		$returnValue = null;
 		

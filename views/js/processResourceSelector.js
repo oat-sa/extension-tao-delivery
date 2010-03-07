@@ -31,10 +31,6 @@ function resourceSelector(identifier, resourceType){
 		$("#"+dialogId).dialog('close');
 	});
 	$("#"+dialogId).bind('dialogopen', function(event, ui){
-		//supposing that ctx_extension and ctx_module are global
-		// if(ctx_extension){
-			// url = '/' + ctx_extension + '/' + ctx_module + '/';
-		// }
 		
 		dataUrl = "/taoDelivery/DeliveryAuthoring/getTestData";
 		 
@@ -68,7 +64,6 @@ function resourceSelector(identifier, resourceType){
 					if($(NODE).hasClass('node-instance')){
 						//set the value of the selected link in the textbox:
 						$(identifier).val($(NODE).attr('val'));
-						// alert(NODE.attr("id"));
 						
 						//close the dialog box:
 						$("#"+dialogId).dialog('close');

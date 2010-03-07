@@ -16,6 +16,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * constructor: initialize the service and the default data
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return Delivery
 	 */
 	public function __construct(){
@@ -35,6 +38,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * get the selected delivery from the current context (from the uri and classUri parameter in the request)
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return core_kernel_classes_Resource $delivery
 	 */
 	private function getCurrentDelivery(){
@@ -96,6 +102,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Edit a delivery class
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @see tao_helpers_form_GenerisFormFactory::classEditor
 	 * @return void
 	 */
@@ -118,6 +127,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Edit a delviery instance
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @see tao_helpers_form_GenerisFormFactory::instanceEditor
 	 * @return void
 	 */
@@ -183,7 +195,10 @@ class Delivery extends TaoModule {
 	}
 		
 	/**
-	 * Add a delivery instance        
+	 * Add a delivery instance 
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}	 
 	 * @return void
 	 */
 	public function addDelivery(){
@@ -205,6 +220,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Add a delivery subclass
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function addDeliveryClass(){
@@ -222,6 +240,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Delete a delivery or a delivery class
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function delete(){
@@ -242,6 +263,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Duplicate a delivery instance
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function cloneDelivery(){
@@ -259,7 +283,10 @@ class Delivery extends TaoModule {
 	}
 	
 	/**
-	 * display the authoring  template 
+	 * display the authoring  template
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}	 
 	 * @return void
 	 */
 	public function authoring(){
@@ -281,6 +308,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Get the data to populate the tree of delivery's subjects
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function getSubjects(){
@@ -293,6 +323,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Save the delivery excluded subjects
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function saveSubjects(){
@@ -316,6 +349,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Get the data to populate the tree of delivery campaigns
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function getCampaigns(){
@@ -328,6 +364,7 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Save the delivery related campaigns
+	 * @access public
 	 * @return void
 	 */
 	public function saveCampaigns(){
@@ -690,6 +727,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * services to render the delivery tests
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return 
 	 */
 	public function getTests(){
@@ -707,6 +747,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * get all the tests instances in a json response
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function getAllTests(){
@@ -718,6 +761,9 @@ class Delivery extends TaoModule {
 	
 	/**
 	 * Save the delivery related tests
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
 	public function saveTests(){
@@ -738,6 +784,13 @@ class Delivery extends TaoModule {
 		echo json_encode(array('saved'	=> $saved));
 	}
 	
+	/**
+	 * get the compilation view
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function compileView(){
 	
 		$delivery = $this->getCurrentDelivery();
@@ -757,6 +810,13 @@ class Delivery extends TaoModule {
 		$this->setView("delivery_compiling.tpl");
 	}
 	
+	/**
+	 * get the compilation view
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function initCompilation(){
 		
 		$delivery = $this->getCurrentDelivery();
@@ -790,6 +850,13 @@ class Delivery extends TaoModule {
 		echo json_encode($deliveryData);
 	}
 	
+	/**
+	 * End the compilation of a delivery
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function endCompilation(){
 	
 		$delivery = $this->getCurrentDelivery();

@@ -514,7 +514,7 @@ class taoDelivery_models_classes_DeliveryService
     }
 	
 	/**
-     * add history to
+     * add history to a delivery execution
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -543,7 +543,15 @@ class taoDelivery_models_classes_DeliveryService
 		return $historyCollection;
 	}
 	
-	
+	/**
+     * create a delivery instance, and at the same time the process instance associated to it
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Class clazz
+	 * @param  string label
+     * @return core_kernel_classes_Resource
+     */
 	public function createInstance(core_kernel_classes_Class $clazz, $label = ''){
 		$deliveryInstance = parent::createInstance($clazz, $label);
 		
@@ -556,12 +564,12 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	 /**
-     * Short description of method cloneInstance
+     * Clone a delivery instance, and thus its property values, except deliveryContent, which is a process instance, and the compiled property value
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource instance
-     * @param  Class clazz
+     * @param  core_kernel_classes_Resource instance
+     * @param  core_kernel_classes_Class clazz
      * @return core_kernel_classes_Resource
      */
     public function cloneDelivery( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz)
@@ -589,13 +597,23 @@ class taoDelivery_models_classes_DeliveryService
         return $returnValue;
     }
 	
+	/**
+     * Make sure that the delivery and the associated process have the same label
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource delivery
+     * @return void
+     */
 	public function updateProcessLabel(core_kernel_classes_Resource $delivery){
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		$process->setLabel("Process ".$delivery->getLabel());
 	}
 
 	/**
-	 * Get all the tests composing a delivery 
+	 * Get all the tests composing a delivery
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}	 
 	 * @param core_kernel_classes_Resource $delivery 
 	 * @return array of core_kernel_classes_Resource for each Test instance 
 	 */
@@ -624,6 +642,15 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
+	/**
+     * Build a sequential process for the delivery from an array of tests 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource delivery
+	 * @param  array tests
+     * @return boolean
+     */
 	public function setDeliveryTests(core_kernel_classes_Resource $delivery, $tests){
 		
 		$returnValue = false;
@@ -730,6 +757,14 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
+	/**
+     * Get an ordered array of tests that make up a sequential process
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource delivery
+     * @return array
+     */
 	public function getDeliveryTests(core_kernel_classes_Resource $delivery){
 		
 		$tests = array();
@@ -805,6 +840,13 @@ class taoDelivery_models_classes_DeliveryService
 		return $tests;
 	}
 	
+	/**
+     * Get all available tests
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return array
+     */
 	public function getAllTests(){
 		
 		$returnValue = array();
@@ -817,6 +859,14 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
+	/**
+     * Get the process variable with a given code
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  string code
+     * @return core_kernel_classes_Resource
+     */
 	public function getProcessVariable($code){
 		$procVar = null;
 		

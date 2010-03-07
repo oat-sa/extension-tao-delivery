@@ -29,9 +29,12 @@ class DeliveryAuthoring extends ProcessAuthoring {
 	}
 	
 	/**
-	*Methods specialised for DeliveryAuthoring
-	*/
-	
+     * Get json encoded array of tests data to populate the tests tree
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return void
+     */
 	public function getTestData(){
 		
 		if(!tao_helpers_Request::isAjax()){
@@ -52,6 +55,14 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		echo json_encode($reformatedTreeData);
 	}
 	
+	/**
+     * Reformat the tests tree data, by adding the information on the compiled test url 
+	 *
+     * @access private
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param array tests
+     * @return array
+     */
 	private function reformatTestData($tests){
 		$instancesData = array();
 		foreach($tests as $test){
@@ -72,6 +83,14 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		return $instancesData;
 	}
 	
+	/**
+     * Get an array of tests composing a delivery
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param  core_kernel_classes_Resource delivery
+     * @return array
+     */
 	public function getDeliveryTests(core_kernel_classes_Resource $delivery){
 		$returnValue = array();
 		
@@ -82,6 +101,14 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		return $returnValue;
 	}
 	
+	/**
+     * Get an array of tests composing a process
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource process
+     * @return array
+     */
 	public function getProcessTests(core_kernel_classes_Resource $process){
 	
 		if(is_null($process)){
@@ -102,6 +129,13 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		return $tests;
 	}
 	
+	/**
+	 * get the compilation view
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function compileView(){
 	
 		$currentProcess = $this->getCurrentProcess();
@@ -128,6 +162,13 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		$this->setView("process_compiling.tpl");
 	}
 	
+	/**
+	 * get the compilation view
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function initCompilation(){
 		
 		$process = $this->getCurrentProcess();
@@ -157,6 +198,13 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		echo json_encode($deliveryData);
 	}
 	
+	/**
+	 * End the compilation of a delivery
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function endCompilation(){
 	
 		$process = $this->getCurrentProcess();

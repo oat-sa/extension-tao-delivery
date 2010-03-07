@@ -61,8 +61,6 @@ class ProcessAuthoring extends TaoModule {
 	protected function getRootClass(){
 		return null;
 	}
-	
-	
 
 	protected function getCurrentActivity(){
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('activityUri'));

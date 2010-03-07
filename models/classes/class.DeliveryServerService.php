@@ -18,25 +18,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
 
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every service instances.
- *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- */
-// require_once('tao/models/classes/class.Service.php');
-
-/**
- * The Precompilator class provides many useful methods to accomplish the test compilation task
- *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- */
-// require_once('taoDelivery/helpers/class.Precompilator.php');
-
 require_once('taoDelivery/models/classes/class.DeliveryService.php');
 
 /**
- * The taoDelivery_models_classes_DeliveryService class provides methods to connect to several ontologies and interact with them.
+ * taoDelivery_models_classes_DeliveryService
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -224,6 +209,15 @@ class taoDelivery_models_classes_DeliveryServerService
 
 	}
 	
+	/**
+     * Check if the subject is set as excluded from the delivery execution
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource subject
+     * @param  core_kernel_classes_Resource delivery
+	 * @return boolean
+     */
 	public function isExcludedSubject(core_kernel_classes_Resource $subject, core_kernel_classes_Resource $delivery){
 		
 		$returnValue = false;
@@ -236,12 +230,21 @@ class taoDelivery_models_classes_DeliveryServerService
 		foreach($excludedSubjectArray as $excludedSubject){
 			if($excludedSubject == $subject->uriResource){
 				$returnValue = true;
+				break;
 			}
 		}
 		
 		return $returnValue;
 	}
 	
+	/**
+     * Get the maximal number of execution for a delivery
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource delivery
+	 * @return int
+     */
 	public function getMaxExec(core_kernel_classes_Resource $delivery){
 		
 		$returnValue = -1;
@@ -258,6 +261,16 @@ class taoDelivery_models_classes_DeliveryServerService
 		return $returnValue;
 	}
 	
+	/**
+     * Get the list of available deliveries for a given subject.
+     * When the option "check" is set to true, it performs required checks to filter the deliveries the subject is allowed to execute.
+     *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource subject
+     * @param  boolean true
+	 * @return array
+     */
 	public function getDeliveries(core_kernel_classes_Resource $subject, $check = true){
 		//get list of available deliveries for this subject:
 		try{

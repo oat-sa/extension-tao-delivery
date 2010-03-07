@@ -3,7 +3,7 @@ require_once('tao/actions/CommonModule.class.php');
 require_once('tao/actions/TaoModule.class.php');
 
 /**
- * Delivery Controller provide actions performed from url resolution
+ * DeliveryServer Controller
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
@@ -24,7 +24,15 @@ class DeliveryServer extends Module{
 
 		$this->service = new taoDelivery_models_classes_DeliveryServerService();
 	}
-
+	
+	/**
+     * default action: set the view to enable the user to log into the deliveyr server.
+	 * if the user is identified, redirection to deliveryIndex
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return void
+     */
 	public function index(){
 
 		if(isset($_POST["login"]) && isset($_POST["password"])){
@@ -57,16 +65,31 @@ class DeliveryServer extends Module{
 
 		$this->setView('deliveryServer.tpl');
 	}
-
+	
+	/**
+     * Check if a subject is in session and return it. If not, redirection to index
+	 *
+     * @access private
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @return void or core_kernel_class_Resource
+     */
 	private function isSubjectSession(){
 		$subject = $_SESSION["subject"];
 		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
-			$this->redirect('../DeliveryServer/');
+			$this->redirect('../DeliveryServer/');//$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}else{
 			return $subject;
 		}
 	}
-
+	
+	/**
+     * Instanciate a process instance from a process definition
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param processDefinitionUri
+     * @return void
+     */
 	public function processAuthoring($processDefinitionUri)
 	{
 
@@ -121,7 +144,15 @@ class DeliveryServer extends Module{
 		$param = array( 'processUri' => $processUri);
 		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
 	}
-
+	
+	/**
+     * Set a view with the list of process instances (both started or finished) and available process definitions
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param processDefinitionUri
+     * @return void
+     */
 	public function deliveryIndex()
 	{
 		if (!isset($_SESSION['taoqual.authenticated'])){
@@ -198,7 +229,7 @@ class DeliveryServer extends Module{
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
 
-		//		$availableProcessDefinition = $processClass->getInstances();
+		//$availableProcessDefinition = $processClass->getInstances();
 		$availableProcessDefinition = $this->service->getDeliveries($subject);
 
 
@@ -209,6 +240,9 @@ class DeliveryServer extends Module{
 
 	/**
 	 * Logout, destroy the session and back to the login page
+	 *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return
 	 */
 	public function logout(){
