@@ -1,116 +1,116 @@
-msgid "Campaign Class saved"
-msgstr ""
+﻿msgid "Campaign Class saved"
+msgstr "Campagne sauvegardée"
 
 msgid "Edit campaign class"
-msgstr ""
+msgstr "Editer une classe de campagne"
 
 msgid "Campaign saved"
-msgstr ""
+msgstr "Campagne sauvegardée"
 
 msgid "Edit Campaign"
-msgstr ""
+msgstr "Editer une campagne"
 
 msgid "Delivery Class saved"
-msgstr ""
+msgstr "Classe de Delivery Sauvegardée"
 
 msgid "Edit delivery class"
-msgstr ""
+msgstr "Editer une classe de Delivery"
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Delivery Sauvegardé"
 
 msgid "Edit delivery"
-msgstr ""
+msgstr "Editer un Delivery"
 
 msgid "saved"
-msgstr ""
+msgstr "sauvegardé"
 
 msgid "Result Server class saved"
-msgstr ""
+msgstr "Classe de server de résultats sauvegardée"
 
 msgid "Edit resultServer class"
-msgstr ""
+msgstr "Editer une classe de serveur de résultats"
 
 msgid "Result Server saved"
-msgstr ""
+msgstr "Server de résultat sauvegardé"
 
 msgid "Edit ResultServer"
-msgstr ""
+msgstr "Editer un serveur de résultats"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Delivery"
 
 msgid "Manage deliveries"
-msgstr ""
+msgstr "Gérer les deliveries"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Librarie de Deliveries"
 
 msgid "search"
-msgstr ""
+msgstr "Recherche"
 
 msgid "new class"
-msgstr ""
+msgstr "Nouvelle Classe"
 
 msgid "new delivery"
-msgstr ""
+msgstr "Nouveau Delivery"
 
 msgid "delete"
-msgstr ""
+msgstr "Supprimer"
 
 msgid "duplicate"
-msgstr ""
+msgstr "Dupliquer"
 
 msgid "edit delivery"
-msgstr ""
+msgstr "Editer un delivery"
 
 msgid "new property"
-msgstr ""
+msgstr "Nouveau delivery"
 
 msgid "create table"
-msgstr ""
+msgstr "Créer une table"
 
 msgid "export"
-msgstr ""
+msgstr "Exporter"
 
 msgid "compile"
-msgstr ""
+msgstr "Compiler"
 
 msgid "cache"
-msgstr ""
+msgstr "Cache"
 
 msgid "view history"
-msgstr ""
+msgstr "Voir l'historique"
 
 msgid "Manage Campaigns"
-msgstr ""
+msgstr "Gérer les campagnes"
 
 msgid "Campaigns library"
-msgstr ""
+msgstr "Librairie de campagnes"
 
 msgid "new campaign"
-msgstr ""
+msgstr "Nouvelle camapgne"
 
 msgid "edit campaign"
-msgstr ""
+msgstr "Editer une campagne"
 
 msgid "Manage Result Servers"
-msgstr ""
+msgstr "Gérer les serveurs de résultats"
 
 msgid "Result Servers library"
-msgstr ""
+msgstr "Librairie de serveurs de résultats"
 
 msgid "new result server"
-msgstr ""
+msgstr "Nouveau serveur de résultats"
 
 msgid "edit result server"
-msgstr ""
+msgstr "Editer un serveur de résultats"
 
 msgid "Delivery authoring"
-msgstr ""
+msgstr "Editer un delivery"
 
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 msgid "Service Definition"
 msgstr ""
@@ -128,10 +128,10 @@ msgid "IF"
 msgstr ""
 
 msgid "create new activity"
-msgstr ""
+msgstr "Créer une nouvelle activitée"
 
 msgid "create new connector"
-msgstr ""
+msgstr "Créer un nouveau connector"
 
 msgid "Activity or Connector"
 msgstr ""
@@ -149,7 +149,7 @@ msgid "Property"
 msgstr ""
 
 msgid "undefined"
-msgstr ""
+msgstr "indéfini"
 
 msgid "If"
 msgstr ""
@@ -164,46 +164,46 @@ msgid "type??"
 msgstr ""
 
 msgid "(still undefined)"
-msgstr ""
+msgstr "(encore indéfini)"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Veuillez confirmer la suppression"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr ""
+msgstr "Veuillez confirmer la suppression"
 
 msgid "Select delivery campaign"
-msgstr ""
+msgstr "Selectionner une campagne de delivery"
 
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"
 
 msgid "Select delivery"
-msgstr ""
+msgstr "Choisir un delivery"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr ""
+msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr ""
+msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
 
 msgid "Campaign"
-msgstr ""
+msgstr "Campagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr ""
+msgstr "Cette section permet d'ajouter, d'éditer et d'assigner des deliveries à une campagne de delivery"
 
 msgid "Result Server"
-msgstr ""
+msgstr "Serveur de résultats"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr ""
+msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
 
 msgid "Please select a delivery before authoring it!"
-msgstr ""
+msgstr "Veuillez sélectionner un delivery avant de l'éditer."
 
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
 msgid "Formal Parameter"
 msgstr ""
@@ -221,44 +221,44 @@ msgid "Process Property"
 msgstr ""
 
 msgid "loading..."
-msgstr ""
+msgstr "Chargement..."
 
 msgid "Sure?"
 msgstr ""
 
 msgid "save"
-msgstr ""
+msgstr "Sauvegarder"
 
 msgid "reload"
-msgstr ""
+msgstr "Recharger"
 
 msgid "cancel"
-msgstr ""
+msgstr "Annuler"
 
 msgid "Use the * character to replace any string"
-msgstr ""
+msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtrer"
 
 msgid "Open all"
-msgstr ""
+msgstr "Ouvrir tout"
 
 msgid "Close all"
-msgstr ""
+msgstr "Fermer tout"
 
 msgid "Select testees to be <b>excluded</b>"
-msgstr ""
+msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
 
 msgid "EN"
-msgstr "English"
+msgstr "Anglais"
 
 msgid "FR"
-msgstr "French"
+msgstr "Français"
 
 msgid "DE"
-msgstr "German"
+msgstr "Allemand"
 
 msgid "LU"
-msgstr "Luxemburgish"
+msgstr "Luxembourgeois"
 
