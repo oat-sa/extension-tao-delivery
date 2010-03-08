@@ -56,7 +56,7 @@ msgid "new delivery"
 msgstr "neues Delivery"
 
 msgid "delete"
-msgstr "löschen"
+msgstr "lÃ¶schen"
 
 msgid "duplicate"
 msgstr "duplizieren"
@@ -128,22 +128,22 @@ msgid "IF"
 msgstr "IF"
 
 msgid "create new activity"
-msgstr "neue Aktivität erstellen"
+msgstr "neue AktivitÃ¤t erstellen"
 
 msgid "create new connector"
 msgstr "neuen Konnektor erstellen"
 
 msgid "Activity or Connector"
-msgstr "Aktivität oder Konnektor"
+msgstr "AktivitÃ¤t oder Konnektor"
 
 msgid "Activity"
-msgstr "Aktivität"
+msgstr "AktivitÃ¤t"
 
 msgid "Connector"
 msgstr "Konnektor"
 
 msgid "Process Activities"
-msgstr "Prozess-Aktivitäten"
+msgstr "Prozess-AktivitÃ¤ten"
 
 msgid "Property"
 msgstr "Eigenschaften"
@@ -161,49 +161,49 @@ msgid "Else"
 msgstr "Else"
 
 msgid "type??"
-msgstr "TyP??"
+msgstr "Typ??"
 
 msgid "(still undefined)"
 msgstr "(noch immer undefiniert)"
 
 msgid "Please confirm deletion"
-msgstr "Wollen Sie wirklich löschen?"
+msgstr "Wollen Sie wirklich lÃ¶schen?"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "Wollen Sie wirklich löschen? Warnung: die abhängigen Konnektoren können betroffen sein"
+msgstr "Wollen Sie wirklich lÃ¶schen? Warnung: die abhÃ¤ngigen Konnektoren kÃ¶nnen betroffen sein"
 
 msgid "Select delivery campaign"
-msgstr "Delivery-Kampagne auswählen"
+msgstr "Delivery-Kampagne auswÃ¤hlen"
 
 msgid "Save"
-msgstr "Sichern"
+msgstr "Speichern"
 
 msgid "Select delivery"
-msgstr "Delivery auswählen"
+msgstr "Delivery auswÃ¤hlen"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
 msgstr "Das Delivery-Modul erlaubt Benutzern, die Definition der Test-Delivery-Parameter,"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr "Dieser Bereich der Deliver-Verwaltung ermöglicht das Hinzufügen und Löschen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
+msgstr "Dieser Bereich der Deliver-Verwaltung ermÃ¶glicht das HinzufÃ¼gen und LÃ¶schen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
 
 msgid "Campaign"
 msgstr "Kampagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
+msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das HinzufÃ¼gen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
 
 msgid "Result Server"
 msgstr "Ergebnis-Server"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
+msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das HinzufÃ¼gen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
 
 msgid "Please select a delivery before authoring it!"
-msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
+msgstr "Bitte wÃ¤hlen Sie ein Delivery vor dem Bearbeiten"
 
 msgid "Back"
-msgstr "Zurück"
+msgstr "ZurÃ¼ck"
 
 msgid "Formal Parameter"
 msgstr "Formale Parameter"
@@ -215,7 +215,7 @@ msgid "Process Variables"
 msgstr "Prozess Variablen"
 
 msgid "Activity Editor"
-msgstr "Aktivitäten Editor"
+msgstr "AktivitÃ¤ten Editor"
 
 msgid "Process Property"
 msgstr "Prozess-Eigenschaft"
@@ -242,10 +242,10 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Open all"
-msgstr "Alles öffnen"
+msgstr "Alles Ã¶ffnen"
 
 msgid "Close all"
-msgstr "Alles schließen"
+msgstr "Alles schlieÃen"
 
 msgid "Select testees to be <b>excluded</b>"
 msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
@@ -254,7 +254,7 @@ msgid "EN"
 msgstr "Englisch"
 
 msgid "FR"
-msgstr "Französisch"
+msgstr "FranzÃ¶sisch"
 
 msgid "DE"
 msgstr "Deutsch"
