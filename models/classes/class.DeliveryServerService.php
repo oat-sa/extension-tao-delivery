@@ -90,7 +90,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * @param  string subjectUri
      * @return array
      */
-	public function getTestsBySubject($subjectUri){
+	public function getTestsBySubject($subjectUri){//useless anymore
 		
 		$returnValue=array();
 				

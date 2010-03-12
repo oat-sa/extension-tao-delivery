@@ -57,30 +57,6 @@ class taoDelivery_models_classes_DeliveryService
      * @var Class
      */
     protected $deliveryClass = null;
-
-	/**
-     * The attribute testClass contains the default TAO Test Class
-     *
-     * @access protected
-     * @var Class
-     */
-	protected $testClass = null;
-	
-	/**
-     * The attribute subjectClass contains the default TAO Subject Class
-     *
-     * @access protected
-     * @var Class
-     */
-	protected $subjectClass = null;
-	
-	/**
-     * The attribute groupClass contains the default TAO Group Class
-     *
-     * @access protected
-     * @var Class
-     */
-	protected $groupClass = null;
 		
     /**
      * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
@@ -109,10 +85,6 @@ class taoDelivery_models_classes_DeliveryService
 		parent::__construct();
 		
 		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		// $this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		// $this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-		// $this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-		
 		$this->loadOntologies($this->deliveryOntologies);
     }
 	
@@ -276,32 +248,7 @@ class taoDelivery_models_classes_DeliveryService
         return (bool) $returnValue;
     }
 			
-	/**
-     * Get all tests available for the identified subject.
-     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
-	 * It returns an array containing the uri of selected tests or an empty array otherwise.
-     * (Note: For the old implementation of delivery when 1 delivery = 1 test)
-	 * 
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string subjectUri
-     * @return array
-     */
-	public function getTestsBySubject($subjectUri){
 		
-		$returnValue=array();
-				
-		$groups=core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
-		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
-		}
-		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
-		$returnValue=$deliveries;
-		
-		return $returnValue;
-	}
-	
 	/**
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
@@ -335,11 +282,11 @@ class taoDelivery_models_classes_DeliveryService
 	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource aTestInstance
+     * @param  core_kernel_classes_Resource aTestInstance
 	 * @param  string status
      * @return boolean
      */
-	public function getTestStatus($aTestInstance, $status){
+	public function getTestStatus(core_kernel_classes_Resource $aTestInstance, $status){
 		
 		$returnValue=false;
 		

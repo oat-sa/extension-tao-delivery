@@ -59,10 +59,7 @@ class taoDelivery_models_classes_CampaignService
      * @var array
      */
     protected $deliveryOntologies = array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
-		'http://www.tao.lu/Ontologies/TAOGroup.rdf',
-		'http://www.tao.lu/Ontologies/TAOSubject.rdf',
-		'http://www.tao.lu/Ontologies/TAOTest.rdf'
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
 		);
 	
 	

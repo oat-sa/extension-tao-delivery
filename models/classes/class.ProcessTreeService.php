@@ -479,6 +479,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $nodeData;
 	}
 	
+	//might be useless
 	public function thenElseNode($connectorRule, $type){
 		
 		$returnValue = null;
