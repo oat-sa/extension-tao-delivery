@@ -35,14 +35,28 @@ class ConditionDescriptor
 			$left = '';
 			if($this->leftPartType == 'variable'){
 				$left = '^'.$this->leftPart;
+			}elseif($this->leftPartType == 'constant'){
+				if(is_numeric($this->leftPart)){//"numerical strings" are not allowed
+					$left = $this->leftPart;
+				}else{
+					$left = "'{$this->leftPart}'";
+				}
 			}else{
+				//should be an operator
 				$left = $this->leftPart;
 			}
 			
 			$right = '';
 			if($this->rightPartType == 'variable'){
 				$right = '^'.$this->rightPart;
+			}elseif($this->rightPartType == 'constant'){
+				if(is_numeric($this->rightPart)){
+					$right = $this->rightPart;
+				}else{
+					$right = "'{$this->rightPart}'";
+				}
 			}else{
+				//should be an operator
 				$right = $this->rightPart;
 			}
 			
