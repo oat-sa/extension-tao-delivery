@@ -50,13 +50,6 @@ class taoDelivery_models_classes_DeliveryServerService
     public function __construct()
     {
 		parent::__construct();
-		
-		// $this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		// $this->testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		// $this->subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-		// $this->groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-		
-		// $this->loadOntologies($this->deliveryOntologies);
     }
 			
 	 /**
@@ -193,8 +186,8 @@ class taoDelivery_models_classes_DeliveryServerService
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string deliveryUri
-	 * @param  string subjectUri
+     * @param  string delivery
+	 * @param  string subject
      * @return void
      */
 	public function addHistory(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $subject){

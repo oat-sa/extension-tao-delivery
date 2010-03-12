@@ -47,7 +47,16 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		
     }
 		
-	//use in delivery compilator
+	
+	/**
+     * Used in delivery compilation: get the test included in an activity
+	 * if found, it returns the delivery resource and null otherwise
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource activity
+     * @return core_kernel_classes_Resource or null
+     */	
 	public function getTestByActivity(core_kernel_classes_Resource $activity){
 		$returnValue = null;
 		
@@ -81,6 +90,14 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		return $returnValue;
 	}
 	
+	/**
+     * Get the delivery associated to a process
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource process
+     * @return core_kernel_classes_Resource or null
+     */	
 	public function getDeliveryFromProcess(core_kernel_classes_Resource $process){
 		
 		$delivery = null;

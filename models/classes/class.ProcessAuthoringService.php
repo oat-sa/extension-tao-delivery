@@ -579,7 +579,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	}
 	
 	/**
-     * Description
+     * Create a new activity and assign it the next activity of a connector
+	 * If the activity already exists and is put in the parameter, simply set it as the next activity of a connector  
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -628,7 +629,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		//question test:
 		//$question = "IF    (11+B_Q01a*3)>=2 AND (B_Q01c=2 OR B_Q01c=7)    	THEN ^variable := 2*(B_Q01a+7)-^variable";
 		
-		//analyse the condiiton string and convert to an XML document:
+		//analyse the condition string and convert to an XML document:
 		if (get_magic_quotes_gpc()) $question = stripslashes($question);// Magic quotes are deprecated
 
 		if (!empty($question)){ // something to parse
@@ -644,6 +645,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
 				// $xml = htmlspecialchars($tokens->getXmlString(true));
 				// $xml = $tokens->getXmlString(true);
+				//TODO: check if the variables exists and are associated to the process definition
 				$xmlDom = $tokens->getXml();
 				
 			}catch(Exception $e){
@@ -682,7 +684,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	}
 		
 	/**
-     * Description
+     * Create the following activity for a connector.
+	 * If the following activity is given, define it as the 'next' activity and the type: 'then' or 'else'
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}

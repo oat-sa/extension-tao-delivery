@@ -20,7 +20,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 
 /**
- * The taoDelivery_models_classes_ProcessTreeService class p
+ * The taoDelivery_models_classes_ProcessTreeService class allows to create the array representation of a jsTree for a given process
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -64,7 +64,14 @@ class taoDelivery_models_classes_ProcessTreeService
     
 	}
 	
-	
+	/**
+     * The method creates the array representation of jstree, for a process definition 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource process
+     * @return array
+     */	
 	public function activityTree(core_kernel_classes_Resource $process = null){
 		
 		$this->currentActivity = null;
@@ -223,7 +230,17 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $data;
 	}
 	
-	public function connectorNode($connector, $nodeClass='', $recursive=false){//put the current activity as a protected property of the class Process aythoring Tree
+	/**
+     * The method creates the array representation a connector to fill the jsTree 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource connector
+	 * @param string nodeClass
+	 * @param boolean recursive
+     * @return array
+     */
+	public function connectorNode(core_kernel_classes_Resource $connector, $nodeClass='', $recursive=false){//put the current activity as a protected property of the class Process aythoring Tree
 		
 		$returnValue = array();
 		$connectorData = array();
@@ -314,6 +331,15 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $returnValue;
 	}
 	
+	/**
+     * Add a prefix to the node data value
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param array node
+	 * @param string prefix
+     * @return array
+     */
 	public function addNodePrefix($node, $prefix=''){
 		$newNode = $node;
 		$labelPrefix = '';
@@ -338,6 +364,15 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $newNode;
 	}
 	
+	/**
+     * The method creates the array representation the default connector node to fill the jsTree 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource connector
+	 * @param boolean prev
+     * @return array
+     */
 	public function defaultConnectorNode(core_kernel_classes_Resource $connector, $prev = false){
 		
 		$returnValue = array(
@@ -357,7 +392,15 @@ class taoDelivery_models_classes_ProcessTreeService
 		
 		return $returnValue;
 	}
-						
+	
+	/**
+     * The method creates the array representation a rule node to fill the jsTree 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource rule
+     * @return array
+     */	
 	public function ruleNode(core_kernel_classes_Resource $rule){
 		
 		$data='';
@@ -380,7 +423,16 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $nodeData;
 	}
 
-	
+	/**
+     * The method creates the array representation the default connector node to fill the jsTree 
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param core_kernel_classes_Resource activity
+	 * @param string nodeClass
+	 * @param boolean goto
+     * @return array
+     */
 	public function activityNode(core_kernel_classes_Resource $activity, $nodeClass='', $goto=false){
 		$nodeData = array();
 		$class = '';
@@ -410,12 +462,20 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $nodeData;
 	}
 	
-	public function addNodeClass( $nodeData=array(), $newClass ){
+	/**
+     * The method adds a node class to a nodeData array
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @param array nodeData
+	 * @param string newClass
+     * @return array
+     */
+	public function addNodeClass( $nodeData=array(), $newClass='' ){
 		
 		if(isset($nodeData['attributes']['class']) && !empty($newClass)){
 			$nodeData['attributes']['class'] .= " ".$newClass;
 		}
-		// throw new Exception("sdfdsf".var_dump($nodeData));
 		return $nodeData;
 	}
 	

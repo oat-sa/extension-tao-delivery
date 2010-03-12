@@ -614,7 +614,7 @@ class taoDelivery_models_classes_DeliveryService
 	 * Get all the tests composing a delivery
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}	 
-	 * @param core_kernel_classes_Resource $delivery 
+	 * @param core_kernel_classes_Resource delivery 
 	 * @return array of core_kernel_classes_Resource for each Test instance 
 	 */
 	public function getRelatedTests(core_kernel_classes_Resource $delivery){
@@ -865,7 +865,7 @@ class taoDelivery_models_classes_DeliveryService
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @param  string code
-     * @return core_kernel_classes_Resource
+     * @return core_kernel_classes_Resource or null
      */
 	public function getProcessVariable($code){
 		$procVar = null;
@@ -885,7 +885,7 @@ class taoDelivery_models_classes_DeliveryService
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  Resource aDeliveryInstance
+     * @param  Resource delivery
      * @return string
      */
 	public function getResultServer(core_kernel_classes_Resource $delivery){
