@@ -64,13 +64,15 @@ $(document).ready(function(){
 		saveUrl : setTestUrl,
 		saveCallback: function (data){
 			if (buildTestList != undefined) {
-				tests = {};
+				newSequence = {};
+				sequence = {};
 				for(attr in data){
 					if(/^instance_/.test(attr)){
-						tests[parseInt(attr.replace('instance_', ''))+1] = 'test_'+ data[attr];
+						newSequence[parseInt(attr.replace('instance_', ''))+1] = 'test_'+ data[attr];
+						sequence[parseInt(attr.replace('instance_', ''))+1] = data[attr];
 					}
 				}
-				buildTestList("test-sequence", tests, labels);
+				buildTestList("test-sequence", newSequence, labels);
 			}
 		},
 		checkedNodes : sequence
