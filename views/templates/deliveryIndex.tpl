@@ -14,14 +14,7 @@
 		
 		<ul id="control">
 			
-			<li>
-				<span id="uiLanguages" class="icon"><?php echo __("Languages"); ?> :</span> 
-				<?php foreach ($uiLanguages as $lg): ?>
-				<a class="language internalLink" href="<?php echo BASE_URL;?>/preferences/switchUiLanguage?lang=<?php echo str_replace("EN_EN","EN",$lg); ?>"><?php echo strtoupper(substr($lg,3)); ?></a> 
-				<?php endforeach; ?> <span class="separator" />
-			</li>
-
-			    
+		    
         	<li>
         		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
         	</li>
