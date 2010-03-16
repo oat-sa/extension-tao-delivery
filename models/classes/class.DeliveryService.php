@@ -507,6 +507,9 @@ class taoDelivery_models_classes_DeliveryService
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
 		$this->updateProcessLabel($deliveryInstance);
 		
+		//set the the default authoring mode to the 'simple mode':
+		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP), TAO_DELIVERY_SIMPLEMODE);
+		
 		return $deliveryInstance;		
 	}
 	
@@ -804,6 +807,47 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		return $returnValue;
+	}
+	
+	public function linearizeDeliveryProcess(core_kernel_classes_Resource $delivery){
+		//get list of all tests in the delivery, without order:
+		$tests = array();
+		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		
+		//get the associated process:
+		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		
+		//get list of all activities:
+		$activities = $authoringService->getActivitiesByProcess($process);
+		
+		foreach($activities as $activity){
+			
+			//get the FIRST interactive service
+			$iService = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
+			if(!is_null($iService)){
+				
+				//get the service definition
+				$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+				if(!is_null($serviceDefinition)){
+					
+					//get the url
+					$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
+					if(!is_null($serviceUrl)){
+					
+						//regenerated the test uri
+						$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
+						
+						//set the test in the table:
+						$tests[$i] = new core_kernel_classes_Resource($testUri);
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		$returnValue = $this->setDeliveryTests($delivery, $tests);
 	}
 	
 	/**

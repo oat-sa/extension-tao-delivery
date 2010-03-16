@@ -603,7 +603,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		if($followingActivity instanceof core_kernel_classes_Resource){
 			//associate it to the property value of the connector
-			$connector->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $followingActivity->uriResource);//use this function and not editPropertyValue!
+			$connector->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), $followingActivity->uriResource);
 		}
 	}
 	

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension name="Delivery" url="/taoDelivery/Delivery/index" level="4">
 	<sections>
-		<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
+		<section id="manage_deliveries" name="Manage Deliveries" url="/taoDelivery/Delivery/index">
 			<trees>
 				<tree name="Deliveries library" 
 					dataUrl="/taoDelivery/Delivery/getDeliveries" 
@@ -26,9 +26,9 @@
 			</actions>
 		</section>
 		
-		<!--<section id="delivery_authoring" name="Delivery authoring" url="/taoDelivery/Delivery/authoring" >
+		<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" >
 			<actions/>
-		</section>-->
+		</section>
 		
 		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">
 			<trees>

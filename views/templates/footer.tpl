@@ -10,10 +10,10 @@ $(function(){
 		}
 	});
 	
-	<?if(get_data('uri') && get_data('classUri')):?>
+	<?if(get_data('uri') && get_data('classUri') && (get_data('authoringMode')=='advanced') ):?>
 		updateTabUrl(UiBootstrap.tabs, 'delivery_authoring', "<?=_url('authoring', 'Delivery', array('uri' => get_data('uri'), 'classUri' => get_data('classUri') ))?>");
 	<?else:?>
-		UiBootstrap.tabs.tabs('disable', getTabIndexByName('delivery_authoring'));//temporary, to accelerate testing
+		UiBootstrap.tabs.tabs('disable', getTabIndexByName('delivery_authoring'));
 	<?endif?>
 	
 	<?if(get_data('reload')):?>

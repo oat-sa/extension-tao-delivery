@@ -1,6 +1,10 @@
 <?include('header.tpl')?>
 
-<?include('delivery_tests.tpl')?>
+<?
+if(get_data('authoringMode') == 'simple'){
+	include('delivery_tests.tpl');
+}
+?>
 
 <div class="main-container" style="height:500px;">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">

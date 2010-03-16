@@ -145,29 +145,45 @@ class Delivery extends TaoModule {
 				//edit process label:
 				$this->service->updateProcessLabel($delivery);
 				
+				//check if the authoring mode has changed: if complex->simple, modify the related process to make it compatible
+				//get all tests from the process, then save them:
+				//$this->service->linearizeDeliveryProcess($delivery);
+				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 				$this->setData('message', __('Delivery saved'));
 				$this->setData('reload', true);
 			}
 		}
 		
-		$allTests = array();
-		foreach($this->service->getAllTests() as $testUri => $testLabel){
-			$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
+		//delivery authoring mode:
+		$this->setData('authoringMode', 'simple');
+		$authoringMode = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP));
+		// var_dump($authoringMode,TAO_DELIVERY_ADVANCEDMODE);
+		if($authoringMode->uriResource == TAO_DELIVERY_ADVANCEDMODE){
+			$this->setData('authoringMode', 'advanced');
+		}else{
+			//remove the authoring button
+			$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_DELIVERYCONTENT));
+			
+			//the default option is the simple mode:
+			$allTests = array();
+			foreach($this->service->getAllTests() as $testUri => $testLabel){
+				$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
+			}
+			$this->setData('allTests', json_encode($allTests));
+			
+			$relatedTest = array();
+			$testSequence = array();
+			foreach($this->service->getDeliveryTests($delivery) as $index => $test){
+				$relatedTest[] = tao_helpers_Uri::encode($test->uriResource);
+				$testSequence[$index+1] = array(
+					'uri' 	=> tao_helpers_Uri::encode($test->uriResource),
+					'label' => $test->getLabel()
+				);
+			}
+			$this->setData('testSequence', $testSequence);
+			$this->setData('relatedTests', json_encode($relatedTest));
 		}
-		$this->setData('allTests', json_encode($allTests));
-		
-		$relatedTest = array();
-		$testSequence = array();
-		foreach($this->service->getDeliveryTests($delivery) as $index => $test){
-			$relatedTest[] = tao_helpers_Uri::encode($test->uriResource);
-			$testSequence[$index+1] = array(
-				'uri' 	=> tao_helpers_Uri::encode($test->uriResource),
-				'label' => $test->getLabel()
-			);
-		}
-		$this->setData('testSequence', $testSequence);
-		$this->setData('relatedTests', json_encode($relatedTest));
 		
 		//get the campaign(s) related to this delivery
 		$relatedCampaigns = $this->service->getRelatedCampaigns($delivery);
@@ -207,7 +223,6 @@ class Delivery extends TaoModule {
 		}
 		$clazz = $this->getCurrentClass();
 		$delivery = $this->service->createInstance($clazz);
-			//create an instance of process at the same time and associate it to the new delivery is done in the method createInstance
 		
 		if(!is_null($delivery) && $delivery instanceof core_kernel_classes_Resource){
 			
@@ -629,7 +644,7 @@ class Delivery extends TaoModule {
 			//other cases: the compilation has failed
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
-			var_dump($compilationResult);
+			// var_dump($compilationResult);
 		}
 		
 		echo json_encode($resultArray);
