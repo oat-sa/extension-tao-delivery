@@ -809,7 +809,18 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
+	/**
+     * Get the process variable with a given code
+     *
+     * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param  core_kernel_classes_Resource delivery
+     * @return boolean
+     */
 	public function linearizeDeliveryProcess(core_kernel_classes_Resource $delivery){
+		
+		$returnValue = false;
+		
 		//get list of all tests in the delivery, without order:
 		$tests = array();
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
@@ -836,9 +847,11 @@ class taoDelivery_models_classes_DeliveryService
 					
 						//regenerated the test uri
 						$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
+						if(!empty($testUri)){
+							//set the test in the table:
+							$tests[$testUri] = new core_kernel_classes_Resource($testUri);
+						}
 						
-						//set the test in the table:
-						$tests[$i] = new core_kernel_classes_Resource($testUri);
 					}
 					
 				}
@@ -846,8 +859,15 @@ class taoDelivery_models_classes_DeliveryService
 			}
 			
 		}
+		//the functuon setDeliveryTests require an array with numerical key 
+		$numericalKeyTestArray = array();
+		foreach($tests as $test){
+			$numericalKeyTestArray[] = $test;
+		}
 		
-		$returnValue = $this->setDeliveryTests($delivery, $tests);
+		// var_dump($activities, $tests, $numericalKeyTestArray);die("kill");
+		$returnValue = $this->setDeliveryTests($delivery, $numericalKeyTestArray);
+		return $returnValue;
 	}
 	
 	/**

@@ -139,15 +139,23 @@ class Delivery extends TaoModule {
 		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery);
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
+				$propertyValues = $myForm->getValues();
 				
-				$delivery = $this->service->bindProperties($delivery, $myForm->getValues());
+				//check if the authoring mode has changed: if advanced->simple, modify the related process to make it compatible
+				if(array_key_exists(TAO_DELIVERY_AUTHORINGMODE_PROP, $propertyValues)){
+					if($propertyValues[TAO_DELIVERY_AUTHORINGMODE_PROP] == TAO_DELIVERY_SIMPLEMODE){
+						if($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP))->uriResource == TAO_DELIVERY_ADVANCEDMODE){
+							//get all tests from the process, then save them:
+							$this->service->linearizeDeliveryProcess($delivery);
+						}
+					}
+				}
+				
+				//then save the property values as usual
+				$delivery = $this->service->bindProperties($delivery, $propertyValues);
 				
 				//edit process label:
 				$this->service->updateProcessLabel($delivery);
-				
-				//check if the authoring mode has changed: if complex->simple, modify the related process to make it compatible
-				//get all tests from the process, then save them:
-				//$this->service->linearizeDeliveryProcess($delivery);
 				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 				$this->setData('message', __('Delivery saved'));
