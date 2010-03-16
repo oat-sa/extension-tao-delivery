@@ -126,6 +126,7 @@ function compileTest(testUri){
 					$(testTag).html( __("compilation failed") );
 					//quit compilation and annonce it as failed: print recompile option:
 					$("#initCompilation").html( __("Recompile the delivery") ).show();
+					
 					finalMessage(__('failed!'),'failed.png');
 				}
 				
@@ -133,6 +134,8 @@ function compileTest(testUri){
 				errorMessage="";
 				failedCopy="";
 				failedCreation="";
+				untranslatedItems="";
+				error="";
 				for(key in r.failed.copiedFiles) {
 
 					failedCopy+= __("the following file(s) could not be copied for the test")+' '+key+":";
@@ -155,19 +158,35 @@ function compileTest(testUri){
 					}
 				}
 				
+				for(key in r.failed.untranslatedItems) {
+				
+					untranslatedItems+= __("the following item(s) has not been translated into")+' '+key+':';
+					
+					for(i=0;i<r.failed.untranslatedItems[key].length;i++) {
+						untranslatedItems+="<ul>";
+						untranslatedItems+="<li>"+r.failed.untranslatedItems[key][i]+"</li>";
+						untranslatedItems+="</ul>";
+					}
+				}
+				
+				for(i=0;i<r.failed.errorMsg.length;i++){
+					error+='<b>' + r.failed.errorMsg[i] + '</b><br/>';
+				}
+				
 				errorMessage="<div>";
 				errorMessage+=failedCopy;
 				errorMessage+="<br/><br/>";
 				errorMessage+=failedCreation;
+				errorMessage+="<br/><br/>";
+				errorMessage+=untranslatedItems;
+				errorMessage+="<br/><br/>";
+				errorMessage+=error;
 				errorMessage+='<br/><br/><a href="#" onclick="$(\''+resultTag+'\').hide(); return false;">close</a>';
 				errorMessage+="</div>";
 				
 				$(resultTag).html(errorMessage);
 				
-				//reinitiate the values and suggest recompilation
-				testIndex = 0;
-				testArray = null;
-				$("#initCompilation").html( __("Recompile the delivery") );
+				
 			}
 		}//end success function callback
 	});
@@ -214,5 +233,9 @@ function finalMessage(msg, imageFile){
 	if( progressbar != null ){
 		progressbar.progressbar( 'destroy' );
 	}
+	//reinitiate the values and suggest recompilation
+	testIndex = 0;
+	testArray = null;
+	$("#initCompilation").html( __("Recompile the delivery") );
 }
 

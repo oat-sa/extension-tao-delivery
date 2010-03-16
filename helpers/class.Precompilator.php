@@ -104,7 +104,9 @@ class tao_helpers_Precompilator
 					
 		$this->failed=array(
 					"copiedFiles"=>array(),
-					"createdFiles"=>array()
+					"createdFiles"=>array(),
+					"untranslatedItems"=>array(),
+					"errorMsg"=>array()
 			);
 		
 		$testId=self::getUniqueId($testUri);//get the an unique id for the test to be compiled
@@ -472,7 +474,7 @@ class tao_helpers_Precompilator
         elseif(is_dir($toDelete)){
             $scan = glob(rtrim($toDelete,'/').'/*');
             foreach($scan as $index=>$path){
-                $returnValue = $this->recursiveDelete($path);//delete entirely the subfolders (currently /css and /js)
+                $returnValue = $this->recursiveDelete($path, false);//delete entirely the subfolders (currently /css and /js)
             }
 			if($empty === true){
 				if (@rmdir($toDelete)) $returnValue=true;
@@ -482,6 +484,14 @@ class tao_helpers_Precompilator
 		
 		return $returnValue;
     }
+	
+	public function setUntranslatedItem($name, $language){
+		$this->failed["untranslatedItems"][$language][] = $name;
+	}
+	
+	public function setErrorMsg($message){
+		$this->failed["errorMsg"][] = $message; 
+	}
 	
 } /* end of class taoDelivery_helpers_Precompilator */
 
