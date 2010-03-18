@@ -636,6 +636,62 @@ class ProcessAuthoring extends TaoModule {
 		echo json_encode($returnValue);
 	}
 	
+	public function checkExpressionVariables(){
+		
+		$process = $this->getCurrentProcess();
+		$expression = '';
+		//to sources of problem: 
+		//1-either the code is not associate to any process var ('the process var does not exist') 
+		//2-or the process var is not set to the current process
+		$returnValue = array(
+			'doesNotExist'=>array(),
+			'notSet'=>array()
+		);
+		
+		$codes = array();
+		//regular expression on the expression and get an array of process variable codes:
+		if(preg_match_all('/\^(\w+)/', $expression, $matches)){
+			$codes = $matches[1];
+		}
+		
+		$processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
+		foreach($codes as $code){
+			//get the variable resource: 
+			$processVar = $this->service->getProcessVariable($code);
+			if(is_null($processVar)){
+				$returnValue['doesNotExist'][] = $code;
+			}else{
+				//check if the variable is set as a process variable of the current process
+				$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject($processVarProp, $processVar);
+				$ok = false;
+				foreach($processCollection->getIterator() as $processTemp){
+					if($processTemp->uriResource == $process->uriResource){
+						$ok = true;
+						break;
+					}
+				}
+				if(!$ok){
+					//the variable is not a variable of the current process:
+					$returnValue['notSet'][] = $code;
+				}
+			}
+		}
+		echo json_encode($returnValue);
+	}
+	
+	public function getOneSubject(core_kernel_classes_Property $property, core_kernel_classes_Resource $resource, $last=false){
+		$subject = null;
+		$subjectCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject($property->uriResource , $resource->uriResource);
+		if(!$subjectCollection->isEmpty()){
+			if($last){
+				$subject = $subjectCollection->get($subjectCollection->count()-1);
+			}else{
+				$subject = $subjectCollection->get(0);
+			}
+		}
+		return $subject;
+	}
+	
 	/**
 	 *
 	 *
