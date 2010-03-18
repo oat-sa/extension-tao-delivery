@@ -865,7 +865,6 @@ class taoDelivery_models_classes_DeliveryService
 			$numericalKeyTestArray[] = $test;
 		}
 		
-		// var_dump($activities, $tests, $numericalKeyTestArray);die("kill");
 		$returnValue = $this->setDeliveryTests($delivery, $numericalKeyTestArray);
 		return $returnValue;
 	}

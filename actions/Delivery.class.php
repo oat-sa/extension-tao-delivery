@@ -166,7 +166,7 @@ class Delivery extends TaoModule {
 		//delivery authoring mode:
 		$this->setData('authoringMode', 'simple');
 		$authoringMode = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP));
-		// var_dump($authoringMode,TAO_DELIVERY_ADVANCEDMODE);
+		
 		if($authoringMode->uriResource == TAO_DELIVERY_ADVANCEDMODE){
 			$this->setData('authoringMode', 'advanced');
 		}else{

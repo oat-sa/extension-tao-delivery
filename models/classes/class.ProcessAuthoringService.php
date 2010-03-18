@@ -616,10 +616,30 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	 * @param  string condiiton
      * @return boolean
      */	
-	public function createRule(core_kernel_classes_Resource $connector, $condition=''){
+	public function createRule(core_kernel_classes_Resource $connector, $question=''){
 		
 		$returnValue = true;
+			
+		// $xmlDom = $this->analyseExpression($condition);
+		$condition = $this->createCondition( $this->analyseExpression($question) );
+				
+		if($condition instanceof core_kernel_classes_Resource){
+			//associate the newly create expression with the transition rule of the connector
+			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
+			if(empty($transitionRule)){
+				//create an instance of transition rule:
+				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
+				$transitionRule = $transitionRuleClass->createInstance();
+				//Associate the newly created transition rule to the connector:
+				$connector->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), $transitionRule->uriResource);
+			}
+			$returnValue = $transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_RULE_IF), $condition->uriResource);
+		}
 		
+		return $returnValue;
+	}
+	
+	protected function analyseExpression($condition){
 		//place the following bloc in a helper
 		if (!empty($condition))
 			$question = $condition;
@@ -631,7 +651,9 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		//analyse the condition string and convert to an XML document:
 		if (get_magic_quotes_gpc()) $question = stripslashes($question);// Magic quotes are deprecated
-
+		//TODO: check if the variables exists and are associated to the process definition 
+		
+		$xmlDom = null;
 		if (!empty($question)){ // something to parse
 			// str_replace taken from the MsReader class
 			$question = str_replace("’", "'", $question); // utf8...
@@ -645,43 +667,74 @@ class taoDelivery_models_classes_ProcessAuthoringService
 
 				// $xml = htmlspecialchars($tokens->getXmlString(true));
 				// $xml = $tokens->getXmlString(true);
-				//TODO: check if the variables exists and are associated to the process definition
+				
 				$xmlDom = $tokens->getXml();
 				
 			}catch(Exception $e){
 				throw new Exception("CapiXML error: {$e->getMessage()}");
 			}
 		}
-		
+		return $xmlDom;
+	}
+	
+	protected function createCondition($xmlDom){
 		//create the expression instance:
-		$expressionInstance = null;
+		$condition = null;
 		foreach ($xmlDom->childNodes as $childNode) {
 			foreach ($childNode->childNodes as $childOfChildNode) {
 				if ($childOfChildNode->nodeName == "condition"){
 					
 					$conditionDescriptor = DescriptorFactory::getConditionDescriptor($childOfChildNode);
-					$expressionInstance = $conditionDescriptor->import();//(3*(^var +  1) = 2 or ^var > 7) AND ^RRR
+					$condition = $conditionDescriptor->import();//(3*(^var +  1) = 2 or ^var > 7) AND ^RRR
 					break 2;//once is enough...
 				
 				}
 			}
 		}
+		return $condition;
+	}
+	
+	public function createInferenceRule(core_kernel_classes_Resource $activity, $type, $label=''){
 		
-		if($expressionInstance instanceof core_kernel_classes_Resource){
-			//associate the newly create expression with the transition rule of the connector
-			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-			if(empty($transitionRule)){
-				//create an instance of transition rule:
-				$transitionRuleClass = new core_kernel_classes_Class(CLASS_TRANSITIONRULES);
-				$transitionRule = $transitionRuleClass->createInstance();
-				//Associate the newly created transition rule to the connector:
-				$connector->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), $transitionRule->uriResource);
+		$inferenceRule = null;
+		
+		switch($type){
+			case 'onBefore':{
+				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE);
 			}
-			$returnValue = $transitionRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_RULE_IF), $expressionInstance->uriResource);
+			case 'onAfter': {
+				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE);
+			}
+			default:{
+				return $inferenceRule;
+			}
 		}
 		
-		return $returnValue;
+		$inferenceRuleLabel = "";
+		if(empty($label)){
+			// $activity->getPropertyValuesCollection($inferenceRuleProp);
+			$nb = $activity->getPropertyValuesCollection($inferenceRuleProp)->count()+1;
+			$inferenceRuleLabel = "$type Inference Rule $nb";
+		}else{
+			$inferenceRuleLabel = $label;
+		}
+		
+		$inferenceRuleClass = new core_kernel_classes_Class(CLASS_INFERENCERULES);
+		$inferenceRule = $inferenceRuleClass->createInstance($connectorLabel, "created by ProcessAuthoringService.Class");
+		
+		if(!empty($inferenceRule)){
+			//associate the connector to the activity
+			$activity->setPropertyValue($inferenceRuleProp, $inferenceRule->uriResource);
+		}else{
+			throw new Exception("the inference rule cannot be created for the activity {$activity->getLabel()}: {$activity->uriResource}");
+		}
+		return $inferenceRule;
 	}
+
+	public function createAssignment(){
+	
+	}
+	
 		
 	/**
      * Create the following activity for a connector.

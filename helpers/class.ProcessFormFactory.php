@@ -528,6 +528,72 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
         return $myForm;
 	}
 	
+	public function inferenceRuleEditor(core_kernel_classes_Resource $inferenceRule, $formName='inferenceRuleForm'){
+		
+		$myForm = null;
+		$myForm = tao_helpers_form_FormFactory::getForm($formName, array());
+		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
+		
+		//add a hidden input to post the uri of the call of service that is being edited
+		$elementInferenceRuleUri = tao_helpers_form_FormFactory::getElement('inferenceRuleUri', 'Hidden');
+		$elementInferenceRuleUri->setValue(tao_helpers_Uri::encode($inferenceRule->uriResource));
+		$myForm->addElement($elementInferenceRuleUri);
+		
+		//add label input: authorize elementInferenceRule label editing or not?
+		// $elementLabel = tao_helpers_form_FormFactory::getElement('label', 'Textbox');
+		// $elementLabel->setDescription(__('Label'));
+		// $elementLabel->setValue($callOfService->getLabel());
+		// $myForm->addElement($elementLabel);
+		
+		//the if condition:
+		$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
+		$elementCondition->setDescription(__('IF'));
+		$if = $transitionRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+		if(!is_null($if) && $if instanceof core_kernel_classes_Resource){
+			$elementCondition->setValue($if->getLabel());
+		}
+		$myForm->addElement($elementCondition);
+		
+		//THEN: assignment:
+		//create the description element
+		$elementDescription = tao_helpers_form_FormFactory::getElement('then_description', 'Free');
+		$elementDescription->setValue(__("THEN").' :');
+		$myForm->addElement($elementDescription);
+		
+		$elementThen = tao_helpers_form_FormFactory::getElement("then_assignment", 'Textarea');
+		$elementThen->setDescription(__('Assignment'));
+		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
+		if(!is_null($then) && $then instanceof core_kernel_classes_Resource){
+			$elementThen->setValue($then->getLabel());
+		}
+		$myForm->addElement($elementThen);
+		
+		//ELSE: (optional)
+		$elementDescription = tao_helpers_form_FormFactory::getElement('else_description', 'Free');
+		$elementDescription->setValue(__("ELSE").' :');
+		$myForm->addElement($elementDescription);
+		
+		//type: inference rule or assignment:
+		$elementChoice = tao_helpers_form_FormFactory::getElement('choice', 'Radiobox');
+		$elementChoice->setDescription('');
+		$options = array(
+			"assignment" => __("Assignment"),
+			"inference" => __("Another Inference Rule"),
+			"none" => __("No thanks")
+		);
+		$elementChoice->setOptions($options);
+		$myForm->addElement($elementChoice);
+		
+		$elementElse = tao_helpers_form_FormFactory::getElement("else_assignment", 'Textarea');
+		$elementElse->setDescription(__('Assignment:'));
+		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
+		if(!is_null($else) && $else instanceof core_kernel_classes_Resource){
+			$elementElse->setValue($else->getLabel());
+		}
+		$myForm->addElement($elementElse);
+		
+        return $myForm;
+	}
 	
 	public function nextActivityEditor(core_kernel_classes_Resource $connector, $type, $formName='nextActivityEditor'){
 		if(!in_array($type, array('next', 'then', 'else'))){

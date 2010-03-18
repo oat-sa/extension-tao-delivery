@@ -194,6 +194,20 @@ class ProcessAuthoring extends TaoModule {
 		}
 	}
 	
+	public function addInferenceRule(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$currentActivity = $this->getCurrentActivity();
+		$inferenceRule = $this->service->createInferenceRule($currentActivity, $_POST['type']);
+		if(!is_null($inferenceRule) && $inferenceRule instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $inferenceRule->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($inferenceRule->uriResource)
+			));
+		}
+	}
+	
 	public function getSectionTrees(){
 		$section = $_POST["section"];
 		$this->setData('section', $section);
@@ -514,6 +528,17 @@ class ProcessAuthoring extends TaoModule {
 		
 		$formName=uniqid("connectorEditor_");
 		$myForm = taoDelivery_helpers_ProcessFormFactory::connectorEditor(new core_kernel_classes_Resource($connectorUri), null, $formName);
+		
+		$this->setData('formId', $formName);
+		$this->setData('formConnector', $myForm->render());
+		$this->setView('process_form_connector.tpl');
+	}
+	
+	public function editInferenceRule(){
+		$inferenceRule = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['inferenceRuleUri']));
+		
+		$formName = uniqid("inferenceRuleEditor_");
+		$myForm = taoDelivery_helpers_ProcessFormFactory::inferenceRuleEditor($inferenceRule, $formName);
 		
 		$this->setData('formId', $formName);
 		$this->setData('formConnector', $myForm->render());

@@ -104,8 +104,14 @@ function ActivityTreeClass(selector, dataUrl, options){
 							instance.options.editInteractiveServiceAction,
 							{uri:$(NODE).attr('id')}
 						);
+					}else if( ($(NODE).hasClass('node-inferenceRule-onBefore')||$(NODE).hasClass('node-inferenceRule-onAfter')) && instance.options.editInferenceRuleAction){
+						_load(instance.options.formContainer, 
+							instance.options.editInferenceRuleAction,
+							{inferenceRuleUri:$(NODE).attr('id')}
+						);
 					}
 					return false;
+					
 					
 				}
 			},
@@ -163,21 +169,22 @@ function ActivityTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
-						addInteractiveService: {
-							label: "Add Interactive Service",
+						addOnBeforeInferenceRule: {
+							label: "Add On Before Inference Rule",
 							icon: "/tao/views/img/instance_add.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
 								}
-								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) && instance.options.createInteractiveServiceAction){ 
+								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) && instance.options.createInferenceRuleAction){ 
 									return 1;
 								}
 								return -1;
 							},
 							action  : function(NODE, TREE_OBJ){
-								ActivityTreeClass.addInteractiveService({
-									url: instance.options.createInteractiveServiceAction,
+								ActivityTreeClass.addInferenceRule({
+									url: instance.options.createInferenceRuleAction,
+									type: 'onBefore',
 									id: $(NODE).attr('id'),
 									NODE: NODE,
 									TREE_OBJ: TREE_OBJ,
@@ -185,28 +192,6 @@ function ActivityTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
-						// addStatementAssignation: {
-							// label: "Add statement assignation",
-							// icon: "/tao/views/img/instance_add.png",
-							// visible : function (NODE, TREE_OBJ){
-								// if(NODE.length != 1) {
-									// return false; 
-								// }
-								// if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) ){ 
-									// return true;
-								// }
-								// return false;
-							// },
-							// action  : function(NODE, TREE_OBJ){
-								// ActivityTreeClass.addActivity({
-									// url: instance.options.createInteractiveServiceAction,
-									// id: $(NODE).attr('id'),
-									// NODE: NODE,
-									// TREE_OBJ: TREE_OBJ,
-									// cssClass: instance.options.instanceClass
-								// });
-							// }
-						// },
 						// addConsistencyRule: {
 							// label: "Add Consistency Rule",
 							// icon: "/tao/views/img/instance_add.png",
@@ -343,7 +328,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 							}
 						},
 						isLast:{
-							label	: "defined as Last",
+							label	: "Define as a final activity",
 							icon	: "/tao/views/img/instance_add.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity')){ 
@@ -482,6 +467,42 @@ ActivityTreeClass.addInteractiveService = function(options){
 		url: options.url,
 		type: "POST",
 		data: {activityUri: options.id, type: 'interactive-service'},
+		dataType: 'json',
+		success: function(response){
+			if (response.uri) {
+				TREE_OBJ.select_branch(TREE_OBJ.create({
+					data: response.label,
+					attributes: {
+						id: response.uri,
+						'class': cssClass
+					}
+				}, TREE_OBJ.get_node(NODE[0])));
+			}
+		}
+	});
+}
+//node-inferenceRule-then
+//node-inferenceRule-else
+//node-inferenceRule-onBefore
+//node-inferenceRule-onAfter
+ActivityTreeClass.addInferenceRule = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	var  cssClass = 'node-inferenceRule';
+	if(options.type == 'onBefore'){
+		cssClass += '-onBefore';
+	}else{
+		//on after:
+		cssClass += '-onAfter';
+	}
+	if(options.cssClass){
+		 cssClass += ' ' + options.cssClass;
+	}
+	
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {activityUri: options.id, type: options.type},
 		dataType: 'json',
 		success: function(response){
 			if (response.uri) {
