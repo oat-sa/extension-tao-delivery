@@ -150,7 +150,7 @@ class taoDelivery_models_classes_ProcessTreeService
 					if( strtolower($connectorType->getLabel()) == "split"){
 						//get the rule
 						$connectorRule = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-						$connectorData[] = $this->ruleNode($connectorRule);
+						$connectorData[] = $this->conditionNode($connectorRule);
 												
 						//get the "PREC"
 						$prev = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_PRECACTIVITIES));
@@ -221,13 +221,80 @@ class taoDelivery_models_classes_ProcessTreeService
 			}
 			
 			//get related rules
-			
+			$onBeforeInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULES));
+			foreach($onBeforeInferenceRuleCollection->getIterator() as $inferenceRule){
+				$activityData['children'][] = $this->inferenceRuleNode($inferenceRule, 'onBefore');
+			}
+			$onAfterInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULES));
+			foreach($onAfterInferenceRuleCollection->getIterator() as $inferenceRule){
+				$activityData['children'][] = $this->inferenceRuleNode($inferenceRule, 'onAfter');
+			}
 			
 			//add children here
 			$data["children"][] = $activityData;
 		}
 		
 		return $data;
+	}
+	
+	protected function inferenceRuleNode(core_kernel_classes_Resource $inferenceRule, $class){
+	
+		if(!in_array($class, array('onBefore', 'onAfter'))){
+			return array();
+		}
+		
+		$nodeData = array(
+			'data' => $inferenceRule->getLabel(),
+			'attributes' => array(
+				'id' => tao_helpers_Uri::encode($inferenceRule->uriResource),
+				'class' => 'node-inferenceRule-'.$class
+			)
+		);
+		
+		$if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));//conditon or null
+		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));//assignment or null only
+		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));//assignment, inference rule or null
+		
+		//always show the if node:
+		$nodeData['children'][]	= $this->conditionNode($if);
+		
+		if(!is_null($then)){
+			$thenNode = $this->assignmentNode($then);
+			if(!empty($thenNode)){
+				$nodeData['children'][]	= self::addNodePrefix($thenNode, 'then');
+			}
+		}
+		if(!is_null($else)){
+			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri;
+			if($classUri == CLASS_ASSIGNMENT){
+				$elseNode = $this->assignmentNode($else);
+				if(!empty($thenNode)){
+					$nodeData['children'][]	= self::addNodePrefix($elseNode, 'else');
+				}
+			}elseif($classUri == CLASS_INFERENCERULES){
+				$nodeData['children'][] = self::addNodePrefix($this->inferenceRuleNode($else, $class), 'else');
+			}
+		}
+		
+		return $nodeData;
+	}
+	
+	protected function assignmentNode(core_kernel_classes_Resource $assignment){
+		$returnValue = array();
+		
+		if(!is_null($assignment)){
+			if($assignment->getLabel() != ''){
+				$returnValue = array(
+					'data' => $assignment->getLabel(),
+					'attributes' => array(
+						'id' => tao_helpers_Uri::encode($assignment->uriResource),
+						'class' => 'node-assignment'
+					)
+				);
+			}
+		}
+		
+		return $returnValue;
 	}
 	
 	/**
@@ -260,7 +327,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			$connectorRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), false);
 			if(!is_null($connectorRule)){
 				//continue getting connector data: 
-				$connectorData[] = $this->ruleNode($connectorRule);
+				$connectorData[] = $this->conditionNode($connectorRule);
 				
 				//get the "THEN"
 				$then = $connectorRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN), false);
@@ -401,7 +468,7 @@ class taoDelivery_models_classes_ProcessTreeService
 	 * @param core_kernel_classes_Resource rule
      * @return array
      */	
-	public function ruleNode(core_kernel_classes_Resource $rule){
+	public function conditionNode(core_kernel_classes_Resource $rule){
 		
 		$data='';
 		$if = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));

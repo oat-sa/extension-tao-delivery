@@ -271,7 +271,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		$secondExpressionCollection = $expression->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_EXPRESSION_SECONDEXPRESSION));
 		$expressionCollection = $firstExpressionCollection->union($secondExpressionCollection);
 		foreach($expressionCollection->getIterator() as $exp){
-				$this->deleteExpression($exp);
+			$this->deleteExpression($exp);
 		}
 		
 		$terminalExpression = $expression->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_EXPRESSION_TERMINALEXPRESSION));
@@ -440,6 +440,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 	
 	/**
      * delete the reference to an object via a given property
+	 *Useful when the object has been deleted and the sources related to it must be deleted reference to it.
      *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -639,7 +640,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $returnValue;
 	}
 	
-	protected function analyseExpression($condition){
+	public function analyseExpression($condition){
 		//place the following bloc in a helper
 		if (!empty($condition))
 			$question = $condition;
@@ -677,7 +678,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $xmlDom;
 	}
 	
-	protected function createCondition($xmlDom){
+	public function createCondition($xmlDom){
 		//create the expression instance:
 		$condition = null;
 		foreach ($xmlDom->childNodes as $childNode) {
@@ -694,16 +695,43 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $condition;
 	}
 	
+	public function createAssignment($xmlDom){
+		//create the expression instance:
+		$assignment = null;
+		foreach ($xmlDom->childNodes as $childNode) {
+			foreach ($childNode->childNodes as $childOfChildNode) {
+				if ($childOfChildNode->nodeName == "then"){
+					
+					$assignmentDescriptor = DescriptorFactory::getAssignDescriptor($childOfChildNode);
+					$assignment = $assignmentDescriptor->import();//(3*(^var +  1) = 2 or ^var > 7) AND ^RRR
+					break 2;//stop at the first occurence of course
+				}
+			}
+		}
+		return $assignment;
+	}
+	
 	public function createInferenceRule(core_kernel_classes_Resource $activity, $type, $label=''){
+		
+		//note: the resource in the parameter "activity" can be either an actual activity or a parent inferenceRule
 		
 		$inferenceRule = null;
 		
 		switch($type){
 			case 'onBefore':{
 				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE);
+				break;
 			}
 			case 'onAfter': {
 				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE);
+				break;
+			}
+			case 'inferenceRuleThen': {
+				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE);
+				if(empty($label)){
+					$label = 'inference rule';
+				}
+				break;
 			}
 			default:{
 				return $inferenceRule;
@@ -720,22 +748,68 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		
 		$inferenceRuleClass = new core_kernel_classes_Class(CLASS_INFERENCERULES);
-		$inferenceRule = $inferenceRuleClass->createInstance($connectorLabel, "created by ProcessAuthoringService.Class");
+		$inferenceRule = $inferenceRuleClass->createInstance($inferenceRuleLabel, "created by ProcessAuthoringService.Class");
 		
 		if(!empty($inferenceRule)){
-			//associate the connector to the activity
-			$activity->setPropertyValue($inferenceRuleProp, $inferenceRule->uriResource);
+			//associate the inference rule to the activity or the parent inference rule
+			if($type == 'inferenceRuleThen'){
+				$activity->editPropertyValue($inferenceRuleProp, $inferenceRule->uriResource);//only one single inference rule is allowed 
+			}else{
+				//we add a new inference rule to an activity
+				$activity->setPropertyValue($inferenceRuleProp, $inferenceRule->uriResource);
+			}
 		}else{
 			throw new Exception("the inference rule cannot be created for the activity {$activity->getLabel()}: {$activity->uriResource}");
 		}
 		return $inferenceRule;
 	}
 
-	public function createAssignment(){
-	
+	public function deleteInferenceRule(core_kernel_classes_Resource $inferenceRule){
+		$if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));//conditon or null
+		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));//assignment or null only
+		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));//assignment, inference rule or null
+		if(!is_null($if)){
+			$this->deleteCondition($if);
+		}
+		if(!is_null($then)){
+			$this->deleteAssignment($then);
+		}
+		if(!is_null($else)){
+			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri;
+			if($classUri == CLASS_ASSIGNMENT){
+				$this->deleteAssignment($else);
+			}elseif($classUri == CLASS_INFERENCERULES){
+				$this->deleteInferenceRule($else);
+			}
+		}
+		$inferenceRule->delete();
 	}
 	
+	public function deleteAssignment(core_kernel_classes_Resource $assignment){
 		
+		$assignmentVariable = $assignment->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VALUE));
+		//should be an SPX:
+		if($assignmentVariable instanceof core_kernel_classes_Resource){
+			$assignmentVariable->delete();
+		}
+		
+		$assignmentValue = $assignment->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VALUE));
+		if(!is_null($assignmentValue)){
+			//could be a term, an expression or a constant (even though its range is resource)
+			if($assignmentValue instanceof core_kernel_classes_Resource){
+				// $rdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
+				$classUri = $assignmentValue->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri;
+				if( $classUri == CLASS_TERM){
+					//delete the term:
+					$assignmentValue->delete();
+				}elseif( $classUri == CLASS_EXPRESSION){
+					$this->deleteExpression($assignmentValue);
+				}
+			}
+		}
+		
+		return $assignment->delete();
+	}
 	/**
      * Create the following activity for a connector.
 	 * If the following activity is given, define it as the 'next' activity and the type: 'then' or 'else'

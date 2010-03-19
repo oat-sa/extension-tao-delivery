@@ -486,7 +486,7 @@ class DescriptorFactory{
 		return $responseGroupDecriptor;
 	}
 
-	private function getAssignDescriptor(DOMElement $assignDom) {
+	public function getAssignDescriptor(DOMElement $assignDom) {
 
 		if ($assignDom->hasChildNodes())
 		{

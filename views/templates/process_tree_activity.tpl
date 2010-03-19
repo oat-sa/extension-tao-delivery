@@ -15,12 +15,15 @@
 			formContainer: "#activity_form",
 			createActivityAction: authoringControllerPath+"addActivity",
 			createInteractiveServiceAction: authoringControllerPath+"addInteractiveService",
+			createInferenceRuleAction: authoringControllerPath+"addInferenceRule",
 			editInteractiveServiceAction: authoringControllerPath+"editCallOfService",
 			editActivityPropertyAction: authoringControllerPath+"editActivityProperty",
 			editConnectorAction: authoringControllerPath+"editConnector",
+			editInferenceRuleAction: authoringControllerPath+"editInferenceRule",
 			deleteConnectorAction: authoringControllerPath+"deleteConnector",
 			deleteActivityAction: authoringControllerPath+"deleteActivity",
-			deleteInteractiveServiceAction: authoringControllerPath+"deleteCallOfService"
+			deleteInteractiveServiceAction: authoringControllerPath+"deleteCallOfService",
+			deleteInferenceRuleAction: authoringControllerPath+"deleteInferenceRule"
 		});
 	}
 	
