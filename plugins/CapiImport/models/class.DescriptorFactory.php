@@ -19,7 +19,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 require_once('class.ConditionDescriptor.php');
-
+require_once('class.AssignDescriptor.php');
 /**
  * Short description of class QuestionnaireDescriptor
  *
@@ -486,18 +486,18 @@ class DescriptorFactory{
 		return $responseGroupDecriptor;
 	}
 
-	public function getAssignDescriptor(DOMElement $assignDom) {
+	public static function getAssignDescriptor(DOMElement $assignDom) {
 
 		if ($assignDom->hasChildNodes())
 		{
-			if ($assignDom->childNodes->item(1)->nodeName =="assignment")
+			if ($assignDom->childNodes->item(0)->nodeName =="assignment")
 			{
-				$assignDom  = $assignDom->childNodes->item(1);
+				$assignDom  = $assignDom->childNodes->item(0);
 			}
 			else
 			{
 				
-				trigger_error("No assign descriptor in ".$this->getIdentifier($assignDom).""); return NULL;
+				return NULL;
 				throw new common_Exception('First eleemnt of an assignment should be an assignment node');
 			}
 		}
@@ -531,7 +531,7 @@ class DescriptorFactory{
 				if ($variable->nodeName == "operator")
 				{
 
-					$assignDescriptor->rightOperation = $this->getConditionDescriptor($variable);
+					$assignDescriptor->rightOperation = self::getConditionDescriptor($variable);
 
 				}
 			}

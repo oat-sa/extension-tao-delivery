@@ -557,11 +557,11 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		//THEN: assignment:
 		//create the description element
 		$elementDescription = tao_helpers_form_FormFactory::getElement('then_description', 'Free');
-		$elementDescription->setValue(__("THEN").' :');
+		$elementDescription->setValue(__("THEN").': ');
 		$myForm->addElement($elementDescription);
 		
 		$elementThen = tao_helpers_form_FormFactory::getElement("then_assignment", 'Textarea');
-		$elementThen->setDescription(__('Assignment'));
+		$elementThen->setDescription(__('Assignment').': ');
 		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
 		if(!is_null($then)){
 			if($then instanceof core_kernel_classes_Resource){
@@ -572,7 +572,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		
 		//ELSE: (optional)
 		$elementDescription = tao_helpers_form_FormFactory::getElement('else_description', 'Free');
-		$elementDescription->setValue(__("ELSE").' :');
+		$elementDescription->setValue(__("ELSE").': ');
 		$myForm->addElement($elementDescription);
 		
 		//type: inference rule or assignment:
@@ -586,16 +586,22 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$elementChoice->setOptions($options);
 		
 		$elementElse = tao_helpers_form_FormFactory::getElement("else_assignment", 'Textarea');
-		$elementElse->setDescription(__('Assignment:'));
-		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
+		$elementElse->setDescription(__('Assignment').': ');
+		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));
+		
 		if(!is_null($else) && $else instanceof core_kernel_classes_Resource){
 			//is it an assignment or another inferenceRule?
-			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri;
+			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
+			
 			if($classUri == CLASS_ASSIGNMENT){
 				$elementElse->setValue($else->getLabel());
 				$elementChoice->setValue("assignment");
 			}elseif($classUri == CLASS_INFERENCERULES){
 				$elementChoice->setValue("inference");
+			}else{
+				var_dump($else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
+				var_dump($classUri, $else);
+				throw new Exception("wrong type in the else of the inference rule");
 			}
 		}else{
 			$elementChoice->setValue("none");

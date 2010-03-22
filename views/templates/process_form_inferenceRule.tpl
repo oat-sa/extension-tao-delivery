@@ -16,61 +16,25 @@ $(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.saved){
-					$("#connector-form").html("connector saved");
+					$("#inferenceRule-form").html("inference rule saved");
 					refreshActivityTree();
 				}else{
-					$("#connector-form").html("connector save failed:" + response);
+					$("#inferenceRule-form").html("inference rule failed to save:" + response);
 				}
 			}
 		});
 	});
 	
-	// $("input:radio[name=else_choice]").change(function(){switchType();});
-	$("input:radio[name=else_choice]").change(function(){
-		if($("input:radio[name=else_choice]:checked").val() == 'assignment'){
-			enable($("#else_assignment"));
-		}else{
-			disable($("#else_assignment"));
-		}
-	});
+	switchElseType();
+	$("input:radio[name=else_choice]").change(switchElseType);
+	
 });
 
-// function initSwitch(){
-	
-// }
-function switchType(){
-	var value = $("input:radio[name=else_choice]").val();
-	alert(value);
-	if($("input:radio[name=else_choice]").val() == 'assignment'){
+function switchElseType(){
+	if($("input:radio[name=else_choice]:checked").val() == 'assignment'){
 		enable($("#else_assignment"));
 	}else{
 		disable($("#else_assignment"));
-	}
-}
-
-function initActivitySwitch(clazz){
-	switchActivityType(clazz);
-	$("input:radio[name="+clazz+"_activityOrConnector]").change(function(){switchActivityType(clazz);});
-	$("#"+clazz+"_activityUri").change(function(){switchActivityType(clazz);});
-}
-
-function switchActivityType(clazz){
-	var value = $("input:radio[name="+clazz+"_activityOrConnector]:checked").val();
-	if(value == 'connector'){
-		disable($("#"+clazz+"_activityUri"));
-		disable($("#"+clazz+"_activityLabel"));
-		enable($("#"+clazz+"_connectorUri"));
-	}else if(value == 'activity'){
-		enable($("#"+clazz+"_activityUri"));
-		disable($("#"+clazz+"_activityLabel"));
-		if($("#"+clazz+"_activityUri").val() == 'newActivity'){
-			enable($("#"+clazz+"_activityLabel"));
-		}
-		disable($("#"+clazz+"_connectorUri"));
-	}else{
-		disable($("#"+clazz+"_activityUri"));
-		disable($("#"+clazz+"_activityLabel"));
-		disable($("#"+clazz+"_connectorUri"));
 	}
 }
 

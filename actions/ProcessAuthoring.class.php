@@ -406,6 +406,16 @@ class ProcessAuthoring extends TaoModule {
 	
 		echo json_encode(array('deleted' => $deleted));
 	}
+	
+	public function deleteInferenceRule(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$deleted = $this->service->deleteInferenceRule(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST["inferenceUri"])));
+	
+		echo json_encode(array('deleted' => $deleted));
+		
+	}
 	/**
 	 * Duplicate an instance
 	 * A bit more complicated here
@@ -589,7 +599,7 @@ class ProcessAuthoring extends TaoModule {
 				//delete the old rule, if exists:
 				$oldRule = $connectorInstance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
 				if(!empty($oldRule)){
-					$deleted = $this->service->deleteRule($oldRule);
+					$deleted = $this->service->deleteRule($oldRule);//TODO: to be called deleteTransitionRule
 					// if(!$deleted){
 						// throw new Exception("the old transition rule related to the connector cannot be removed");
 					// }
@@ -644,19 +654,37 @@ class ProcessAuthoring extends TaoModule {
 	}
 	
 	public function saveInferenceRule(){
-	
+		
 		$returnValue = false;
 		
 		$inferenceRule = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['inferenceRuleUri']));
 		//save the "if":
-		$condition = $_POST['if'];
+		$conditionString = $_POST['if'];
+		if(!empty($conditionString)){
+			$conditionDom =  $this->service->analyseExpression($conditionString, true);
+			$condition = $this->service->createCondition($conditionDom);
+			if(is_null($condition)){
+				throw new Exception("the condition \"{$conditionString}\" cannot be created for the inference rule {$inferenceRule->getLabel()}");
+			}else{
+				$ifProp = new core_kernel_classes_Property(PROPERTY_RULE_IF);
+				//delete old condition if exists:
+				$this->service->deleteCondition($inferenceRule);//actually deleteCondition
+				
+				//associate the new condition:
+				$inferenceRule->editPropertyValues($ifProp, $condition->uriResource);
+			}
+		}
 		
 		//save the "then":
 		$then_assignment = $_POST['then_assignment'];
-		$this->service->createAssignment($inferenceRule, $then_assignment, 'then');
-		$newAssignment = $this->service->createAssignment($then_assignment);
-		$returnValue = $inferenceRule->editPropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN), $newAssignment->uriResource);
-				
+		// $this->service->createAssignment($inferenceRule, $then_assignment, 'then');
+		$thenDom = $this->service->analyseExpression($then_assignment);
+		// var_dump($thenDom->saveXML());
+		if(!is_null($thenDom)){
+			$newAssignment = $this->service->createAssignment($thenDom);
+			$returnValue = $inferenceRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN), $newAssignment->uriResource);
+		}
+		
 		//save the "else":
 		if(isset($_POST['else_choice'])){
 			
@@ -666,41 +694,57 @@ class ProcessAuthoring extends TaoModule {
 			if($_POST['else_choice'] == 'assignment'){
 			
 				$else_assignment = $_POST['else_assignment'];
-				//clean old assignment and save the new one:
-				$newAssignment = $this->service->createAssignment($else_assignment);
-				$returnValue = $inferenceRule->editPropertyValue($inferenceElseProp, $newAssignment->uriResource);
+				$elseDom = $this->service->analyseExpression($else_assignment);
+				if(!is_null($elseDom)){
+					//delete old assignment resource:
+					
+					//save new assignment:
+					$newAssignment = null;
+					$newAssignment = $this->service->createAssignment($elseDom);
+					$returnValue = $inferenceRule->editPropertyValues($inferenceElseProp, $newAssignment->uriResource);
+				}
 				
 			}elseif($_POST['else_choice'] == 'inference'){
 				//check if the current "else" is already an inference rule:
 				$elseIsInferenceRule = false;
-				$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));//assignment, inference rule or null
-				if(!is_null($else)){
-					if($else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri == CLASS_INFERENCERULES){
-						$elseIsInferenceRule = true;
-						$returnValue = true;//no need to do anything, since the inference rule already exists
+				$else = $inferenceRule->getOnePropertyValue($inferenceElseProp);//assignment, inference rule or null
+				
+				if(!empty($else)){
+					if($else instanceof core_kernel_classes_Resource){
+						if($else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource == CLASS_INFERENCERULES){
+							$elseIsInferenceRule = true;
+							$returnValue = true;//no need to do anything, since the inference rule already exists
+						}
 					}
 				}
 				if(!$elseIsInferenceRule){
 					//create a new inference rule
 					$newInferenceRule = null;
-					$newInferenceRule = $this->service->createInferenceRule($inferenceRule, 'inferenceRuleThen');
-					$returnValue = $inferenceRule->editPropertyValue($inferenceElseProp, $newInferenceRule->uriResource);
+					$newInferenceRule = $this->service->createInferenceRule($inferenceRule, 'inferenceRuleElse');
+					
+					if(!is_null($newInferenceRule)){
+						$returnValue = true;
+					}
 				}
 			}else{
 				//find what is in the "else" property of the current inference rule, and delete it:
 				
-				$then = $inferenceRule->getOnePropertyValue($inferenceElseProp);
-				if(!is_null($then)){//delete it whatever it is (assignment or inference rule)
-					$type = $then->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE));
-					if($type->uriResource == CLASS_ASSIGNMENT){
-						$this->service->deleteAssignment($then);
-					}elseif($type->uriResource == CLASS_INFERENCERULES){
-						$this->service->deleteInferenceRule($then);
+				$else = $inferenceRule->getOnePropertyValue($inferenceElseProp);
+				
+				if(!is_null($else)){//delete it whatever it is (assignment or inference rule)
+					if($else instanceof core_kernel_classes_Resource){
+						$type = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE));
+						if($type->uriResource == CLASS_ASSIGNMENT){
+							$this->service->deleteAssignment($else);
+						}elseif($type->uriResource == CLASS_INFERENCERULES){
+							$this->service->deleteInferenceRule($else);
+						}
 					}
 				}
 				
 				//remove property value:
-				$returnValue = $inferenceRule->removePropertyValues($inferenceElseProp);
+				$inferenceRule->removePropertyValues($inferenceElseProp);
+				$returnValue = true;
 			}
 		}
 		

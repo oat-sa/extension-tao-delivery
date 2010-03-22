@@ -113,7 +113,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			//check if it is the first activity node:
 			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#119018447833116
 			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
-				if($isIntial->uriResource == GENERIS_TRUE){	
+				if($isIntial->uriResource == GENERIS_TRUE){
 					$activityData = $this->addNodeClass($activityData, "node-activity-initial");
 				}
 			}
@@ -220,12 +220,13 @@ class taoDelivery_models_classes_ProcessTreeService
 				}
 			}
 			
-			//get related rules
-			$onBeforeInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULES));
+			//get related inference rules
+			$onBeforeInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE));
 			foreach($onBeforeInferenceRuleCollection->getIterator() as $inferenceRule){
 				$activityData['children'][] = $this->inferenceRuleNode($inferenceRule, 'onBefore');
 			}
-			$onAfterInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULES));
+			
+			$onAfterInferenceRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE));
 			foreach($onAfterInferenceRuleCollection->getIterator() as $inferenceRule){
 				$activityData['children'][] = $this->inferenceRuleNode($inferenceRule, 'onAfter');
 			}
@@ -239,7 +240,7 @@ class taoDelivery_models_classes_ProcessTreeService
 	
 	protected function inferenceRuleNode(core_kernel_classes_Resource $inferenceRule, $class){
 	
-		if(!in_array($class, array('onBefore', 'onAfter'))){
+		if(!in_array($class, array('onBefore', 'onAfter')) || is_null($inferenceRule)){
 			return array();
 		}
 		
@@ -251,12 +252,12 @@ class taoDelivery_models_classes_ProcessTreeService
 			)
 		);
 		
-		$if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));//conditon or null
+		// $if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));//conditon or null
 		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));//assignment or null only
 		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));//assignment, inference rule or null
 		
 		//always show the if node:
-		$nodeData['children'][]	= $this->conditionNode($if);
+		$nodeData['children'][]	= $this->conditionNode($inferenceRule);
 		
 		if(!is_null($then)){
 			$thenNode = $this->assignmentNode($then);
@@ -265,7 +266,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			}
 		}
 		if(!is_null($else)){
-			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->resourceUri;
+			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
 			if($classUri == CLASS_ASSIGNMENT){
 				$elseNode = $this->assignmentNode($else);
 				if(!empty($thenNode)){
@@ -461,8 +462,9 @@ class taoDelivery_models_classes_ProcessTreeService
 	}
 	
 	/**
-     * The method creates the array representation a rule node to fill the jsTree 
-     *
+     * The method creates the array representation of the condition of a rule node to fill the jsTree 
+     * (could be inferenceRule or transitionRule)
+	 *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @param core_kernel_classes_Resource rule
@@ -470,22 +472,26 @@ class taoDelivery_models_classes_ProcessTreeService
      */	
 	public function conditionNode(core_kernel_classes_Resource $rule){
 		
-		$data='';
-		$if = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
-		if(!is_null($if)){
-			$data = $if->getLabel();
-		}else{
-			$data = __("(still undefined)");
-		}
-		$nodeData = array(
-			'data' => $data,
-			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($rule->uriResource),
-				'class' => 'node-rule'
-			)
-		);
+		$nodeData = array();
 		
-		$nodeData = self::addNodePrefix($nodeData, 'if');
+		if(!is_null($rule)){
+			$data='';
+			$if = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+			if(!is_null($if)){
+				$data = $if->getLabel();
+			}else{
+				$data = __("(still undefined)");
+			}
+			$nodeData = array(
+				'data' => $data,
+				'attributes' => array(
+					'id' => tao_helpers_Uri::encode($rule->uriResource),
+					'class' => 'node-rule'
+				)
+			);
+			
+			$nodeData = self::addNodePrefix($nodeData, 'if');
+		}
 		
 		return $nodeData;
 	}
