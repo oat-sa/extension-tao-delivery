@@ -1,4 +1,4 @@
-﻿msgid "Campaign Class saved"
+msgid "Campaign Class saved"
 msgstr "Campagne Klass gespäichert"
 
 msgid "Edit campaign class"
@@ -22,6 +22,24 @@ msgstr "Ausliwwerung gespäichert"
 msgid "Edit delivery"
 msgstr "Editéier Ausliwwerung"
 
+msgid "The test"
+msgstr ""
+
+msgid "is not active so cannot be compiled"
+msgstr ""
+
+msgid "The test collection for the language"
+msgstr ""
+
+msgid "must not be empty"
+msgstr ""
+
+msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
+msgstr ""
+
+msgid "wrong login or/and password,<br/> please try again"
+msgstr ""
+
 msgid "saved"
 msgstr "gespäichert"
 
@@ -40,8 +58,8 @@ msgstr "Editéier Resultatserver"
 msgid "Delivery"
 msgstr "Ausliwwerung"
 
-msgid "Manage deliveries"
-msgstr "Ausliwwerungen managen"
+msgid "Manage Deliveries"
+msgstr ""
 
 msgid "Deliveries library"
 msgstr "Ausliwwerungs Sammlung"
@@ -61,9 +79,6 @@ msgstr "läschen"
 msgid "duplicate"
 msgstr "duplizéieren"
 
-msgid "edit delivery"
-msgstr "editéier Ausliwwerung"
-
 msgid "new property"
 msgstr "nei Propriétéit"
 
@@ -76,11 +91,8 @@ msgstr "exportéieren"
 msgid "compile"
 msgstr "kompiléieren"
 
-msgid "cache"
-msgstr "Cache"
-
-msgid "view history"
-msgstr "Log uweisen"
+msgid "Advanced Authoring Tool"
+msgstr ""
 
 msgid "Manage Campaigns"
 msgstr "Campagnen managen"
@@ -106,9 +118,6 @@ msgstr "neie Resultatserver"
 msgid "edit result server"
 msgstr "editéier Resultatserver"
 
-msgid "Delivery authoring"
-msgstr "Ausliwwerungs Editioun"
-
 msgid "Label"
 msgstr "Etiquette"
 
@@ -126,6 +135,21 @@ msgstr "Konnektiounstyp"
 
 msgid "IF"
 msgstr "WANN"
+
+msgid "THEN"
+msgstr ""
+
+msgid "Assignment"
+msgstr ""
+
+msgid "ELSE"
+msgstr ""
+
+msgid "Another Inference Rule"
+msgstr ""
+
+msgid "No thanks"
+msgstr ""
 
 msgid "create new activity"
 msgstr "erschaf nei Aktivitéit"
@@ -172,14 +196,158 @@ msgstr "Wirklech Läschen?"
 msgid "Please confirm deletion? warning: the related connectors may be affected"
 msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
 
-msgid "Select delivery campaign"
-msgstr "Ausliwwerungs Campagne wielen"
+msgid "compiling..."
+msgstr ""
+
+msgid "ok"
+msgstr ""
+
+msgid "compiled with warning"
+msgstr ""
+
+msgid "compilation failed"
+msgstr ""
+
+msgid "the following file(s) could not be copied for the test"
+msgstr ""
+
+msgid "the following file(s) could not be created for the test"
+msgstr ""
+
+msgid "Recompile the delivery"
+msgstr ""
+
+msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
+msgstr ""
+
+msgid "failed!"
+msgstr ""
+
+msgid "the following item(s) has not been translated into"
+msgstr ""
+
+msgid "complete with warning"
+msgstr ""
+
+msgid "complete!"
+msgstr ""
+
+msgid "Select a test"
+msgstr ""
+
+msgid "Go to"
+msgstr ""
+
+msgid "Close (Esc)"
+msgstr ""
+
+msgid "Suppress"
+msgstr ""
+
+msgid "Question (Ctrl-Q)"
+msgstr ""
+
+msgid "Type (Ctrl-T)"
+msgstr ""
+
+msgid "Add (Ctrl-A)"
+msgstr ""
+
+msgid "Enter remark text here"
+msgstr ""
+
+msgid "(Ctrl-C)"
+msgstr ""
+
+msgid "Export - Debug only (Ctrl-E)"
+msgstr ""
+
+msgid "Select delivery"
+msgstr "Ausliwwerung wielen"
 
 msgid "Save"
 msgstr "Späicheren"
 
-msgid "Select delivery"
-msgstr "Ausliwwerung wielen"
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
+msgid "User Id."
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Active Tests"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Start/Resume the case"
+msgstr ""
+
+msgid "Finished Test"
+msgstr ""
+
+msgid "Initialize new test"
+msgstr ""
+
+msgid "New Test"
+msgstr ""
+
+msgid "the login must not be empty"
+msgstr ""
+
+msgid "the password must not be empty"
+msgstr ""
+
+msgid "Select delivery campaign"
+msgstr "Ausliwwerungs Campagne wielen"
+
+msgid "Compilation of the delivery"
+msgstr ""
+
+msgid "A delviery must to be compiled before being executed. The compilation can be done here."
+msgstr ""
+
+msgid "A recompilation is also required after modification on the tests composing a delivery."
+msgstr ""
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
+msgstr ""
+
+msgid "The delivery was last compiled on"
+msgstr ""
+
+msgid "Recompile"
+msgstr ""
+
+msgid "Compile"
+msgstr ""
+
+msgid "Select delivery tests"
+msgstr ""
+
+msgid "Tests sequence"
+msgstr ""
+
+msgid "Sequence saved successfully"
+msgstr ""
+
+msgid "Compilation"
+msgstr ""
+
+msgid "The delivery is not compiled yet"
+msgstr ""
 
 msgid "The Delivery module allows users to define tests delivery parameters."
 msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze définéieren"
@@ -187,17 +355,26 @@ msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
 msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bäizefügen oder ze läschen an hir Propriétéiten ze veränneren"
 
+msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgstr ""
+
 msgid "Campaign"
 msgstr "Campagne"
 
-msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
+msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
+msgstr ""
+
+msgid "For instance, it is a way to organize deliveries with a common objectives."
+msgstr ""
 
 msgid "Result Server"
 msgstr "Resultatserver"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
 msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bäizefügen, ze editéieren oder matt Ausliwwerungen ze verbannen."
+
+msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
+msgstr ""
 
 msgid "Please select a delivery before authoring it!"
 msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
@@ -223,8 +400,26 @@ msgstr "Prozess Propriétéit"
 msgid "loading..."
 msgstr "lueden..."
 
+msgid "Pause"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+msgid "Edit error"
+msgstr ""
+
+msgid "Compilation of the Process"
+msgstr ""
+
 msgid "Sure?"
 msgstr "Sëcher?"
+
+msgid "reloading form..."
+msgstr ""
+
+msgid "interactive service saved"
+msgstr ""
 
 msgid "save"
 msgstr "späicheren"
@@ -235,8 +430,23 @@ msgstr "nei lueden"
 msgid "cancel"
 msgstr "ofbriechen"
 
+msgid "Browse Tests"
+msgstr ""
+
+msgid "check code"
+msgstr ""
+
+msgid "checking the code..."
+msgstr ""
+
+msgid "the chosen code has already been used for the process variable"
+msgstr ""
+
+msgid "please choose another one"
+msgstr ""
+
 msgid "Use the * character to replace any string"
-msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen "
+msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen"
 
 msgid "Filter"
 msgstr "Filter"
@@ -250,6 +460,24 @@ msgstr "All zoumaachen"
 msgid "Select testees to be <b>excluded</b>"
 msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
 
+msgid "Manage deliveries"
+msgstr "Ausliwwerungen managen"
+
+msgid "edit delivery"
+msgstr "editéier Ausliwwerung"
+
+msgid "cache"
+msgstr "Cache"
+
+msgid "view history"
+msgstr "Log uweisen"
+
+msgid "Delivery authoring"
+msgstr "Ausliwwerungs Editioun"
+
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
+
 msgid "EN"
 msgstr "Englesch"
 
@@ -261,3 +489,4 @@ msgstr "Däitsch"
 
 msgid "LU"
 msgstr "Letzebuergesch"
+
