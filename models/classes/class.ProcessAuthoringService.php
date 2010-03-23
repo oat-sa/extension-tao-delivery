@@ -337,13 +337,8 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		$apiModel = core_kernel_classes_ApiModelOO::singleton();
 		
-		//delete the activity reference in the process instance.
-		$processCollection = $apiModel->getSubject(PROPERTY_PROCESS_ACTIVITIES , $activity->uriResource);
-		if(!$processCollection->isEmpty()){
-			$apiModel->removeStatement($processCollection->get(0)->uriResource, PROPERTY_PROCESS_ACTIVITIES, $activity->uriResource, '');
-		}else{
-			return false;
-		}
+		
+		
 		
 		//delete related connector
 		$connectorCollection = $apiModel->getSubject(PROPERTY_CONNECTORS_ACTIVITYREFERENCE , $activity->uriResource);
@@ -379,19 +374,37 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		
 		//clean reference in transition rule (faster method)
-		$thenCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_THEN , $activity->uriResource);
-		foreach($thenCollection->getIterator() as $transitionRule){
-			$apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_THEN, $activity->uriResource, '');
+		// $thenCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_THEN , $activity->uriResource);
+		// foreach($thenCollection->getIterator() as $transitionRule){
+			// $apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_THEN, $activity->uriResource, '');
+		// }
+		// $elseCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_ELSE , $activity->uriResource);
+		// foreach($elseCollection->getIterator() as $transitionRule){
+			// $apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_ELSE, $activity->uriResource, '');
+		// }
+		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_THEN), $activity);
+		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_TRANSITIONRULES_ELSE), $activity);
+		
+		//delete inference rules:
+		foreach($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE))->getIterator() as $inferenceRule){
+			$this->deleteInferenceRule($inferenceRule);
 		}
-		$elseCollection = $apiModel->getSubject(PROPERTY_TRANSITIONRULES_ELSE , $activity->uriResource);
-		foreach($elseCollection->getIterator() as $transitionRule){
-			$apiModel->removeStatement($transitionRule->uriResource, PROPERTY_TRANSITIONRULES_ELSE, $activity->uriResource, '');
+		foreach($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE))->getIterator() as $inferenceRule){
+			$this->deleteInferenceRule($inferenceRule);
 		}
-			
+		
 		//delete activity itself:
 		$returnValue = $this->deleteInstance($activity);
 		
-		return $returnValue;
+		//delete the activity reference in the process instance.
+		$processCollection = $apiModel->getSubject(PROPERTY_PROCESS_ACTIVITIES , $activity->uriResource);
+		if(!$processCollection->isEmpty()){
+			$apiModel->removeStatement($processCollection->get(0)->uriResource, PROPERTY_PROCESS_ACTIVITIES, $activity->uriResource, '');
+		}else{
+			return false;
+		}
+		
+		return $returnValue=true;
 	}
 	
 	/**
@@ -802,7 +815,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		//last: delete the reference to this inferenceRule in case of successive inference rule:
 		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE), $inferenceRule);
 		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONAFTERINFERENCERULE), $inferenceRule);
-		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE), $inferenceRule);
+		// $this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE), $inferenceRule);
 		
 		return $inferenceRule->delete();
 	}

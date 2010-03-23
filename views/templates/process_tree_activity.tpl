@@ -23,7 +23,9 @@
 			deleteConnectorAction: authoringControllerPath+"deleteConnector",
 			deleteActivityAction: authoringControllerPath+"deleteActivity",
 			deleteInteractiveServiceAction: authoringControllerPath+"deleteCallOfService",
-			deleteInferenceRuleAction: authoringControllerPath+"deleteInferenceRule"
+			deleteInferenceRuleAction: authoringControllerPath+"deleteInferenceRule",
+			setFirstActivityAction: authoringControllerPath+"setFirstActivity",
+			unsetLastActivityAction: authoringControllerPath+"unsetLastActivity"
 		});
 	}
 	

@@ -850,7 +850,34 @@ class ProcessAuthoring extends TaoModule {
 	public function preview(){
 		
 	}
-			
+	
+	public function setFirstActivity(){
+		$activity = $this->getCurrentActivity();
+		$process = $this->getCurrentProcess();
+		
+		$activities = $this->service->getActivitiesByProcess($process);
+		foreach($activities as $activityTemp){
+			$activityTemp->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_FALSE);
+		}
+		
+		$returnValue = $activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
+	
+		echo json_encode(array('set' => $returnValue));
+	}
+	
+	public function unsetLastActivity(){
+		$activity = $this->getCurrentActivity();
+		$created = false;
+		
+		//TODO: check if there is really no connector for the activity
+		$connector = $this->service->createConnector($activity);
+		if(!is_null($connector)){
+			$created = true;
+		}
+		
+		echo json_encode(array('created' => $created));
+	}
+	
 	/*
 	 * @TODO implement the following actions
 	 */

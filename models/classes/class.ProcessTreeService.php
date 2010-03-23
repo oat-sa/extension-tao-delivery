@@ -106,17 +106,13 @@ class taoDelivery_models_classes_ProcessTreeService
 			
 			$this->currentActivity = $activity;
 			$this->addedConnectors = array();//required to prevent cyclic connexion between connectors of a given activity
+			$initial = false;
+			$last = false;
 			
 			$activityData = array();
 			$activityData = $this->activityNode($activity, 'next', false);
 			
-			//check if it is the first activity node:
-			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#119018447833116
-			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
-				if($isIntial->uriResource == GENERIS_TRUE){
-					$activityData = $this->addNodeClass($activityData, "node-activity-initial");
-				}
-			}
+			
 			
 			//set property node:
 			$activityData['children'][] = array(
@@ -202,8 +198,29 @@ class taoDelivery_models_classes_ProcessTreeService
 			}else{
 				// throw new Exception("no connector associated to the activity: {$activity->uriResource}");
 				//Simply not add a connector here: this should be considered as the last activity:
-				$activityData = $this->addNodeClass($activityData, 'node-activity-last');			
+				$last = true;				
 			}
+			
+			//check if it is the first activity node:
+			
+			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#119018447833116
+			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
+				if($isIntial->uriResource == GENERIS_TRUE){
+					$initial =true;
+				}
+			}
+			
+			if($initial && $last){
+				$activityData = $this->addNodeClass($activityData, "node-activity-initial");
+				$activityData = $this->addNodeClass($activityData, 'node-activity-last');	
+				$activityData = $this->addNodeClass($activityData, "node-activity-unique");
+			}elseif($initial){
+				$activityData = $this->addNodeClass($activityData, "node-activity-initial");
+			}elseif($last){
+				$activityData = $this->addNodeClass($activityData, 'node-activity-last');	
+			}
+			
+			
 			
 			//get interactive services
 			$services = null;
