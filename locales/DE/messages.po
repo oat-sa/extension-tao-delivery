@@ -1,8 +1,8 @@
 msgid "Campaign Class saved"
-msgstr "Klasse "Kampagne" gespeichert"
+msgstr "Klasse \"Kampagne\" gespeichert"
 
 msgid "Edit campaign class"
-msgstr "Klasse "Kampagne" bearbeiten"
+msgstr "Klasse \"Kampagne\" bearbeiten"
 
 msgid "Campaign saved"
 msgstr "Kampagne gespeichert"
@@ -11,13 +11,13 @@ msgid "Edit Campaign"
 msgstr "Kampagne bearbeiten"
 
 msgid "Delivery Class saved"
-msgstr "Klasse "Delivery" gespeichert"
+msgstr "Klasse \"Delivery\" gespeichert"
 
 msgid "Edit delivery class"
-msgstr "Klasse"Delivery" bearbeiten"
+msgstr "Klasse \"Delivery\" bearbeiten"
 
 msgid "Delivery saved"
-msgstr "Klasse"Delivery" gespeichert"
+msgstr "Klasse \"Delivery\" gespeichert"
 
 msgid "Edit delivery"
 msgstr "Delivery bearbeiten"
@@ -44,10 +44,10 @@ msgid "saved"
 msgstr "gespeichert"
 
 msgid "Result Server class saved"
-msgstr "Klasse "Ergebnis-Server" gespeichert"
+msgstr "Klasse \"Ergebnis-Server\" gespeichert"
 
 msgid "Edit resultServer class"
-msgstr "Klasse "Ergebnis-Server" bearbeiten"
+msgstr "Klasse \"Ergebnis-Server\" bearbeiten"
 
 msgid "Result Server saved"
 msgstr "Ergebnis-Server gespeichert"
