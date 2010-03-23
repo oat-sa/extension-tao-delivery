@@ -255,10 +255,12 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		if(!is_null($rule)){
 			//if it is a transition rule: get the uri of the related properties: THEN and ELSE:
 			//delete the expression of the conditio and its related terms
-			$expressionCollection = $rule->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_RULE_IF));
-			foreach($expressionCollection->getIterator() as $expression){
-				$returnValue = $this->deleteExpression($expression);
+			$expression = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+			if(!is_null($expression) && ($expression instanceof core_kernel_classes_Resource) ){
+				$this->deleteExpression($expression);
 			}
+			
+			//delete reference: should be done on a upper level, at this function call
 		}
 		
 		return $returnValue;
@@ -286,7 +288,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		$terminalExpression = $expression->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_EXPRESSION_TERMINALEXPRESSION));
 		if(!empty($terminalExpression) && $terminalExpression instanceof core_kernel_classes_Resource){
-			$terminalExpression->delete();
+			$this->deleteTerm($terminalExpression);
 		}
 		
 		//delete the expression itself:
@@ -742,7 +744,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 			case 'inferenceRuleElse': {
 				$inferenceRuleProp = new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE);
 				if(empty($label)){
-					$label = 'inference rule';
+					$label = ' ';
 				}
 				break;
 			}
@@ -784,10 +786,11 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		$this->deleteCondition($inferenceRule);
 		
-		if(!is_null($then)){
+		if(!is_null($then) && ($then instanceof core_kernel_classes_Resource) ){
 			$this->deleteAssignment($then);
 		}
-		if(!is_null($else)){
+		
+		if(!is_null($else) && ($then instanceof core_kernel_classes_Resource) ){
 			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
 			if($classUri == CLASS_ASSIGNMENT){
 				$this->deleteAssignment($else);
@@ -804,72 +807,80 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $inferenceRule->delete();
 	}
 	
-	public function deleteAssignment(core_kernel_classes_Resource $assignment){
+	public function deleteAssignment(core_kernel_classes_Resource $assignment, $fullDelete = true){
 		
-		$assignmentVariable = $assignment->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VARIABLE));
-		//should be an SPX:
-		if($assignmentVariable instanceof core_kernel_classes_Resource){
-			$assignmentVariable->delete();
-		}
+		if(!is_null($assignment)){
 		
-		$assignmentValue = $assignment->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VALUE));
-		// var_dump($assignment, $assignmentValue);
-		if(!is_null($assignmentValue)){
-			//could be a term, an expression or a constant (even though its range is resource)
-			if($assignmentValue instanceof core_kernel_classes_Resource){
-				// $rdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
-				$classUri = $assignmentValue->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
-				$termClasses = array(
-					CLASS_TERM,
-					CLASS_TERM_SUJET_PREDICATE_X,
-					CLASS_TERM_CONST
-					);
-				if(in_array($classUri,$termClasses)){
-					//delete the term:
-					$assignmentValue->delete();
-				}elseif( $classUri == CLASS_OPERATION){
-					$this->deleteOperation($assignmentValue);
-				}elseif( $classUri == CLASS_EXPRESSION){
-					$this->deleteExpression($assignmentValue);
+			$assignmentVariable = $assignment->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VARIABLE));
+			//should be an SPX:
+			if($assignmentVariable instanceof core_kernel_classes_Resource){
+				$assignmentVariable->delete();
+			}
+			
+			$assignmentValue = $assignment->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ASSIGNMENT_VALUE));
+			// var_dump($assignment, $assignmentValue);
+			if(!is_null($assignmentValue)){
+				//could be a term, an operation or a constant (even though its range is resource)
+				if($assignmentValue instanceof core_kernel_classes_Resource){
+					
+					$this->deleteTerm($assignmentValue);
+					
 				}
 			}
+			
+			if($fullDelete){
+				$assignment->delete();
+			}
+		
 		}
 		
-		return $assignment->delete();
+		return true;
 	}
 	
 	public function deleteOperation(core_kernel_classes_Resource $operation){
-		$termClasses = array(
-				CLASS_TERM,
-				CLASS_TERM_SUJET_PREDICATE_X,
-				CLASS_TERM_CONST
-			);
 			
-		 $firstOperand = $operation->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_OPERATION_FIRSTOPERAND));
-		 if($firstOperand instanceof core_kernel_classes_Resource ){
-			//determine the class:
-			$classUri = $firstOperand->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
-			
-			if($classUri == CLASS_OPERATION){
-				$this->deleteOperation($firstOperand);
-			}elseif(in_array($classUri,$termClasses)){
-				$firstOperand->delete();
-			}
+		$firstOperand = $operation->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_OPERATION_FIRST_OP));
+		if(!is_null($firstOperand) && ($firstOperand instanceof core_kernel_classes_Resource)){
+			$this->deleteTerm($firstOperand);
 		}
 		
-		$secondOperand = $operation->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_OPERATION_SECONDOPERAND));
-		 if($secondOperand instanceof core_kernel_classes_Resource ){
-			//determine the class:
-			$classUri = $secondOperand->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
-			
-			if($classUri == CLASS_OPERATION){
-				$this->deleteOperation($secondOperand);
-			}elseif(in_array($classUri,$termClasses)){
-				$secondOperand->delete();
-			}
+		$secondOperand = $operation->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_OPERATION_SECND_OP));
+		if(!is_null($secondOperand) && ($secondOperand instanceof core_kernel_classes_Resource)){
+			$this->deleteTerm($secondOperand);
 		}
 		
 		return $operation->delete();
+	}
+	
+	public function deleteTerm(core_kernel_classes_Resource $term){
+		$termClasses = array(
+			CLASS_TERM_SUJET_PREDICATE_X,
+			CLASS_TERM_CONST
+		);
+		
+		//list of terms instance that must not be deleted!
+		$termConstants = array(
+			INSTANCE_TERM_IS_NULL
+		);
+		
+		if(!is_null($term)){
+			//determine the class:
+			$classUri = $term->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
+			
+			if($classUri == CLASS_OPERATION){
+				
+				$this->deleteOperation($term);//an operation is a term
+				
+			}elseif(in_array($classUri,$termClasses)){
+			
+				if(!in_array($term->uriResource, $termConstants)){//delete all instances but the one that are preset
+					$term->delete();
+				}
+				
+			}else{
+				throw new Exception("trying to delete a term with an unknown term class");
+			}
+		}
 	}
 	
 	/**

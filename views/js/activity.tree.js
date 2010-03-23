@@ -170,7 +170,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 							}
 						},
 						addOnBeforeInferenceRule: {
-							label: "Add On Before Inference Rule",
+							label: "Add 'OnBefore' InferenceRule",
 							icon: "/tao/views/img/instance_add.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -185,6 +185,29 @@ function ActivityTreeClass(selector, dataUrl, options){
 								ActivityTreeClass.addInferenceRule({
 									url: instance.options.createInferenceRuleAction,
 									type: 'onBefore',
+									id: $(NODE).attr('id'),
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ,
+									cssClass: instance.options.instanceClass
+								});
+							}
+						},
+						addOnAfterInferenceRule: {
+							label: "Add 'OnAfter' InferenceRule",
+							icon: "/tao/views/img/instance_add.png",
+							visible : function (NODE, TREE_OBJ) {
+								if(NODE.length != 1) {
+									return -1; 
+								}
+								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) && instance.options.createInferenceRuleAction){ 
+									return 1;
+								}
+								return -1;
+							},
+							action  : function(NODE, TREE_OBJ){
+								ActivityTreeClass.addInferenceRule({
+									url: instance.options.createInferenceRuleAction,
+									type: 'onAfter',
 									id: $(NODE).attr('id'),
 									NODE: NODE,
 									TREE_OBJ: TREE_OBJ,
@@ -515,9 +538,11 @@ ActivityTreeClass.addInferenceRule = function(options){
 	var  cssClass = 'node-inferenceRule';
 	if(options.type == 'onBefore'){
 		cssClass += '-onBefore';
-	}else{
+	}else if(options.type == 'onAfter'){
 		//on after:
 		cssClass += '-onAfter';
+	}else{
+		return false;
 	}
 	if(options.cssClass){
 		 cssClass += ' ' + options.cssClass;

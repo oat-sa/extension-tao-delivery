@@ -487,7 +487,7 @@ class DescriptorFactory{
 	}
 
 	public static function getAssignDescriptor(DOMElement $assignDom) {
-
+		
 		if ($assignDom->hasChildNodes())
 		{
 			if ($assignDom->childNodes->item(0)->nodeName =="assignment")

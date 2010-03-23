@@ -658,6 +658,7 @@ class ProcessAuthoring extends TaoModule {
 		$returnValue = false;
 		
 		$inferenceRule = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['inferenceRuleUri']));
+		
 		//save the "if":
 		$conditionString = $_POST['if'];
 		if(!empty($conditionString)){
@@ -667,8 +668,9 @@ class ProcessAuthoring extends TaoModule {
 				throw new Exception("the condition \"{$conditionString}\" cannot be created for the inference rule {$inferenceRule->getLabel()}");
 			}else{
 				$ifProp = new core_kernel_classes_Property(PROPERTY_RULE_IF);
+				
 				//delete old condition if exists:
-				$this->service->deleteCondition($inferenceRule);//actually deleteCondition
+				$this->service->deleteCondition($inferenceRule);
 				
 				//associate the new condition:
 				$inferenceRule->editPropertyValues($ifProp, $condition->uriResource);
@@ -676,13 +678,21 @@ class ProcessAuthoring extends TaoModule {
 		}
 		
 		//save the "then":
+		$inferenceThenProp = new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN);
 		$then_assignment = $_POST['then_assignment'];
 		// $this->service->createAssignment($inferenceRule, $then_assignment, 'then');
 		$thenDom = $this->service->analyseExpression($then_assignment);
 		// var_dump($thenDom->saveXML());
 		if(!is_null($thenDom)){
+			//delete old assignment resource:
+			$oldThenAssignment = $inferenceRule->getOnePropertyValue($inferenceThenProp);
+			if(!is_null($oldThenAssignment)){
+				$this->service->deleteAssignment($oldThenAssignment);
+			}
+			
+			//save new one:
 			$newAssignment = $this->service->createAssignment($thenDom);
-			$returnValue = $inferenceRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN), $newAssignment->uriResource);
+			$returnValue = $inferenceRule->editPropertyValues($inferenceThenProp, $newAssignment->uriResource);
 		}
 		
 		//save the "else":
@@ -697,11 +707,16 @@ class ProcessAuthoring extends TaoModule {
 				$elseDom = $this->service->analyseExpression($else_assignment);
 				if(!is_null($elseDom)){
 					//delete old assignment resource:
-					
+					$oldElseAssignment = $inferenceRule->getOnePropertyValue($inferenceElseProp);
+					if(!is_null($oldElseAssignment)){
+						$this->service->deleteAssignment($oldElseAssignment);
+					}
+			
 					//save new assignment:
 					$newAssignment = null;
 					$newAssignment = $this->service->createAssignment($elseDom);
 					$returnValue = $inferenceRule->editPropertyValues($inferenceElseProp, $newAssignment->uriResource);
+					
 				}
 				
 			}elseif($_POST['else_choice'] == 'inference'){

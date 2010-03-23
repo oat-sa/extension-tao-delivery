@@ -22,7 +22,15 @@ class AssignDescriptor
 			if(is_numeric($this->rightConstant)){//"numerical strings" are not allowed
 				$right = $this->rightConstant;
 			}else{
-				$right = "'{$this->rightConstant}'";
+				$preDefinedConstants = array(
+					'null', 
+					'NULL');
+					
+				if(in_array($this->rightConstant, $preDefinedConstants)){
+					$right = "{$this->rightConstant}";
+				}else{
+					$right = "'{$this->rightConstant}'";
+				}
 			}
 		}elseif(isset($this->rightVariable)){
 			$right =  '^'.$this->rightVariable;
