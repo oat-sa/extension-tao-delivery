@@ -172,10 +172,17 @@ class ProcessAuthoring extends TaoModule {
 		
 		//attach the created activity to the process
 		if(!is_null($newActivity) && $newActivity instanceof core_kernel_classes_Resource){
+			$class = '';
+			if($newActivity->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL))->uriResource == GENERIS_TRUE){
+				//just set the first activity as a such
+				$class = 'node-activity-initial';
+			}
+			
 			echo json_encode(array(
 				'label'	=> $newActivity->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($newActivity->uriResource),
-				'connector' => $this->processTreeService->defaultConnectorNode($newConnector)
+				'connector' => $this->processTreeService->defaultConnectorNode($newConnector),
+				'class' => $class
 			));
 		}
 	}

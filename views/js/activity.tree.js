@@ -498,7 +498,7 @@ ActivityTreeClass.addActivity = function(options){
 					data: response.label,
 					attributes: {
 						id: response.uri,
-						'class': cssClass
+						'class': cssClass+' '+response.class
 					}
 				}, TREE_OBJ.get_node(NODE[0])));
 				

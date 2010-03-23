@@ -544,6 +544,7 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		
 		$activity = null;
 		$activityLabel = "";
+		$number = 0;
 		
 		if(empty($label)){
 			$number = $process->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES))->count();
@@ -559,6 +560,13 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		if(!empty($activity)){
 			//associate the new instance to the process instance
 			$process->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activity->uriResource);
+		
+			//set if it is the first or not:
+			if($number == 1){
+				$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
+			}else{
+				$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_FALSE);
+			}
 		}else{
 			throw new Exception("the activity cannot be created for the process {$process->uriResource}");
 		}
