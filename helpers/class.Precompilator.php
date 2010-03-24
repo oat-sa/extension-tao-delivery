@@ -324,13 +324,9 @@ class tao_helpers_Precompilator
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		// $exprArray = array();
-		foreach ($authorizedMedia as $mediaType){
-			$mediaListTemp=array();
-			$expr="/http:\/\/[^<'\" ]+.".$mediaType."/i";//TODO: could be optimized by only searching tags that could contain media.
-			preg_match_all($expr,$xml,$mediaListTemp);
-			$mediaList = array_merge($mediaList,$mediaListTemp[0]);
-		}
+		$expr="/http:\/\/[^<'\"&]+\.[".implode('|',$authorizedMedia)."]+/i";
+		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
+	
 		$uniqueMediaList = 	array_unique($mediaList);	
 		foreach($uniqueMediaList as $mediaUrl){
 			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
