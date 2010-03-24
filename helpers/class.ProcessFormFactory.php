@@ -502,16 +502,9 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 			$elementInputs = self::nextActivityElements($connector, 'next');
 			
 		}else if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
-			$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
-			$elementCondition->setDescription(__('IF'));
+				
 			$transitionRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
-			if(!is_null($transitionRule)){
-				$if = $transitionRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
-				if(!is_null($if) && $if instanceof core_kernel_classes_Resource){
-					$elementCondition->setValue($if->getLabel());
-				}
-			}	
-			$elementInputs[] = $elementCondition;
+			$elementInputs[] = self::getConditionElement($transitionRule);
 			
 			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'then'));
 			$elementInputs = array_merge($elementInputs, self::nextActivityElements($connector, 'else'));
@@ -546,13 +539,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		// $myForm->addElement($elementLabel);
 		
 		//the if condition:
-		$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
-		$elementCondition->setDescription(__('IF'));
-		$if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
-		if(!is_null($if) && $if instanceof core_kernel_classes_Resource){
-			$elementCondition->setValue($if->getLabel());
-		}
-		$myForm->addElement($elementCondition);
+		$myForm->addElement(self::getConditionElement($inferenceRule));
 		
 		//THEN: assignment:
 		//create the description element
@@ -611,6 +598,102 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		
         return $myForm;
 	}
+	
+	public function consistencyRuleEditor(core_kernel_classes_Resource $consistencyRule, $formName='consistencyRuleForm'){
+		
+		$myForm = null;
+		$myForm = tao_helpers_form_FormFactory::getForm($formName, array());
+		$myForm->setActions(array(), 'bottom');//delete the default 'save' and 'revert' buttons
+		
+		//add a hidden input to post the uri of the call of service that is being edited
+		$elementConsistencyRuleUri = tao_helpers_form_FormFactory::getElement('consistencyRuleUri', 'Hidden');
+		$elementConsistencyRuleUri->setValue(tao_helpers_Uri::encode($consistencyRule->uriResource));
+		$myForm->addElement($elementConsistencyRuleUri);
+		
+		//add label input: authorize elementInferenceRule label editing or not?
+		// $elementLabel = tao_helpers_form_FormFactory::getElement('label', 'Textbox');
+		// $elementLabel->setDescription(__('Label'));
+		// $elementLabel->setValue($callOfService->getLabel());
+		// $myForm->addElement($elementLabel);
+		
+		//the if condition:
+		$myForm->addElement(self::getConditionElement($consistencyRule));
+		
+		//THEN: assignment:
+		//create the description element
+		$elementDescription = tao_helpers_form_FormFactory::getElement('then_description', 'Free');
+		$elementDescription->setValue(__("THEN").': ');
+		$myForm->addElement($elementDescription);
+		
+		$elementThen = tao_helpers_form_FormFactory::getElement("then_assignment", 'Textarea');
+		$elementThen->setDescription(__('Assignment').': ');
+		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
+		if(!is_null($then)){
+			if($then instanceof core_kernel_classes_Resource){
+				$elementThen->setValue($then->getLabel());
+			}
+		}
+		$myForm->addElement($elementThen);
+		
+		//ELSE: (optional)
+		$elementDescription = tao_helpers_form_FormFactory::getElement('else_description', 'Free');
+		$elementDescription->setValue(__("ELSE").': ');
+		$myForm->addElement($elementDescription);
+		
+		//type: inference rule or assignment:
+		$elementChoice = tao_helpers_form_FormFactory::getElement('else_choice', 'Radiobox');
+		$elementChoice->setDescription(' ');
+		$options = array(
+			"assignment" => __("Assignment"),
+			"inference" => __("Another Inference Rule"),
+			"none" => __("No thanks")
+		);
+		$elementChoice->setOptions($options);
+		
+		$elementElse = tao_helpers_form_FormFactory::getElement("else_assignment", 'Textarea');
+		$elementElse->setDescription(__('Assignment').': ');
+		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));
+		
+		if(!is_null($else) && $else instanceof core_kernel_classes_Resource){
+			//is it an assignment or another inferenceRule?
+			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
+			
+			if($classUri == CLASS_ASSIGNMENT){
+				$elementElse->setValue($else->getLabel());
+				$elementChoice->setValue("assignment");
+			}elseif($classUri == CLASS_INFERENCERULES){
+				$elementChoice->setValue("inference");
+			}else{
+				var_dump($else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
+				var_dump($classUri, $else);
+				throw new Exception("wrong type in the else of the inference rule");
+			}
+		}else{
+			$elementChoice->setValue("none");
+		}
+		$myForm->addElement($elementChoice);
+		$myForm->addElement($elementElse);
+		
+        return $myForm;
+	}
+	
+	//@param core_kernel_classes_Resource or null $rule
+	public static function getConditionElement($rule){
+	
+		$elementCondition = null;
+		$elementCondition = tao_helpers_form_FormFactory::getElement("if", 'Textarea');
+		$elementCondition->setDescription(__('IF'));
+		if(!is_null($rule) && $rule instanceof core_kernel_classes_Resource){
+			$if = $rule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));
+			
+			if(!is_null($if) && $if instanceof core_kernel_classes_Resource){
+				$elementCondition->setValue($if->getLabel());
+			}
+		}
+		return $elementCondition;
+		
+	}
+	
 	
 	public function nextActivityEditor(core_kernel_classes_Resource $connector, $type, $formName='nextActivityEditor'){
 		if(!in_array($type, array('next', 'then', 'else'))){
