@@ -619,62 +619,78 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		//the if condition:
 		$myForm->addElement(self::getConditionElement($consistencyRule));
 		
-		//THEN: assignment:
-		//create the description element
-		$elementDescription = tao_helpers_form_FormFactory::getElement('then_description', 'Free');
-		$elementDescription->setValue(__("THEN").': ');
-		$myForm->addElement($elementDescription);
-		
-		$elementThen = tao_helpers_form_FormFactory::getElement("then_assignment", 'Textarea');
-		$elementThen->setDescription(__('Assignment').': ');
-		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));
-		if(!is_null($then)){
-			if($then instanceof core_kernel_classes_Resource){
-				$elementThen->setValue($then->getLabel());
+		//involved activity: checkbox, range:current activity
+		$activities = array(); //array of resource
+		//get activity:
+		$activityCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_ACTIVITIES_CONSISTENCYRULE , $consistencyRule->uriResource);
+		$currentActivity = null;
+		if(!$activityCollection->isEmpty()){
+			$currentActivity = $activityCollection->get(0);
+			//get process:
+			$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_PROCESS_ACTIVITIES , $consistencyRule->uriResource);
+			if(!$processCollection->isEmpty()){
+				$currentProcess = $processCollection->get(0);
+				
+				//get all activities of the process:
+				$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_ProcessAuthoringService');
+				$activities = $authoringService->getActivitiesByProcess($currentProcess);
 			}
 		}
-		$myForm->addElement($elementThen);
 		
-		//ELSE: (optional)
-		$elementDescription = tao_helpers_form_FormFactory::getElement('else_description', 'Free');
-		$elementDescription->setValue(__("ELSE").': ');
-		$myForm->addElement($elementDescription);
+		$activityOptions = array();
+		foreach($activities as $rangeInstance){
+			$activityOptions[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+		}
+		$elementActivities = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_INVOLVEDACTIVITIES), $activityOptions, 'ComboBox'){
+		$myForm->addElement($elementActivities);
 		
-		//type: inference rule or assignment:
-		$elementChoice = tao_helpers_form_FormFactory::getElement('else_choice', 'Radiobox');
-		$elementChoice->setDescription(' ');
-		$options = array(
-			"assignment" => __("Assignment"),
-			"inference" => __("Another Inference Rule"),
-			"none" => __("No thanks")
-		);
+		//suppressable : boolean
+		$booleanOptions = array();
+		$booleanClass = new core_kernel_classes_Class(CLASS_BOOLEAN);
+		foreach($booleanClass->getInstances(true) as $rangeInstance){
+			$booleanOptions[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+		}
+		$elementSuppressable = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_SUPPRESSABLE), $booleanOptions, 'RadioBox'){
+		$myForm->addElement($elementSuppressable);
+		
+		//notification: textarea
+		$notificationProp = new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_NOTIFICATION);
+		$elementNotification = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_CONSISTENCYRULES_NOTIFICATION), 'Textarea');
+		$elementNotification->setDescription($notificationProp->getLabel());
+		$notification = $consistencyRule->getOnePropertyValue($notificationProp);
+		if(!is_null($notification)){
+			if($notification instanceof core_kernel_classes_Literal){
+				$elementNotification->setValue($notification->literal);
+			}
+		}
+		$myForm->addElement($elementNotification);
+			
+        return $myForm;
+	}
+	
+	public static function getChoiceElement(core_kernel_classes_Resource $instance, core_kernel_classes_Property $property, $options, $widget='RadioBox'){
+		
+		$elementChoice = null;
+		$elementChoice = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource),  $widget);
+		$elementChoice->setDescription($property->getLabel());
+		
+		//check the validity of the widget type
+		if(!in_array($widget, array('RadioBox', 'ComboBox'))){
+			return $elementChoice;
+		}
+		
+		//set the options:
 		$elementChoice->setOptions($options);
 		
-		$elementElse = tao_helpers_form_FormFactory::getElement("else_assignment", 'Textarea');
-		$elementElse->setDescription(__('Assignment').': ');
-		$else = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_ELSE));
-		
-		if(!is_null($else) && $else instanceof core_kernel_classes_Resource){
-			//is it an assignment or another inferenceRule?
-			$classUri = $else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource;
-			
-			if($classUri == CLASS_ASSIGNMENT){
-				$elementElse->setValue($else->getLabel());
-				$elementChoice->setValue("assignment");
-			}elseif($classUri == CLASS_INFERENCERULES){
-				$elementChoice->setValue("inference");
-			}else{
-				var_dump($else->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
-				var_dump($classUri, $else);
-				throw new Exception("wrong type in the else of the inference rule");
-			}
-		}else{
-			$elementChoice->setValue("none");
+		//set the value:
+		$propertyValue = $instance->getOnePropertyValue($property);
+		if($propertyValue instanceof core_kernel_classes_Resource){
+			$elementChoice->setValue($propertyValue->uriResource);
+		}elseif($propertyValue instanceof core_kernel_classes_Literal){
+			$elementChoice->setValue($propertyValue->Literal);
 		}
-		$myForm->addElement($elementChoice);
-		$myForm->addElement($elementElse);
 		
-        return $myForm;
+		return $elementChoice;
 	}
 	
 	//@param core_kernel_classes_Resource or null $rule

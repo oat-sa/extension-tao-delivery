@@ -323,6 +323,14 @@ class ProcessAuthoring extends TaoModule {
 		$this->setView('process_form_property.tpl');
 	}
 	
+	public function editConsistencyRule(){
+		$formName = uniqid("consistencyRuleEditor_");
+		$myForm = taoDelivery_helpers_ProcessFormFactory::consistencyRuleEditor(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['consistencyUri'])), null, $formName);
+		
+		$this->setData('formId', $formName);
+		$this->setData('formConsistencyRule', $myForm->render());
+		$this->setView('process_form_consistencyRule.tpl');
+	}
 	
 	/**
 	 * Add an instance        
