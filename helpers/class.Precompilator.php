@@ -190,13 +190,18 @@ class tao_helpers_Precompilator
 			$affectedObject="undefinedObject";
 		}
 		
+		//use of reverseUrl to get the last position of "/" and thus the fileName
+		$reverseUrl = strrev($url);
+		$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
+		$fileName = strrev($reverseUrl);
+			
 		//check whether the file has been already downloaded: e.g. in the case an item existing in several languages share the same multimedia file
 		$isCopied=false;
 		foreach ($this->completed["copiedFiles"] as $copiedFiles){
 			//Check if it has not been copied yet
 			if(in_array($url, $copiedFiles)) {
 				$isCopied=true;
-				break;
+				return $fileName;
 			}
 		}
 		
@@ -208,12 +213,7 @@ class tao_helpers_Precompilator
 				$this->failed["copiedFiles"][$affectedObject][]=$url;
 				return $returnValue;
 			};
-			
-			//use of reverseUrl to get the last position of "/" and thus the fileName
-			$reverseUrl = strrev($url);
-			$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
-			$fileName = strrev($reverseUrl);
-			
+						
 			//check file name compatibility: 
 			//e.g. if a file with a common name (e.g. car.jpg, house.png, sound.mp3) already exists in the destination folder
 			while(file_exists($directory.$fileName) && $rename===true){
@@ -325,7 +325,7 @@ class tao_helpers_Precompilator
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		$expr="/http:\/\/[^<'\"&]+\.(".implode('|',$authorizedMedia).")/i";
+		$expr="/http[s]?:\/\/[^<'\"&]+\.(".implode('|',$authorizedMedia).")/i";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
 		
 		// foreach ($authorizedMedia as $mediaType){
@@ -339,11 +339,13 @@ class tao_helpers_Precompilator
 		foreach($uniqueMediaList as $mediaUrl){
 			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
 			if(!empty($mediaPath)){
-				$xml = str_replace($mediaUrl, $mediaPath, $xml);//replace only when copyFile is successful
+				$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
+				// var_dump($itemName, $mediaUrl,$replaced, $mediaPath);
 			}
 		}
 		
-		// var_dump($expr, $itemName, $uniqueMediaList);
+		// var_dump($expr, $itemName, $uniqueMediaList, xml);
+		
 		return $xml;
 	}
 	
