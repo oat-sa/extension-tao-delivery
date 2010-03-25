@@ -318,20 +318,30 @@ class tao_helpers_Precompilator
 			throw new Exception("the specified directory does not exist");
 		}
 		
-		$defaultMedia = array("jpg","jpeg","png","gif","mp3");
-		
+		// $defaultMedia = array("\.jpg","\.jpeg","\.png","\.gif","\.mp3",'\.swf');
+		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf');
 		$authorizedMedia = array_merge($defaultMedia,$authorizedMedia);
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		$expr="/http:\/\/[^<'\"&]+\.[".implode('|',$authorizedMedia)."]+/i";
-		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
-	
+		// $expr="/http:\/\/[^<'\"&]+.[".implode('|',$authorizedMedia)."]/i";
+		// preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
+		
+		foreach ($authorizedMedia as $mediaType){
+			$mediaListTemp=array();
+			$expr="/http:\/\/[^<'\"&]+.".$mediaType."/i";//TODO: could be optimized by only searching tags that could contain media.
+			preg_match_all($expr,$xml,$mediaListTemp);
+			$mediaList = array_merge($mediaList,$mediaListTemp[0]);
+		}
+		
 		$uniqueMediaList = 	array_unique($mediaList);	
 		foreach($uniqueMediaList as $mediaUrl){
 			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
-			$xml = str_replace($mediaUrl,$mediaPath,$xml);
+			if(!empty($mediaPath)){
+				$xml = str_replace($mediaUrl,$mediaPath,$xml);//replace only when copyFile is successful
+			}
 		}
+		// var_dump($expr, $itemName, $uniqueMediaList);
 		return $xml;
 	}
 	

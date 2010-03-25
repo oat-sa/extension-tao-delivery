@@ -83,7 +83,7 @@ function initCompilation(uri,clazz){
 				updateProgress();
 				
 			}else{
-				var msg = __('No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again.');
+				var msg = __('Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)');
 				finalMessage(msg, 'failed.png');
 			}
 			

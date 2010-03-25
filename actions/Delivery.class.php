@@ -652,8 +652,9 @@ class Delivery extends TaoModule {
 			//other cases: the compilation has failed
 			$resultArray["success"]=0;
 			$resultArray["failed"]=$compilationResult["failed"];
-			// var_dump($compilationResult);
+			
 		}
+		// var_dump($compilationResult);
 		
 		echo json_encode($resultArray);
 	}
