@@ -627,7 +627,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		if(!$activityCollection->isEmpty()){
 			$currentActivity = $activityCollection->get(0);
 			//get process:
-			$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_PROCESS_ACTIVITIES , $consistencyRule->uriResource);
+			$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_PROCESS_ACTIVITIES , $currentActivity->uriResource);
 			if(!$processCollection->isEmpty()){
 				$currentProcess = $processCollection->get(0);
 				
@@ -641,16 +641,16 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		foreach($activities as $rangeInstance){
 			$activityOptions[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
 		}
-		$elementActivities = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_INVOLVEDACTIVITIES), $activityOptions, 'ComboBox'){
+		$elementActivities = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_INVOLVEDACTIVITIES), $activityOptions, 'Checkbox');
 		$myForm->addElement($elementActivities);
 		
 		//suppressable : boolean
 		$booleanOptions = array();
-		$booleanClass = new core_kernel_classes_Class(CLASS_BOOLEAN);
+		$booleanClass = new core_kernel_classes_Class(GENERIS_BOOLEAN);
 		foreach($booleanClass->getInstances(true) as $rangeInstance){
 			$booleanOptions[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
 		}
-		$elementSuppressable = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_SUPPRESSABLE), $booleanOptions, 'RadioBox'){
+		$elementSuppressable = self::getChoiceElement($consistencyRule, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_SUPPRESSABLE), $booleanOptions, 'Radiobox');
 		$myForm->addElement($elementSuppressable);
 		
 		//notification: textarea
@@ -668,14 +668,14 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
         return $myForm;
 	}
 	
-	public static function getChoiceElement(core_kernel_classes_Resource $instance, core_kernel_classes_Property $property, $options, $widget='RadioBox'){
+	public static function getChoiceElement(core_kernel_classes_Resource $instance, core_kernel_classes_Property $property, $options, $widget='Radiobox'){
 		
 		$elementChoice = null;
 		$elementChoice = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource),  $widget);
 		$elementChoice->setDescription($property->getLabel());
 		
 		//check the validity of the widget type
-		if(!in_array($widget, array('RadioBox', 'ComboBox'))){
+		if(!in_array($widget, array('Radiobox', 'Checkbox', 'Combobox'))){
 			return $elementChoice;
 		}
 		
@@ -687,7 +687,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		if($propertyValue instanceof core_kernel_classes_Resource){
 			$elementChoice->setValue($propertyValue->uriResource);
 		}elseif($propertyValue instanceof core_kernel_classes_Literal){
-			$elementChoice->setValue($propertyValue->Literal);
+			$elementChoice->setValue($propertyValue->literal);
 		}
 		
 		return $elementChoice;

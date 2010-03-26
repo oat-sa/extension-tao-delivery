@@ -215,6 +215,20 @@ class ProcessAuthoring extends TaoModule {
 		}
 	}
 	
+	public function addConsistencyRule(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$currentActivity = $this->getCurrentActivity();
+		$consistencyRule = $this->service->createConsistencyRule($currentActivity);
+		if(!is_null($consistencyRule) && $consistencyRule instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $consistencyRule->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($consistencyRule->uriResource)
+			));
+		}
+	}
+	
 	public function getSectionTrees(){
 		$section = $_POST["section"];
 		$this->setData('section', $section);
@@ -325,8 +339,8 @@ class ProcessAuthoring extends TaoModule {
 	
 	public function editConsistencyRule(){
 		$formName = uniqid("consistencyRuleEditor_");
-		$myForm = taoDelivery_helpers_ProcessFormFactory::consistencyRuleEditor(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['consistencyUri'])), null, $formName);
-		
+		$myForm = taoDelivery_helpers_ProcessFormFactory::consistencyRuleEditor(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['consistencyRuleUri'])), $formName);
+
 		$this->setData('formId', $formName);
 		$this->setData('formConsistencyRule', $myForm->render());
 		$this->setView('process_form_consistencyRule.tpl');
@@ -431,6 +445,17 @@ class ProcessAuthoring extends TaoModule {
 		echo json_encode(array('deleted' => $deleted));
 		
 	}
+	
+	public function deleteConsistencyRule(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$deleted = $this->service->deleteConsistencyRule(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST["consistencyUri"])));
+	
+		echo json_encode(array('deleted' => $deleted));
+		
+	}
+	
 	/**
 	 * Duplicate an instance
 	 * A bit more complicated here
@@ -614,7 +639,9 @@ class ProcessAuthoring extends TaoModule {
 				//delete the old rule, if exists:
 				$oldRule = $connectorInstance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE));
 				if(!empty($oldRule)){
-					$deleted = $this->service->deleteRule($oldRule);//TODO: to be called deleteTransitionRule
+					$deleted = $this->service->deleteRule($oldRule);
+					//TODO: to be called deleteTransitionRule
+					//TODO: use editCOndition somewhere instead
 					// if(!$deleted){
 						// throw new Exception("the old transition rule related to the connector cannot be removed");
 					// }
@@ -677,19 +704,8 @@ class ProcessAuthoring extends TaoModule {
 		//save the "if":
 		$conditionString = $_POST['if'];
 		if(!empty($conditionString)){
-			$conditionDom =  $this->service->analyseExpression($conditionString, true);
-			$condition = $this->service->createCondition($conditionDom);
-			if(is_null($condition)){
-				throw new Exception("the condition \"{$conditionString}\" cannot be created for the inference rule {$inferenceRule->getLabel()}");
-			}else{
-				$ifProp = new core_kernel_classes_Property(PROPERTY_RULE_IF);
-				
-				//delete old condition if exists:
-				$this->service->deleteCondition($inferenceRule);
-				
-				//associate the new condition:
-				$inferenceRule->editPropertyValues($ifProp, $condition->uriResource);
-			}
+			
+			$this->service->editCondition($inferenceRule, $conditionString);
 		}
 		
 		//save the "then":
@@ -780,6 +796,43 @@ class ProcessAuthoring extends TaoModule {
 		
 		echo json_encode(array('saved'=>$returnValue));
 	}
+	
+	public function saveConsistencyRule(){
+		
+		$returnValue = false;
+		
+		$consistencyRule = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['consistencyRuleUri']));
+		
+		//save the "if":
+		$conditionString = $_POST['if'];
+		if(!empty($conditionString)){
+			$this->service->editCondition($consistencyRule, $conditionString);
+		}
+		
+		//save activities:
+		
+		$involvedActivitiesProp = new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_INVOLVEDACTIVITIES);
+		$consistencyRule->removePropertyValues($involvedActivitiesProp);
+		$encodedActivitiesPropUri = tao_helpers_Uri::encode($involvedActivitiesProp->uriResource);
+		
+		foreach($_POST as $propUri => $propValue){
+			if(strpos($propUri, $encodedActivitiesPropUri) === 0){
+				$consistencyRule->setPropertyValue($involvedActivitiesProp, tao_helpers_Uri::decode($propValue));
+			}
+		}	
+		
+		// $this->service->bindProperties($consistencyRule, array_map('trim', $activities);
+		
+		//save suppressable:
+		$consistencyRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_SUPPRESSABLE), tao_helpers_Uri::decode($_POST[tao_helpers_Uri::encode(PROPERTY_CONSISTENCYRULES_SUPPRESSABLE)]));
+		//(use bindProperties instead)
+		//save notification:
+		$returnValue = $consistencyRule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_NOTIFICATION), $_POST[tao_helpers_Uri::encode(PROPERTY_CONSISTENCYRULES_NOTIFICATION)]);
+	
+		echo json_encode(array('saved'=>$returnValue));
+		
+	}
+	
 	
 	public function checkCode(){
 	

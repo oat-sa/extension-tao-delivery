@@ -248,8 +248,19 @@ class taoDelivery_models_classes_ProcessTreeService
 				$activityData['children'][] = $this->inferenceRuleNode($inferenceRule, 'onAfter');
 			}
 			
+			//related consistency rules
+			$consistencyRuleCollection = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_CONSISTENCYRULE));
+			foreach($consistencyRuleCollection->getIterator() as $consistencyRule){
+				$activityData['children'][] = $this->consistencyRuleNode($consistencyRule);
+			}
+			
 			//add children here
-			$data["children"][] = $activityData;
+			if($initial){
+				array_unshift($data["children"],$activityData);
+			}else{
+				$data["children"][] = $activityData;
+			}
+			
 		}
 		
 		return $data;
@@ -297,6 +308,33 @@ class taoDelivery_models_classes_ProcessTreeService
 		return $nodeData;
 	}
 	
+	protected function consistencyRuleNode(core_kernel_classes_Resource $consistencyRule){
+	
+		if(is_null($consistencyRule)){
+			return array();
+		}
+		
+		$nodeData = array(
+			'data' => $consistencyRule->getLabel(),
+			'attributes' => array(
+				'id' => tao_helpers_Uri::encode($consistencyRule->uriResource),
+				'class' => 'node-consistencyRule'
+			)
+		);
+		
+		$notification = array();
+		$notification = $consistencyRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_NOTIFICATION));//literal
+		
+		//always show the if node:
+		$nodeData['children'][]	= $this->conditionNode($consistencyRule);
+		// var_dump($notification, new core_kernel_classes_Property(PROPERTY_CONSISTENCYRULES_NOTIFICATION));
+		if(!is_null($notification)){
+			$nodeData['children'][]	= $this->notificationNode($notification);
+		}
+		
+		return $nodeData;
+	}
+	
 	protected function assignmentNode(core_kernel_classes_Resource $assignment){
 		$returnValue = array();
 		
@@ -310,6 +348,21 @@ class taoDelivery_models_classes_ProcessTreeService
 					)
 				);
 			}
+		}
+		
+		return $returnValue;
+	}
+	
+	protected function notificationNode(core_kernel_classes_Literal $notification){
+		$returnValue = array();
+		
+		if(!is_null($notification)){
+			$returnValue = array(
+				'data' => tao_helpers_Display::textCutter($notification->literal),
+				'attributes' => array(
+					'class' => 'node-notification'
+				)
+			);
 		}
 		
 		return $returnValue;

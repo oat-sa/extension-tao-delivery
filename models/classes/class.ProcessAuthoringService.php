@@ -731,6 +731,27 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		return $condition;
 	}
 	
+	public function editCondition($rule, $conditionString){
+		
+		$returnValue = false;
+		
+		if(!empty($conditionString)){
+			$conditionDom =  $this->analyseExpression($conditionString, true);
+			$condition = $this->createCondition($conditionDom);
+			if(is_null($condition)){
+				throw new Exception("the condition \"{$conditionString}\" cannot be created for the inference rule {$rule->getLabel()}");
+			}else{
+				//delete old condition if exists:
+				$this->deleteCondition($rule);
+				
+				//associate the new condition:
+				$returnValue = $rule->editPropertyValues(new core_kernel_classes_Property(PROPERTY_RULE_IF), $condition->uriResource);
+			}
+		}
+		
+		return $returnValue;
+	}
+		
 	public function createAssignment($xmlDom){
 		//create the expression instance:
 		$assignment = null;
@@ -799,7 +820,31 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		}
 		return $inferenceRule;
 	}
-
+	
+	public function createConsistencyRule(core_kernel_classes_Resource $activity, $label=''){
+		
+		$consistency = null;
+		
+		$consistencyRuleLabel = "";
+		if(empty($label)){
+			$nb = $activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_CONSISTENCYRULE))->count()+1;
+			$consistencyRuleLabel = "Consistency Rule $nb";
+		}else{
+			$consistencyRuleLabel = $label;
+		}
+		
+		$consistencyRuleClass = new core_kernel_classes_Class(CLASS_CONSISTENCYRULES);
+		$consistencyRule = $consistencyRuleClass->createInstance($consistencyRuleLabel, "created by ProcessAuthoringService.Class");
+		
+		if(!empty($consistencyRule)){
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_CONSISTENCYRULE), $consistencyRule->uriResource);//only one single inference rule is allowed 
+		}else{
+			throw new Exception("the consistency rule cannot be created for the activity {$activity->getLabel()}: {$activity->uriResource}");
+		}
+		
+		return $consistencyRule;
+	}
+	
 	public function deleteInferenceRule(core_kernel_classes_Resource $inferenceRule){
 		// $if = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_RULE_IF));//conditon or null
 		$then = $inferenceRule->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_INFERENCERULES_THEN));//assignment or null only
@@ -826,6 +871,12 @@ class taoDelivery_models_classes_ProcessAuthoringService
 		// $this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ONBEFOREINFERENCERULE), $inferenceRule);
 		
 		return $inferenceRule->delete();
+	}
+	
+	public function deleteConsistencyRule(core_kernel_classes_Resource $consistencyRule){
+		$this->deleteCondition($consistencyRule);
+		$this->deleteReference(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_CONSISTENCYRULE), $consistencyRule);
+		return $consistencyRule->delete();
 	}
 	
 	public function deleteAssignment(core_kernel_classes_Resource $assignment, $fullDelete = true){
