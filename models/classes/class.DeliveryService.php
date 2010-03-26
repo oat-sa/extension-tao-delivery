@@ -510,6 +510,17 @@ class taoDelivery_models_classes_DeliveryService
 		//set the the default authoring mode to the 'simple mode':
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP), TAO_DELIVERY_SIMPLEMODE);
 		
+		//set the default delivery server:
+		$defaultResultServer = new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+		//important to check if it is still there (his property value "url" = localhost)
+		$urlResource = $defaultResultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_URL_PROP));
+		if(!is_null($urlResource)){
+			if($urlResource instanceof core_kernel_classes_Literal){
+				if($urlResource->literal == 'localhost'){
+					$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), $defaultResultServer->uriResource);
+				}
+			}
+		}
 		return $deliveryInstance;		
 	}
 	
