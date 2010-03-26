@@ -9,39 +9,41 @@
 $(function(){
 
 	//get the initial selected value, if exists: 
-	var initalSelectedValue = $("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]").val();
+	var selectElement = $("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]");
+	var initalSelectedValue = selectElement.val();
 	
-	// alert($("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION)?>]").html());
-	$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]").change(function(e){
-		if(confirm(__("Sure?"))){
-			
-			$("#<?=get_data("formId")?> :INPUT :gt(3)").attr("disabled","disabled");
-			$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]").removeAttr("disabled");
-			$("#<?=get_data("formId")?>").append("<p>reloading form...</p>");
-			
-			//send the form
-			$.ajax({
-				url: authoringControllerPath+'saveConnector',
-				type: "POST",
-				data: $("#<?=get_data("formId")?>").serialize(),
-				dataType: 'json',
-				success: function(response){
-					if(response.saved){
-						var selectedNode = $("#connectorUri").val();
-						$("#connector-form").html("connector saved");
-						// initActivityTree();
-						refreshActivityTree();
-						ActivityTreeClass.selectTreeNode(selectedNode);
-					}else{
-						$("#connector-form").html("save failed:" + response);
+	if(initalSelectedValue != 'none' && selectElement.length){
+		selectElement.change(function(e){
+			if(confirm(__("Sure?"))){
+				
+				// $("#<?=get_data("formId")?> :INPUT :gt(3)").attr("disabled","disabled");
+				$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]").removeAttr("disabled");
+				$("#<?=get_data("formId")?>").append("<p>reloading form...</p>");
+				
+				//send the form
+				$.ajax({
+					url: authoringControllerPath+'saveConnector',
+					type: "POST",
+					data: $("#<?=get_data("formId")?>").serialize(),
+					dataType: 'json',
+					success: function(response){
+						if(response.saved){
+							var selectedNode = $("#connectorUri").val();
+							$("#connector-form").html("connector saved");
+							// initActivityTree();
+							refreshActivityTree();
+							ActivityTreeClass.selectTreeNode(selectedNode);
+						}else{
+							$("#connector-form").html("save failed:" + response);
+						}
 					}
-				}
-			});
-		}else{
-			//reset the option:
-			$("#<?=get_data("formId")?> option[value="+initalSelectedValue+"]").attr("selected","selected");
-		}
-	});
+				});
+			}else{
+				//reset the option:
+				$("#<?=get_data("formId")?> option[value="+initalSelectedValue+"]").attr("selected","selected");
+			}
+		});
+	}
 	
 	$("#submit-connector-<?=get_data("formId")?>").click(function(){
 		$.ajax({

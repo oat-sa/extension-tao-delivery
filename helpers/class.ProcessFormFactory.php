@@ -459,6 +459,7 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		$range = new core_kernel_classes_Class(CLASS_TYPEOFCONNECTORS);
 		if($range != null){
 			$options = array();
+			$options = array('none' => ' ');
 			foreach($range->getInstances(true) as $rangeInstance){
 				$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
 			}

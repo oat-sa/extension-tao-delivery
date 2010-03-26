@@ -616,7 +616,9 @@ class ProcessAuthoring extends TaoModule {
 			$saved = false;
 			throw new Exception("no connector type uri found in POST");
 		}
-		$this->service->bindProperties($connectorInstance, array(PROPERTY_CONNECTORS_TYPE => $data[PROPERTY_CONNECTORS_TYPE]));
+		if($data[PROPERTY_CONNECTORS_TYPE] != 'none'){
+			$this->service->bindProperties($connectorInstance, array(PROPERTY_CONNECTORS_TYPE => $data[PROPERTY_CONNECTORS_TYPE]));
+		}
 		
 		$followingActivity = null;
 		if($data[PROPERTY_CONNECTORS_TYPE] == INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
