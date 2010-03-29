@@ -796,6 +796,24 @@ class Delivery extends TaoModule {
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
+	public function getDeliveriesTests(){
+		if(!tao_helpers_Request::isAjax()){
+		//	throw new Exception("wrong request mode");
+		}
+		$tests = array();
+		foreach($this->service->getDeliveriesTests() as $deliveryUri => $test){
+			$tests[tao_helpers_Uri::encode($deliveryUri)] = $test;
+		}
+		echo json_encode(array('data' => $tests));
+	}
+	
+	/**
+	 * get all the tests instances in a json response
+	 *
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	 * @return void
+	 */
 	public function getAllTests(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");

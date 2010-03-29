@@ -802,6 +802,27 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	/**
+     * Short description of method getDeliveriesTests
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return array
+     */
+    public function getDeliveriesTests()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 begin
+        foreach($this->deliveryClass->getInstances(true) as $delivery){
+        	$returnValue[$delivery->uriResource] =  $this->getRelatedTests($delivery);
+        }
+        
+        // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 end
+
+        return (array) $returnValue;
+    }
+	
+	/**
      * Get all available tests
      *
      * @access public
