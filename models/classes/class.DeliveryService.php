@@ -657,11 +657,11 @@ class taoDelivery_models_classes_DeliveryService
 			$activity = $authoringService->createActivity($process, "test: {$test->getLabel()}");
 			if($i==0){
 				//set the property value as initial
-				$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
+				$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 			}
 			
 			//set property value visible to true
-			$activity->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
 			// $testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
@@ -877,7 +877,7 @@ class taoDelivery_models_classes_DeliveryService
 					$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
 					if(!is_null($serviceUrl)){
 					
-						//regenerated the test uri
+						//regenerate the test uri
 						$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
 						if(!empty($testUri)){
 							//set the test in the table:

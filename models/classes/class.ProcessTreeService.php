@@ -88,7 +88,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		
 		//initiate the return data value:
 		$data = array(
-			'data' => __("Process Activities"),
+			'data' => __("Process Tree"),
 			'attributes' => array(
 				'id' => tao_helpers_Uri::encode($process->uriResource),
 				'class' => 'node-process-root'
@@ -210,16 +210,15 @@ class taoDelivery_models_classes_ProcessTreeService
 				}
 			}
 			
-			if($initial && $last){
+			if($initial){
 				$activityData = $this->addNodeClass($activityData, "node-activity-initial");
-				$activityData = $this->addNodeClass($activityData, 'node-activity-last');	
-				$activityData = $this->addNodeClass($activityData, "node-activity-unique");
-			}elseif($initial){
-				$activityData = $this->addNodeClass($activityData, "node-activity-initial");
+				if($last){
+					$activityData = $this->addNodeClass($activityData, 'node-activity-last');	
+					$activityData = $this->addNodeClass($activityData, "node-activity-unique");
+				}
 			}elseif($last){
 				$activityData = $this->addNodeClass($activityData, 'node-activity-last');	
 			}
-			
 			
 			
 			//get interactive services
