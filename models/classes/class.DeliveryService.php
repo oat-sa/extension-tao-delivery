@@ -253,7 +253,7 @@ class taoDelivery_models_classes_DeliveryService
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
 	 * It returns an array containing the uri of selected deliveries or an empty array otherwise.
-	 * To be tested when core_kernel_classes_ApiModelOO::getObject() is implemented
+	 * To be tested when core_kernel_impl_ApiModelOO::getObject() is implemented
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -264,10 +264,10 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$returnValue=array();
 		
-		$groups = core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
+		$groups = core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
 		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
 		}
 		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue = $deliveries;
@@ -479,11 +479,11 @@ class taoDelivery_models_classes_DeliveryService
 		
 		if(empty($subject)){
 			//select History by delivery only (subject independent listing, i.e. select for all subjects)
-			$historyCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
+			$historyCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
 		}else{
 			//select history by delivery and subject
-			$historyByDelivery = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
-			$historyBySubject = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subject->uriResource);
+			$historyByDelivery = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_DELIVERY_PROP, $delivery->uriResource);
+			$historyBySubject = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_HISTORY_SUBJECT_PROP, $subject->uriResource);
 			$historyCollection = $historyByDelivery->intersect($historyBySubject);
 		}
 		
@@ -670,7 +670,7 @@ class taoDelivery_models_classes_DeliveryService
 			$testUrl = tao_helpers_Precompilator::getCompiledTestUrl($test->uriResource);
 			
 			$serviceDefinition = null;
-			$serviceDefinitionCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
+			$serviceDefinitionCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
 			if(!$serviceDefinitionCollection->isEmpty()){
 				if($serviceDefinitionCollection->get(0) instanceof core_kernel_classes_Resource){
 					$serviceDefinition = $serviceDefinitionCollection->get(0);
@@ -776,7 +776,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			
 			//get its connector (check the type is "sequential) if ok, get the next activity
-			$connectorCollection = core_kernel_classes_ApiModelOO::getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $currentActivity->uriResource);
+			$connectorCollection = core_kernel_impl_ApiModelOO::getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $currentActivity->uriResource);
 			$nextActivity = null;
 			foreach($connectorCollection->getIterator() as $connector){
 				$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
@@ -912,7 +912,7 @@ class taoDelivery_models_classes_DeliveryService
 	public function getProcessVariable($code){
 		$procVar = null;
 		
-		$varCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
+		$varCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_CODE, $code);
 		if(!$varCollection->isEmpty()){
 			if($varCollection->get(0) instanceof core_kernel_classes_Resource){
 			$procVar = $varCollection->get(0);

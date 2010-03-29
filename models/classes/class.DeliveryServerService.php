@@ -67,8 +67,8 @@ class taoDelivery_models_classes_DeliveryServerService
 	
 		$returnValue = null;
 		
-		$subjectsByLogin=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
-		$subjectsByPassword=core_kernel_classes_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
+		$subjectsByLogin=core_kernel_impl_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
+		$subjectsByPassword=core_kernel_impl_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
 		
 		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
 		
@@ -94,10 +94,10 @@ class taoDelivery_models_classes_DeliveryServerService
 		
 		$returnValue=array();
 				
-		$groups=core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
+		$groups=core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
 		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
+			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
 		}
 		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue = $deliveries;
@@ -109,7 +109,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
 	 * It returns an array containing the uri of selected deliveries or an empty array otherwise.
-	 * To be tested when core_kernel_classes_ApiModelOO::getObject() is implemented
+	 * To be tested when core_kernel_impl_ApiModelOO::getObject() is implemented
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -120,10 +120,10 @@ class taoDelivery_models_classes_DeliveryServerService
 		
 		$returnValue=array();
 		
-		$groups = core_kernel_classes_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
+		$groups = core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
 		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
 		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_classes_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
+			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
 		}
 		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
 		$returnValue = $deliveries;

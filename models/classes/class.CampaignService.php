@@ -249,7 +249,7 @@ class taoDelivery_models_classes_CampaignService
 		if(!is_null($campaign)){
 		
 			//get the list of deliveries, by using getSubjects(TAO_DELIVERY_CAMPAIGN_PROP,$campaign->resourceUri);
-			$deliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
+			$deliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
 			foreach ($deliveries->getIterator() as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
@@ -282,12 +282,12 @@ class taoDelivery_models_classes_CampaignService
 			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
 			
 			//a way to remove the campaign property value of the delivery that are used to be associated to THIS campaign
-			$oldRelatedDeliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
+			$oldRelatedDeliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
 			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
 				//TODO check if it is a delivery instance
 				
 				//find a way to remove the property value associated to THIS campaign ONLY
-				$remove = core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource, '');
+				$remove = core_kernel_impl_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource, '');
 				// $this->assertTrue($remove);
 				
 				// $oldRelatedDelivery->removePropertyValues($campaignProp);//issue with this implementation: delete all property values

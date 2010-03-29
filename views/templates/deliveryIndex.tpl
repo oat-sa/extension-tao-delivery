@@ -67,18 +67,15 @@
 			<!-- End of Active Processes -->
 			<?php if(!empty($availableProcessDefinition)) : ?>
 				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
-				<form id="authoring_form" action="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring" method="get" >
+				<div id="new_process">
 					<?php foreach($availableProcessDefinition as $procDef) : ?>
-						<li>
-							<input type="radio"  value="<?php echo urlencode($procDef->uriResource); ?>" name="processDefinitionUri" >  
-								<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?>
-							</input>
-						</li>
-					<?php endforeach;  ?>					
-					<input id="new_process" type="submit" value="<?php echo __("New Test") ?>" />
-				</form>
-			<?php endif; ?>
-
+					<li>
+						<a href="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
+						<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
+					</li>
+					<?php endforeach;  ?>			
+				</div>
+				<?php endif; ?>
 			</div>
 			
 		</div>

@@ -248,7 +248,7 @@ class taoDelivery_models_classes_ResultServerService
 		
 		if(!is_null($resultServer)){
 		
-			$deliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
+			$deliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
 			foreach ($deliveries->getIterator() as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
@@ -277,12 +277,12 @@ class taoDelivery_models_classes_ResultServerService
 			$resultServerProp = new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP);
 			
 			//a way to remove the resultServer property value of the delivery that are used to be associated to THIS resultServer
-			$oldRelatedDeliveries = core_kernel_classes_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
+			$oldRelatedDeliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
 			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
 				//TODO check if it is a delivery instance
 				
 				//find a way to remove the property value associated to THIS resultServer ONLY
-				core_kernel_classes_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
+				core_kernel_impl_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
 				
 				// $oldRelatedDelivery->removePropertyValues($resultServerProp);//issue with this implementation: delete all property values
 			}

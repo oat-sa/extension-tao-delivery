@@ -362,7 +362,7 @@ class ProcessAuthoring extends TaoModule {
 			//case when a process variable has been just added:
 			if($clazz->uriResource == CLASS_PROCESSVARIABLES){
 				//set the new instance of process variable as a property of the class process instance:
-				$ok = core_kernel_classes_ApiModelOO::singleton()->setStatement($instance->uriResource, RDF_TYPE, RDF_PROPERTY, '');
+				$ok = core_kernel_impl_ApiModelOO::singleton()->setStatement($instance->uriResource, RDF_TYPE, RDF_PROPERTY, '');
 				if($ok){
 					$newProcessInstanceProperty = new core_kernel_classes_Property($instance->uriResource);
 					$newProcessInstanceProperty->setDomain(new core_kernel_classes_Class(CLASS_PROCESSINSTANCE));
@@ -540,7 +540,7 @@ class ProcessAuthoring extends TaoModule {
 			//method 1: use the connection relation between the subject serviceDefinition and the object formalParameter: 
 			//issue with the use of the same instance of formal parameter for both parameter in and out of an instance of a service definiton
 			/*
-			$formalParameterType = core_kernel_classes_ApiModelOO::getPredicate($serviceDefinition->uriResource, $formalParam->uriResource);
+			$formalParameterType = core_kernel_impl_ApiModelOO::getPredicate($serviceDefinition->uriResource, $formalParam->uriResource);
 			if(strcasecmp($formalParameterType->uriResource, PROPERTY_SERVICESDEFINITION_FORMALPARAMIN)==0){
 				$parameterInOrOut = PROPERTY_CALLOFSERVICES_ACTUALPARAMIN;
 			}elseif(strcasecmp($formalParameterType->uriResource, PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT)==0){
@@ -880,7 +880,7 @@ class ProcessAuthoring extends TaoModule {
 				$returnValue['doesNotExist'][] = $code;
 			}else{
 				//check if the variable is set as a process variable of the current process
-				$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject($processVarProp, $processVar);
+				$processCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject($processVarProp, $processVar);
 				$ok = false;
 				foreach($processCollection->getIterator() as $processTemp){
 					if($processTemp->uriResource == $process->uriResource){
@@ -899,7 +899,7 @@ class ProcessAuthoring extends TaoModule {
 	
 	public function getOneSubject(core_kernel_classes_Property $property, core_kernel_classes_Resource $resource, $last=false){
 		$subject = null;
-		$subjectCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject($property->uriResource , $resource->uriResource);
+		$subjectCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject($property->uriResource , $resource->uriResource);
 		if(!$subjectCollection->isEmpty()){
 			if($last){
 				$subject = $subjectCollection->get($subjectCollection->count()-1);

@@ -122,7 +122,8 @@
 #new_process
 {
 	display: block;
-	margin: 10px 0 20px 20px;
+	margin: 20px 0 20px 20px;
+	list-style-image: url(../img/taoDelivery_small.png); 
 }
 
 #process_view
