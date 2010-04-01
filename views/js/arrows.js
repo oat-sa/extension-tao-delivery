@@ -5,7 +5,7 @@ var margin = 20;
 function createArrow(point1, point2, type){
 	//type in array('left','top','right');
 	// alert("dsfdf"+type);
-	type ='top';
+	// type ='top';
 	var p1 = getCenterCoordinate(point1);
 	var p2 = getCenterCoordinate(point2);
 	var Dx = p2.x - p1.x;
@@ -21,7 +21,7 @@ function createArrow(point1, point2, type){
 	}else{
 		flexPointNumber = 2;
 	}
-	alert("flexPointNb: "+flexPointNumber+ ", Dx: "+ Dx+ ", Dy: "+ Dy);
+	// alert("flexPointNb: "+flexPointNumber+ ", Dx: "+ Dx+ ", Dy: "+ Dy);
 	
 	var arrow = new Array();
 	arrow[0] = {x:p1.x, y:p1.y};
@@ -52,13 +52,13 @@ function createArrow(point1, point2, type){
 				flex1 = (p2.y-p1.y)/2 - point2.height()/2;
 			}
 			if(Dx>0){
-				if(type='right'){
+				if(type=='right'){
 					flex2 = (p2.x + margin) - p1.x;
 				}else{
-					flex2 = (p2.x + margin) - p1.x;//warning: division by 0!
+					flex2 = (p2.x - p1.x)/2 - point1.width()/2;//warning: division by 0!
 				}
 			}else{
-				if(type='right'){
+				if(type=='right'){
 					flex2 = (p2.x - p1.x)/2 - point1.width()/2;
 				}else{
 					flex2 = (p2.x - margin) - p1.x;
@@ -118,7 +118,7 @@ function drawArrow(origineElt, options){
 	}
 	
 	var p = arrows[origineElt.attr('id')].coord;
-	
+	options.name = origineElt.attr('id');
 	if(isset(p[0])&&isset(p[1])){
 		
 		drawVerticalLine(p[0], p[1], options);
@@ -140,46 +140,6 @@ function drawArrow(origineElt, options){
 	
 }
 
-function drawHorizontalLine(p1, p2, options){
-	var arrowWidth = 0;
-	if(options.arrowWidth){
-		arrowWidth = options.arrowWidth; 
-	}else{
-		arrowWidth = 2;
-	}
-	
-	width = Math.abs(p2.x-p1.x);
-	height = arrowWidth;
-	left = Math.min(p1.x, p2.x);
-	top = p1.y - arrowWidth/2;
-	
-	drawDiv(1,left,top,width,height,options.container);
-}
-
-function drawDiv(border,left,top,width,height,container){
-	
-	var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
-	var element = $('<div name="aaaaa"></div>');
-	element.css('border', borderStr);
-	element.css('position', 'absolute');
-	element.css('left', Math.round(left)+'px');
-	element.css('top', Math.round(top)+'px');
-	element.css('width', Math.round(width)+'px');
-	element.css('height', Math.round(height)+'px');
-	
-	console.log('left:',element.css('left'));
-	console.log('top:',element.css('top'));
-	console.log('w:',element.css('width'));
-	console.log('h:',element.css('height'));
-	// console.log('x2',p2.x);
-	// console.log('y2',p2.y);
-	
-	if(container){
-		element.appendTo(container);
-	}
-}
-
-
 function drawVerticalLine(p1, p2, options){
 	var arrowWidth = 0;
 	if(options.arrowWidth){
@@ -193,8 +153,54 @@ function drawVerticalLine(p1, p2, options){
 	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
 	top = Math.min(p1.y,p2.y);
 	
-	drawDiv(1,left,top,width,height,options.container);
+	drawDiv(1,left,top,width,height,options.container,options.name);
 }
+
+function drawHorizontalLine(p1, p2, options){
+	var arrowWidth = 0;
+	if(options.arrowWidth){
+		arrowWidth = options.arrowWidth; 
+	}else{
+		arrowWidth = 2;
+	}
+	
+	width = Math.abs(p2.x-p1.x);
+	height = arrowWidth;
+	left = Math.min(p1.x, p2.x);
+	top = p1.y - arrowWidth/2;
+	
+	drawDiv(1,left,top,width,height,options.container,options.name);
+}
+
+function drawDiv(border,left,top,width,height,container,name){
+	
+	if(container && name){
+	
+		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
+		var element = $('<div name="'+name+'"></div>');
+		element.css('border', borderStr);
+		element.css('position', 'absolute');
+		element.css('left', Math.round(left)+'px');
+		element.css('top', Math.round(top)+'px');
+		element.css('width', Math.round(width)+'px');
+		element.css('height', Math.round(height)+'px');
+		
+		console.log('left:',element.css('left'));
+		console.log('top:',element.css('top'));
+		console.log('w:',element.css('width'));
+		console.log('h:',element.css('height'));
+		// console.log('x2',p2.x);
+		// console.log('y2',p2.y);
+	
+		element.appendTo(container);
+	}
+}
+
+function removeArrow(name){
+	arrows[name] = null;
+	$("div[name="+name+"]").remove();
+}
+
 
 function getCenterCoordinate(element){
 	
