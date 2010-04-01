@@ -203,7 +203,7 @@ class taoDelivery_models_classes_ProcessTreeService
 			
 			//check if it is the first activity node:
 			
-			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#119018447833116
+			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));//http://www.tao.lu/middleware/taoqual.rdf#i119018447833116
 			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
 				if($isIntial->uriResource == GENERIS_TRUE){
 					$initial =true;
