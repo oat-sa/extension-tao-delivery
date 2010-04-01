@@ -43,16 +43,25 @@
 			drag: function(event, ui){
 				var position = $(this).position();
 				$("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
+				
+				removeArrow("origine");
+				calculateArrow($("#origine"), $(this), 'right', null);
+				drawArrow($("#origine"), {
+					container: "#process_diagram_container",
+					arrowWidth: 1
+				});
+				
 			},
 			containment: '#process_diagram_container',
 			stop: function(event, ui){
 				// var coord = getCenterCoordinate($(this));
 				// alert(coord.x+', '+coord.y);
-				createArrow($("#origine"), $(this), 'right');
-				drawArrow($("#origine"), {
-					container: "#process_diagram_container",
-					arrowWidth: 1
-				});
+				// removeArrow("origine");
+				// createArrow($("#origine"), $(this), 'right');
+				// drawArrow($("#origine"), {
+					// container: "#process_diagram_container",
+					// arrowWidth: 1
+				// });
 			}
 
 		});
