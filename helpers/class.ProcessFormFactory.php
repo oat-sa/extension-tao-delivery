@@ -623,12 +623,12 @@ class taoDelivery_helpers_ProcessFormFactory extends tao_helpers_form_GenerisFor
 		//involved activity: checkbox, range:current activity
 		$activities = array(); //array of resource
 		//get activity:
-		$activityCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_ACTIVITIES_CONSISTENCYRULE , $consistencyRule->uriResource);
+		$activityCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_ACTIVITIES_CONSISTENCYRULE , $consistencyRule->uriResource);
 		$currentActivity = null;
 		if(!$activityCollection->isEmpty()){
 			$currentActivity = $activityCollection->get(0);
 			//get process:
-			$processCollection = core_kernel_classes_ApiModelOO::singleton()->getSubject(PROPERTY_PROCESS_ACTIVITIES , $currentActivity->uriResource);
+			$processCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_PROCESS_ACTIVITIES , $currentActivity->uriResource);
 			if(!$processCollection->isEmpty()){
 				$currentProcess = $processCollection->get(0);
 				
