@@ -1,6 +1,8 @@
 var arrows = new Array();
+var tempArrows = new Array();
 var margin = 20;
-// alert("sdfsdg");
+var canvas = "#process_diagram_container";
+// alert("OK!");
 
 function calculateArrow(point1, point2, type, flex){
 	if(!isset(flex)){
@@ -117,14 +119,16 @@ function calculateArrow(point1, point2, type, flex){
 	}
 	
 	if(!isset(arrows[point1.attr('id')])){
-		arrows[point1.attr('id')] = {
-			'end': point2.attr('id'),
-			'coord': arrow,
-			'type': type,
-			'flex': flexPoints
-		}
+		arrows[point1.attr('id')] = new Array();
 	}
-		
+	
+	arrows[point1.attr('id')] = {
+		'end': point2.attr('id'),
+		'coord': arrow,
+		'type': type,
+		'flex': flexPoints
+	}
+	
 	// console.log('test',point1.attr('id'));
 	//console.log('x1',p1.x);
 	//console.log('y1',p1.y);
@@ -139,35 +143,7 @@ function calculateArrow(point1, point2, type, flex){
 	//console.dir(arrows);
 }
 
-function editArrow(arrowName, flexPosition, offset){
-	
-	var arrow = arrows[arrowName];
-	//get value of flex points:
-	var flexPoints[] = new Array();
-	for(i=1;i<=arrow.flex.length;i++){
-		if(isset(arrow.flex[i])){
-			if(i == flexPosition){
-				//TODO: define allowed range of value for offset
-				flexPoints[i] = arrow.flex[i] + offset;// + or -
-			}else{
-				flexPoints[i] = arrow.flex[i];
-			}
-		}else{
-			break;
-		}
-	}
-	
-	return flexPoints;
-	/*
-	//TODO define allowed range of value for offset
-	//flexPosition in {1,3}
-	if(flexPosition>=1 && flexPosition<=flexPoints.length){
-		flexPoints[flexPosition] += offset;// + or -
-	}
-	*/
-	//immediately followed by calculateArrow and drawArrow;
-}
-
+/*
 function getFlexPoints(arrowName){
 	var arrow = arrows[arrowName];
 	//get value of flex points:
@@ -182,25 +158,38 @@ function getFlexPoints(arrowName){
 	
 	return flexPoints;
 }
-
-function drawArrow(origineElt, options){
+*/
+function drawArrow(arrowName, options){
 	
-	if(!isset(arrows[origineElt.attr('id')].coord)){
+	if(!isset(arrows[arrowName].coord)){
 		throw new Exception('the arrow does not exist');
 	}
+	if(!isset(options)){
+		throw new Exception('no options set');
+	}
 	
-	var p = arrows[origineElt.attr('id')].coord;
-	options.name = origineElt.attr('id');
-	if(isset(p[0])&&isset(p[1])){
+	
+	if(options.temp){
+		var p = tempArrows[arrowName].coord;
+	}else{
+		var p = arrows[arrowName].coord;
+	}
 		
+	options.name = arrowName;
+	if(isset(p[0])&&isset(p[1])){
+		options.index = 1;
 		drawVerticalLine(p[0], p[1], options);
 		if(isset(p[2])){
+			options.index = 2;
 			drawHorizontalLine(p[1], p[2], options);
 			if(isset(p[3])){
+				options.index = 3;
 				drawVerticalLine(p[2], p[3], options);
 				if(isset(p[4])){
+					options.index = 4;
 					drawHorizontalLine(p[3], p[4], options);
 					if(isset(p[5])){
+						options.index = 5;
 						drawVerticalLine(p[4], p[5], options);
 					}
 				}
@@ -225,7 +214,7 @@ function drawVerticalLine(p1, p2, options){
 	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
 	top = Math.min(p1.y,p2.y);
 	
-	drawDiv(1,left,top,width,height,options.container,options.name);
+	drawDiv(1,left,top,width,height,options.container,options.name,options.index);
 }
 
 function drawHorizontalLine(p1, p2, options){
@@ -241,15 +230,15 @@ function drawHorizontalLine(p1, p2, options){
 	left = Math.min(p1.x, p2.x);
 	top = p1.y - arrowWidth/2;
 	
-	drawDiv(1,left,top,width,height,options.container,options.name);
+	drawDiv(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function drawDiv(border,left,top,width,height,container,name){
+function drawDiv(border,left,top,width,height,container,name,arrowPartIndex){
 	
 	if(container && name){
-	
+	//"#"+arrowName+"_arrowPart_"+arrowPartIndex
 		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
-		var element = $('<div name="'+name+'"></div>');
+		var element = $('<div name="'+name+'" id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
 		element.css('border', borderStr);
 		element.css('position', 'absolute');
 		element.css('left', Math.round(left)+'px');
@@ -268,8 +257,15 @@ function drawDiv(border,left,top,width,height,container,name){
 	}
 }
 
-function removeArrow(name){
-	arrows[name] = null;
+function removeArrow(name, complete){
+	if(!isset(complete)){
+		complete = true;
+	}
+	
+	if(complete){
+		arrows[name] = null;
+	}
+	
 	$("div[name="+name+"]").remove();
 
 }
@@ -277,53 +273,127 @@ function removeArrow(name){
 function getDraggableFlexPoints(arrowName){
 	//get the postion of flex points, and transform them into draggable object:
 	var arrow = arrows[arrowName];
-	//get value of flex points:
-	var flexPoints[] = new Array();
+	
 	for(i=1;i<=arrow.flex.length;i++){
+		
 		if(isset(arrow.flex[i])){
 			if(i%2){
-				//horizontal only:
-				authorizedAxis = 'x';
-			}else{
 				//vertical only:
 				authorizedAxis = 'y';
+			}else{
+				//horizontal only:
+				authorizedAxis = 'x';
 			}
-			//create the handle in the middle:
 			
+			var arrowPartIndex = i + 1 ;
+			var arrowPartId = arrowName + "_arrowPart_"+arrowPartIndex;
+			var dragHandleId = arrowPartId + '_handle';
+			
+			//create the handle in the middle:
+			var handleElement = $('<div name="'+arrowName+'" id="'+dragHandleId+'"/>');
+			var borderStr = '1px '+'solid'+' '+'green';
+			handleElement.css('border', borderStr);
+			handleElement.css('width', '5px');
+			handleElement.css('height', '5px');
+			handleElement.appendTo("#"+arrowPartId);
+			$('#'+dragHandleId).position({
+				of: "#"+arrowPartId,
+				my: "center",
+				at: "center"
+			});
 			
 			//get the element and transform it into a draggable (with constraint):
-			$("#arrow_"+arrowName+"_flex"+i).draggable({
+			$("#"+arrowPartId).draggable({
 				axis: authorizedAxis,
+				opacity: 0.7,
+				helper: 'clone',
+				handle: "#"+dragHandleId,
 				start: function(event, ui){
-					//record position somehow
+					console.log($(this).draggable('option', 'handle'));
 				},
 				drag: function(event, ui){
-					//horizontal;
-					var currentPosition = $(this).position().left;
-					var offset = initialPosition - currentPosition;//initial postion ??????
 					
-					flexPoints = editArrow(arrowName, flexPosition, offset);//scope of arrowName???
-					$("div[name="+arrowName+"]").remove();
-					calculateArrow($("#"+arrowName), $("#"+arrow.destination), arrow.type, flexPoints);
-					drawArrow($("#"+arrowName), {
+					/*
+					var offset = 0;
+					if($(this).draggable('option', 'axis') == 'x'){
+						offset = ui.position.left - ui.originalPosition.left;
+					}else if($(this).draggable('option', 'axis') == 'y'){
+						offset = ui.position.top - ui.originalPosition.top;
+					}else{
+						return false;
+					}
+					
+					//get value of flex points:
+					var flexPoints = new Array();
+					var id = $(this).attr('id');
+					var tempIndex = parseInt(id.substr(id.lastIndexOf("arrowPart_")+10)) - 1;
+					
+					arrowNameTemp = $(this).attr('name')
+					arrowTemp = arrows[arrowNameTemp];
+					flexPoints = editArrow(arrowNameTemp, tempIndex, offset);//scope of arrowName???
+					// console.dir(arrow.flex);
+					// console.log(offset);
+					// console.dir(flexPoints);
+					// console.log('tempIndex =',tempIndex);
+					
+					// console.dir(arrow);
+					// console.log("before");
+					// console.dir(arrows);
+					calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.end), arrowTemp.type, flexPoints);
+					// console.log("after");
+					// console.dir(arrows);
+					// removeArrow(arrowNameTemp, false);
+					drawArrow(arrowNameTemp, {
 						container: "#process_diagram_container",
 						arrowWidth: 1
 					});
+					*/
 					
 				},
 				containment: '#process_diagram_container',
 				stop: function(event, ui){
+					
+					var offset = 0;
+					if($(this).draggable('option', 'axis') == 'x'){
+						offset = ui.position.left - ui.originalPosition.left;
+					}else if($(this).draggable('option', 'axis') == 'y'){
+						offset = ui.position.top - ui.originalPosition.top;
+					}else{
+						return false;
+					}
+					
+					//get value of flex points:
+					var flexPoints = new Array();
+					var id = $(this).attr('id');
+					var tempIndex = parseInt(id.substr(id.lastIndexOf("arrowPart_")+10)) - 1;
+					
+					arrowNameTemp = $(this).attr('name')
+					arrowTemp = arrows[arrowNameTemp];
+					flexPoints = editArrow(arrowNameTemp, tempIndex, offset);//scope of arrowName???
+					
+					calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.end), arrowTemp.type, flexPoints);
+					removeArrow(arrowNameTemp, false);
+					drawArrow(arrowNameTemp, {
+						container: "#process_diagram_container",
+						arrowWidth: 1
+					});
+					
+					getDraggableFlexPoints(arrowNameTemp);
 				}
 
 			});
-			//
+			
+			
+			
 		}else{
 			break;
 		}
 	}
-	
-	
+	//clear momemory:
+	arrowName = '';
+	authorizedAxis = '';
 }
+
 
 function getCenterCoordinate(element){
 	
@@ -343,5 +413,34 @@ function isset(object){
 	}else{
 		return true;
 	}
-}	
+}
+
+
+function editArrow(arrowName, flexPosition, offset){
+	
+	var flexPoints = new Array();
+	
+	if(isset(arrows[arrowName])){
+		var arrow = arrows[arrowName];
+		//get value of flex points:
+		
+		for(i=1;i<=arrow.flex.length;i++){
+			if(isset(arrow.flex[i])){
+				if(i == flexPosition){
+					//TODO: define allowed range of value for offset
+					flexPoints[i] = arrow.flex[i] + offset;// + or -
+				}else{
+					flexPoints[i] = arrow.flex[i];
+				}
+			}else{
+				break;
+			}
+		}
+		
+	}
+	
+	//immediately followed by calculateArrow and drawArrow;
+	return flexPoints;
+}
+	
 	

@@ -39,14 +39,17 @@
 	<script type="text/javascript">
 	
 	$(function() {
+		
 		$("#draggable1").draggable({
 			drag: function(event, ui){
+				
+				
 				var position = $(this).position();
 				$("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
 				
 				removeArrow("origine");
 				calculateArrow($("#origine"), $(this), 'right', null);
-				drawArrow($("#origine"), {
+				drawArrow("origine", {
 					container: "#process_diagram_container",
 					arrowWidth: 1
 				});
@@ -54,6 +57,9 @@
 			},
 			containment: '#process_diagram_container',
 			stop: function(event, ui){
+				// console.dir(ui);
+				getDraggableFlexPoints('origine');
+				
 				// var coord = getCenterCoordinate($(this));
 				// alert(coord.x+', '+coord.y);
 				// removeArrow("origine");
