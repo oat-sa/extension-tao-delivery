@@ -1,7 +1,9 @@
+//TODO: replace attribute 'name' by 'class'
+
 var arrows = new Array();
 var tempArrows = new Array();
 var margin = 20;
-var canvas = "#process_diagram_container";
+
 // alert("OK!");
 
 function calculateArrow(point1, point2, type, flex){
@@ -143,22 +145,6 @@ function calculateArrow(point1, point2, type, flex){
 	//console.dir(arrows);
 }
 
-/*
-function getFlexPoints(arrowName){
-	var arrow = arrows[arrowName];
-	//get value of flex points:
-	var flexPoints[] = new Array();
-	for(i=1;i<=arrow.flex.length;i++){
-		if(isset(arrow.flex[i])){
-			flexPoints[i] = arrow.flex[i];
-		}else{
-			break;
-		}
-	}
-	
-	return flexPoints;
-}
-*/
 function drawArrow(arrowName, options){
 	
 	if(!isset(arrows[arrowName].coord)){
@@ -214,7 +200,7 @@ function drawVerticalLine(p1, p2, options){
 	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
 	top = Math.min(p1.y,p2.y);
 	
-	drawDiv(1,left,top,width,height,options.container,options.name,options.index);
+	drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
 function drawHorizontalLine(p1, p2, options){
@@ -230,15 +216,16 @@ function drawHorizontalLine(p1, p2, options){
 	left = Math.min(p1.x, p2.x);
 	top = p1.y - arrowWidth/2;
 	
-	drawDiv(1,left,top,width,height,options.container,options.name,options.index);
+	drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function drawDiv(border,left,top,width,height,container,name,arrowPartIndex){
+function drawArrowPart(border,left,top,width,height,container,name,arrowPartIndex){
 	
 	if(container && name){
 	//"#"+arrowName+"_arrowPart_"+arrowPartIndex
 		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
-		var element = $('<div name="'+name+'" id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
+		var element = $('<div id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
+		element.addClass(name);
 		element.css('border', borderStr);
 		element.css('position', 'absolute');
 		element.css('left', Math.round(left)+'px');
@@ -266,7 +253,7 @@ function removeArrow(name, complete){
 		arrows[name] = null;
 	}
 	
-	$("div[name="+name+"]").remove();
+	$("."+name).remove();
 
 }
 
@@ -290,7 +277,8 @@ function getDraggableFlexPoints(arrowName){
 			var dragHandleId = arrowPartId + '_handle';
 			
 			//create the handle in the middle:
-			var handleElement = $('<div name="'+arrowName+'" id="'+dragHandleId+'"/>');
+			var handleElement = $('<div id="'+dragHandleId+'"/>');
+			handleElement.addClass(arrowName);
 			var borderStr = '1px '+'solid'+' '+'green';
 			handleElement.css('border', borderStr);
 			handleElement.css('width', '5px');
@@ -367,7 +355,9 @@ function getDraggableFlexPoints(arrowName){
 					var id = $(this).attr('id');
 					var tempIndex = parseInt(id.substr(id.lastIndexOf("arrowPart_")+10)) - 1;
 					
-					arrowNameTemp = $(this).attr('name')
+					// arrowNameTemp = $(this).attr('name');
+					arrowNameTemp = id.substring(0,id.indexOf('_arrowPart_'));
+					console.log(arrowNameTemp);
 					arrowTemp = arrows[arrowNameTemp];
 					flexPoints = editArrow(arrowNameTemp, tempIndex, offset);//scope of arrowName???
 					
