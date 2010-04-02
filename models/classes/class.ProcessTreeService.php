@@ -392,7 +392,7 @@ class taoDelivery_models_classes_ProcessTreeService
 		}
 		
 		//if it is a split type
-		if( strtolower($connectorType->getLabel()) == "split"){
+		if( $connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SPLIT){
 			//get the rule
 			$connectorRule = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TRANSITIONRULE), false);
 			if(!is_null($connectorRule)){
@@ -439,7 +439,7 @@ class taoDelivery_models_classes_ProcessTreeService
 					}
 				}
 			}
-		}elseif(strtolower($connectorType->getLabel()) == "sequence"){
+		}elseif($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
 			$next = $connector->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES), false);
 			
 			if(!is_null($next)){
