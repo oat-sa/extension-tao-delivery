@@ -30,7 +30,7 @@ require_once('taoDelivery/helpers/class.Precompilator.php');
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_models_classes_DeliveryAuthoringService
-    extends taoDelivery_models_classes_ProcessAuthoringService
+    extends wfEngine_models_classes_ProcessAuthoringService
 {
    
 

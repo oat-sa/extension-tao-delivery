@@ -171,6 +171,13 @@ function createDroppablePoint(targetId, targetType, position){
 					container: canvas,
 					arrowWidth: 1
 				});
+				
+				//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
+				
+				//destroy draggable
+				
+				//destroy ALL droppable object on the canvas
+				$(this).droppable('destroy');
 			}
 		}
 	});
