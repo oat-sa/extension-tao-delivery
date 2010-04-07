@@ -7,7 +7,7 @@ class ProcessBrowser extends Module
 		if (!isset($_SESSION['taoqual.authenticated'])){
 			$this->redirect($this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer')));
 		}
-		
+
 		$_SESSION["processUri"]= $processUri;
 
 
@@ -55,7 +55,7 @@ class ProcessBrowser extends Module
 
 		foreach ($process->getVariables() as $var)
 		{
-			$variablesViewData[$var->name] = array('uri' 	=> $var->uri,
+			$variablesViewData[$var->code] = array('uri' 	=> $var->uri,
 												   'value' 	=> $var->value);
 		}
 
