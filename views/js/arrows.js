@@ -455,27 +455,45 @@ function editArrowFlex(arrowName, flexPosition, offset){
 		//get value of flex points:
 		
 		for(i=1;i<=arrow.flex.length;i++){
+			
 			if(isset(arrow.flex[i])){
+				
 				if(i == flexPosition){
 					//TODO: define allowed range of value for offset
+					
 					if(i == 1){
 						//the first flex point cannot be above the point of origin:
 						if(arrow.flex[i]+offset <= 0){
 							continue;//do not modify it
 						}
+					}else if(i == 2){
+						end = getCenterCoordinate($('#'+arrow.end));
+						origin = getCenterCoordinate($('#'+arrowName));
+						Dx = (end.x + offset) - origin.x;
+						console.log(Dx);
+						console.dir(end);
+						console.dir(origin);
+						if(Dx > 0 && arrow.type=='left'){
+							continue;
+						}
+						if(Dx < 0 && arrow.type=='right'){
+							continue;
+						}
 					}else if(i == 3){
 						if(arrow.flex[i]+offset >= 0){
-							continue;//do not modify it
+							continue;
 						}
 					}
-					
 					flexPoints[i] = arrow.flex[i] + offset;// + or -
+					
 				}else{
 					flexPoints[i] = arrow.flex[i];
 				}
+				
 			}else{
 				break;
 			}
+			
 		}
 		
 	}

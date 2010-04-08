@@ -151,7 +151,7 @@ function createDroppablePoint(targetId, targetType, position){
 	});
 	
 	$('#'+droppableId).droppable({
-		drop: function(event, ui) {
+		over: function(event, ui) {
 			// console.dir(ui);
 			
 			var id = $(this).attr('id');
@@ -172,13 +172,16 @@ function createDroppablePoint(targetId, targetType, position){
 					arrowWidth: 1
 				});
 				
-				//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
+			}
+		},
+		drop: function(event, ui) {
+			
+			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
 				
 				//destroy draggable
 				
 				//destroy ALL droppable object on the canvas
-				$(this).droppable('destroy');
-			}
+				// $(this).droppable('destroy');
 		}
 	});
 	
