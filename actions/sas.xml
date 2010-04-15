@@ -2,16 +2,16 @@
 <!DOCTYPE services SYSTEM "../../tao/doc/sas.dtd">
 <services>
 	<service>
-		<name>Search Delivery</name>
-		<description>	 - Search instance form 	</description>
+		<name>Deliveries searching</name>
+		<description>Search deliveries instances</description>
 		<location url="/taoDelivery/SaSDelivery/search" />
 		<return>
 			<param key="deliveryUris" />
 		</return>
 	</service>	
 	<service>
-		<name>Add a delivery</name>
-		<description>	 - add a new delivery  - redirected to the edit form	</description>
+		<name>Delivery add</name>
+		<description>Add a new delivery and redirect to the edit form</description>
 		<location url="/taoDelivery/SaSDelivery/sasAddInstance">
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
@@ -20,31 +20,31 @@
 		</return>
 	</service>
 	<service>
-		<name>Edit a delivery</name>
-		<description>	 - delivery instance form	</description>
+		<name>Delivery editor</name>
+		<description>Edit delivery properties</description>
 		<location url="/taoDelivery/SaSDelivery/sasEditInstance">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Delivery full edit</name>
-		<description>	 - delivery instance form  - exclude testees  - select campaign	</description>
+		<name>Delivery full editor</name>
+		<description>Full edit form: edit delivery properties, exclude testees and select campaigns</description>
 		<location url="/taoDelivery/SaSDelivery/editDelivery">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Edit devlivery classes</name>
-		<description>	 - Class editor	</description>
+		<name>Devlivery class editor</name>
+		<description>Edit a Delivery (sub)class: add/edit/delete class properties</description>
 		<location url="/taoDelivery/SaSDelivery/editDeliveryClass">
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Exclude subject from delivery</name>
-		<description>	 - tree form to select subject to exclude	</description>
+		<name>Delivery exclude subject</name>
+		<description>Select subject to exclude of the delivery</description>
 		<location url="/taoDelivery/SaSDelivery/excludeSubjects">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
@@ -54,8 +54,8 @@
 		</return>
 	</service>
 	<service>
-		<name>Select related campaign</name>
-		<description>	 - tree form to select delivery campaigns	</description>
+		<name>Delivery related campaigns</name>
+		<description>Select delivery campaigns</description>
 		<location url="/taoDelivery/SaSDelivery/selectCampaign">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
@@ -65,25 +65,33 @@
 		</return>
 	</service>
 	<service>
-		<name>Delete a delivery</name>
-		<description>	 - Delete an instance	</description>
+		<name>Delivery removing</name>
+		<description>Delete a delivery instance</description>
 		<location url="/taoDelivery/SaSDelivery/sasDeleteInstance">
+			<param key="uri" value="^deliveryUri" />
+			<param key="classUri" value="^deliveryClassUri" />
+		</location>
+	</service>
+	<service>
+		<name>Delivery compilation</name>
+		<description>Compile all the tests composing the delivery</description>
+		<location url="/taoDelivery/SaSDelivery/compileView">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
 	</service>
 			
 	<service>
-		<name>Search Campaign</name>
-		<description>	 - Search instance form 	</description>
+		<name>Campaigns searching</name>
+		<description>Search campaigns instances</description>
 		<location url="/taoDelivery/SaSCampaign/search" />
 		<return>
 			<param key="campaignUris" />
 		</return>
 	</service>
 	<service>
-		<name>Add a campaign</name>
-		<description>	 - add a new campaign  - redirected to the edit form	</description>
+		<name>Campaign add</name>
+		<description>Add a new campaign and redirect to the edit form</description>
 		<location url="/taoDelivery/SaSCampaign/sasAddInstance">
 			<param key="classUri" value="^campaignClassUri" />
 		</location>
@@ -92,39 +100,39 @@
 		</return>
 	</service>
 	<service>
-		<name>Edit a campaign</name>
-		<description>	 - campaign instance form	</description>
+		<name>Campaign editor</name>
+		<description>Edit campaign properties</description>
 		<location url="/taoDelivery/SaSCampaign/sasEditInstance">
 			<param key="uri" value="^campaignUri" />
 			<param key="classUri" value="^campaignClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Campaign full edit</name>
-		<description>	 - campaign instance form  - select deliveries	</description>
+		<name>Campaign full editor</name>
+		<description>Full edit form: edit campaign properties and select related deliveries</description>
 		<location url="/taoDelivery/SaSCampaign/editCampaign">
 			<param key="uri" value="^campaignUri" />
 			<param key="classUri" value="^campaignClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Edit campaign classes</name>
-		<description>	 - Class editor	</description>
+		<name>Campaign class editor</name>
+		<description>Edit a campaign (sub)class: add/edit/delete class properties</description>
 		<location url="/taoDelivery/SaSCampaign/editCampaignClass">
 			<param key="classUri" value="^campaignClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Select Campaign related delivery</name>
-		<description>	 - tree form to select  campaign deliveries	</description>
+		<name>Campaign related delivery</name>
+		<description>Select campaign deliveries</description>
 		<location url="/taoDelivery/SaSCampaign/selectDeliveries">
 			<param key="uri" value="^campaignUri" />
 			<param key="classUri" value="^campaignClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Delete a Campaign</name>
-		<description>	 - Delete an instance	</description>
+		<name>Campaign removing</name>
+		<description>Delete a campaign instance</description>
 		<location url="/taoDelivery/SaSCampaign/sasDeleteInstance">
 			<param key="uri"  value="^campaignUri" />
 			<param key="classUri" value="^campaignClassUri" />
@@ -132,16 +140,16 @@
 	</service>
 			
 	<service>
-		<name>Search ResultServer</name>
-		<description>	 - Search instance form 	</description>
+		<name>ResultServers searching</name>
+		<description>Search ResultServers instances</description>
 		<location url="/taoDelivery/SaSResultServer/search" />
 		<return>
 			<param key="resultServerUris" />
 		</return>
 	</service>
 	<service>
-		<name>Add a ResultServer</name>
-		<description>	 - add a new ResultServer  - redirected to the edit form	</description>
+		<name>ResultServer add</name>
+		<description>Add a new ResultServer and redirect to the edit form</description>
 		<location url="/taoDelivery/SaSResultServer/sasAddInstance">
 			<param key="classUri" value="^resultServerClassUri" />
 		</location>
@@ -150,31 +158,31 @@
 		</return>
 	</service>
 	<service>
-		<name>Edit a ResultServer</name>
-		<description>	 - resultServer instance form	</description>
+		<name>ResultServer editor</name>
+		<description>Edit result server properties</description>
 		<location url="/taoDelivery/SaSResultServer/sasEditInstance">
 			<param key="uri" value="^resultServerUri" />
 			<param key="classUri" value="^resultServerClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>ResultServer full edit</name>
-		<description>	 - resultserver instance form  - select deliveries	</description>
+		<name>ResultServer full editor</name>
+		<description>Full edit form: edit campaign properties and select related deliveries</description>
 		<location url="/taoDelivery/SaSResultServer/editResultServer">
 			<param key="uri" value="^resultServerUri" />
 			<param key="classUri" value="^resultServerClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Edit ResultServer classes</name>
-		<description>	 - Class editor	</description>
+		<name>ResultServer class editor</name>
+		<description>Edit a ResultServer (sub)class: add/edit/delete class properties</description>
 		<location url="/taoDelivery/SaSResultServer/editResultServerClass">
 			<param key="classUri" value="^resultServerClassUri" />
 		</location>
 	</service>
 	<service>
-		<name>Select ResultServer related delivery</name>
-		<description>	 - tree form to select  result server deliveries	</description>
+		<name>ResultServer related delivery</name>
+		<description>Select result server deliveries</description>
 		<location url="/taoDelivery/SaSResultServer/selectDeliveries">
 			<param key="uri" value="^resultServerUri" />
 			<param key="classUri" value="^resultServerClassUri" />
@@ -184,8 +192,8 @@
 		</return>
 	</service>
 	<service>
-		<name>Delete a ResultServer</name>
-		<description>	 - Delete an instance	</description>
+		<name>ResultServer removing</name>
+		<description>Delete a ResultServer instance	</description>
 		<location url="/taoDelievry/SaSResultServer/sasDeleteInstance">
 			<param key="uri" value="^resultServerUri" />
 			<param key="classUri" value="^resultServerClassUri" />
