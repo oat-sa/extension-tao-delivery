@@ -603,6 +603,9 @@ class taoDelivery_models_classes_DeliveryService
 		return $returnValue;
 	}
 	
+	
+	
+	
 	/**
      * Build a sequential process for the delivery from an array of tests 
      *
@@ -628,11 +631,31 @@ class taoDelivery_models_classes_DeliveryService
 		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel)){
 			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}else{
-			$processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
-			$process->removePropertyValues($processVarProp);
-			$process->setPropertyValue($processVarProp, $var_subjectUri->uriResource);
-			$process->setPropertyValue($processVarProp, $var_subjectLabel->uriResource);
-			$process->setPropertyValue($processVarProp, $var_wsdl->uriResource);
+			//this section of code is no longer required with the use of actual parameters
+			// $processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
+			// $process->removePropertyValues($processVarProp);
+			// $process->setPropertyValue($processVarProp, $var_subjectUri->uriResource);
+			// $process->setPropertyValue($processVarProp, $var_subjectLabel->uriResource);
+			// $process->setPropertyValue($processVarProp, $var_wsdl->uriResource);
+			
+			//new implementation:
+			//create formal param instead, associated to the 3 proc var:
+			$subjectUriParam = $authoringService->getFormalParameter('subject');
+			if(is_null($subjectUriParam)){
+				$subjectUriParam = $authoringService->createFormalParameter('subject', 'processvariable', $var_subjectUri->uriResource, 'subject uri (do not delete)');
+			}
+			
+			$subjectLabelParam = $authoringService->getFormalParameter('subjectLabel');
+			if(is_null($subjectLabelParam)){
+				$subjectLabelParam = $authoringService->createFormalParameter('subjectlabel', 'processvariable', $var_subjectLabel->uriResource, 'subject label (do not delete)');
+			}
+			
+			$wsdlParam = $authoringService->getFormalParameter('wsdl');
+			if(is_null($wsdlParam)){
+				$wsdlParam = $authoringService->createFormalParameter('wsdl', 'processvariable', $var_wsdl->uriResource, 'wsdl constract url (do not delete)');
+			}
+			// var_dump($subjectUriParam, $subjectLabelParam, $wsdlParam);
+			//set default process variable:
 		}
 		
 		//delete all related activities:
@@ -665,7 +688,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
 			// $testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
-			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";
+			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
 			
 			$testUrl = tao_helpers_Precompilator::getCompiledTestUrl($test->uriResource);
 			
@@ -681,12 +704,18 @@ class taoDelivery_models_classes_DeliveryService
 				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
 				$serviceDefinition = $serviceDefinitionClass->createInstance($test->getLabel(), 'created by delivery service');
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), $testUrl);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectUriParam->uriResource);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectLabelParam->uriResource);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $wsdlParam->uriResource);
 				
 			}
 			//create a call of service and associate the service definition to it:
 			$interactiveService = $authoringService->createInteractiveService($activity);
 			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
-			
+			$authoringService->setActualParameter($interactiveService, $subjectUriParam, $var_subjectUri->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
+			$authoringService->setActualParameter($interactiveService, $subjectLabelParam, $var_subjectLabel->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
+			$authoringService->setActualParameter($interactiveService, $wsdlParam, $var_wsdl->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
+				
 			if($totalNumber == 1){
 				if(!is_null($interactiveService) && $interactiveService instanceof core_kernel_classes_Resource){
 					return true;
