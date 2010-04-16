@@ -2,7 +2,6 @@
 
 
 
-
 <?if(get_data('error')):?>
 
 	<div class="main-container">
@@ -18,102 +17,29 @@
 	</div>
 	
 <?else:?>
-
 	<style type="text/css">
-	#draggable {width:5px;height:5px;border:1px solid blue;}
-	#draggable1 {width:5px;height:5px;border:1px solid blue;}
+	#draggable {padding: 0.5em;width:auto; }
+	#draggable1 {padding: 0.5em;width:auto;}
 	
-	#accordion1 {position:absolute;left:0%;top:0%;width:15%;height:100%;}
-	#accordion_container_2 {position:absolute;left:75%;top:0%;width:25%;height:100%;}
-	#process_diagram_container {position:absolute;left:15%;top:0%;width:60%;height:100%;}
+	#accordion1 {position:absolute;left:0%;top:0%;width:30%;height:100%;}
+	#accordion_container_2 {position:absolute;left:30%;top:0%;width:70%;height:100%;}
+	#process_diagram_container {position:absolute;left:0%;top:0%;width:75%;height:100%;}
 	
 	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
 	#main {width:1000px;height:700px;}
 	
-	.diagram_arrow_tip {width:5px;height:5px;border:1px solid green;}
-	.diagram_activity {width:120px;height:50px;border:1px solid red;}
-	.diagram_link {width:1px;height:30px;border:1px solid black;}
-	.diagram_connector {width:30px;height:30px;border:1px solid red;}
-	.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
-	
 	</style>
-	
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
-	
+
 	<script type="text/javascript">
-	var canvas = "#process_diagram_container";
-	
-	$(function() {
+	$(function(){
 		
-		
-		drawActivity("activity1_uri", {
-			left: 50,
-			top: 50
-		});
-		createDroppablePoints("activity1_uri");
-		
-		createArrow('origine2',{
-			left: 200,
-			top: 30
-		});
-		
-		$("#draggable1").draggable({
-			snap: '.diagram_activity_droppable',
-			snapMode: 'inner',
-			drag: function(event, ui){
-				
-				var position = $(this).position();
-				$("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
-				
-				removeArrow("origine");
-				calculateArrow($("#origine"), $(this), 'right', null);
-				drawArrow("origine", {
-					container: "#process_diagram_container",
-					arrowWidth: 1
-				});
-				
-			},
-			containment: canvas,
-			stop: function(event, ui){
-				// console.dir(ui);
-				getDraggableFlexPoints('origine');
-				
-				// var coord = getCenterCoordinate($(this));
-				// alert(coord.x+', '+coord.y);
-				// removeArrow("origine");
-				// createArrow($("#origine"), $(this), 'right');
-				// drawArrow($("#origine"), {
-					// container: "#process_diagram_container",
-					// arrowWidth: 1
-				// });
-			}
-
-		});
 	});
-
 	</script>
-	
+
 	<div class="main-container" style="display:none;"></div>
 	<div id="authoring-container" class="ui-helper-reset">
-	
-	<div id="process_diagram_container">
-		<div id="message"/>
-		<div id="origine" style="position:absolute;left:50%;top:50%;" style="height:5px;width:5px;">
-		o
-		</div>
-		
-		<div id="origine2" style="position:absolute;left:300px;top:200px;" style="height:5px;width:5px;">
-		X
-		</div>
-		
-		<div id="draggable1" class="ui-widget-content" style="height:5px;width:5px;">
-		 
-		</div>
-	</div>
-	
+	<div id="process_diagram_container"></div>
 	<div id="accordion1" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Service Definition')?></a></h3>
 		<div>
@@ -163,7 +89,7 @@
 	
 	</div><!--end authoring-container -->
 	
-	
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
 	<script type="text/javascript">
 	var processUri = "<?=get_data("processUri")?>";
 	var authoringControllerPath = '/taoDelivery/DeliveryAuthoring/';
@@ -176,7 +102,7 @@
 			active: 0,
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
-		/*
+		
 		//load activity tree:
 		loadActivityTree();
 		
@@ -189,12 +115,12 @@
 		processProperty();
 		
 		loadCompilationForm();
-		*/
+		
 	});
 	
 	$(function(){
 		$("#accordion2").accordion({
-			fillSpace: true,
+			fillSpace: false,
 			autoHeight: false,
 			collapsible: false,
 			
