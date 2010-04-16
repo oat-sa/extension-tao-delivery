@@ -10,7 +10,7 @@ body
 	font-size: 12px;
 	color: #333;
 	
-	background: #FFFFFF url(../img/background.png) repeat-x;
+	/*background: #FFFFFF url(../img/background.png) repeat-x;*/
 }
 
 /* The control area contains a list of various actions/items that are always reachable
@@ -27,7 +27,7 @@ body
 	text-align:right;
 	
 	border-bottom: 1px solid #000000;
-	background: #CCCCCC;
+	background: #D40C0C;
 }
 
 .icon

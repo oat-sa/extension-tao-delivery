@@ -58,7 +58,7 @@
 #navigation_floating
 {
 	position: relative;
-	display: block; /* display:none to disable floating navigation. */
+	display: none; /* display:none to disable floating navigation. */
 }
 
 /* The Back button within the Floating Navigation area. */
