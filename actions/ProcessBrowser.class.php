@@ -1,6 +1,9 @@
 <?php
 class ProcessBrowser extends Module
 {
+	
+	
+	
 	public function index($processUri)
 	{
 
@@ -20,7 +23,7 @@ class ProcessBrowser extends Module
 
 		$process 			= new ProcessExecution($processUri);
 		if(empty($process->currentActivity)) {
-			die('Any current activity found in the process : ' . $processUri);
+			die('No current activity found in the process : ' . $processUri);
 		}
 		$activity 			= $process->currentActivity[0];
 		$this->setData('activity',$activity);

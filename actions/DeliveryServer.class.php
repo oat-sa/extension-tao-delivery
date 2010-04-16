@@ -120,10 +120,10 @@ class DeliveryServer extends Module{
 		$var_wsdl = $this->service->getProcessVariable("wsdlContract");
 		if(!is_null($var_subjectUri) && !is_null($var_wsdl) && !is_null($var_subjectLabel)){
 			$processExecutionFactory->variables = array(
-			$var_subjectUri->uriResource => urlencode($subject->uriResource),
-			$var_subjectLabel->uriResource => urlencode($subject->getLabel()),
-			$var_wsdl->uriResource => urlencode($wsdlContract)
-			);
+			$var_subjectUri->uriResource => $subject->uriResource,
+			$var_subjectLabel->uriResource => $subject->getLabel(),
+			$var_wsdl->uriResource => $wsdlContract
+			);//no need to encode here, will be donce in Service::getUrlCall
 		}else{
 			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}
