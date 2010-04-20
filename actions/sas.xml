@@ -2,13 +2,34 @@
 <!DOCTYPE services SYSTEM "../../tao/doc/sas.dtd">
 <services>
 	<service>
+		<name>Delivery class selection</name>
+		<description>Select a delivery (sub)class</description>
+		<location url="/taoDelivery/SaSDelivery/sasSelect">
+			<param key="selectInstance" value="false" />
+		</location>
+		<return>
+			<param key="deliveryClassUri" />
+		</return>
+	</service>
+	<service>
+		<name>Delivery selection</name>
+		<description>Select a delivery</description>
+		<location url="/taoDelivery/SaSDelivery/sasSelect">
+			<param key="selectInstance" value="true" />
+		</location>
+		<return>
+			<param key="deliveryClassUri" />
+			<param key="deliveryUri" />
+		</return>
+	</service>
+	<service>
 		<name>Deliveries searching</name>
 		<description>Search deliveries instances</description>
 		<location url="/taoDelivery/SaSDelivery/search" />
 		<return>
 			<param key="deliveryUris" />
 		</return>
-	</service>	
+	</service>
 	<service>
 		<name>Delivery add</name>
 		<description>Add a new delivery and redirect to the edit form</description>
@@ -80,7 +101,28 @@
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>
 	</service>
-			
+				
+	<service>
+		<name>Campaign class selection</name>
+		<description>Select a campaign (sub)class</description>
+		<location url="/taoDelivery/SaSCampaign/sasSelect">
+			<param key="selectInstance" value="false" />
+		</location>
+		<return>
+			<param key="campaignClassUri" />
+		</return>
+	</service>
+	<service>
+		<name>Campaign selection</name>
+		<description>Select a campaign</description>
+		<location url="/taoDelivery/SaSCampaign/sasSelect">
+			<param key="selectInstance" value="true" />
+		</location>
+		<return>
+			<param key="campaignClassUri" />
+			<param key="campaignUri" />
+		</return>
+	</service>
 	<service>
 		<name>Campaigns searching</name>
 		<description>Search campaigns instances</description>
@@ -139,6 +181,28 @@
 		</location>
 	</service>
 			
+			
+	<service>
+		<name>ResultServer class selection</name>
+		<description>Select a ResultServer (sub)class</description>
+		<location url="/taoDelivery/SaSResultServer/sasSelect">
+			<param key="selectInstance" value="false" />
+		</location>
+		<return>
+			<param key="resultServerClassUri" />
+		</return>
+	</service>
+	<service>
+		<name>ResultServer selection</name>
+		<description>Select a result server</description>
+		<location url="/taoDelivery/SaSResultServer/sasSelect">
+			<param key="selectInstance" value="true" />
+		</location>
+		<return>
+			<param key="resultServerClassUri" />
+			<param key="resultServerUri" />
+		</return>
+	</service>
 	<service>
 		<name>ResultServers searching</name>
 		<description>Search ResultServers instances</description>
