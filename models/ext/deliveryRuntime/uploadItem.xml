@@ -2,7 +2,7 @@
 <tao:ITEM xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' rdf:ID="#i120722826951388" xmlns:tao='http://www.tao.lu/tao.rdfs#'
  xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#'>
 <rdfs:LABEL lang="EN">end_m</rdfs:LABEL>
-<rdfs:COMMENT lang="EN">&nbsp;</rdfs:COMMENT>
+<rdfs:COMMENT lang="EN"><![CDATA[&nbsp;]]></rdfs:COMMENT>
 <tao:DISPLAYALLINQUIRIES></tao:DISPLAYALLINQUIRIES>
 <tao:DURATION></tao:DURATION>
 <tao:ITEMPRESENTATION>

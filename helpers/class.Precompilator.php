@@ -190,10 +190,7 @@ class tao_helpers_Precompilator
 			$affectedObject="undefinedObject";
 		}
 		
-		//use of reverseUrl to get the last position of "/" and thus the fileName
-		$reverseUrl = strrev($url);
-		$reverseUrl = substr($reverseUrl,0,strpos($reverseUrl,"/"));
-		$fileName = strrev($reverseUrl);
+		$fileName = basename($url);
 			
 		//check whether the file has been already downloaded: e.g. in the case an item existing in several languages share the same multimedia file
 		$isCopied=false;
@@ -207,8 +204,42 @@ class tao_helpers_Precompilator
 		
 		if($isCopied === false){
 			
-			//since the file has not been downloaded yet, start downloading it
-			$fileContent = @file_get_contents($url);
+			//since the file has not been downloaded yet, start downloading it usin cUrl
+			
+			if(preg_match("/^http/", $url)){
+
+				$curlHandler = curl_init();
+				curl_setopt($curlHandler, CURLOPT_URL, $url);
+				
+				//if there is an http auth on the local domain, it's mandatory to auth with curl
+				if(USE_HTTP_AUTH){	
+					$addAuth = false;
+					$domains = array('localhost', '127.0.0.1', ROOT_URL);
+					foreach($domains as $domain){
+						if(preg_macth("/".preg_quote($domain, '/')."/", $url)){
+							$addAuth = true;
+						}
+					}
+					if($addAuth){
+						curl_setopt($curlHandler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		            	curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
+					}
+				}
+				curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
+				
+				$fileContent = curl_exec($curlHandler);
+				/* TO DEBUG
+				 if ($fileContent === false){
+					$error = curl_error($curlHandler);
+					curl_close($curlHandler);  
+					throw new Exception($error);
+				}
+				*/
+				curl_close($curlHandler);  
+			}
+			else{
+				$fileContent = @file_get_contents($url);
+			}
 			if ($fileContent === false){
 				$this->failed["copiedFiles"][$affectedObject][]=$url;
 				return $returnValue;
@@ -225,12 +256,9 @@ class tao_helpers_Precompilator
 				$fileName = strrev($reverseName)."_.".strrev($reverseExt);
 			}
 			
-			$handle = fopen($directory.$fileName,"wb");
-			if($handle===false){
+			if(file_put_contents($directory.$fileName, $fileContent) === false){
 				throw new Exception("the file $directory.$fileName cannot be written");
 			}
-			$fileContent = fwrite($handle,$fileContent);
-			fclose($handle);
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
 			$this->completed["copiedFiles"][$affectedObject][]=$url;
