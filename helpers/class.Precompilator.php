@@ -207,7 +207,7 @@ class tao_helpers_Precompilator
 			//since the file has not been downloaded yet, start downloading it usin cUrl
 			
 			if(preg_match("/^http/", $url)){
-
+				
 				$curlHandler = curl_init();
 				curl_setopt($curlHandler, CURLOPT_URL, $url);
 				
@@ -216,7 +216,7 @@ class tao_helpers_Precompilator
 					$addAuth = false;
 					$domains = array('localhost', '127.0.0.1', ROOT_URL);
 					foreach($domains as $domain){
-						if(preg_macth("/".preg_quote($domain, '/')."/", $url)){
+						if(preg_match("/".preg_quote($domain, '/')."/", $url)){
 							$addAuth = true;
 						}
 					}
@@ -238,9 +238,12 @@ class tao_helpers_Precompilator
 				curl_close($curlHandler);  
 			}
 			else{
+			
 				$fileContent = @file_get_contents($url);
 			}
+			
 			if ($fileContent === false){
+				
 				$this->failed["copiedFiles"][$affectedObject][]=$url;
 				return $returnValue;
 			};
@@ -346,27 +349,22 @@ class tao_helpers_Precompilator
 			throw new Exception("the specified directory does not exist");
 		}
 		
-		// $defaultMedia = array("\.jpg","\.jpeg","\.png","\.gif","\.mp3",'\.swf');
-		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf');
+		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf','wma','wav');
 		
 		$authorizedMedia = array_merge($defaultMedia, $authorizedMedia);
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		$expr="/http[s]?:\/\/[^<'\"&]+\.(".implode('|',$authorizedMedia).")/i";
+		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/i";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
+				
+		$uniqueMediaList = 	array_unique($mediaList[0]);
 		
-		// foreach ($authorizedMedia as $mediaType){
-			// $mediaListTemp=array();
-			// $expr="/http:\/\/[^<'\"&]+.".$mediaType."/i";//TODO: could be optimized by only searching tags that could contain media.
-			// preg_match_all($expr,$xml,$mediaListTemp);
-			// $mediaList = array_merge($mediaList,$mediaListTemp[0]);
-		// }
-		
-		$uniqueMediaList = 	array_unique($mediaList[0]);	
 		foreach($uniqueMediaList as $mediaUrl){
+			
 			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
 			if(!empty($mediaPath)){
+				
 				$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
 				// var_dump($itemName, $mediaUrl,$replaced, $mediaPath);
 			}
