@@ -6,7 +6,9 @@
 			
 <script type="text/javascript">
 	$(function(){
+		
 		initActivityTree();
+		
 	});
 	
 	function initActivityTree(){

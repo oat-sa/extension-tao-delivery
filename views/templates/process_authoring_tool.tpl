@@ -67,6 +67,9 @@
 	<div id="accordion2" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Activity Editor')?></a></h3>
 		<div>
+			<div id="activity_menu">
+				<a href="#" id="activity_menu_addActivity">Add Activity</a><br/><br/>
+			</div>
 			<div id="activity_tree"/>
 			<div id="activity_form"/>
 		</div>
@@ -95,6 +98,17 @@
 	var authoringControllerPath = '/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
+		EventMgr.unbind('activityAdded');
+		
+		EventMgr.bind('activityAdded', function(event, response){
+			console.log("added from menu");
+		});
+		
+		$("#activity_menu_addActivity").click(function(event){
+			event.preventDefault();
+			GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+		});
+		
 		$("#accordion1").accordion({
 			fillSpace: false,
 			autoHeight: false,
@@ -106,6 +120,7 @@
 		//load activity tree:
 		loadActivityTree();
 		
+		/*
 		//load the trees:
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
@@ -115,7 +130,7 @@
 		processProperty();
 		
 		loadCompilationForm();
-		
+		*/
 	});
 	
 	$(function(){
