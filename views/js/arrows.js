@@ -172,6 +172,9 @@ function createArrow(origineId, position){
 		top = position.top;
 	}
 	
+	//the origin of an arrow is always the bottom of the origine a connector
+	
+	
 	//add the arrow tip element
 	var tipId = origineId + '_tip';
 	var elementTip = $('<div id="'+tipId+'"></div>');//put connector id here instead
@@ -181,7 +184,7 @@ function createArrow(origineId, position){
 	elementTip.css('top', Math.round(top)+'px');
 	elementTip.appendTo(canvas);
 	
-	//calculate the initial position & drow it
+	//calculate the initial position & draw it
 	calculateArrow($('#'+origineId), elementTip, 'top', null);//default value of the 'type' set to 'top' ...
 	drawArrow(origineId, {
 		container: canvas,
@@ -470,9 +473,9 @@ function editArrowFlex(arrowName, flexPosition, offset){
 						end = getCenterCoordinate($('#'+arrow.end));
 						origin = getCenterCoordinate($('#'+arrowName));
 						Dx = (end.x + offset) - origin.x;
-						console.log(Dx);
-						console.dir(end);
-						console.dir(origin);
+						// console.log(Dx);
+						// console.dir(end);
+						// console.dir(origin);
 						if(Dx > 0 && arrow.type=='left'){
 							continue;
 						}
@@ -511,7 +514,7 @@ function editArrowType(arrowName, newType){
 		arrows[arrowName].type = newType;
 	}
 	
-	console.dir(arrowTemp);
+	// console.dir(arrowTemp);
 	//do not forget to draw it when done;
 }
 
