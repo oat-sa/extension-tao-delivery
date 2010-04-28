@@ -18,28 +18,94 @@
 	
 <?else:?>
 	<style type="text/css">
-	#draggable {padding: 0.5em;width:auto; }
-	#draggable1 {padding: 0.5em;width:auto;}
+	#draggable {width:5px;height:5px;border:1px solid blue;}
+	#draggable1 {width:5px;height:5px;border:1px solid blue;}
 	
-	#accordion1 {position:absolute;left:0%;top:0%;width:30%;height:100%;}
-	#accordion_container_2 {position:absolute;left:30%;top:0%;width:70%;height:100%;}
-	#process_diagram_container {position:absolute;left:0%;top:0%;width:75%;height:100%;}
+	#accordion1 {position:absolute;left:0%;top:0%;width:15%;height:100%;}
+	#accordion_container_2 {position:absolute;left:75%;top:0%;width:25%;height:100%;}
+	#process_diagram_container {position:absolute;left:15%;top:27px;width:60%;height:100%;border:1px solid black;}
+	#process_diagram_feedback {position:absolute;left:15%;top:0px;width:60%;height:25px;border:1px solid black;}
 	
 	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
 	#main {width:1000px;height:700px;}
 	
+	.diagram_arrow_tip {width:5px;height:5px;border:1px solid green;}
+	.diagram_activity {width:120px;height:50px;border:1px solid red;}
+	.diagram_link {width:1px;height:30px;border:1px solid black;}
+	.diagram_connector {width:30px;height:30px;border:1px solid red;}
+	.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
+	.diagram_activity_border_point {width:5px;height:5px;border:1px solid blue;}
 	</style>
 
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
 	<script type="text/javascript">
-	$(function(){
+	var canvas = "#process_diagram_container";
+	
+	$(function() {
 		
+		
+		ActivityDiagramClass.drawActivity("activity1_uri", {
+			left: 50,
+			top: 50
+		});
+		/*
+		createDroppablePoints("activity1_uri");
+		
+		drawActivity("activity2_uri", {
+			left: 150,
+			top: 50
+		});
+		createDroppablePoints("activity2_uri");
+		
+		createArrow('origine2',{
+			left: 200,
+			top: 30
+		});
+		
+		
+		$("#draggable1").draggable({
+			snap: '.diagram_activity_droppable',
+			snapMode: 'inner',
+			drag: function(event, ui){
+				
+				var position = $(this).position();
+				$("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
+				
+				removeArrow("origine");
+				calculateArrow($("#origine"), $(this), 'right', null);
+				drawArrow("origine", {
+					container: "#process_diagram_container",
+					arrowWidth: 1
+				});
+				
+			},
+			containment: canvas,
+			stop: function(event, ui){
+				// console.dir(ui);
+				getDraggableFlexPoints('origine');
+				
+				// var coord = getCenterCoordinate($(this));
+				// alert(coord.x+', '+coord.y);
+				// removeArrow("origine");
+				// createArrow($("#origine"), $(this), 'right');
+				// drawArrow($("#origine"), {
+					// container: "#process_diagram_container",
+					// arrowWidth: 1
+				// });
+			}
+
+		});
+		*/
 	});
+
 	</script>
 
 	<div class="main-container" style="display:none;"></div>
 	<div id="authoring-container" class="ui-helper-reset">
-	<div id="process_diagram_container"></div>
+	<div id="process_diagram_container" ></div>
+	<div id="process_diagram_feedback" ></div>
 	<div id="accordion1" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Service Definition')?></a></h3>
 		<div>

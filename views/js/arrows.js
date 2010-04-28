@@ -12,11 +12,13 @@ function calculateArrow(point1, point2, type, flex){
 	}
 	
 	if(!isset(type)){
-		//TODO: allow default value for type??
+		
 		if(isset(arrows[point1.attr('id')])){
 			type = arrows[point1.attr('id')].type;
 		}else{
-			return false;
+			//TODO: allow default value for type??
+			type =  'top';
+			// return false;
 		}
 	}
 	
