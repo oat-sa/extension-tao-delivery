@@ -1,7 +1,4 @@
 ActivityTreeClass.instances = [];
-
-
-
 /**
  * Constructor
  * @param {String} selector the jquery selector of the tree container
@@ -25,7 +22,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 		//check validity of the seletor:
 		if(this.selector.substring(0,1) != '#'){
 			//no good selection by id:
-			throw 'no good selector in the activity tree selector';
+			throw 'no correct selector in the activity tree selector';
 		}
 		var treeId = this.selector.substr(1);;
 		ActivityTreeClass.instances[treeId] = instance;
@@ -75,6 +72,8 @@ function ActivityTreeClass(selector, dataUrl, options){
 						// TREE_OBJ.reselect(true);
 					}
 					
+					//set the "default" current node as the root:
+					ActivityTreeClass.instances[treeId].currentNode = ActivityTreeClass.getTreeNode('node-process-root');
 				},
 				ondata: function(DATA, TREE_OBJ){
 				
@@ -517,30 +516,8 @@ function ActivityTreeClass(selector, dataUrl, options){
 		//create the tree
 		$(selector).tree(this.treeOptions);
 		
-		//set the default current node as the root:
-		ActivityTreeClass.instances[treeId].currentNode = $.tree.reference(this.selector).get_node($("#node-process-root"));//root node
-		console.dir(ActivityTreeClass.instances);
-		
-		// ActivityTreeClass.instances[treeId].currentNode =  $("li#node-process-root.node-process-root"));//root node
-		
-		// console.log('on tree init:');
-		// console.dir($("#node-process-root"));
-		
-		// $.each(TREE_OBJ.children(NODE), function(){
-			
-		// });
-		
-		
-		
-		EventMgr.bind('activityAdded', function(event, response){
-			response.TREE_OBJ = ActivityTreeClass.instances[treeId].treeObj;
-			response.NODE = ActivityTreeClass.instances[treeId].currentNode;
-			if(response.NODE){
-				ActivityTreeClass.addActivity(response);
-			}
-			// console.dir(EventMgr);
-		});
-	
+		//bind listeners:
+		ActivityTreeClass.bindListeners(treeId);
 	
 		// $("#open-action-" + options.actionId).click(function(){
 			// $.tree.reference(instance.selector).open_all();
@@ -564,6 +541,25 @@ function ActivityTreeClass(selector, dataUrl, options){
 	}
 }
 
+ActivityTreeClass.bindListeners = function(treeId){
+	
+	EventMgr.bind('activityAdded', function(event, response){
+		response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		if(response.NODE && response.TREE_OBJ){
+			ActivityTreeClass.addActivity(response);
+		}
+		// console.dir(EventMgr);
+	});
+}
+
+ActivityTreeClass.feedCurrentNode = function(treeId, object){
+	if(ActivityTreeClass.instances[treeId].treeObj && ActivityTreeClass.instances[treeId].currentNode){
+		object.TREE_OBJ = ActivityTreeClass.instances[treeId].treeObj;
+		object.NODE = ActivityTreeClass.instances[treeId].currentNode;
+	}
+	return object;
+}
+		
 /**
  * add an activity
  * @param {Object} options
@@ -576,16 +572,6 @@ ActivityTreeClass.addActivity = function(response){
 	// if(options.cssClass){
 		 // cssClass += ' ' + options.cssClass;
 	// }
-	// console.log('url0', options.url);	
-	// console.log('processUri0', options.id);
-	// console.dir(gatewayProcessAuthoring);
-	// gatewayProcessAuthoring.addActivity(options.url, options.id);
-	
-	// ActivityTreeClass.instances[this.selector].
-	
-	console.log('In tree (node 0)');
-	// console.dir(TREE_OBJ);
-	// console.dir(NODE[0]);
 	
 	TREE_OBJ.select_branch(TREE_OBJ.create({
 		data: response.label,
@@ -603,9 +589,7 @@ ActivityTreeClass.addActivity = function(response){
 			'class': 'node-property'
 		}
 	});
-	// console.log('here');
-	
-	//TODO: to be debugged
+		
 	if(response.connector){
 		//create next connector node:
 		TREE_OBJ.create({
@@ -745,21 +729,96 @@ ActivityTreeClass.prototype.getTree = function(){
  * @param {String} id
  * @return {Boolean}
  */
-ActivityTreeClass.selectTreeNode = function(id){
-	i=0;
-	while(i < ActivityTreeClass.instances.length){
-		anActivityTree = ActivityTreeClass.instances[i];
-		if(anActivityTree){
-			aJsTree = anActivityTree.getTree();
-			if(aJsTree){
-				if(aJsTree.select_branch($("li[id='"+id+"']"))){
-					return true;
+// ActivityTreeClass.selectTreeNode = function(id){
+	// i=0;
+	// while(i < ActivityTreeClass.instances.length){
+		// anActivityTree = ActivityTreeClass.instances[i];
+		// if(anActivityTree){
+			// aJsTree = anActivityTree.getTree();
+			// if(aJsTree){
+				// if(aJsTree.select_branch($("li[id='"+id+"']"))){
+					// return true;
+				// }
+			// }
+		// }
+		// i++;
+	// }
+	// return false;
+// }
+
+ActivityTreeClass.selectTreeNode = function(nodeId, treeId){
+	
+	if(treeId){
+		// console.log('in if');
+		if(ActivityTreeClass.instances[treeId]){
+			anActivityTree = ActivityTreeClass.instances[treeId];
+			if(anActivityTree){
+				aJsTree = anActivityTree.getTree();
+				if(aJsTree){
+					if(aJsTree.select_branch($("li[id='"+nodeId+"']"))){
+						return true;
+					}
 				}
 			}
 		}
-		i++;
+	}else{
+		// console.log('in else');
+		// console.dir(ActivityTreeClass.instances);
+		for(treeName in ActivityTreeClass.instances){
+			anActivityTree = null;
+			anActivityTree = ActivityTreeClass.instances[treeName];
+			if(anActivityTree){
+				aJsTree = anActivityTree.getTree();
+				if(aJsTree){
+					if(aJsTree.select_branch($("li[id='"+nodeId+"']"))){
+						return true;
+					}
+				}
+			}
+		}
 	}
+	
 	return false;
+}
+
+ActivityTreeClass.getTreeNode = function(nodeId, treeId){
+	
+	if(treeId){
+		console.log('in if');
+		if(ActivityTreeClass.instances[treeId]){
+			anActivityTree = ActivityTreeClass.instances[treeId];
+			if(anActivityTree){
+				aJsTree = anActivityTree.getTree();
+				if(aJsTree){
+					if(aJsTree.get_node($("li[id='"+nodeId+"']"))){
+						return aJsTree.get_node($("li[id='"+nodeId+"']"));
+					}
+				}
+			}
+		}
+	}else{
+		console.log('in else');
+		// console.dir(ActivityTreeClass.instances);
+		for(treeName in ActivityTreeClass.instances){
+			anActivityTree = null;
+			anActivityTree = ActivityTreeClass.instances[treeName];
+			if(anActivityTree){
+				aJsTree = anActivityTree.getTree();
+				console.log("aJsTree:");
+				console.dir(aJsTree);
+				if(aJsTree){
+					if(aJsTree.get_node($("li[id='"+nodeId+"']"))){
+						node = aJsTree.get_node($("li[id='"+nodeId+"']"));
+						console.log("aJsTree's node:");
+						console.dir(node);
+						return node;
+					}
+				}
+			}
+		}
+	}
+	
+	return null;
 }
 
 /**
