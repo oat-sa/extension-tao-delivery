@@ -1,13 +1,12 @@
 alert("activity diagram loaded");
 
 ActivityDiagramClass = [];
-
 ActivityDiagramClass.canvas = "#process_diagram_container";
-
+ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
 ActivityDiagramClass.arrows = [];
 
-/*
+
 ActivityDiagramClass.feedActivities = function(activityData, positionData){
 	
 	
@@ -29,6 +28,9 @@ ActivityDiagramClass.feedActivities = function(activityData, positionData){
 			ActivityDiagramClass.activities[activityId].position = position;
 			ActivityDiagramClass.activities[activityId].label = activity.attributes.data;
 			
+			//draw activities:
+			
+		
 			//manage the links:
 			ActivityDiagramClass.feedLinks();
 		}
@@ -67,7 +69,7 @@ ActivityDiagramClass.feedLinks = function(connectorData, linkData){
 	if(connectorData.children){
 		for(var i=0;i<connectorData.children.length; i++){
 			var nextConnectorData = connectorData.children[i];
-			if(nextConnectorData.attributes.id && nextConnectorData.attributes.class='node-connector'){
+			if(nextConnectorData.attributes.id && nextConnectorData.attributes.class=='node-connector'){
 				ActivityDiagramClass.feedLinks(nextConnectorData, linkData);
 			}
 		}
@@ -79,15 +81,12 @@ ActivityDiagramClass.feedLinks = function(connectorData, linkData){
 ActivityDiagramClass.getIdFromUri = function(uri){
 	var returnValue = 'invalidUri';
 
-	var startIndex = uri.lastIndexOf('%23');
+	var startIndex = uri.lastIndexOf('%23');//look for the encoded "#" in the uri
 	if(startIndex>0){
 		returnValue = uri.substr(startIndex+3);
 	}
 	return returnValue;
 }
-
-
-*/
 
 ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 	
@@ -107,6 +106,11 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 		}
 		case 'container':{
 			prefix = 'container';
+			position = '';
+			break;
+		}
+		case 'activityLabel':{
+			prefix = 'activityLabel';
 			position = '';
 			break;
 		}
@@ -135,8 +139,8 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 			}
 			case 'bottom':{
 				suffix = '_pos_bottom';
-				if(port){
-					suffix += '_'+port;
+				if(processUtil.isset(port)){
+					suffix += '_port_'+port;
 				}
 				//port 1, 2, 3... next, then, else
 				break;
@@ -146,7 +150,7 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 				break;
 			}
 			default:
-				return returnValue;
+				suffix = '';
 		}
 	}
 	
@@ -156,23 +160,31 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 
 
 
-ActivityDiagramClass.drawActivity  = function (activityId, position){
+ActivityDiagramClass.drawActivity  = function (activityId, position, activityLabel){
 	
 	if(!ActivityDiagramClass.canvas){
 		return false
 	}
 	
-	if(!isset(position.left)){
-		left = 0;
+	if(position){
+		pos = position;
+	}else if(ActivityDiagramClass.activities[activityId].position){
+		pos = ActivityDiagramClass.activities[activityId].position;
 	}else{
-		left = position.left;
-	}
-	if(!isset(position.top)){
-		top = 0;
-	}else{
-		top = position.top;
+		throw 'no position specified';
+		//or default position {0, 0}???
 	}
 	
+	if(!isset(pos.left)){
+		left = 0;
+	}else{
+		left = pos.left;
+	}
+	if(!isset(pos.top)){
+		top = 0;
+	}else{
+		top = pos.top;
+	}
 	
 	//elementActivityContainer:
 	// var containerId = activityId+'_container';
@@ -184,26 +196,49 @@ ActivityDiagramClass.drawActivity  = function (activityId, position){
 	elementContainer.addClass(activityId);
 	elementContainer.appendTo(ActivityDiagramClass.canvas);
 	
-	//element activity label:
-	
-	
 	//elementActivity
 	var elementActivityId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('<div id="'+elementActivityId+'"></div>');
 	elementActivity.addClass('diagram_activity');
 	elementActivity.addClass(elementActivityId);
 	elementActivity.appendTo('#'+containerId);
-	// console.log(elementActivity.attr(id));
-	console.log("width",elementActivity.width());
 	$('#'+elementActivity.attr('id')).position({
 		my: "center top",
 		at: "center top",
 		of: '#'+containerId
 	});
 	
-	var positions = ['top', 'right', 'left', 'bottom'];
+	
+	
+	
+	//element activity label:
+	var label = '';
+	if(activityLabel){
+		label = activityLabel;
+	}else if(ActivityDiagramClass.defaultActivityLabel){
+		label = ActivityDiagramClass.defaultActivityLabel;
+	}else{
+		label = 'Act';
+	}
+	
+	var elementLabelId = ActivityDiagramClass.getActivityId('activityLabel', activityId);
+	var elementLabel = $('<div id="'+elementLabelId+'"></div>');
+	elementLabel.text(label);
+	elementLabel.addClass('diagram_activity_label');
+	elementLabel.addClass(elementActivityId);
+	elementLabel.appendTo('#'+elementActivityId);
+	$('#'+elementLabel.attr('id')).position({
+		my: "center center",
+		at: "center center",
+		of: '#'+elementActivityId
+	});
+	var inputBox = ModeActivityLabel.createLabelTextbox(activityId);
+	inputBox.blur(function(){
+		ModeActivityLabel.destroyLabelTextbox(activityId);
+	});
 	
 	//add "border points" to the activity
+	var positions = ['top', 'right', 'left', 'bottom'];
 	for(var i in positions){
 		ActivityDiagramClass.setBorderPoint(activityId, 'activity', positions[i]);
 	}
@@ -222,7 +257,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position){
 		of: '#'+elementActivityId
 	});
 	
-	var connectorId = 'connector_id';
+	var connectorId = 'connectId';
 	/*
 	var elementConnectorId = ActivityDiagramClass.getActivityId('connector', activityId, '');
 	var elementConnector = $('<div id="'+elementConnectorId+'"></div>');//put connector id here instead
@@ -240,7 +275,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position){
 		ActivityDiagramClass.setBorderPoint(connectorId, 'connector', positions[i]);
 	}*/
 	
-	ActivityDiagramClass.drawConnector(connectorId, 'activity', 'sequence', activityId);
+	ActivityDiagramClass.drawConnector(connectorId, 'activity', 'split', activityId);
 	
 	//event onlick:
 	$('#'+containerId).click(function(){
@@ -323,16 +358,26 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevA
 	
 	
 	var width = elementConnector.width();
-	console.log('width', width);
-	var offsetStart =  0;
-	var offsetStep = width/(portNumber+1);
+	
+	var offsetStart = 0;
+	var offsetStep = 0;
 	if(portNumber%2){
 		//odd:
-		offsetStart = width/(2*portNumber);
+		offsetStep = width/portNumber;
+		offsetStart = offsetStep/2;
 	}else{
-		offsetStep = offsetStep;
+		//even:
+		offsetStep = width/(portNumber+1);
+		offsetStart = offsetStep;
 	}
 	
+	//debug:
+	/*
+	console.log('width', width);
+	console.log('portNumber', portNumber);
+	console.log('offsetStart', offsetStart);
+	console.log('offsetStep', offsetStep);
+	*/
 	
 	//set the border points:
 	for(i=0; i<portNumber; i++){
@@ -344,8 +389,10 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevA
 
 ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset, port){
 	
-	// console.log("pos", psosition);
-	
+	// console.log("pos", position);
+	// console.log('util',processUtil);
+	var portSet = null;
+	var offsetSet = 0;
 	switch(position){
 		case 'left':{
 			pos = 'left';
@@ -368,19 +415,20 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 		case 'bottom':{
 			pos = 'bottom';
 			my = 'center top';
-			at = 'center bottom';
-			//manage case of multi port on the bottom:
 			
+			//manage case of multi port on the bottom:
+			if(processUtil.isset(offset) && processUtil.isset(port)){
+				at = 'left bottom';
+				offsetSet = offset+' 0';
+				portSet = port;
+			}else{
+				at = 'center bottom';
+				
+			}
 			break;
 		}
 		default:
 			return false;
-	}
-	
-	off = 0;
-	if(offset && port){
-		off = offset;
-		pos = '_port_'+port;
 	}
 	
 	if(type != 'activity' && type != 'connector'){
@@ -388,12 +436,14 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 	}
 	
 	
+	// console.log('offset', offsetSet);
+	
 	// var activityId = 'prev activity id of the connector';
 	// var containerId = ActivityDiagramClass.getActivityId('container', activityId, '');	
 	//OR:
 	var containerId = ActivityDiagramClass.getActivityId(type, targetId);	//which add the point to the element
 	
-	var pointId = ActivityDiagramClass.getActivityId(type, targetId, pos);
+	var pointId = ActivityDiagramClass.getActivityId(type, targetId, pos, portSet);
 	var elementPoint = $('<div id="'+pointId+'"></div>');//put connector id here instead
 	elementPoint.addClass('diagram_activity_border_point');
 	elementPoint.appendTo('#'+containerId);
@@ -401,7 +451,7 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 		my: my,
 		at: at,
 		of: '#'+containerId,
-		offset: off
+		offset: offsetSet
 	});
 }
 

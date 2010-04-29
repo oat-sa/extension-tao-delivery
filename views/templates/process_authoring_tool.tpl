@@ -34,12 +34,20 @@
 	.diagram_activity {width:120px;height:50px;border:1px solid red;}
 	.diagram_link {width:1px;height:30px;border:1px solid black;}
 	.diagram_connector {width:30px;height:30px;border:1px solid red;}
+	.diagram_activity_label {width:60px;text-align:center;}
+	.diagram_activity_label_input {width:60px;text-align:center;}
+	.connector_sequence {width:30px;}
+	.connector_split {width:40px;}
+	.connector_parallel {width:60px;}
+	
 	.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
 	.diagram_activity_border_point {width:5px;height:5px;border:1px solid blue;}
 	</style>
-
+	
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/util.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityLabel.js"></script>
 	<script type="text/javascript">
 	var canvas = "#process_diagram_container";
 	
