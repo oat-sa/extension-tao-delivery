@@ -56,8 +56,7 @@ class SaSCampaign extends Campaign {
 		$this->setData('uri', $this->getRequestParameter('uri'));
 		$this->setData('classUri', $this->getRequestParameter('classUri'));
 		
-		$relatedDeliveries = $this->service->getRelatedDeliveries($this->getCurrentInstance());
-		$relatedDeliveries = array_map("tao_helpers_Uri::encode", $relatedDeliveries);
+		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
 		
 		$this->setData('index', '1');

@@ -55,8 +55,7 @@ class SaSDelivery extends Delivery {
 		$this->setData('uri', $this->getRequestParameter('uri'));
 		$this->setData('classUri', $this->getRequestParameter('classUri'));
 		
-		$excludedSubjects = $this->service->getExcludedSubjects($this->getCurrentInstance());
-		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
+		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
 		
 		$this->setView('subjects.tpl');
@@ -70,8 +69,7 @@ class SaSDelivery extends Delivery {
 		$this->setData('uri', $this->getRequestParameter('uri'));
 		$this->setData('classUri', $this->getRequestParameter('classUri'));
 		
-		$relatedCampaigns = $this->service->getRelatedCampaigns($this->getCurrentInstance());
-		$relatedCampaigns = array_map("tao_helpers_Uri::encode", $relatedCampaigns);
+		$relatedCampaigns = tao_helpers_Uri::encodeArray($this->service->getRelatedCampaigns($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
 		
 		$this->setView('delivery_campaign.tpl');

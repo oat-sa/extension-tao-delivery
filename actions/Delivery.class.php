@@ -194,13 +194,11 @@ class Delivery extends TaoModule {
 		}
 		
 		//get the campaign(s) related to this delivery
-		$relatedCampaigns = $this->service->getRelatedCampaigns($delivery);
-		$relatedCampaigns = array_map("tao_helpers_Uri::encode", $relatedCampaigns);
+		$relatedCampaigns = tao_helpers_Uri::encodeArray($this->service->getRelatedCampaigns($delivery), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
 		
 		//get the subjects related to the test(s) of the current delivery!	
-		$excludedSubjects = $this->service->getExcludedSubjects($delivery);
-		$excludedSubjects = array_map("tao_helpers_Uri::encode", $excludedSubjects);
+		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($delivery), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
 		
 		//compilation state:
@@ -798,12 +796,9 @@ class Delivery extends TaoModule {
 	 */
 	public function getDeliveriesTests(){
 		if(!tao_helpers_Request::isAjax()){
-		//	throw new Exception("wrong request mode");
+			throw new Exception("wrong request mode");
 		}
-		$tests = array();
-		foreach($this->service->getDeliveriesTests() as $deliveryUri => $test){
-			$tests[tao_helpers_Uri::encode($deliveryUri)] = $test;
-		}
+		$tests = tao_helpers_Uri::encodeArray($this->service->getDeliveriesTests(), tao_helpers_Uri::ENCODE_ARRAY_KEYS);
 		echo json_encode(array('data' => $tests));
 	}
 	

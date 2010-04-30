@@ -138,8 +138,7 @@ class Campaign extends TaoModule {
 		}
 		
 		//get the deliveries related to this delivery campaign
-		$relatedTests = $this->service->getRelatedDeliveries($campaign);
-		$relatedTests = array_map("tao_helpers_Uri::encode", $relatedTests);
+		$relatedTests = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($campaign), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('relatedDeliveries', json_encode($relatedTests));
 		$this->setData('index', '1');
 		
