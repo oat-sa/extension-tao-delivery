@@ -59,7 +59,7 @@ class DeliveryServer extends Module{
 				$_SESSION['taoqual.serviceContentLang'] = 'EN';
 				$_SESSION['taoqual.userId']				= $login;
 
-				$this->redirect("../DeliveryServer/deliveryIndex");
+				$this->redirect(_url('deliveryIndex', 'DeliveryServer'));
 			}
 		}
 
@@ -76,7 +76,7 @@ class DeliveryServer extends Module{
 	private function isSubjectSession(){
 		$subject = $_SESSION["subject"];
 		if(is_null($subject) && !($subject instanceof core_kernel_classes_Resource)){
-			$this->redirect('../DeliveryServer/');//$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}else{
 			return $subject;
 		}
@@ -141,8 +141,8 @@ class DeliveryServer extends Module{
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject);
 
-		$param = array( 'processUri' => $processUri);
-		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
+		$param = array( 'processUri' => urlencode($processUri));
+		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
 	}
 	
 	/**

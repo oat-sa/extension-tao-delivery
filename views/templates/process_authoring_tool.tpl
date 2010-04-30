@@ -169,7 +169,7 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
 	<script type="text/javascript">
 	var processUri = "<?=get_data("processUri")?>";
-	var authoringControllerPath = '/taoDelivery/DeliveryAuthoring/';
+	var authoringControllerPath = '<?=ROOT_URL?>/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
 		EventMgr.unbind('activityAdded');

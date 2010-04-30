@@ -1,5 +1,6 @@
 <?php
-$pathToResultServer='http://'.$_SERVER["HTTP_HOST"].'/taoDelivery/views/deliveryServer/resultServer';
+include_once(dirname(__FILE__).'../../../../generis/common/config.php');
+$pathToResultServer= ROOT_URL.'/taoDelivery/views/deliveryServer/resultServer';
 
 $wsdl='
 <?xml version="1.0" encoding="UTF-8"?>

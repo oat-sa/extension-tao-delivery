@@ -8,7 +8,7 @@ class ProcessBrowser extends Module
 	{
 
 		if (!isset($_SESSION['taoqual.authenticated'])){
-			$this->redirect($this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer')));
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
 
 		$_SESSION["processUri"]= $processUri;
@@ -157,8 +157,7 @@ class ProcessBrowser extends Module
 		}
 		else
 		{
-			$processUri = urlencode($processUri);
-			$this->redirect("processBrowser/index?processUri=${processUri}");
+			$this->redirect(_url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 	}
 
@@ -184,15 +183,14 @@ class ProcessBrowser extends Module
 				}
 				else
 				{
-					$param = array( 'processUri' => $processUri);
-					$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser',$param));
+					$param = array( 'processUri' => urlencode($processUri));
+					$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
 				}
 			}
 			else
 			{
 
 				$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
-//				$this->redirect('DeliveryServer/deliveryIndex');
 				
 			}
 		}
@@ -211,8 +209,7 @@ class ProcessBrowser extends Module
 			$consistency = ConsistencyHelper::BuildConsistencyStructure($consistencyException);
 			$_SESSION['taoqual.flashvar.consistency'] = $consistency;
 		
-			$processUri = urlencode($processUri);
-			$this->redirect("processBrowser/index?processUri=${processUri}");
+			$this->redirect(_url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 	}
 
@@ -227,7 +224,6 @@ class ProcessBrowser extends Module
 		$_SESSION["processUri"]= null;
 		
 		$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
-		$this->redirect('DeliveryServer/deliveryIndex');
 	}
 
 

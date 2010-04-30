@@ -141,7 +141,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 					items : {
 						refreshTree: {
 							label: "Refresh",
-							icon: "/taoDelivery/views/img/view-refresh.png",
+							icon: base_www + "img/view-refresh.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( $(NODE).hasClass('node-process-root')){
 									return 1;
@@ -158,7 +158,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						select: {
 							label: "Edit",
-							icon: "/taoDelivery/views/img/pencil.png",
+							icon: base_www + "img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( $(NODE).hasClass('node-process-root') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
 									return -1;
@@ -172,7 +172,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addActivity: {
 							label: "Add Activity",
-							icon: "/taoDelivery/views/img/process_activity.png",
+							icon: base_www + "img/process_activity.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -212,7 +212,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						isFirst:{
 							label	: "Define as the first activity",
-							icon	: "/taoDelivery/views/img/flag-green.png",
+							icon	: base_www + "img/flag-green.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity') && !$(NODE).hasClass('node-activity-initial')){ 
 									return 1;
@@ -230,7 +230,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						isLast:{
 							label	: "Define as a final activity",
-							icon	: "/taoDelivery/views/img/flag-red.png",
+							icon	: base_www + "img/flag-red.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity') && !$(NODE).hasClass('node-activity-last')){ 
 									return 1;
@@ -256,7 +256,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						unsetLast:{
 							label	: "Unset the final activity",
-							icon	: "/taoDelivery/views/img/unset-flag-red.png",
+							icon	: base_www + "img/unset-flag-red.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity-last')){ 
 									return 1;
@@ -274,7 +274,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addInteractiveService: {
 							label: "Add Interactive Service",
-							icon: "/taoDelivery/views/img/process_service.png",
+							icon: base_www + "img/process_service.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -297,7 +297,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addOnBeforeInferenceRule: {
 							label: "Add 'OnBefore' InferenceRule",
-							icon: "/taoDelivery/views/img/inference-rule.png",
+							icon: base_www + "img/inference-rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -320,7 +320,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addOnAfterInferenceRule: {
 							label: "Add 'OnAfter' InferenceRule",
-							icon: "/taoDelivery/views/img/inference-rule.png",
+							icon: base_www + "img/inference-rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -343,7 +343,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addConsistencyRule: {
 							label: "Add Consistency Rule",
-							icon: "/taoDelivery/views/img/process_consistency_rule.png",
+							icon: base_www + "img/process_consistency_rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -365,7 +365,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteActivity:{
 							label	: "Remove activity",
-							icon	: "/taoDelivery/views/img/delete.png",
+							icon	: base_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -390,7 +390,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteConnector:{
 							label	: "Remove connector",
-							icon	: "/taoDelivery/views/img/delete.png",
+							icon	: base_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -416,7 +416,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteService:{
 							label	: "Remove interactive service",
-							icon	: "/taoDelivery/views/img/delete.png",
+							icon	: base_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -441,7 +441,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteInferenceRule:{
 							label	: "Remove inferenceRule",
-							icon	: "/taoDelivery/views/img/delete.png",
+							icon	: base_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -466,7 +466,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteConsistencyRule:{
 							label	: "Remove consistencyRule",
-							icon	: "/taoDelivery/views/img/delete.png",
+							icon	: base_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -491,7 +491,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						gotonode:{
 							label	: "Goto",
-							icon	: "/taoDelivery/views/img/go-jump.png",
+							icon	: base_www + "img/go-jump.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity-goto') || $(NODE).hasClass('node-connector-goto')){ 
 									return 1;

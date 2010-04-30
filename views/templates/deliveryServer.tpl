@@ -50,7 +50,7 @@
 
 <div align="center" style="position:relative; top:50px;">
 	<form onsubmit="return validate_form()" method="post" >
-	<table width="759px" height="569px" cellpadding="10" cellspacing="0" background="/taoDelivery/views/deliveryServer/bg_index.jpg" style="border:thin solid #022E5F;">
+	<table width="759px" height="569px" cellpadding="10" cellspacing="0" background="<?=BASE_WWW?>deliveryServer/bg_index.jpg" style="border:thin solid #022E5F;">
 		<tr><td height="120px"></td></tr>
 		<tr>
 			<td>

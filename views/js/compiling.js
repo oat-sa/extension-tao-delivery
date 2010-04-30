@@ -30,7 +30,7 @@ function initCompilation(uri){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/DeliveryAuthoring/initCompilation",
+		url: base_url + "/DeliveryAuthoring/initCompilation",
 		dataType: "json",
 		data: {processUri : processUri},
 		success: function(r){
@@ -89,7 +89,7 @@ function compileTest(testUri){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/compile",
+		url: base_url + "/Delivery/compile",
 		data: {uri : testUri},
 		dataType: "json",
 		success: function(r){
@@ -161,7 +161,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/DeliveryAuthoring/endCompilation",
+		url: base_url + "/DeliveryAuthoring/endCompilation",
 		data: {processUri:processUri},
 		dataType: "json",
 		success: function(r){

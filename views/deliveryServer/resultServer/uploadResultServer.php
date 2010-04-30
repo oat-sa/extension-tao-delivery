@@ -21,6 +21,8 @@ include("cacheResults.php");
 //soap library
 include_once("nusoap.php");
 
+include_once(dirname(__FILE__).'../../../../generis/common/config.php');
+
 /**
  * implements server receiving informations about results
  * For A Client Application
@@ -75,7 +77,7 @@ function setResult($xml,$IDresult,$seq,$length) {
 
 //send the link to the document to the taoResults extension
     $xmlPath=dirname(__FILE__)."/received/$xmlFile";
-    $location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/class.ImportLogToGenerisResult.php";//?resultxml=".urlencode($xmlPath);
+    $location= ROOT_URL . "/taoResults/models/ext/utrv1/classes/class.ImportLogToGenerisResult.php";//?resultxml=".urlencode($xmlPath);
     
 
     //send th XML itself , Added by Younes

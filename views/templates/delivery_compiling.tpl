@@ -29,7 +29,7 @@
 		<br/>
 		<br/>
 		
-		<script type="text/javascript" src="/taoDelivery/views/js/deliveryCompiling.js"></script>
+		<script type="text/javascript" src="<?=BASE_WWW?>js/deliveryCompiling.js"></script>
 		
 		<div id="progressbar"></div>
 		<br/>

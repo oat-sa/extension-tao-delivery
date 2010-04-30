@@ -1,7 +1,7 @@
 function get_tests(){
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/deliveryListing",
+		url: base_url + "/Delivery/deliveryListing",
 		dataType: "json",
 		success: function(result){
 			//table creation
@@ -56,7 +56,7 @@ function compile(testUri){
 	var data="uri="+testUri;
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/compile",
+		url: base_url + "/Delivery/compile",
 		data: data,
 		dataType: "json",
 		success: function(r){

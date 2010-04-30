@@ -11,7 +11,7 @@ $(function(){
 	});
 	
 	<?if(get_data('uri') && get_data('classUri') && (get_data('authoringMode')=='advanced') ):?>
-		updateTabUrl(UiBootstrap.tabs, 'delivery_authoring', "<?=_url('authoring', 'Delivery', array('uri' => get_data('uri'), 'classUri' => get_data('classUri') ))?>");
+		updateTabUrl(UiBootstrap.tabs, 'delivery_authoring', "<?=_url('authoring', 'Delivery', 'taoDelivery', array('uri' => get_data('uri'), 'classUri' => get_data('classUri') ))?>");
 	<?else:?>
 		UiBootstrap.tabs.tabs('disable', getTabIndexByName('delivery_authoring'));
 	<?endif?>

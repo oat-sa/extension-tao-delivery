@@ -35,7 +35,7 @@ function initCompilation(uri,clazz){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/initCompilation",
+		url: base_url + "/Delivery/initCompilation",
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
@@ -102,7 +102,7 @@ function compileTest(testUri){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/compile",
+		url: base_url + "/Delivery/compile",
 		data: {uri : testUri},
 		dataType: "json",
 		success: function(r){
@@ -199,7 +199,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: "/taoDelivery/Delivery/endCompilation",
+		url: base_url + "/Delivery/endCompilation",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){
@@ -228,7 +228,7 @@ function incrementProgressbar(value){
 }
 
 function finalMessage(msg, imageFile){
-	$(document.createElement("img")).attr({ "src": "/taoDelivery/views/img/"+imageFile}).appendTo($("#progressbar"));
+	$(document.createElement("img")).attr({ "src": base_www + "img/" + imageFile}).appendTo($("#progressbar"));
 	$("#progressbar").append(msg);
 	if( progressbar != null ){
 		progressbar.progressbar( 'destroy' );

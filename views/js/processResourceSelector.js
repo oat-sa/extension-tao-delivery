@@ -32,7 +32,7 @@ function resourceSelector(identifier, resourceType){
 	});
 	$("#"+dialogId).bind('dialogopen', function(event, ui){
 		
-		dataUrl = "/taoDelivery/DeliveryAuthoring/getTestData";
+		dataUrl = base_url + "/DeliveryAuthoring/getTestData";
 		 
 		//create tree
 		$("#"+treeId).tree({
