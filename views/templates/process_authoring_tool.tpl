@@ -30,10 +30,10 @@
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
 	#main {width:1000px;height:700px;}
 	
-	.diagram_arrow_tip {width:5px;height:5px;border:1px solid green;}
+	.diagram_arrow_tip {width:5px;height:5px;border:1px solid blue;}
 	.diagram_activity {width:120px;height:50px;border:1px solid red;}
 	.diagram_link {width:1px;height:30px;border:1px solid black;}
-	.diagram_connector {width:30px;height:30px;border:1px solid red;}
+	.diagram_connector {width:30px;height:30px;border:1px solid green;}
 	.diagram_activity_label {width:60px;text-align:center;}
 	.diagram_activity_label_input {width:60px;text-align:center;}
 	.connector_sequence {width:30px;}
@@ -58,6 +58,12 @@
 			left: 50,
 			top: 50
 		});
+		try{
+			ActivityDiagramClass.feedDiagram();
+		}
+		catch(err){
+			console.log(err);
+		}
 		/*
 		createDroppablePoints("activity1_uri");
 		

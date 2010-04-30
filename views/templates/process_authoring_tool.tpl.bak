@@ -18,19 +18,27 @@
 	
 <?else:?>
 	<style type="text/css">
-	#draggable {padding: 0.5em;width:auto; }
-	#draggable1 {padding: 0.5em;width:auto;}
+	#draggable {width:5px;height:5px;border:1px solid blue;}
+	#draggable1 {width:5px;height:5px;border:1px solid blue;}
 	
-	#accordion1 {position:absolute;left:0%;top:0%;width:30%;height:100%;}
-	#accordion_container_2 {position:absolute;left:30%;top:0%;width:70%;height:100%;}
-	#process_diagram_container {position:absolute;left:0%;top:0%;width:75%;height:100%;}
+	#accordion1 {position:absolute;left:0%;top:0%;width:15%;height:100%;}
+	#accordion_container_2 {position:absolute;left:75%;top:0%;width:25%;height:100%;}
+	#process_diagram_container {position:absolute;left:15%;top:0%;width:60%;height:100%;}
 	
 	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
 	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
 	#main {width:1000px;height:700px;}
 	
+	.diagram_arrow_tip {width:5px;height:5px;border:1px solid green;}
+	.diagram_activity {width:120px;height:50px;border:1px solid red;}
+	.diagram_link {width:1px;height:30px;border:1px solid black;}
+	.diagram_connector {width:30px;height:30px;border:1px solid red;}
+	.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
+	
 	</style>
 
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
 	<script type="text/javascript">
 	$(function(){
 		
@@ -67,6 +75,9 @@
 	<div id="accordion2" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Activity Editor')?></a></h3>
 		<div>
+			<div id="activity_menu">
+				<a href="#" id="activity_menu_addActivity">Add Activity</a><br/><br/>
+			</div>
 			<div id="activity_tree"/>
 			<div id="activity_form"/>
 		</div>
@@ -95,6 +106,17 @@
 	var authoringControllerPath = '/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
+		EventMgr.unbind('activityAdded');
+		
+		EventMgr.bind('activityAdded', function(event, response){
+			console.log("added from menu");
+		});
+		
+		$("#activity_menu_addActivity").click(function(event){
+			event.preventDefault();
+			GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+		});
+		
 		$("#accordion1").accordion({
 			fillSpace: false,
 			autoHeight: false,
@@ -106,6 +128,7 @@
 		//load activity tree:
 		loadActivityTree();
 		
+		/*
 		//load the trees:
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		loadSectionTree("formalParameter");
@@ -115,7 +138,7 @@
 		processProperty();
 		
 		loadCompilationForm();
-		
+		*/
 	});
 	
 	$(function(){

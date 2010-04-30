@@ -5,33 +5,52 @@ var tempArrows = new Array();
 var margin = 20;
 
 // alert("OK!");
+ArrowClass = [];
+ArrowClass.arrows = [];
 
-function calculateArrow(point1, point2, type, flex){
-	if(!isset(flex)){
-		flex = new Array();
+ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
+	//record the data to
+	ArrowClass.arrows[originId] = {
+		'targetObject': targetObjectId,
+		'target': targetId,
+		'type': type,
+		'flex': flex
 	}
+}
+
+
+ArrowClass.calculateArrow = function(point1, point2, type, flex){
 	
-	if(!isset(type)){
-		
-		if(isset(arrows[point1.attr('id')])){
-			type = arrows[point1.attr('id')].type;
-		}else{
-			//TODO: allow default value for type??
-			type =  'top';
-			// return false;
-		}
-	}
-	
+	//init values:
 	//type in array('left','top','right');
 	// alert("dsfdf"+type);
 	// type ='top';
-	var p1 = getCenterCoordinate(point1);
-	var p2 = getCenterCoordinate(point2);
+	var p1 = ArrowClass.getCenterCoordinate(point1);
+	var p2 = ArrowClass.getCenterCoordinate(point2);
 	var Dx = p2.x - p1.x;
 	var Dy = p1.y - p2.y;//important
 	var flexPointNumber = -1;
 	
+	if(!isset(ArrowClass.arrows[point1.attr('id')])){
+		ArrowClass.arrows[point1.attr('id')] = new Array();
+	}
 	
+	if(!processUtil.isset(flex)){
+		if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].flex)){
+			flex = ArrowClass.arrows[point1.attr('id')].flex;
+		}else{
+			flex = new Array();
+		}
+	}
+	
+	if(!processUtil.isset(type)){
+		if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].type)){
+			type = ArrowClass.arrows[point1.attr('id')].type;
+		}else{
+			//TODO: allow default value for type??
+			type =  'top';
+		}
+	}
 	
 	if(Dy>0 && type=='top'){
 		flexPointNumber = 3;
@@ -44,10 +63,10 @@ function calculateArrow(point1, point2, type, flex){
 	}
 	// alert("flexPointNb: "+flexPointNumber+ ", Dx: "+ Dx+ ", Dy: "+ Dy);
 	
+	
 	var arrow = new Array();
 	var flexPoints = new Array();
 	arrow[0] = {x:p1.x, y:p1.y};
-	
 	switch(flexPointNumber){
 		case 0:{
 			arrow[1] = {x:p1.x, y:p2.y}; 
@@ -134,12 +153,9 @@ function calculateArrow(point1, point2, type, flex){
 		}
 	}
 	
-	if(!isset(arrows[point1.attr('id')])){
-		arrows[point1.attr('id')] = new Array();
-	}
-	
-	arrows[point1.attr('id')] = {
-		'end': point2.attr('id'),
+	//modify the global array table
+	ArrowClass.arrows[point1.attr('id')] = {
+		'target': point2.attr('id'),
 		'coord': arrow,
 		'type': type,
 		'flex': flexPoints
@@ -226,22 +242,21 @@ function createArrow(origineId, position){
 }
 
 
-function drawArrow(arrowName, options){
+ArrowClass.drawArrow = function(arrowName, options){
 	
-	if(!isset(arrows[arrowName].coord)){
-		throw new Exception('the arrow does not exist');
+	if(!isset(ArrowClass.arrows[arrowName].coord)){
+		throw 'the arrow does not exist';
 	}
 	if(!isset(options)){
-		throw new Exception('no options set');
+		throw 'no options set';
 	}
-	
 	
 	if(options.temp){
 		var p = tempArrows[arrowName].coord;
 	}else{
-		var p = arrows[arrowName].coord;
+		var p = ArrowClass.arrows[arrowName].coord;
 	}
-		
+	
 	options.name = arrowName;
 	if(isset(p[0])&&isset(p[1])){
 		options.index = 1;
@@ -407,7 +422,7 @@ function getDraggableFlexPoints(arrowName){
 					arrowTemp = arrows[arrowNameTemp];
 					flexPoints = editArrowFlex(arrowNameTemp, tempIndex, offset);
 					
-					calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.end), arrowTemp.type, flexPoints);
+					calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), arrowTemp.type, flexPoints);
 					removeArrow(arrowNameTemp, false);
 					drawArrow(arrowNameTemp, {
 						container: "#process_diagram_container",
@@ -430,7 +445,12 @@ function getDraggableFlexPoints(arrowName){
 	authorizedAxis = '';
 }
 
-function getCenterCoordinate(element){
+ArrowClass.getCenterCoordinate = function(element){
+	
+	if(!element.length){
+		throw 'the element do not exists';
+		return null;
+	}
 	
 	var position = element.position();
 	x = position.left + element.width()/2;
@@ -472,11 +492,11 @@ function editArrowFlex(arrowName, flexPosition, offset){
 							continue;//do not modify it
 						}
 					}else if(i == 2){
-						end = getCenterCoordinate($('#'+arrow.end));
-						origin = getCenterCoordinate($('#'+arrowName));
-						Dx = (end.x + offset) - origin.x;
+						target = ArrowClass.getCenterCoordinate($('#'+arrow.target));
+						origin = ArrowClass.getCenterCoordinate($('#'+arrowName));
+						Dx = (target.x + offset) - origin.x;
 						// console.log(Dx);
-						// console.dir(end);
+						// console.dir(target);
 						// console.dir(origin);
 						if(Dx > 0 && arrow.type=='left'){
 							continue;
@@ -512,7 +532,7 @@ function editArrowType(arrowName, newType){
 	arrowTemp = arrows[arrowName];
 	
 	if(isset(arrowTemp)){
-		// calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.end), newType);
+		// calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), newType);
 		arrows[arrowName].type = newType;
 	}
 	

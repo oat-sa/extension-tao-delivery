@@ -56,13 +56,20 @@ ModeActivityLabel.destroyLabelTextbox = function(activityId){
 			var elementTextbox = $('#'+elementLabelId+'_input');
 			if(elementTextbox.length){
 				var currentLabel = elementTextbox.val();
-				elementLabel.empty();
-				elementLabel.text(currentLabel);
-				// ActivityDiagramClass.drawActivity(activityId);
-				//set in the model:
-				
-				//return:
-				returnValue = currentLabel;
+				if(currentLabel != ''){
+					elementLabel.empty();
+					elementLabel.text(currentLabel);
+					textCutter('#'+elementLabelId, 10);
+					elementLabel.attr('title', currentLabel);
+					
+					elementLabel.removeClass('diagram_activity_label');
+					elementLabel.addClass('diagram_activity_label');
+					
+					//set in the model:
+					
+					//return:
+					returnValue = currentLabel;
+				}
 			}
 		}
 	}

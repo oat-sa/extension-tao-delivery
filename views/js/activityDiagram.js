@@ -1,81 +1,324 @@
-alert("activity diagram loaded");
+alert("activity diagram Class loaded");
+
+//require arrows.js
 
 ActivityDiagramClass = [];
 ActivityDiagramClass.canvas = "#process_diagram_container";
 ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
-ActivityDiagramClass.arrows = [];
+ActivityDiagramClass.connectors = [];
+// ActivityDiagramClass.errors = {
+	// activities: [],
+	// arrows:[]
+// }
 
 
-ActivityDiagramClass.feedActivities = function(activityData, positionData){
+//get positions of every activities
+ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData){
+	
+	var processData = [];
+	processData.children = [
+		{
+			data: 'Activity N1',
+			attributes:{
+				id: 'NS%23activity1_id'
+			},
+			isInitial: true,
+			children : [
+				{
+					data: 'nulsqdqsl',
+					attributes:{
+						id: 'NS%23nullty1_id'
+					}
+				},
+				{
+					data: 'connector 1',
+					attributes:{
+						id: 'NS%23connector1_id',
+						class: 'node-connector'
+					},
+					children:[
+						{
+							data: 'nevermind',
+							attributes:{
+								rel:'NS%23activity2_id',
+								class:'node-activity-goto'
+							},
+							port: 'next'
+						}
+					],
+					type: 'sequence'
+				}
+			]
+		},
+		{
+			data: 'Activity N2',
+			attributes:{
+				id: 'NS%23activity2_id'
+			},
+			isLast: true
+		}
+	];
+	
+	positionData = [];
+	positionData['activity1_id'] = {top: 50, left: 150};
+	positionData['activity2_id'] = {top: 250, left: 200};
+	positionData['connector1_id'] = 'activity';
 	
 	
-	//buiild the model here:
+	origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', 'next');
+	arrowData = [];
+	arrowData[origin_connector1] = [];
+	arrowData[origin_connector1].targetObject = 'activity2_id';
+	arrowData[origin_connector1].type = 'left';
+	
+	//build the model here:
 	
 	//activityData sent by treeservice:
-	activities = activityData.children;
+	activities = processData.children;
 	
+	console.log('activities',activities);
 	for(var i=0; i<activities.length; i++){
-		activity = activities[i];
+		//issue: do not go to the second loop
+		
+		var activity = activities[i];
+		
+		if(!activity.attributes){
+			throw 'the activity has no attributes';
+			continue;
+		}
 		if(activity.attributes.id){
 			var activityId = ActivityDiagramClass.getIdFromUri(activity.attributes.id);
 			//search in the coordinate list, if coordinate exist
-			
-			//if not, generate one:
-			var position = {top:0, left:0};
+			if(positionData[activityId]){
+				position = positionData[activityId];
+			}else{
+				//if not, generate one:
+				var position = {top:0, left:0};
+			}
 			
 			//save coordinate in the object:
+			ActivityDiagramClass.activities[activityId] = [];
 			ActivityDiagramClass.activities[activityId].position = position;
-			ActivityDiagramClass.activities[activityId].label = activity.attributes.data;
+			if(activity.data){
+				ActivityDiagramClass.activities[activityId].label = activity.attributes.data;
+			}
+			console.log('activityId',activityId);
+			// console.log('activityIdObj',ActivityDiagramClass.activities);
 			
-			//draw activities:
-			
-		
 			//manage the links:
-			ActivityDiagramClass.feedLinks();
+			// ActivityDiagramClass.feedLinks();
+			
+			//is first?
+			if(activity.isInitial){
+				ActivityDiagramClass.activities[activityId].isInitial = true;
+			}else{
+				ActivityDiagramClass.activities[activityId].isInitial = false;
+			}
+			//find the connector of the activity
+			var connectorData = null;
+			if(activity.children){
+				
+				for(var i=0;i<activity.children.length;i++){
+					var child = activity.children[i];
+					if(child.attributes){
+						if(child.attributes.class == 'node-connector'){
+							//found!
+							
+							connectorData = child;
+							break;//note: there can at most only be one connector for an activity
+						}
+					}
+				}
+				
+				if(connectorData != null){
+					
+					connectorFed = ActivityDiagramClass.feedConnector(connectorData, arrowData, activityId, positionData);
+					
+					if(connectorFed === true){
+						//ok
+					}
+				
+				}else{
+					//is last:
+					ActivityDiagramClass.activities[activityId].isLast = true;
+				}
+			}else{
+				ActivityDiagramClass.activities[activityId].isLast = true;
+			}
+			
 		}
 	}
 	
-	// activity+related connectors
-	
-	//arrows:
-	
+	//debug:
+	console.log('activities:');console.dir(ActivityDiagramClass.activities);
+	console.log('connectors:');console.dir(ActivityDiagramClass.connectors);
+	console.log('arrows:');console.dir(ArrowClass.arrows);
 }
 
-ActivityDiagramClass.feedLinks = function(connectorData, linkData){
+ActivityDiagramClass.feedConnector = function(connectorData, arrowData, prevActivityId, positionData){
+
 	//find recursively all connectors and create the associated arrows:
 	
-	var connectorId = connectorData.attributes.id;
-	var origineId = ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom');
-	
-	//check if arrow exists:
-	if(linkData[origineId]){
-		//check if destination is correct:
-		if(linkData[origineId].end == 'the destination found in tree'){
-			//ok
-		}
-		//if so find the flex, and type value of the related arrow
-		if(linkData[origineId].type){
-			//the type is defined, so can determine the destination id:
-			var endId = ActivityDiagramClass.getActivityId('connector', connectorId, type);
-		}
-		
-		ActivityDiagramClass.arrows[origineId] = '??';
-		
-		//create arrow here:
+	if(!connectorData.attributes.id){
+		throw 'no connector id found';
+		return false;
 	}
+	var connectorId = ActivityDiagramClass.getIdFromUri(connectorData.attributes.id);
+	ActivityDiagramClass.connectors[connectorId] = [];
+	
+	//search in the positionData, if coordinate exist
+	position = [];
+	if(positionData[connectorId]){
+		position = positionData[connectorId];
+	}else{
+		//if not, generate one:
+		position = {top:0, left:0};
+	}
+	
+	//save coordinate in the object:
+	ActivityDiagramClass.connectors[connectorId].position = position;
+	if(connectorData.attributes.data){
+		ActivityDiagramClass.connectors[connectorId].label = connectorData.data;
+	}
+	
+	//get connected activities:
+	//check type first:
+	if(!connectorData.type){
+		throw 'no connector type  found in connectorData';
+	}
+	ActivityDiagramClass.connectors[connectorId].type = connectorData.type;
+
+	ActivityDiagramClass.connectors[connectorId].activityRef = prevActivityId;
+	//do not draw connector here, feed them first until everything is fed:
+	// ActivityDiagramClass.drawConnector(connectorId, position, type, prevActivityId);
+	
 	
 	//check if the connector has another connector:
 	if(connectorData.children){
+		
 		for(var i=0;i<connectorData.children.length; i++){
-			var nextConnectorData = connectorData.children[i];
-			if(nextConnectorData.attributes.id && nextConnectorData.attributes.class=='node-connector'){
-				ActivityDiagramClass.feedLinks(nextConnectorData, linkData);
+			var nextActivityData = connectorData.children[i];
+			if(nextActivityData.attributes.id && nextActivityData.attributes.class=='node-connector'){
+				//recursively continue with the connector of connector:
+				ActivityDiagramClass.feedConnector(nextActivityData, arrowData, prevActivityId, positionData);
 			}
+			
+			//build the arrows (the previous and next connectors must have already been created of course)
+			if(nextActivityData.port){
+				//check authorized port:
+				
+				var originId =  ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', nextActivityData.port);
+				// var originId = connectorData.attributes.id;//set the origin of the arrow as the id of the connector, then let the arrow calculate the real id
+				
+				
+				var nextActivityId = '';
+				var targetId = '';
+				console.log("fActivity class", nextActivityData.attributes.class);
+				console.dir(connectorData);
+				
+				if(nextActivityData.attributes.class == 'node-connector'){
+					nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.id);
+				}else if(nextActivityData.attributes.class == 'node-activity-goto' || nextActivityData.attributes.class == 'node-connector-goto'){
+					nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.rel);
+				}else{
+					// throw 'unknown type of following activity';
+					// return false;
+					continue;//it could be an 'if' node
+				}
+				
+				// if(nextActivityData.attributes.class == 'node-connector'){
+					// nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.id);
+					// targetId =  ActivityDiagramClass.getActivityId('connector', nextActivityId, targetPosition);
+				// }else if(nextActivityData.attributes.class == 'node-activity'){
+					// nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.rel);
+					// targetId =  ActivityDiagramClass.getActivityId('activity', nextActivityId, targetPosition);
+				// }else if(nextActivityData.attributes.class == 'node-connector-goto'){
+					// nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.rel);
+					// targetId =  ActivityDiagramClass.getActivityId('connector', nextActivityId, targetPosition);
+				// }else{
+					// throw 'unknown type of following activity';
+				// }
+				
+				//check the target:
+				var onSync = false;
+				var flex = null;
+				var targetPosition = 'top';//default value
+				if(processUtil.isset(arrowData[originId])){
+					console.log('arrowData[originId].targetObject=',arrowData[originId].targetObject);
+					console.log('nextActivityId=', nextActivityId);
+					if(arrowData[originId].targetObject == nextActivityId){
+						//on sync: prepare to draw the arrow:
+						onSync = true;
+						
+						//get type, get flex:
+						if(arrowData[originId].type){
+							targetPosition  = arrowData[originId].type;
+						}
+						if(arrowData[originId].flex){
+							flex = arrowData[originId].flex;
+						}
+					}else{
+						//rebuild a new arrow with matching data: do not take into account the saved 'type' and 'flex'
+					
+					}
+				}
+				
+				if(nextActivityData.attributes.class == 'node-connector' || nextActivityData.attributes.class == 'node-connector-goto'){
+					targetId =  ActivityDiagramClass.getActivityId('connector', nextActivityId, targetPosition);
+				}else if(nextActivityData.attributes.class == 'node-activity-goto'){
+					targetId =  ActivityDiagramClass.getActivityId('activity', nextActivityId, targetPosition);
+				}
+				
+				//the activities must have been drawn before:
+				//if type and flex not set, let it as null and take the data of connection and build new arrows with default type and flex value:
+				
+				ArrowClass.feedArrow(originId, targetId, nextActivityId, targetPosition, flex);
+				//note: do not calculate/draw arrow here since the target element is unilikely to have already been build.
+				// ArrowClass.calculateArrow($('#'+originId), $('#'+targetId), type, flex);
+						
+			}
+			
 		}
 	}
 	
+}
+
+ActivityDiagramClass.drawDiagram = function(){
+	//to be executed after all feeds: activities, connectors, arrows
+	//check isfed? array empty?
+	if(ActivityDiagramClass.activities.length<=0){
+		throw 'The activities array is empty. Please feed it first.';
+		return false;
+	}
+	//draw all actvities:
+	for(activityId in ActivityDiagramClass.activities){
+		ActivityDiagramClass.drawActivity(activityId);
+	}
 	
+	if(ActivityDiagramClass.connectors.length<=0){
+		throw 'The connectors array is empty. Please feed it first.';
+		return false;
+	}
+	for(connectorId in ActivityDiagramClass.connectors){
+		if(ActivityDiagramClass.connectors[connectorId].position != 'activity'){
+			ActivityDiagramClass.drawConnector(connectorId);
+			//do not draw the first connector of an activity, only the connector of the connector, since the first one will de drawn with drawActivity
+		}
+	}
+	
+	if(ArrowClass.arrows.length<=0){
+		throw 'The arrows array is empty. Please feed it first.';
+		return false;
+	}
+	for(arrowId in ArrowClass.arrows){
+		targetId = ArrowClass.arrows[arrowId].target;
+		if(arrowId && targetId){
+			ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
+		}else{
+			console.log('arrow cant be drawn:', arrowId);
+		}
+	}
 }
 
 ActivityDiagramClass.getIdFromUri = function(uri){
@@ -142,7 +385,7 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 				if(processUtil.isset(port)){
 					suffix += '_port_'+port;
 				}
-				//port 1, 2, 3... next, then, else
+				//port 1, 2, 3... next(''), then, else
 				break;
 			}
 			case '':{
@@ -157,8 +400,6 @@ ActivityDiagramClass.getActivityId = function(targetType, id, position, port){
 	returnValue = prefix+'_'+body+suffix;
 	return returnValue;
 }
-
-
 
 ActivityDiagramClass.drawActivity  = function (activityId, position, activityLabel){
 	
@@ -208,17 +449,22 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		of: '#'+containerId
 	});
 	
-	
-	
+	//add "border points" to the activity
+	var positions = ['top', 'right', 'left', 'bottom'];
+	for(var i in positions){
+		ActivityDiagramClass.setBorderPoint(activityId, 'activity', positions[i]);
+	}
 	
 	//element activity label:
-	var label = '';
+	var label = 'Act';
 	if(activityLabel){
 		label = activityLabel;
+	}else if( ActivityDiagramClass.activities[activityId] ){
+		if(ActivityDiagramClass.activities[activityId].label){
+			label = ActivityDiagramClass.activities[activityId].label;
+		}
 	}else if(ActivityDiagramClass.defaultActivityLabel){
 		label = ActivityDiagramClass.defaultActivityLabel;
-	}else{
-		label = 'Act';
 	}
 	
 	var elementLabelId = ActivityDiagramClass.getActivityId('activityLabel', activityId);
@@ -232,16 +478,12 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		at: "center center",
 		of: '#'+elementActivityId
 	});
-	var inputBox = ModeActivityLabel.createLabelTextbox(activityId);
-	inputBox.blur(function(){
-		ModeActivityLabel.destroyLabelTextbox(activityId);
+	elementLabel.click(function(){
+		var inputBox = ModeActivityLabel.createLabelTextbox(activityId);
+		inputBox.blur(function(){
+			ModeActivityLabel.destroyLabelTextbox(activityId);
+		});
 	});
-	
-	//add "border points" to the activity
-	var positions = ['top', 'right', 'left', 'bottom'];
-	for(var i in positions){
-		ActivityDiagramClass.setBorderPoint(activityId, 'activity', positions[i]);
-	}
 	
 	
 	//if it is not a terminal activity, element connector, according to the type:
@@ -258,23 +500,6 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	});
 	
 	var connectorId = 'connectId';
-	/*
-	var elementConnectorId = ActivityDiagramClass.getActivityId('connector', activityId, '');
-	var elementConnector = $('<div id="'+elementConnectorId+'"></div>');//put connector id here instead
-	elementConnector.addClass('diagram_connector');
-	elementConnector.addClass(elementActivityId);
-	elementConnector.appendTo('#'+containerId);
-	$('#'+elementConnector.attr('id')).position({
-		my: "center top",
-		at: "center bottom",
-		of: '#'+elementLinkId
-	});
-	
-	
-	for(var i in positions){
-		ActivityDiagramClass.setBorderPoint(connectorId, 'connector', positions[i]);
-	}*/
-	
 	ActivityDiagramClass.drawConnector(connectorId, 'activity', 'split', activityId);
 	
 	//event onlick:
@@ -293,11 +518,43 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	
 }
 
-ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevActivityId){
+ActivityDiagramClass.drawConnector = function(connectorId, position, connectorType, previousActivityId){
+	
+	if(!ActivityDiagramClass.canvas){
+		throw 'no canvas defined';
+		return false
+	}
+	
+	var pos = '';
+	if(position){
+		pos = position;
+	}else if(ActivityDiagramClass.connectors[connectorId].position){
+		pos = ActivityDiagramClass.connectors[connectorId].position;
+	}else{
+		throw 'no position found';
+		//or default position {0, 0}???
+	}
+	
+	var type = '';
+	if(connectorType){
+		type = connectorType;
+	}else if(ActivityDiagramClass.connectors[connectorId].type){
+		type = ActivityDiagramClass.connectors[connectorId].type;
+	}else{
+		throw 'no connector type found';
+	}
+	
+	var prevActivityId = '';
+	if(previousActivityId){
+		prevActivityId = previousActivityId;
+	}else if(ActivityDiagramClass.connectors[connectorId].activityRef){
+		prevActivityId = ActivityDiagramClass.connectors[connectorId].activityRef;
+	}else{
+		throw 'no activity  reference id found';
+	}
 	
 	var portNumber =0;
 	var className = '';
-	
 	switch(type){
 		case 'sequence':{
 			portNumber = 1;
@@ -333,7 +590,7 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevA
 	elementConnector.addClass(className);
 	elementConnector.addClass(elementActivityId);
 	
-	if(position == 'activity'){
+	if(pos == 'activity'){
 		//connect to the activity as the first connector
 		elementConnector.appendTo('#'+ActivityDiagramClass.getActivityId('container', prevActivityId));//containerId
 		$('#'+elementConnector.attr('id')).position({
@@ -344,8 +601,8 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevA
 	}else{
 		//position according to
 		elementConnector.css('position', 'absolute');
-		elementConnector.css('left', Math.round(position.left)+'px');
-		elementConnector.css('top', Math.round(position.top)+'px');
+		elementConnector.css('left', Math.round(pos.left)+'px');
+		elementConnector.css('top', Math.round(pos.top)+'px');
 		//add directly to canvas:
 		elementConnector.appendTo(ActivityDiagramClass.canvas);
 	}
@@ -383,7 +640,6 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, type, prevA
 	for(i=0; i<portNumber; i++){
 		ActivityDiagramClass.setBorderPoint(connectorId, 'connector', 'bottom', Math.round(offsetStart+i*offsetStep), i);
 	}
-	
 	
 }
 
