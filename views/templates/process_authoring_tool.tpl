@@ -178,10 +178,12 @@
 	var authoringControllerPath = '<?=ROOT_URL?>/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
-		EventMgr.unbind('activityAdded');
+	
+		// EventMgr.unbind('activityAdded');
+		EventMgr.unbind();
 		
 		EventMgr.bind('activityAdded', function(event, response){
-			console.log("added from menu");
+			console.log("activity added from menu");
 		});
 		
 		$("#activity_menu_addActivity").click(function(event){

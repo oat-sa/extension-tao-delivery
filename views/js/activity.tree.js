@@ -285,13 +285,25 @@ function ActivityTreeClass(selector, dataUrl, options){
 								return -1;
 							},
 							action  : function(NODE, TREE_OBJ){
-								ActivityTreeClass.addInteractiveService({
-									url: instance.options.createInteractiveServiceAction,
-									id: $(NODE).attr('id'),
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ,
-									cssClass: instance.options.instanceClass
-								});
+								
+								try{
+									if(ActivityTreeClass.instances[TREE_OBJ.container.context.id]){
+										ActivityTreeClass.instances[TREE_OBJ.container.context.id].currentNode = NODE;
+										GatewayProcessAuthoring.addInteractiveService(instance.options.createInteractiveServiceAction, $(NODE).attr('id'));
+									}else{
+										throw "no activity tree instance found for the interactive service";
+									}
+								}catch(error){
+									console.log(error);
+								}
+								
+								// ActivityTreeClass.addInteractiveService({
+									// url: instance.options.createInteractiveServiceAction,
+									// id: $(NODE).attr('id'),
+									// NODE: NODE,
+									// TREE_OBJ: TREE_OBJ,
+									// cssClass: instance.options.instanceClass
+								// });
 							},
 							separator_before : true
 						},
@@ -325,7 +337,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 								if(NODE.length != 1) {
 									return -1; 
 								}
-								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) && instance.options.createInferenceRuleAction){ 
+								if($(NODE).hasClass('node-activity') && TREE_OBJ.check("creatable", NODE) && instance.options.createInferenceRuleAction){
 									return 1;
 								}
 								return -1;

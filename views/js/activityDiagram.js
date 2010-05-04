@@ -77,9 +77,11 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	//activityData sent by treeservice:
 	activities = processData.children;
 	
-	console.log('activities',activities);
+	console.dir(activities);
+	
 	for(var i=0; i<activities.length; i++){
 		//issue: do not go to the second loop
+		console.log('i',i);
 		
 		var activity = activities[i];
 		
@@ -117,11 +119,13 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 			}
 			//find the connector of the activity
 			var connectorData = null;
+			
 			if(activity.children){
-				
-				for(var i=0;i<activity.children.length;i++){
+				console.log('act children:');console.dir(activity.children);
+				/*for(var i=0;i<activity.children.length;i++){
 					var child = activity.children[i];
 					if(child.attributes){
+						
 						if(child.attributes.class == 'node-connector'){
 							//found!
 							
@@ -129,20 +133,20 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 							break;//note: there can at most only be one connector for an activity
 						}
 					}
-				}
+				}*/
 				
-				if(connectorData != null){
+				// if(connectorData != null){
 					
-					connectorFed = ActivityDiagramClass.feedConnector(connectorData, arrowData, activityId, positionData);
+					// connectorFed = ActivityDiagramClass.feedConnector(connectorData, arrowData, activityId, positionData);
 					
-					if(connectorFed === true){
-						//ok
-					}
+					// if(connectorFed === true){
+						
+					// }
 				
-				}else{
-					//is last:
-					ActivityDiagramClass.activities[activityId].isLast = true;
-				}
+				// }else{
+					
+					// ActivityDiagramClass.activities[activityId].isLast = true;
+				// }
 			}else{
 				ActivityDiagramClass.activities[activityId].isLast = true;
 			}
