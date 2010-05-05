@@ -1,29 +1,119 @@
-<div id="interactiveService-form">
+<style type="text/css">
+	.ui-slider .ui-slider-handle{
+		width: 5px;
+		height: 3px;
+	}
 	
+	.service-box{
+		position:absolute;
+		border:1px solid green;
+		overflow:hidden;
+		background-color:#A6FA87;
+		cursor:pointer;
+	}
+	
+	.service-box-highlight {
+		border:1px solid green;
+		z-index:20;
+		background-color:#82FF54;
+	}
+	
+	.service-box-current {
+		border:1px solid red;
+		z-index:10;
+		background-color:#FA8794;
+	}
+	
+	#servicePositionningPreview{
+		top:20px;
+		width:256px;
+		height:200px;
+		border:1px solid black;
+	}
+</style>
+
+<div id="interactiveService-form">
+
+	<!--the form here:-->
 	<?=get_data("formInteractionService")?>
-	<div id="servicePositionningPreview"/>
+	
+	<div id="servicePositionningEditor" style="display:none">
+		
+		<div id="slider_top_container">
+			<label id="slider_top_label">Top shifting</label>
+			<div id="slider_top"/>
+		</div>
+		
+		<div id="slider_left_container">
+			<label id="slider_left_label">Left shifting</label>
+			<div id="slider_left"/>
+		</div>
+		
+		<div id="slider_height_container">
+			<label id="slider_height_label">Height</label>
+			<div id="slider_height"/>
+		</div>
+		
+		<div id="slider_width_container">
+			<label id="slider_width_label">Width</label>
+			<div id="slider_width"/>
+		</div>
+		
+		
+		<div id="servicePositionningPreview" style="position:relative">
+			<!--<div id='preview_truc1' style="left: 25%; top: 59%; width: 70%; height: 100%;">truc</div>-->
+		</div>
+	</div>
+	
+	<br/><br/>
 	<input type="button" name="submit-interactiveService" id="submit-interactiveService" value="save"/>
 	
 </div>
 
-<style type="text/css">
-	.serviceEditorSlider{
-		float: left;
-		clear: left;
-		width: 120px;
-		height: 5px;
-		margin: 15px;
-	}
-</style>
+
 
 
 <script type="text/javascript">
 
+function drawServiceBox(serviceId, serviceLabel, style, eltClass){
+	var prefix = 'preview_';
+	var eltId = prefix+serviceId;
+	var eltLabelId = eltId+'_label';
+	
+	if($('#'+eltId).length){
+		//if element exists, delete it
+		$('#'+eltId).remove();
+	}
+
+	var elt = $('<div id="'+eltId+'"></div>');
+	// elt.css('position', 'absolute');
+	elt.css('left', style.left+'%');
+	elt.css('top', style.top+'%');
+	// elt.css('overflow', 'hidden');
+	elt.width(style.width+'%');
+	elt.height(style.height+'%');
+	elt.addClass('service-box');
+	if(eltClass){
+		elt.addClass(eltClass);
+	}
+	elt.attr('title', serviceLabel);
+	elt.appendTo($("#servicePositionningPreview"));
+	
+	eltLabel = $('<span id="'+eltLabelId+'"/>').appendTo('#'+eltId);
+	eltLabel.html(serviceLabel).position({
+		my: "center center",
+		at: "center center",
+		of: '#'+eltId
+	});
+	
+	return $('#'+eltId);
+	
+}
+
 $(function(){
-	var otherServices = <?=json_encode(get_data("otherServices"))?>;
-	// console.log('otherServices', otherServices);
 	
 	
+	var services = <?=json_encode(get_data("servicesData"))?>;
 	var eltHeight = $("input[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_HEIGHT)?>]");
 	var eltWidth = $("input[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_WIDTH)?>]");
 	var eltTop = $("input[id=<?=tao_helpers_Uri::encode(PROPERTY_CALLOFSERVICES_TOP)?>]");
@@ -31,32 +121,113 @@ $(function(){
 	
 	
 	//continue only if the four elements exists
-	if(eltHeight.length && eltWidth.length && eltTop.length && eltLeft.length){
+	if(eltHeight.length && eltWidth.length && eltTop.length && eltLeft.length && services.other){
+		eltHeight.parent().hide();
+		eltWidth.parent().hide();
+		eltTop.parent().hide();
+		eltLeft.parent().hide();
 		
+		$('#servicePositionningEditor').show();
 		
-		
-		//create sliders instead of the textbox:
-		// eltHeight.hide();
-		$('<div id="heightSlider_container" class="serviceEditorSlider"/>').appendTo(eltHeight.parent());
-		$('<div id="heightSlider"/>').appendTo('#heightSlider_container');
-		console.log('eltHeight',eltHeight);
-		// $("#heightSlider").slider();
-		$("#heightSlider").slider({
+		$("#slider_height, #slider_width, #slider_top, #slider_left").slider({
 			orientation: 'horizontal',
 			range: "min",
 			max: 100,
-			value: 10,
-			slide: refreshPositionPreview,
-			change: refreshPositionPreview
+			min: 0,
+			step: 5,
+			slide: function(event, ui){
+				refreshPositionPreview(ui.handle.parentNode.id);
+			},
+			stop:function(event, ui){
+				refreshPositionPreview(ui.handle.parentNode.id);
+			}
 		});
-		$("#heightSlider").slider("value", eltHeight.val());
-		// $("#green").slider("value", 140);
-		// $("#blue").slider("value", 60);
+		$("#slider_height").slider("value", eltHeight.val());
+		$("#slider_width").slider("value", eltWidth.val());
+		$("#slider_top").slider("value", eltTop.val());
+		$("#slider_left").slider("value", eltLeft.val());
+		
+		refreshPositionPreview();
+		
+		// draw other services:
+		for(serviceId in services.other){
+			elt = drawServiceBox(serviceId, services.other[serviceId].label, services.other[serviceId], 'service-box-others');
+			
+			console.log('elt id: ', elt.attr('id'));
+			
+			elt.hover(function(){
+				// console.log('added class for', $(this).attr('id'));
+				$(this).addClass('service-box-highlight');
+			},function(){
+				// console.log('removed class for', $(this).attr('id'));
+				$(this).removeClass('service-box-highlight');
+			});
+			
+			elt.click(function(){
+				//TODO: goto to the other service:
+				//get the uri of the the service:
+				id = $(this).attr('id').replace('preview_','');
+				// console.log(id);
+				// console.dir(services);
+				if(services.other[id].uri){
+					
+					ActivityTreeClass.selectTreeNode(services.other[id].uri);
+				}
+			});
+		
+		}
 
 	}
 	
-	function refreshPositionPreview(){
-		eltHeight.val($("#heightSlider").slider("value"));
+	function refreshPositionPreview(currentHandleId){
+		var height = parseInt($("#slider_height").slider("value"));
+		var width = parseInt($("#slider_width").slider("value"));
+		var top = parseInt($("#slider_top").slider("value"));
+		var left = parseInt($("#slider_left").slider("value"));
+		
+		if(currentHandleId){
+			if((height+top)>100) {
+				// console.log('height',height);
+				// console.log('top',top);
+				// console.log('sum', height+top);
+				if(currentHandleId == 'slider_height'){
+					top=100-height;
+					$("#slider_top").slider("value", top);
+				}else{
+					//handle should be "slider_top"....
+					height=100-top;
+					$("#slider_height").slider("value", height);
+				}
+			}
+			if((left+width)>100){
+				// console.log('left', left);
+				// console.log('width', width);
+				if(currentHandleId == 'slider_width'){
+					left=100-width;
+					$("#slider_left").slider("value", left);
+				}else{
+					width=100-left;
+					$("#slider_width").slider("value", width);
+				}
+			}
+		}
+		
+		eltHeight.val(height);
+		eltWidth.val(width);
+		eltTop.val(top);
+		eltLeft.val(left);
+		
+		drawServiceBox(
+			services.current.id,
+			services.current.label,
+			{
+				width: eltWidth.val(),
+				height: eltHeight.val(),
+				top: eltTop.val(),
+				left: eltLeft.val()
+			},
+			'service-box-current'
+		);
 	}
 
 	//get the initial selected value, if exists: 
