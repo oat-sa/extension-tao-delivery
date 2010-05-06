@@ -1,0 +1,65 @@
+#draggable {width:5px;height:5px;border:1px solid blue;}
+#draggable1 {width:5px;height:5px;border:1px solid blue;}
+
+#accordion1 {position:absolute;left:0%;top:0%;width:15%;height:100%;}
+#accordion_container_2 {position:absolute;left:75%;top:0%;width:25%;height:100%;}
+#process_center_panel{
+	position:absolute;
+	top:0%;
+	left:15%;
+	height:100%;
+	width:60%;
+}
+
+#process_diagram_feedback {
+	position:relative;
+	top:1px;
+	border:1px solid #C4C4C4;
+	height:25px;
+	width:98%;
+	background-color:#FAF7E3;
+	margin:1px 1%;
+}
+#process_diagram_container {
+	position:relative;
+	top:1px;
+	border:1px solid #C4C4C4;
+	height:100%;
+	width:98%;
+	margin:1px 1%;
+	background-color:#FAF7E3;
+	overflow:scroll;
+}
+
+#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
+#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
+#main {width:1000px;height:700px;}
+
+.diagram_arrow_tip {width:5px;height:5px;border:1px solid blue;}
+.diagram_activity {
+	width:120px;
+	height:50px;
+	border:1px solid black;
+	background-color:#F3FF8A;
+}
+.diagram_link {
+	width:1px;
+	height:30px;
+	background-color:black;
+}
+.diagram_connector {
+	width:30px;
+	height:30px;
+	border:1px solid black;
+	background-color:#FCB138;
+}
+.diagram_activity_label {text-align:center;}
+.diagram_activity_label_input {text-align:center;}
+.connector_sequence {width:30px;}
+.connector_split {width:40px;}
+.connector_parallel {width:60px;}
+.diagram_activity_first {width:20px;height:20px;border:1px dashed green;}
+.diagram_activity_last {width:20px;height:20px;border:1px dashed red;}
+
+.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
+.diagram_activity_border_point {width:5px;height:5px;border:1px solid blue;}

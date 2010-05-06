@@ -18,32 +18,10 @@
 	
 <?else:?>
 	<style type="text/css">
-	#draggable {width:5px;height:5px;border:1px solid blue;}
-	#draggable1 {width:5px;height:5px;border:1px solid blue;}
 	
-	#accordion1 {position:absolute;left:0%;top:0%;width:15%;height:100%;}
-	#accordion_container_2 {position:absolute;left:75%;top:0%;width:25%;height:100%;}
-	#process_diagram_container {position:absolute;left:15%;top:27px;width:60%;height:100%;border:1px solid black;}
-	#process_diagram_feedback {position:absolute;left:15%;top:0px;width:60%;height:25px;border:1px solid black;}
-	
-	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
-	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
-	#main {width:1000px;height:700px;}
-	
-	.diagram_arrow_tip {width:5px;height:5px;border:1px solid blue;}
-	.diagram_activity {width:120px;height:50px;border:1px solid red;}
-	.diagram_link {width:1px;height:30px;border:1px solid black;}
-	.diagram_connector {width:30px;height:30px;border:1px solid green;}
-	.diagram_activity_label {width:60px;text-align:center;}
-	.diagram_activity_label_input {width:60px;text-align:center;}
-	.connector_sequence {width:30px;}
-	.connector_split {width:40px;}
-	.connector_parallel {width:60px;}
-	
-	.diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
-	.diagram_activity_border_point {width:5px;height:5px;border:1px solid blue;}
 	</style>
-	
+	<link rel="stylesheet" type="text/css" href="/<?=get_data('extension')?>/views/css/process_authoring_tool.css" />
+
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/util.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
@@ -53,13 +31,20 @@
 	
 	$(function() {
 		
-		
-		ActivityDiagramClass.drawActivity("activity1_uri", {
-			left: 50,
-			top: 50
-		});
 		try{
+			// ActivityDiagramClass.drawActivity("activity1_uri", {
+				// left: 50,
+				// top: 50
+			// });
+			
+			ActivityDiagramClass.drawActivity("ActivityTempId", {
+				left: 800,
+				top: 1000
+			},
+			'ActivityTemp');
+			
 			ActivityDiagramClass.feedDiagram();
+			ActivityDiagramClass.drawDiagram();
 		}
 		catch(err){
 			console.log(err);
@@ -118,8 +103,10 @@
 
 	<div class="main-container" style="display:none;"></div>
 	<div id="authoring-container" class="ui-helper-reset">
-	<div id="process_diagram_container" ></div>
-	<div id="process_diagram_feedback" ></div>
+	<div id="process_center_panel">
+		<div id="process_diagram_feedback" ></div>
+		<div id="process_diagram_container" ></div>
+	</div>
 	<div id="accordion1" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Service Definition')?></a></h3>
 		<div>
