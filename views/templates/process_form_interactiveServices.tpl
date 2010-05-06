@@ -14,10 +14,14 @@
 	
 	.service-box-highlight {
 		border:1px solid green;
+		overflow:visible;
 		z-index:20;
 		background-color:#82FF54;
 	}
 	
+	span.service-box-highlight {
+		border:3px solid green;
+	}
 	.service-box-current {
 		border:1px solid red;
 		z-index:10;
@@ -153,14 +157,16 @@ $(function(){
 		for(serviceId in services.other){
 			elt = drawServiceBox(serviceId, services.other[serviceId].label, services.other[serviceId], 'service-box-others');
 			
-			console.log('elt id: ', elt.attr('id'));
+			// console.log('elt id: ', elt.attr('id'));
 			
 			elt.hover(function(){
 				// console.log('added class for', $(this).attr('id'));
 				$(this).addClass('service-box-highlight');
+				$(this).find('span').addClass('service-box-highlight');
 			},function(){
 				// console.log('removed class for', $(this).attr('id'));
 				$(this).removeClass('service-box-highlight');
+				$(this).find('span').removeClass('service-box-highlight');
 			});
 			
 			elt.click(function(){
