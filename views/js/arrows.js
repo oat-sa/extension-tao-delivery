@@ -1,3 +1,5 @@
+alert('arrowClass loaded');
+
 //TODO: replace attribute 'name' by 'class'
 
 var arrows = new Array();
@@ -285,7 +287,7 @@ ArrowClass.drawArrow = function(arrowName, options){
 	
 }
 
-function ArrowClass.drawVerticalLine(p1, p2, options){
+ArrowClass.drawVerticalLine = function(p1, p2, options){
 	var arrowWidth = 0;
 	if(options.arrowWidth){
 		arrowWidth = options.arrowWidth; 
@@ -301,7 +303,7 @@ function ArrowClass.drawVerticalLine(p1, p2, options){
 	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function ArrowClass.drawHorizontalLine(p1, p2, options){
+ArrowClass.drawHorizontalLine = function(p1, p2, options){
 	var arrowWidth = 0;
 	if(options.arrowWidth){
 		arrowWidth = options.arrowWidth; 
@@ -317,7 +319,7 @@ function ArrowClass.drawHorizontalLine(p1, p2, options){
 	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function ArrowClass.drawArrowPart(border,left,top,width,height,container,name,arrowPartIndex){
+ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,arrowPartIndex){
 	
 	if(container && name){
 	//"#"+arrowName+"_arrowPart_"+arrowPartIndex
