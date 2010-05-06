@@ -8,6 +8,7 @@ var margin = 20;
 ArrowClass = [];
 ArrowClass.arrows = [];
 
+
 ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
 	//record the data to
 	ArrowClass.arrows[originId] = {
@@ -25,6 +26,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex){
 	//type in array('left','top','right');
 	// alert("dsfdf"+type);
 	// type ='top';
+	
 	var p1 = ArrowClass.getCenterCoordinate(point1);
 	var p2 = ArrowClass.getCenterCoordinate(point2);
 	var Dx = p2.x - p1.x;
@@ -260,19 +262,19 @@ ArrowClass.drawArrow = function(arrowName, options){
 	options.name = arrowName;
 	if(isset(p[0])&&isset(p[1])){
 		options.index = 1;
-		drawVerticalLine(p[0], p[1], options);
+		ArrowClass.drawVerticalLine(p[0], p[1], options);
 		if(isset(p[2])){
 			options.index = 2;
-			drawHorizontalLine(p[1], p[2], options);
+			ArrowClass.drawHorizontalLine(p[1], p[2], options);
 			if(isset(p[3])){
 				options.index = 3;
-				drawVerticalLine(p[2], p[3], options);
+				ArrowClass.drawVerticalLine(p[2], p[3], options);
 				if(isset(p[4])){
 					options.index = 4;
-					drawHorizontalLine(p[3], p[4], options);
+					ArrowClass.drawHorizontalLine(p[3], p[4], options);
 					if(isset(p[5])){
 						options.index = 5;
-						drawVerticalLine(p[4], p[5], options);
+						ArrowClass.drawVerticalLine(p[4], p[5], options);
 					}
 				}
 			}
@@ -283,7 +285,7 @@ ArrowClass.drawArrow = function(arrowName, options){
 	
 }
 
-function drawVerticalLine(p1, p2, options){
+function ArrowClass.drawVerticalLine(p1, p2, options){
 	var arrowWidth = 0;
 	if(options.arrowWidth){
 		arrowWidth = options.arrowWidth; 
@@ -296,10 +298,10 @@ function drawVerticalLine(p1, p2, options){
 	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
 	top = Math.min(p1.y,p2.y);
 	
-	drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
+	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function drawHorizontalLine(p1, p2, options){
+function ArrowClass.drawHorizontalLine(p1, p2, options){
 	var arrowWidth = 0;
 	if(options.arrowWidth){
 		arrowWidth = options.arrowWidth; 
@@ -312,18 +314,19 @@ function drawHorizontalLine(p1, p2, options){
 	left = Math.min(p1.x, p2.x);
 	top = p1.y - arrowWidth/2;
 	
-	drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
+	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
 }
 
-function drawArrowPart(border,left,top,width,height,container,name,arrowPartIndex){
+function ArrowClass.drawArrowPart(border,left,top,width,height,container,name,arrowPartIndex){
 	
 	if(container && name){
 	//"#"+arrowName+"_arrowPart_"+arrowPartIndex
 		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
 		var element = $('<div id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
 		element.addClass(name);
-		element.css('border', borderStr);
+		// element.css('border', borderStr);//no border
 		element.css('position', 'absolute');
+		element.css('background-color', 'black');
 		element.css('left', Math.round(left)+'px');
 		element.css('top', Math.round(top)+'px');
 		element.css('width', Math.round(width)+'px');
@@ -451,15 +454,23 @@ ArrowClass.getCenterCoordinate = function(element){
 		throw 'the element do not exists';
 		return null;
 	}
+	var canvasElt = $(ArrowClass.canvas);
+	if(!canvasElt.length){
+		throw 'no canvas defined';
+		return null
+	}
 	
-	var position = element.position();
-	x = position.left + element.width()/2;
-	y = position.top + element.height()/2;
-	//console.log('Cx',element.width());
-	//console.log('Cy',element.height());
-	// alert(x+', '+y);
+	var position = element.offset();
+	var canvasOffset = canvasElt.offset();
+	
+	x = (position.left-canvasOffset.left) + element.width()/2;
+	y = (position.top-canvasOffset.top) + element.height()/2;
+	// console.log('Cx',element.width());
+	// console.log('Cy',element.height());
+	// console.log('x', x);
+	// console.log('y', y);
+	
 	return {x:x, y:y};
-	
 }
 
 function isset(object){

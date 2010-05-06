@@ -3,7 +3,6 @@ alert("activity diagram Class loaded");
 //require arrows.js
 
 ActivityDiagramClass = [];
-ActivityDiagramClass.canvas = "#process_diagram_container";
 ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
 ActivityDiagramClass.connectors = [];
@@ -44,7 +43,7 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 								rel:'NS%23activity2_id',
 								class:'node-activity-goto'
 							},
-							port: 'next'
+							port: '0'
 						}
 					],
 					type: 'sequence'
@@ -66,11 +65,11 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	positionData['connector1_id'] = 'activity';
 	
 	
-	origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', 'next');
+	origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', '0');//put port='next'??
 	arrowData = [];
 	arrowData[origin_connector1] = [];
 	arrowData[origin_connector1].targetObject = 'activity2_id';
-	arrowData[origin_connector1].type = 'left';
+	arrowData[origin_connector1].type = 'right';
 	
 	//build the model here:
 	
@@ -80,9 +79,7 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	console.dir(activities);
 	
 	for(var i=0; i<activities.length; i++){
-		//issue: do not go to the second loop
-		console.log('i',i);
-		
+	
 		var activity = activities[i];
 		
 		if(!activity.attributes){
@@ -105,8 +102,6 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 			if(activity.data){
 				ActivityDiagramClass.activities[activityId].label = activity.data;
 			}
-			console.log('activityId',activityId);
-			// console.log('activityIdObj',ActivityDiagramClass.activities);
 			
 			//is first? is last?
 			ActivityDiagramClass.activities[activityId].isInitial = false;
@@ -279,7 +274,8 @@ ActivityDiagramClass.feedConnector = function(connectorData, arrowData, prevActi
 				ArrowClass.feedArrow(originId, targetId, nextActivityId, targetPosition, flex);
 				//note: do not calculate/draw arrow here since the target element is unilikely to have already been build.
 				// ArrowClass.calculateArrow($('#'+originId), $('#'+targetId), type, flex);
-						
+				
+				
 			}
 			
 		}
@@ -304,11 +300,11 @@ ActivityDiagramClass.drawDiagram = function(){
 		ActivityDiagramClass.drawActivity(activityId);
 	}
 	
-	/*
-	if(ActivityDiagramClass.connectors.length<=0){
-		throw 'The connectors array is empty. Please feed it first.';
-		return false;
-	}
+	
+	// if(ActivityDiagramClass.connectors.length<=0){
+		// throw 'The connectors array is empty. Please feed it first.';
+		// return false;
+	// }
 	for(connectorId in ActivityDiagramClass.connectors){
 		if(ActivityDiagramClass.connectors[connectorId].position != 'activity'){
 			ActivityDiagramClass.drawConnector(connectorId);
@@ -316,18 +312,25 @@ ActivityDiagramClass.drawDiagram = function(){
 		}
 	}
 	
-	if(ArrowClass.arrows.length<=0){
-		throw 'The arrows array is empty. Please feed it first.';
-		return false;
-	}
+	// if(ArrowClass.arrows.length<=0){
+		// throw 'The arrows array is empty. Please feed it first.';
+		// return false;
+	// }
 	for(arrowId in ArrowClass.arrows){
 		targetId = ArrowClass.arrows[arrowId].target;
 		if(arrowId && targetId){
+			// console.log('the element do not exists =#', element);
 			ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
+			console.log('calculated arrows:');
+			console.dir(ArrowClass.arrows);
+			ArrowClass.drawArrow(arrowId, {
+				container: ActivityDiagramClass.canvas,
+				arrowWidth: 2
+			});
 		}else{
 			console.log('arrow cant be drawn:', arrowId);
 		}
-	}*/
+	}
 	
 }
 
@@ -511,7 +514,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		
 		//elementLink:
 		var elementLinkId = ActivityDiagramClass.getActivityId('free', activityId, 'link');
-		console.log("link id = ", elementLinkId);
+		
 		var elementLink = $('<div id="'+elementLinkId+'"></div>');//put connector id here instead
 		elementLink.addClass('diagram_link');
 		elementLink.addClass(elementActivityId);

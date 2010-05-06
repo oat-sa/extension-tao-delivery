@@ -28,6 +28,8 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityLabel.js"></script>
 	<script type="text/javascript">
 	var canvas = "#process_diagram_container";
+	ActivityDiagramClass.canvas = "#process_diagram_container";
+	ArrowClass.canvas = ActivityDiagramClass.canvas;
 	
 	$(function() {
 		
