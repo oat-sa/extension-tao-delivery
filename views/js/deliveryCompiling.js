@@ -199,7 +199,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: base_url + "/Delivery/endCompilation",
+		url: root_url + "/Delivery/endCompilation",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){
