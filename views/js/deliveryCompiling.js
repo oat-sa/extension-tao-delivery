@@ -35,7 +35,7 @@ function initCompilation(uri,clazz){
 	
 	$.ajax({
 		type: "POST",
-		url: base_url + "/Delivery/initCompilation",
+		url: root_url + "/taoDelivery/Delivery/initCompilation",
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){

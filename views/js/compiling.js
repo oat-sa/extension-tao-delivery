@@ -30,7 +30,7 @@ function initCompilation(uri){
 	
 	$.ajax({
 		type: "POST",
-		url: base_url + "/DeliveryAuthoring/initCompilation",
+		url: root_url + "/taoDelivery/DeliveryAuthoring/initCompilation",
 		dataType: "json",
 		data: {processUri : processUri},
 		success: function(r){
