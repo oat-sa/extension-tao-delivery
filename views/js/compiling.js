@@ -161,7 +161,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: base_url + "/DeliveryAuthoring/endCompilation",
+		url: root_url + "/taoDelivery/DeliveryAuthoring/endCompilation",
 		data: {processUri:processUri},
 		dataType: "json",
 		success: function(r){
