@@ -6,6 +6,7 @@ ActivityDiagramClass = [];
 ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
 ActivityDiagramClass.connectors = [];
+ActivityDiagramClass.feedbackContainer = "#process_diagram_feedback";
 // ActivityDiagramClass.errors = {
 	// activities: [],
 	// arrows:[]
@@ -332,6 +333,30 @@ ActivityDiagramClass.drawDiagram = function(){
 		}
 	}
 	
+}
+
+ActivityDiagramClass.createTempActivity = function(position){
+
+	//delete old one if exists
+	var tempActivityId = 'tempActivity';
+	ActivityDiagramClass.activities[tempActivityId] = [];
+	var tempActivity = ActivityDiagramClass.activities[tempActivityId];
+	
+	//create it in model
+	tempActivity.id = tempActivityId;
+	tempActivity.label = ActivityDiagramClass.defaultActivityLabel;
+	tempActivity.isIntial = false;
+	tempActivity.isLast = false;
+	
+	if(position){
+		tempActivity.position = position;
+	}else{
+		tempActivity.position = {top:10, left:10};
+	}
+	
+	ActivityDiagramClass.drawActivity(tempActivityId);//note: no need the postion and label parameter since the values are already set
+	
+	return tempActivity;
 }
 
 ActivityDiagramClass.getIdFromUri = function(uri){
@@ -798,6 +823,31 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 	});
 }
 
+ActivityDiagramClass.setFeedbackMenu = function(message){
+	console.log("sdsdfd");
+	var eltContainer = $(ActivityDiagramClass.feedbackContainer);
+	if(!eltContainer.length){
+		throw 'no feedback container found';
+	}
+	
+	
+	//empty it:
+	eltContainer.empty();
+	
+	// set message:
+	$('<div id="feedback_message_container"><span id="feedback_message" class="feedback_message">'+message+'</span></div>').appendTo(eltContainer);
+	
+	//set menu save/cancel:
+	$('<div id="feedback_menu_list_container"><ul id="feedback_menu_list" class="feedback_menu_list"/></div>').appendTo(eltContainer);
+	eltList = $('#feedback_menu_list');
+	eltList.append('<li><a id="feedback_menu_save" class="feedback_menu_list_element">Save</a></li>');
+	eltList.append('<li><a id="feedback_menu_cancel" class="feedback_menu_list_element">Cancel</a></li>');
+	
+	
+	//destroy related event:
+	$("#feedback_menu_save").unbind();
+	$("#feedback_menu_cancel").unbind();
+}
 /*
 
 

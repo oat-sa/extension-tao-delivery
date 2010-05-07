@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityLabel.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityAdd.js"></script>
 	<script type="text/javascript">
 	var canvas = "#process_diagram_container";
 	ActivityDiagramClass.canvas = "#process_diagram_container";
@@ -176,8 +177,14 @@
 		});
 		
 		$("#activity_menu_addActivity").click(function(event){
+			try{
 			event.preventDefault();
-			GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+			ModeActivityAdd.on();
+			// GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+			}
+			catch(err){
+				console.log('addactivity on click:', err);
+			}
 		});
 		
 		$("#accordion1").accordion({

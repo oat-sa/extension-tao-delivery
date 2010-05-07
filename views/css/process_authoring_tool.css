@@ -63,3 +63,19 @@
 
 .diagram_activity_droppable {width:5px;height:5px;border:1px solid blue;}
 .diagram_activity_border_point {width:5px;height:5px;border:1px solid blue;}
+#feedback_message_container{position:absolute; top:0px; left:0px;height:100%;width:70%;}
+#feedback_menu_list_container{
+	position:absolute; 
+	top:0px; right:0px;
+	height:100%;width:30%;
+}
+#feedback_menu_list{
+	margin-top:0px;
+	margin-bottom:0px;
+}
+
+#feedback_menu_list li{
+	display: inline;
+	list-style-type: none;
+	padding-right: 10px;
+}

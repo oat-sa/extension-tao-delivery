@@ -13,7 +13,7 @@ ModeActivityLabel.createLabelTextbox = function(activityId){
 	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('#'+targetId);//id of the activity
 	
-	if(elementActivity.length){
+	if(elementActivity.length){//TODO: check if activity exists in the global too?
 	
 		var elementLabelId = ActivityDiagramClass.getActivityId('activityLabel', activityId);
 		var elementLabel = $('#'+elementLabelId);
@@ -58,14 +58,15 @@ ModeActivityLabel.destroyLabelTextbox = function(activityId){
 				var currentLabel = elementTextbox.val();
 				if(currentLabel != ''){
 					elementLabel.empty();
-					elementLabel.text(currentLabel);
-					textCutter('#'+elementLabelId, 10);
+					elementLabel.html(currentLabel);
+					// textCutter('#'+elementLabelId, 10);
 					elementLabel.attr('title', currentLabel);
 					
 					elementLabel.removeClass('diagram_activity_label');
 					elementLabel.addClass('diagram_activity_label');
 					
 					//set in the model:
+					ActivityDiagramClass.activities[activityId].label = currentLabel;
 					
 					//return:
 					returnValue = currentLabel;

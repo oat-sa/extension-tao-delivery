@@ -1,4 +1,4 @@
-alert('arrowClass loaded');
+// alert('arrowClass loaded');
 
 //TODO: replace attribute 'name' by 'class'
 
