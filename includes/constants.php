@@ -142,9 +142,9 @@ $todefine = array(
 	'TAO_ITEM_MODEL_CAMPUS'				=> 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus',
 	'TAO_ITEM_CLASS' 					=> 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
 
-	'TAO_ITEM_AUTHORING_BASE_URI' 		=> BASE_PATH.'/data',
-	'TAO_ITEM_HAWAI_TPL_FILE'	 		=> BASE_PATH.'/data/black_ref.xml',
-	'TAO_ITEM_CAMPUS_TPL_FILE'	 		=> BASE_PATH.'/data/campus_ref.xml',
+	'TAO_ITEM_AUTHORING_BASE_URI' 		=> ROOT_PATH.'/taoItems/data',
+	'TAO_ITEM_HAWAI_TPL_FILE'	 		=> ROOT_PATH.'/taoItems/data/black_ref.xml',
+	'TAO_ITEM_CAMPUS_TPL_FILE'	 		=> ROOT_PATH.'/taoItems/data/campus_ref.xml',
 
 	'GENERIS_BOOLEAN'		=> 'http://www.tao.lu/Ontologies/generis.rdf#Boolean',
 	'RDFS_LABEL'			=> 'http://www.w3.org/2000/01/rdf-schema#label',
