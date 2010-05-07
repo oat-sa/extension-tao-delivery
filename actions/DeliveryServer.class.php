@@ -59,7 +59,7 @@ class DeliveryServer extends Module{
 				$_SESSION['taoqual.serviceContentLang'] = 'EN';
 				$_SESSION['taoqual.userId']				= $login;
 
-				$this->redirect(_url('deliveryIndex', 'DeliveryServer'));
+				$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
 			}
 		}
 
