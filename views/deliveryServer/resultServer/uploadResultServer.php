@@ -21,7 +21,7 @@ include("cacheResults.php");
 //soap library
 include_once("nusoap.php");
 
-include_once(dirname(__FILE__).'../../../../generis/common/config.php');
+include_once(dirname(__FILE__).'/../../../../generis/common/config.php');
 
 /**
  * implements server receiving informations about results
