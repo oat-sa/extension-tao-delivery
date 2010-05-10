@@ -2,7 +2,10 @@
 class ProcessBrowser extends Module
 {
 	
-	
+	public function __construct(){
+		//log into generis:
+		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
+	}
 	
 	public function index($processUri)
 	{
