@@ -33,7 +33,7 @@
 	ArrowClass.canvas = ActivityDiagramClass.canvas;
 	
 	$(function() {
-		
+		// window.loadFirebugConsole();
 		try{
 			// ActivityDiagramClass.drawActivity("activity1_uri", {
 				// left: 50,

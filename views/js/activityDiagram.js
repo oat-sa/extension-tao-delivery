@@ -16,6 +16,7 @@ ActivityDiagramClass.feedbackContainer = "#process_diagram_feedback";
 //get positions of every activities
 ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData){
 	
+	//start of test data//
 	var processData = [];
 	processData.children = [
 		{
@@ -71,8 +72,7 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	arrowData[origin_connector1] = [];
 	arrowData[origin_connector1].targetObject = 'activity2_id';
 	arrowData[origin_connector1].type = 'right';
-	
-	//build the model here:
+	//end of test data//
 	
 	//activityData sent by treeservice:
 	activities = processData.children;
@@ -81,72 +81,14 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	
 	for(var i=0; i<activities.length; i++){
 	
-		var activity = activities[i];
-		
-		if(!activity.attributes){
-			throw 'the activity has no attributes';
+		var activityData = activities[i];
+		if(!activityData.attributes){
+			throw 'the activity data has no attributes';
 			continue;
+		}else{
+			ActivityDiagramClass.feedActivity(activityData, positionData, arrowData);
 		}
-		if(activity.attributes.id){
-			var activityId = ActivityDiagramClass.getIdFromUri(activity.attributes.id);
-			//search in the coordinate list, if coordinate exist
-			if(positionData[activityId]){
-				position = positionData[activityId];
-			}else{
-				//if not, generate one:
-				var position = {top:0, left:0};
-			}
-			
-			//save coordinate in the object:
-			ActivityDiagramClass.activities[activityId] = [];
-			ActivityDiagramClass.activities[activityId].position = position;
-			if(activity.data){
-				ActivityDiagramClass.activities[activityId].label = activity.data;
-			}
-			
-			//is first? is last?
-			ActivityDiagramClass.activities[activityId].isInitial = false;
-			if(activity.isInitial){
-				if(activity.isInitial == true){
-					ActivityDiagramClass.activities[activityId].isInitial = true;
-				}
-			}
-			ActivityDiagramClass.activities[activityId].isLast = false;
-			if(activity.isLast){
-				if(activity.isLast == true){
-					ActivityDiagramClass.activities[activityId].isLast = true;
-				}
-			}
-			
-			//find the connector of the activity
-			var connectorData = null;
-			
-			if(activity.children){
-				//the activity has ch
-				console.log('act children:');console.dir(activity.children);
-				console.log('activity.children.length', activity.children.length);
-				for(var j=0;j<activity.children.length;j++){
-					var child = activity.children[j];
-					if(child.attributes){
-						if(child.attributes.class == 'node-connector'){
-							connectorData = child;
-							break;//note: there can at most only be one connector for an activity
-						}
-					}
-				}
-				
-				if(connectorData != null){
-					
-					connectorFed = ActivityDiagramClass.feedConnector(connectorData, arrowData, activityId, positionData);
-					
-					if(connectorFed === true){
-						
-					}
-				
-				}
-			}
-			
-		}
+		
 	}
 	
 	//debug:
@@ -155,7 +97,77 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	console.log('arrows:');console.dir(ArrowClass.arrows);
 }
 
-ActivityDiagramClass.feedConnector = function(connectorData, arrowData, prevActivityId, positionData){
+ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowData){
+		
+	
+	if(activityData.attributes.id){
+		
+		var activityId = ActivityDiagramClass.getIdFromUri(activityData.attributes.id);
+		//search in the coordinate list, if coordinate exist
+		if(positionData[activityId]){
+			position = positionData[activityId];
+		}else{
+			//if none, generate default position:
+			var position = {top:10, left:10};
+		}
+	
+		//save coordinate in the object:
+		ActivityDiagramClass.activities[activityId] = [];
+		ActivityDiagramClass.activities[activityId].id = activityId;
+		ActivityDiagramClass.activities[activityId].position = position;
+		if(activityData.data){
+			ActivityDiagramClass.activities[activityId].label = activityData.data;
+		}
+		
+		//is first? is last?
+		ActivityDiagramClass.activities[activityId].isInitial = false;
+		if(activityData.isInitial){
+			if(activityData.isInitial == true){
+				ActivityDiagramClass.activities[activityId].isInitial = true;
+			}
+		}
+		ActivityDiagramClass.activities[activityId].isLast = false;
+		if(activityData.isLast){
+			if(activityData.isLast == true){
+				ActivityDiagramClass.activities[activityId].isLast = true;
+			}
+		}
+		
+		//find the connector of the activity
+		var connectorData = null;
+		
+		if(activityData.children){
+			//the activity has ch
+			console.log('act children:');console.dir(activityData.children);
+			console.log('activityData.children.length', activityData.children.length);
+			for(var j=0;j<activityData.children.length;j++){
+				var child = activityData.children[j];
+				if(child.attributes){
+					if(child.attributes.class == 'node-connector'){
+						connectorData = child;
+						break;//note: there can at most only be one connector for an activity
+					}
+				}
+			}
+			
+			if(connectorData != null){
+				
+				connector = ActivityDiagramClass.feedConnector(connectorData, positionData, activityId, arrowData);
+				
+				if(connector == null){
+					throw 'connector cannot be created for the activity '+activityId;
+				}
+			
+			}
+		}
+		
+		return ActivityDiagramClass.activities[activityId];
+		
+	}
+}
+
+
+ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevActivityId, arrowData){
 
 	//find recursively all connectors and create the associated arrows:
 	
@@ -163,6 +175,11 @@ ActivityDiagramClass.feedConnector = function(connectorData, arrowData, prevActi
 		throw 'no connector id found';
 		return false;
 	}
+	if(!prevActivityId){
+		throw 'no previous actiivty id found';
+		return false;
+	}
+	
 	var connectorId = ActivityDiagramClass.getIdFromUri(connectorData.attributes.id);
 	ActivityDiagramClass.connectors[connectorId] = [];
 	
@@ -281,7 +298,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, arrowData, prevActi
 			
 		}
 	}
-	
+	return ActivityDiagramClass.connectors[connectorId];
 }
 
 ActivityDiagramClass.drawDiagram = function(){
@@ -336,7 +353,7 @@ ActivityDiagramClass.drawDiagram = function(){
 }
 
 ActivityDiagramClass.createTempActivity = function(position){
-
+	
 	//delete old one if exists
 	var tempActivityId = 'tempActivity';
 	ActivityDiagramClass.activities[tempActivityId] = [];
@@ -346,15 +363,14 @@ ActivityDiagramClass.createTempActivity = function(position){
 	tempActivity.id = tempActivityId;
 	tempActivity.label = ActivityDiagramClass.defaultActivityLabel;
 	tempActivity.isIntial = false;
-	tempActivity.isLast = false;
+	tempActivity.isLast = true;
 	
 	if(position){
 		tempActivity.position = position;
 	}else{
 		tempActivity.position = {top:10, left:10};
 	}
-	
-	ActivityDiagramClass.drawActivity(tempActivityId);//note: no need the postion and label parameter since the values are already set
+	console.log('tempActivity', tempActivity);
 	
 	return tempActivity;
 }
@@ -522,14 +538,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		at: "center center",
 		of: '#'+elementActivityId
 	});
-	elementLabel.click(function(){
-		var inputBox = ModeActivityLabel.createLabelTextbox(activityId);
-		inputBox.blur(function(){
-			ModeActivityLabel.destroyLabelTextbox(activityId);
-		});
-	});
-	
-	
+		
 	//if it is not a terminal activity, element connector, according to the type:
 	//if not final activity: final==false && connector exists
 	//else (is a final activity: final==true
@@ -568,7 +577,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		if(hasConnector == false){
 			
 			if(ActivityDiagramClass.activities[activityId].isLast == false){
-				throw 'cannot found the activity connector';
+				throw 'cannot find the activity connector';
 			}
 			
 			//consider it to be the last activity: build the end element
@@ -629,6 +638,12 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	});
 	
 }
+
+ActivityDiagramClass.removeActivity = function(activityId){
+	containerId = ActivityDiagramClass.getActivityId('container', activityId);
+	$('#'+containerId).remove();
+}
+
 
 ActivityDiagramClass.drawConnector = function(connectorId, position, connectorType, previousActivityId){
 	
@@ -823,30 +838,61 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 	});
 }
 
-ActivityDiagramClass.setFeedbackMenu = function(message){
-	console.log("sdsdfd");
+ActivityDiagramClass.setFeedbackMenu = function(mode){
+	
+	
+	
 	var eltContainer = $(ActivityDiagramClass.feedbackContainer);
 	if(!eltContainer.length){
 		throw 'no feedback container found';
 	}
 	
-	
 	//empty it:
 	eltContainer.empty();
 	
 	// set message:
-	$('<div id="feedback_message_container"><span id="feedback_message" class="feedback_message">'+message+'</span></div>').appendTo(eltContainer);
+	$('<div id="feedback_message_container"><span id="feedback_message" class="feedback_message"></span></div>').appendTo(eltContainer);
 	
 	//set menu save/cancel:
 	$('<div id="feedback_menu_list_container"><ul id="feedback_menu_list" class="feedback_menu_list"/></div>').appendTo(eltContainer);
 	eltList = $('#feedback_menu_list');
-	eltList.append('<li><a id="feedback_menu_save" class="feedback_menu_list_element">Save</a></li>');
-	eltList.append('<li><a id="feedback_menu_cancel" class="feedback_menu_list_element">Cancel</a></li>');
+	eltList.append('<li><a id="feedback_menu_save" class="feedback_menu_list_element" href="#">Save</a></li>');
+	eltList.append('<li><a id="feedback_menu_cancel" class="feedback_menu_list_element" href="#">Cancel</a></li>');
 	
+	//destroy related event (usefulnes??):
+	// $("#feedback_menu_save").unbind();
+	// $("#feedback_menu_cancel").unbind();
 	
-	//destroy related event:
-	$("#feedback_menu_save").unbind();
-	$("#feedback_menu_cancel").unbind();
+	switch(mode){
+		case 'ModeActivityAdd':{
+			$("#feedback_message").text('activity adding mode');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeActivityAdd.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeActivityAdd.cancel();
+			});
+			break;
+		}
+		default:{
+			throw 'unknown mode';
+			eltContainer.empty();
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+ActivityDiagramClass.unsetFeedbackMenu = function(){
+	var eltContainer = $(ActivityDiagramClass.feedbackContainer);
+	if(!eltContainer.length){
+		throw 'no feedback container found';
+	}else{
+		eltContainer.empty();
+	}
 }
 /*
 
