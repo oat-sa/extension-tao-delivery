@@ -10,7 +10,6 @@ ModeActivityAdd.on = function(){
 		return false;
 	}
 	
-	
 	//create an activity temp
 	var tempActivity = ActivityDiagramClass.createTempActivity();
 	ModeActivityAdd.tempId = tempActivity.id;
@@ -46,6 +45,8 @@ ModeActivityAdd.on = function(){
 
 ModeActivityAdd.save = function(){
 	console.log('ModeActivityAdd.save:', 'not implemented yet');
+	
+	//unquote section below when the communication with server is established:
 	/*
 	
 	//send the coordinate + label to server

@@ -79,3 +79,11 @@
 	list-style-type: none;
 	padding-right: 10px;
 }
+
+.activity_menu_horizontal li{
+	display: inline;
+	list-style-type: none;
+	padding-right: 10px;
+	height: 22px;
+	width: 22px;
+}
