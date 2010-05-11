@@ -1,4 +1,4 @@
-// alert("activity diagram Class loaded");
+alert("activity diagram Class loaded");
 
 //require arrows.js
 
@@ -316,6 +316,7 @@ ActivityDiagramClass.drawDiagram = function(){
 	//draw all actvities:
 	for(activityId in ActivityDiagramClass.activities){
 		ActivityDiagramClass.drawActivity(activityId);
+		ActivityDiagramClass.setActivityMenuHandler(activityId);
 	}
 	
 	
@@ -326,6 +327,7 @@ ActivityDiagramClass.drawDiagram = function(){
 	for(connectorId in ActivityDiagramClass.connectors){
 		if(ActivityDiagramClass.connectors[connectorId].position != 'activity'){
 			ActivityDiagramClass.drawConnector(connectorId);
+			ActivityDiagramClass.setConnectorMenuHandler(activityId);
 			//do not draw the first connector of an activity, only the connector of the connector, since the first one will de drawn with drawActivity
 		}
 	}
@@ -568,6 +570,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 					if(connector.position == 'activity'){
 						//connector found:
 						ActivityDiagramClass.drawConnector(connectorId, 'activity', connector.type, activityId);
+						ActivityDiagramClass.setConnectorMenuHandler(connectorId);
 						hasConnector = true;
 					}
 				}
@@ -648,7 +651,17 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 	if($('#'+containerId).length){
 		$('#'+containerId).bind('click', {id:activityId}, function(event){
 			event.preventDefault();
-			ModeActivityMenu.on(event.data.id);
+			ModeActivityMenu.on('activity', event.data.id);
+		});
+	}
+}
+
+ActivityDiagramClass.setConnectorMenuHandler = function(connectorId){
+	var containerId = ActivityDiagramClass.getActivityId('connector', connectorId);
+	if($('#'+containerId).length){
+		$('#'+containerId).bind('click', {id:connectorId}, function(event){
+			event.preventDefault();
+			ModeActivityMenu.on('connector', event.data.id);
 		});
 	}
 }
@@ -848,8 +861,6 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 
 ActivityDiagramClass.setFeedbackMenu = function(mode){
 	
-	
-	
 	var eltContainer = $(ActivityDiagramClass.feedbackContainer);
 	if(!eltContainer.length){
 		throw 'no feedback container found';
@@ -881,6 +892,15 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
 				ModeActivityAdd.cancel();
+			});
+			break;
+		}
+		case 'ModeActivityMenu':{
+			$("#feedback_message").text('activity memu: select an action');
+			$("#feedback_menu_save").parent().remove();
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeActivityMenu.cancel();
 			});
 			break;
 		}

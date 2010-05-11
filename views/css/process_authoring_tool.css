@@ -92,6 +92,7 @@
 	margin:0 5px;
 	height: 22px;
 	width: 22px;
+	cursor:pointer;
 }
 
 .activity_menu_horizontal li a{

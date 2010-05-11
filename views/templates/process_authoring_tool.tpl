@@ -52,12 +52,12 @@
 			},
 			'ActivityTemp');
 			
-			ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
+			// ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
 			// console.log('ModeActivityMenu', ModeActivityMenu);
 			// ModeActivityMenu.on("ActivityTempId");
 			
-			// ActivityDiagramClass.feedDiagram();
-			// ActivityDiagramClass.drawDiagram();
+			ActivityDiagramClass.feedDiagram();
+			ActivityDiagramClass.drawDiagram();
 		}
 		catch(err){
 			console.log(err);
