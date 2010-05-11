@@ -80,10 +80,48 @@
 	padding-right: 10px;
 }
 
+
+.activity_menu_horizontal{
+	padding:0;
+}
+
+
 .activity_menu_horizontal li{
 	display: inline;
 	list-style-type: none;
-	padding-right: 10px;
+	margin:0 5px;
 	height: 22px;
 	width: 22px;
 }
+
+.activity_menu_horizontal li a{
+	height: 22px;
+	width: 22px;
+}
+
+.activity_menu_horizontal li a ins {
+	background-color:#F0F0F0;
+	border-color:#D7D8D9;
+	border-style:solid;
+	border-width:3px 5px 3px 5px;
+	float:left;
+	height:16px;
+	line-height:16px;
+	margin:0 5px;
+	text-decoration:none;
+	width:16px;
+}
+
+.activity_menu_horizontal li a:hover ins{
+	background-color:#E7F4F9;
+	border-color:#99E6F0;
+	border-width:4px 6px 2px 4px;
+	
+}
+
+.activity_menu_active_action li a ins{
+	background-color:#E7F4F9;
+	border-color:#99E6F0;
+	border-width:4px 6px 2px 4px;
+}
+

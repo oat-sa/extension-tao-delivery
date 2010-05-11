@@ -27,10 +27,16 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityLabel.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityAdd.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityMenu.js"></script>
+	
 	<script type="text/javascript">
+	//init:
 	var canvas = "#process_diagram_container";
 	ActivityDiagramClass.canvas = "#process_diagram_container";
 	ArrowClass.canvas = ActivityDiagramClass.canvas;
+	var processUri = "<?=get_data("processUri")?>";
+	var authoringControllerPath = '<?=ROOT_URL?>/taoDelivery/DeliveryAuthoring/';
+	var img_url = root_url + "/taoDelivery/views/img/";
 	
 	$(function() {
 		// window.loadFirebugConsole();
@@ -41,13 +47,17 @@
 			// });
 			
 			ActivityDiagramClass.drawActivity("ActivityTempId", {
-				left: 800,
-				top: 1000
+				left: 300,
+				top: 60
 			},
 			'ActivityTemp');
 			
-			ActivityDiagramClass.feedDiagram();
-			ActivityDiagramClass.drawDiagram();
+			ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
+			// console.log('ModeActivityMenu', ModeActivityMenu);
+			// ModeActivityMenu.on("ActivityTempId");
+			
+			// ActivityDiagramClass.feedDiagram();
+			// ActivityDiagramClass.drawDiagram();
 		}
 		catch(err){
 			console.log(err);
@@ -164,8 +174,6 @@
 	
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
 	<script type="text/javascript">
-	var processUri = "<?=get_data("processUri")?>";
-	var authoringControllerPath = '<?=ROOT_URL?>/taoDelivery/DeliveryAuthoring/';
 	
 	$(function(){
 	

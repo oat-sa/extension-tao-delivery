@@ -1,4 +1,4 @@
-alert("activity diagram Class loaded");
+// alert("activity diagram Class loaded");
 
 //require arrows.js
 
@@ -622,7 +622,6 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	
 	}
 	
-	
 	//event onlick:
 	$('#'+containerId).click(function(){
 		//create menu here:
@@ -644,6 +643,15 @@ ActivityDiagramClass.removeActivity = function(activityId){
 	$('#'+containerId).remove();
 }
 
+ActivityDiagramClass.setActivityMenuHandler = function(activityId){
+	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
+	if($('#'+containerId).length){
+		$('#'+containerId).bind('click', {id:activityId}, function(event){
+			event.preventDefault();
+			ModeActivityMenu.on(event.data.id);
+		});
+	}
+}
 
 ActivityDiagramClass.drawConnector = function(connectorId, position, connectorType, previousActivityId){
 	
