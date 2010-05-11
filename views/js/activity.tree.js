@@ -1,4 +1,5 @@
 ActivityTreeClass.instances = [];
+
 /**
  * Constructor
  * @param {String} selector the jquery selector of the tree container
@@ -141,7 +142,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 					items : {
 						refreshTree: {
 							label: "Refresh",
-							icon: base_www + "img/view-refresh.png",
+							icon: img_url + "view-refresh.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( $(NODE).hasClass('node-process-root')){
 									return 1;
@@ -158,7 +159,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						select: {
 							label: "Edit",
-							icon: base_www + "img/pencil.png",
+							icon: img_url + "pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( $(NODE).hasClass('node-process-root') || $(NODE).hasClass('node-then') || $(NODE).hasClass('node-else')){
 									return -1;
@@ -172,7 +173,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addActivity: {
 							label: "Add Activity",
-							icon: base_www + "img/process_activity.png",
+							icon: img_url + "process_activity.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -212,7 +213,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						isFirst:{
 							label	: "Define as the first activity",
-							icon	: base_www + "img/flag-green.png",
+							icon	: img_url + "flag-green.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity') && !$(NODE).hasClass('node-activity-initial')){ 
 									return 1;
@@ -230,7 +231,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						isLast:{
 							label	: "Define as a final activity",
-							icon	: base_www + "img/flag-red.png",
+							icon	: img_url + "flag-red.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity') && !$(NODE).hasClass('node-activity-last')){ 
 									return 1;
@@ -256,7 +257,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						unsetLast:{
 							label	: "Unset the final activity",
-							icon	: base_www + "img/unset-flag-red.png",
+							icon	: img_url + "unset-flag-red.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity-last')){ 
 									return 1;
@@ -274,7 +275,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addInteractiveService: {
 							label: "Add Interactive Service",
-							icon: base_www + "img/process_service.png",
+							icon: img_url + "process_service.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -309,7 +310,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addOnBeforeInferenceRule: {
 							label: "Add 'OnBefore' InferenceRule",
-							icon: base_www + "img/inference-rule.png",
+							icon: img_url + "inference-rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -332,7 +333,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addOnAfterInferenceRule: {
 							label: "Add 'OnAfter' InferenceRule",
-							icon: base_www + "img/inference-rule.png",
+							icon: img_url + "inference-rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -355,7 +356,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						addConsistencyRule: {
 							label: "Add Consistency Rule",
-							icon: base_www + "img/process_consistency_rule.png",
+							icon: img_url + "process_consistency_rule.png",
 							visible : function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return -1; 
@@ -377,7 +378,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteActivity:{
 							label	: "Remove activity",
-							icon	: base_www + "img/delete.png",
+							icon	: img_url + "delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -402,7 +403,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteConnector:{
 							label	: "Remove connector",
-							icon	: base_www + "img/delete.png",
+							icon	: img_url + "delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -428,7 +429,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteService:{
 							label	: "Remove interactive service",
-							icon	: base_www + "img/delete.png",
+							icon	: img_url + "delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -453,7 +454,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteInferenceRule:{
 							label	: "Remove inferenceRule",
-							icon	: base_www + "img/delete.png",
+							icon	: img_url + "delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -478,7 +479,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						deleteConsistencyRule:{
 							label	: "Remove consistencyRule",
-							icon	: base_www + "img/delete.png",
+							icon	: img_url + "delete.png",
 							visible	: function (NODE, TREE_OBJ){
 								var ok = -1;
 								$.each(NODE, function (){
@@ -503,7 +504,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 						},
 						gotonode:{
 							label	: "Goto",
-							icon	: base_www + "img/go-jump.png",
+							icon	: img_url + "go-jump.png",
 							visible	: function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-activity-goto') || $(NODE).hasClass('node-connector-goto')){ 
 									return 1;
