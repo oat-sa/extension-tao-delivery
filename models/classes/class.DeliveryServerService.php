@@ -67,8 +67,8 @@ class taoDelivery_models_classes_DeliveryServerService
 	
 		$returnValue = null;
 		
-		$subjectsByLogin=core_kernel_impl_ApiModelOO::singleton()->getSubject(SUBJECT_LOGIN_PROP , $login);
-		$subjectsByPassword=core_kernel_impl_ApiModelOO::singleton()->getSubject(SUBJECT_PASSWORD_PROP , $password);
+		$subjectsByLogin=core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_USER_LOGIN , $login);
+		$subjectsByPassword=core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_USER_PASSWORD , $password);
 		
 		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
 		
