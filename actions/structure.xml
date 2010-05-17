@@ -22,7 +22,6 @@
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
 				<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/Delivery/cloneDelivery" context="instance" />
 				<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
-				<action name="new property" js="GenerisAction.addProperty" url="/taoDelivery/Delivery/addClassProperty" context="class" />
 				<action name="create table" js="GenerisAction.resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="export" url="/tao/Export/index"  context="*" /> 
 				<action name="import" url="/tao/Import/index"  context="class" /> 
@@ -53,7 +52,6 @@
 				<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/Campaign/cloneInstance" context="instance" />
 				<action name="edit campaign" url="/taoDelivery/Campaign/editCampaign" context="instance" />
 				<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
-				<action name="new property" js="GenerisAction.addProperty" url="/taoDelivery/Campaign/addClassProperty" context="class" />
 				<action name="create table" js="GenerisAction.resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="export" url="/tao/Export/index"  context="*" /> 
 				<action name="import" url="/tao/Import/index"  context="class" /> 
@@ -81,7 +79,6 @@
 				<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/ResultServer/cloneInstance" context="instance" />
 				<action name="edit result server" url="/taoDelivery/ResultServer/editResultServer" context="instance" />
 				<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
-				<action name="new property" js="GenerisAction.addProperty" url="/taoDelivery/ResultServer/addClassProperty" context="class" />
 				<action name="create table" js="GenerisAction.resultTable" url="/taoResults/Results/createTable"  context="class" />
 				<action name="export" url="/tao/Export/index"  context="*" /> 
 				<action name="import" url="/tao/Import/index"  context="class" /> 

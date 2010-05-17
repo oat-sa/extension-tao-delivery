@@ -25,6 +25,7 @@
 				</li>
 			<?endforeach?>
 			</ul>
+			<span class="elt-info"><?=__('Drag and drop the tests to order them')?></span>
 		</div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
