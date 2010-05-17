@@ -209,6 +209,8 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	//do not draw connector here, feed them first until everything is fed:
 	// ActivityDiagramClass.drawConnector(connectorId, position, type, prevActivityId);
 	
+	//inti port value:
+	ActivityDiagramClass.connectors[connectorId].port = new Array();
 	
 	//check if the connector has another connector:
 	if(connectorData.children){
@@ -223,7 +225,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 			//build the arrows (the previous and next connectors must have already been created of course)
 			if(nextActivityData.port){
 				//check authorized port:
-				
+				//note: nextActivityData.port is an int{0,*}
 				var originId =  ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', nextActivityData.port);
 				// var originId = connectorData.attributes.id;//set the origin of the arrow as the id of the connector, then let the arrow calculate the real id
 				
@@ -293,7 +295,8 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 				//note: do not calculate/draw arrow here since the target element is unilikely to have already been build.
 				// ArrowClass.calculateArrow($('#'+originId), $('#'+targetId), type, flex);
 				
-				
+				//add related port
+				ActivityDiagramClass.connectors[connectorId].port[nextActivityData.port] = nextActivityId;
 			}
 			
 		}
@@ -700,7 +703,7 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 	}else{
 		throw 'no activity  reference id found';
 	}
-	
+	/*
 	var portNumber =0;
 	var className = '';
 	switch(type){
@@ -726,16 +729,20 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 		}
 		default:
 			return false;
+	}*/
+	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(type);
+	if(connectorTypeDescription == null){
+		throw 'wrong type of connector';
+		return false;
 	}
 	
 	//define id:
-	
 	var elementActivityId = ActivityDiagramClass.getActivityId('activity', prevActivityId);
 	var elementConnectorId = ActivityDiagramClass.getActivityId('connector', connectorId);
 	
 	var elementConnector = $('<div id="'+elementConnectorId+'"></div>');//put connector id here instead
 	elementConnector.addClass('diagram_connector');
-	elementConnector.addClass(className);
+	elementConnector.addClass(connectorTypeDescription.className);
 	elementConnector.addClass(elementActivityId);
 	
 	if(pos == 'activity'){
@@ -766,13 +773,13 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 	
 	var offsetStart = 0;
 	var offsetStep = 0;
-	if(portNumber%2){
+	if(connectorTypeDescription.portNumber%2){
 		//odd:
-		offsetStep = width/portNumber;
+		offsetStep = width/connectorTypeDescription.portNumber;
 		offsetStart = offsetStep/2;
 	}else{
 		//even:
-		offsetStep = width/(portNumber+1);
+		offsetStep = width/(connectorTypeDescription.portNumber+1);
 		offsetStart = offsetStep;
 	}
 	
@@ -785,10 +792,45 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 	*/
 	
 	//set the border points:
-	for(i=0; i<portNumber; i++){
+	for(i=0; i<connectorTypeDescription.portNumber; i++){
 		ActivityDiagramClass.setBorderPoint(connectorId, 'connector', 'bottom', Math.round(offsetStart+i*offsetStep), i);
 	}
 	
+}
+
+ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){
+	var portNumber =0;
+	var className = '';
+	var portNames = []
+	switch(connectorType){
+		case 'sequence':{
+			portNumber = 1;
+			className = 'connector_sequence';
+			portNames[0] = 'Next';
+			break;
+		}
+		case 'split':{
+			portNumber = 2;
+			className = 'connector_split';
+			portNames[0] = 'Then';
+			portNames[1] = 'Else';
+			break;
+		}
+		case 'parallel':{
+			portNumber = 3;
+			className = 'connector_parallel';
+			break;
+		}
+		case 'join':{
+			portNumber = 1;
+			className = 'connector_join';
+			break;
+		}
+		default:
+			return null;
+	}
+	
+	return {portNumber: portNumber, className: className, portNames:portNames};
 }
 
 ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset, port){

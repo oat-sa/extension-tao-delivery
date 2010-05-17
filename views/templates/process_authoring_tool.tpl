@@ -39,7 +39,7 @@
 	var img_url = root_url + "/taoDelivery/views/img/";
 	
 	$(function() {
-		// window.loadFirebugConsole();
+		window.loadFirebugConsole();
 		try{
 			// ActivityDiagramClass.drawActivity("activity1_uri", {
 				// left: 50,
