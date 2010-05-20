@@ -417,14 +417,14 @@ class tao_helpers_Precompilator
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @param  string uriRessource
+	 * @param  string uriResource
      * @return string
      */	
-	public static function getUniqueId($uriRessource){
+	public static function getUniqueId($uriResource){
 		$returnValue='';
 		//TODO check format of the uri, preg_match()
-		if(stripos($uriRessource,".rdf#")>0){
-			$returnValue = substr($uriRessource,stripos($uriRessource,".rdf#")+5);
+		if(stripos($uriResource,".rdf#")>0){
+			$returnValue = substr($uriResource,stripos($uriResource,".rdf#")+5);
 		}
 		
 		return $returnValue;
