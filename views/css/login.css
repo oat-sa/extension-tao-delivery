@@ -1,0 +1,72 @@
+@import url(frontend_user.css);
+
+#welcome_message
+{
+	width:350px;
+	margin:15px auto 50px auto;
+	font-size: 22px;
+	font-weight: bold;
+	padding-left: 20px;
+	color: #255581;
+}
+
+/* Login form. */
+#login_form
+{
+	width: 380px;
+	margin: 200px auto 0px auto;
+	padding: 0px 0px 0px 0px;
+}
+
+/* Labels relevant to input fields of the login form. */
+#login_form label 
+{
+	font-size: 14px;
+}
+ 
+/* Items items (lines) of the login form. Each of them
+   contains a label, and an input element. */
+#login_form .item
+{
+	position: relative;
+	margin: 0px 0px 10px 0px;
+	line-height: 20px;
+	
+	clear: both;
+}
+
+/* Input elements contained in items (lines) of the 
+   login form */
+#login_form .item .input
+{
+	position: absolute;
+	display: block;
+	width: 170px;
+	top: 2px;	
+	right: 0px;
+	
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	
+	border: 1px solid #A5ACB2;
+}
+
+/* Validation container of the login form containing the confirmation
+   input element. */
+#login_form .validation
+{
+	position: relative;
+	padding: 10px 0px 0px 0px;
+	line-height: 20px;
+	
+	text-align: right;
+	
+	clear: both;	
+}
+
+/* Confirmation input button for the login form. */
+#login_form .validation .confirm
+{
+	color: #000000;
+}

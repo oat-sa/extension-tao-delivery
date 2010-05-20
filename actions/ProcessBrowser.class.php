@@ -1,18 +1,13 @@
 <?php
-class ProcessBrowser extends Module
+class ProcessBrowser extends DeliveryServerModule
 {
-	
-	public function __construct(){
-		//log into generis:
-		core_control_FrontController::connect(API_LOGIN, API_PASSWORD, DATABASE_NAME);
-	}
 	
 	public function index($processUri)
 	{
 
-		if (!isset($_SESSION['taoqual.authenticated'])){
-			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
-		}
+		// if (!isset($_SESSION['taoqual.authenticated'])){
+			// $this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
+		// }
 
 		$_SESSION["processUri"]= $processUri;
 
@@ -146,7 +141,7 @@ class ProcessBrowser extends Module
 
 	public function back($processUri)
 	{
-		UsersHelper::checkAuthentication();
+		//UsersHelper::checkAuthentication();
 
 		$processUri 	= urldecode($processUri);
 		$processExecution = new ProcessExecution($processUri);
@@ -166,7 +161,7 @@ class ProcessBrowser extends Module
 
 	public function next($processUri, $ignoreConsistency = 'false')
 	{
-		UsersHelper::checkAuthentication();
+		//UsersHelper::checkAuthentication();
 	
 	
 	
@@ -193,7 +188,7 @@ class ProcessBrowser extends Module
 			else
 			{
 
-				$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
+				$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 				
 			}
 		}
@@ -218,7 +213,7 @@ class ProcessBrowser extends Module
 
 	public function pause($processUri)
 	{
-		UsersHelper::checkAuthentication();
+		//UsersHelper::checkAuthentication();
 
 		$processUri 	= urldecode($processUri);
 		$processExecution = new ProcessExecution($processUri);
@@ -226,13 +221,8 @@ class ProcessBrowser extends Module
 		$processExecution->pause();
 		$_SESSION["processUri"]= null;
 		
-		$this->redirect(tao_helpers_Uri::url('deliveryIndex', 'DeliveryServer'));
+		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 	}
-
-
-
-
-
 
 }
 ?>
