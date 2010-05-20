@@ -112,7 +112,7 @@ define('PROPERTY_REMAINING_ACTIVITIES_ARRAY',			NS_TAOQUAL.'#i124705207523877');
 
 define('PROPERTY_FINISHED_ACTIVITIES',					NS_TAOQUAL.'#i12525951541482');
 
-
+include_once ROOT_PATH . '/tao/includes/constants.php';
 
 $todefine = array(
 	
