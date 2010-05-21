@@ -34,6 +34,10 @@
 		height:200px;
 		border:1px solid black;
 	}
+	
+	#slider_container{
+		width: 300px;
+	}
 </style>
 
 <div id="interactiveService-form">
@@ -42,27 +46,27 @@
 	<?=get_data("formInteractionService")?>
 	
 	<div id="servicePositionningEditor" style="display:none">
-		
-		<div id="slider_top_container">
-			<label id="slider_top_label">Top shifting</label>
-			<div id="slider_top"/>
+		<div id="slider_container">
+			<div id="slider_top_container">
+				<label id="slider_top_label">Top shifting</label>
+				<div id="slider_top"/>
+			</div>
+			
+			<div id="slider_left_container">
+				<label id="slider_left_label">Left shifting</label>
+				<div id="slider_left"/>
+			</div>
+			
+			<div id="slider_height_container">
+				<label id="slider_height_label">Height</label>
+				<div id="slider_height"/>
+			</div>
+			
+			<div id="slider_width_container">
+				<label id="slider_width_label">Width</label>
+				<div id="slider_width"/>
+			</div>
 		</div>
-		
-		<div id="slider_left_container">
-			<label id="slider_left_label">Left shifting</label>
-			<div id="slider_left"/>
-		</div>
-		
-		<div id="slider_height_container">
-			<label id="slider_height_label">Height</label>
-			<div id="slider_height"/>
-		</div>
-		
-		<div id="slider_width_container">
-			<label id="slider_width_label">Width</label>
-			<div id="slider_width"/>
-		</div>
-		
 		
 		<div id="servicePositionningPreview" style="position:relative">
 			<!--<div id='preview_truc1' style="left: 25%; top: 59%; width: 70%; height: 100%;">truc</div>-->
