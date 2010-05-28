@@ -58,18 +58,6 @@ class taoDelivery_models_classes_DeliveryService
      */
     protected $deliveryClass = null;
 		
-    /**
-     * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
-     *
-     * @access protected
-     * @var array
-     */
-    protected $deliveryOntologies = array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
-		'http://www.tao.lu/Ontologies/TAOGroup.rdf',
-		'http://www.tao.lu/Ontologies/TAOSubject.rdf',
-		'http://www.tao.lu/Ontologies/TAOTest.rdf'
-		);
 		
     // --- OPERATIONS ---
 
@@ -85,7 +73,6 @@ class taoDelivery_models_classes_DeliveryService
 		parent::__construct();
 		
 		$this->deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$this->loadOntologies($this->deliveryOntologies);
     }
 	
 	/**

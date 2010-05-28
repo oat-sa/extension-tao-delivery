@@ -52,15 +52,6 @@ class taoDelivery_models_classes_CampaignService
      */
     protected $campaignClass = null;
 	
-    /**
-     * The attribute deliveryOntologies contains the reference to the TAODelivery Ontology
-     *
-     * @access protected
-     * @var array
-     */
-    protected $deliveryOntologies = array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
-		);
 	
 	
     // --- OPERATIONS ---
@@ -77,7 +68,6 @@ class taoDelivery_models_classes_CampaignService
 		parent::__construct();
 		
 		$this->campaignClass = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
-		$this->loadOntologies($this->deliveryOntologies);
     }
 	
 	/**
