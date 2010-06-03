@@ -487,7 +487,7 @@ class Delivery extends TaoModule {
 		$testId=tao_helpers_Uri::getUniqueId($testUri);
 		
 		//copy runtime plugins:
-		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
+		$compilator = new taoDelivery_helpers_Compilator($testUri, $compilationPath, $pluginPath);//new constructor
 		$compilator->clearCompiledFolder();
 		$compilator->copyPlugins();
 		

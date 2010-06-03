@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @subpackage helpers
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_helpers_Precompilator
+class taoDelivery_helpers_Compilator
 {
     // --- ASSOCIATIONS ---
 

@@ -677,7 +677,7 @@ class taoDelivery_models_classes_DeliveryService
 			// $testId = tao_helpers_Uri::getUniqueId($test->uriResource);
 			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
 			
-			$testUrl = tao_helpers_Precompilator::getCompiledTestUrl($test->uriResource);
+			$testUrl = taoDelivery_helpers_Compilator::getCompiledTestUrl($test->uriResource);
 			
 			$serviceDefinition = null;
 			$serviceDefinitionCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
@@ -785,7 +785,7 @@ class taoDelivery_models_classes_DeliveryService
 			$serviceUrl = $serviceDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
 
 			//regenerated the test uri
-			$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
+			$testUri = taoDelivery_helpers_Compilator::getTestUri($serviceUrl);
 			
 			//set the test in the table:
 			$tests[$i] = new core_kernel_classes_Resource($testUri);
@@ -894,7 +894,7 @@ class taoDelivery_models_classes_DeliveryService
 					if(!is_null($serviceUrl)){
 					
 						//regenerate the test uri
-						$testUri = tao_helpers_Precompilator::getTestUri($serviceUrl);
+						$testUri = taoDelivery_helpers_Compilator::getTestUri($serviceUrl);
 						if(!empty($testUri)){
 							//set the test in the table:
 							$tests[$testUri] = new core_kernel_classes_Resource($testUri);

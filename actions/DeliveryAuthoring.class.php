@@ -68,7 +68,7 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		foreach($tests as $test){
 			if($test['attributes']['class'] == 'node-instance'){
 				// $testId = tao_helpers_Uri::getUniqueId( tao_helpers_Uri::decode($test['attributes']['id']) );
-				$testUrl = tao_helpers_Precompilator::getCompiledTestUrl(tao_helpers_Uri::decode($test['attributes']['id']));
+				$testUrl = taoDelivery_helpers_Compilator::getCompiledTestUrl(tao_helpers_Uri::decode($test['attributes']['id']));
 				if(!empty($testUrl)){
 					$test['attributes']['val'] = $testUrl;//BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";	
 				}
