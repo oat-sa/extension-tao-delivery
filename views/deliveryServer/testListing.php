@@ -51,7 +51,7 @@ $pager_data=array(
 $selectedTests_data=array();
 for($i=$start_number; $i<=$end_number; $i++){
 	// get the values of the properties of each instance: label, some parameter for 
-	$selectedTests_data[$i]["uri"]=tao_helpers_Precompilator::getUniqueId($compiledTestArray[$i]->uriResource);
+	$selectedTests_data[$i]["uri"]=tao_helpers_Uri::getUniqueId($compiledTestArray[$i]->uriResource);
 	$selectedTests_data[$i]["label"]=$compiledTestArray[$i]->getLabel();
 	$selectedTests_data[$i]["comment"]="comment of test ";
 }

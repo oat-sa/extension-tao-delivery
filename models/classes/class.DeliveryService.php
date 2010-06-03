@@ -292,7 +292,7 @@ class taoDelivery_models_classes_DeliveryService
 				
 				//check if the compiled folder exists:
 				/*
-				$testId=tao_helpers_Precompilator::getUniqueId($aTestInstance->uriResource);
+				$testId=tao_helpers_Uri::getUniqueId($aTestInstance->uriResource);
 				
 				if(!is_dir(BASE_PATH."/compiled/$testId/")){
 					return $returnValue;
@@ -674,7 +674,7 @@ class taoDelivery_models_classes_DeliveryService
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
-			// $testId = tao_helpers_Precompilator::getUniqueId($test->uriResource);
+			// $testId = tao_helpers_Uri::getUniqueId($test->uriResource);
 			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
 			
 			$testUrl = tao_helpers_Precompilator::getCompiledTestUrl($test->uriResource);

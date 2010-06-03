@@ -441,7 +441,7 @@ class Delivery extends TaoModule {
 			$testData[$i]=array();
 			$testData[$i]["label"]=$test->getLabel();
 			$testData[$i]["uri"]=$test->uriResource;
-			$testData[$i]["id"]=tao_helpers_Precompilator::getUniqueId($test->uriResource);
+			$testData[$i]["id"]=tao_helpers_Uri::getUniqueId($test->uriResource);
 			$testData[$i]["compiled"]=0;
 			$testData[$i]["active"]=0;
 			
@@ -484,7 +484,7 @@ class Delivery extends TaoModule {
 		
 		//get the unique id of the test to be compiled from POST
 		$testUri=$_POST["uri"];
-		$testId=tao_helpers_Precompilator::getUniqueId($testUri);
+		$testId=tao_helpers_Uri::getUniqueId($testUri);
 		
 		//copy runtime plugins:
 		$compilator = new tao_helpers_Precompilator($testUri, $compilationPath, $pluginPath);//new constructor
@@ -537,7 +537,7 @@ class Delivery extends TaoModule {
 					foreach ($items as $item){
 						$itemUri=$item->nodeValue;
 						//get an unique item id from its uri
-						$itemId=tao_helpers_Precompilator::getUniqueId($itemUri);
+						$itemId=tao_helpers_Uri::getUniqueId($itemUri);
 						
 						$anItemInstance = new core_kernel_classes_Resource($itemUri);
 						
@@ -676,7 +676,7 @@ class Delivery extends TaoModule {
 		catch(Exception $e){ echo $e;}
 		
 		if($testCompiled){
-			$testId=tao_helpers_Precompilator::getUniqueId($testUri);
+			$testId=tao_helpers_Uri::getUniqueId($testUri);
 			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
 			header("location: $testUrl");
 		}else{
