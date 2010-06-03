@@ -1,7 +1,6 @@
 <?php
 require_once('tao/actions/CommonModule.class.php');
 require_once('tao/actions/TaoModule.class.php');
-require_once('taoDelivery/helpers/class.Precompilator.php');
 
 /**
  * Delivery Controller provide actions performed from url resolution

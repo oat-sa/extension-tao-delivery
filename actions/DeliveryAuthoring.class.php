@@ -1,9 +1,4 @@
 <?php
-// require_once('tao/actions/CommonModule.class.php');
-// require_once('tao/actions/TaoModule.class.php');
-require_once('taoDelivery/helpers/class.Precompilator.php');
-
-
 /**
  * DeliveryAuthoring Controller provide actions to edit a delivery
  * 

@@ -31,7 +31,7 @@ require_once('tao/models/classes/class.Service.php');
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  */
-require_once('taoDelivery/helpers/class.Precompilator.php');
+
 
 /**
  * The taoDelivery_models_classes_DeliveryService class provides methods to connect to several ontologies and interact with them.

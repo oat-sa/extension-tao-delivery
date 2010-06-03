@@ -50,7 +50,7 @@
 		       	
 			   $("#next").click(function(){
 			   		
-			       				goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>');
+			       				goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			   					
 			   	});
 			   	
@@ -58,7 +58,7 @@
 		       {
 		       		$('#next_floating').click(function(){
 			       		
-			       					goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>');
+			       					goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			   				
 			       	});
 		       }	
@@ -98,7 +98,7 @@
 			
 			
         	<li>
-        		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $user; ?></span></span> <span class="separator" />
+        		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $userViewData['username']; ?></span></span> <span class="separator" />
         	</li>
          	
 
@@ -112,7 +112,7 @@
          	
          
          	<li>
-         		<a id="logout" class="action icon" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
+         		<a id="logout" class="action icon" href="<?php echo BASE_URL;?>/Authentication/logout"><?php echo __("Logout"); ?></a>
          	</li>
 
 		</ul>
@@ -140,7 +140,9 @@
 
 			
 				<div id="tools">
-					<iframe frameborder="0" id="tools" src="<?php echo $services[0]->getCallUrl($variablesViewData);  ?>"/></iframe>
+					<?php foreach($services as $service): ?>
+					<iframe frameborder="0" style="<?php echo $service->getStyle();?>" src="<?php echo $service->getCallUrl($variablesViewData);?>"></iframe>
+					<?php endforeach;?>
 				</div>
 
 			</div>

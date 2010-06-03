@@ -18,8 +18,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
 
-require_once('taoDelivery/helpers/class.Precompilator.php');
-
 /**
  * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
