@@ -618,15 +618,7 @@ class taoDelivery_models_classes_DeliveryService
 		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel)){
 			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}else{
-			//this section of code is no longer required with the use of actual parameters
-			// $processVarProp = new core_kernel_classes_Property(PROPERTY_PROCESS_VARIABLE);
-			// $process->removePropertyValues($processVarProp);
-			// $process->setPropertyValue($processVarProp, $var_subjectUri->uriResource);
-			// $process->setPropertyValue($processVarProp, $var_subjectLabel->uriResource);
-			// $process->setPropertyValue($processVarProp, $var_wsdl->uriResource);
-			
-			//new implementation:
-			//create formal param instead, associated to the 3 proc var:
+			//create formal param associated to the 3 required proc var:
 			$subjectUriParam = $authoringService->getFormalParameter('subject');
 			if(is_null($subjectUriParam)){
 				$subjectUriParam = $authoringService->createFormalParameter('subject', 'processvariable', $var_subjectUri->uriResource, 'subject uri (do not delete)');
@@ -690,11 +682,12 @@ class taoDelivery_models_classes_DeliveryService
 				//if no corresponding service def found, create a service definition:
 				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
 				$serviceDefinition = $serviceDefinitionClass->createInstance($test->getLabel(), 'created by delivery service');
+				
+				//set service definition (the test) and parameters:
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), $testUrl);
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectUriParam->uriResource);
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectLabelParam->uriResource);
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $wsdlParam->uriResource);
-				
 			}
 			//create a call of service and associate the service definition to it:
 			$interactiveService = $authoringService->createInteractiveService($activity);

@@ -180,7 +180,7 @@ class DeliveryServer extends DeliveryServerModule{
 	}
 	
 	public function resultUploadWsdl(){
-		$pathToResultServer= ROOT_URL.'/taoDelivery/views/deliveryServer/resultServer';
+		$pathToResultServer= ROOT_URL.'/taoDelivery/views/resultServer';
 
 		$wsdl='
 		<?xml version="1.0" encoding="UTF-8"?>

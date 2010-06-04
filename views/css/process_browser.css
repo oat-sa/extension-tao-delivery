@@ -85,6 +85,7 @@
   width: 1024px;
   height : 800px;
   margin: 0px auto 0px auto;
+  position: relative;
 }
 	
 #tools #xul_info
