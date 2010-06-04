@@ -141,9 +141,10 @@ class DeliveryAuthoring extends ProcessAuthoring {
 				throw new Exception("no delivery found for the current process");
 			}
 			
-			$this->setData("processUri", urlencode($currentProcess->uriResource));
+			$this->setData("processUri", urlencode($currentDelivery->uriResource));
 			$this->setData("processLabel", $currentDelivery->getLabel());
-		
+			$this->setData("deliveryClass", tao_helpers_Uri::encode($currentDelivery->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource));
+			
 			//compilation state:
 			$deliveryService = tao_models_classes_ServiceFactory::get('Delivery');
 			$isCompiled=$deliveryService->isCompiled($currentDelivery);
@@ -155,69 +156,6 @@ class DeliveryAuthoring extends ProcessAuthoring {
 		}
 		
 		$this->setView("process_compiling.tpl");
-	}
-	
-	/**
-	 * get the compilation view
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function initCompilation(){
-		
-		$process = $this->getCurrentProcess();
-		$delivery = $this->service->getDeliveryFromProcess($process);
-		if(is_null($delivery)){
-			throw new Exception("no delivery found for the current process");
-		}
-		
-		//init the value to be returned	
-		$deliveryData=array();
-		
-		//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
-		//array of resource, test set
-		$tests = array();
-		$tests = $this->getProcessTests($process);
-	
-		$deliveryData['tests'] = array();
-		foreach($tests as $test){
-			$deliveryData['tests'][] = array(
-				"label" => $test->getLabel(),
-				"uri" => $test->uriResource
-			);//url encode maybe?
-		}
-		
-		$deliveryData["uri"] = $delivery->uriResource;
-		
-		echo json_encode($deliveryData);
-	}
-	
-	/**
-	 * End the compilation of a delivery
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function endCompilation(){
-	
-		$process = $this->getCurrentProcess();
-		$delivery = $this->service->getDeliveryFromProcess($process);
-		if(is_null($delivery)){
-			throw new Exception("no delivery found for the current process");
-		}
-		
-		$response = array();
-		$response["result"]=0;
-		
-		if ($delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP),GENERIS_TRUE)){
-			$response["result"] = 1;
-			$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
-			
-		}
-		
-		echo json_encode($response);
 	}
 	
 }

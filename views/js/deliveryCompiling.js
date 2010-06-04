@@ -228,7 +228,7 @@ function incrementProgressbar(value){
 }
 
 function finalMessage(msg, imageFile){
-	$(document.createElement("img")).attr({ "src": base_www + "img/" + imageFile}).appendTo($("#progressbar"));
+	$(document.createElement("img")).attr({ "src": img_url + imageFile}).appendTo($("#progressbar"));
 	$("#progressbar").append(msg);
 	if( progressbar != null ){
 		progressbar.progressbar( 'destroy' );
