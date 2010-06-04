@@ -104,9 +104,18 @@ function ActivityTreeClass(selector, dataUrl, options){
 						);
 						
 					}else if( $(NODE).hasClass('node-connector') && instance.options.editConnectorAction){
+						//console.log(TREE_OBJ.parent(NODE).attr('id'));
+						activityUri = false;
+						currentNode = TREE_OBJ.parent(NODE);
+						do{
+							if($(currentNode).hasClass('node-activity')){
+								activityUri = $(currentNode).attr('id');
+							}
+							currentNode = TREE_OBJ.parent(currentNode);
+						}while(!activityUri && currentNode);
 						_load(instance.options.formContainer, 
 							instance.options.editConnectorAction,
-							{connectorUri:$(NODE).attr('id')}
+							{connectorUri:$(NODE).attr('id'), activityUri:activityUri}
 						);
 					}else if( ($(NODE).hasClass('node-connector-goto')||$(NODE).hasClass('node-connector-prev')) && instance.options.editConnectorAction){
 						//hightlight the target node
@@ -550,7 +559,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 
 	}
 	catch(exp){
-		console.log(exp);
+		// console.log(exp);
 	}
 }
 
@@ -910,7 +919,7 @@ ActivityTreeClass.removeNode = function(options){
 ActivityTreeClass.setFirstActivity = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
-	data = {processUri:TREE_OBJ.parent(NODE).attr('id'), activityUri:NODE.attr('id')};
+	data = {processUri:TREE_OBJ.parent(NODE).attr('rel'), activityUri:NODE.attr('id')};
 	
 	if(data){
 		$.ajax({
