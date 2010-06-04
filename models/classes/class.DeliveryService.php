@@ -665,6 +665,10 @@ class taoDelivery_models_classes_DeliveryService
 			//set property value visible to true
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
 			
+			//set ACL mode to role user restricted with role=subject
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), TAO_SUBJECT_CLASS);
+			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
 			// $testId = tao_helpers_Uri::getUniqueId($test->uriResource);
 			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";

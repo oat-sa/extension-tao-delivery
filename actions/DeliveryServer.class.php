@@ -104,17 +104,23 @@ class DeliveryServer extends DeliveryServerModule{
 
 		$wfEngine = $_SESSION["WfEngine"];
 		$login = $_SESSION['taoqual.userId'];
-
 		$this->setData('login',$login);
+		
 		$processes 			= $wfEngine->getProcessExecutions();
-
-
-
+		
+		//init required services
+		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
+		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+		//get current user:
+		$currentUser = $userService->getCurrentUser();
+		
+		//init variable that save data to be used in the view
 		$processViewData 	= array();
 
 		$uiLanguages		= I18nUtil::getAvailableLanguages();
 		$this->setData('uiLanguages',$uiLanguages);
-
+		
+		//get the definition of delivery available for the subject:
 		$visibleProcess =$this->service->getDeliveries($subject,false);
 
 		foreach ($processes as $proc)
@@ -137,44 +143,47 @@ class DeliveryServer extends DeliveryServerModule{
 						
 					$currentActivities = array();
 
-					foreach ($proc->currentActivity as $currentActivity)
-					{
+					foreach ($proc->currentActivity as $currentActivity){
 						$activity = $currentActivity;
-
-						//if (UsersHelper::mayAccessProcess($proc->process))
-						if (true)
-						{
-							$currentActivities[] = array('label' 			=> $currentActivity->label,
-													 'uri' 				=> $currentActivity->uri,
-													 'may_participate'	=> !$proc->isFinished());
-
-
-						}
-						$this->setData('currentActivities',$currentActivities);
-					}
-
-					if (true)
-					{
-						$processViewData[] = array('type' 		=> $type,
-										  	   'label' 		=> $label,
-											   'uri' 		=> $uri,
-												'persid'	=> $persid,
-										   	   'activities' => $currentActivities,
-											   'status'		=> $status);
-
+						
+						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser);
+						$currentActivities[] = array(
+							'label'				=> $currentActivity->label,
+							'uri' 				=> $currentActivity->uri,
+							'may_participate'	=> (!$proc->isFinished() && $isAllowed),
+							'finished'			=> $proc->isFinished(),
+							'allowed'			=> $isAllowed
+						);
 
 					}
+					
+					$processViewData[] = array(
+						'type' 			=> $type,
+						'label' 		=> $label,
+						'uri' 			=> $uri,
+						'persid'		=> $persid,
+						'activities'	=> $currentActivities,
+						'status'		=> $status
+					);
 				}
 			}
 
 		}
 		$processClass = new core_kernel_classes_Class(CLASS_PROCESS);
+		
+		//get deliveries for the current user (set in groups extension)
+		$availableProcessDefinitions = $this->service->getDeliveries($subject);
 
-		//$availableProcessDefinition = $processClass->getInstances();
-		$availableProcessDefinition = $this->service->getDeliveries($subject);
-
-
-		$this->setData('availableProcessDefinition',$availableProcessDefinition);
+		//filter process that can be initialized by the current user (2nd check...)
+		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+		$authorizedProcessDefinitions = array();
+		foreach($availableProcessDefinitions as $processDefinition){
+			if($processExecutionService->checkAcl($processDefinition, $currentUser)){
+				$authorizedProcessDefinitions[] = $processDefinition;
+			}
+		}
+		
+		$this->setData('availableProcessDefinition',$authorizedProcessDefinitions);
 		$this->setData('processViewData',$processViewData);
 		$this->setView('deliveryIndex.tpl');
 	}

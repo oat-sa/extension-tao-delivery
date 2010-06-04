@@ -14,7 +14,7 @@ class ProcessBrowser extends WfModule{
 		$userViewData 		= UsersHelper::buildCurrentUserForView(); // user data for browser view.
 		$this->setData('userViewData',$userViewData);
 		$browserViewData 	= array(); // general data for browser view.
-
+		
 		$process 			= new ProcessExecution($processUri);
 		$currentActivity = null;
 		if(!empty($activityUri)){
@@ -54,8 +54,9 @@ class ProcessBrowser extends WfModule{
 		
 		//security check if the user is allowed to access this activity
 		if(!$activityExecutionService->checkAcl($activity->resource, $currentUser)){
-			$_SESSION["processUri"] = null;
-			$this->redirect(_url('index', 'Main'));
+			
+			$_SESSION["processUri"] = null;die();
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
 	
 		
