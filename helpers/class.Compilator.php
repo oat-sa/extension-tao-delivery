@@ -117,7 +117,7 @@ class taoDelivery_helpers_Compilator
 		if(!empty($pluginPath)){
 			$this->pluginPath = $pluginPath;
 		}else{
-			$this->pluginPath = DIR_MODELS."ext/deliveryRuntime/";
+			$this->pluginPath = BASE_PATH."/models/ext/deliveryRuntime/";
 		}
 		if(!is_dir($this->pluginPath)){
 			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
@@ -126,7 +126,7 @@ class taoDelivery_helpers_Compilator
 		if(!empty($compiledPath)){
 			$this->compiledPath = $compiledPath;
 		}else{
-			$this->compiledPath = DIR_COMPILED;
+			$this->compiledPath = BASE_PATH."/compiled/";
 		}
 		if(!is_writable($this->compiledPath)){
 			throw new Exception("The compiled directory '{$this->compiledPath}' is not writable");
