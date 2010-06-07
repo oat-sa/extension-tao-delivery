@@ -52,59 +52,6 @@ class taoDelivery_models_classes_DeliveryServerService
 		parent::__construct();
     }
 			
-	 /**
-     * Check the login/pass in a MySQL table to identify a subject when he/she takes the delivery.
-     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
-	 * It returns the uri of the identified subjectm and an empty string otherwise.
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string login
-	 * @param  string password
-     * @return object
-     */
-	public function checkSubjectLogin($login, $password){
-	
-		$returnValue = null;
-		
-		$subjectsByLogin=core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_USER_LOGIN , $login);
-		$subjectsByPassword=core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_USER_PASSWORD , $password);
-		
-		$subjects = $subjectsByLogin->intersect($subjectsByPassword);
-		
-		if($subjects->count()>0){
-			//TODO: unicity of login/password pair to be implemented
-			$returnValue = $subjects->get(0);
-		}
-		
-		return $returnValue;
-	}
-	
-	/**
-     * Get all tests available for the identified subject.
-     * This method is used in the Delivery Server and uses direct access to the database for performance purposes.
-	 * It returns an array containing the uri of selected tests or an empty array otherwise.
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string subjectUri
-     * @return array
-     */
-	public function getTestsBySubject($subjectUri){//useless anymore
-		
-		$returnValue=array();
-				
-		$groups=core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
-		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Tests'));
-		}
-		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
-		$returnValue = $deliveries;
-		
-		return $returnValue;
-	}
-	
 	/**
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the database for performance purposes.
