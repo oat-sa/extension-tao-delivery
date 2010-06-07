@@ -19,7 +19,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * The taoDelivery_models_classes_ProcessAuthoringService class provides methods to connect to several ontologies and interact with them.
+ * The taoDelivery_models_classes_DeliveryAuthoringService class provides methods to connect to several ontologies and interact with them.
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}

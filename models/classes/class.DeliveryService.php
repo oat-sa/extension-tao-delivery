@@ -980,7 +980,10 @@ class taoDelivery_models_classes_DeliveryService
 		
 		return $returnValue;
 	}
-
+	
+	/**
+	* Perform all operations required to compile a test
+	*/
 	public function compileTest($testUri){
 	
 		$resultArray = array();

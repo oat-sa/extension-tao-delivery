@@ -28,7 +28,7 @@ require_once('tao/models/classes/class.Service.php');
 
 
 /**
- * The taoDelivery_models_classes_DeliveryService class provides methods to connect to several ontologies and interact with them.
+ * The taoDelivery_models_classes_ResultServerService class provides methods to connect to several ontologies and interact with them.
  *
  * @access public
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
