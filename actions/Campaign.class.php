@@ -82,16 +82,26 @@ class Campaign extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$highlightUri = '';
-		// if($this->hasSessionAttribute("showNodeUri")){
-			// $highlightUri = $this->getSessionAttribute("showNodeUri");
-			// unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		// } 
-		$filter = '';
+		
+		$options = array(
+			'subclasses' => true, 
+			'instances' => true, 
+			'highlightUri' => '', 
+			'labelFilter' => '', 
+			'chunk' => false
+		);
 		if($this->hasRequestParameter('filter')){
-			$filter = $this->getRequestParameter('filter');
+			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
-		echo json_encode( $this->service->toTree( $this->service->getCampaignClass(), true, true, $highlightUri, $filter));
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = $this->service->getCampaignClass();
+		}
+		
+		echo json_encode( $this->service->toTree($clazz , $options));
 	}
 	
 	/**
@@ -238,8 +248,15 @@ class Campaign extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
-		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_DELIVERY_CLASS), true, true, ''));
+		$options = array('chunk' => false);
+		if($this->hasRequestParameter('classUri')) {
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+		}
+		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
 	/**

@@ -36,7 +36,7 @@ class DeliveryAuthoring extends ProcessAuthoring {
 			throw new Exception("wrong request mode");
 		}
 		
-		$tests = $this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, '', '');
+		$tests = $this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS));
 		// throw new Exception(var_dump($tests));
 		$reformatedTreeData =array(
 			'data' => $tests['data'],

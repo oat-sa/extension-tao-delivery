@@ -86,17 +86,25 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$highlightUri = '';
-		// if($this->hasSessionAttribute("showNodeUri")){
-			// $highlightUri = $this->getSessionAttribute("showNodeUri");
-			// unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-		// } 
-		$filter = '';
+		$options = array(
+			'subclasses' => true, 
+			'instances' => true, 
+			'highlightUri' => '', 
+			'labelFilter' => '', 
+			'chunk' => false
+		);
 		if($this->hasRequestParameter('filter')){
-			$filter = $this->getRequestParameter('filter');
+			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
-				
-		echo json_encode( $this->service->toTree( $this->service->getDeliveryClass(), true, true, $highlightUri, $filter));
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz =  $this->service->getDeliveryClass();
+		}
+		
+		echo json_encode( $this->service->toTree($clazz , $options));
 	}
 	
 	/**
@@ -337,8 +345,15 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
-		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_SUBJECT_CLASS), true, true, ''));
+		$options = array('chunk' => false);
+		if($this->hasRequestParameter('classUri')) {
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+		}
+		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
 	/**
@@ -378,8 +393,15 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
-		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS), true, true, ''));
+		$options = array('chunk' => false);
+		if($this->hasRequestParameter('classUri')) {
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+		}
+		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
 	/**
@@ -648,7 +670,15 @@ class Delivery extends TaoModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		echo json_encode($this->service->toTree( new core_kernel_classes_Class(TAO_TEST_CLASS), true, true, ''));
+		$options = array('chunk' => false);
+		if($this->hasRequestParameter('classUri')) {
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		}
+		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
 	/**
