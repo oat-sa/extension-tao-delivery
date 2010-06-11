@@ -613,9 +613,26 @@ class taoDelivery_models_classes_DeliveryService
 		
 		//set the required process variables subjectUri and wsdlContract
 		$var_subjectUri = $this->getProcessVariable("subjectUri");
+		if(is_null($var_subjectUri)){
+			$var_subjectUri = $authoringService->createProcessVariable("subject Uri", "subjectUri");
+		}
+		
 		$var_subjectLabel = $this->getProcessVariable("subjectLabel");
+		if(is_null($var_subjectLabel)){
+			$var_subjectLabel = $authoringService->createProcessVariable("subject label", "subjectLabel");
+		}
+		
 		$var_wsdl = $this->getProcessVariable("wsdlContract");
-		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel)){
+		if(is_null($var_wsdl)){
+			$var_wsdl = $authoringService->createProcessVariable("wsdl contract", "subjectLabel");
+		}
+		
+		$var_delivery = $this->getProcessVariable("delivery");
+		if(is_null($var_delivery)){
+			$var_delivery = $authoringService->createProcessVariable("delivery", "delivery");
+		}
+		
+		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel) || is_null($var_delivery)){
 			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}else{
 			//create formal param associated to the 3 required proc var:
@@ -626,13 +643,20 @@ class taoDelivery_models_classes_DeliveryService
 			
 			$subjectLabelParam = $authoringService->getFormalParameter('subjectLabel');
 			if(is_null($subjectLabelParam)){
-				$subjectLabelParam = $authoringService->createFormalParameter('subjectlabel', 'processvariable', $var_subjectLabel->uriResource, 'subject label (do not delete)');
+				$subjectLabelParam = $authoringService->createFormalParameter('subjectLabel', 'processvariable', $var_subjectLabel->uriResource, 'subject label (do not delete)');
 			}
 			
 			$wsdlParam = $authoringService->getFormalParameter('wsdl');
 			if(is_null($wsdlParam)){
 				$wsdlParam = $authoringService->createFormalParameter('wsdl', 'processvariable', $var_wsdl->uriResource, 'wsdl constract url (do not delete)');
 			}
+			
+			//plus the last one, providing the delivery:
+			$deliveryParam = $authoringService->getFormalParameter('delivery');
+			if(is_null($deliveryParam)){
+				$deliveryParam = $authoringService->createFormalParameter('delivery', 'processvariable', $var_delivery->uriResource, 'delivery (do not delete)');
+			}
+			
 			// var_dump($subjectUriParam, $subjectLabelParam, $wsdlParam);
 			//set default process variable:
 		}
@@ -692,6 +716,7 @@ class taoDelivery_models_classes_DeliveryService
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectUriParam->uriResource);
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectLabelParam->uriResource);
 				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $wsdlParam->uriResource);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $deliveryParam->uriResource);
 			}
 			//create a call of service and associate the service definition to it:
 			$interactiveService = $authoringService->createInteractiveService($activity);
@@ -699,7 +724,8 @@ class taoDelivery_models_classes_DeliveryService
 			$authoringService->setActualParameter($interactiveService, $subjectUriParam, $var_subjectUri->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
 			$authoringService->setActualParameter($interactiveService, $subjectLabelParam, $var_subjectLabel->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
 			$authoringService->setActualParameter($interactiveService, $wsdlParam, $var_wsdl->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
-				
+			$authoringService->setActualParameter($interactiveService, $deliveryParam, $var_delivery->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
+			
 			if($totalNumber == 1){
 				if(!is_null($interactiveService) && $interactiveService instanceof core_kernel_classes_Resource){
 					return true;

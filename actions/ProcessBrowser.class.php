@@ -53,7 +53,7 @@ class ProcessBrowser extends WfModule{
 		$browserViewData['activityExecutionUri']= $activityExecutionResource->uriResource;
 		
 		//security check if the user is allowed to access this activity
-		if(!$activityExecutionService->checkAcl($activity->resource, $currentUser)){
+		if(!$activityExecutionService->checkAcl($activity->resource, $currentUser, $process->resource)){
 			
 			$_SESSION["processUri"] = null;die();
 			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));

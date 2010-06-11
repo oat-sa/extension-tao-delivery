@@ -36,16 +36,17 @@ if(isset($_GET['subject']) && !empty($_GET['subject'])){
 	die("no subject uri found");
 }
 
-$subjectUri=urlencode($subjectUri);
-$subjectLabel=urlencode($subjectLabel);
-$wsdlUrl=urlencode($wsdlUrl);
+$subjectUri = urlencode($subjectUri);
+$subjectLabel = urlencode($subjectLabel);
+$wsdlUrl = urlencode($wsdlUrl);
+$deliveryLabel = urlencode($_GET['delivery']);
 
-$runtimeParameters="";
+$runtimeParameters='';
 $runtimeParameters="
 	TestXmlFile=Test.xml
 	&subject=$subjectUri
 	&label=$subjectLabel
-	&comment=
+	&comment=$deliveryLabel
 	&wsdlurl=$wsdlUrl
 	&taoIP=$subjectIp
 	&fullscreen=0

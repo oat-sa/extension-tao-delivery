@@ -61,14 +61,16 @@ class DeliveryServer extends DeliveryServerModule{
 		$var_subjectUri = $this->service->getProcessVariable("subjectUri");
 		$var_subjectLabel = $this->service->getProcessVariable("subjectLabel");
 		$var_wsdl = $this->service->getProcessVariable("wsdlContract");
-		if(!is_null($var_subjectUri) && !is_null($var_wsdl) && !is_null($var_subjectLabel)){
+		$var_delivery = $this->service->getProcessVariable("delivery");
+		if(!is_null($var_subjectUri) && !is_null($var_wsdl) && !is_null($var_subjectLabel) && !is_null($var_delivery)){
 			$processExecutionFactory->variables = array(
 			$var_subjectUri->uriResource => $subject->uriResource,
 			$var_subjectLabel->uriResource => $subject->getLabel(),
-			$var_wsdl->uriResource => $wsdlContract
+			$var_wsdl->uriResource => $wsdlContract,
+			$var_delivery->uriResource => $delivery->uriResource
 			);//no need to encode here, will be donce in Service::getUrlCall
 		}else{
-			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
+			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel", "wsdlContract" and/or "delivery"');
 		}
 
 		$newProcessExecution = $processExecutionFactory->create();
@@ -146,7 +148,7 @@ class DeliveryServer extends DeliveryServerModule{
 					foreach ($proc->currentActivity as $currentActivity){
 						$activity = $currentActivity;
 						
-						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser);
+						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser, $proc->resource);
 						$currentActivities[] = array(
 							'label'				=> $currentActivity->label,
 							'uri' 				=> $currentActivity->uri,
