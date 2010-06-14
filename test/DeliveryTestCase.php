@@ -267,7 +267,7 @@ class DeliveryTestCase extends UnitTestCase {
 		}
 		
 		//check create folder and files:
-		$compilator = new taoDelivery_helpers_Compilator($test1->uriResource);//new constructor
+		$compilator = new taoDelivery_helpers_Compilator($test1->uriResource);
 		$compiledPath = $compilator->getCompiledPath();
 		// var_dump($compiledPath);
 		$this->assertTrue(is_dir($compiledPath));

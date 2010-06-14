@@ -430,6 +430,9 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
 	}
 	
+	/**
+	* retrieve the test uri from the test compiled folder 
+	*/
 	public static function getTestUri($url){
 	
 		$returnValue = '';
@@ -447,6 +450,9 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
 	}
 	
+	/** 
+	* Get the default absolute path to the compiled folder of a test 
+	*/
 	public static function getCompiledTestUrl($testUri){
 		$testUrl ='';
 		
@@ -521,14 +527,29 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
     }
 	
+	/**
+	* record the items that have translation issues in the "failed" array
+	* @access protected
+	* @param string $name
+	* @param string $language
+	* @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	* @return void
+	*/
 	public function setUntranslatedItem($name, $language){
 		$this->failed["untranslatedItems"][$language][] = $name;
 	}
 	
+	/**
+	* record an error message in the "errorMsg" array
+	* @access protected
+	* @param string $message
+	* @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+	* @return void
+	*/
 	public function setErrorMsg($message){
 		$this->failed["errorMsg"][] = $message; 
 	}
 	
-} /* end of class taoDelivery_helpers_Precompilator */
+} /* end of class taoDelivery_helpers_Compilator */
 
 ?>

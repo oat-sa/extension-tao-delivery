@@ -624,7 +624,7 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$var_wsdl = $this->getProcessVariable("wsdlContract");
 		if(is_null($var_wsdl)){
-			$var_wsdl = $authoringService->createProcessVariable("wsdl contract", "subjectLabel");
+			$var_wsdl = $authoringService->createProcessVariable("wsdl contract", "wsdlContract");
 		}
 		
 		$var_delivery = $this->getProcessVariable("delivery");
@@ -636,7 +636,7 @@ class taoDelivery_models_classes_DeliveryService
 			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
 		}else{
 			//create formal param associated to the 3 required proc var:
-			$subjectUriParam = $authoringService->getFormalParameter('subject');
+			$subjectUriParam = $authoringService->getFormalParameter('subject');//it is alright if the default value (i.e. proc var has been changed)
 			if(is_null($subjectUriParam)){
 				$subjectUriParam = $authoringService->createFormalParameter('subject', 'processvariable', $var_subjectUri->uriResource, 'subject uri (do not delete)');
 			}
