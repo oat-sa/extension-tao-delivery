@@ -1,4 +1,4 @@
-alert('ModeActivityMenu loaded');
+// alert('ModeActivityMenu loaded');
 
 ModeActivityMenu = [];
 ModeActivityMenu.existingMenu = new Array();

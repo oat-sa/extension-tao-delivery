@@ -1,4 +1,4 @@
-// alert('arrowClass loaded');
+alert('arrowClass loaded');
 
 //TODO: replace attribute 'name' by 'class'
 
@@ -6,10 +6,9 @@ var arrows = new Array();
 var tempArrows = new Array();
 var margin = 20;
 
-// alert("OK!");
 ArrowClass = [];
 ArrowClass.arrows = [];
-
+ArrowClass.tempArrows = [];
 
 ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
 	//record the data to
@@ -22,7 +21,7 @@ ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
 }
 
 
-ArrowClass.calculateArrow = function(point1, point2, type, flex){
+ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	
 	//init values:
 	//type in array('left','top','right');
@@ -35,26 +34,44 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex){
 	var Dy = p1.y - p2.y;//important
 	var flexPointNumber = -1;
 	
-	if(!isset(ArrowClass.arrows[point1.attr('id')])){
-		ArrowClass.arrows[point1.attr('id')] = new Array();
+	if(!processUtil.isset(temp)){
+		temp = false;
 	}
 	
-	if(!processUtil.isset(flex)){
-		if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].flex)){
-			flex = ArrowClass.arrows[point1.attr('id')].flex;
-		}else{
-			flex = new Array();
+	//define default value by making distinction between temp and normal arrows
+	if(!temp){
+		if(!isset(ArrowClass.arrows[point1.attr('id')]) && !temp){
+			ArrowClass.arrows[point1.attr('id')] = new Array();
+		}
+		if(!processUtil.isset(flex)){
+			if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].flex) && !temp){
+				flex = ArrowClass.arrows[point1.attr('id')].flex;
+			}
+		}
+		if(!processUtil.isset(type)){
+			if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].type) && !temp){
+				type = ArrowClass.arrows[point1.attr('id')].type;
+			}
+		}
+	}else{
+		if(!isset(ArrowClass.tempArrows[point1.attr('id')]) && !temp){
+			ArrowClass.tempArrows[point1.attr('id')] = new Array();
+		}
+		if(!processUtil.isset(flex)){
+			if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].flex) && !temp){
+				flex = ArrowClass.tempArrows[point1.attr('id')].flex;
+			}
+		}
+		if(!processUtil.isset(type)){
+			if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].type) && !temp){
+				type = ArrowClass.tempArrows[point1.attr('id')].type;
+			}
 		}
 	}
 	
-	if(!processUtil.isset(type)){
-		if(processUtil.isset(ArrowClass.arrows[point1.attr('id')].type)){
-			type = ArrowClass.arrows[point1.attr('id')].type;
-		}else{
-			//TODO: allow default value for type??
-			type =  'top';
-		}
-	}
+	//if values still not found in arrow lists, set the default ones:  
+	if(!processUtil.isset(flex)) flex = new Array();
+	if(!processUtil.isset(type)) type =  'top';
 	
 	if(Dy>0 && type=='top'){
 		flexPointNumber = 3;
@@ -158,14 +175,19 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex){
 	}
 	
 	//modify the global array table
-	ArrowClass.arrows[point1.attr('id')] = {
-		'target': point2.attr('id'),
-		'coord': arrow,
-		'type': type,
-		'flex': flexPoints
-	}
+	// ArrowClass.arrows[point1.attr('id')] = {
+		// 'target': point2.attr('id'),
+		// 'coord': arrow,
+		// 'type': type,
+		// 'flex': flexPoints
+	// }
 	
-	return true;
+	return {
+			'target': point2.attr('id'),
+			'coord': arrow,
+			'type': type,
+			'flex': flexPoints
+		};
 	// console.log('test',point1.attr('id'));
 	//console.log('x1',p1.x);
 	//console.log('y1',p1.y);
@@ -256,7 +278,7 @@ ArrowClass.drawArrow = function(arrowName, options){
 	}
 	
 	if(options.temp){
-		var p = tempArrows[arrowName].coord;
+		var p = ArrowClass.tempArrows[arrowName].coord;
 	}else{
 		var p = ArrowClass.arrows[arrowName].coord;
 	}
@@ -299,8 +321,12 @@ ArrowClass.drawVerticalLine = function(p1, p2, options){
 	height = Math.abs(p1.y - p2.y);
 	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
 	top = Math.min(p1.y,p2.y);
+	classes = new Array();
+	if(options.temp){
+		classes.push('temp_arrow');
+	}
 	
-	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
+	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index,classes);
 }
 
 ArrowClass.drawHorizontalLine = function(p1, p2, options){
@@ -315,17 +341,26 @@ ArrowClass.drawHorizontalLine = function(p1, p2, options){
 	height = arrowWidth;
 	left = Math.min(p1.x, p2.x);
 	top = p1.y - arrowWidth/2;
+	classes = new Array();
+	if(options.temp){
+		classes.push('temp_arrow');
+	}
 	
-	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index);
+	ArrowClass.drawArrowPart(1,left,top,width,height,options.container,options.name,options.index,classes);
 }
 
-ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,arrowPartIndex){
+ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,arrowPartIndex,classes){
 	
 	if(container && name){
 	//"#"+arrowName+"_arrowPart_"+arrowPartIndex
 		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
 		var element = $('<div id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
 		element.addClass(name);
+		if(classes.length){
+			for(var i=0;i<classes.length;i++){
+				element.addClass(classes[i]);
+			}
+		}
 		// element.css('border', borderStr);//no border
 		element.css('position', 'absolute');
 		element.css('background-color', 'black');
@@ -345,17 +380,25 @@ ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,
 	}
 }
 
-function removeArrow(name, complete){
+ArrowClass.removeArrow = function(name, complete, temp){
 	if(!isset(complete)){
 		complete = true;
 	}
-	
-	if(complete){
-		arrows[name] = null;
+	if(!isset(temp)){
+		temp = false;
 	}
 	
-	$("."+name).remove();
-
+	if(temp){
+		if(complete){
+			ArrowClass.tempArrows[name] = null;
+		}
+		$(".temp_arrow."+name).remove();
+	}else{
+		if(complete){
+			ArrowClass.arrows[name] = null;
+		}
+		$("."+name).remove();
+	}
 }
 
 function getDraggableFlexPoints(arrowName){
@@ -556,4 +599,64 @@ function editArrowType(arrowName, newType){
 function editArrowClass(){
 
 }
+
+ArrowClass.createTempArrow = function(originId, position){
 	
+	//delete old one if exists
+	// ArrowClass.tempArrows[originId] = {
+		// 'targetObject': targetObjectId,
+		// 'target': 'freeArrowTip',
+		// 'type': 'top'
+	// }
+	
+	//add the arrow tip element
+	var tipId = origineId + '_tip';
+	var elementTip = $('<div id="'+tipId+'"></div>');//put connector id here instead
+	elementTip.addClass('diagram_arrow_tip');
+	elementTip.css('position', 'absolute');
+	elementTip.css('left', Math.round(left)+'px');
+	elementTip.css('top', Math.round(top)+'px');
+	elementTip.appendTo(ActivityDiagramClass.canvas);
+	
+	//calculate the initial position & draw it
+	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), 'top', null, true);
+	ArrowClass.drawArrow(origineId, {
+		container: ActivityDiagramClass.canvas,
+		arrowWidth: 1,
+		temp: true
+	});
+	
+	//transform to draggable
+	$('#'+elementTip.attr('id')).draggable({
+		snap: '.diagram_activity_droppable',
+		snapMode: 'inner',
+		drag: function(event, ui){
+			
+			// var position = $(this).position();
+			// $("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
+			var id = $(this).attr('id');
+			var arrowName = id.substring(0,id.indexOf('_tip'));
+			
+			//retrieve the arrow object in the temp arrows global array:
+			var arrow = ArrowClass.tempArrows[arrowName];
+			
+			//TODO edit 'type' at the same time:
+			
+			ArrowClass.removeArrow(arrowName,false,true);
+			calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
+			ArrowClass.drawArrow(arrowName, {
+				container: ActivityDiagramClass.canvas,
+				arrowWidth: 1,
+				temp: true
+			});
+		},
+		containment: ActivityDiagramClass.canvas,
+		stop: function(event, ui){
+			// var id = $(this).attr('id');
+			// var arrowName = id.substring(0,id.indexOf('_tip'));
+			// getDraggableFlexPoints(arrowName);
+		}
+	});
+	
+	return true;
+}

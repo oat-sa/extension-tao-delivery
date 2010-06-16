@@ -1,4 +1,4 @@
-alert("activity diagram Class loaded");
+// alert("activity diagram Class loaded");
 
 //require arrows.js
 
@@ -71,7 +71,7 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	arrowData = [];
 	arrowData[origin_connector1] = [];
 	arrowData[origin_connector1].targetObject = 'activity2_id';
-	arrowData[origin_connector1].type = 'right';
+	arrowData[origin_connector1].type = 'top';
 	//end of test data//
 	
 	//activityData sent by treeservice:
@@ -343,7 +343,7 @@ ActivityDiagramClass.drawDiagram = function(){
 		targetId = ArrowClass.arrows[arrowId].target;
 		if(arrowId && targetId){
 			// console.log('the element do not exists =#', element);
-			ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
+			ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
 			console.log('calculated arrows:');
 			console.dir(ArrowClass.arrows);
 			ArrowClass.drawArrow(arrowId, {
@@ -375,7 +375,7 @@ ActivityDiagramClass.createTempActivity = function(position){
 	}else{
 		tempActivity.position = {top:10, left:10};
 	}
-	console.log('tempActivity', tempActivity);
+	// console.log('tempActivity', tempActivity);
 	
 	return tempActivity;
 }
@@ -944,6 +944,15 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 				event.preventDefault();
 				ModeActivityMenu.cancel();
 			});
+			break;
+		}
+		case 'ModeArrowAdd':{
+			$("#feedback_message").text('Connect to an actiivty or a connector');
+			// $("#feedback_menu_save").parent().remove();
+			// $("#feedback_menu_cancel").click(function(event){
+				// event.preventDefault();
+				// ModeActivityMenu.cancel();
+			// });
 			break;
 		}
 		default:{
