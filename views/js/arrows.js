@@ -40,7 +40,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	
 	//define default value by making distinction between temp and normal arrows
 	if(!temp){
-		if(!isset(ArrowClass.arrows[point1.attr('id')]) && !temp){
+		if(!processUtil.isset(ArrowClass.arrows[point1.attr('id')]) && !temp){
 			ArrowClass.arrows[point1.attr('id')] = new Array();
 		}
 		if(!processUtil.isset(flex)){
@@ -54,19 +54,24 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			}
 		}
 	}else{
-		if(!isset(ArrowClass.tempArrows[point1.attr('id')]) && !temp){
+		// console.dir(ArrowClass.tempArrows[point1.attr('id')]);
+		if(!processUtil.isset(ArrowClass.tempArrows[point1.attr('id')])){
 			ArrowClass.tempArrows[point1.attr('id')] = new Array();
-		}
-		if(!processUtil.isset(flex)){
-			if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].flex) && !temp){
-				flex = ArrowClass.tempArrows[point1.attr('id')].flex;
+		}else{
+			if(!processUtil.isset(flex)){
+			
+				if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].flex)){
+					flex = ArrowClass.tempArrows[point1.attr('id')].flex;
+					
+				}
+			}
+			if(!processUtil.isset(type)){
+				if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].type)){
+					type = ArrowClass.tempArrows[point1.attr('id')].type;
+				}
 			}
 		}
-		if(!processUtil.isset(type)){
-			if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].type) && !temp){
-				type = ArrowClass.tempArrows[point1.attr('id')].type;
-			}
-		}
+		
 	}
 	
 	//if values still not found in arrow lists, set the default ones:  
@@ -270,16 +275,19 @@ function createArrow(origineId, position){
 
 ArrowClass.drawArrow = function(arrowName, options){
 	
-	if(!isset(ArrowClass.arrows[arrowName].coord)){
-		throw 'the arrow does not exist';
-	}
+	
 	if(!isset(options)){
 		throw 'no options set';
 	}
-	
 	if(options.temp){
+		if(!isset(ArrowClass.tempArrows[arrowName].coord)){
+			throw 'the temporary arrow does not exist';
+		}
 		var p = ArrowClass.tempArrows[arrowName].coord;
 	}else{
+		if(!isset(ArrowClass.arrows[arrowName].coord)){
+			throw 'the arrow does not exist';
+		}
 		var p = ArrowClass.arrows[arrowName].coord;
 	}
 	
@@ -582,18 +590,47 @@ function editArrowFlex(arrowName, flexPosition, offset){
 	//immediately followed by calculateArrow and drawArrow;
 	return flexPoints;
 }
-
-function editArrowType(arrowName, newType){
+/*
+ArrowClass.editArrowType = function(arrowName, newType, temp){
 	//newType in left, top, right
-	arrowTemp = arrows[arrowName];
 	
-	if(isset(arrowTemp)){
-		// calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), newType);
-		arrows[arrowName].type = newType;
+		arrowTemp = ArrowClass.arrows[arrowName];
+		if(isset(arrowTemp)){
+			// calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), newType);
+			ArrowClass.arrows[arrowName].type = newType;
+		}
+	}else{
+		arrowTemp = ArrowClass.tempArrows[arrowName];
+		if(isset(arrowTemp)){
+			// calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), newType);
+			ArrowClass.tempArrows[arrowName].type = newType;
+		}
 	}
+	
 	
 	// console.dir(arrowTemp);
 	//do not forget to draw it when done;
+}*/
+
+ArrowClass.getArrow = function(arrowName, temp){
+	
+	var arrow = null;
+	
+	if(!processUtil.isset(temp)){
+		temp = false;
+	}
+	if(!temp){
+		arrowTemp = ArrowClass.arrows[arrowName];
+		if(processUtil.isset(arrowTemp)){
+			return arrowTemp;
+		}
+	}else{
+		arrowTemp = ArrowClass.tempArrows[arrowName];
+		if(processUtil.isset(arrowTemp)){
+			return arrowTemp;
+		}
+	}
+	return arrow;
 }
 
 function editArrowClass(){
@@ -609,8 +646,20 @@ ArrowClass.createTempArrow = function(originId, position){
 		// 'type': 'top'
 	// }
 	
+	//initialize the arrow tip position:
+	if(!position.left){
+		left = 0;
+	}else{
+		left = position.left;
+	}
+	if(!position.top){
+		top = 0;
+	}else{
+		top = position.top;
+	}
+	
 	//add the arrow tip element
-	var tipId = origineId + '_tip';
+	var tipId = originId + '_tip';
 	var elementTip = $('<div id="'+tipId+'"></div>');//put connector id here instead
 	elementTip.addClass('diagram_arrow_tip');
 	elementTip.css('position', 'absolute');
@@ -620,15 +669,15 @@ ArrowClass.createTempArrow = function(originId, position){
 	
 	//calculate the initial position & draw it
 	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), 'top', null, true);
-	ArrowClass.drawArrow(origineId, {
+	ArrowClass.drawArrow(originId, {
 		container: ActivityDiagramClass.canvas,
-		arrowWidth: 1,
+		arrowWidth: 2,
 		temp: true
 	});
 	
 	//transform to draggable
 	$('#'+elementTip.attr('id')).draggable({
-		snap: '.diagram_activity_droppable',
+		snap: '.diagram_activity_border_point',
 		snapMode: 'inner',
 		drag: function(event, ui){
 			
@@ -643,10 +692,10 @@ ArrowClass.createTempArrow = function(originId, position){
 			//TODO edit 'type' at the same time:
 			
 			ArrowClass.removeArrow(arrowName,false,true);
-			calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
+			ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
 			ArrowClass.drawArrow(arrowName, {
 				container: ActivityDiagramClass.canvas,
-				arrowWidth: 1,
+				arrowWidth: 2,
 				temp: true
 			});
 		},

@@ -180,9 +180,13 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 						subActions.push({
 							label: "Link to",
 							icon: img_url + "process_activity.png",
-							action: function(id, data){
+							action: function(id, data, e){
 								// ModeArrowLink.on(data.connectorId, data.port);
-								console.log('ModeArrowLink.on');
+								
+								canvasPosition = $(ActivityDiagramClass.canvas).offset();
+								//real offset need to be calculated:
+								position = {top:e.pageX-canvasPosition.left, left:e.pageY-canvasPosition.top};
+								ModeArrowLink.on(data.connectorId, data.port, position);
 							}
 						});
 						
@@ -332,7 +336,7 @@ ModeActivityMenu.createMenu = function(targetId, containerId, position, actions,
 			anchor.bind('click', {id:targetId, action:action.action, autoclose: autoclose, data:data}, function(event){
 				event.preventDefault();
 				event.stopPropagation();
-				event.data.action(event.data.id, event.data.data);
+				event.data.action(event.data.id, event.data.data, event);
 				if(event.data.autoclose){
 					ModeActivityMenu.cancel();
 				}

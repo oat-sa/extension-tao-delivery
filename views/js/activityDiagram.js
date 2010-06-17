@@ -1,4 +1,4 @@
-// alert("activity diagram Class loaded");
+alert("activity diagram Class loaded");
 
 //require arrows.js
 
@@ -946,7 +946,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			break;
 		}
-		case 'ModeArrowAdd':{
+		case 'ModeArrowLink':{
 			$("#feedback_message").text('Connect to an actiivty or a connector');
 			// $("#feedback_menu_save").parent().remove();
 			// $("#feedback_menu_cancel").click(function(event){
@@ -974,69 +974,7 @@ ActivityDiagramClass.unsetFeedbackMenu = function(){
 	}
 }
 /*
-
-
-function getConnectedArrows(id){
-	//search all arrows connecterd to a given activity or connecotor
-
-}
-
-function getDraggableActivity(containerId){//use activity id instead
-	$('#'+containerId).draggable({
-		containment: canvas
-	});
-	
-	//create droppable object
-	
-}
-
-function createDroppablePoints(activityId){
-	//on top, left and right of activity div and on left and right of a connector:
-	
-	createDroppablePoint(activityId, 'activity', 'top');
-	createDroppablePoint(activityId, 'activity', 'left');
-	
-	createDroppablePoint(activityId, 'activity', 'right');
-	
-	//add droppable elements to the connector:
-	//get real connector id?
-	createDroppablePoint(activityId, 'connector', 'left');
-	createDroppablePoint(activityId, 'connector', 'right');
-}
-
-function setBorderPoints(activityId){
-	//on top, left and right of activity div and on left and right of a connector:
-	var types = ['activity', 'connector'];
-	var positions = ['top', 'right', 'left', 'bottom'];
-	
-	//add "border points" to the activity
-	for(var position in position){
-		setBorderPoint(activityId, type, position);
-	}
-	
-	//and its related connector:
-	connectorId = 'the connector id of the activity';
-	for(var position in position){
-		setBorderPoint(connectorId, type, position);
-	}
-}
-
-function setDroppablePoints(activityId){
-	var types = ['activity', 'connector'];
-	var positions = ['top', 'right', 'left'];
-	for(var type in types){
-		for(var position in position){
-			// setDroppablePoint function here:
-			
-			//cjhange their class also
-		}
-	}
-}
-
-
-
-
-function createDroppablePoint(targetId, position){
+ActivityDiagramClass.createDroppablePoint = function(targetId, position){
 	switch(position){
 		case 'left':{
 			pos = 'left';
@@ -1113,6 +1051,129 @@ function createDroppablePoint(targetId, position){
 		}
 	});
 	
+}
+*/
+ActivityDiagramClass.activateAllDroppablePoints = function(excludedConnectorId){
+	for(connectorId in ActivityDiagramClass.connectors){
+		if(excludedConnectorId == connectorId){
+			continue;
+		}
+		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(connectorId, 'connector', 'left'));
+		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(connectorId, 'connector', 'right'));
+	}
+	for(activityId in ActivityDiagramClass.activities){
+		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'top'));
+		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'left'));
+		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'right'));
+	}
+	
+}
+
+
+ActivityDiagramClass.activateDroppablePoint = function(DOMElementId){
+
+	var elt = $('#'+DOMElementId);
+	if(!elt.length){
+		return null;
+	}
+	
+	elt.css('display','block');
+	return elt.droppable({
+		over: function(event, ui) {
+			// console.dir(ui);
+			
+			var id = $(this).attr('id');
+			if(id.indexOf('_c')>0){ 
+				return false;
+			}else{
+				var startIndex = id.indexOf('_pos_');
+				var newType = id.substr(startIndex+5); 
+				var draggableId = ui.draggable.attr('id');
+				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
+				// console.log(arrowName);
+				ArrowClass.tempArrows[arrowName].type = newType;
+				ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $('#'+draggableId), null, true);
+				
+				//draw new arrow
+				ArrowClass.removeArrow(arrowName, false, true);
+				ArrowClass.drawArrow(arrowName, {
+					container: ActivityDiagramClass.canvas,
+					arrowWidth: 2,
+					temp:true
+				});
+				
+			}
+		},
+		drop: function(event, ui) {
+			
+			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
+				
+				//destroy draggable
+				
+				//destroy ALL droppable object on the canvas
+				// $(this).droppable('destroy');
+		}
+	});
+	
+}
+/*
+
+
+function getConnectedArrows(id){
+	//search all arrows connecterd to a given activity or connecotor
+
+}
+
+function getDraggableActivity(containerId){//use activity id instead
+	$('#'+containerId).draggable({
+		containment: canvas
+	});
+	
+	//create droppable object
+	
+}
+
+function createDroppablePoints(activityId){
+	//on top, left and right of activity div and on left and right of a connector:
+	
+	createDroppablePoint(activityId, 'activity', 'top');
+	createDroppablePoint(activityId, 'activity', 'left');
+	
+	createDroppablePoint(activityId, 'activity', 'right');
+	
+	//add droppable elements to the connector:
+	//get real connector id?
+	createDroppablePoint(activityId, 'connector', 'left');
+	createDroppablePoint(activityId, 'connector', 'right');
+}
+
+function setBorderPoints(activityId){
+	//on top, left and right of activity div and on left and right of a connector:
+	var types = ['activity', 'connector'];
+	var positions = ['top', 'right', 'left', 'bottom'];
+	
+	//add "border points" to the activity
+	for(var position in position){
+		setBorderPoint(activityId, type, position);
+	}
+	
+	//and its related connector:
+	connectorId = 'the connector id of the activity';
+	for(var position in position){
+		setBorderPoint(connectorId, type, position);
+	}
+}
+
+function setDroppablePoints(activityId){
+	var types = ['activity', 'connector'];
+	var positions = ['top', 'right', 'left'];
+	for(var type in types){
+		for(var position in position){
+			// setDroppablePoint function here:
+			
+			//cjhange their class also
+		}
+	}
 }
 
 function getIdFromUri(uri){

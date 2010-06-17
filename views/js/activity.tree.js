@@ -810,7 +810,7 @@ ActivityTreeClass.getTreeNode = function(nodeId, treeId){
 			}
 		}
 	}else{
-		console.log('in else');
+		// console.log('in else');
 		// console.dir(ActivityTreeClass.instances);
 		for(treeName in ActivityTreeClass.instances){
 			anActivityTree = null;
