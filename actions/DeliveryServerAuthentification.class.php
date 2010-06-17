@@ -16,7 +16,7 @@ class DeliveryServerAuthentification extends Module
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
-				if($userService->loginUser($values['login'], $values['password'])){//no md5 yet for subject password
+				if($userService->loginUser($values['login'], md5($values['password']))){//no md5 yet for subject password
 					$this->redirect(_url('index', 'DeliveryServer'));
 				}
 				else{
