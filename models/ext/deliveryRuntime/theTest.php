@@ -36,10 +36,17 @@ if(isset($_GET['subject']) && !empty($_GET['subject'])){
 	die("no subject uri found");
 }
 
+if(isset($_GET['delivery'])){
+	$deliveryLabel = urlencode($_GET['delivery']);
+}else{
+	$deliveryLabel = 'none';
+}
+
 $subjectUri = urlencode($subjectUri);
 $subjectLabel = urlencode($subjectLabel);
 $wsdlUrl = urlencode($wsdlUrl);
-$deliveryLabel = urlencode($_GET['delivery']);
+
+
 
 $runtimeParameters='';
 $runtimeParameters="

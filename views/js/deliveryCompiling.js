@@ -160,7 +160,7 @@ function compileTest(testUri){
 				
 				for(key in r.failed.untranslatedItems) {
 				
-					untranslatedItems+= __("the following item(s) has not been translated into")+' '+key+':';
+					untranslatedItems+= __("the following item do not exist in or have not been translated into")+' '+key+':';
 					
 					for(i=0;i<r.failed.untranslatedItems[key].length;i++) {
 						untranslatedItems+="<ul>";

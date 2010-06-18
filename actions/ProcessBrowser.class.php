@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 class ProcessBrowser extends WfModule{
 
 	public function index($processUri, $activityUri=''){
-		
+	
 		$_SESSION["processUri"] = $processUri;
 		$processUri = urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri',$processUri);
@@ -26,7 +26,6 @@ class ProcessBrowser extends WfModule{
 				}
 			}
 		}
-		
 		if(is_null($currentActivity)){
 			//if the activity is still null check if there is a value in $process->currentActivity:
 			if(empty($process->currentActivity)) {
@@ -40,29 +39,34 @@ class ProcessBrowser extends WfModule{
 				}
 			}
 		}
-		
-		
+		$activity = $currentActivity;
 		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
 		$currentUser = $userService->getCurrentUser();
-		
-		$activityExecutionService 	= tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
-		
-		$activity 			= $currentActivity;
-		
-		$activityExecutionResource = $activityExecutionService->initExecution($activity->resource, $currentUser, $process->resource);
-		$browserViewData['activityExecutionUri']= $activityExecutionResource->uriResource;
+		if(is_null($currentUser)){
+			throw new Exception("No current user found!");
+		}
 		
 		//security check if the user is allowed to access this activity
+		$activityExecutionService 	= tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
 		if(!$activityExecutionService->checkAcl($activity->resource, $currentUser, $process->resource)){
 			
-			$_SESSION["processUri"] = null;die();
+			$_SESSION["processUri"] = null;
 			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
+		
+		//initialise the activity execution and assign the tokens to the current user
+		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
 	
+		$processExecutionService->initCurrentExecution($process->resource, $activity->resource, $currentUser);
+		
+		$activityExecutionResource = $activityExecutionService->getExecution($activity->resource, $currentUser, $process->resource);
+		$browserViewData['activityExecutionUri']= $activityExecutionResource->uriResource;
+		$_SESSION['activityExecutionUri'] = $activityExecutionResource->uriResource;
+		
 		
 		$this->setData('activity',$activity);
 		$activityPerf 		= new Activity($activity->uri, false); // Performance WA
-		$activityExecution 	= new ActivityExecution($process, $activity);
+		$activityExecution 	= new ActivityExecution($process, $activityExecutionResource);
 
 		$browserViewData['activityContentLanguages'] = array();
 
@@ -211,6 +215,7 @@ class ProcessBrowser extends WfModule{
 		}
 		catch (ConsistencyException $consistencyException)
 		{
+			echo $consistencyException;
 			// A consistency error occured when trying to go
 			// forward in the process. Let's try to get useful
 			// information from the exception.
@@ -223,7 +228,7 @@ class ProcessBrowser extends WfModule{
 			//$_SESSION['taoqual.flashvar.consistency'] = $consistencyException;
 			$consistency = ConsistencyHelper::BuildConsistencyStructure($consistencyException);
 			$_SESSION['taoqual.flashvar.consistency'] = $consistency;
-		
+			
 			$this->redirect(tao_helpers_Uri::url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 		

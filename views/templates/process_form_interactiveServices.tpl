@@ -142,12 +142,12 @@ $(function(){
 			range: "min",
 			max: 100,
 			min: 0,
-			step: 5,
+			step: 1,
 			slide: function(event, ui){
 				refreshPositionPreview(ui.handle.parentNode.id);
 			},
 			stop:function(event, ui){
-				refreshPositionPreview(ui.handle.parentNode.id);
+				// refreshPositionPreview(ui.handle.parentNode.id);
 			}
 		});
 		$("#slider_height").slider("value", eltHeight.val());
@@ -290,7 +290,54 @@ $(function(){
 			}
 		});
 	});
-		
+	
+	//init switches:
+	$(":input").each(function(i){
+		var startIndex = $(this).attr('id').indexOf('_choice_0');
+		if(startIndex>0){
+			var clazz = $(this).attr('id').substring(0,startIndex);
+			initParameterSwitch(clazz);
+			
+		}
+	});	
 });
+
+function initParameterSwitch(clazz){
+	
+	switchParameterType(clazz);
+	$("input:radio[name="+clazz+"_choice]").change(function(){switchParameterType(clazz);});
+	$("#"+clazz+"_var").change(function(){switchParameterType(clazz);});
+}
+
+function switchParameterType(clazz){
+	
+	var value = $("input:radio[name="+clazz+"_choice]:checked").val();
+	
+	if(value == 'constant'){
+		enable($("[id="+clazz+"_constant]"));
+		disable($("[id="+clazz+"_var]"));
+		// console.log(clazz+"_var");
+		// console.log($("input[name="+clazz+"_var]"));
+	}else if(value == 'processvariable'){
+		disable($("[id="+clazz+"_constant]"));
+		enable($("[id="+clazz+"_var]"));
+		// console.log('var');
+	}else{
+		disable($("[id="+clazz+"_constant]"));
+		disable($("[id="+clazz+"_var]"));
+		// console.log('oth');
+	}
+}
+
+function disable(object){
+	object.parent().attr("disabled","disabled");
+	object.parent().hide();
+	// console.log(object.attr('id'));
+}
+
+function enable(object){
+	object.parent().removeAttr("disabled");
+	object.parent().show();
+}
 
 </script>
