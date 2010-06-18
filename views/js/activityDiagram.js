@@ -7,6 +7,7 @@ ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
 ActivityDiagramClass.connectors = [];
 ActivityDiagramClass.feedbackContainer = "#process_diagram_feedback";
+ActivityDiagramClass.currentMode = null;
 // ActivityDiagramClass.errors = {
 	// activities: [],
 	// arrows:[]
@@ -907,7 +908,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 	if(!eltContainer.length){
 		throw 'no feedback container found';
 	}
-	
+	console.log('ModeArrowLink.cancel pre', ModeArrowLink);
 	//empty it:
 	eltContainer.empty();
 	
@@ -923,7 +924,8 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 	//destroy related event (usefulnes??):
 	// $("#feedback_menu_save").unbind();
 	// $("#feedback_menu_cancel").unbind();
-	
+				
+
 	switch(mode){
 		case 'ModeActivityAdd':{
 			$("#feedback_message").text('activity adding mode');
@@ -947,12 +949,17 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			break;
 		}
 		case 'ModeArrowLink':{
+			
+			
 			$("#feedback_message").text('Connect to an actiivty or a connector');
-			// $("#feedback_menu_save").parent().remove();
-			// $("#feedback_menu_cancel").click(function(event){
-				// event.preventDefault();
-				// ModeActivityMenu.cancel();
-			// });
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeArrowLink.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeArrowLink.cancel();
+			});
 			break;
 		}
 		default:{

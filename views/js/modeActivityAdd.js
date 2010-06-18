@@ -64,7 +64,9 @@ ModeActivityAdd.save = function(){
 }
 
 ModeActivityAdd.cancel = function(){
-	//delete temp
-	ActivityDiagramClass.removeActivity(ModeActivityAdd.tempId);
-	ActivityDiagramClass.unsetFeedbackMenu();
+	if(ActivityDiagramClass.currentMode == 'ModeActivityAdd'){
+		//delete temp
+		ActivityDiagramClass.removeActivity(ModeActivityAdd.tempId);
+		ActivityDiagramClass.unsetFeedbackMenu();
+	}
 }

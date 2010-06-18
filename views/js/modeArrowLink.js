@@ -1,14 +1,17 @@
 alert('ModeArrowLink loaded');
 
-ModeArrowLink = [];
-ModeArrowLink.tempId = '';
+ModeArrowLink = new Object();
+ModeArrowLink.tempId = "defaultConnectorId";
 
 ModeArrowLink.on = function(connectorId, port, position){
 	
 	console.log('ModeArrowLink.on');
 	var arrowOriginEltId = ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', port);
 	console.log('arrowOriginEltId: ',arrowOriginEltId);
-								
+	
+	ModeArrowLink.tempId = arrowOriginEltId;
+	
+	
 	//insert information in the feedback 'div'
 	if(!ActivityDiagramClass.setFeedbackMenu('ModeArrowLink')){
 		return false;
@@ -19,6 +22,7 @@ ModeArrowLink.on = function(connectorId, port, position){
 	
 	//remove original arrow from diagram, but do not delete it completely yet!
 	ArrowClass.removeArrow(arrowOriginEltId, false);
+	
 	
 	//create a temporary arrow
 	var tempArrow = ModeArrowLink.createDraggableTempArrow(arrowOriginEltId, position);
@@ -31,6 +35,7 @@ ModeArrowLink.on = function(connectorId, port, position){
 }
 
 ModeArrowLink.activateAllDroppablePoints = function(excludedConnectorId){
+
 	for(connectorId in ActivityDiagramClass.connectors){
 		if(excludedConnectorId == connectorId){
 			continue;
@@ -46,6 +51,22 @@ ModeArrowLink.activateAllDroppablePoints = function(excludedConnectorId){
 		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
 		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'left'));
 		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'right'));
+	}
+	
+}
+
+ModeArrowLink.deactivateAllDroppablePoints = function(){
+	for(connectorId in ActivityDiagramClass.connectors){
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'left'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'right'));
+	}
+	
+	for(activityId in ActivityDiagramClass.activities){
+		// console.log('a_id', activityId);
+		// console.log('c_l', ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'left'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'right'));
 	}
 	
 }
@@ -125,6 +146,16 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position){
 	return true;
 }
 
+ModeArrowLink.deactivateDroppablePoint = function(DOMElementId){
+	var elt = $('#'+DOMElementId);
+	if(!elt.length){
+		return null;
+	}
+	
+	elt.droppable("destroy");
+	elt.css('display','none');//TODO: css to be changed instead
+}
+
 ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 
 	var elt = $('#'+DOMElementId);
@@ -145,12 +176,10 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 				var newType = id.substr(startIndex+5); 
 				var draggableId = ui.draggable.attr('id');
 				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
-				console.log(newType);
-				console.dir(ArrowClass.tempArrows[arrowName]);
+				
 				ArrowClass.tempArrows[arrowName].type = newType;
 				ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $('#'+draggableId), newType, new Array(), true);
-				console.dir(ArrowClass.tempArrows[arrowName]);
-				
+								
 				//draw new arrow
 				ArrowClass.removeArrow(arrowName, false, true);
 				ArrowClass.drawArrow(arrowName, {
@@ -174,7 +203,21 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 }
 
 ModeArrowLink.save = function(){
-	console.log('ModeArrowLink.save:', 'not implemented yet');
+	console.log('ModeArrowLink.save:');
+	if(ModeArrowLink.tempId){
+		// save the temporay arrow data into the actual arrows array:
+		if(ArrowsClass.tempArrows[ModeArrowLink.tempId]){
+			ArrowsClass.arrows[ModeArrowLink.tempId] = ArrowsClass.tempArrows[ModeArrowLink.tempId];
+			
+			//delete the temp arrows and draw the actual one:
+			ArrowClass.removeArrow(ModeArrowLink.tempId, true, true);
+			ArrowClass.drawArrow(ModeArrowLink.tempId, {
+				container: ActivityDiagramClass.canvas,
+				arrowWidth: 2
+			});
+		}
+	}
+	ActivityDiagramClass.unsetFeedbackMenu();
 	
 	//unquote section below when the communication with server is established:
 	/*
@@ -194,7 +237,23 @@ ModeArrowLink.save = function(){
 }
 
 ModeArrowLink.cancel = function(){
-	//delete temp
-	ActivityDiagramClass.removeActivity(ModeActivityAdd.tempId);
+	console.log('ModeArrowLink.cancel', ModeArrowLink);
+	
+	if(ModeArrowLink.tempId){
+		if(ArrowsClass.tempArrows[ModeArrowLink.tempId]){
+			//delete the temp arrows and draw the actual one:
+			console.log('ModeArrowLink.cancel');
+			ArrowClass.removeArrow(ModeArrowLink.tempId, true, true);
+		}
+		
+		if(ArrowsClass.arrows[ModeArrowLink.tempId]){
+			//redraw the original arrow anyway
+			ArrowClass.drawArrow(ModeArrowLink.tempId, {
+				container: ActivityDiagramClass.canvas,
+				arrowWidth: 2
+			});
+		}
+	}
+	
 	ActivityDiagramClass.unsetFeedbackMenu();
 }

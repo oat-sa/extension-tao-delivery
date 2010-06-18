@@ -336,17 +336,14 @@ ModeActivityMenu.createMenu = function(targetId, containerId, position, actions,
 			anchor.bind('click', {id:targetId, action:action.action, autoclose: autoclose, data:data}, function(event){
 				event.preventDefault();
 				event.stopPropagation();
-				event.data.action(event.data.id, event.data.data, event);
 				if(event.data.autoclose){
 					ModeActivityMenu.cancel();
 				}
+				event.data.action(event.data.id, event.data.data, event);
 			});
 			autoclose = initialAutoclose;//restore intial value, useful only when action.autoclose is set
 		}
 	}
-	
-	
-	
 	
 	return true;
 }
