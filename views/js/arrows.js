@@ -59,10 +59,8 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			ArrowClass.tempArrows[point1.attr('id')] = new Array();
 		}else{
 			if(!processUtil.isset(flex)){
-			
 				if(processUtil.isset(ArrowClass.tempArrows[point1.attr('id')].flex)){
 					flex = ArrowClass.tempArrows[point1.attr('id')].flex;
-					
 				}
 			}
 			if(!processUtil.isset(type)){
@@ -409,10 +407,11 @@ ArrowClass.removeArrow = function(name, complete, temp){
 	}
 }
 
-function getDraggableFlexPoints(arrowName){
-	//get the postion of flex points, and transform them into draggable object:
-	var arrow = arrows[arrowName];
+//draggable points can only exists in temp arrow
+ArrowClass.getDraggableFlexPoints = function(tempArrowName){
+	var arrow = ArrowClass.tempArrows[tempArrowName];
 	
+	//get the postion of flex points, and transform them into draggable object:
 	for(i=1;i<=arrow.flex.length;i++){
 		
 		if(isset(arrow.flex[i])){
@@ -425,12 +424,12 @@ function getDraggableFlexPoints(arrowName){
 			}
 			
 			var arrowPartIndex = i + 1 ;
-			var arrowPartId = arrowName + "_arrowPart_"+arrowPartIndex;
+			var arrowPartId = tempArrowName + "_arrowPart_"+arrowPartIndex;
 			var dragHandleId = arrowPartId + '_handle';
 			
 			//create the handle in the middle:
 			var handleElement = $('<div id="'+dragHandleId+'"/>');
-			handleElement.addClass(arrowName);
+			handleElement.addClass(tempArrowName);
 			var borderStr = '1px '+'solid'+' '+'green';
 			handleElement.css('border', borderStr);
 			handleElement.css('width', '5px');
@@ -475,17 +474,18 @@ function getDraggableFlexPoints(arrowName){
 					// arrowNameTemp = $(this).attr('name');
 					arrowNameTemp = id.substring(0,id.indexOf('_arrowPart_'));
 					// console.log(arrowNameTemp);
-					arrowTemp = arrows[arrowNameTemp];
-					flexPoints = editArrowFlex(arrowNameTemp, tempIndex, offset);
+					arrowTemp = ArrowClass.tempArrows[arrowNameTemp];
+					flexPoints = ArrowClass.editArrowFlex(arrowNameTemp, tempIndex, offset);
 					
-					calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), arrowTemp.type, flexPoints);
-					removeArrow(arrowNameTemp, false);
-					drawArrow(arrowNameTemp, {
-						container: "#process_diagram_container",
-						arrowWidth: 1
+					ArrowClass.tempArrows[arrowNameTemp] = ArrowClass.calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), arrowTemp.type, flexPoints, true);
+					ArrowClass.removeArrow(arrowNameTemp, false, true);
+					ArrowClass.drawArrow(arrowNameTemp, {
+						container: ActivityDiagramClass.canvas,
+						arrowWidth: 2,
+						temp: true
 					});
 					
-					getDraggableFlexPoints(arrowNameTemp);
+					ArrowClass.getDraggableFlexPoints(arrowNameTemp);
 				}
 
 			});
@@ -534,13 +534,13 @@ function isset(object){
 	}
 }
 
-
-function editArrowFlex(arrowName, flexPosition, offset){
+//only on temp arrows
+ArrowClass.editArrowFlex = function(arrowName, flexPosition, offset){
 	
 	var flexPoints = new Array();
 	
-	if(isset(arrows[arrowName])){
-		var arrow = arrows[arrowName];
+	if(isset(ArrowClass.tempArrows[arrowName])){
+		var arrow = ArrowClass.tempArrows[arrowName];
 		//get value of flex points:
 		
 		for(i=1;i<=arrow.flex.length;i++){
@@ -635,77 +635,4 @@ ArrowClass.getArrow = function(arrowName, temp){
 
 function editArrowClass(){
 
-}
-
-ArrowClass.createTempArrow = function(originId, position){
-	
-	//delete old one if exists
-	// ArrowClass.tempArrows[originId] = {
-		// 'targetObject': targetObjectId,
-		// 'target': 'freeArrowTip',
-		// 'type': 'top'
-	// }
-	
-	//initialize the arrow tip position:
-	if(!position.left){
-		left = 0;
-	}else{
-		left = position.left;
-	}
-	if(!position.top){
-		top = 0;
-	}else{
-		top = position.top;
-	}
-	
-	//add the arrow tip element
-	var tipId = originId + '_tip';
-	var elementTip = $('<div id="'+tipId+'"></div>');//put connector id here instead
-	elementTip.addClass('diagram_arrow_tip');
-	elementTip.css('position', 'absolute');
-	elementTip.css('left', Math.round(left)+'px');
-	elementTip.css('top', Math.round(top)+'px');
-	elementTip.appendTo(ActivityDiagramClass.canvas);
-	
-	//calculate the initial position & draw it
-	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), 'top', null, true);
-	ArrowClass.drawArrow(originId, {
-		container: ActivityDiagramClass.canvas,
-		arrowWidth: 2,
-		temp: true
-	});
-	
-	//transform to draggable
-	$('#'+elementTip.attr('id')).draggable({
-		snap: '.diagram_activity_border_point',
-		snapMode: 'inner',
-		drag: function(event, ui){
-			
-			// var position = $(this).position();
-			// $("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
-			var id = $(this).attr('id');
-			var arrowName = id.substring(0,id.indexOf('_tip'));
-			
-			//retrieve the arrow object in the temp arrows global array:
-			var arrow = ArrowClass.tempArrows[arrowName];
-			
-			//TODO edit 'type' at the same time:
-			
-			ArrowClass.removeArrow(arrowName,false,true);
-			ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
-			ArrowClass.drawArrow(arrowName, {
-				container: ActivityDiagramClass.canvas,
-				arrowWidth: 2,
-				temp: true
-			});
-		},
-		containment: ActivityDiagramClass.canvas,
-		stop: function(event, ui){
-			// var id = $(this).attr('id');
-			// var arrowName = id.substring(0,id.indexOf('_tip'));
-			// getDraggableFlexPoints(arrowName);
-		}
-	});
-	
-	return true;
 }

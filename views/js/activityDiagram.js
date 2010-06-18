@@ -1053,69 +1053,7 @@ ActivityDiagramClass.createDroppablePoint = function(targetId, position){
 	
 }
 */
-ActivityDiagramClass.activateAllDroppablePoints = function(excludedConnectorId){
-	for(connectorId in ActivityDiagramClass.connectors){
-		if(excludedConnectorId == connectorId){
-			continue;
-		}
-		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(connectorId, 'connector', 'left'));
-		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(connectorId, 'connector', 'right'));
-	}
-	for(activityId in ActivityDiagramClass.activities){
-		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'top'));
-		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'left'));
-		ActivityDiagramClass.activateDroppablePoint(ActivityDiagramClass.getActivityId(activityId, 'activity', 'right'));
-	}
-	
-}
 
-
-ActivityDiagramClass.activateDroppablePoint = function(DOMElementId){
-
-	var elt = $('#'+DOMElementId);
-	if(!elt.length){
-		return null;
-	}
-	
-	elt.css('display','block');
-	return elt.droppable({
-		over: function(event, ui) {
-			// console.dir(ui);
-			
-			var id = $(this).attr('id');
-			if(id.indexOf('_c')>0){ 
-				return false;
-			}else{
-				var startIndex = id.indexOf('_pos_');
-				var newType = id.substr(startIndex+5); 
-				var draggableId = ui.draggable.attr('id');
-				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
-				// console.log(arrowName);
-				ArrowClass.tempArrows[arrowName].type = newType;
-				ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $('#'+draggableId), null, true);
-				
-				//draw new arrow
-				ArrowClass.removeArrow(arrowName, false, true);
-				ArrowClass.drawArrow(arrowName, {
-					container: ActivityDiagramClass.canvas,
-					arrowWidth: 2,
-					temp:true
-				});
-				
-			}
-		},
-		drop: function(event, ui) {
-			
-			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
-				
-				//destroy draggable
-				
-				//destroy ALL droppable object on the canvas
-				// $(this).droppable('destroy');
-		}
-	});
-	
-}
 /*
 
 
