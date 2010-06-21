@@ -1,16 +1,14 @@
 alert('ModeArrowLink loaded');
 
+
 ModeArrowLink = new Object();
-ModeArrowLink.tempId = "defaultConnectorId";
 
 ModeArrowLink.on = function(connectorId, port, position){
 	
 	console.log('ModeArrowLink.on');
 	var arrowOriginEltId = ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', port);
-	console.log('arrowOriginEltId: ',arrowOriginEltId);
 	
 	ModeArrowLink.tempId = arrowOriginEltId;
-	
 	
 	//insert information in the feedback 'div'
 	if(!ActivityDiagramClass.setFeedbackMenu('ModeArrowLink')){
@@ -20,13 +18,11 @@ ModeArrowLink.on = function(connectorId, port, position){
 	//reset temp arrow array:
 	ArrowClass.tempArrows = [];
 	
-	//remove original arrow from diagram, but do not delete it completely yet!
+	//remove original arrow from diagram, but do not delete it from the data!
 	ArrowClass.removeArrow(arrowOriginEltId, false);
-	
 	
 	//create a temporary arrow
 	var tempArrow = ModeArrowLink.createDraggableTempArrow(arrowOriginEltId, position);
-	ModeArrowLink.tempId = tempArrow.id;
 	
 	//set droppable points:
 	ModeArrowLink.activateAllDroppablePoints(connectorId);
@@ -205,13 +201,15 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 ModeArrowLink.save = function(){
 	console.log('ModeArrowLink.save:');
 	if(ModeArrowLink.tempId){
+		var connectorId = ModeArrowLink.tempId;
+		
 		// save the temporay arrow data into the actual arrows array:
-		if(ArrowsClass.tempArrows[ModeArrowLink.tempId]){
-			ArrowsClass.arrows[ModeArrowLink.tempId] = ArrowsClass.tempArrows[ModeArrowLink.tempId];
+		if(ArrowClass.tempArrows[connectorId]){
+			ArrowClass.arrows[connectorId] = ArrowClass.tempArrows[connectorId];
 			
 			//delete the temp arrows and draw the actual one:
-			ArrowClass.removeArrow(ModeArrowLink.tempId, true, true);
-			ArrowClass.drawArrow(ModeArrowLink.tempId, {
+			ModeArrowLink.removeTempArrow(connectorId);
+			ArrowClass.drawArrow(connectorId, {
 				container: ActivityDiagramClass.canvas,
 				arrowWidth: 2
 			});
@@ -238,22 +236,31 @@ ModeArrowLink.save = function(){
 
 ModeArrowLink.cancel = function(){
 	console.log('ModeArrowLink.cancel', ModeArrowLink);
-	
-	if(ModeArrowLink.tempId){
-		if(ArrowsClass.tempArrows[ModeArrowLink.tempId]){
-			//delete the temp arrows and draw the actual one:
-			console.log('ModeArrowLink.cancel');
-			ArrowClass.removeArrow(ModeArrowLink.tempId, true, true);
-		}
 		
-		if(ArrowsClass.arrows[ModeArrowLink.tempId]){
+	if(ModeArrowLink.tempId){
+		var connectorId = ModeArrowLink.tempId;
+		
+		if(ArrowClass.tempArrows[connectorId]){
+			//delete the temp arrows and draw the actual one:
+			ModeArrowLink.removeTempArrow(connectorId);
+		}
+				
+		if(ArrowClass.arrows[connectorId]){
 			//redraw the original arrow anyway
-			ArrowClass.drawArrow(ModeArrowLink.tempId, {
+			ArrowClass.drawArrow(connectorId, {
 				container: ActivityDiagramClass.canvas,
 				arrowWidth: 2
 			});
+			
 		}
 	}
 	
 	ActivityDiagramClass.unsetFeedbackMenu();
+}
+
+ModeArrowLink.removeTempArrow = function(arrowName){
+	ArrowClass.removeArrow(arrowName, true, true);
+	//remove arrow tip:
+	var tipId = arrowName + '_tip';
+	$('#'+tipId).remove();
 }

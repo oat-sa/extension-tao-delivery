@@ -81,6 +81,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 }
 
 ModeActivityMenu.createConnectorMenu = function(connectorId){
+
 	var topContainerId = ActivityDiagramClass.getActivityId('connector', connectorId, 'top');
 	actions = [];
 	var isFirstConnector = true;
@@ -147,8 +148,8 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					//hightlight the current one:
 					
 					//check if an arrow (=connection) exists:
-					delete ArrowClass.arrows[data.arrowId];//test of else only
-					if(ArrowClass.arrows[data.arrowId]){
+					// if(ArrowClass.arrows[data.arrowId]){
+					if(false){//test of else only: delete ArrowClass.arrows[data.arrowId];
 						//if so, go to editArrowMode(arrowId)
 						console.log('editArrowMode');
 						ModeActivityMenu.cancel();
@@ -184,6 +185,9 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								// ModeArrowLink.on(data.connectorId, data.port);
 								
 								canvasPosition = $(ActivityDiagramClass.canvas).offset();
+								console.log('canvasPosition', canvasPosition);
+								console.log('e.pageX', e.pageX);
+								console.log('e.e.pageY', e.pageY);
 								//real offset need to be calculated:
 								position = {top:e.pageX-canvasPosition.left, left:e.pageY-canvasPosition.top};
 								ModeArrowLink.on(data.connectorId, data.port, position);

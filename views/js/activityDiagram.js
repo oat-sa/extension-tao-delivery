@@ -908,7 +908,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 	if(!eltContainer.length){
 		throw 'no feedback container found';
 	}
-	console.log('ModeArrowLink.cancel pre', ModeArrowLink);
+	
 	//empty it:
 	eltContainer.empty();
 	
@@ -949,8 +949,6 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			break;
 		}
 		case 'ModeArrowLink':{
-			
-			
 			$("#feedback_message").text('Connect to an actiivty or a connector');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();

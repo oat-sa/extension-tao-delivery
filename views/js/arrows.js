@@ -2,11 +2,11 @@ alert('arrowClass loaded');
 
 //TODO: replace attribute 'name' by 'class'
 
-var arrows = new Array();
-var tempArrows = new Array();
-var margin = 20;
+// var arrows = new Array();
+// var tempArrows = new Array();
 
-ArrowClass = [];
+ArrowClass = new Object();
+ArrowClass.margin = 20;
 ArrowClass.arrows = [];
 ArrowClass.tempArrows = [];
 
@@ -117,7 +117,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			}else{
 				//calculate default value
 				if(Dy>0){
-					flex1 = margin;
+					flex1 = ArrowClass.margin;
 				}else{
 					flex1 = (p2.y-p1.y)/2 - point2.height()/2;
 				}
@@ -129,7 +129,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			}else{
 				if(Dx>0){
 					if(type=='right'){
-						flex2 = (p2.x + margin) - p1.x;
+						flex2 = (p2.x + ArrowClass.margin) - p1.x;
 					}else{
 						flex2 = (p2.x - p1.x)/2 - point1.width()/2;//warning: division by 0!
 					}
@@ -137,7 +137,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 					if(type=='right'){
 						flex2 = (p2.x - p1.x)/2 - point1.width()/2;
 					}else{
-						flex2 = (p2.x - margin) - p1.x;
+						flex2 = (p2.x - ArrowClass.margin) - p1.x;
 					}
 				}
 			}
@@ -152,7 +152,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			if(isset(flex[1])){
 				flex1 = flex[1];
 			}else{
-				flex1 = margin;
+				flex1 = ArrowClass.margin;
 			}
 			if(isset(flex[2])){
 				flex2 = flex[2];
@@ -162,7 +162,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 			if(isset(flex[3])){
 				flex3 = flex[3];
 			}else{
-				flex3 = (-1) * margin;
+				flex3 = (-1) * ArrowClass.margin;
 			}
 			flexPoints[1] = flex1;
 			flexPoints[2] = flex2;
@@ -387,12 +387,14 @@ ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,
 }
 
 ArrowClass.removeArrow = function(name, complete, temp){
-	if(!isset(complete)){
+	if(!processUtil.isset(complete)){
 		complete = true;
 	}
-	if(!isset(temp)){
+	if(!processUtil.isset(temp)){
 		temp = false;
 	}
+	// console.log('complete', complete);
+	// console.log('temp', temp);
 	
 	if(temp){
 		if(complete){
