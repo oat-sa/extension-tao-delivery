@@ -331,8 +331,8 @@ class Delivery extends TaoModule {
 			$this->setData('error', true);
 			$this->setData('errorMessage', $e);
 		}
-		// $this->setView('process_authoring_tool.tpl');
-		$this->setView('process_authoring_tool_diagram.tpl');//template that integrate activities diagram
+		$this->setView('process_authoring_tool.tpl');
+		// $this->setView('process_authoring_tool_diagram.tpl');//template that integrate activities diagram
 	}
 	
 	/**
