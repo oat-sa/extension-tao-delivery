@@ -1,7 +1,9 @@
-alert('ModeArrowLink loaded');
+// alert('ModeArrowLink loaded');
 
 
 ModeArrowLink = new Object();
+ModeArrowLink.targetObject = null;
+ModeArrowLink.targetElement = null;
 
 ModeArrowLink.on = function(connectorId, port, position){
 	
@@ -188,11 +190,18 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 		},
 		drop: function(event, ui) {
 			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
+			var id = $(this).attr('id');
+			if(id.indexOf('_c')>0){ 
+				return false;
+			}else{
+				var startIndex = id.indexOf('_pos_');
+				var draggableId = ui.draggable.attr('id');
+				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
 				
-				//destroy draggable
-				
-				//destroy ALL droppable object on the canvas
-				// $(this).droppable('destroy');
+				ArrowClass.tempArrows[arrowName].target = id;
+				ArrowClass.tempArrows[arrowName].targetObject = ArrowClass.getTargetFromId(id);
+				ModeArrowLink.targetObject = ArrowClass.getTargetFromId(id);
+			}
 		}
 	});
 	
@@ -205,6 +214,11 @@ ModeArrowLink.save = function(){
 		
 		// save the temporay arrow data into the actual arrows array:
 		if(ArrowClass.tempArrows[connectorId]){
+			if(!processUtil.isset(ModeArrowLink.targetObject)){
+				alert('no arrow dropped');
+				return false;
+			}
+			
 			ArrowClass.arrows[connectorId] = ArrowClass.tempArrows[connectorId];
 			
 			//delete the temp arrows and draw the actual one:
@@ -216,6 +230,7 @@ ModeArrowLink.save = function(){
 		}
 	}
 	ActivityDiagramClass.unsetFeedbackMenu();
+	return true;
 	
 	//unquote section below when the communication with server is established:
 	/*

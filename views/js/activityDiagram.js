@@ -949,7 +949,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			break;
 		}
 		case 'ModeArrowLink':{
-			$("#feedback_message").text('Connect to an actiivty or a connector');
+			$("#feedback_message").text('Connect to an activity or a connector');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeArrowLink.save();
@@ -960,11 +960,23 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			break;
 		}
+		case 'ModeActivityMove':{
+			$("#feedback_message").text('Drag the selected object around');
+			// $("#feedback_menu_save").click(function(event){
+				// event.preventDefault();
+				// ModeActivityMove.save();
+			// });
+			// $("#feedback_menu_cancel").click(function(event){
+				// event.preventDefault();
+				// ModeActivityMove.cancel();
+			// });
+			break;
+		}
 		default:{
 			throw 'unknown mode';
 			eltContainer.empty();
 			return false;
-		}
+		}ModeActivityMove
 	}
 	
 	return true;

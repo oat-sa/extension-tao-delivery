@@ -30,6 +30,7 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityAdd.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityMenu.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeArrowLink.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityMove.js"></script>
 	
 	<script type="text/javascript">
 	//init:
@@ -55,8 +56,8 @@
 			// });
 			
 			ActivityDiagramClass.drawActivity("ActivityTempId", {
-				left: 300,
-				top: 60
+				left: 1500,
+				top: 1000
 			},
 			'ActivityTemp');
 			

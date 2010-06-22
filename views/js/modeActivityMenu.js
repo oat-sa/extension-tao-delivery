@@ -50,6 +50,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		icon: img_url + "pencil.png",
 		action: function(actId){
 			console.log('move => ',actId);
+			ModeActivityMove.on(actId);
 		}
 	});
 	actions.push({

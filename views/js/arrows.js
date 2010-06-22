@@ -185,7 +185,9 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 		// 'flex': flexPoints
 	// }
 	
+	
 	return {
+			'targetObject': ArrowClass.getTargetFromId(point2.attr('id')),
 			'target': point2.attr('id'),
 			'coord': arrow,
 			'type': type,
@@ -203,6 +205,21 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	//console.log('flex2', flex2);
 	// console.log('flex3', flex3);
 	//console.dir(arrows);
+}
+
+ArrowClass.getTargetFromId = function(destinationId){
+	var targetObject = 'undefined';
+	
+	var index = destinationId.lastIndexOf('_pos_');
+	if(index>0){
+		if(destinationId.substring(0,9) == 'activity_'){
+			targetObject = destinationId.substring(9,index);
+		}else if(destinationId.substring(0,10) == 'connector_'){
+			targetObject = destinationId.substring(10,index);
+		}
+	}
+	
+	return targetObject;
 }
 
 function createArrow(origineId, position){
