@@ -34,17 +34,14 @@ ModeActivityMove.on = function(activityId){
 			//ondrag, update all connected arrows:
 			
 			//arrows that are connected to that activity:
+			var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
 			for(var arrowId in ArrowClass.arrows){
 				var arrow = ArrowClass.arrows[arrowId];
-				console.dir(arrow);
-				console.dir(ModeActivityMove);
-				if(arrow.targetObject == ModeActivityMove.tempId){
-					ArrowClass.removeArrow(arrowId,false);
+				// console.dir(arrow);
+				// console.dir(ModeActivityMove);
+				if(arrow.targetObject == ModeActivityMove.tempId || arrowId == activityBottomBorderPointId){
 					ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+arrow.target), arrow.type, new Array(), false);
-					ArrowClass.drawArrow(arrowId, {
-						container: ActivityDiagramClass.canvas,
-						arrowWidth: 2
-					});
+					ArrowClass.redrawArrow(arrowId);
 				}
 			}
 		}

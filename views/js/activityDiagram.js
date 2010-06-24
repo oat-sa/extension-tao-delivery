@@ -65,14 +65,14 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 	positionData = [];
 	positionData['activity1_id'] = {top: 50, left: 150};
 	positionData['activity2_id'] = {top: 250, left: 200};
-	positionData['connector1_id'] = 'activity';
+	positionData['connector1_id'] = {top: 150, left: 160};
 	
 	
 	origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', '0');//put port='next'??
 	arrowData = [];
-	arrowData[origin_connector1] = [];
-	arrowData[origin_connector1].targetObject = 'activity2_id';
-	arrowData[origin_connector1].type = 'top';
+	arrowData[origin_connector1] = {targetObject:'activity2_id', type:'top'};
+	arrowData[ActivityDiagramClass.getActivityId('activity', 'activity1_id', 'bottom')] = {targetObject:'connector1_id', type:'top'};
+	
 	//end of test data//
 	
 	//activityData sent by treeservice:
@@ -157,6 +157,16 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 				
 				if(connector == null){
 					throw 'connector cannot be created for the activity '+activityId;
+				}else{
+					//add the arrow between the activity and its first connector:
+					console.log('connector', connector);
+					var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
+					var connectorTopBorderPointId = ActivityDiagramClass.getActivityId('connector',connector.id,'top');
+					if(arrowData[activityBottomBorderPointId]){
+						var arrow = arrowData[activityBottomBorderPointId];
+						ArrowClass.feedArrow(activityBottomBorderPointId, connectorTopBorderPointId, connector.id, arrow.position, arrow.flex);
+					}
+					
 				}
 			
 			}
@@ -183,6 +193,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	
 	var connectorId = ActivityDiagramClass.getIdFromUri(connectorData.attributes.id);
 	ActivityDiagramClass.connectors[connectorId] = [];
+	ActivityDiagramClass.connectors[connectorId].id = connectorId;
 	
 	//search in the positionData, if coordinate exist
 	position = [];
@@ -331,7 +342,7 @@ ActivityDiagramClass.drawDiagram = function(){
 	for(connectorId in ActivityDiagramClass.connectors){
 		if(ActivityDiagramClass.connectors[connectorId].position != 'activity'){
 			ActivityDiagramClass.drawConnector(connectorId);
-			ActivityDiagramClass.setConnectorMenuHandler(activityId);
+			ActivityDiagramClass.setConnectorMenuHandler(connectorId);
 			//do not draw the first connector of an activity, only the connector of the connector, since the first one will de drawn with drawActivity
 		}
 	}
@@ -553,35 +564,48 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		//the activity is defined in the global activity array, so must either be last or have a connector
 		
 		//elementLink:
-		var elementLinkId = ActivityDiagramClass.getActivityId('free', activityId, 'link');
+		// var elementLinkId = ActivityDiagramClass.getActivityId('free', activityId, 'link');
 		
-		var elementLink = $('<div id="'+elementLinkId+'"></div>');//put connector id here instead
-		elementLink.addClass('diagram_link');
-		elementLink.addClass(elementActivityId);
-		elementLink.appendTo('#'+containerId);
-		$('#'+elementLink.attr('id')).position({
-			my: "center top",
-			at: "center bottom",
-			of: '#'+elementActivityId
-		});
-		
+		// var elementLink = $('<div id="'+elementLinkId+'"></div>');//put connector id here instead
+		// elementLink.addClass('diagram_link');
+		// elementLink.addClass(elementActivityId);
+		// elementLink.appendTo('#'+containerId);
+		// $('#'+elementLink.attr('id')).position({
+			// my: "center top",
+			// at: "center bottom",
+			// of: '#'+elementActivityId
+		// });
+		/*
 		var hasConnector = false;
 		if(ActivityDiagramClass.activities[activityId].isLast == false){
 			//find the connector:
 			for(connectorId in ActivityDiagramClass.connectors){
 				var connector = ActivityDiagramClass.connectors[connectorId];
 				if(connector.activityRef == activityId){
-					if(connector.position == 'activity'){
+					// if(connector.position == 'activity'){
 						//connector found:
-						ActivityDiagramClass.drawConnector(connectorId, 'activity', connector.type, activityId);
+						ActivityDiagramClass.drawConnector(connectorId, connector.position, connector.type, activityId);
 						ActivityDiagramClass.setConnectorMenuHandler(connectorId);
 						hasConnector = true;
-					}
+						
+						//draw arrow:
+						var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
+						var connectorTopBorderPointId = ActivityDiagramClass.getActivityId('connector',connectorId,'top');
+						ArrowClass.arrows[activityBottomBorderPointId] = ArrowClass.calculateArrow($('#'+activityBottomBorderPointId), $('#'+connectorTopBorderPointId), 'top', new Array());
+								
+						//draw new arrow
+						ArrowClass.redrawArrow(activityBottomBorderPointId);
+						
+						break;
+					// }
 				}
 			}
 		}
 		
 		if(hasConnector == false){
+			
+			//TODO: replace by "last actiivty" class instead
+			
 			
 			if(ActivityDiagramClass.activities[activityId].isLast == false){
 				throw 'cannot find the activity connector';
@@ -598,10 +622,13 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 				at: "center bottom",
 				of: '#'+elementLinkId
 			});
+			
 		}
-		
+		*/
 		//is first or not?
 		if(ActivityDiagramClass.activities[activityId].isInitial == true){
+			//TODO: replace by first activity class instead:
+			
 			//create the link element:
 			var elementLinkFirstId = ActivityDiagramClass.getActivityId('free', activityId, 'link_first');
 			var elementLinkFirst = $('<div id="'+elementLinkFirstId+'"></div>');//put connector id here instead

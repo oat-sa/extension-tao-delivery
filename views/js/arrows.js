@@ -286,7 +286,22 @@ function createArrow(origineId, position){
 	});
 	
 }
-
+ArrowClass.redrawArrow = function(activityId, temp, options){
+	if(temp){
+		ArrowClass.removeArrow(activityId, false, true);
+		ArrowClass.drawArrow(activityId, {
+			container: ActivityDiagramClass.canvas,
+			arrowWidth: 2,
+			temp: true
+		});
+	}else{
+		ArrowClass.removeArrow(activityId, false);
+		ArrowClass.drawArrow(activityId, {
+			container: ActivityDiagramClass.canvas,
+			arrowWidth: 2
+		});
+	}
+}
 
 ArrowClass.drawArrow = function(arrowName, options){
 	
