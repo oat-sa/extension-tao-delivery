@@ -1,4 +1,4 @@
-alert('ModeActivityMove loaded');
+// alert('ModeActivityMove loaded');
 
 ModeActivityMove = [];
 ModeActivityMove.tempId = '';
@@ -6,7 +6,7 @@ ModeActivityMove.originalPosition = [];
 
 ModeActivityMove.on = function(activityId){
 	//desactivate 'add activity' button(??)
-	
+	ActivityDiagramClass.currentMode = 'ModeActivityMove';
 	
 	//insert information in the feedback 'div'
 	if(!ActivityDiagramClass.setFeedbackMenu('ModeActivityMove')){
@@ -47,38 +47,12 @@ ModeActivityMove.on = function(activityId){
 		}
 	});
 	
-	
-	
-	
-	/*
-	
-	//create an activity temp
-	var tempActivity = ActivityDiagramClass.createTempActivity();
-	ModeActivityMove.tempId = tempActivity.id;
-	
-	//delete the old temp activity(if already drawn):
-	ActivityDiagramClass.removeActivity(tempActivity.id);
-	
-	//draw it:
-	ActivityDiagramClass.drawActivity(tempActivity.id);//note: no need the postion and label parameter since the values are already set
-	
-	//make it draggable (set handler to its container):
-	var containerId = ActivityDiagramClass.getActivityId('container', tempActivity.id);
-	if(!$('#'+containerId).length){
-		throw 'The activity container '+containerId+' do not exists.';
-	}
-	$('#'+containerId).draggable({
-		containment: ActivityDiagramClass.canvas,
-		handle: '#'+ActivityDiagramClass.getActivityId('activity', tempActivity.id),
-		scroll:true
-	});
-	*/
-	
 	return true;
 }
 
 ModeActivityMove.save = function(){
 	console.log('ModeActivityMove.save:', 'not implemented yet');
+	ModeActivityMove.cancel();
 	
 	//unquote section below when the communication with server is established:
 	/*
@@ -98,8 +72,18 @@ ModeActivityMove.save = function(){
 }
 
 ModeActivityMove.cancel = function(){
+
 	if(ActivityDiagramClass.currentMode == 'ModeActivityMove'){
-	
-		
+		if(ModeActivityMove.tempId){
+			var containerId = ActivityDiagramClass.getActivityId('container', ModeActivityMove.tempId);
+			if(!$('#'+containerId).length){
+				throw 'The activity container '+containerId+' do not exists.';
+			}
+			$('#'+containerId).draggable('destroy');
+		}
 	}
+	
+	console.log(ActivityDiagramClass.currentMode);
+console.log(ModeActivityMove.tempId);
+console.log(containerId);
 }

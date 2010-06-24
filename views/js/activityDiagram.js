@@ -988,15 +988,27 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			break;
 		}
 		case 'ModeActivityMove':{
-			$("#feedback_message").text('Drag the selected object around');
-			// $("#feedback_menu_save").click(function(event){
-				// event.preventDefault();
-				// ModeActivityMove.save();
-			// });
-			// $("#feedback_menu_cancel").click(function(event){
-				// event.preventDefault();
-				// ModeActivityMove.cancel();
-			// });
+			$("#feedback_message").text('Drag the selected activity around');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeActivityMove.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeActivityMove.cancel();
+			});
+			break;
+		}
+		case 'ModeConnectorMove':{
+			$("#feedback_message").text('Drag the selected connector around');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeConnectorMove.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeConnectorMove.cancel();
+			});
 			break;
 		}
 		default:{

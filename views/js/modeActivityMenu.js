@@ -85,16 +85,14 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 
 	var topContainerId = ActivityDiagramClass.getActivityId('connector', connectorId, 'top');
 	actions = [];
-	var isFirstConnector = true;
-	if(!isFirstConnector){
-		actions.push({
-			label: "Move",
-			icon: img_url + "pencil.png",
-			action: function(actId){
-				console.log('move => ',actId);
-			}
-		});
-	}
+	actions.push({
+		label: "Move",
+		icon: img_url + "pencil.png",
+		action: function(actId){
+			console.log('move => ',actId);
+			ModeConnectorMove.on(actId);
+		}
+	});
 	actions.push({
 		label: "Edit",
 		icon: img_url + "pencil.png",

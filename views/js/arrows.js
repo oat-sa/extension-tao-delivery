@@ -20,7 +20,13 @@ ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
 	}
 }
 
-
+ArrowClass.updateArrow = function(arrowId){
+	var arrow = ArrowClass.arrows[arrowId];
+	if(arrow){
+		ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+arrow.target), arrow.type, new Array(), false);
+		ArrowClass.redrawArrow(arrowId);
+	}
+}
 ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	
 	//init values:
