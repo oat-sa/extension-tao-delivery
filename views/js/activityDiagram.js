@@ -362,6 +362,7 @@ ActivityDiagramClass.drawDiagram = function(){
 				container: ActivityDiagramClass.canvas,
 				arrowWidth: 2
 			});
+			ActivityDiagramClass.setArrowMenuHandler(arrowId);
 		}else{
 			console.log('arrow cant be drawn:', arrowId);
 		}
@@ -697,6 +698,16 @@ ActivityDiagramClass.setConnectorMenuHandler = function(connectorId){
 	}
 }
 
+ActivityDiagramClass.setArrowMenuHandler = function(arrowId){
+	if(ArrowClass.arrows[arrowId]){
+		$('.arrow.'+arrowId).click(function(){
+			console.log("edit arrowwww"+$(this).attr('id'));
+			ModeArrowEdit.on(arrowId);
+		});
+	}
+}
+
+
 ActivityDiagramClass.drawConnector = function(connectorId, position, connectorType, previousActivityId){
 	
 	if(!ActivityDiagramClass.canvas){
@@ -1008,6 +1019,18 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
 				ModeConnectorMove.cancel();
+			});
+			break;
+		}
+		case 'ModeArrowEdit':{
+			$("#feedback_message").text('Move flex poins or arrow tip');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeArrowEdit.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeArrowEdit.cancel();
 			});
 			break;
 		}

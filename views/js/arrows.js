@@ -400,6 +400,7 @@ ArrowClass.drawArrowPart = function(border,left,top,width,height,container,name,
 		var borderStr = Math.round(border)+'px '+'solid'+' '+'red';
 		var element = $('<div id="'+name+'_arrowPart_'+arrowPartIndex+'"></div>');
 		element.addClass(name);
+		element.addClass('arrow');
 		if(classes.length){
 			for(var i=0;i<classes.length;i++){
 				element.addClass(classes[i]);

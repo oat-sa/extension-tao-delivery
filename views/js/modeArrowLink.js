@@ -38,33 +38,31 @@ ModeArrowLink.activateAllDroppablePoints = function(excludedConnectorId){
 		if(excludedConnectorId == connectorId){
 			continue;
 		}
-		
-		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'left'));
-		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'right'));
+		ModeArrowLink.activateActivityDroppablePoints('connector', connectorId);
 	}
 	
 	for(activityId in ActivityDiagramClass.activities){
-		// console.log('a_id', activityId);
-		// console.log('c_l', ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
-		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
-		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'left'));
-		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'right'));
+		ModeArrowLink.activateActivityDroppablePoints('activity', activityId);
 	}
 	
 }
 
+ModeArrowLink.activateActivityDroppablePoints = function(type, id){
+	if(type == 'activity' || type == 'connector'){
+		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'top'));
+		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'left'));
+		ModeArrowLink.activateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'right'));
+	}
+}
+
 ModeArrowLink.deactivateAllDroppablePoints = function(){
+
 	for(connectorId in ActivityDiagramClass.connectors){
-		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'left'));
-		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('connector', connectorId, 'right'));
+		ModeArrowLink.deactivateActivityDroppablePoints('connector', connectorId);
 	}
 	
 	for(activityId in ActivityDiagramClass.activities){
-		// console.log('a_id', activityId);
-		// console.log('c_l', ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
-		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'top'));
-		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'left'));
-		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId('activity', activityId, 'right'));
+		ModeArrowLink.deactivateActivityDroppablePoints('activity', activityId);
 	}
 	
 }
@@ -142,6 +140,14 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position){
 	});
 	
 	return true;
+}
+
+ModeArrowLink.deactivateActivityDroppablePoints = function(type, id){
+	if(type == 'activity' || type == 'connector'){
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'top'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'left'));
+		ModeArrowLink.deactivateDroppablePoint(ActivityDiagramClass.getActivityId(type, id, 'right'));
+	}
 }
 
 ModeArrowLink.deactivateDroppablePoint = function(DOMElementId){

@@ -32,6 +32,7 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeArrowLink.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityMove.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeConnectorMove.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeArrowEdit.js"></script>
 	
 	<script type="text/javascript">
 	//init:
