@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../../tao/doc/structure.dtd">
-<extension name="Delivery" url="/taoDelivery/Delivery/index" level="4">
+<extension name="Deliveries" url="/taoDelivery/Delivery/index" level="4">
 	<sections>
 		<section id="manage_deliveries" name="Manage Deliveries" url="/taoDelivery/Delivery/index">
 			<trees>
@@ -50,7 +50,6 @@
 				<action name="new campaign" js="GenerisAction.instanciate" url="/taoDelivery/Campaign/addCampaign" context="class" />
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/Campaign/delete" context="resource" />
 				<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/Campaign/cloneInstance" context="instance" />
-				<action name="edit campaign" url="/taoDelivery/Campaign/editCampaign" context="instance" />
 				<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 				<action name="create table" url="/taoResults/Results/createTable"  context="class" />
 				<action name="rdf" url="/tao/Export/index"  context="*" /> 
@@ -77,7 +76,6 @@
 				<action name="new result server" js="GenerisAction.instanciate" url="/taoDelivery/ResultServer/addResultServer" context="class" />
 				<action name="delete" js="GenerisAction.removeNode" url="/taoDelivery/ResultServer/delete" context="resource" />
 				<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/ResultServer/cloneInstance" context="instance" />
-				<action name="edit result server" url="/taoDelivery/ResultServer/editResultServer" context="instance" />
 				<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 				<action name="create table" url="/taoResults/Results/createTable"  context="class" />
 				<action name="rdf" url="/tao/Export/index"  context="*" /> 
