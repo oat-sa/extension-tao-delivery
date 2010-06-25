@@ -4,6 +4,8 @@
 ModeArrowLink = new Object();
 ModeArrowLink.targetObject = null;
 ModeArrowLink.targetElement = null;
+ModeArrowLink.arrowTipPosition = null;
+ModeArrowLink.arrowType = null;
 
 ModeArrowLink.on = function(connectorId, port, position){
 	
@@ -67,7 +69,7 @@ ModeArrowLink.deactivateAllDroppablePoints = function(){
 	
 }
 
-ModeArrowLink.createDraggableTempArrow = function(originId, position){
+ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	
 	//delete old one if exists
 	// ArrowClass.tempArrows[originId] = {
@@ -90,20 +92,36 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position){
 	
 	//add the arrow tip element
 	var tipId = originId + '_tip';
+	var left = Math.round(left)+'px';
+	var top = Math.round(top)+'px';
 	var elementTip = $('<div id="'+tipId+'"></div>');//put connector id here instead
 	elementTip.addClass('diagram_arrow_tip');
 	elementTip.css('position', 'absolute');
-	elementTip.css('left', Math.round(left)+'px');
-	elementTip.css('top', Math.round(top)+'px');
+	elementTip.css('left', left);
+	elementTip.css('top', top);
 	elementTip.appendTo(ActivityDiagramClass.canvas);
 	
+	//save the initial position to allow reverting
+	ModeArrowLink.arrowTipPosition = {left:left, top:top};
+	
 	//calculate the initial position & draw it
-	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), 'top', null, true);
+	var arrowType = 'top';
+	var flex = null;
+	if(options){
+		if(options.arrowType){
+			arrowType = options.arrowType;
+		}
+		if(options.flex){
+			flex = options.flex;
+		}
+	}
+	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), arrowType, flex, true);
 	ArrowClass.drawArrow(originId, {
 		container: ActivityDiagramClass.canvas,
 		arrowWidth: 2,
 		temp: true
 	});
+	ArrowClass.getDraggableFlexPoints(originId);
 	
 	//transform to draggable
 	$('#'+elementTip.attr('id')).draggable({
@@ -121,23 +139,49 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position){
 			
 			//TODO edit 'type' at the same time:
 			
-			ArrowClass.removeArrow(arrowName,false,true);
 			ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
-			ArrowClass.drawArrow(arrowName, {
-				container: ActivityDiagramClass.canvas,
-				arrowWidth: 2,
-				temp: true
-			});
+			ArrowClass.redrawArrow(arrowName, true);
 		},
 		containment: ActivityDiagramClass.canvas,
 		stop: function(event, ui){
 			var id = $(this).attr('id');
 			var arrowName = id.substring(0,id.indexOf('_tip'));
 			// getDraggableFlexPoints(arrowName);
-			
+			ArrowClass.redrawArrow(arrowName, true);
 			ArrowClass.getDraggableFlexPoints(arrowName);
 		}
 	});
+	
+	if(options){
+		if(options.revert){
+			$('#'+elementTip.attr('id')).draggable( "option", "revert", function(socketObj){
+				 //if false then no socket object drop occurred.
+				 if(socketObj === false){
+					//revert the position and redraw the arrow:
+					var id = $(this).attr('id');
+					var arrowName = id.substring(0,id.indexOf('_tip'));
+					if(ModeArrowLink.arrowTipPosition){
+						$(this).css('left', ModeArrowLink.arrowTipPosition.left);
+						$(this).css('top', ModeArrowLink.arrowTipPosition.top);
+					}
+					ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $(this), null, null, true);
+					ArrowClass.redrawArrow(arrowName, true);
+					return true;
+					
+				 }else{
+					//socket object was returned,
+					//alert(socketObj.attr('id')); would work fine
+					
+					//
+					ModeArrowLink.arrowTipPosition = {left: $(this).css('left'), top:$(this).css('top')};
+					
+					//return false so that the arrow does not revert
+					return false;
+				 }
+			});
+			$('#'+elementTip.attr('id')).draggable( "option", "revertDuration", 10 );
+		}
+	}
 	
 	return true;
 }
@@ -173,26 +217,23 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 			// console.dir(ui);
 			
 			var id = $(this).attr('id');
-			if(id.indexOf('_c')>0){ 
-				return false;
-			}else{
-				var startIndex = id.indexOf('_pos_');
-				var newType = id.substr(startIndex+5); 
-				var draggableId = ui.draggable.attr('id');
-				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
-				
-				ArrowClass.tempArrows[arrowName].type = newType;
-				ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $('#'+draggableId), newType, new Array(), true);
-								
-				//draw new arrow
-				ArrowClass.removeArrow(arrowName, false, true);
-				ArrowClass.drawArrow(arrowName, {
-					container: ActivityDiagramClass.canvas,
-					arrowWidth: 2,
-					temp: true
-				});
-				
-			}
+			console.log(id);
+			
+			var startIndex = id.indexOf('_pos_');
+			var newType = id.substr(startIndex+5); 
+			var draggableId = ui.draggable.attr('id');
+			var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
+			
+			ArrowClass.tempArrows[arrowName].type = newType;
+			ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $('#'+draggableId), newType, new Array(), true);
+							
+			//draw new arrow
+			ArrowClass.removeArrow(arrowName, false, true);
+			ArrowClass.drawArrow(arrowName, {
+				container: ActivityDiagramClass.canvas,
+				arrowWidth: 2,
+				temp: true
+			});
 		},
 		drop: function(event, ui) {
 			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
@@ -213,6 +254,8 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 	
 }
 
+
+
 ModeArrowLink.save = function(){
 	console.log('ModeArrowLink.save:');
 	if(ModeArrowLink.tempId){
@@ -223,35 +266,24 @@ ModeArrowLink.save = function(){
 			if(!processUtil.isset(ModeArrowLink.targetObject)){
 				alert('no arrow dropped');
 				return false;
+			}else{
+				ArrowClass.saveTemporaryArrowToReal(connectorId);
 			}
-			
-			ArrowClass.arrows[connectorId] = ArrowClass.tempArrows[connectorId];
-			
-			//delete the temp arrows and draw the actual one:
-			ModeArrowLink.removeTempArrow(connectorId);
-			ArrowClass.drawArrow(connectorId, {
-				container: ActivityDiagramClass.canvas,
-				arrowWidth: 2
-			});
 		}
 	}
 	ActivityDiagramClass.unsetFeedbackMenu();
+	ModeArrowLink.tempId = 'empty';
 	return true;
 	
 	//unquote section below when the communication with server is established:
 	/*
 	
 	//send the coordinate + label to server
-	//call processAuthoring/addActivity:
+	//call processAuthoring/saveConnector:
 	
 	//on success, delete the temp activity:
-	ModeActivityAdd.cancel();
+	update the local ActivityDiagramClass.connectors array:
 	
-	//draw the real activity:
-	positionData = 'positon of temp activity';
-	activityData = [];
-	newActivity = ActivityDiagramClass.feedActivity = function(activityData, positionData);//no need for array data since it is not connnected yet
-	ActivityDiagramClass.drawActivity(newActivity.id);	
 	*/
 }
 
@@ -277,6 +309,8 @@ ModeArrowLink.cancel = function(){
 	}
 	
 	ActivityDiagramClass.unsetFeedbackMenu();
+	ModeArrowLink.tempId = 'empty';
+	return true;
 }
 
 ModeArrowLink.removeTempArrow = function(arrowName){

@@ -557,8 +557,10 @@ ArrowClass.getCenterCoordinate = function(element){
 	var position = element.offset();
 	var canvasOffset = canvasElt.offset();
 	
-	x = (position.left-canvasOffset.left) + element.width()/2;
-	y = (position.top-canvasOffset.top) + element.height()/2;
+	x = (position.left-canvasOffset.left+ActivityDiagramClass.scrollLeft) + element.width()/2;
+	y = (position.top-canvasOffset.top+ActivityDiagramClass.scrollTop) + element.height()/2;
+	console.log('ActivityDiagramClass.scrollLeft', ActivityDiagramClass.scrollLeft);
+	console.log('ActivityDiagramClass.scrollTop', ActivityDiagramClass.scrollTop);
 	// console.log('Cx',element.width());
 	// console.log('Cy',element.height());
 	// console.log('x', x);
@@ -631,6 +633,24 @@ ArrowClass.editArrowFlex = function(arrowName, flexPosition, offset){
 	//immediately followed by calculateArrow and drawArrow;
 	return flexPoints;
 }
+
+ArrowClass.saveTemporaryArrowToReal = function(arrowId){
+	// save the temporay arrow data into the actual arrows array:
+	if(ArrowClass.tempArrows[arrowId]){
+		
+		ArrowClass.arrows[arrowId] = ArrowClass.tempArrows[arrowId];
+		
+		//delete the temp arrows and draw the actual one:
+		ModeArrowLink.removeTempArrow(arrowId);
+		ArrowClass.drawArrow(arrowId, {
+			container: ActivityDiagramClass.canvas,
+			arrowWidth: 2
+		});
+		
+		ActivityDiagramClass.setArrowMenuHandler(arrowId);
+	}
+}
+
 /*
 ArrowClass.editArrowType = function(arrowName, newType, temp){
 	//newType in left, top, right

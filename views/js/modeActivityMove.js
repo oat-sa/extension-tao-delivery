@@ -31,6 +31,10 @@ ModeActivityMove.on = function(activityId){
 		handle: '#'+ActivityDiagramClass.getActivityId('activity', activityId),
 		scroll: true,
 		drag: function(event, ui){
+		
+			console.log('position');console.dir($(this).position());
+			console.log('offset');console.dir($(this).offset());
+			
 			//ondrag, update all connected arrows:
 			
 			//arrows that are connected to that activity:

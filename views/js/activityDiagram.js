@@ -8,6 +8,8 @@ ActivityDiagramClass.activities = [];
 ActivityDiagramClass.connectors = [];
 ActivityDiagramClass.feedbackContainer = "#process_diagram_feedback";
 ActivityDiagramClass.currentMode = null;
+ActivityDiagramClass.scrollLeft = 0;
+ActivityDiagramClass.scrollTop = 0;
 // ActivityDiagramClass.errors = {
 	// activities: [],
 	// arrows:[]
@@ -49,7 +51,7 @@ ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData
 							port: '0'
 						}
 					],
-					type: 'sequence'
+					type: 'split'
 				}
 			]
 		},

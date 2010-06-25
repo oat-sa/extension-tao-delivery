@@ -47,6 +47,12 @@
 	$(function() {
 		window.loadFirebugConsole();
 		
+		$(ActivityDiagramClass.canvas).scroll(function(){
+			//TODO: set a more cross-browser way to retrieve scroll left and top values:
+			ActivityDiagramClass.scrollLeft = this.scrollLeft;
+			ActivityDiagramClass.scrollTop = this.scrollTop;
+		});
+		
 		$(ArrowClass.canvas).mousemove(function(e){
 			  $('#status').html(e.pageX +', '+ e.pageY);
 		});
