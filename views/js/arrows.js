@@ -436,6 +436,7 @@ ArrowClass.removeArrow = function(name, complete, temp){
 	// console.log('temp', temp);
 	
 	if(temp){
+		console.log('ddfdf', name);
 		if(complete){
 			ArrowClass.tempArrows[name] = null;
 		}
@@ -545,7 +546,7 @@ ArrowClass.getDraggableFlexPoints = function(tempArrowName){
 ArrowClass.getCenterCoordinate = function(element){
 	
 	if(!element.length){
-		throw 'the element do not exists';
+		throw 'the element "'+element.attr('id')+'" do not exists';
 		return null;
 	}
 	var canvasElt = $(ArrowClass.canvas);

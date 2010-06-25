@@ -979,6 +979,18 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			break;
 		}
+		case 'ModeLinkedActivityAdd':{
+			$("#feedback_message").text('linked activity adding mode');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeLinkedActivityAdd.save();
+			});
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeLinkedActivityAdd.cancel();
+			});
+			break;
+		}
 		case 'ModeActivityMenu':{
 			$("#feedback_message").text('activity memu: select an action');
 			$("#feedback_menu_save").parent().remove();

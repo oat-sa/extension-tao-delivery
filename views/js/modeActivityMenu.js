@@ -164,9 +164,19 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 						subActions.push({
 							label: "New Activity",
 							icon: img_url + "process_activity.png",
-							action: function(id, data){
+							action: function(id, data, e){
 								// ModeConnectedActivityAdd.on('activity', data.connectorId, data.port);
 								console.log('ModeConnectedActivityAdd.on("activity", '+data.connectorId+', '+data.port+')');
+								
+								// var coordXY = ArrowClass.getCenterCoordinate($('#'+e.currentTarget.id));
+								//var position = {top:coordXY.y, left:coordXY.y};
+								// console.log(e.currentTarget.id, coordXY);
+								
+								//real offset need to be calculated:
+								var canvasPosition = $(ActivityDiagramClass.canvas).offset();
+								var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
+								
+								ModeLinkedActivityAdd.on(data.connectorId, data.port, position);
 							}
 						});
 						subActions.push({
@@ -188,7 +198,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								console.log('e.pageX', e.pageX);
 								console.log('e.e.pageY', e.pageY);
 								//real offset need to be calculated:
-								position = {top:e.pageX-canvasPosition.left, left:e.pageY-canvasPosition.top};
+								position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
 								ModeArrowLink.on(data.connectorId, data.port, position);
 							}
 						});

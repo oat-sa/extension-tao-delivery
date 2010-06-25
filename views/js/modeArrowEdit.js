@@ -1,4 +1,4 @@
-alert('ModeArrowEdit loaded');
+// alert('ModeArrowEdit loaded');
 
 ModeArrowEdit = [];
 ModeArrowEdit.tempId = '';
