@@ -90,6 +90,11 @@ function setResult($xml,$IDresult,$seq,$length) {
     $ch = curl_init();
     //set options
     curl_setopt($ch,CURLOPT_URL,$url);
+    
+	if(USE_HTTP_AUTH){
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
+	}
 
     curl_setopt($ch,CURLOPT_POST,1);
     curl_setopt($ch,CURLOPT_POSTFIELDS,$postFileds);//'pathLogFile='.urlencode($xmlPath));
