@@ -170,6 +170,9 @@ class Delivery extends TaoModule {
 			}
 		}
 		
+		//temporary disable authoring mode selection: 
+		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));
+		
 		//delivery authoring mode:
 		$this->setData('authoringMode', 'simple');
 		$authoringMode = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP));
