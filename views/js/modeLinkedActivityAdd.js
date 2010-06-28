@@ -104,5 +104,6 @@ ModeLinkedActivityAdd.cancel = function(){
 		//delete temp
 		ActivityDiagramClass.removeActivity(ModeLinkedActivityAdd.tempId);
 		ActivityDiagramClass.unsetFeedbackMenu();
+		ArrowClass.removeArrow(ModeLinkedActivityAdd.arrowId);
 	}
 }

@@ -58,6 +58,8 @@ ModeActivityMove.save = function(){
 	console.log('ModeActivityMove.save:', 'not implemented yet');
 	ModeActivityMove.cancel();
 	
+	
+	
 	//unquote section below when the communication with server is established:
 	/*
 	
@@ -87,7 +89,8 @@ ModeActivityMove.cancel = function(){
 		}
 	}
 	
+	//reset ActivityDiagramClass.setArrowMenuHandler(arrowId);//for each arrow that has been redrawn
 	console.log(ActivityDiagramClass.currentMode);
-console.log(ModeActivityMove.tempId);
-console.log(containerId);
+	console.log(ModeActivityMove.tempId);
+	console.log(containerId);
 }
