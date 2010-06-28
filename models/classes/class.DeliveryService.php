@@ -358,7 +358,24 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = array();
 		
 		if(!is_null($delivery)){
-			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
+			$subjects = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
+		
+			if(count($subjects) > 0){
+				$subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+				$subjectSubClasses = array();
+				foreach($subjectClass->getSubClasses(true) as $subjectSubClass){
+					$subjectSubClasses[] = $subjectSubClass->uriResource;
+				}
+				foreach($subjects as $subjectUri){
+					$clazz = $this->getClass(new core_kernel_classes_Resource($subjectUri));
+					if(!is_null($clazz)){
+						if(in_array($clazz->uriResource, $subjectSubClasses)){
+							$returnValue[] = $clazz->uriResource;
+						}
+					}
+					$returnValue[] = $subjectUri;
+				}
+			}
 		}
 		
         return (array) $returnValue;
@@ -409,7 +426,24 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = array();
 		
 		if(!is_null($delivery)){
-			$returnValue = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP));
+			$campaigns = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP));
+		
+			if(count($campaigns)>0){
+				$campaignClass =  new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+				$campaignSubClasses = array();
+				foreach($campaignClass->getSubClasses(true) as $campaignSubClass){
+					$campaignSubClasses[] = $campaignSubClass->uriResource;
+				}
+				foreach($campaigns as $campaignUri){
+					$clazz = $this->getClass(new core_kernel_classes_Resource($campaignUri));
+					if(!is_null($clazz)){
+						if(in_array($clazz->uriResource, $campaignSubClasses)){
+							$returnValue[] = $clazz->uriResource;
+						}
+					}
+					$returnValue[] = $campaignUri;
+				}
+			}
 		}
 
         return (array) $returnValue;

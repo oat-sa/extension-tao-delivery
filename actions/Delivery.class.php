@@ -197,6 +197,7 @@ class Delivery extends TaoModule {
 				);
 			}
 			$this->setData('testSequence', $testSequence);
+			
 			$this->setData('relatedTests', json_encode($relatedTest));
 		}
 		
