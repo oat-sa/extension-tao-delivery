@@ -144,11 +144,13 @@ class DeliveryServer extends DeliveryServerModule{
 
 						
 					$currentActivities = array();
-
+					
+					$isAllowed = false;
 					foreach ($proc->currentActivity as $currentActivity){
 						$activity = $currentActivity;
 						
 						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser, $proc->resource);
+						
 						$currentActivities[] = array(
 							'label'				=> $currentActivity->label,
 							'uri' 				=> $currentActivity->uri,
@@ -159,6 +161,11 @@ class DeliveryServer extends DeliveryServerModule{
 
 					}
 					
+					//ondelivery server, display only user's delivery (finished and paused): ($proc->currentActivity is empty or checkACL returns "false")
+					if(!$isAllowed){
+						continue;
+					}
+						
 					$processViewData[] = array(
 						'type' 			=> $type,
 						'label' 		=> $label,

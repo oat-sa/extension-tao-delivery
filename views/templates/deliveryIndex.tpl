@@ -28,13 +28,13 @@
 		<div id="content">
 			<h1 id="welcome_message"><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
 			<div id="business">
-				<h2 class="section_title"><?php echo __("Active Tests"); ?></h2>
+				<h2 class="section_title"><?php echo __("Active Deliveries"); ?></h2>
 			<table id="active_processes">
 				<thead>
 					<tr>
 						<th><?php echo __("Status"); ?></th>
-						<th><?php echo __("Test"); ?></th>
-						<th><?php echo __("Start/Resume the case"); ?></th>
+						<th><?php echo __("Delivery"); ?></th>
+						<th><?php echo __("Start/Resume the test"); ?></th>
 					</tr>
 				</thead>
 				<tbody>

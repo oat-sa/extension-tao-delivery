@@ -491,6 +491,11 @@ class taoDelivery_models_classes_DeliveryService
 		
 		//create a process instance at the same time:
 		$processInstance = parent::createInstance(new core_kernel_classes_Class(CLASS_PROCESS),'process generated with deliveryService');
+		
+		//set ACL right to delivery process initialization:
+		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_ACL_MODE), INSTANCE_ACL_ROLE);
+		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), TAO_SUBJECT_CLASS);
+			
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
 		$this->updateProcessLabel($deliveryInstance);
 		
@@ -542,7 +547,7 @@ class taoDelivery_models_classes_DeliveryService
 					foreach($instance->getPropertyValues($property) as $propertyValue){
 						$clone->setPropertyValue($property, $propertyValue);
 					}
-				}else{
+				}elseif($property->uriResource != TAO_DELIVERY_COMPILED_PROP){
 					$clone->editPropertyValues($property, $instance->getPropertyValues($property));
 				}
 				
