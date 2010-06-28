@@ -141,7 +141,9 @@ class taoDelivery_models_classes_DeliveryServerService
 
 		if(empty($subject)) throw new Exception("the subject cannot be empty");
 		if(empty($delivery)) throw new Exception("the delivery cannot be empty");
-		$history = $this->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS), "Execution of {$delivery->getLabel()} by {$subject->getLabel()}");
+
+		$deliveryHistoryClass = new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS);
+		$history = $deliveryHistoryClass->createInstance("Execution of the delivery {$delivery->getLabel()} by {$subject->getLabel()} on ". date(DATE_ISO8601), "created by DeliveryServerService on ". date(DATE_ISO8601));
 
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subject->uriResource);
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $delivery->uriResource);
