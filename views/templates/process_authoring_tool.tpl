@@ -18,13 +18,18 @@
 	
 <?else:?>
 	<style type="text/css">
-		#accordion1 {position:absolute;left:0%;top:0%;width:30%;height:100%;}
-		#accordion_container_2 {position:absolute;left:30%;top:0%;width:70%;height:100%;}
-		#process_diagram_container {position:absolute;left:0%;top:0%;width:75%;height:100%;}
-		
-		#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
-		#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
-		#main {width:1000px;height:700px;}
+	#draggable {padding: 0.5em;width:auto; }
+	#draggable1 {padding: 0.5em;width:auto;}
+	
+	#accordion_container_1 {position:absolute;left:0%;top:0%;width:30%;height:100%;z-index:1000;background-color:#fff;}
+	#accordion_container_2 {position:relative;left:30%;top:0%;width:70%;height:100%;z-index:1000;background-color:#fff;}
+
+	#process_diagram_container {position:absolute;left:0%;top:0%;width:75%;height:100%;}
+	
+	#demo {position:absolute;left:27%;top:1%;width:50%;height=auto;}
+	#process {position:absolute;left:78%;top:1%;width:21%;height=auto;}
+	#main {width:1000px;height:700px;}
+	
 	</style>
 
 	<script type="text/javascript">
@@ -36,28 +41,31 @@
 	<div class="main-container" style="display:none;"></div>
 	<div id="authoring-container" class="ui-helper-reset">
 	<div id="process_diagram_container"></div>
-	<div id="accordion1" style="font-size:0.8em;">
-		<h3><a href="#"><?=__('Service Definition')?></a></h3>
-		<div>
-			<div id="serviceDefinition_tree"/>
-			<div id="serviceDefinition_form"/>
-		</div>
-		<h3><a href="#"><?=__('Formal Parameter')?></a></h3>
-		<div>
-			<div id="formalParameter_tree"/>
-			<div id="formalParameter_form"/>
-		</div>
-		<h3><a href="#"><?=__('Role')?></a></h3>
-		<div>
-			<div id="role_tree"/>
-			<div id="role_form"/>
-		</div>
-		<h3><a href="#"><?=__('Process Variables')?></a></h3>
-		<div>
-			<div id="variable_tree"/>
-			<div id="variable_form"/>
-		</div>
-	</div><!--end accordion -->
+	
+	<div id="accordion_container_1">
+		<div id="accordion1" style="font-size:0.8em;">
+			<h3><a href="#"><?=__('Service Definition')?></a></h3>
+			<div>
+				<div id="serviceDefinition_tree"/>
+				<div id="serviceDefinition_form"/>
+			</div>
+			<h3><a href="#"><?=__('Formal Parameter')?></a></h3>
+			<div>
+				<div id="formalParameter_tree"/>
+				<div id="formalParameter_form"/>
+			</div>
+			<h3><a href="#"><?=__('Role')?></a></h3>
+			<div>
+				<div id="role_tree"/>
+				<div id="role_form"/>
+			</div>
+			<h3><a href="#"><?=__('Process Variables')?></a></h3>
+			<div>
+				<div id="variable_tree"/>
+				<div id="variable_form"/>
+			</div>
+		</div><!--end accordion -->
+	</div>
 	
 	<div id="accordion_container_2">
 	<div id="accordion2" style="font-size:0.8em;">
@@ -80,6 +88,8 @@
 		</div>
 	</div><!--end accordion -->
 	</div><!--end accordion_container_2 -->
+	
+	<div style="clear:both;"></div>
 	
 	</div><!--end authoring-container -->
 	
@@ -104,7 +114,7 @@
 		$("#accordion1").accordion({
 			fillSpace: false,
 			autoHeight: false,
-			collapsible: true,
+			collapsible: false,
 			active: 0,
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
