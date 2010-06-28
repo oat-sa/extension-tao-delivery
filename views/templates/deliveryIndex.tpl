@@ -29,6 +29,7 @@
 			<h1 id="welcome_message"><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
 			<div id="business">
 				<h2 class="section_title"><?php echo __("Active Deliveries"); ?></h2>
+			<?php if(!empty($processViewData)) : ?>
 			<table id="active_processes">
 				<thead>
 					<tr>
@@ -63,6 +64,9 @@
 					<?php endforeach;  ?>
 				</tbody>
 			</table>
+			<?php else:?>
+			<br/><br/>
+			<?php endif; ?>
 			
 			<!-- End of Active Processes -->
 			<?php if(!empty($availableProcessDefinition)) : ?>
@@ -75,7 +79,7 @@
 					</li>
 					<?php endforeach;  ?>			
 				</div>
-				<?php endif; ?>
+			<?php endif; ?>
 			</div>
 			
 		</div>
