@@ -618,24 +618,43 @@ class taoDelivery_models_classes_DeliveryService
 		 $returnValue = array();
 	
 		if(!is_null($delivery)){
-		try{
-		 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-		 	$process = $delivery->getUniquePropertyValue(
-				new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)
-			);
-			if(!is_null($process)){
-				$activities = $authoringService->getActivitiesByProcess($process);
-			
-				foreach($activities as $activity){
-					$test = $authoringService->getTestByActivity($activity);
-					if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
-						$returnValue[$test->uriResource] = $test;
+			$tests = array();
+			try{
+			 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			 	$process = $delivery->getUniquePropertyValue(
+					new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)
+				);
+				if(!is_null($process)){
+					$activities = $authoringService->getActivitiesByProcess($process);
+				
+					foreach($activities as $activity){
+						$test = $authoringService->getTestByActivity($activity);
+						if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
+							$tests[$test->uriResource] = $test;
+						}
 					}
 				}
 			}
+			catch(Exception $e){}
+		
+			if(count($tests) > 0){
+				$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+				$testSubClasses = array();
+				foreach($testClass->getSubClasses(true) as $testSubClass){
+					$testSubClasses[] = $testSubClass->uriResource;
+				}
+				
+				foreach($tests as $testUri => $test){
+					$clazz = $this->getClass($test);
+					
+					if(in_array($clazz->uriResource, $testSubClasses)){
+						$returnValue[$clazz->uriResource] = $clazz;
+					}
+					$returnValue[$testUri] = $test;
+				}
+			}
 		}
-		catch(Exception $e){}
-		}
+		
 		return $returnValue;
 	}
 	
@@ -884,9 +903,29 @@ class taoDelivery_models_classes_DeliveryService
 			}
 		}
 		
-		//final check:
+		$returnValue = array();
 		
-		return $tests;
+		if(count($tests) > 0){
+			
+			ksort($tests);
+			
+			$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+			$testSubClasses = array();
+			foreach($testClass->getSubClasses(true) as $testSubClass){
+				$testSubClasses[] = $testSubClass->uriResource;
+			}
+			
+			foreach($tests as $test){
+				$clazz = $this->getClass($test);
+				if(in_array($clazz->uriResource, $testSubClasses)){
+					$returnValue[] = $clazz;
+				}
+				$returnValue[] = $test;
+			}
+		}
+		
+		
+		return $returnValue;
 	}
 	
 	/**
