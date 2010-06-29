@@ -528,7 +528,7 @@ class taoDelivery_models_classes_DeliveryService
 		
 		//set ACL right to delivery process initialization:
 		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_ACL_MODE), INSTANCE_ACL_ROLE);
-		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), TAO_SUBJECT_CLASS);
+		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), CLASS_ROLE_SUBJECT);
 			
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
 		$this->updateProcessLabel($deliveryInstance);
@@ -618,7 +618,7 @@ class taoDelivery_models_classes_DeliveryService
 		 $returnValue = array();
 	
 		if(!is_null($delivery)){
-			$tests = array();
+		
 			try{
 			 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 			 	$process = $delivery->getUniquePropertyValue(
@@ -630,29 +630,13 @@ class taoDelivery_models_classes_DeliveryService
 					foreach($activities as $activity){
 						$test = $authoringService->getTestByActivity($activity);
 						if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
-							$tests[$test->uriResource] = $test;
+							$returnValue[$test->uriResource] = $test;
 						}
 					}
 				}
 			}
 			catch(Exception $e){}
 		
-			if(count($tests) > 0){
-				$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-				$testSubClasses = array();
-				foreach($testClass->getSubClasses(true) as $testSubClass){
-					$testSubClasses[] = $testSubClass->uriResource;
-				}
-				
-				foreach($tests as $testUri => $test){
-					$clazz = $this->getClass($test);
-					
-					if(in_array($clazz->uriResource, $testSubClasses)){
-						$returnValue[$clazz->uriResource] = $clazz;
-					}
-					$returnValue[$testUri] = $test;
-				}
-			}
 		}
 		
 		return $returnValue;
@@ -759,7 +743,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			//set ACL mode to role user restricted with role=subject
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
-			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), TAO_SUBJECT_CLASS);
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), CLASS_ROLE_SUBJECT);
 			
 			//get the service definition with the wanted test uri (if doesn't exist, create one)
 			// $testId = tao_helpers_Uri::getUniqueId($test->uriResource);

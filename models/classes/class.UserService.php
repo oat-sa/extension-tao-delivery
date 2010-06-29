@@ -64,7 +64,7 @@ class taoDelivery_models_classes_UserService
     public function initRoles()
     {
         // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002421 begin
-		$this->allowedRoles = array(TAO_SUBJECT_CLASS, CLASS_ROLE_SUBJECT);
+		$this->allowedRoles = array(CLASS_ROLE_SUBJECT);
         // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002421 end
     }
 
