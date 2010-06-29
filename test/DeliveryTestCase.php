@@ -95,7 +95,7 @@ class DeliveryTestCase extends UnitTestCase {
 			if(!is_null($service)){
 				$serviceDefinition = $service->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
 				$formalParamCollection = $serviceDefinition->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
-				$this->assertEqual($formalParamCollection->count(), 3);
+				$this->assertEqual($formalParamCollection->count(), 4);
 			}
 		}
 		
