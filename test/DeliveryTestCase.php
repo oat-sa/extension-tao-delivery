@@ -240,7 +240,7 @@ class DeliveryTestCase extends UnitTestCase {
 		
 		$itemContentProp = new core_kernel_classes_Property(TAO_ITEM_CONTENT_PROPERTY);
 		$item1->editPropertyValues($itemContentProp, $xmlCTest);				
-		$item2->editPropertyValues($itemContentProp, $xmlCTest);//$xmlQCM problem with img file copying
+		$item2->editPropertyValues($itemContentProp, $xmlQCM);//$xmlQCM problem with img file copying
 		$item3->editPropertyValues($itemContentProp, $xmlKohs);
 		$item4->editPropertyValues($itemContentProp, $xmlHAWAI);
 		
