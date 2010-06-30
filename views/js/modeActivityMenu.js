@@ -3,26 +3,24 @@
 ModeActivityMenu = [];
 ModeActivityMenu.existingMenu = new Array();
 
-ModeActivityMenu.on = function(type, targetId){
-	//for precaution only, delete all existing menu (should be none):
-	ModeActivityMenu.removeAllMenu();
-	
-	switch(type){
-		case 'activity':{
-			//insert information in the feedback 'div'
-			if(!ActivityDiagramClass.setFeedbackMenu('ModeActivityMenu')){
-				return false;
+ModeActivityMenu.on = function(options){
+	if(options.target){
+		switch(options.type){
+			case 'activity':{
+				ModeActivityMenu.createActivityMenu(options.target);
+				break;
 			}
-			ModeActivityMenu.createActivityMenu(targetId);
-			break;
-		}
-		case 'connector':{
-			ModeActivityMenu.createConnectorMenu(targetId);
-			break;
-		}
-		case 'arrow':{
-			ModeActivityMenu.createArrowMenu(targetId);
-			break;
+			case 'connector':{
+				ModeActivityMenu.createConnectorMenu(options.target);
+				break;
+			}
+			case 'arrow':{
+				ModeActivityMenu.createArrowMenu(options.target);
+				break;
+			}
+			default:{
+				throw 'wrong target type given';
+			}
 		}
 	}
 }
@@ -49,8 +47,8 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		label: "Move",
 		icon: img_url + "pencil.png",
 		action: function(actId){
-			console.log('move => ',actId);
-			ModeActivityMove.on(actId);
+			// ModeActivityMove.on(actId);
+			ModeController.setMode('ModeActivityMove', {activityId: actId});
 		}
 	});
 	actions.push({
@@ -98,6 +96,8 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 		icon: img_url + "pencil.png",
 		action: function(actId){
 			console.log('edit',actId);
+			//click on the tree node:
+			
 		},
 		autoclose: false
 	});
@@ -151,8 +151,8 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					if(false){//test of else only: delete ArrowClass.arrows[data.arrowId];
 						//if so, go to editArrowMode(arrowId)
 						console.log('editArrowMode');
-						ModeActivityMenu.cancel();
-						
+						// ModeActivityMenu.cancel();
+						ModeController.setMode('editArrowMode', {activityId: actId});
 					}else{
 					
 						//remove top connector menu:
@@ -275,7 +275,7 @@ ModeActivityMenu.createMenu = function(targetId, containerId, position, actions,
 	var calculatedHeight = (3+16+3);
 	menuContainer.width(calculatedWith+"px");
 	menuContainer.height(calculatedHeight+"px");
-	menuContainer.css('z-index',1000);//always on top
+	menuContainer.css('z-index',1001);//always on top
 	menuContainer.css('position','absolute');
 	menuContainer.appendTo(container);
 	
@@ -383,9 +383,7 @@ ModeActivityMenu.removeAllMenu = function(){
 }
 
 ModeActivityMenu.cancel = function(){
-	//update feedback box:
-	
 	//delete old menu
 	ModeActivityMenu.removeAllMenu();
-	ActivityDiagramClass.unsetFeedbackMenu();
+	// ActivityDiagramClass.unsetFeedbackMenu();//no longer required
 }

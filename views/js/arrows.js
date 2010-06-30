@@ -514,19 +514,14 @@ ArrowClass.getDraggableFlexPoints = function(tempArrowName){
 					var tempIndex = parseInt(id.substr(id.lastIndexOf("arrowPart_")+10)) - 1;
 					
 					// arrowNameTemp = $(this).attr('name');
-					arrowNameTemp = id.substring(0,id.indexOf('_arrowPart_'));
+					var arrowNameTemp = id.substring(0,id.indexOf('_arrowPart_'));
 					// console.log(arrowNameTemp);
-					arrowTemp = ArrowClass.tempArrows[arrowNameTemp];
-					flexPoints = ArrowClass.editArrowFlex(arrowNameTemp, tempIndex, offset);
+					var arrowTemp = ArrowClass.tempArrows[arrowNameTemp];
+					var flexPoints = ArrowClass.editArrowFlex(arrowNameTemp, tempIndex, offset);
 					
 					ArrowClass.tempArrows[arrowNameTemp] = ArrowClass.calculateArrow($("#"+arrowNameTemp), $("#"+arrowTemp.target), arrowTemp.type, flexPoints, true);
-					ArrowClass.removeArrow(arrowNameTemp, false, true);
-					ArrowClass.drawArrow(arrowNameTemp, {
-						container: ActivityDiagramClass.canvas,
-						arrowWidth: 2,
-						temp: true
-					});
-					
+					ArrowClass.tempArrows[arrowNameTemp].actualTarget = arrowTemp.actualTarget;
+					ArrowClass.redrawArrow(arrowNameTemp, true);
 					ArrowClass.getDraggableFlexPoints(arrowNameTemp);
 				}
 
@@ -639,7 +634,12 @@ ArrowClass.saveTemporaryArrowToReal = function(arrowId){
 	// save the temporay arrow data into the actual arrows array:
 	if(ArrowClass.tempArrows[arrowId]){
 		
-		ArrowClass.arrows[arrowId] = ArrowClass.tempArrows[arrowId];
+		var tempArrow = ArrowClass.tempArrows[arrowId];
+		ArrowClass.arrows[arrowId] = tempArrow;
+		
+		//set the real target element (not the deleted arrow tip)
+		ArrowClass.arrows[arrowId].target = tempArrow.actualTarget;
+		// delete ArrowClass.arrows[arrowId].actualTarget;
 		
 		//delete the temp arrows and draw the actual one:
 		ModeArrowLink.removeTempArrow(arrowId);
@@ -647,7 +647,7 @@ ArrowClass.saveTemporaryArrowToReal = function(arrowId){
 			container: ActivityDiagramClass.canvas,
 			arrowWidth: 2
 		});
-		
+		console.dir(ArrowClass.arrows);
 		ActivityDiagramClass.setArrowMenuHandler(arrowId);
 	}
 }

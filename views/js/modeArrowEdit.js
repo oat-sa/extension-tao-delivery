@@ -3,9 +3,10 @@
 ModeArrowEdit = [];
 ModeArrowEdit.tempId = '';
 
-ModeArrowEdit.on = function(arrowId){
-	//insert information in the feedback 'div'
-	if(!ActivityDiagramClass.setFeedbackMenu('ModeArrowEdit')){
+ModeArrowEdit.on = function(options){
+
+	var arrowId = options.arrowId;
+	if(!arrowId){
 		return false;
 	}
 	
@@ -94,7 +95,8 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 				{
 					revert: 'invalid',
 					arrowType: arrow.type,
-					flex:arrow.flex
+					flex:arrow.flex,
+					actualTarget: arrow.target
 				}
 			);
 		}else{
@@ -107,19 +109,22 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 }
 
 ModeArrowEdit.save = function(){
-	console.log('ModeArrowEdit.save:', 'not implemented yet');
+	
 	
 	if(ModeArrowEdit.tempId){
 		var connectorId = ModeArrowEdit.tempId;
-		
 		// save the temporay arrow data into the actual arrows array:
 		if(ArrowClass.tempArrows[connectorId]){
-			ArrowClass.saveTemporaryArrowToReal(connectorId);
+			console.log('ModeArrowEdit.save:', 'not implemented yet');
+			console.dir(ArrowClass.tempArrows);
+			if(ArrowClass.tempArrows[connectorId].actualTarget){
+				ArrowClass.saveTemporaryArrowToReal(connectorId);
+			}
 		}
 	}
 	
-	ActivityDiagramClass.unsetFeedbackMenu();
-	ModeArrowEdit.tempId = 'empty';
+	ModeActivityMenu.removeAllMenu();
+	ModeArrowEdit.tempId = 'emptied';
 	return true;
 	
 	//unquote section below when the communication with server is established:
@@ -140,10 +145,10 @@ ModeArrowEdit.save = function(){
 }
 
 ModeArrowEdit.cancel = function(){
-	console.log('ModeArrowLink.cancel', ModeArrowLink);
+	console.log('ModeArrowLink.cancel', ModeArrowEdit);
 		
 	if(ModeArrowEdit.tempId){
-		var connectorId = ModeArrowLink.tempId;
+		var connectorId = ModeArrowEdit.tempId;
 		
 		if(ArrowClass.tempArrows[connectorId]){
 			//delete the temp arrows and draw the actual one:
@@ -157,10 +162,14 @@ ModeArrowEdit.cancel = function(){
 				arrowWidth: 2
 			});
 			
+			//important: reset the arrow menu handler on the redrawn activity:
+			ActivityDiagramClass.setArrowMenuHandler(connectorId);// == arrowId
 		}
 	}
 	
-	ActivityDiagramClass.unsetFeedbackMenu();
+	ModeActivityMenu.removeAllMenu();
+	
 	ModeArrowEdit.tempId = 'empty';
+	
 	return true;
 }

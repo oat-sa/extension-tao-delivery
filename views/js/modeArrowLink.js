@@ -9,7 +9,7 @@ ModeArrowLink.arrowType = null;
 
 ModeArrowLink.on = function(connectorId, port, position){
 	
-	console.log('ModeArrowLink.on');
+	console.log('ModeArrowLink on');
 	var arrowOriginEltId = ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', port);
 	
 	ModeArrowLink.tempId = arrowOriginEltId;
@@ -69,6 +69,7 @@ ModeArrowLink.deactivateAllDroppablePoints = function(){
 	
 }
 
+//TODO: put it in the arrowclass:
 ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	
 	//delete old one if exists
@@ -107,6 +108,7 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	//calculate the initial position & draw it
 	var arrowType = 'top';
 	var flex = null;
+	var actualTarget = null;
 	if(options){
 		if(options.arrowType){
 			arrowType = options.arrowType;
@@ -114,8 +116,13 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 		if(options.flex){
 			flex = options.flex;
 		}
+		if(options.actualTarget){
+			actualTarget = options.actualTarget;
+		}
 	}
 	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), arrowType, flex, true);
+	
+	ArrowClass.tempArrows[originId].actualTarget = actualTarget;
 	ArrowClass.drawArrow(originId, {
 		container: ActivityDiagramClass.canvas,
 		arrowWidth: 2,
@@ -136,10 +143,12 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 			
 			//retrieve the arrow object in the temp arrows global array:
 			var arrow = ArrowClass.tempArrows[arrowName];
+			var actualTarget = arrow.actualTarget;
 			
 			//TODO edit 'type' at the same time:
 			
 			ArrowClass.tempArrows[arrowName] = ArrowClass.calculateArrow($('#'+arrowName), $(this), arrow.type, null, true);
+			ArrowClass.tempArrows[arrowName].actualTarget = actualTarget;
 			ArrowClass.redrawArrow(arrowName, true);
 		},
 		containment: ActivityDiagramClass.canvas,
@@ -238,17 +247,14 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 		drop: function(event, ui) {
 			//edit the arrow's 'end' property value and set it to this draggable, so moving the activity will make the update in position of the connected arrows easier
 			var id = $(this).attr('id');
-			if(id.indexOf('_c')>0){ 
-				return false;
-			}else{
-				var startIndex = id.indexOf('_pos_');
-				var draggableId = ui.draggable.attr('id');
-				var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
-				
-				ArrowClass.tempArrows[arrowName].target = id;
-				ArrowClass.tempArrows[arrowName].targetObject = ArrowClass.getTargetFromId(id);
-				ModeArrowLink.targetObject = ArrowClass.getTargetFromId(id);
-			}
+			var startIndex = id.indexOf('_pos_');
+			var draggableId = ui.draggable.attr('id');
+			var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
+			
+			ArrowClass.tempArrows[arrowName].target = id;
+			ArrowClass.tempArrows[arrowName].targetObject = ArrowClass.getTargetFromId(id);
+			ArrowClass.tempArrows[arrowName].actualTarget = id;
+			ModeArrowLink.targetObject = ArrowClass.getTargetFromId(id);
 		}
 	});
 	

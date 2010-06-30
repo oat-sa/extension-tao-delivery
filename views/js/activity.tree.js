@@ -147,6 +147,9 @@ function ActivityTreeClass(selector, dataUrl, options){
 				}
 			},
 			plugins: {
+				cookie:{
+					
+				},
 				contextmenu : {
 					items : {
 						refreshTree: {

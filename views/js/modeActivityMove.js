@@ -4,14 +4,15 @@ ModeActivityMove = [];
 ModeActivityMove.tempId = '';
 ModeActivityMove.originalPosition = [];
 
-ModeActivityMove.on = function(activityId){
-	//desactivate 'add activity' button(??)
-	ActivityDiagramClass.currentMode = 'ModeActivityMove';
+ModeActivityMove.on = function(options){
 	
-	//insert information in the feedback 'div'
-	if(!ActivityDiagramClass.setFeedbackMenu('ModeActivityMove')){
+	var activityId = options.activityId;
+	if(!activityId){
+		throw 'no activity Id found';
 		return false;
 	}
+	
+	//desactivate 'add activity' button(??)
 	
 	//determine if the object can be moved alone or not (typically, the first connector of...issue for a join connector that shares several previous activities);
 	
@@ -20,7 +21,7 @@ ModeActivityMove.on = function(activityId){
 	ModeActivityMove.tempId = activityId;
 	ModeActivityMove.originalPosition = activity.position;
 	
-	console.log(ArrowClass.arrows);
+	// console.log(ArrowClass.arrows);
 	//transform the activity to draggable (with itself as a helper opacity .7)
 	var containerId = ActivityDiagramClass.getActivityId('container', activityId);
 	if(!$('#'+containerId).length){
@@ -88,6 +89,13 @@ ModeActivityMove.cancel = function(){
 			$('#'+containerId).draggable('destroy');
 		}
 	}
+	
+	//remove activity box
+	
+	//update real model with initial position
+	
+	//redraw activity+the connected arrows
+	
 	
 	//reset ActivityDiagramClass.setArrowMenuHandler(arrowId);//for each arrow that has been redrawn
 	console.log(ActivityDiagramClass.currentMode);

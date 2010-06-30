@@ -685,7 +685,7 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 	if($('#'+containerId).length){
 		$('#'+containerId).bind('click', {id:activityId}, function(event){
 			event.preventDefault();
-			ModeActivityMenu.on('activity', event.data.id);
+			ModeController.setMode('ModeActivityMenu', {type:'activity', target: event.data.id});
 		});
 	}
 }
@@ -695,7 +695,7 @@ ActivityDiagramClass.setConnectorMenuHandler = function(connectorId){
 	if($('#'+containerId).length){
 		$('#'+containerId).bind('click', {id:connectorId}, function(event){
 			event.preventDefault();
-			ModeActivityMenu.on('connector', event.data.id);
+			ModeController.setMode('ModeActivityMenu', {type:'connector', target: event.data.id});
 		});
 	}
 }
@@ -703,8 +703,8 @@ ActivityDiagramClass.setConnectorMenuHandler = function(connectorId){
 ActivityDiagramClass.setArrowMenuHandler = function(arrowId){
 	if(ArrowClass.arrows[arrowId]){
 		$('.arrow.'+arrowId).click(function(){
-			console.log("edit arrowwww"+$(this).attr('id'));
-			ModeArrowEdit.on(arrowId);
+			ModeController.setMode('ModeArrowEdit', {arrowId: arrowId});
+			// ModeArrowEdit.on(arrowId);
 		});
 	}
 }
@@ -967,6 +967,10 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 				
 
 	switch(mode){
+		case 'ModeInitial':{
+			$("#feedback_message").text('Initial Mode');
+			break;
+		}
 		case 'ModeActivityAdd':{
 			$("#feedback_message").text('activity adding mode');
 			$("#feedback_menu_save").click(function(event){
@@ -1049,7 +1053,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			break;
 		}
 		default:{
-			throw 'unknown mode';
+			throw 'unknown mode: '+mode;
 			eltContainer.empty();
 			return false;
 		}ModeActivityMove

@@ -26,6 +26,8 @@
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/util.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeController.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeInitial.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityLabel.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityAdd.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/modeActivityMenu.js"></script>
@@ -207,11 +209,17 @@
 			console.log("activity added from menu");
 		});
 		
+		$(ActivityDiagramClass.canvas).click(function(evt){
+			if (evt.target == evt.currentTarget) {
+				ModeController.setMode('ModeInitial');
+			}
+		});
+		
 		$("#activity_menu_addActivity").click(function(event){
 			try{
-			event.preventDefault();
-			ModeActivityAdd.on();
-			// GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+				event.preventDefault();
+				ModeController.setMode('ModeActivityAdd');
+				// GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
 			}
 			catch(err){
 				console.log('addactivity on click:', err);
@@ -221,7 +229,7 @@
 		$("#accordion1").accordion({
 			fillSpace: false,
 			autoHeight: false,
-			collapsible: true,
+			collapsible: false,
 			active: 0,
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
@@ -229,10 +237,10 @@
 		//load activity tree:
 		loadActivityTree();
 		
-		/*
+		
 		//load the trees:
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
-		loadSectionTree("formalParameter");
+		/*loadSectionTree("formalParameter");
 		loadSectionTree("role");
 		loadSectionTree("variable");
 		

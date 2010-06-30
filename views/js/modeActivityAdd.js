@@ -3,13 +3,7 @@ ModeActivityAdd.tempId = '';
 
 ModeActivityAdd.on = function(){
 	//desactivate 'add activity' button(??)
-	
-	
-	//insert information in the feedback 'div'
-	if(!ActivityDiagramClass.setFeedbackMenu('ModeActivityAdd')){
-		return false;
-	}
-	
+			
 	//create an activity temp
 	var tempActivity = ActivityDiagramClass.createTempActivity();
 	ModeActivityAdd.tempId = tempActivity.id;
@@ -64,9 +58,9 @@ ModeActivityAdd.save = function(){
 }
 
 ModeActivityAdd.cancel = function(){
-	if(ActivityDiagramClass.currentMode == 'ModeActivityAdd'){
+	// if(ActivityDiagramClass.currentMode == 'ModeActivityAdd'){
 		//delete temp
 		ActivityDiagramClass.removeActivity(ModeActivityAdd.tempId);
-		ActivityDiagramClass.unsetFeedbackMenu();
-	}
+		// ActivityDiagramClass.unsetFeedbackMenu();
+	// }
 }
