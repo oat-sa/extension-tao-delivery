@@ -690,6 +690,13 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 	}
 }
 
+ActivityDiagramClass.unsetActivityMenuHandler = function(activityId){
+	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
+	if($('#'+containerId).length){
+		$('#'+containerId).unbind('click');
+	}
+}
+
 ActivityDiagramClass.setConnectorMenuHandler = function(connectorId){
 	var containerId = ActivityDiagramClass.getActivityId('connector', connectorId);
 	if($('#'+containerId).length){
@@ -1021,10 +1028,12 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeActivityMove.save();
+				
 			});
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
-				ModeActivityMove.cancel();
+				// ModeActivityMove.cancel();
+				ModeController.setMode('ModeInitial');//ModeActivityMove.cancel() will be executed automatically
 			});
 			break;
 		}

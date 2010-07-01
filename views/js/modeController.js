@@ -1,4 +1,4 @@
-alert('ModeController loaded');
+// alert('ModeController loaded');
 
 ModeController = new Object();
 ModeController.currentMode = 'ModeInitial';

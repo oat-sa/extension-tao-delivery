@@ -3,6 +3,7 @@
 ModeActivityMove = [];
 ModeActivityMove.tempId = '';
 ModeActivityMove.originalPosition = [];
+ModeActivityMove.originalArrows = [];
 
 ModeActivityMove.on = function(options){
 	
@@ -11,7 +12,8 @@ ModeActivityMove.on = function(options){
 		throw 'no activity Id found';
 		return false;
 	}
-	
+	ModeActivityMove.originalArrows = [];
+
 	//desactivate 'add activity' button(??)
 	
 	//determine if the object can be moved alone or not (typically, the first connector of...issue for a join connector that shares several previous activities);
@@ -20,6 +22,14 @@ ModeActivityMove.on = function(options){
 	var activity = ActivityDiagramClass.activities[activityId];
 	ModeActivityMove.tempId = activityId;
 	ModeActivityMove.originalPosition = activity.position;
+	//then, set the inital arrows, in case of cancellation:
+	var arrows = ModeActivityMove.getArrowsConnectedToActivity(activityId);
+	for(arrowId in arrows){
+		ModeActivityMove.originalArrows[arrowId] = arrows[arrowId];
+	}
+	
+	//destroy click event handler, to prevent activity menu from poping up:
+	ActivityDiagramClass.unsetActivityMenuHandler(activityId);
 	
 	// console.log(ArrowClass.arrows);
 	//transform the activity to draggable (with itself as a helper opacity .7)
@@ -33,21 +43,30 @@ ModeActivityMove.on = function(options){
 		scroll: true,
 		drag: function(event, ui){
 		
-			console.log('position');console.dir($(this).position());
-			console.log('offset');console.dir($(this).offset());
+			// console.log('position');console.dir($(this).position());
+			// console.log('offset');console.dir($(this).offset());
 			
 			//ondrag, update all connected arrows:
+			var activityId = ModeActivityMove.tempId;
 			
 			//arrows that are connected to that activity:
+			/*
 			var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
 			for(var arrowId in ArrowClass.arrows){
 				var arrow = ArrowClass.arrows[arrowId];
 				// console.dir(arrow);
 				// console.dir(ModeActivityMove);
-				if(arrow.targetObject == ModeActivityMove.tempId || arrowId == activityBottomBorderPointId){
+				if(arrow.targetObject == activityId || arrowId == activityBottomBorderPointId){
 					ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+arrow.target), arrow.type, new Array(), false);
 					ArrowClass.redrawArrow(arrowId);
 				}
+			}
+			*/
+			var arrows = ModeActivityMove.getArrowsConnectedToActivity(activityId);
+			for(arrowId in arrows){
+				var arrow = ArrowClass.arrows[arrowId];
+				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+arrow.target), arrow.type, new Array(), false);
+				ArrowClass.redrawArrow(arrowId);
 			}
 		}
 	});
@@ -55,46 +74,81 @@ ModeActivityMove.on = function(options){
 	return true;
 }
 
+ModeActivityMove.getArrowsConnectedToActivity = function(activityId){
+	var arrows = [];
+	var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
+	for(var arrowId in ArrowClass.arrows){
+		var arrow = ArrowClass.arrows[arrowId];
+		// console.dir(arrow);
+		// console.dir(ModeActivityMove);
+		if(arrow.targetObject == activityId || arrowId == activityBottomBorderPointId){
+			arrows[arrowId] = arrow;
+		}
+	}
+	
+	return arrows;
+}
+
 ModeActivityMove.save = function(){
-	console.log('ModeActivityMove.save:', 'not implemented yet');
-	ModeActivityMove.cancel();
 	
+	if(ModeActivityMove.tempId){
+		//get id of the arrows that are connected to the current moving activity:
+		for(arrowId in ModeActivityMove.originalArrows){
+			//they are drawn properly, so just set their menu handler:
+			ActivityDiagramClass.setArrowMenuHandler(arrowId);
+		}
+		
+		//destroy draggable too:
+		var containerId = ActivityDiagramClass.getActivityId('container', ModeActivityMove.tempId);
+		if(!$('#'+containerId).length){
+			throw 'The activity container '+containerId+' do not exists.';
+		}
+		$('#'+containerId).draggable('destroy');
+		
+		//re-set the menu handler
+		ActivityDiagramClass.setActivityMenuHandler(ModeActivityMove.tempId);
+		
+		//TODO: send updated position data to the server and get  saving confirmation
+		
+	}
 	
+	ModeActivityMove.tempId = null;
+	ModeActivityMove.originalArrows = [];
+	ModeController.setMode('ModeInitial');
 	
-	//unquote section below when the communication with server is established:
-	/*
-	
-	//send the coordinate + label to server
-	//call processAuthoring/addActivity:
-	
-	//on success, delete the temp activity:
-	ModeActivityAdd.cancel();
-	
-	//draw the real activity:
-	positionData = 'positon of temp activity';
-	activityData = [];
-	newActivity = ActivityDiagramClass.feedActivity = function(activityData, positionData);//no need for array data since it is not connnected yet
-	ActivityDiagramClass.drawActivity(newActivity.id);	
-	*/
 }
 
 ModeActivityMove.cancel = function(){
 
-	if(ActivityDiagramClass.currentMode == 'ModeActivityMove'){
-		if(ModeActivityMove.tempId){
-			var containerId = ActivityDiagramClass.getActivityId('container', ModeActivityMove.tempId);
-			if(!$('#'+containerId).length){
-				throw 'The activity container '+containerId+' do not exists.';
-			}
-			$('#'+containerId).draggable('destroy');
+	if(ModeActivityMove.tempId){
+		var activityId = ModeActivityMove.tempId;
+				
+		//remove activity box
+		ActivityDiagramClass.removeActivity(activityId);
+		
+		//update real model with initial position
+		ActivityDiagramClass.activities[activityId].position = ModeActivityMove.originalPosition;
+		
+		//redraw activity+the connected arrows
+		ActivityDiagramClass.drawActivity(activityId);
+		
+		//arrows that are connected to that activity:
+		var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
+		for(arrowId in ModeActivityMove.originalArrows){
+			//replace the origine arrows in the array of actual arrows:
+			ArrowClass.arrows[arrowId] = ModeActivityMove.originalArrows[arrowId];
+			ArrowClass.redrawArrow(arrowId, false, {setMenuHandler: true});
 		}
+		
+		//re-set the menu handler
+		ActivityDiagramClass.setActivityMenuHandler(activityId);
+		
+		//reset original arrow and class tempId property:
+		ModeActivityMove.originalArrows = [];
+		ModeActivityMove.tempId = null;
 	}
 	
-	//remove activity box
 	
-	//update real model with initial position
-	
-	//redraw activity+the connected arrows
 	
 	
 	//reset ActivityDiagramClass.setArrowMenuHandler(arrowId);//for each arrow that has been redrawn

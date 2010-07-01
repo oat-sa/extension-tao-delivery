@@ -306,6 +306,18 @@ ArrowClass.redrawArrow = function(activityId, temp, options){
 			container: ActivityDiagramClass.canvas,
 			arrowWidth: 2
 		});
+		
+		//manage options
+		var setMenuHandler = false;
+		if(options){
+			if(options.setMenuHandler){
+				setMenuHandler = options.setMenuHandler;
+			}
+		}
+		
+		if(setMenuHandler){
+			ActivityDiagramClass.setArrowMenuHandler(activityId);
+		}
 	}
 }
 
@@ -555,8 +567,9 @@ ArrowClass.getCenterCoordinate = function(element){
 	
 	x = (position.left-canvasOffset.left+ActivityDiagramClass.scrollLeft) + element.width()/2;
 	y = (position.top-canvasOffset.top+ActivityDiagramClass.scrollTop) + element.height()/2;
-	console.log('ActivityDiagramClass.scrollLeft', ActivityDiagramClass.scrollLeft);
-	console.log('ActivityDiagramClass.scrollTop', ActivityDiagramClass.scrollTop);
+	// console.log('ActivityDiagramClass.scrollLeft', ActivityDiagramClass.scrollLeft);
+	// console.log('ActivityDiagramClass.scrollTop', ActivityDiagramClass.scrollTop);
+	
 	// console.log('Cx',element.width());
 	// console.log('Cy',element.height());
 	// console.log('x', x);
