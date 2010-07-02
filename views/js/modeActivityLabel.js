@@ -1,11 +1,23 @@
-ModeActivityLabel = [];
 
-ModeActivityLabel.on = function(){
 
+ModeActivityLabel = new Object();
+ModeActivityLabel.tempId = '';
+ModeActivityLabel.on = function(options){
+	console.log('ModeActivityLabel.on');
+	if(options.activityId){
+		var activityId = options.activityId;
+		var elementTextbox = ModeActivityLabel.createLabelTextbox(activityId);
+		ModeActivityLabel.tempId = activityId;
+		elementTextbox.bind('keydown', {activityId: activityId}, function(e){
+			if(e.keyCode==13){
+				ModeActivityLabel.save(e.data.activityId);
+			}
+		});
+	}
 }
 
-ModeActivityLabel.off = function(){
-
+ModeActivityLabel.cancel = function(){
+	
 }
 
 ModeActivityLabel.createLabelTextbox = function(activityId){
@@ -24,12 +36,17 @@ ModeActivityLabel.createLabelTextbox = function(activityId){
 			//get from the model instead?:
 			
 			var elementTextbox = $('<input type="text" id="'+elementLabelId+'_input"/>');
-			elementTextbox.addClass('diagram_activity_label_input');
+			// elementTextbox.addClass('diagram_activity_label_input');
 			elementTextbox.addClass(targetId);
-			elementLabel.empty();
+			// elementLabel.empty();
+			elementLabel.hide();
 			elementTextbox.val(currentLabel);
-			elementTextbox.appendTo('#'+elementLabelId);
-		
+			// elementTextbox.appendTo('#'+elementLabelId);
+			elementTextbox.appendTo('#'+targetId);
+			// elementTextbox.keyup(function(){
+				// co
+			
+			
 			if(currentLabel==ActivityDiagramClass.defaultActivityLabel || currentLabel==''){
 				//focus
 				elementTextbox.select();
@@ -42,6 +59,39 @@ ModeActivityLabel.createLabelTextbox = function(activityId){
 	
 	return returnValue;
 }
+
+ModeActivityLabel.save = function(activityId){
+	var returnValue = '';
+	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
+	var elementActivity = $('#'+targetId);//id of the activity
+	
+	if(elementActivity.length){
+		var elementLabelId = ActivityDiagramClass.getActivityId('activityLabel', activityId);
+		var elementLabel = $('#'+elementLabelId);
+		if(elementLabel.length){
+			//if the textbox exists:
+			var elementTextbox = $('#'+elementLabelId+'_input');
+			if(elementTextbox.length){
+				var currentLabel = elementTextbox.val();
+				if(currentLabel != ''){
+					//set in the model:
+					ActivityDiagramClass.activities[activityId].label = currentLabel;
+					
+					//redraw actiivty:
+					ActivityDiagramClass.removeActivity(activityId);
+					ActivityDiagramClass.drawActivity(activityId);
+					ActivityDiagramClass.setActivityMenuHandler(activityId);
+					
+					//return:
+					returnValue = currentLabel;
+				}
+			}
+		}
+	}
+	
+	return returnValue;
+}
+
 
 ModeActivityLabel.destroyLabelTextbox = function(activityId){
 	var returnValue = '';

@@ -1,4 +1,4 @@
-alert("modeLinkedActivityAdd loaded");
+// alert("modeLinkedActivityAdd loaded");
 
 ModeLinkedActivityAdd = [];
 ModeLinkedActivityAdd.tempId = '';
@@ -19,13 +19,13 @@ ModeLinkedActivityAdd.on = function(connectorId, portId, position){
 	//create an activity temp
 	var tempActivity = ActivityDiagramClass.createTempActivity(position);
 	ModeLinkedActivityAdd.tempId = tempActivity.id;
-	console.log('ddfdf');
+	
 	//delete the old temp activity(if already drawn):
 	ActivityDiagramClass.removeActivity(tempActivity.id);
-	console.log('ssss');
+	
 	//draw it:
 	ActivityDiagramClass.drawActivity(tempActivity.id);//note: no need the postion and label parameter since the values are already set
-	console.log('aaaaaaaa');
+	
 	//create a temporary arrow:
 	var activityTopBorderPtId = ActivityDiagramClass.getActivityId('activity', tempActivity.id, 'top');
 	console.log(connectorPortId, activityTopBorderPtId);

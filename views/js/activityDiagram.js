@@ -687,6 +687,12 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 			event.preventDefault();
 			ModeController.setMode('ModeActivityMenu', {type:'activity', target: event.data.id});
 		});
+		
+		var activityLabel = ActivityDiagramClass.getActivityId('activityLabel', activityId);
+		$('#'+activityLabel).bind('dblclick', {id:activityId}, function(event){
+			event.preventDefault();
+			ModeController.setMode('ModeActivityLabel', {activityId:event.data.id});
+		});
 	}
 }
 
@@ -988,6 +994,10 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 				event.preventDefault();
 				ModeActivityAdd.cancel();
 			});
+			break;
+		}
+		case 'ModeActivityLabel':{
+			$("#feedback_message").text('Edit the activity label then press enter');
 			break;
 		}
 		case 'ModeLinkedActivityAdd':{
