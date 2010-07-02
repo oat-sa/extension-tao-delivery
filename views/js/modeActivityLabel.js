@@ -17,7 +17,22 @@ ModeActivityLabel.on = function(options){
 }
 
 ModeActivityLabel.cancel = function(){
+	var activityId = ModeActivityLabel.tempId
+	var returnValue = '';
+	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
+	var elementActivity = $('#'+targetId);//id of the activity
 	
+	if(elementActivity.length){
+		//redraw actiivty:
+		ActivityDiagramClass.removeActivity(activityId);
+		ActivityDiagramClass.drawActivity(activityId);
+		ActivityDiagramClass.setActivityMenuHandler(activityId);
+		
+		//return:
+		returnValue = true;
+	}
+	
+	return returnValue;
 }
 
 ModeActivityLabel.createLabelTextbox = function(activityId){
