@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE services SYSTEM "../../tao/doc/sas.dtd">
 <services>
+	<description>Delivery services</description>
 	<service>
 		<name>Delivery class selection</name>
 		<description>Select a delivery (sub)class</description>
