@@ -487,6 +487,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		return false
 	}
 	
+	var pos = null;
 	if(position){
 		pos = position;
 	}else if(ActivityDiagramClass.activities[activityId].position){
@@ -496,15 +497,14 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		//or default position {0, 0}???
 	}
 	
-	if(!isset(pos.left)){
-		left = 0;
-	}else{
-		left = pos.left;
+	var leftValue = 0;
+	if(pos.left){
+		leftValue = pos.left;
 	}
-	if(!isset(pos.top)){
-		top = 0;
-	}else{
-		top = pos.top;
+	
+	var topValue = 0;
+	if(pos.top){
+		topValue = pos.top;
 	}
 	
 	//elementActivityContainer:
@@ -512,8 +512,8 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	var containerId = ActivityDiagramClass.getActivityId('container', activityId);
 	var elementContainer = $('<div id="'+containerId+'"></div>');
 	elementContainer.css('position', 'absolute');
-	elementContainer.css('left', Math.round(left)+'px');
-	elementContainer.css('top', Math.round(top)+'px');
+	elementContainer.css('left', Math.round(leftValue)+'px');
+	elementContainer.css('top', Math.round(topValue)+'px');
 	elementContainer.addClass(activityId);
 	elementContainer.appendTo(ActivityDiagramClass.canvas);
 	
@@ -566,68 +566,16 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 	if(ActivityDiagramClass.activities[activityId]){
 		//the activity is defined in the global activity array, so must either be last or have a connector
 		
-		//elementLink:
-		// var elementLinkId = ActivityDiagramClass.getActivityId('free', activityId, 'link');
-		
-		// var elementLink = $('<div id="'+elementLinkId+'"></div>');//put connector id here instead
-		// elementLink.addClass('diagram_link');
-		// elementLink.addClass(elementActivityId);
-		// elementLink.appendTo('#'+containerId);
-		// $('#'+elementLink.attr('id')).position({
-			// my: "center top",
-			// at: "center bottom",
-			// of: '#'+elementActivityId
-		// });
-		/*
 		var hasConnector = false;
 		if(ActivityDiagramClass.activities[activityId].isLast == false){
-			//find the connector:
-			for(connectorId in ActivityDiagramClass.connectors){
-				var connector = ActivityDiagramClass.connectors[connectorId];
-				if(connector.activityRef == activityId){
-					// if(connector.position == 'activity'){
-						//connector found:
-						ActivityDiagramClass.drawConnector(connectorId, connector.position, connector.type, activityId);
-						ActivityDiagramClass.setConnectorMenuHandler(connectorId);
-						hasConnector = true;
-						
-						//draw arrow:
-						var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
-						var connectorTopBorderPointId = ActivityDiagramClass.getActivityId('connector',connectorId,'top');
-						ArrowClass.arrows[activityBottomBorderPointId] = ArrowClass.calculateArrow($('#'+activityBottomBorderPointId), $('#'+connectorTopBorderPointId), 'top', new Array());
-								
-						//draw new arrow
-						ArrowClass.redrawArrow(activityBottomBorderPointId);
-						
-						break;
-					// }
-				}
-			}
+			
 		}
 		
 		if(hasConnector == false){
-			
 			//TODO: replace by "last actiivty" class instead
-			
-			
-			if(ActivityDiagramClass.activities[activityId].isLast == false){
-				throw 'cannot find the activity connector';
-			}
-			
-			//consider it to be the last activity: build the end element
-			var elementFinalId = ActivityDiagramClass.getActivityId('free', activityId, 'last');
-			var elementFinal = $('<div id="'+elementFinalId+'"></div>');//put connector id here instead
-			elementFinal.addClass('diagram_activity_last');
-			elementFinal.addClass(elementActivityId);
-			elementFinal.appendTo('#'+containerId);//containerId
-			$('#'+elementFinal.attr('id')).position({
-				my: "center top",
-				at: "center bottom",
-				of: '#'+elementLinkId
-			});
-			
 		}
-		*/
+	
+
 		//is first or not?
 		if(ActivityDiagramClass.activities[activityId].isInitial == true){
 			//TODO: replace by first activity class instead:
@@ -658,20 +606,6 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		}
 	
 	}
-	
-	//event onlick:
-	$('#'+containerId).click(function(){
-		//create menu here:
-		
-		// getDraggableActivity($(this).attr('id'));
-		
-		//modeActivityMoveOn/Off(activityId)
-		//modeActivityMenuOn/Off()
-		//modeArrowMenuOn
-		//modeArrowFlexOn
-		//modeArrowDestionationOn
-		//modeMultiMove
-	});
 	
 }
 
@@ -850,6 +784,18 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 		ActivityDiagramClass.setBorderPoint(connectorId, 'connector', 'bottom', Math.round(offsetStart+i*offsetStep), i);
 	}
 	
+}
+
+ActivityDiagramClass.getConnectorsByActivity = function(activityId){
+	var connectors = [];
+	for(connectorId in ActivityDiagramClass.connectors){
+		var connector = ActivityDiagramClass.connectors[connectorId];
+		if(connector.activityRef == activityId){
+			connectors.push(connectorId);
+		}
+	}
+	
+	return connectors;
 }
 
 ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){

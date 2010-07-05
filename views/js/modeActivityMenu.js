@@ -28,7 +28,7 @@ ModeActivityMenu.on = function(options){
 ModeActivityMenu.createActivityMenu = function(activityId){
 	//create top menu for the activity: first, last, edit, delete
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
-	actions = [];
+	var actions = [];
 	actions.push({
 		label: "Define as the first activity",
 		icon: img_url + "flag-green.png",
@@ -36,13 +36,13 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 			console.log('isFirst => ',actId);
 		}
 	});
-	actions.push({
-		label: "Define as a last activity",
-		icon: img_url + "flag-red.png",
-		action: function(actId){
-			console.log('islast => ',actId);
-		}
-	});
+	// actions.push({
+		// label: "Define as a last activity",
+		// icon: img_url + "flag-red.png",
+		// action: function(actId){
+			// console.log('islast => ',actId);
+		// }
+	// });
 	actions.push({
 		label: "Move",
 		icon: img_url + "pencil.png",
@@ -77,6 +77,42 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 	// ModeActivityMenu.existingMenu = new Array();
 	ModeActivityMenu.existingMenu[containerId] = containerId;
 	// console.log("created menus:", ModeActivityMenu.existingMenu);
+	
+	//depending if the activity had a connector or not, build the bottom menu:
+	var connectorActions = [];
+	
+	//if the activity has a connector:
+	var connector = ActivityDiagramClass.getConnectorsByActivity(activityId);
+	if(connector.length>0){
+		connectorActions.push({
+			label: 'Delete connector and set as a final activity',
+			icon: img_url + "flag-red.png",
+			action: function(actId){
+				//go deleting the activity's connector:
+				console.log('set as final & delete connector');
+			}
+		});
+	}else{
+		//adding a new connector linked connector:
+		connectorActions.push({
+			label: 'Add a connector',
+			icon: img_url + "process_connector.png",
+			action: function(actId){
+				//go deleting the activity's connector:
+				console.log('add connector then draw and switch to connectorMove mode');
+			}
+		});
+	}
+	
+	var pointId = ActivityDiagramClass.getActivityId('activity', activityId, 'bottom');
+	ModeActivityMenu.createMenu(
+		activityId,
+		pointId,
+		'bottom',
+		connectorActions,
+		{offset:10}
+	);
+	ModeActivityMenu.existingMenu[pointId] = activityId;
 }
 
 ModeActivityMenu.createConnectorMenu = function(connectorId){

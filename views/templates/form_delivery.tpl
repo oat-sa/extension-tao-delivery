@@ -43,6 +43,13 @@ if(get_data('authoringMode') == 'simple'){
 
 <script type="text/javascript">
 $(function(){
+	$('label.form_desc').each(function(){
+		var parentElt = $(this).parent();
+		if($(this).width()>0.3*parseInt(parentElt.width())){
+			$('<br/>').insertAfter($(this));
+		}
+	});
+
 	$("#compileLink,#compileLinkImg").click(function(){
 		$("a[title=compile]").click();
 		return false;

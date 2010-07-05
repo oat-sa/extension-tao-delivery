@@ -16,6 +16,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	
+	
 	if(ctx_extension){
 		url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 	}

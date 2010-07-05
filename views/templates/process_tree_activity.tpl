@@ -30,7 +30,7 @@
 			deleteInferenceRuleAction: authoringControllerPath+"deleteInferenceRule",
 			deleteConsistencyRuleAction: authoringControllerPath+"deleteConsistencyRule",
 			setFirstActivityAction: authoringControllerPath+"setFirstActivity",
-			unsetLastActivityAction: authoringControllerPath+"unsetLastActivity"
+			createConnectorAction: authoringControllerPath+"addConnector"
 		});
 	}
 	

@@ -1,3 +1,5 @@
+// alert('ActivityTreeClass loaded');
+
 ActivityTreeClass.instances = [];
 
 /**
@@ -285,6 +287,33 @@ function ActivityTreeClass(selector, dataUrl, options){
 								return false;
 							}
 						},
+						addConnector:{
+							label	: "Add connector",
+							icon	: img_url + "process_connector.png",
+							visible	: function (NODE, TREE_OBJ) {
+								if(instance.options.createConnectorAction 
+								  && ($(NODE).hasClass('node-activity-last'))
+								){
+									return 1;
+								}
+								return -1;
+							}, 
+							action	: function (NODE, TREE_OBJ) {
+								try{
+									
+									if(ActivityTreeClass.instances[TREE_OBJ.container.context.id]){
+										ActivityTreeClass.instances[TREE_OBJ.container.context.id].currentNode = NODE;
+										GatewayProcessAuthoring.addConnector(instance.options.createConnectorAction, $(NODE).attr('id'));
+									}else{
+										throw "no activity tree instance found";
+									}
+								}catch(error){
+									console.log(error);
+								}
+								return false;
+							},
+							separator_before : true
+						},
 						addInteractiveService: {
 							label: "Add Interactive Service",
 							icon: img_url + "process_service.png",
@@ -317,8 +346,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 									// TREE_OBJ: TREE_OBJ,
 									// cssClass: instance.options.instanceClass
 								// });
-							},
-							separator_before : true
+							}
 						},
 						addOnBeforeInferenceRule: {
 							label: "Add 'OnBefore' InferenceRule",
@@ -420,7 +448,6 @@ function ActivityTreeClass(selector, dataUrl, options){
 								var ok = -1;
 								$.each(NODE, function (){
 									if( $(NODE).hasClass('node-connector')
-									&& TREE_OBJ.parent(NODE).hasClass('node-connector')
 									&& instance.options.deleteConnectorAction 
 									&& (TREE_OBJ.check("deletable", this) == true)){
 										ok = 1;
@@ -562,11 +589,13 @@ function ActivityTreeClass(selector, dataUrl, options){
 
 	}
 	catch(exp){
-		// console.log(exp);
+		console.log('ActivityTreeClass exception', exp);
 	}
 }
 
 ActivityTreeClass.bindListeners = function(treeId){
+	
+	//TODO: put treeId in evnt data object: data = {treeId: treeId}
 	
 	EventMgr.bind('activityAdded', function(event, response){
 		response = ActivityTreeClass.feedCurrentNode(treeId, response);
@@ -583,7 +612,12 @@ ActivityTreeClass.bindListeners = function(treeId){
 		}
 	});
 	
-	
+	EventMgr.bind('connectorAdded', function(event, response){
+		response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		if(response.NODE && response.TREE_OBJ){
+			ActivityTreeClass.addConnector(response);
+		}
+	});
 }
 
 ActivityTreeClass.feedCurrentNode = function(treeId, object){
@@ -602,11 +636,6 @@ ActivityTreeClass.addActivity = function(response){
 	var TREE_OBJ = response.TREE_OBJ;
 	var NODE = response.NODE;
 	
-	// var  cssClass = 'node-activity';
-	// if(options.cssClass){
-		 // cssClass += ' ' + options.cssClass;
-	// }
-	
 	TREE_OBJ.select_branch(TREE_OBJ.create({
 		data: response.label,
 		attributes: {
@@ -624,16 +653,16 @@ ActivityTreeClass.addActivity = function(response){
 		}
 	});
 		
-	if(response.connector){
-		//create next connector node:
-		TREE_OBJ.create({
-			data: response.connector.data,
-			attributes: {
-				id: response.connector.attributes.id,
-				'class': response.connector.attributes.class
-			}
-		});
-	}
+	// if(response.connector){
+		
+		// TREE_OBJ.create({
+			// data: response.connector.data,
+			// attributes: {
+				// id: response.connector.attributes.id,
+				// 'class': response.connector.attributes.class
+			// }
+		// });
+	// }
 		
 }
 
@@ -800,7 +829,7 @@ ActivityTreeClass.selectTreeNode = function(nodeId, treeId){
 ActivityTreeClass.getTreeNode = function(nodeId, treeId){
 	
 	if(treeId){
-		console.log('in if');
+		// console.log('in if');
 		if(ActivityTreeClass.instances[treeId]){
 			anActivityTree = ActivityTreeClass.instances[treeId];
 			if(anActivityTree){
@@ -940,23 +969,17 @@ ActivityTreeClass.setFirstActivity = function(options){
 	
 }
 
-ActivityTreeClass.unsetLastActivity = function(options){
-	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
-	data = {activityUri:NODE.attr('id')};
+ActivityTreeClass.addConnector = function(response){
 	
-	if(data){
-		$.ajax({
-			url: options.url,
-			type: "POST",
-			data: data,
-			dataType: 'json',
-			success: function(response){
-				if(response.created){
-					TREE_OBJ.refresh();
-				}
-			}
-		});
-	}
+	var TREE_OBJ = response.TREE_OBJ;
+	var NODE = response.NODE;
+	
+	TREE_OBJ.select_branch(TREE_OBJ.create({
+		data: response.label,
+		attributes: {
+			id: response.uri,
+			'class': 'node-connector'
+		}
+	}, TREE_OBJ.get_node(NODE[0])));
 	
 }

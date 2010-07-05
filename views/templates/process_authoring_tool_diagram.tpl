@@ -61,16 +61,12 @@
 		});
 		
 		try{
-			// ActivityDiagramClass.drawActivity("activity1_uri", {
-				// left: 50,
-				// top: 50
-			// });
 			
-			ActivityDiagramClass.drawActivity("ActivityTempId", {
-				left: 1500,
-				top: 1000
-			},
-			'ActivityTemp');
+			// ActivityDiagramClass.drawActivity("ActivityTempId", {
+				// left: 150,
+				// top: 100
+			// },
+			// 'ActivityTemp');
 			
 			// ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
 			// console.log('ModeActivityMenu', ModeActivityMenu);
@@ -78,9 +74,10 @@
 			
 			ActivityDiagramClass.feedDiagram();
 			ActivityDiagramClass.drawDiagram();
+			
 		}
 		catch(err){
-			console.log(err);
+			console.log('feed&draw diagram exception', err);
 		}
 		/*
 		createDroppablePoints("activity1_uri");
@@ -209,6 +206,10 @@
 			console.log("activity added from menu");
 		});
 		
+		EventMgr.bind('connectorAdded', function(event, response){
+			console.log("connector added from tree");
+		});
+		
 		$(ActivityDiagramClass.canvas).click(function(evt){
 			if (evt.target == evt.currentTarget) {
 				ModeController.setMode('ModeInitial');
@@ -218,7 +219,7 @@
 		$("#activity_menu_addActivity").click(function(event){
 			try{
 				event.preventDefault();
-				ModeController.setMode('ModeActivityAdd');
+				// ModeController.setMode('ModeActivityAdd');
 				// GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
 			}
 			catch(err){

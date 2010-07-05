@@ -231,19 +231,16 @@ ArrowClass.getTargetFromId = function(destinationId){
 function createArrow(origineId, position){
 
 	//initialize the arrow:
-	if(!isset(position.left)){
-		left = 0;
-	}else{
+	var left = 0;
+	var top = 0;
+	if(isset(position.left)){
 		left = position.left;
 	}
-	if(!isset(position.top)){
-		top = 0;
-	}else{
+	if(isset(position.top)){
 		top = position.top;
 	}
 	
 	//the origin of an arrow is always the bottom of the origine a connector
-	
 	
 	//add the arrow tip element
 	var tipId = origineId + '_tip';

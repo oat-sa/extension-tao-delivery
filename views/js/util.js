@@ -1,4 +1,4 @@
-processUtil = [];
+processUtil = new Object();
 
 processUtil.isset = function(object){
 

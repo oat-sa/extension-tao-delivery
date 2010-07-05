@@ -1,4 +1,4 @@
-// alert("modeLinkedActivityAdd loaded");
+alert("modeLinkedActivityAdd loaded");
 
 ModeLinkedActivityAdd = [];
 ModeLinkedActivityAdd.tempId = '';
@@ -79,6 +79,18 @@ ModeLinkedActivityAdd.on = function(connectorId, portId, position){
 	return true;
 }
 
+
+
+ModeLinkedActivityAdd.cancel = function(){
+	if(ActivityDiagramClass.currentMode == 'ModeLinkedActivityAdd'){
+		//delete temp
+		ActivityDiagramClass.removeActivity(ModeLinkedActivityAdd.tempId);
+		ActivityDiagramClass.unsetFeedbackMenu();
+		ArrowClass.removeArrow(ModeLinkedActivityAdd.arrowId);
+	}
+}
+
+
 ModeLinkedActivityAdd.save = function(){
 	console.log('ModeLinkedActivityAdd.save:', 'not implemented yet');
 	
@@ -97,13 +109,4 @@ ModeLinkedActivityAdd.save = function(){
 	newActivity = ActivityDiagramClass.feedActivity = function(activityData, positionData);//no need for array data since it is not connnected yet
 	ActivityDiagramClass.drawActivity(newActivity.id);	
 	*/
-}
-
-ModeLinkedActivityAdd.cancel = function(){
-	if(ActivityDiagramClass.currentMode == 'ModeLinkedActivityAdd'){
-		//delete temp
-		ActivityDiagramClass.removeActivity(ModeLinkedActivityAdd.tempId);
-		ActivityDiagramClass.unsetFeedbackMenu();
-		ArrowClass.removeArrow(ModeLinkedActivityAdd.arrowId);
-	}
 }
