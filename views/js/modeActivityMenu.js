@@ -178,7 +178,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 			'bottom',
 			[{
 				label: connectorTypeDescription.portNames[i],
-				icon: img_url + "pencil.png",
+				icon: img_url + "process_connector.png",
 				action: function(connectId, data){
 					//hightlight the current one:
 					
@@ -186,16 +186,22 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					// if(ArrowClass.arrows[data.arrowId]){
 					if(false){//test of else only: delete ArrowClass.arrows[data.arrowId];
 						//if so, go to editArrowMode(arrowId)
-						console.log('editArrowMode');
 						// ModeActivityMenu.cancel();
 						ModeController.setMode('editArrowMode', {activityId: actId});
 					}else{
 					
-						//remove top connector menu:
-						ModeActivityMenu.removeMenu(data.topMenuId);
+						//remove top connector menu and other connector submenu:
+						// ModeActivityMenu.removeMenu(data.topMenuId);//delete only the connectors's top menu
+						if(ModeActivityMenu.existingMenu){
+							for(containerId in ModeActivityMenu.existingMenu){
+								if(containerId != data.menuContainerId){
+									ModeActivityMenu.removeMenu(containerId);
+									delete ModeActivityMenu.existingMenu[containerId];
+								}
+							}
+						}
 					
 						//else, menu with 3 items: new activity, new connector, free connection
-						console.log('submenu of '+connectId+':');
 						var subActions = [];
 						subActions.push({
 							label: "New Activity",
@@ -217,7 +223,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 						});
 						subActions.push({
 							label: "New Connector",
-							icon: img_url + "process_activity.png",
+							icon: img_url + "process_connector.png",
 							action: function(id, data){
 								// ModeConnectedActivityAdd.on('connector', data.connectorId, data.port);
 								console.log('ModeConnectedActivityAdd.on("connector", '+data.connectorId+', '+data.port+')');
@@ -225,7 +231,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 						});
 						subActions.push({
 							label: "Link to",
-							icon: img_url + "process_activity.png",
+							icon: img_url + "go-jump.png",
 							action: function(id, data, e){
 								// ModeArrowLink.on(data.connectorId, data.port);
 								
@@ -266,7 +272,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					
 				}
 			}],
-			{offset:10, autoclose:false, data:{arrowId:pointId, topMenuId:topContainerId}}
+			{offset:10, autoclose:false, data:{arrowId:pointId, topMenuId:topContainerId, menuContainerId: pointId}}
 		);
 		ModeActivityMenu.existingMenu[pointId] = connectorId;
 	}

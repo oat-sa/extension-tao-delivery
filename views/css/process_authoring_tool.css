@@ -118,7 +118,8 @@
 	background-color:#E7F4F9;
 	border-color:#99E6F0;
 	border-width:4px 6px 2px 4px;
-	
+	position:relative;
+	z-index:100;
 }
 
 .activity_menu_active_action li a ins{
