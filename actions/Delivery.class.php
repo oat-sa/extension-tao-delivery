@@ -112,7 +112,6 @@ class Delivery extends TaoModule {
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @see tao_helpers_form_GenerisFormFactory::classEditor
 	 * @return void
 	 */
 	public function editDeliveryClass(){
@@ -137,13 +136,14 @@ class Delivery extends TaoModule {
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @see tao_helpers_form_GenerisFormFactory::instanceEditor
 	 * @return void
 	 */
 	public function editDelivery(){
 		$clazz = $this->getCurrentClass();
 		$delivery = $this->getCurrentDelivery();
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $delivery);
+		
+		$formContainer = new tao_actions_form_Instance($clazz, $delivery);
+		$myForm = $formContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$propertyValues = $myForm->getValues();

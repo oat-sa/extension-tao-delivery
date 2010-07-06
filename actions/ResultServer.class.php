@@ -105,7 +105,6 @@ class ResultServer extends TaoModule {
 	
 	/**
 	 * Edit a resultServer class
-	 * @see tao_helpers_form_GenerisFormFactory::classEditor
 	 * @return void
 	 */
 	public function editResultServerClass(){
@@ -127,14 +126,16 @@ class ResultServer extends TaoModule {
 	
 	/**
 	 * Edit a delviery instance
-	 * @see tao_helpers_form_GenerisFormFactory::instanceEditor
 	 * @return void
 	 */
 	public function editResultServer(){
 		$clazz = $this->getCurrentClass();
 		
 		$resultServer = $this->getCurrentResultServer();
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $resultServer);
+		
+		$formContainer = new tao_actions_form_Instance($clazz, $resultServer);
+		$myForm = $formContainer->getForm();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
