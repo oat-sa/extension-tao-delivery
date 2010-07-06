@@ -23,6 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="/<?=get_data('extension')?>/views/css/process_authoring_tool.css" />
 	
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoringConfig.js"></script>
+	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/json2.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/util.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/arrows.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activityDiagram.js"></script>

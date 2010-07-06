@@ -13,6 +13,7 @@ ArrowClass.tempArrows = [];
 ArrowClass.feedArrow = function(originId, targetId, targetObjectId, type, flex){
 	//record the data to
 	ArrowClass.arrows[originId] = {
+		'id': originId,
 		'targetObject': targetObjectId,
 		'target': targetId,
 		'type': type,
@@ -445,7 +446,6 @@ ArrowClass.removeArrow = function(name, complete, temp){
 	// console.log('temp', temp);
 	
 	if(temp){
-		console.log('ddfdf', name);
 		if(complete){
 			ArrowClass.tempArrows[name] = null;
 		}

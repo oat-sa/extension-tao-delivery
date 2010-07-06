@@ -107,11 +107,11 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 		
 		var activityId = ActivityDiagramClass.getIdFromUri(activityData.attributes.id);
 		//search in the coordinate list, if coordinate exist
+		
+		//if case there is no position:
+		var position = {top:10, left:10};
 		if(positionData[activityId]){
 			position = positionData[activityId];
-		}else{
-			//if none, generate default position:
-			var position = {top:10, left:10};
 		}
 	
 		//save coordinate in the object:
@@ -141,8 +141,8 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 		
 		if(activityData.children){
 			//the activity has ch
-			console.log('act children:');console.dir(activityData.children);
-			console.log('activityData.children.length', activityData.children.length);
+			// console.log('act children:');console.dir(activityData.children);
+			// console.log('activityData.children.length', activityData.children.length);
 			for(var j=0;j<activityData.children.length;j++){
 				var child = activityData.children[j];
 				if(child.attributes){
@@ -179,6 +179,76 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 	}
 }
 
+ActivityDiagramClass.saveDiagram = function(){
+	//get activity and connector coordinate position data:
+	var positionData = [];
+	for(activityId in ActivityDiagramClass.activities){
+		var position = {};
+		if(ActivityDiagramClass.activities[activityId].position){
+			var position = ActivityDiagramClass.activities[activityId].position;
+			positionData.push({
+				id: activityId,
+				left: position.left,
+				top: position.top
+			});
+		}
+	}
+	for(connectorId in ActivityDiagramClass.connectors){
+		if(ActivityDiagramClass.connectors[connectorId].position){
+			var position = ActivityDiagramClass.connectors[connectorId].position;
+			positionData.push({
+				id: connectorId,
+				left: position.left,
+				top: position.top
+			});
+		}
+	}
+	
+	//get transfer arrow data:
+	var arrowData = [];
+	for(arrowId in ArrowClass.arrows){
+		var arrow = ArrowClass.arrows[arrowId];
+		// arrowData[arrowId] = {targetObject: 'target'};
+		arrowData.push({
+			id : arrowId,
+			targetObject: arrow.targetObject,
+			type: arrow.type,
+			flex: arrow.flex
+		});
+	}
+	
+	//convert to json string and send it to server
+	var data = JSON.stringify({
+		arrowData: arrowData,
+		positionData: positionData
+	});
+	
+	// console.log('activities', ActivityDiagramClass.activities);
+	// console.log('connectors', ActivityDiagramClass.connectors);
+	// console.log('arrows', ArrowClass.arrows);
+	
+	console.log('positionData', positionData);
+	console.log('arrowData', arrowData);
+	console.log('JSONstring', data);
+	
+	/*
+	//global processUri value
+	$.ajax({
+		url: /saveDiagram,
+		type: "POST",
+		data: {"processUri": processUri, "data": data},
+		dataType: 'json',
+		success: function(response){
+			// console.log(response);
+			if (response.ok){
+				console.log('diagram saved');
+			}else{
+				console.log('error in saving the diagram');
+			}
+		}
+	});
+	*/
+}
 
 ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevActivityId, arrowData){
 
@@ -928,6 +998,10 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 	switch(mode){
 		case 'ModeInitial':{
 			$("#feedback_message").text('Initial Mode');
+			$("#feedback_menu_save").click(function(event){
+				event.preventDefault();
+				ModeInitial.save();
+			});
 			break;
 		}
 		case 'ModeActivityAdd':{
