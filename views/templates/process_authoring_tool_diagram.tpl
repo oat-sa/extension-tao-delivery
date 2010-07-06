@@ -57,9 +57,9 @@
 			ActivityDiagramClass.scrollTop = this.scrollTop;
 		});
 		
-		$(ArrowClass.canvas).mousemove(function(e){
-			  $('#status').html(e.pageX +', '+ e.pageY);
-		});
+		// $(ArrowClass.canvas).mousemove(function(e){
+			  // $('#status').html(e.pageX +', '+ e.pageY);
+		// });
 		
 		try{
 			
@@ -73,8 +73,9 @@
 			// console.log('ModeActivityMenu', ModeActivityMenu);
 			// ModeActivityMenu.on("ActivityTempId");
 			
-			ActivityDiagramClass.feedDiagram();
-			ActivityDiagramClass.drawDiagram();
+			// ActivityDiagramClass.feedDiagram();
+			// ActivityDiagramClass.drawDiagram();
+			ActivityDiagramClass.loadDiagram();
 			
 		}
 		catch(err){
@@ -205,10 +206,20 @@
 		
 		EventMgr.bind('activityAdded', function(event, response){
 			console.log("activity added from menu");
+			//draw activity
+			var arrow = ActivityDiagramClass.feedActivity({
+				"data": response.label,
+				"attributes": {"id": response.uri}
+			});
+			ActivityDiagramClass.drawActivity(arrow.id);
+			ActivityDiagramClass.setActivityMenuHandler(arrow.id);
+			
+			//draw arrow if need be (i.e. in case of adding an activity with a connector)
 		});
 		
 		EventMgr.bind('connectorAdded', function(event, response){
 			console.log("connector added from tree");
+			//a connector is always added throught the "linked mode"
 		});
 		
 		$(ActivityDiagramClass.canvas).click(function(evt){
@@ -220,8 +231,7 @@
 		$("#activity_menu_addActivity").click(function(event){
 			try{
 				event.preventDefault();
-				// ModeController.setMode('ModeActivityAdd');
-				// GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
+				GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
 			}
 			catch(err){
 				console.log('addactivity on click:', err);

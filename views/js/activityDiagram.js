@@ -10,6 +10,7 @@ ActivityDiagramClass.feedbackContainer = "#process_diagram_feedback";
 ActivityDiagramClass.currentMode = null;
 ActivityDiagramClass.scrollLeft = 0;
 ActivityDiagramClass.scrollTop = 0;
+ActivityDiagramClass.defaultPosition = {top:50, left:30};
 // ActivityDiagramClass.errors = {
 	// activities: [],
 	// arrows:[]
@@ -17,70 +18,84 @@ ActivityDiagramClass.scrollTop = 0;
 
 
 //get positions of every activities
-ActivityDiagramClass.feedDiagram = function(processData, positionData, arrowData){
+ActivityDiagramClass.feedDiagram = function(processData){
+	
+	
+	var positionData = [];
+	var arrowData = [];
+	
 	
 	//start of test data//
-	var processData = [];
-	processData.children = [
-		{
-			data: 'Activity N1',
-			attributes:{
-				id: 'NS%23activity1_id'
-			},
-			isInitial: true,
-			children : [
-				{
-					data: 'nulsqdqsl',
-					attributes:{
-						id: 'NS%23nullty1_id'
-					}
-				},
-				{
-					data: 'connector 1',
-					attributes:{
-						id: 'NS%23connector1_id',
-						class: 'node-connector'
-					},
-					children:[
-						{
-							data: 'nevermind',
-							attributes:{
-								rel:'NS%23activity2_id',
-								class:'node-activity-goto'
-							},
-							port: '0'
-						}
-					],
-					type: 'split'
-				}
-			]
-		},
-		{
-			data: 'Activity N2',
-			attributes:{
-				id: 'NS%23activity2_id'
-			},
-			isLast: true
-		}
-	];
+	// var processData = [];
+	// processData.children = [
+		// {
+			// data: 'Activity N1',
+			// attributes:{
+				// id: 'NS%23activity1_id'
+			// },
+			// isInitial: true,
+			// children : [
+				// {
+					// data: 'nulsqdqsl',
+					// attributes:{
+						// id: 'NS%23nullty1_id'
+					// }
+				// },
+				// {
+					// data: 'connector 1',
+					// attributes:{
+						// id: 'NS%23connector1_id',
+						// class: 'node-connector'
+					// },
+					// children:[
+						// {
+							// data: 'nevermind',
+							// attributes:{
+								// rel:'NS%23activity2_id',
+								// class:'node-activity-goto'
+							// },
+							// port: '0'
+						// }
+					// ],
+					// type: 'split'
+				// }
+			// ]
+		// },
+		// {
+			// data: 'Activity N2',
+			// attributes:{
+				// id: 'NS%23activity2_id'
+			// },
+			// isLast: true
+		// }
+	// ];
 	
-	positionData = [];
-	positionData['activity1_id'] = {top: 50, left: 150};
-	positionData['activity2_id'] = {top: 250, left: 200};
-	positionData['connector1_id'] = {top: 150, left: 160};
+	// positionData['activity1_id'] = {top: 50, left: 150};
+	// positionData['activity2_id'] = {top: 250, left: 200};
+	// positionData['connector1_id'] = {top: 150, left: 160};
 	
-	
-	origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', '0');//put port='next'??
-	arrowData = [];
-	arrowData[origin_connector1] = {targetObject:'activity2_id', type:'top'};
-	arrowData[ActivityDiagramClass.getActivityId('activity', 'activity1_id', 'bottom')] = {targetObject:'connector1_id', type:'top'};
-	
+	// origin_connector1 = ActivityDiagramClass.getActivityId('connector', 'connector1_id', 'bottom', '0');//put port='next'??
+	// arrowData[origin_connector1] = {targetObject:'activity2_id', type:'top'};
+	// arrowData[ActivityDiagramClass.getActivityId('activity', 'activity1_id', 'bottom')] = {targetObject:'connector1_id', type:'top'};
 	//end of test data//
 	
 	//activityData sent by treeservice:
-	activities = processData.children;
-	
+	var activities = processData.children;
 	console.dir(activities);
+	
+	if(processData.diagramData){
+		var diagramData = processData.diagramData; 
+		if(diagramData.positionData){
+			for(var i=0; i<diagramData.positionData.length; i++){
+				positionData[diagramData.positionData[i].id] = diagramData.positionData[i];
+			}
+		}
+		if(diagramData.arrowData){
+			for(var i=0; i<diagramData.arrowData.length; i++){
+				arrowData[diagramData.arrowData[i].id] = diagramData.arrowData[i];
+			}
+		}
+	}
 	
 	for(var i=0; i<activities.length; i++){
 	
@@ -109,9 +124,11 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 		//search in the coordinate list, if coordinate exist
 		
 		//if case there is no position:
-		var position = {top:10, left:10};
-		if(positionData[activityId]){
-			position = positionData[activityId];
+		var position = ActivityDiagramClass.defaultPosition;//{top:30, left:20};
+		if(positionData){
+			if(positionData[activityId]){
+				position = positionData[activityId];
+			}
 		}
 	
 		//save coordinate in the object:
@@ -129,10 +146,10 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 				ActivityDiagramClass.activities[activityId].isInitial = true;
 			}
 		}
-		ActivityDiagramClass.activities[activityId].isLast = false;
+		ActivityDiagramClass.activities[activityId].isLast = true;
 		if(activityData.isLast){
-			if(activityData.isLast == true){
-				ActivityDiagramClass.activities[activityId].isLast = true;
+			if(activityData.isLast == false){
+				ActivityDiagramClass.activities[activityId].isLast = false;
 			}
 		}
 		
@@ -164,9 +181,11 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 					console.log('connector', connector);
 					var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
 					var connectorTopBorderPointId = ActivityDiagramClass.getActivityId('connector',connector.id,'top');
-					if(arrowData[activityBottomBorderPointId]){
-						var arrow = arrowData[activityBottomBorderPointId];
-						ArrowClass.feedArrow(activityBottomBorderPointId, connectorTopBorderPointId, connector.id, arrow.position, arrow.flex);
+					if(arrowData){
+						if(arrowData[activityBottomBorderPointId]){
+							var arrow = arrowData[activityBottomBorderPointId];
+							ArrowClass.feedArrow(activityBottomBorderPointId, connectorTopBorderPointId, connector.id, arrow.position, arrow.flex);
+						}
 					}
 					
 				}
@@ -178,6 +197,22 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 		
 	}
 }
+
+ActivityDiagramClass.loadDiagram = function(){
+	//ajax call to get the model
+	$.ajax({
+		url: authoringControllerPath + 'getActivities',
+		type: "POST",
+		data: {"processUri": processUri, "diagramData": true},
+		dataType: 'json',
+		success: function(processData){
+			// console.log(response);
+			ActivityDiagramClass.feedDiagram(processData);
+			ActivityDiagramClass.drawDiagram();
+		}
+	});
+}
+
 
 ActivityDiagramClass.saveDiagram = function(){
 	//get activity and connector coordinate position data:
@@ -227,14 +262,14 @@ ActivityDiagramClass.saveDiagram = function(){
 	// console.log('connectors', ActivityDiagramClass.connectors);
 	// console.log('arrows', ArrowClass.arrows);
 	
-	console.log('positionData', positionData);
-	console.log('arrowData', arrowData);
-	console.log('JSONstring', data);
+	// console.log('positionData', positionData);
+	// console.log('arrowData', arrowData);
+	// console.log('JSONstring', data);
 	
-	/*
+	
 	//global processUri value
 	$.ajax({
-		url: /saveDiagram,
+		url: authoringControllerPath + 'saveDiagram',
 		type: "POST",
 		data: {"processUri": processUri, "data": data},
 		dataType: 'json',
@@ -247,7 +282,7 @@ ActivityDiagramClass.saveDiagram = function(){
 			}
 		}
 	});
-	*/
+	
 }
 
 ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevActivityId, arrowData){
@@ -268,12 +303,9 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	ActivityDiagramClass.connectors[connectorId].id = connectorId;
 	
 	//search in the positionData, if coordinate exist
-	position = [];
+	var position = ActivityDiagramClass.defaultPosition;
 	if(positionData[connectorId]){
 		position = positionData[connectorId];
-	}else{
-		//if not, generate one:
-		position = {top:0, left:0};
 	}
 	
 	//save coordinate in the object:

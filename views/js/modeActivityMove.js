@@ -92,6 +92,8 @@ ModeActivityMove.getArrowsConnectedToActivity = function(activityId){
 ModeActivityMove.save = function(){
 	
 	if(ModeActivityMove.tempId){
+		var activityId = ModeActivityMove.tempId;
+		
 		//get id of the arrows that are connected to the current moving activity:
 		for(arrowId in ModeActivityMove.originalArrows){
 			//they are drawn properly, so just set their menu handler:
@@ -99,17 +101,22 @@ ModeActivityMove.save = function(){
 		}
 		
 		//destroy draggable too:
-		var containerId = ActivityDiagramClass.getActivityId('container', ModeActivityMove.tempId);
+		var containerId = ActivityDiagramClass.getActivityId('container', activityId);
 		if(!$('#'+containerId).length){
 			throw 'The activity container '+containerId+' do not exists.';
 		}
 		$('#'+containerId).draggable('destroy');
 		
 		//re-set the menu handler
-		ActivityDiagramClass.setActivityMenuHandler(ModeActivityMove.tempId);
+		ActivityDiagramClass.setActivityMenuHandler(activityId);
 		
-		//TODO: send updated position data to the server and get  saving confirmation
-		
+		//send updated position data to the server and get  saving confirmation
+		var newPosition = $('#'+containerId).position();
+		ActivityDiagramClass.activities[activityId].position = {
+			left: newPosition.left + ActivityDiagramClass.scrollLeft,
+			top: newPosition.top + ActivityDiagramClass.scrollTop
+		}
+		ActivityDiagramClass.saveDiagram();
 	}
 	
 	ModeActivityMove.tempId = null;
