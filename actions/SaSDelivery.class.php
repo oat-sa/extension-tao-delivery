@@ -14,7 +14,6 @@ class SaSDelivery extends Delivery {
      */
     public function __construct() {
         $this->setSessionAttribute('currentExtension', 'taoDelivery');
-		tao_helpers_form_GenerisFormFactory::setMode(tao_helpers_form_GenerisFormFactory::MODE_STANDALONE);
 		parent::__construct();
     }
     
