@@ -627,6 +627,12 @@ ActivityTreeClass.feedCurrentNode = function(treeId, object){
 	}
 	return object;
 }
+
+ActivityTreeClass.setCurrentNode = function(treeId, nodeId){
+	console.log('setCurrentNode::treeId',treeId);
+	var node = ActivityTreeClass.getTreeNode(nodeId, treeId);
+	ActivityTreeClass.instances[treeId].currentNode = node;
+}
 		
 /**
  * add an activity

@@ -34,6 +34,9 @@
 		});
 	}
 	
+	//link the tree to the activity diagram:
+	ActivityDiagramClass.relatedTree = 'tree-activity';
+	
 	function refreshActivityTree(){
 		$.tree.reference('#tree-activity').refresh();
 		$.tree.reference('#tree-activity').reselect();

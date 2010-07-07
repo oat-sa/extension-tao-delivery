@@ -11,6 +11,7 @@ ActivityDiagramClass.currentMode = null;
 ActivityDiagramClass.scrollLeft = 0;
 ActivityDiagramClass.scrollTop = 0;
 ActivityDiagramClass.defaultPosition = {top:50, left:30};
+ActivityDiagramClass.relatedTree = null;
 // ActivityDiagramClass.errors = {
 	// activities: [],
 	// arrows:[]
@@ -303,9 +304,14 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	ActivityDiagramClass.connectors[connectorId].id = connectorId;
 	
 	//search in the positionData, if coordinate exist
-	var position = ActivityDiagramClass.defaultPosition;
+	
+	var position = {};
+	// var position = ActivityDiagramClass.defaultPosition;
 	if(positionData[connectorId]){
 		position = positionData[connectorId];
+	}else{
+		//calculate the default position relative to the previous activity if already drawn:
+		position = ActivityDiagramClass.getConnectorDefaultPosition(prevActivityId);
 	}
 	
 	//save coordinate in the object:
@@ -348,8 +354,8 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 				
 				var nextActivityId = '';
 				var targetId = '';
-				console.log("fActivity class", nextActivityData.attributes.class);
-				console.dir(connectorData);
+				// console.log("fActivity class", nextActivityData.attributes.class);
+				// console.dir(connectorData);
 				
 				if(nextActivityData.attributes.class == 'node-connector'){
 					nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.id);
@@ -379,8 +385,8 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 				var flex = null;
 				var targetPosition = 'top';//default value
 				if(processUtil.isset(arrowData[originId])){
-					console.log('arrowData[originId].targetObject=',arrowData[originId].targetObject);
-					console.log('nextActivityId=', nextActivityId);
+					// console.log('arrowData[originId].targetObject=',arrowData[originId].targetObject);
+					// console.log('nextActivityId=', nextActivityId);
 					if(arrowData[originId].targetObject == nextActivityId){
 						//on sync: prepare to draw the arrow:
 						onSync = true;
@@ -419,6 +425,45 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	}
 	return ActivityDiagramClass.connectors[connectorId];
 }
+
+
+ActivityDiagramClass.getConnectorDefaultPosition = function(prevActivityId){
+	var position = ActivityDiagramClass.defaultPosition;
+	
+	//check if the activity has been drawn:
+	// var activityElt = $('#'+ActivityDiagramClass.getActivityId('activity',prevActivityId));
+	// if(activityElt.length){
+		// var activityPos = activityElt.position();
+	// }
+	
+	return position;
+}
+
+ActivityDiagramClass.positionNewActivity = function(originContainer, targetContainer, offset){
+	
+	var offsetValue = "0 35";
+	if(offset){
+		if(!processUtil.isset(offset.left) && !processUtil.isset(offset.top)){
+			offsetValue = parseInt(offset.left)+' '+parseInt(offset.top);
+		}
+	}
+	
+	if(!originContainer.length){
+		throw 'the container of the origin element does not exist';
+	}
+	if(!targetContainer.length){
+		throw 'the container of the target element does not exist';
+	}
+	
+	//position the new activity or connector container relative to the origin one:
+	targetContainer.position({
+		my: "center top",
+		at: "center bottom",
+		of: "#"+originContainer.attr('id'),
+		offset: offsetValue
+	});
+}
+
 
 ActivityDiagramClass.drawDiagram = function(){
 	//to be executed after all feeds: activities, connectors, arrows
@@ -719,6 +764,10 @@ ActivityDiagramClass.removeActivity = function(activityId){
 ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
 	if($('#'+containerId).length){
+		
+		//should eventually use ActivityDiagramClass.relatedTree instead of 'tree-activity'
+		ActivityTreeClass.setCurrentNode('tree-activity', ActivityDiagramClass.getActivityUri(activityId));
+		
 		$('#'+containerId).bind('click', {id:activityId}, function(event){
 			event.preventDefault();
 			ModeController.setMode('ModeActivityMenu', {type:'activity', target: event.data.id});
@@ -789,7 +838,7 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 	if(previousActivityId){
 		prevActivityId = previousActivityId;
 	}else if(ActivityDiagramClass.connectors[connectorId].activityRef){
-		prevActivityId = ActivityDiagramClass.connectors[connectorId].activityRef;
+		prevActivityId = ActivityDiagramClass.connectors[connectorId].activityRef;//issue in case of connector of connector
 	}else{
 		throw 'no activity  reference id found';
 	}
@@ -899,6 +948,12 @@ ActivityDiagramClass.getConnectorsByActivity = function(activityId){
 	
 	return connectors;
 }
+
+
+ActivityDiagramClass.getActivityUri = function(activityId){
+	return ActivityDiagramClass.localNameSpace + activityId;
+}
+
 
 ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){
 	var portNumber =0;

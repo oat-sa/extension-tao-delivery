@@ -44,7 +44,7 @@
 	ActivityDiagramClass.canvas = "#process_diagram_container";
 	ArrowClass.canvas = ActivityDiagramClass.canvas;
 	var processUri = "<?=get_data("processUri")?>";
-	
+	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(core_kernel_classes_Session::singleton()->getNameSpace().'#')?>";
 	
 	ModeArrowLink.tempId = "defaultConnectorId";
 	
@@ -205,14 +205,12 @@
 		EventMgr.unbind();
 		
 		EventMgr.bind('activityAdded', function(event, response){
-			console.log("activity added from menu");
-			//draw activity
-			var arrow = ActivityDiagramClass.feedActivity({
+			var activity = ActivityDiagramClass.feedActivity({
 				"data": response.label,
 				"attributes": {"id": response.uri}
 			});
-			ActivityDiagramClass.drawActivity(arrow.id);
-			ActivityDiagramClass.setActivityMenuHandler(arrow.id);
+			ActivityDiagramClass.drawActivity(activity.id);
+			ActivityDiagramClass.setActivityMenuHandler(activity.id);
 			
 			//draw arrow if need be (i.e. in case of adding an activity with a connector)
 		});
@@ -220,6 +218,28 @@
 		EventMgr.bind('connectorAdded', function(event, response){
 			console.log("connector added from tree");
 			//a connector is always added throught the "linked mode"
+			var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousActivityUri);
+			if(response.previousIsActivity){
+				var originEltId = ActivityDiagramClass.getActivityId('activity', previousObjectId);
+			}else{
+				//should be a connector:
+				var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
+			}
+			var connector = ActivityDiagramClass.feedConnector(
+				{
+					"data": response.label,
+					"attributes": {"id": response.uri}
+				},
+				null,
+				originEltId
+			);
+			
+			//draw connector and reposition it:
+			ActivityDiagramClass.drawConnector(connector.id);
+			ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+connector.id));
+			
+			//draw arrow
+			
 		});
 		
 		$(ActivityDiagramClass.canvas).click(function(evt){

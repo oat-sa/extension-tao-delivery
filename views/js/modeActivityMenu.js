@@ -90,6 +90,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 			action: function(actId){
 				//go deleting the activity's connector:
 				console.log('set as final & delete connector');
+				
 			}
 		});
 	}else{
@@ -97,10 +98,78 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		connectorActions.push({
 			label: 'Add a connector',
 			icon: img_url + "process_connector.png",
-			action: function(actId){
+			action: function(actId, data){
 				//go deleting the activity's connector:
-				console.log('add connector then draw and switch to connectorMove mode');
-			}
+				console.log('add connector adding submenu, displaying the types of available connector');
+				
+				//TODO: make it global array, feedale by a call of server action:
+				var typesOfConnectorSelectionActions = [];
+				
+				// var typesOfConnector = new Array();
+				// typesOfConnector[0] = 'sequence';
+				// typesOfConnector[1] = 'conditional';
+				// typesOfConnector[2] = 'parallel';
+				// typesOfConnector[3] = 'join';
+								
+				//close the top activity menu:
+				
+				
+				//create
+				typesOfConnectorSelectionActions.push({
+					label: 'sequence',
+					icon: img_url + "process_connector.png",
+					action: function(actId, data){
+						GatewayProcessAuthoring.addConnector(
+							authoringControllerPath+"addConnector",
+							ActivityDiagramClass.getActivityUri(data.activityId),
+							'sequence'
+						);
+					}
+				});
+				typesOfConnectorSelectionActions.push({
+					label: 'conditional',
+					icon: img_url + "process_connector.png",
+					action: function(actId){
+						GatewayProcessAuthoring.addConnector(
+							authoringControllerPath+"addConnector",
+							ActivityDiagramClass.getActivityUri(data.activityId),
+							'sequence'
+						);
+					}
+				});
+				typesOfConnectorSelectionActions.push({
+					label: 'parallel',
+					icon: img_url + "process_connector.png",
+					action: function(actId){
+						GatewayProcessAuthoring.addConnector(
+							authoringControllerPath+"addConnector",
+							ActivityDiagramClass.getActivityUri(data.activityId),
+							'sequence'
+						);
+					}
+				});
+				typesOfConnectorSelectionActions.push({
+					label: 'join',
+					icon: img_url + "process_connector.png",
+					action: function(actId){
+						GatewayProcessAuthoring.addConnector(
+							authoringControllerPath+"addConnector",
+							ActivityDiagramClass.getActivityUri(data.activityId),
+							'sequence'
+						);
+					}
+				});
+				
+				ModeActivityMenu.createMenu(
+					data.selfId,
+					data.selfId,
+					'bottom',
+					typesOfConnectorSelectionActions,
+					{"offset":10, "data":{"activityId":data.activityId}}
+				);
+				ModeActivityMenu.existingMenu[data.selfId] = data.selfId;
+			},
+			autoclose: false
 		});
 	}
 	
@@ -110,7 +179,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		pointId,
 		'bottom',
 		connectorActions,
-		{offset:10}
+		{offset:10, "data":{"activityId": activityId}}
 	);
 	ModeActivityMenu.existingMenu[pointId] = activityId;
 }
