@@ -688,7 +688,7 @@ ActivityTreeClass.addActivity = function(response){
  */
 ActivityTreeClass.refreshTree = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
+	// var NODE = options.NODE;
 	TREE_OBJ.refresh();
 	// TREE_OBJ.reselect(true);
 }

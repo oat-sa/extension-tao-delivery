@@ -17,9 +17,6 @@
 	</div>
 	
 <?else:?>
-	<style type="text/css">
-	
-	</style>
 	<link rel="stylesheet" type="text/css" href="/<?=get_data('extension')?>/views/css/process_authoring_tool.css" />
 	
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoringConfig.js"></script>
@@ -47,6 +44,10 @@
 	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(core_kernel_classes_Session::singleton()->getNameSpace().'#')?>";
 	
 	ModeArrowLink.tempId = "defaultConnectorId";
+	
+	//constants:
+	const RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
+	
 	
 	$(function() {
 		window.loadFirebugConsole();
@@ -81,54 +82,7 @@
 		catch(err){
 			console.log('feed&draw diagram exception', err);
 		}
-		/*
-		createDroppablePoints("activity1_uri");
 		
-		drawActivity("activity2_uri", {
-			left: 150,
-			top: 50
-		});
-		createDroppablePoints("activity2_uri");
-		
-		createArrow('origine2',{
-			left: 200,
-			top: 30
-		});
-		
-		
-		$("#draggable1").draggable({
-			snap: '.diagram_activity_droppable',
-			snapMode: 'inner',
-			drag: function(event, ui){
-				
-				var position = $(this).position();
-				$("#message").html("<p> left: "+position.left+", top: "+position.top+"</p>");
-				
-				removeArrow("origine");
-				calculateArrow($("#origine"), $(this), 'right', null);
-				drawArrow("origine", {
-					container: "#process_diagram_container",
-					arrowWidth: 1
-				});
-				
-			},
-			containment: canvas,
-			stop: function(event, ui){
-				// console.dir(ui);
-				getDraggableFlexPoints('origine');
-				
-				// var coord = getCenterCoordinate($(this));
-				// alert(coord.x+', '+coord.y);
-				// removeArrow("origine");
-				// createArrow($("#origine"), $(this), 'right');
-				// drawArrow($("#origine"), {
-					// container: "#process_diagram_container",
-					// arrowWidth: 1
-				// });
-			}
-
-		});
-		*/
 	});
 
 	</script>
@@ -209,15 +163,35 @@
 				"data": response.label,
 				"attributes": {"id": response.uri}
 			});
+			//draw activity with the default positionning:
 			ActivityDiagramClass.drawActivity(activity.id);
 			ActivityDiagramClass.setActivityMenuHandler(activity.id);
 			
 			//draw arrow if need be (i.e. in case of adding an activity with a connector)
+			if(response.previousConnectorUri && response.port){
+				//should be a connector:
+				var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousConnectorUri);
+				var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
+				var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
+				
+				var activityId = ActivityDiagramClass.getActivityId('container', activity.id);
+				ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+activityId));
+				
+				//create and draw arrow:
+				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+connectorTopId), 'top', new Array(), false);
+				ArrowClass.drawArrow(arrowId, {
+					container: ActivityDiagramClass.canvas,
+					arrowWidth: 2
+				});
+				
+				//save diagram:
+				ActivityDiagramClass.saveDiagram();
+			}
+			
 		});
 		
 		EventMgr.bind('connectorAdded', function(event, response){
 			try{
-				console.log("connector added from tree");
 				//a connector is always added throught the "linked mode"
 				var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousActivityUri);
 				if(response.previousIsActivity){
@@ -245,6 +219,7 @@
 				
 				ActivityDiagramClass.drawConnector(connector.id);
 				ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+connectorId));
+				ActivityDiagramClass.setConnectorMenuHandler(connector.id);
 				
 				//create and draw arrow:
 				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+connectorTopId), 'top', new Array(), false);
@@ -263,6 +238,21 @@
 				console.log('arrowId', arrowId);
 			}
 				
+		});
+		
+		
+		EventMgr.bind('activityPropertiesSaved', function(event, response){
+			//simply reload the tree:
+			console.log('activityPropertiesSaved');
+			var anActivityTree = ActivityTreeClass.instances[ActivityDiagramClass.relatedTree];
+			if(anActivityTree){
+				console.log('refreshing tree');
+				var aJsTree = anActivityTree.getTree();
+				ActivityTreeClass.refreshTree({
+					TREE_OBJ: aJsTree
+				});
+			}
+			
 		});
 		
 		$(ActivityDiagramClass.canvas).click(function(evt){

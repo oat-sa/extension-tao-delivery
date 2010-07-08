@@ -199,6 +199,17 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 	}
 }
 
+ActivityDiagramClass.reloadDiagram = function(){
+	console.log('reload ', ActivityDiagramClass.canvas);
+
+	//empty diagram:
+	$(ActivityDiagramClass.canvas).empty();
+	
+	//load diagram:
+	ActivityDiagramClass.loadDiagram();
+}
+
+
 ActivityDiagramClass.loadDiagram = function(){
 	//ajax call to get the model
 	$.ajax({
@@ -211,6 +222,9 @@ ActivityDiagramClass.loadDiagram = function(){
 			try{
 				ActivityDiagramClass.feedDiagram(processData);
 				ActivityDiagramClass.drawDiagram();
+				
+				//initiate the mode to initial:
+				ModeController.setMode('ModeInitial');
 			}
 			catch(err){
 				console.log('loading diagram exception', err);

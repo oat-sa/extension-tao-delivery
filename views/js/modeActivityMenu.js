@@ -284,10 +284,12 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								// console.log(e.currentTarget.id, coordXY);
 								
 								//real offset need to be calculated:
-								var canvasPosition = $(ActivityDiagramClass.canvas).offset();
-								var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
+								// var canvasPosition = $(ActivityDiagramClass.canvas).offset();
+								// var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
 								
-								ModeLinkedActivityAdd.on(data.connectorId, data.port, position);
+								// ModeLinkedActivityAdd.on(data.connectorId, data.port, position);
+								
+								
 							}
 						});
 						subActions.push({
