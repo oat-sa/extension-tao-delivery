@@ -56,8 +56,8 @@
 .diagram_activity_label {text-align:center;}
 .diagram_activity_label_input {text-align:center;}
 .connector_sequence {width:30px;}
-.connector_split {width:40px;}
-.connector_parallel {width:60px;}
+.connector_conditional {width:50px;}
+.connector_parallel {width:70px;}
 .diagram_activity_first {width:20px;height:20px;border:1px dashed green;}
 .diagram_activity_last {width:20px;height:20px;border:1px dashed red;}
 

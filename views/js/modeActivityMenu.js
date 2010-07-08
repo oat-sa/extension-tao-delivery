@@ -133,7 +133,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 						GatewayProcessAuthoring.addConnector(
 							authoringControllerPath+"addConnector",
 							ActivityDiagramClass.getActivityUri(data.activityId),
-							'sequence'
+							'conditional'
 						);
 					}
 				});
@@ -144,7 +144,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 						GatewayProcessAuthoring.addConnector(
 							authoringControllerPath+"addConnector",
 							ActivityDiagramClass.getActivityUri(data.activityId),
-							'sequence'
+							'parallel'
 						);
 					}
 				});
@@ -155,7 +155,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 						GatewayProcessAuthoring.addConnector(
 							authoringControllerPath+"addConnector",
 							ActivityDiagramClass.getActivityUri(data.activityId),
-							'sequence'
+							'join'
 						);
 					}
 				});

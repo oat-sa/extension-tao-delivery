@@ -216,30 +216,53 @@
 		});
 		
 		EventMgr.bind('connectorAdded', function(event, response){
-			console.log("connector added from tree");
-			//a connector is always added throught the "linked mode"
-			var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousActivityUri);
-			if(response.previousIsActivity){
-				var originEltId = ActivityDiagramClass.getActivityId('activity', previousObjectId);
-			}else{
-				//should be a connector:
-				var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
+			try{
+				console.log("connector added from tree");
+				//a connector is always added throught the "linked mode"
+				var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousActivityUri);
+				if(response.previousIsActivity){
+					var originEltId = ActivityDiagramClass.getActivityId('activity', previousObjectId);
+					var arrowId = ActivityDiagramClass.getActivityId('activity', previousObjectId, 'bottom');
+				}else{
+					//should be a connector:
+					var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
+					var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
+				}
+				var connector = ActivityDiagramClass.feedConnector(
+					{
+						"data": response.label,
+						"attributes": {"id": response.uri},
+						"type": response.type
+					},
+					null,
+					originEltId,
+					null
+				);
+				
+				//draw connector and reposition it:
+				var connectorId = ActivityDiagramClass.getActivityId('connector', connector.id);
+				var connectorTopId = ActivityDiagramClass.getActivityId('connector', connector.id, 'top');
+				
+				ActivityDiagramClass.drawConnector(connector.id);
+				ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+connectorId));
+				
+				//create and draw arrow:
+				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+connectorTopId), 'top', new Array(), false);
+				ArrowClass.drawArrow(arrowId, {
+					container: ActivityDiagramClass.canvas,
+					arrowWidth: 2
+				});
+				
+				//save diagram:
+				ActivityDiagramClass.saveDiagram();
+			}catch(ex){
+				console.log('connectorAdded exception:', ex);
+				console.log('connector', connector);
+				console.log('originEltId', originEltId);
+				console.log('connectorId', connectorId);
+				console.log('arrowId', arrowId);
 			}
-			var connector = ActivityDiagramClass.feedConnector(
-				{
-					"data": response.label,
-					"attributes": {"id": response.uri}
-				},
-				null,
-				originEltId
-			);
-			
-			//draw connector and reposition it:
-			ActivityDiagramClass.drawConnector(connector.id);
-			ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+connector.id));
-			
-			//draw arrow
-			
+				
 		});
 		
 		$(ActivityDiagramClass.canvas).click(function(evt){

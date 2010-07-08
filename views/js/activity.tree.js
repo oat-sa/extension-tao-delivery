@@ -621,17 +621,27 @@ ActivityTreeClass.bindListeners = function(treeId){
 }
 
 ActivityTreeClass.feedCurrentNode = function(treeId, object){
-	if(ActivityTreeClass.instances[treeId].treeObj && ActivityTreeClass.instances[treeId].currentNode){
-		object.TREE_OBJ = ActivityTreeClass.instances[treeId].treeObj;
-		object.NODE = ActivityTreeClass.instances[treeId].currentNode;
+	if(ActivityTreeClass.instances[treeId]){
+		if(ActivityTreeClass.instances[treeId].treeObj && ActivityTreeClass.instances[treeId].currentNode){
+			object.TREE_OBJ = ActivityTreeClass.instances[treeId].treeObj;
+			object.NODE = ActivityTreeClass.instances[treeId].currentNode;
+		}
 	}
+	
 	return object;
 }
 
 ActivityTreeClass.setCurrentNode = function(treeId, nodeId){
-	console.log('setCurrentNode::treeId',treeId);
+	// console.log('setCurrentNode::treeId',treeId);
+	
 	var node = ActivityTreeClass.getTreeNode(nodeId, treeId);
-	ActivityTreeClass.instances[treeId].currentNode = node;
+	if(ActivityTreeClass.instances[treeId]){
+		// console.log('setCurrentNode::node',node);
+		ActivityTreeClass.instances[treeId].currentNode = node;
+	}else{
+		throw 'no instance of activity tree has been found with the id '+treeId;
+	}
+	
 }
 		
 /**

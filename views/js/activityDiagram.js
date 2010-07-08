@@ -208,8 +208,13 @@ ActivityDiagramClass.loadDiagram = function(){
 		dataType: 'json',
 		success: function(processData){
 			// console.log(response);
-			ActivityDiagramClass.feedDiagram(processData);
-			ActivityDiagramClass.drawDiagram();
+			try{
+				ActivityDiagramClass.feedDiagram(processData);
+				ActivityDiagramClass.drawDiagram();
+			}
+			catch(err){
+				console.log('loading diagram exception', err);
+			}
 		}
 	});
 }
@@ -305,13 +310,11 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	
 	//search in the positionData, if coordinate exist
 	
-	var position = {};
-	// var position = ActivityDiagramClass.defaultPosition;
-	if(positionData[connectorId]){
-		position = positionData[connectorId];
-	}else{
-		//calculate the default position relative to the previous activity if already drawn:
-		position = ActivityDiagramClass.getConnectorDefaultPosition(prevActivityId);
+	var position = ActivityDiagramClass.getConnectorDefaultPosition(prevActivityId);
+	if(positionData){
+		if(positionData[connectorId]){
+			position = positionData[connectorId];
+		}
 	}
 	
 	//save coordinate in the object:
@@ -462,8 +465,34 @@ ActivityDiagramClass.positionNewActivity = function(originContainer, targetConta
 		of: "#"+originContainer.attr('id'),
 		offset: offsetValue
 	});
+	
+	//save the new position of the target:
+	var targetEltId = targetContainer.attr('id');
+	// var endIndex = targetEltId.indexOf('_pos_');
+	var targetId = 'empty';
+	var newPosition = ActivityDiagramClass.getActualPosition(targetContainer);//{"left": targetContainer.position().left, "top":targetContainer.position().top};
+	if(targetEltId.substring(0,9)=='activity_'){
+		targetId = targetEltId.substring(9);
+		ActivityDiagramClass.activities[targetId].position = newPosition;
+	}else if(targetEltId.substring(0,10)=='connector_'){
+		targetId = targetEltId.substring(10);
+		ActivityDiagramClass.connectors[targetId].position = newPosition;
+	}else{
+		throw 'wrong id format for the target element';
+	}
+	
 }
 
+ActivityDiagramClass.getActualPosition = function(targetContainer){
+	if(!targetContainer.length){
+		throw 'the target element does not exist';
+	}
+	
+	return {
+		"left": targetContainer.position().left + ActivityDiagramClass.scrollLeft, 
+		"top": targetContainer.position().top + ActivityDiagramClass.scrollTop
+	};
+}
 
 ActivityDiagramClass.drawDiagram = function(){
 	//to be executed after all feeds: activities, connectors, arrows
@@ -489,7 +518,7 @@ ActivityDiagramClass.drawDiagram = function(){
 		// return false;
 	// }
 	for(connectorId in ActivityDiagramClass.connectors){
-		if(ActivityDiagramClass.connectors[connectorId].position != 'activity'){
+		if(ActivityDiagramClass.connectors[connectorId].position){
 			ActivityDiagramClass.drawConnector(connectorId);
 			ActivityDiagramClass.setConnectorMenuHandler(connectorId);
 			//do not draw the first connector of an activity, only the connector of the connector, since the first one will de drawn with drawActivity
@@ -765,11 +794,13 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
 	if($('#'+containerId).length){
 		
-		//should eventually use ActivityDiagramClass.relatedTree instead of 'tree-activity'
-		ActivityTreeClass.setCurrentNode('tree-activity', ActivityDiagramClass.getActivityUri(activityId));
+		 
 		
 		$('#'+containerId).bind('click', {id:activityId}, function(event){
 			event.preventDefault();
+			//should eventually use ActivityDiagramClass.relatedTree instead of 'tree-activity'
+			//issue: the tree may not be initiated yet
+			ActivityTreeClass.setCurrentNode('tree-activity', ActivityDiagramClass.getActivityUri(activityId));
 			ModeController.setMode('ModeActivityMenu', {type:'activity', target: event.data.id});
 		});
 		
@@ -842,33 +873,7 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 	}else{
 		throw 'no activity  reference id found';
 	}
-	/*
-	var portNumber =0;
-	var className = '';
-	switch(type){
-		case 'sequence':{
-			portNumber = 1;
-			className = 'connector_sequence';
-			break;
-		}
-		case 'split':{
-			portNumber = 2;
-			className = 'connector_split';
-			break;
-		}
-		case 'parallel':{
-			portNumber = 3;
-			className = 'connector_parallel';
-			break;
-		}
-		case 'join':{
-			portNumber = 1;
-			className = 'connector_join';
-			break;
-		}
-		default:
-			return false;
-	}*/
+	
 	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(type);
 	if(connectorTypeDescription == null){
 		throw 'wrong type of connector';
@@ -959,22 +964,22 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){
 	var portNumber =0;
 	var className = '';
 	var portNames = []
-	switch(connectorType){
+	switch(connectorType.toLowerCase()){
 		case 'sequence':{
 			portNumber = 1;
 			className = 'connector_sequence';
 			portNames[0] = 'Next';
 			break;
 		}
-		case 'split':{
+		case 'conditional':{
 			portNumber = 2;
-			className = 'connector_split';
+			className = 'connector_conditional';
 			portNames[0] = 'Then';
 			portNames[1] = 'Else';
 			break;
 		}
 		case 'parallel':{
-			portNumber = 3;
+			portNumber = 3;//current number + 1 new
 			className = 'connector_parallel';
 			break;
 		}

@@ -42,7 +42,7 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	var flexPointNumber = -1;
 	
 	if(!processUtil.isset(temp)){
-		temp = false;
+		var temp = false;
 	}
 	
 	//define default value by making distinction between temp and normal arrows
@@ -80,8 +80,8 @@ ArrowClass.calculateArrow = function(point1, point2, type, flex, temp){
 	}
 	
 	//if values still not found in arrow lists, set the default ones:  
-	if(!processUtil.isset(flex)) flex = new Array();
-	if(!processUtil.isset(type)) type =  'top';
+	if(!processUtil.isset(flex)) var flex = new Array();
+	if(!processUtil.isset(type)) var type =  'top';
 	
 	if(Dy>0 && type=='top'){
 		flexPointNumber = 3;
@@ -371,11 +371,11 @@ ArrowClass.drawVerticalLine = function(p1, p2, options){
 		arrowWidth = 2;
 	}
 	
-	width = arrowWidth;
-	height = Math.abs(p1.y - p2.y);
-	left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
-	top = Math.min(p1.y,p2.y);
-	classes = new Array();
+	var width = arrowWidth;
+	var height = Math.abs(p1.y - p2.y);
+	var left =  p1.x - arrowWidth/2;//p[0].x  == p[0].y 
+	var top = Math.min(p1.y,p2.y);
+	var classes = new Array();
 	if(options.temp){
 		classes.push('temp_arrow');
 	}
@@ -391,11 +391,11 @@ ArrowClass.drawHorizontalLine = function(p1, p2, options){
 		arrowWidth = 2;
 	}
 	
-	width = Math.abs(p2.x-p1.x);
-	height = arrowWidth;
-	left = Math.min(p1.x, p2.x);
-	top = p1.y - arrowWidth/2;
-	classes = new Array();
+	var width = Math.abs(p2.x-p1.x);
+	var height = arrowWidth;
+	var left = Math.min(p1.x, p2.x);
+	var top = p1.y - arrowWidth/2;
+	var classes = new Array();
 	if(options.temp){
 		classes.push('temp_arrow');
 	}
