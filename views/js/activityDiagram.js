@@ -786,7 +786,12 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 }
 
 ActivityDiagramClass.removeActivity = function(activityId){
-	containerId = ActivityDiagramClass.getActivityId('container', activityId);
+	var containerId = ActivityDiagramClass.getActivityId('container', activityId);
+	$('#'+containerId).remove();
+}
+
+ActivityDiagramClass.removeConnector = function(connectorId){
+	var containerId = ActivityDiagramClass.getActivityId('connector', connectorId);
 	$('#'+containerId).remove();
 }
 
@@ -814,6 +819,13 @@ ActivityDiagramClass.setActivityMenuHandler = function(activityId){
 
 ActivityDiagramClass.unsetActivityMenuHandler = function(activityId){
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
+	if($('#'+containerId).length){
+		$('#'+containerId).unbind('click');
+	}
+}
+
+ActivityDiagramClass.unsetConnectorMenuHandler = function(connectorId){
+	var containerId = ActivityDiagramClass.getActivityId('connector', connectorId);
 	if($('#'+containerId).length){
 		$('#'+containerId).unbind('click');
 	}
@@ -1154,8 +1166,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
-				// ModeActivityMove.cancel();
-				ModeController.setMode('ModeInitial');//ModeActivityMove.cancel() will be executed automatically
+				ModeController.setMode('ModeInitial');
 			});
 			break;
 		}
@@ -1167,7 +1178,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
-				ModeConnectorMove.cancel();
+				ModeController.setMode('ModeInitial');
 			});
 			break;
 		}

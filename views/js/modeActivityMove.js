@@ -16,8 +16,6 @@ ModeActivityMove.on = function(options){
 
 	//desactivate 'add activity' button(??)
 	
-	//determine if the object can be moved alone or not (typically, the first connector of...issue for a join connector that shares several previous activities);
-	
 	//save a temporary object the initial position of the activity in case of cancellation:
 	var activity = ActivityDiagramClass.activities[activityId];
 	ModeActivityMove.tempId = activityId;
@@ -50,18 +48,6 @@ ModeActivityMove.on = function(options){
 			var activityId = ModeActivityMove.tempId;
 			
 			//arrows that are connected to that activity:
-			/*
-			var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
-			for(var arrowId in ArrowClass.arrows){
-				var arrow = ArrowClass.arrows[arrowId];
-				// console.dir(arrow);
-				// console.dir(ModeActivityMove);
-				if(arrow.targetObject == activityId || arrowId == activityBottomBorderPointId){
-					ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+arrow.target), arrow.type, new Array(), false);
-					ArrowClass.redrawArrow(arrowId);
-				}
-			}
-			*/
 			var arrows = ModeActivityMove.getArrowsConnectedToActivity(activityId);
 			for(arrowId in arrows){
 				var arrow = ArrowClass.arrows[arrowId];
@@ -111,11 +97,7 @@ ModeActivityMove.save = function(){
 		ActivityDiagramClass.setActivityMenuHandler(activityId);
 		
 		//send updated position data to the server and get  saving confirmation
-		var newPosition = $('#'+containerId).position();
-		ActivityDiagramClass.activities[activityId].position = {
-			left: newPosition.left + ActivityDiagramClass.scrollLeft,
-			top: newPosition.top + ActivityDiagramClass.scrollTop
-		}
+		ActivityDiagramClass.activities[activityId].position = ActivityDiagramClass.getActualPosition($('#'+containerId));
 		ActivityDiagramClass.saveDiagram();
 	}
 	
@@ -155,11 +137,8 @@ ModeActivityMove.cancel = function(){
 		ModeActivityMove.tempId = null;
 	}
 	
-	
-	
-	
 	//reset ActivityDiagramClass.setArrowMenuHandler(arrowId);//for each arrow that has been redrawn
-	console.log(ActivityDiagramClass.currentMode);
-	console.log(ModeActivityMove.tempId);
-	console.log(containerId);
+	// console.log(ActivityDiagramClass.currentMode);
+	// console.log(ModeActivityMove.tempId);
+	// console.log(containerId);
 }

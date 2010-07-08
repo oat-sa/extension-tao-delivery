@@ -191,9 +191,9 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 	actions.push({
 		label: "Move",
 		icon: img_url + "pencil.png",
-		action: function(actId){
-			console.log('move => ',actId);
-			ModeConnectorMove.on(actId);
+		action: function(connectorId){
+			console.log('move => ',connectorId);
+			ModeController.setMode('ModeConnectorMove', {"connectorId": connectorId});
 		}
 	});
 	actions.push({

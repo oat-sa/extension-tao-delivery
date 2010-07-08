@@ -1,4 +1,5 @@
-alert("modeLinkedActivityAdd loaded");
+// alert("modeLinkedActivityAdd loaded");
+//class no longer required...
 
 ModeLinkedActivityAdd = [];
 ModeLinkedActivityAdd.tempId = '';
