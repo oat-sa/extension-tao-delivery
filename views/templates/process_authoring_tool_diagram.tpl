@@ -46,11 +46,11 @@
 	ModeArrowLink.tempId = "defaultConnectorId";
 	
 	//constants:
-	const RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
+	var RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
 	
 	
 	$(function() {
-		window.loadFirebugConsole();
+		// window.loadFirebugConsole();
 		
 		$(ActivityDiagramClass.canvas).scroll(function(){
 			//TODO: set a more cross-browser way to retrieve scroll left and top values:
@@ -244,15 +244,16 @@
 		EventMgr.bind('activityPropertiesSaved', function(event, response){
 			//simply reload the tree:
 			console.log('activityPropertiesSaved');
-			var anActivityTree = ActivityTreeClass.instances[ActivityDiagramClass.relatedTree];
-			if(anActivityTree){
-				console.log('refreshing tree');
-				var aJsTree = anActivityTree.getTree();
-				ActivityTreeClass.refreshTree({
-					TREE_OBJ: aJsTree
-				});
-			}
 			
+			ActivityDiagramClass.refreshRelatedTree();
+		});
+		
+		EventMgr.bind('activityDeleted', function(event, response){
+			ActivityDiagramClass.reloadDiagram();
+		});
+		
+		EventMgr.bind('connectorDeleted', function(event, response){
+			ActivityDiagramClass.reloadDiagram();
 		});
 		
 		$(ActivityDiagramClass.canvas).click(function(evt){

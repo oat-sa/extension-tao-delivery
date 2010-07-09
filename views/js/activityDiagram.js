@@ -2,7 +2,7 @@ alert("activity diagram Class loaded");
 
 //require arrows.js
 
-ActivityDiagramClass = [];
+ActivityDiagramClass = new Object();
 ActivityDiagramClass.defaultActivityLabel = "Activity";
 ActivityDiagramClass.activities = [];
 ActivityDiagramClass.connectors = [];
@@ -12,10 +12,6 @@ ActivityDiagramClass.scrollLeft = 0;
 ActivityDiagramClass.scrollTop = 0;
 ActivityDiagramClass.defaultPosition = {top:50, left:30};
 ActivityDiagramClass.relatedTree = null;
-// ActivityDiagramClass.errors = {
-	// activities: [],
-	// arrows:[]
-// }
 
 
 //get positions of every activities
@@ -202,15 +198,13 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 ActivityDiagramClass.reloadDiagram = function(){
 	console.log('reload ', ActivityDiagramClass.canvas);
 
-	//empty diagram:
-	$(ActivityDiagramClass.canvas).empty();
-	
 	//load diagram:
 	ActivityDiagramClass.loadDiagram();
 }
 
 
 ActivityDiagramClass.loadDiagram = function(){
+	console.log('loading diagram');
 	//ajax call to get the model
 	$.ajax({
 		url: authoringControllerPath + 'getActivities',
@@ -220,9 +214,13 @@ ActivityDiagramClass.loadDiagram = function(){
 		success: function(processData){
 			// console.log(response);
 			try{
+				ActivityDiagramClass.activities = [];
+				ActivityDiagramClass.connectors = [];
 				ActivityDiagramClass.feedDiagram(processData);
-				ActivityDiagramClass.drawDiagram();
 				
+				$(ActivityDiagramClass.canvas).empty();
+				ActivityDiagramClass.drawDiagram();
+	
 				//initiate the mode to initial:
 				ModeController.setMode('ModeInitial');
 			}
@@ -346,7 +344,6 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 
 	ActivityDiagramClass.connectors[connectorId].activityRef = prevActivityId;
 	//do not draw connector here, feed them first until everything is fed:
-	// ActivityDiagramClass.drawConnector(connectorId, position, type, prevActivityId);
 	
 	//inti port value:
 	ActivityDiagramClass.connectors[connectorId].port = new Array();
@@ -358,7 +355,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 			var nextActivityData = connectorData.children[i];
 			if(nextActivityData.attributes.id && nextActivityData.attributes.class=='node-connector'){
 				//recursively continue with the connector of connector:
-				ActivityDiagramClass.feedConnector(nextActivityData, arrowData, prevActivityId, positionData);
+				ActivityDiagramClass.feedConnector(nextActivityData, arrowData, connectorId, positionData);//use the current connector as the activityRef of the child connector
 			}
 			
 			//build the arrows (the previous and next connectors must have already been created of course)
@@ -991,6 +988,12 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){
 	var className = '';
 	var portNames = []
 	switch(connectorType.toLowerCase()){
+		case '':{
+			portNumber = 0;
+			className = 'connector_sequence';
+			portNames[0] = 'Next';
+			break;
+		}
 		case 'sequence':{
 			portNumber = 1;
 			className = 'connector_sequence';
@@ -1226,6 +1229,18 @@ ActivityDiagramClass.unsetFeedbackMenu = function(){
 		eltContainer.empty();
 	}
 }
+
+ActivityDiagramClass.refreshRelatedTree = function(){
+	var anActivityTree = ActivityTreeClass.instances[ActivityDiagramClass.relatedTree];
+	if(anActivityTree){
+		console.log('refreshing tree');
+		var aJsTree = anActivityTree.getTree();
+		ActivityTreeClass.refreshTree({
+			TREE_OBJ: aJsTree
+		});
+	}
+}
+
 /*
 ActivityDiagramClass.createDroppablePoint = function(targetId, position){
 	switch(position){

@@ -29,11 +29,14 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 	//create top menu for the activity: first, last, edit, delete
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var actions = [];
+	
+	//if is not the first activity:
 	actions.push({
 		label: "Define as the first activity",
 		icon: img_url + "flag-green.png",
 		action: function(actId){
 			console.log('isFirst => ',actId);
+			//then reload all:
 		}
 	});
 	// actions.push({
@@ -45,7 +48,7 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 	// });
 	actions.push({
 		label: "Move",
-		icon: img_url + "pencil.png",
+		icon: img_url + "move.png",
 		action: function(actId){
 			// ModeActivityMove.on(actId);
 			ModeController.setMode('ModeActivityMove', {activityId: actId});
@@ -63,7 +66,8 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		label: "Delete",
 		icon: img_url + "delete.png",
 		action: function(actId){
-			console.log('delete => ',actId);
+			// console.log('delete => ',actId);
+			GatewayProcessAuthoring.deleteActivity(authoringControllerPath+"deleteActivity", ActivityDiagramClass.getActivityUri(actId));
 		}
 	});
 	// console.log('actions',actions);
@@ -82,14 +86,21 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 	var connectorActions = [];
 	
 	//if the activity has a connector:
-	var connector = ActivityDiagramClass.getConnectorsByActivity(activityId);
-	if(connector.length>0){
+	var connectors = ActivityDiagramClass.getConnectorsByActivity(activityId);
+	if(connectors.length>0){
 		connectorActions.push({
 			label: 'Delete connector and set as a final activity',
 			icon: img_url + "flag-red.png",
 			action: function(actId){
 				//go deleting the activity's connector:
-				console.log('set as final & delete connector');
+				//console.log('set as final & delete connector');
+				
+				
+				var activityConnectorUri = ActivityDiagramClass.getActivityUri(connectors[0]);
+				
+				if(confirm(__('Set the activity as a final one will delete its following connector. \n Are you sure?'))){
+					GatewayProcessAuthoring.deleteConnector(authoringControllerPath+"deleteConnector", activityConnectorUri);
+				}
 				
 			}
 		});
@@ -190,9 +201,9 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 	actions = [];
 	actions.push({
 		label: "Move",
-		icon: img_url + "pencil.png",
+		icon: img_url + "move.png",
 		action: function(connectorId){
-			console.log('move => ',connectorId);
+			// console.log('move => ',connectorId);
 			ModeController.setMode('ModeConnectorMove', {"connectorId": connectorId});
 		}
 	});
@@ -209,8 +220,12 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 	actions.push({
 		label: "Delete",
 		icon: img_url + "delete.png",
-		action: function(actId){
-			console.log('delete => ',actId);
+		action: function(connectorId){
+			// console.log('delete => ',connectorId);
+			var connectorUri = ActivityDiagramClass.getActivityUri(connectorId);
+			if(confirm(__('Please confirm the deletion of the connector: \n child connectors will be delete at the same time'))){
+				GatewayProcessAuthoring.deleteConnector(authoringControllerPath+"deleteConnector", connectorUri);
+			}
 		}
 	});
 	ModeActivityMenu.createMenu(

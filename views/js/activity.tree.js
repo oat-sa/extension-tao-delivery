@@ -198,20 +198,6 @@ function ActivityTreeClass(selector, dataUrl, options){
 								return -1;
 							},
 							action  : function(NODE, TREE_OBJ){
-								// ActivityTreeClass.addActivity({
-									// url: instance.options.createActivityAction,
-									// id: $(NODE).attr('id'),
-									// NODE: NODE,
-									// TREE_OBJ: TREE_OBJ,
-									// cssClass: instance.options.instanceClass
-								// });
-								
-								// console.log('url0', instance.options.createActivityAction);	
-								// console.log('processUri0', $(NODE).attr('id'));
-								// console.log('tree instances:');console.dir(ActivityTreeClass.instances);
-								// console.log('tree obj:');console.dir(TREE_OBJ);
-								// console.log('tree container:');console.dir(TREE_OBJ.container.context.id);
-								
 								try{
 									if(ActivityTreeClass.instances[TREE_OBJ.container.context.id]){
 										ActivityTreeClass.instances[TREE_OBJ.container.context.id].currentNode = NODE;
@@ -259,11 +245,16 @@ function ActivityTreeClass(selector, dataUrl, options){
 									if($(selectedNode).hasClass('node-connector') && instance.options.deleteConnectorAction){
 										// data =  {activityUri: $(selectedNode).attr('id')};
 										// alert($(selectedNode).attr('id'));
-										ActivityTreeClass.removeNode({
-											url: instance.options.deleteConnectorAction,
-											NODE: $(selectedNode),
-											TREE_OBJ: TREE_OBJ
-										});
+										// ActivityTreeClass.removeNode({
+											// url: instance.options.deleteConnectorAction,
+											// NODE: $(selectedNode),
+											// TREE_OBJ: TREE_OBJ
+										// });
+										
+										if(confirm(__('Set the activity as a final one will delete its following connector. \n Are you sure?'))){
+											GatewayProcessAuthoring.deleteConnector(instance.options.deleteConnectorAction, $(selectedNode).attr('id'));
+										}
+										
 									}
 								});
 								return false;
@@ -338,14 +329,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 								}catch(error){
 									console.log(error);
 								}
-								
-								// ActivityTreeClass.addInteractiveService({
-									// url: instance.options.createInteractiveServiceAction,
-									// id: $(NODE).attr('id'),
-									// NODE: NODE,
-									// TREE_OBJ: TREE_OBJ,
-									// cssClass: instance.options.instanceClass
-								// });
+												
 							}
 						},
 						addOnBeforeInferenceRule: {
@@ -432,11 +416,7 @@ function ActivityTreeClass(selector, dataUrl, options){
 								return ok;
 							}, 
 							action	: function (NODE, TREE_OBJ){
-								ActivityTreeClass.removeNode({
-									url: instance.options.deleteActivityAction,
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
-								});
+								GatewayProcessAuthoring.deleteActivity(instance.options.deleteActivityAction, $(NODE).attr('id'));
 								return false;
 							},
 							separator_before: true
@@ -457,11 +437,9 @@ function ActivityTreeClass(selector, dataUrl, options){
 								return ok;
 							}, 
 							action	: function (NODE, TREE_OBJ){
-								ActivityTreeClass.removeNode({
-									url: instance.options.deleteConnectorAction,
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
-								});
+								if(confirm(__('Please confirm the deletion of the connector: \n child connectors will be delete at the same time'))){
+									GatewayProcessAuthoring.deleteConnector(instance.options.deleteConnectorAction, $(NODE).attr('id'));
+								}
 								return false;
 							},
 							separator_before: true 
@@ -598,7 +576,7 @@ ActivityTreeClass.bindListeners = function(treeId){
 	//TODO: put treeId in evnt data object: data = {treeId: treeId}
 	
 	EventMgr.bind('activityAdded', function(event, response){
-		response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		var response = ActivityTreeClass.feedCurrentNode(treeId, response);
 		if(response.NODE && response.TREE_OBJ){
 			ActivityTreeClass.addActivity(response);
 		}
@@ -606,16 +584,30 @@ ActivityTreeClass.bindListeners = function(treeId){
 	});
 	
 	EventMgr.bind('interactiveServiceAdded', function(event, response){
-		response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		var response = ActivityTreeClass.feedCurrentNode(treeId, response);
 		if(response.NODE && response.TREE_OBJ){
 			ActivityTreeClass.addInteractiveService(response);
 		}
 	});
 	
 	EventMgr.bind('connectorAdded', function(event, response){
-		response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		var response = ActivityTreeClass.feedCurrentNode(treeId, response);
 		if(response.NODE && response.TREE_OBJ){
 			ActivityTreeClass.addConnector(response);
+		}
+	});
+	
+	EventMgr.bind('activityDeleted', function(event, response){
+		var response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		if(response.TREE_OBJ){
+			response.TREE_OBJ.refresh();
+		}
+	});
+	
+	EventMgr.bind('connectorDeleted', function(event, response){
+		var response = ActivityTreeClass.feedCurrentNode(treeId, response);
+		if(response.TREE_OBJ){
+			response.TREE_OBJ.refresh();
 		}
 	});
 }
