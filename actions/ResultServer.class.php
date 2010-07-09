@@ -145,12 +145,12 @@ class ResultServer extends TaoModule {
 			if($myForm->isValid()){
 				
 				$resultServer = $this->service->bindProperties($resultServer, $myForm->getValues());
-				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
 				$this->setData('message', __('Result Server saved'));
 				$this->setData('reload', true);
 			}
 		}
+		
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
 		
 		//get the deliveries related to this delivery resultServer
 		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($resultServer), tao_helpers_Uri::ENCODE_ARRAY_VALUES);

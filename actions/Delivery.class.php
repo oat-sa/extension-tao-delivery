@@ -169,11 +169,11 @@ class Delivery extends TaoModule {
 				//edit process label:
 				$this->service->updateProcessLabel($delivery);
 				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 				$this->setData('message', __('Delivery saved'));
 				$this->setData('reload', true);
 			}
 		}
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 		
 		//temporary disable authoring mode selection: 
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));

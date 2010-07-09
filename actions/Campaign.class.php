@@ -147,11 +147,12 @@ class Campaign extends TaoModule {
 				
 				$campaign = $this->service->bindProperties($campaign, $myForm->getValues());
 				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($campaign->uriResource));
 				$this->setData('message', __('Campaign saved'));
 				$this->setData('reload', true);
 			}
 		}
+		
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($campaign->uriResource));
 		
 		//get the deliveries related to this delivery campaign
 		$relatedTests = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($campaign), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
