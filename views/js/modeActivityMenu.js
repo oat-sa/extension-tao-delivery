@@ -245,7 +245,7 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 	var connector = ActivityDiagramClass.connectors[connectorId];
 	
 	//get the type of connector, and thus the name of all 'port'
-	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(connector.type);
+	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(connector);
 	if(connectorTypeDescription == null){
 		throw 'wrong type of connector';
 		return false;
@@ -267,11 +267,10 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					//hightlight the current one:
 					
 					//check if an arrow (=connection) exists:
-					// if(ArrowClass.arrows[data.arrowId]){
-					if(false){//test of else only: delete ArrowClass.arrows[data.arrowId];
-						//if so, go to editArrowMode(arrowId)
-						// ModeActivityMenu.cancel();
-						ModeController.setMode('editArrowMode', {activityId: actId});
+					if(ArrowClass.arrows[data.arrowId]){
+					
+						ModeController.setMode('ModeArrowEdit', {"arrowId": data.arrowId});
+						
 					}else{
 					
 						//remove top connector menu and other connector submenu:

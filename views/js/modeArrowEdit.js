@@ -1,6 +1,6 @@
 // alert('ModeArrowEdit loaded');
 
-ModeArrowEdit = [];
+ModeArrowEdit = new Object();
 ModeArrowEdit.tempId = '';
 
 ModeArrowEdit.on = function(options){
@@ -115,8 +115,6 @@ ModeArrowEdit.save = function(){
 		var connectorId = ModeArrowEdit.tempId;
 		// save the temporay arrow data into the actual arrows array:
 		if(ArrowClass.tempArrows[connectorId]){
-			console.log('ModeArrowEdit.save:', 'not implemented yet');
-			console.dir(ArrowClass.tempArrows);
 			if(ArrowClass.tempArrows[connectorId].actualTarget){
 				ArrowClass.saveTemporaryArrowToReal(connectorId);
 			}
@@ -125,23 +123,10 @@ ModeArrowEdit.save = function(){
 	
 	ModeActivityMenu.removeAllMenu();
 	ModeArrowEdit.tempId = 'emptied';
+	ActivityDiagramClass.saveDiagram();
 	return true;
 	
-	//unquote section below when the communication with server is established:
-	/*
 	
-	//send the coordinate + label to server
-	//call processAuthoring/addActivity:
-	
-	//on success, delete the temp activity:
-	ModeArrowEdit.cancel();
-	
-	//draw the real activity:
-	positionData = 'positon of temp activity';
-	activityData = [];
-	newActivity = ActivityDiagramClass.feedActivity = function(activityData, positionData);//no need for array data since it is not connnected yet
-	ActivityDiagramClass.drawActivity(newActivity.id);	
-	*/
 }
 
 ModeArrowEdit.cancel = function(){

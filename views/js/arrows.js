@@ -657,7 +657,7 @@ ArrowClass.saveTemporaryArrowToReal = function(arrowId){
 			container: ActivityDiagramClass.canvas,
 			arrowWidth: 2
 		});
-		console.dir(ArrowClass.arrows);
+		// console.dir(ArrowClass.arrows);
 		ActivityDiagramClass.setArrowMenuHandler(arrowId);
 	}
 }

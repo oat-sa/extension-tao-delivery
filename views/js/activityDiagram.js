@@ -169,7 +169,7 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 			
 			if(connectorData != null){
 				
-				connector = ActivityDiagramClass.feedConnector(connectorData, positionData, activityId, arrowData);
+				var connector = ActivityDiagramClass.feedConnector(connectorData, positionData, activityId, arrowData);
 				
 				if(connector == null){
 					throw 'connector cannot be created for the activity '+activityId;
@@ -178,11 +178,15 @@ ActivityDiagramClass.feedActivity = function(activityData, positionData, arrowDa
 					console.log('connector', connector);
 					var activityBottomBorderPointId = ActivityDiagramClass.getActivityId('activity',activityId,'bottom');
 					var connectorTopBorderPointId = ActivityDiagramClass.getActivityId('connector',connector.id,'top');
+					var arrow = null;
 					if(arrowData){
 						if(arrowData[activityBottomBorderPointId]){
-							var arrow = arrowData[activityBottomBorderPointId];
+							arrow = arrowData[activityBottomBorderPointId];
 							ArrowClass.feedArrow(activityBottomBorderPointId, connectorTopBorderPointId, connector.id, arrow.position, arrow.flex);
 						}
+					}
+					if(!arrow){
+						ArrowClass.feedArrow(activityBottomBorderPointId, connectorTopBorderPointId, connector.id, 'top', null);
 					}
 					
 				}
@@ -358,6 +362,64 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 				ActivityDiagramClass.feedConnector(nextActivityData, arrowData, connectorId, positionData);//use the current connector as the activityRef of the child connector
 			}
 			
+			if(nextActivityData.portData){
+				if(nextActivityData.portData.id >= 0){//it can only be node-connector,node-activity-goto or node-connector-goto
+					//feed port data into connector storehouse, to allow later next activity editing:
+					ActivityDiagramClass.connectors[connectorId].port[ nextActivityData.portData.id ] = {
+						"targetId": nextActivityData.attributes.id,
+						"label": nextActivityData.portData.label,
+						"multiplicity": nextActivityData.portData.multiplicity
+					};
+					
+					//draw arrow:
+					var originId =  ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', nextActivityData.portData.id);
+					var nextActivityId = '';
+					var targetId = '';
+					
+					if(nextActivityData.attributes.class == 'node-connector'){
+						nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.id);
+					}else if(nextActivityData.attributes.class == 'node-activity-goto' || nextActivityData.attributes.class == 'node-connector-goto'){
+						nextActivityId = ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.rel);
+					}else{
+						throw 'unknown type of following activity';
+					}
+					
+					//check if the target in the arrow data matches the one recorded in the connector port data:
+					var onSync = false;
+					var flex = null;
+					var targetPosition = 'top';//default value
+					if(processUtil.isset(arrowData[originId])){
+						// console.log('arrowData[originId].targetObject=',arrowData[originId].targetObject);
+						// console.log('nextActivityId=', nextActivityId);
+						if(arrowData[originId].targetObject == nextActivityId){
+							//on sync: prepare to draw the arrow:
+							onSync = true;
+							
+							//get type, get flex:
+							if(arrowData[originId].type){
+								targetPosition  = arrowData[originId].type;
+							}
+							if(arrowData[originId].flex){
+								flex = arrowData[originId].flex;
+							}
+						}else{
+							//rebuild a new arrow with matching data: do not take into account the saved 'type' and 'flex'
+						
+						}
+					}
+					
+					if(nextActivityData.attributes.class == 'node-connector' || nextActivityData.attributes.class == 'node-connector-goto'){
+						targetId =  ActivityDiagramClass.getActivityId('connector', nextActivityId, targetPosition);
+					}else if(nextActivityData.attributes.class == 'node-activity-goto'){
+						targetId =  ActivityDiagramClass.getActivityId('activity', nextActivityId, targetPosition);
+					}
+					
+					ArrowClass.feedArrow(originId, targetId, nextActivityId, targetPosition, flex);
+					
+				}
+			}
+			
+			/*
 			//build the arrows (the previous and next connectors must have already been created of course)
 			if(nextActivityData.port){
 				//check authorized port:
@@ -379,6 +441,30 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 					// throw 'unknown type of following activity';
 					// return false;
 					continue;//it could be an 'if' node
+				}
+				
+				//check if the target in the arrow data matches the one recorded in the connector port data:
+				var onSync = false;
+				var flex = null;
+				var targetPosition = 'top';//default value
+				if(processUtil.isset(arrowData[originId])){
+					// console.log('arrowData[originId].targetObject=',arrowData[originId].targetObject);
+					// console.log('nextActivityId=', nextActivityId);
+					if(arrowData[originId].targetObject == nextActivityId){
+						//on sync: prepare to draw the arrow:
+						onSync = true;
+						
+						//get type, get flex:
+						if(arrowData[originId].type){
+							targetPosition  = arrowData[originId].type;
+						}
+						if(arrowData[originId].flex){
+							flex = arrowData[originId].flex;
+						}
+					}else{
+						//rebuild a new arrow with matching data: do not take into account the saved 'type' and 'flex'
+					
+					}
 				}
 				
 				// if(nextActivityData.attributes.class == 'node-connector'){
@@ -434,7 +520,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 				//add related port
 				ActivityDiagramClass.connectors[connectorId].port[nextActivityData.port] = nextActivityId;
 			}
-			
+			*/
 		}
 	}
 	return ActivityDiagramClass.connectors[connectorId];
@@ -879,11 +965,12 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 		//or default position {0, 0}???
 	}
 	
-	var type = '';
+	// var type = '';
 	if(connectorType){
-		type = connectorType;
+		ActivityDiagramClass.connectors[connectorId].type = connectorType;
+		// type = connectorType;
 	}else if(ActivityDiagramClass.connectors[connectorId].type){
-		type = ActivityDiagramClass.connectors[connectorId].type;
+		// type = ActivityDiagramClass.connectors[connectorId].type;
 	}else{
 		throw 'no connector type found';
 	}
@@ -897,7 +984,8 @@ ActivityDiagramClass.drawConnector = function(connectorId, position, connectorTy
 		throw 'no activity  reference id found';
 	}
 	
-	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(type);
+	var connectorTypeDescription = ActivityDiagramClass.getConnectorTypeDescription(ActivityDiagramClass.connectors[connectorId]);
+	//console.log('connectorTypeDescription', connectorTypeDescription);
 	if(connectorTypeDescription == null){
 		throw 'wrong type of connector';
 		return false;
@@ -983,42 +1071,52 @@ ActivityDiagramClass.getActivityUri = function(activityId){
 }
 
 
-ActivityDiagramClass.getConnectorTypeDescription = function(connectorType){
-	var portNumber =0;
-	var className = '';
-	var portNames = []
-	switch(connectorType.toLowerCase()){
-		case '':{
-			portNumber = 0;
-			className = 'connector_sequence';
-			portNames[0] = 'Next';
-			break;
+ActivityDiagramClass.getConnectorTypeDescription = function(connector){
+
+	if(connector){
+		if(connector.type){
+			var portNumber =0;
+			var className = '';
+			var portNames = [];
+			switch(connector.type.toLowerCase()){
+				case '':{
+					portNumber = 0;
+					className = 'connector_sequence';
+					portNames[0] = 'Next';
+					break;
+				}
+				case 'sequence':{
+					portNumber = 1;
+					className = 'connector_sequence';
+					portNames[0] = 'Next';
+					break;
+				}
+				case 'conditional':{
+					portNumber = 2;
+					className = 'connector_conditional';
+					portNames[0] = 'Then';
+					portNames[1] = 'Else';
+					break;
+				}
+				case 'parallel':{
+					portNumber = connector.port.length + 1;
+					
+					for(var i=0; i<connector.port.length; i++){
+						portNames[i] = i;
+					}
+					portNames[connector.port.length] = 'new';
+					className = 'connector_parallel';
+					break;
+				}
+				case 'join':{
+					portNumber = 1;
+					className = 'connector_join';
+					break;
+				}
+				default:
+					return null;
+			}
 		}
-		case 'sequence':{
-			portNumber = 1;
-			className = 'connector_sequence';
-			portNames[0] = 'Next';
-			break;
-		}
-		case 'conditional':{
-			portNumber = 2;
-			className = 'connector_conditional';
-			portNames[0] = 'Then';
-			portNames[1] = 'Else';
-			break;
-		}
-		case 'parallel':{
-			portNumber = 3;//current number + 1 new
-			className = 'connector_parallel';
-			break;
-		}
-		case 'join':{
-			portNumber = 1;
-			className = 'connector_join';
-			break;
-		}
-		default:
-			return null;
 	}
 	
 	return {portNumber: portNumber, className: className, portNames:portNames};
