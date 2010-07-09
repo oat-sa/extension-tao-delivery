@@ -2,8 +2,9 @@
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=__('Select delivery tests')?>
 	</div>
-	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
+	<div class="ui-widget ui-widget-content container-content">
 		<div id="test-tree"></div>
+		<div class="breaker"></div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
 		<input id="saver-action-test" type="button" value="<?=__('Save')?>" />
@@ -13,7 +14,7 @@
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=__('Tests sequence')?>
 	</div>
-	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
+	<div class="ui-widget ui-widget-content container-content">
 		<div id="item-list">
 			<br />
 			<ul id="test-sequence" class="sortable-list">

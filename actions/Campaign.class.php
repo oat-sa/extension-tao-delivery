@@ -110,6 +110,11 @@ class Campaign extends TaoModule {
 	 */
 	public function editCampaignClass(){
 		$clazz = $this->getCurrentClass();
+		
+		if($this->hasRequestParameter('property_mode')){
+			$this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
+		}
+		
 		$myForm = $this->editClass($clazz, $this->service->getCampaignClass());
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

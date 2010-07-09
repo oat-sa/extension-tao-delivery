@@ -116,6 +116,11 @@ class Delivery extends TaoModule {
 	 */
 	public function editDeliveryClass(){
 		$clazz = $this->getCurrentClass();
+		
+		if($this->hasRequestParameter('property_mode')){
+			$this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
+		}
+		
 		$myForm = $this->editClass($clazz, $this->service->getDeliveryClass());
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

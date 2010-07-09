@@ -2,8 +2,9 @@
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=__('Select delivery')?>
 	</div>
-	<div class="ui-widget ui-widget-content container-content" style="min-height:420px;">
+	<div class="ui-widget ui-widget-content container-content">
 		<div id="delivery-tree<?=get_data('index')?>"></div>
+		<div class="breaker"></div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
 		<input id="saver-action-test<?=get_data('index')?>" type="button" value="<?=__('Save')?>" />

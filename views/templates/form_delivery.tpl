@@ -1,19 +1,31 @@
 <?include('header.tpl')?>
 
-<?
-if(get_data('authoringMode') == 'simple'){
-	include('delivery_tests.tpl');
-}
-?>
+<?if(get_data('authoringMode') == 'simple'):?>
 
-<div class="main-container" style="height:500px;">
+<div style="float:left;">
+	<div style="position:absolute;width:100%;">
+	<?include('delivery_tests.tpl');?>
+	
+	<div class="breaker"></div>
+	
+	<?include('subjects.tpl')?>
+	<?include('delivery_campaign.tpl')?>
+	
+	<div class="breaker"></div>
+	</div>
+</div>
+
+<?endif?>
+
+<div class="main-container" style="margin-left:46%;">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
 	<div id="form-container" class="ui-widget-content ui-corner-bottom">
 		<?=get_data('myForm')?>
 	</div>
-	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
+	
+	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
 		<?=__("Compilation")?>
 	</div>
 	<div id="form-container" class="ui-widget-content ui-corner-bottom">
@@ -41,6 +53,7 @@ if(get_data('authoringMode') == 'simple'){
 	</div>
 </div>
 
+
 <script type="text/javascript">
 $(function(){
 	$('label.form_desc').each(function(){
@@ -56,9 +69,5 @@ $(function(){
 	});
 });
 </script>
-
-<?include('subjects.tpl')?>
-
-<?include('delivery_campaign.tpl')?>
 
 <?include('footer.tpl');?>
