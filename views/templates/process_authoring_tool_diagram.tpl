@@ -19,6 +19,16 @@
 <?else:?>
 	<link rel="stylesheet" type="text/css" href="/<?=get_data('extension')?>/views/css/process_authoring_tool.css" />
 	
+	<script type="text/javascript">
+		//constants:
+		RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
+		PROPERTY_CONNECTORS_TYPE = "<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>";
+		INSTANCE_TYPEOFCONNECTORS_SEQUENCE = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_SEQUENCE)?>";
+		INSTANCE_TYPEOFCONNECTORS_SPLIT = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_SPLIT)?>";
+		INSTANCE_TYPEOFCONNECTORS_PARALLEL = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_PARALLEL)?>";
+		INSTANCE_TYPEOFCONNECTORS_JOIN = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_JOIN)?>";
+	</script>
+	
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoringConfig.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/json2.js"></script>
 	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/util.js"></script>
@@ -44,10 +54,6 @@
 	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(core_kernel_classes_Session::singleton()->getNameSpace().'#')?>";
 	
 	ModeArrowLink.tempId = "defaultConnectorId";
-	
-	//constants:
-	var RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
-	
 	
 	$(function() {
 		// window.loadFirebugConsole();
@@ -159,10 +165,15 @@
 		EventMgr.unbind();
 		
 		EventMgr.bind('activityAdded', function(event, response){
+			console.log('adding act response:', response);
+			
 			var activity = ActivityDiagramClass.feedActivity({
 				"data": response.label,
 				"attributes": {"id": response.uri}
 			});
+			
+			console.log('activity', activity);
+			
 			//draw activity with the default positionning:
 			ActivityDiagramClass.drawActivity(activity.id);
 			ActivityDiagramClass.setActivityMenuHandler(activity.id);
@@ -238,6 +249,26 @@
 				console.log('arrowId', arrowId);
 			}
 				
+		});
+		
+		EventMgr.bind('connectorSaved', function(event, response){
+			if(response.newActivities && response.previousConnectorUri){
+				if(response.newActivities.length > 0){
+					var activityAddedResponse = response.newActivities[0];//currently, the first one is enough
+					activityAddedResponse.previousConnectorUri = response.previousConnectorUri;
+					EventMgr.trigger('activityAdded', activityAddedResponse);
+				}
+			}
+			
+			if(response.newConnectors && response.previousConnectorUri){
+				if(response.newConnectors.length > 0){
+					var connectorAddedResponse = response.newConnectors[0];//currently, the first one is enough
+					activityAddedResponse.previousActivityUri = response.previousConnectorUri;
+					connectorAddedResponse.previousIsActivity = false;//the previous activity is obviously a connector here
+					EventMgr.trigger('connectorAdded', connectorAddedResponse);
+				}
+			}
+			console.log('connectorSaved triggered');
 		});
 		
 		

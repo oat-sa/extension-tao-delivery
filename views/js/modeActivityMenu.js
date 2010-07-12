@@ -286,34 +286,32 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					
 						//else, menu with 3 items: new activity, new connector, free connection
 						var subActions = [];
-						subActions.push({
-							label: "New Activity",
-							icon: img_url + "process_activity.png",
-							action: function(id, data, e){
-								// ModeConnectedActivityAdd.on('activity', data.connectorId, data.port);
-								console.log('ModeConnectedActivityAdd.on("activity", '+data.connectorId+', '+data.port+')');
-								
-								// var coordXY = ArrowClass.getCenterCoordinate($('#'+e.currentTarget.id));
-								//var position = {top:coordXY.y, left:coordXY.y};
-								// console.log(e.currentTarget.id, coordXY);
-								
-								//real offset need to be calculated:
-								// var canvasPosition = $(ActivityDiagramClass.canvas).offset();
-								// var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
-								
-								// ModeLinkedActivityAdd.on(data.connectorId, data.port, position);
-								
-								
-							}
-						});
-						subActions.push({
-							label: "New Connector",
-							icon: img_url + "process_connector.png",
-							action: function(id, data){
-								// ModeConnectedActivityAdd.on('connector', data.connectorId, data.port);
-								console.log('ModeConnectedActivityAdd.on("connector", '+data.connectorId+', '+data.port+')');
-							}
-						});
+						
+						if(connectorTypeDescription.className != 'connector_parallel'){//if not parallel, allow new activity or connector to be created
+							subActions.push({
+								label: "New Activity",
+								icon: img_url + "process_activity.png",
+								action: function(id, data, e){
+									// ModeConnectedActivityAdd.on('activity', data.connectorId, data.port);
+									console.log('ModeConnectedActivityAdd.on("activity", '+data.connectorId+', '+data.port+')');
+									
+									ActivityDiagramClass.editConnector(data.connectorId, data.port, 'newActivity');
+									ActivityDiagramClass.saveConnector(data.connectorId);
+									
+									
+								}
+							});
+							subActions.push({
+								label: "New Connector",
+								icon: img_url + "process_connector.png",
+								action: function(id, data){
+									// ModeConnectedActivityAdd.on('connector', data.connectorId, data.port);
+									console.log('ModeConnectedActivityAdd.on("connector", '+data.connectorId+', '+data.port+')');
+									ActivityDiagramClass.editConnector(data.connectorId, data.port, 'newConnector');
+								}
+							});
+						}
+						
 						subActions.push({
 							label: "Link to",
 							icon: img_url + "go-jump.png",

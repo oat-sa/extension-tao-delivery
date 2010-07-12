@@ -223,6 +223,8 @@ ActivityDiagramClass.loadDiagram = function(){
 				ActivityDiagramClass.feedDiagram(processData);
 				
 				$(ActivityDiagramClass.canvas).empty();
+				$(ActivityDiagramClass.canvas).scrollTop(0);
+				$(ActivityDiagramClass.canvas).scrollLeft(0);
 				ActivityDiagramClass.drawDiagram();
 	
 				//initiate the mode to initial:
@@ -233,6 +235,74 @@ ActivityDiagramClass.loadDiagram = function(){
 			}
 		}
 	});
+}
+
+
+ActivityDiagramClass.editConnector = function(connectorId, port, value, multiplicity){
+	var connector = ActivityDiagramClass.getConnector(connectorId);
+	if(connector.port){
+		if(value){
+			var num = 1;
+			if(multiplicity){
+				num = multiplicity;
+			}
+			connector.port[port] = {
+				"targetId": value,
+				"multiplicity": num,
+				"label": 'newly edited'
+			}
+		}
+	}
+}
+
+ActivityDiagramClass.getConnector = function(connectorId){
+	var connector = ActivityDiagramClass.connectors[connectorId];
+	if(!connector){
+		throw 'the connector does not exist: '+connectorId;
+		return null;
+	}
+	return connector;
+}
+
+ActivityDiagramClass.saveConnector = function(connectorId){
+	
+	var connector = ActivityDiagramClass.getConnector(connectorId);
+	var connectorDescription = ActivityDiagramClass.getConnectorTypeDescription(connector);
+	var connectorUri = ActivityDiagramClass.getActivityUri(connectorId);
+	var prevActivityId = connector.activityRef;//real activityRef required
+	var prevActivityUri = ActivityDiagramClass.getActivityUri(prevActivityId);
+	var postData = '';
+	switch(connectorDescription.typeUri){
+		case INSTANCE_TYPEOFCONNECTORS_SEQUENCE:{
+			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SEQUENCE;
+			var nextActivityUri = '';
+			if(connector.port[0]){
+				if(connector.port[0].targetId){
+					if(connector.port[0].targetId == 'newActivity' || connector.port[0].targetId == 'newConnector'){
+						nextActivityUri = connector.port[0].targetId;
+					}else{
+						nextActivityUri = ActivityDiagramClass.getActivityUri(connector.port[0].targetId);
+					}
+				}else{
+					//send deleting information to server:
+					nextActivityUri = 'delete';
+				}
+			}
+			postData += '&next_activityUri=' + nextActivityUri;
+			
+			break;
+		}
+	}
+	
+	console.log('postData', postData);
+	
+	//call gateway:
+	if(postData != ''){
+		
+		GatewayProcessAuthoring.saveConnector(authoringControllerPath+"saveConnector", connectorUri, prevActivityUri, postData)
+	}else{
+		return false;
+	}
 }
 
 
@@ -346,8 +416,10 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	}
 	ActivityDiagramClass.connectors[connectorId].type = connectorData.type;
 
-	ActivityDiagramClass.connectors[connectorId].activityRef = prevActivityId;
-	//do not draw connector here, feed them first until everything is fed:
+	ActivityDiagramClass.connectors[connectorId].activityRef = prevActivityId;//get the real activity reference instead
+	//ActivityDiagramClass.connectors[connectorId].prevActivity = prevActivityId;
+	
+//do not draw connector here, feed them first until everything is fed:
 	
 	//inti port value:
 	ActivityDiagramClass.connectors[connectorId].port = new Array();
@@ -808,6 +880,9 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		ActivityDiagramClass.setBorderPoint(activityId, 'activity', positions[i]);
 	}
 	
+	// ActivityDiagramClass.setBorderPoint(activityId, 'activity', 'top');
+	// ActivityDiagramClass.setBorderPoint(activityId, 'activity', 'right');
+	
 	//element activity label:
 	var label = 'Act';
 	if(activityLabel){
@@ -1057,7 +1132,7 @@ ActivityDiagramClass.getConnectorsByActivity = function(activityId){
 	var connectors = [];
 	for(connectorId in ActivityDiagramClass.connectors){
 		var connector = ActivityDiagramClass.connectors[connectorId];
-		if(connector.activityRef == activityId){
+		if(connector.activityRef == activityId){//use .previousActivity instead
 			connectors.push(connectorId);
 		}
 	}
@@ -1072,23 +1147,26 @@ ActivityDiagramClass.getActivityUri = function(activityId){
 
 
 ActivityDiagramClass.getConnectorTypeDescription = function(connector){
-
+	
 	if(connector){
 		if(connector.type){
 			var portNumber =0;
 			var className = '';
+			var typeUri = '';
 			var portNames = [];
 			switch(connector.type.toLowerCase()){
 				case '':{
 					portNumber = 0;
 					className = 'connector_sequence';
 					portNames[0] = 'Next';
+					typeUri = INSTANCE_TYPEOFCONNECTORS_SEQUENCE;
 					break;
 				}
 				case 'sequence':{
 					portNumber = 1;
 					className = 'connector_sequence';
 					portNames[0] = 'Next';
+					typeUri = INSTANCE_TYPEOFCONNECTORS_SEQUENCE;
 					break;
 				}
 				case 'conditional':{
@@ -1096,6 +1174,7 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connector){
 					className = 'connector_conditional';
 					portNames[0] = 'Then';
 					portNames[1] = 'Else';
+					typeUri = INSTANCE_TYPEOFCONNECTORS_SPLIT;
 					break;
 				}
 				case 'parallel':{
@@ -1106,11 +1185,13 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connector){
 					}
 					portNames[connector.port.length] = 'new';
 					className = 'connector_parallel';
+					typeUri = INSTANCE_TYPEOFCONNECTORS_PARALLEL;
 					break;
 				}
 				case 'join':{
 					portNumber = 1;
 					className = 'connector_join';
+					typeUri = INSTANCE_TYPEOFCONNECTORS_JOIN;
 					break;
 				}
 				default:
@@ -1119,13 +1200,25 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connector){
 		}
 	}
 	
-	return {portNumber: portNumber, className: className, portNames:portNames};
+	return {
+		"portNumber": portNumber, 
+		"className": className, 
+		"portNames": portNames,
+		"typeUri": typeUri
+		};
 }
 
 ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset, port){
 	
 	// console.log("pos", position);
 	// console.log('util',processUtil);
+	
+	// console.log('type',type);
+	// console.log('targetId',targetId);
+	
+	var pos = '';
+	var	my = '';
+	var	at = '';
 	var portSet = null;
 	var offsetSet = 0;
 	switch(position){
@@ -1181,13 +1274,25 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 	var pointId = ActivityDiagramClass.getActivityId(type, targetId, pos, portSet);
 	var elementPoint = $('<div id="'+pointId+'"></div>');//put connector id here instead
 	elementPoint.addClass('diagram_activity_border_point');
-	elementPoint.appendTo('#'+containerId);
-	$('#'+pointId).position({
+	// elementPoint.appendTo('#'+containerId);
+	// $('#'+pointId).position({
+		// my: my,
+		// at: at,
+		// of: '#'+containerId,
+		// offset: offsetSet
+	// });
+	
+	elementPoint.appendTo('#'+containerId).position({
 		my: my,
 		at: at,
 		of: '#'+containerId,
 		offset: offsetSet
 	});
+	
+	//console.log(type,targetId);
+	//console.log('position',position);
+	//console.log('my',my);
+	//console.log('at',at);
 }
 
 ActivityDiagramClass.setFeedbackMenu = function(mode){
