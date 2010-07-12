@@ -70,11 +70,7 @@
 		
 		try{
 			
-			// ActivityDiagramClass.drawActivity("ActivityTempId", {
-				// left: 150,
-				// top: 100
-			// },
-			// 'ActivityTemp');
+			
 			
 			// ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
 			// console.log('ModeActivityMenu', ModeActivityMenu);
@@ -166,39 +162,43 @@
 		
 		EventMgr.bind('activityAdded', function(event, response){
 			console.log('adding act response:', response);
-			
-			var activity = ActivityDiagramClass.feedActivity({
-				"data": response.label,
-				"attributes": {"id": response.uri}
-			});
-			
-			console.log('activity', activity);
-			
-			//draw activity with the default positionning:
-			ActivityDiagramClass.drawActivity(activity.id);
-			ActivityDiagramClass.setActivityMenuHandler(activity.id);
-			
-			//draw arrow if need be (i.e. in case of adding an activity with a connector)
-			if(response.previousConnectorUri && response.port){
-				//should be a connector:
-				var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousConnectorUri);
-				var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
-				var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
-				
-				var activityId = ActivityDiagramClass.getActivityId('container', activity.id);
-				ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+activityId));
-				
-				//create and draw arrow:
-				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+connectorTopId), 'top', new Array(), false);
-				ArrowClass.drawArrow(arrowId, {
-					container: ActivityDiagramClass.canvas,
-					arrowWidth: 2
+			try{
+				var activity = ActivityDiagramClass.feedActivity({
+					"data": response.label,
+					"attributes": {"id": response.uri}
 				});
 				
-				//save diagram:
-				ActivityDiagramClass.saveDiagram();
+				console.log('activity', activity);
+				
+				//draw activity with the default positionning:
+				ActivityDiagramClass.drawActivity(activity.id);
+				ActivityDiagramClass.setActivityMenuHandler(activity.id);
+				
+				//draw arrow if need be (i.e. in case of adding an activity with a connector)
+				if(response.previousConnectorUri && response.port>=0){
+					//should be a connector:
+					var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousConnectorUri);
+					var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
+					var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
+					
+					var activityId = ActivityDiagramClass.getActivityId('container', activity.id);
+					ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+activityId));
+					// ActivityDiagramClass.setActivityMenuHandler(activityId);
+					
+					//create and draw arrow:
+					var activityTopId = ActivityDiagramClass.getActivityId('activity', activity.id, 'top');
+					ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+activityTopId), 'top', new Array(), false);
+					ArrowClass.drawArrow(arrowId, {
+						container: ActivityDiagramClass.canvas,
+						arrowWidth: 2
+					});
+					
+					//save diagram:
+					ActivityDiagramClass.saveDiagram();
+				}
+			}catch(ex){
+				console.log('activityAdded exception:', ex);
 			}
-			
 		});
 		
 		EventMgr.bind('connectorAdded', function(event, response){
@@ -220,7 +220,7 @@
 						"type": response.type
 					},
 					null,
-					originEltId,
+					previousObjectId,
 					null
 				);
 				
@@ -252,6 +252,8 @@
 		});
 		
 		EventMgr.bind('connectorSaved', function(event, response){
+			console.log('connectorSaved triggered');
+			
 			if(response.newActivities && response.previousConnectorUri){
 				if(response.newActivities.length > 0){
 					var activityAddedResponse = response.newActivities[0];//currently, the first one is enough
@@ -268,7 +270,7 @@
 					EventMgr.trigger('connectorAdded', connectorAddedResponse);
 				}
 			}
-			console.log('connectorSaved triggered');
+			
 		});
 		
 		

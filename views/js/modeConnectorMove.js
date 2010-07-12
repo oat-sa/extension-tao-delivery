@@ -1,4 +1,4 @@
-alert('ModeConnectorMove loaded');
+// alert('ModeConnectorMove loaded');
 
 ModeConnectorMove = [];
 ModeConnectorMove.tempId = '';

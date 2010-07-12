@@ -218,13 +218,17 @@ ActivityDiagramClass.loadDiagram = function(){
 		success: function(processData){
 			// console.log(response);
 			try{
+				// $(ActivityDiagramClass.canvas).scrollTop(0);
+				// $(ActivityDiagramClass.canvas).scrollLeft(0);
+				// ActivityDiagramClass.scrollLeft = 0;
+				// ActivityDiagramClass.scrollTop = 0;
+				
 				ActivityDiagramClass.activities = [];
 				ActivityDiagramClass.connectors = [];
 				ActivityDiagramClass.feedDiagram(processData);
 				
 				$(ActivityDiagramClass.canvas).empty();
-				$(ActivityDiagramClass.canvas).scrollTop(0);
-				$(ActivityDiagramClass.canvas).scrollLeft(0);
+				
 				ActivityDiagramClass.drawDiagram();
 	
 				//initiate the mode to initial:
@@ -264,6 +268,23 @@ ActivityDiagramClass.getConnector = function(connectorId){
 	return connector;
 }
 
+
+ActivityDiagramClass.isConnector = function(connectorId){
+	var isConnector = false;
+	if(ActivityDiagramClass.connectors[connectorId]){
+		isConnector = true;
+	}
+	return isConnector;
+}
+
+ActivityDiagramClass.isActivity = function(activityId){
+	var isActivity = false;
+	if(ActivityDiagramClass.activities[activityId]){
+		isActivity = true;
+	}
+	return isActivity;
+}
+
 ActivityDiagramClass.saveConnector = function(connectorId){
 	
 	var connector = ActivityDiagramClass.getConnector(connectorId);
@@ -274,22 +295,61 @@ ActivityDiagramClass.saveConnector = function(connectorId){
 	var postData = '';
 	switch(connectorDescription.typeUri){
 		case INSTANCE_TYPEOFCONNECTORS_SEQUENCE:{
-			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SEQUENCE;
-			var nextActivityUri = '';
+			
 			if(connector.port[0]){
 				if(connector.port[0].targetId){
-					if(connector.port[0].targetId == 'newActivity' || connector.port[0].targetId == 'newConnector'){
-						nextActivityUri = connector.port[0].targetId;
-					}else{
-						nextActivityUri = ActivityDiagramClass.getActivityUri(connector.port[0].targetId);
+					var targetId = connector.port[0].targetId;
+					if(ActivityDiagramClass.isActivity(targetId)){
+						postData += '&next_activityOrConnector=activity';
+						postData += '&next_activityUri=' + ActivityDiagramClass.getActivityUri(targetId);
+					}else if(targetId == 'newActivity'){
+						postData += '&next_activityOrConnector=activity';
+						postData += '&next_activityUri=newActivity';
+					}else if(ActivityDiagramClass.isConnector(targetId)){
+						postData += '&next_activityOrConnector=connector';
+						postData += '&next_connectorUri=' + ActivityDiagramClass.getActivityUri(targetId);
+					}else if(targetId == 'newConnector'){
+						postData += '&next_activityOrConnector=connector';
+						postData += '&next_connectorUri=newConnector';
 					}
-				}else{
-					//send deleting information to server:
-					nextActivityUri = 'delete';
 				}
 			}
-			postData += '&next_activityUri=' + nextActivityUri;
 			
+			//default: delete the link to the next activity:
+			if(postData==''){
+				postData += '&next_activityOrConnector=delete';
+			}
+			
+			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SEQUENCE;
+			break;
+		}
+		case INSTANCE_TYPEOFCONNECTORS_SPLIT:{
+			
+			if(connector.port[0]){
+				if(connector.port[0].targetId){
+					var targetId = connector.port[0].targetId;
+					if(ActivityDiagramClass.isActivity(targetId)){
+						postData += '&next_activityOrConnector=activity';
+						postData += '&next_activityUri=' + ActivityDiagramClass.getActivityUri(targetId);
+					}else if(targetId == 'newActivity'){
+						postData += '&next_activityOrConnector=activity';
+						postData += '&next_activityUri=newActivity';
+					}else if(ActivityDiagramClass.isConnector(targetId)){
+						postData += '&next_activityOrConnector=connector';
+						postData += '&next_connectorUri=' + ActivityDiagramClass.getActivityUri(targetId);
+					}else if(targetId == 'newConnector'){
+						postData += '&next_activityOrConnector=connector';
+						postData += '&next_connectorUri=newConnector';
+					}
+				}
+			}
+			
+			//default: delete the link to the next activity:
+			if(postData==''){
+				postData += '&next_activityOrConnector=delete';
+			}
+			
+			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SPLIT;
 			break;
 		}
 	}
@@ -417,7 +477,7 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 	ActivityDiagramClass.connectors[connectorId].type = connectorData.type;
 
 	ActivityDiagramClass.connectors[connectorId].activityRef = prevActivityId;//get the real activity reference instead
-	//ActivityDiagramClass.connectors[connectorId].prevActivity = prevActivityId;
+	// ActivityDiagramClass.connectors[connectorId].prevActivity = prevActivityId;
 	
 //do not draw connector here, feed them first until everything is fed:
 	
@@ -640,12 +700,21 @@ ActivityDiagramClass.positionNewActivity = function(originContainer, targetConta
 	// var endIndex = targetEltId.indexOf('_pos_');
 	var targetId = 'empty';
 	var newPosition = ActivityDiagramClass.getActualPosition(targetContainer);//{"left": targetContainer.position().left, "top":targetContainer.position().top};
-	if(targetEltId.substring(0,9)=='activity_'){
-		targetId = targetEltId.substring(9);
-		ActivityDiagramClass.activities[targetId].position = newPosition;
+	if(targetEltId.substring(0,10)=='container_'){//'activity_' 9
+		targetId = targetEltId.substring(10);
+		if(ActivityDiagramClass.activities[targetId]){
+			ActivityDiagramClass.activities[targetId].position = newPosition;
+		}else{
+			throw 'the target activity does not exist';
+		}
+		
 	}else if(targetEltId.substring(0,10)=='connector_'){
 		targetId = targetEltId.substring(10);
-		ActivityDiagramClass.connectors[targetId].position = newPosition;
+		if(ActivityDiagramClass.connectors[targetId]){
+			ActivityDiagramClass.connectors[targetId].position = newPosition;
+		}else{
+			throw 'the target connector does not exist';
+		}
 	}else{
 		throw 'wrong id format for the target element';
 	}
@@ -674,6 +743,11 @@ ActivityDiagramClass.drawDiagram = function(){
 		// return false;
 	// }
 	
+	// ActivityDiagramClass.drawActivity("ActivityTempId", {
+		// left: 1500,
+		// top: 1000
+	// },
+	// 'ActivityTemp');
 	
 	//draw all actvities:
 	for(activityId in ActivityDiagramClass.activities){
@@ -699,19 +773,24 @@ ActivityDiagramClass.drawDiagram = function(){
 		// return false;
 	// }
 	for(arrowId in ArrowClass.arrows){
-		targetId = ArrowClass.arrows[arrowId].target;
+		var targetId = ArrowClass.arrows[arrowId].target;
 		if(arrowId && targetId){
-			// console.log('the element do not exists =#', element);
-			ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
-			console.log('calculated arrows:');
-			console.dir(ArrowClass.arrows);
-			ArrowClass.drawArrow(arrowId, {
-				container: ActivityDiagramClass.canvas,
-				arrowWidth: 2
-			});
-			ActivityDiagramClass.setArrowMenuHandler(arrowId);
+			//check if target does exist:
+			if($('#'+targetId).length){
+				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId),$('#'+targetId));
+				// console.log('calculated arrows:');
+				// console.dir(ArrowClass.arrows);
+				ArrowClass.drawArrow(arrowId, {
+					container: ActivityDiagramClass.canvas,
+					arrowWidth: 2
+				});
+				ActivityDiagramClass.setArrowMenuHandler(arrowId);
+			}else{
+				//delete it:
+				delete ArrowClass.arrows[arrowId];
+			}	
 		}else{
-			console.log('arrow cant be drawn:', arrowId);
+			console.log('the followgin arrow cannot be drawn:', arrowId);
 		}
 	}
 	

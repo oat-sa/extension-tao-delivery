@@ -268,7 +268,8 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 					
 					//check if an arrow (=connection) exists:
 					if(ArrowClass.arrows[data.arrowId]){
-					
+						
+						//the target and origin element of that arrow must exist!
 						ModeController.setMode('ModeArrowEdit', {"arrowId": data.arrowId});
 						
 					}else{
@@ -292,22 +293,18 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								label: "New Activity",
 								icon: img_url + "process_activity.png",
 								action: function(id, data, e){
-									// ModeConnectedActivityAdd.on('activity', data.connectorId, data.port);
-									console.log('ModeConnectedActivityAdd.on("activity", '+data.connectorId+', '+data.port+')');
-									
+									// console.log('ModeConnectedActivityAdd.on("activity", '+data.connectorId+', '+data.port+')');
 									ActivityDiagramClass.editConnector(data.connectorId, data.port, 'newActivity');
 									ActivityDiagramClass.saveConnector(data.connectorId);
-									
-									
 								}
 							});
 							subActions.push({
 								label: "New Connector",
 								icon: img_url + "process_connector.png",
 								action: function(id, data){
-									// ModeConnectedActivityAdd.on('connector', data.connectorId, data.port);
-									console.log('ModeConnectedActivityAdd.on("connector", '+data.connectorId+', '+data.port+')');
+									// console.log('ModeConnectedActivityAdd.on("connector", '+data.connectorId+', '+data.port+')');
 									ActivityDiagramClass.editConnector(data.connectorId, data.port, 'newConnector');
+									ActivityDiagramClass.saveConnector(data.connectorId);
 								}
 							});
 						}
@@ -318,12 +315,12 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 							action: function(id, data, e){
 								// ModeArrowLink.on(data.connectorId, data.port);
 								
-								canvasPosition = $(ActivityDiagramClass.canvas).offset();
-								console.log('canvasPosition', canvasPosition);
-								console.log('e.pageX', e.pageX);
-								console.log('e.e.pageY', e.pageY);
+								var canvasPosition = $(ActivityDiagramClass.canvas).offset();
+								// console.log('canvasPosition', canvasPosition);
+								// console.log('e.pageX', e.pageX);
+								// console.log('e.e.pageY', e.pageY);
 								//real offset need to be calculated:
-								position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
+								var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
 								ModeArrowLink.on(data.connectorId, data.port, position);
 							}
 						});

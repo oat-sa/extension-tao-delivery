@@ -28,7 +28,7 @@ $(function(){
 	
 	if(initalSelectedValue != 'none' && selectElement.length){
 		selectElement.change(function(e){
-			if(confirm(__("Sure?"))){
+			if(confirm(__("Do you want to change the connector type? \n THe child connectors will be deleted."))){
 				
 				// $("#<?=get_data("formId")?> :INPUT :gt(3)").attr("disabled","disabled");
 				$("select[id=<?=tao_helpers_Uri::encode(PROPERTY_CONNECTORS_TYPE)?>]").removeAttr("disabled");
@@ -47,6 +47,8 @@ $(function(){
 							// initActivityTree();
 							refreshActivityTree();
 							ActivityTreeClass.selectTreeNode(selectedNode);
+							
+							ActivityDiagramClass.loadDiagram();
 						}else{
 							$("#connector-form").html("save failed:" + response);
 						}
