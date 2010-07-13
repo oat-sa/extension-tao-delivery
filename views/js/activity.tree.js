@@ -803,6 +803,7 @@ ActivityTreeClass.selectTreeNode = function(nodeId, treeId){
 				aJsTree = anActivityTree.getTree();
 				if(aJsTree){
 					if(aJsTree.select_branch($("li[id='"+nodeId+"']"))){
+						aJsTree.open_branch($("li[id='"+nodeId+"']"));
 						return true;
 					}
 				}
@@ -818,6 +819,7 @@ ActivityTreeClass.selectTreeNode = function(nodeId, treeId){
 				aJsTree = anActivityTree.getTree();
 				if(aJsTree){
 					if(aJsTree.select_branch($("li[id='"+nodeId+"']"))){
+						aJsTree.open_branch($("li[id='"+nodeId+"']"));
 						return true;
 					}
 				}

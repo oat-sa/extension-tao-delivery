@@ -58,9 +58,10 @@ ModeActivityMenu.createActivityMenu = function(activityId){
 		label: "Edit",
 		icon: img_url + "pencil.png",
 		action: function(actId){
-			console.log('edit',actId);
+			//select the tree node:
+			ActivityTreeClass.selectTreeNode(ActivityDiagramClass.getActivityUri(actId));
 		},
-		autoclose: false
+		autoclose: true
 	});
 	actions.push({
 		label: "Delete",
@@ -210,12 +211,10 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 	actions.push({
 		label: "Edit",
 		icon: img_url + "pencil.png",
-		action: function(actId){
-			console.log('edit',actId);
-			//click on the tree node:
-			
+		action: function(connectorId){
+			ActivityTreeClass.selectTreeNode(ActivityDiagramClass.getActivityUri(connectorId));
 		},
-		autoclose: false
+		autoclose: true
 	});
 	actions.push({
 		label: "Delete",
