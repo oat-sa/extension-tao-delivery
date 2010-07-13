@@ -31,7 +31,7 @@ ModeController.disable = function(mode){
 		console.log('modeObj to disable '+mode+': ',window[mode]);
 		return false;
 	}else{
-		modeObject = window[mode];
+		var modeObject = window[mode];
 		modeObject.cancel();
 		ActivityDiagramClass.unsetFeedbackMenu();
 		return true;

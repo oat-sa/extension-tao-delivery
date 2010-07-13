@@ -1,4 +1,4 @@
-// alert('ModeArrowLink loaded');
+alert('ModeArrowLink loaded');
 
 
 ModeArrowLink = new Object();
@@ -6,18 +6,26 @@ ModeArrowLink.targetObject = null;
 ModeArrowLink.targetElement = null;
 ModeArrowLink.arrowTipPosition = null;
 ModeArrowLink.arrowType = null;
+ModeArrowLink.connector = null;
 
-ModeArrowLink.on = function(connectorId, port, position){
+ModeArrowLink.on = function(options){
 	
-	console.log('ModeArrowLink on');
+	var connectorId = options.connectorId;
+	var port = options.port;
+	ModeArrowLink.connector = null;
+	if(!connectorId||!port){
+		throw 'no connector id or port found';
+	}
+	
+	ModeArrowLink.connector = {
+		"id": connectorId,
+		"port": port
+	};
+	
+	// var position = options.position;
 	var arrowOriginEltId = ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', port);
 	
 	ModeArrowLink.tempId = arrowOriginEltId;
-	
-	//insert information in the feedback 'div'
-	if(!ActivityDiagramClass.setFeedbackMenu('ModeArrowLink')){
-		return false;
-	}
 	
 	//reset temp arrow array:
 	ArrowClass.tempArrows = [];
@@ -26,7 +34,7 @@ ModeArrowLink.on = function(connectorId, port, position){
 	ArrowClass.removeArrow(arrowOriginEltId, false);
 	
 	//create a temporary arrow
-	var tempArrow = ModeArrowLink.createDraggableTempArrow(arrowOriginEltId, position);
+	var tempArrow = ModeArrowLink.createDraggableTempArrow(arrowOriginEltId, options.position);
 	
 	//set droppable points:
 	ModeArrowLink.activateAllDroppablePoints(connectorId);
@@ -80,15 +88,15 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	// }
 	
 	//initialize the arrow tip position:
-	if(!position.left){
-		left = 0;
-	}else{
-		left = position.left;
-	}
-	if(!position.top){
-		top = 0;
-	}else{
-		top = position.top;
+	var left = 0;
+	var top = 0;
+	if(position){
+		if(position.left){
+			left = position.left;
+		}
+		if(position.top){
+			top = position.top;
+		}
 	}
 	
 	//add the arrow tip element
@@ -134,6 +142,7 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	$('#'+elementTip.attr('id')).draggable({
 		snap: '.diagram_activity_border_point',
 		snapMode: 'inner',
+		snapTolerance: 30,
 		drag: function(event, ui){
 			
 			// var position = $(this).position();
@@ -263,22 +272,38 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 
 
 ModeArrowLink.save = function(){
-	console.log('ModeArrowLink.save:');
 	if(ModeArrowLink.tempId){
 		var connectorId = ModeArrowLink.tempId;
 		
 		// save the temporay arrow data into the actual arrows array:
 		if(ArrowClass.tempArrows[connectorId]){
 			if(!processUtil.isset(ModeArrowLink.targetObject)){
-				alert('no arrow dropped');
+				console.log('no arrow dropped');
 				return false;
 			}else{
 				ArrowClass.saveTemporaryArrowToReal(connectorId);
+				
+				//save the connection information in the client side model:
+				var connectorId = ModeArrowLink.connector.id;
+				// console.dir(ActivityDiagramClass.connectors[connectorId]);
+				ActivityDiagramClass.connectors[connectorId].port[ModeArrowLink.connector.port] = {
+					"targetId":ModeArrowLink.targetObject,
+					"multiplicity":1,
+					"label": 'newly added'
+				};
+				// console.dir(ActivityDiagramClass.connectors[connectorId]);
+				
+				//save the connector
+				ActivityDiagramClass.saveConnector(connectorId);
+				
+				//save the diagram, so the position of the linked arrow are saved
+				ActivityDiagramClass.saveDiagram();
 			}
 		}
 	}
-	ActivityDiagramClass.unsetFeedbackMenu();
+	//return to initial mode:
 	ModeArrowLink.tempId = 'empty';
+	ModeController.setMode('ModeInitial');
 	return true;
 	
 	//unquote section below when the communication with server is established:
@@ -314,7 +339,7 @@ ModeArrowLink.cancel = function(){
 		}
 	}
 	
-	ActivityDiagramClass.unsetFeedbackMenu();
+	
 	ModeArrowLink.tempId = 'empty';
 	return true;
 }

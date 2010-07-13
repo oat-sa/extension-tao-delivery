@@ -271,11 +271,13 @@
 		EventMgr.bind('connectorSaved', function(event, response){
 			console.log('connectorSaved triggered');
 			
+			var added = false
 			if(response.newActivities && response.previousConnectorUri){
 				if(response.newActivities.length > 0){
 					var activityAddedResponse = response.newActivities[0];//currently, the first one is enough
 					activityAddedResponse.previousConnectorUri = response.previousConnectorUri;
 					EventMgr.trigger('activityAdded', activityAddedResponse);
+					added = true;
 				}
 			}
 			
@@ -285,9 +287,14 @@
 					connectorAddedResponse.previousActivityUri = response.previousConnectorUri;
 					connectorAddedResponse.previousIsActivity = false;//the previous activity is obviously a connector here
 					EventMgr.trigger('connectorAdded', connectorAddedResponse);
+					added = true;
 				}
 			}
 			
+			if(!added){
+				//reload the tree:
+				ActivityDiagramClass.refreshRelatedTree();
+			}
 		});
 		
 		

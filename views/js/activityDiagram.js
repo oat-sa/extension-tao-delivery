@@ -362,6 +362,75 @@ ActivityDiagramClass.saveConnector = function(connectorId){
 			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SPLIT;
 			break;
 		}
+		case INSTANCE_TYPEOFCONNECTORS_PARALLEL:{
+			
+			console.log('parallel connecor not implemented yet');
+			/*
+			for(var i=0; i<connectorDescription.portNumber; i++){
+				var prefix = connectorDescription.portNames[i].toLowerCase();
+				var postDataTemp = '';
+				
+				if(connector.port[i]){
+					if(connector.port[i].targetId){
+						var targetId = connector.port[i].targetId;
+						// console.log()
+						if(ActivityDiagramClass.isActivity(targetId)){
+							postDataTemp += '&'+prefix+'_activityOrConnector=activity';
+							postDataTemp += '&'+prefix+'_activityUri=' + ActivityDiagramClass.getActivityUri(targetId);
+						}else if(targetId == 'newActivity'){
+							postDataTemp += '&'+prefix+'_activityOrConnector=activity';
+							postDataTemp += '&'+prefix+'_activityUri=newActivity';
+						}else if(ActivityDiagramClass.isConnector(targetId)){
+							postDataTemp += '&'+prefix+'_activityOrConnector=connector';
+							postDataTemp += '&'+prefix+'_connectorUri=' + ActivityDiagramClass.getActivityUri(targetId);
+						}else if(targetId == 'newConnector'){
+							postDataTemp += '&'+prefix+'_activityOrConnector=connector';
+							postDataTemp += '&'+prefix+'_connectorUri=newConnector';
+						}
+					}
+				}
+				
+				//default: delete the link to the next activity:
+				if(postDataTemp==''){
+					postData += '&'+prefix+'_activityOrConnector=delete';
+				}else{
+					postData += postDataTemp;
+				}
+			}
+			
+			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_SPLIT;
+			*/
+			break;
+		}
+		case INSTANCE_TYPEOFCONNECTORS_JOIN:{
+			
+			for(var i=0; i<connectorDescription.portNumber; i++){
+				var prefix = connectorDescription.portNames[i].toLowerCase();
+				var postDataTemp = '';
+				
+				if(connector.port[i]){
+					if(connector.port[i].targetId){
+						var targetId = connector.port[i].targetId;
+						// console.log()
+						if(ActivityDiagramClass.isActivity(targetId)){
+							postDataTemp += '&join_activityUri=' + ActivityDiagramClass.getActivityUri(targetId);
+						}else if(targetId == 'newActivity'){
+							postDataTemp += '&join_activityUri=newActivity';
+						}
+					}
+				}
+				
+				//default: delete the link to the next activity:
+				if(postDataTemp==''){
+					postData += '&join_activityUri=delete';
+				}else{
+					postData += postDataTemp;
+				}
+			}
+			
+			postData += '&'+PROPERTY_CONNECTORS_TYPE+'=' + INSTANCE_TYPEOFCONNECTORS_JOIN;
+			break;
+		}
 	}
 	
 	// console.log('postData', postData);
@@ -1276,9 +1345,9 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connector){
 					portNumber = connector.port.length + 1;
 					
 					for(var i=0; i<portNumber; i++){
-						portNames[i] = 'Parallel_'+i;
+						portNames[i] = 'Parallel_activityUri_'+i;
 					}
-					// portNames[connector.port.length] = 'new';
+					
 					className = 'connector_parallel';
 					typeUri = INSTANCE_TYPEOFCONNECTORS_PARALLEL;
 					break;
@@ -1286,6 +1355,7 @@ ActivityDiagramClass.getConnectorTypeDescription = function(connector){
 				case 'join':{
 					portNumber = 1;
 					className = 'connector_join';
+					portNames[0] = 'Next';
 					typeUri = INSTANCE_TYPEOFCONNECTORS_JOIN;
 					break;
 				}
@@ -1468,7 +1538,7 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			});
 			$("#feedback_menu_cancel").click(function(event){
 				event.preventDefault();
-				ModeArrowLink.cancel();
+				ModeController.setMode('ModeInitial');
 			});
 			break;
 		}

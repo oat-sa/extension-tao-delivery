@@ -325,7 +325,8 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								// console.log('e.e.pageY', e.pageY);
 								//real offset need to be calculated:
 								var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
-								ModeArrowLink.on(data.connectorId, data.port, position);
+								// ModeArrowLink.on(data.connectorId, data.port, position);
+								ModeController.setMode('ModeArrowLink', {"connectorId": connectorId, "port":data.port, "position":position});
 							}
 						});
 						
@@ -511,5 +512,4 @@ ModeActivityMenu.removeAllMenu = function(){
 ModeActivityMenu.cancel = function(){
 	//delete old menu
 	ModeActivityMenu.removeAllMenu();
-	// ActivityDiagramClass.unsetFeedbackMenu();//no longer required
 }

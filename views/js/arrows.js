@@ -1,4 +1,4 @@
-alert('arrowClass loaded');
+// alert('arrowClass loaded');
 
 //TODO: replace attribute 'name' by 'class'
 
@@ -505,7 +505,7 @@ ArrowClass.getDraggableFlexPoints = function(tempArrowName){
 				drag: function(event, ui){
 										
 				},
-				containment: '#process_diagram_container',
+				containment: ActivityDiagramClass.canvas,
 				stop: function(event, ui){
 					
 					var offset = 0;

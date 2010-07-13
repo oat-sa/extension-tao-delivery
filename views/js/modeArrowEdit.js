@@ -1,4 +1,4 @@
-// alert('ModeArrowEdit loaded');
+alert('ModeArrowEdit loaded');
 
 ModeArrowEdit = new Object();
 ModeArrowEdit.tempId = '';
@@ -41,6 +41,27 @@ ModeArrowEdit.on = function(options){
 	return true;
 }
 
+ModeArrowEdit.deleteArrow = function(arrowId){
+	//connector only:
+	if(arrowId.substr(0,10) == 'connector_'){//length=10
+		var index = arrowId.lastIndexOf('_pos_bottom_port_');//length=17
+		var indexEnd = arrowId.lastIndexOf('_tip');
+		var connectorId = arrowId.substring(10, index);
+		var portId = arrowId.substring(index+17, indexEnd);
+		//edit connector:
+		ActivityDiagramClass.editConnector(connectorId, portId, 'delete', 0);//leave the default value of "value" to trigger the deletion
+		ActivityDiagramClass.saveConnector(connectorId);
+		
+		//delete arrow:
+		ArrowClass.removeArrow(arrowId);
+		
+		//return to default mode
+		ModeController.setMode('ModeInitial');
+	}
+	
+}
+
+
 ModeArrowEdit.createArrowMenu = function(arrowId){
 	//create top menu for the activity: first, last, edit, delete
 	var containerId = ActivityDiagramClass.getActivityId('activity', activityId);
@@ -50,8 +71,9 @@ ModeArrowEdit.createArrowMenu = function(arrowId){
 		icon: img_url + "delete.png",
 		action: function(arrowId){
 			console.log('delete => ',arrowId);
+			ModeArrowEdit.deleteArrow(arrowId);
 		},
-		autoclose: false
+		autoclose: true
 	});
 	
 	// console.log('actions',actions);
@@ -81,6 +103,7 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 		if(targetElt.length){
 			var targetOffset = targetElt.offset();
 			var canvasOffset = $(ActivityDiagramClass.canvas).offset();
+			var position = ActivityDiagramClass.getActualPosition(targetElt);
 			
 			//hide actual arrow:
 			ArrowClass.removeArrow(originId, false);
@@ -89,8 +112,8 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 			var created = ModeArrowLink.createDraggableTempArrow(
 				originId, 
 				{
-					left: targetOffset.left-canvasOffset.left, 
-					top:targetOffset.top-canvasOffset.top
+					left: targetOffset.left-canvasOffset.left + ActivityDiagramClass.scrollLeft, 
+					top: targetOffset.top-canvasOffset.top + ActivityDiagramClass.scrollTop
 				},
 				{
 					revert: 'invalid',
@@ -110,7 +133,6 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 
 ModeArrowEdit.save = function(){
 	
-	
 	if(ModeArrowEdit.tempId){
 		var connectorId = ModeArrowEdit.tempId;
 		// save the temporay arrow data into the actual arrows array:
@@ -125,8 +147,6 @@ ModeArrowEdit.save = function(){
 	ModeArrowEdit.tempId = 'emptied';
 	ActivityDiagramClass.saveDiagram();
 	return true;
-	
-	
 }
 
 ModeArrowEdit.cancel = function(){
