@@ -2,7 +2,7 @@
 <!DOCTYPE extension SYSTEM "../../tao/doc/structure.dtd">
 <extension name="Deliveries" url="/taoDelivery/Delivery/index" level="4">
 	<sections>
-		<section id="manage_deliveries" name="Manage Deliveries" url="/taoDelivery/Delivery/index">
+		<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 			<trees>
 				<tree name="Deliveries library" 
 					dataUrl="/taoDelivery/Delivery/getDeliveries" 
@@ -31,7 +31,7 @@
 		
 		<!--<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />-->
 		
-		<section id="manage_campaigns" name="Manage Campaigns" url="/taoDelivery/Campaign/index">
+		<section id="manage_campaigns" name="Manage campaigns" url="/taoDelivery/Campaign/index">
 			<trees>
 				<tree name="Campaigns library" 
 					dataUrl="/taoDelivery/Campaign/getCampaigns" 
@@ -57,7 +57,7 @@
 			</actions>
 		</section>
 		
-		<section id="manage_resultservers" name="Manage Result Servers" url="/taoDelivery/ResultServer/index">
+		<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
 			<trees>
 				<tree name="Result Servers library" 
 					dataUrl="/taoDelivery/ResultServer/getResultServers" 
