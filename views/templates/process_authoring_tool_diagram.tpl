@@ -208,11 +208,24 @@
 				if(response.previousIsActivity){
 					var originEltId = ActivityDiagramClass.getActivityId('activity', previousObjectId);
 					var arrowId = ActivityDiagramClass.getActivityId('activity', previousObjectId, 'bottom');
+					
+					var activityRefId = previousObjectId;
 				}else{
 					//should be a connector:
 					var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
 					var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
+					if(ActivityDiagramClass.connectors[previousObjectId]){
+						var activityRefId = ActivityDiagramClass.connectors[previousObjectId].activityRef;
+						
+						//update the local datastore on the previous activity:
+						ActivityDiagramClass.connectors[previousObjectId].port[response.port].targetId = ActivityDiagramClass.getIdFromUri(response.uri);
+						//update multiplicity here?
+					}else{
+						throw 'the connector does not exist in the connectors array';
+					}
+					
 				}
+				
 				var connector = ActivityDiagramClass.feedConnector(
 					{
 						"data": response.label,
@@ -221,8 +234,11 @@
 					},
 					null,
 					previousObjectId,
-					null
+					null,
+					activityRefId
 				);
+				
+				
 				
 				//draw connector and reposition it:
 				var connectorId = ActivityDiagramClass.getActivityId('connector', connector.id);
@@ -238,6 +254,7 @@
 					container: ActivityDiagramClass.canvas,
 					arrowWidth: 2
 				});
+				
 				
 				//save diagram:
 				ActivityDiagramClass.saveDiagram();
@@ -265,7 +282,7 @@
 			if(response.newConnectors && response.previousConnectorUri){
 				if(response.newConnectors.length > 0){
 					var connectorAddedResponse = response.newConnectors[0];//currently, the first one is enough
-					activityAddedResponse.previousActivityUri = response.previousConnectorUri;
+					connectorAddedResponse.previousActivityUri = response.previousConnectorUri;
 					connectorAddedResponse.previousIsActivity = false;//the previous activity is obviously a connector here
 					EventMgr.trigger('connectorAdded', connectorAddedResponse);
 				}

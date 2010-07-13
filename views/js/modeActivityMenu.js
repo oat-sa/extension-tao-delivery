@@ -297,6 +297,11 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 									ActivityDiagramClass.saveConnector(data.connectorId);
 								}
 							});
+							
+						}
+						
+						if(connectorTypeDescription.className == 'connector_conditional'){
+							//only conditionnal connector can have a connector of connector : then else if
 							subActions.push({
 								label: "New Connector",
 								icon: img_url + "process_connector.png",

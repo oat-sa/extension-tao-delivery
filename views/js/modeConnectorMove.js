@@ -91,7 +91,10 @@ ModeConnectorMove.save = function(){
 		ActivityDiagramClass.setConnectorMenuHandler(connectorId);
 		
 		//send updated position data to the server and get  saving confirmation
+		
 		ActivityDiagramClass.connectors[connectorId].position = ActivityDiagramClass.getActualPosition($('#'+containerId));
+		
+		
 		ActivityDiagramClass.saveDiagram();
 	}
 	

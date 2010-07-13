@@ -642,7 +642,7 @@ ActivityTreeClass.setCurrentNode = function(treeId, nodeId){
  */
 ActivityTreeClass.addActivity = function(response){
 	var TREE_OBJ = response.TREE_OBJ;
-	var NODE = response.NODE;
+	var NODE = ActivityTreeClass.getTreeNode('node-process-root');//always add to the root, process node
 	
 	TREE_OBJ.select_branch(TREE_OBJ.create({
 		data: response.label,
@@ -651,6 +651,8 @@ ActivityTreeClass.addActivity = function(response){
 			'class': response.class
 		}
 	}, TREE_OBJ.get_node(NODE[0])));
+	
+	// console.log('TREE_OBJ', TREE_OBJ);
 	
 	//create property node:
 	TREE_OBJ.create({
