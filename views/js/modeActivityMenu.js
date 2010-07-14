@@ -324,7 +324,10 @@ ModeActivityMenu.createConnectorMenu = function(connectorId){
 								// console.log('e.pageX', e.pageX);
 								// console.log('e.e.pageY', e.pageY);
 								//real offset need to be calculated:
-								var position = {left:e.pageX-canvasPosition.left, top:e.pageY-canvasPosition.top};
+								var position = {
+									left:e.pageX - canvasPosition.left + ActivityDiagramClass.scrollLeft,
+									top:e.pageY - canvasPosition.top + ActivityDiagramClass.scrollTop
+								};
 								// ModeArrowLink.on(data.connectorId, data.port, position);
 								ModeController.setMode('ModeArrowLink', {"connectorId": connectorId, "port":data.port, "position":position});
 							}

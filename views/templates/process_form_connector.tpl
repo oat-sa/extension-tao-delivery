@@ -150,9 +150,49 @@ $(function(){
 		});
 		
 	});
+	
+	switchNotify();
+	
 });
 
+function switchNotify(){
 
+	if($("input.notify-element")){
+
+		var notifyUserBlock = $("input.notify-user").parent('div');
+		var notifyGroupBlock = $("input.notify-group").parent('div');
+
+		notifyUserBlock.css({'display': 'none'});
+		notifyGroupBlock.css({'display': 'none'});
+
+		function checkNotifiedElement(elt){
+			value = $(elt).val();
+			if(value == "<?=get_data('notifyUserUri')?>"){
+				if(elt.checked){
+					notifyUserBlock.css({'display': 'block'});
+				}
+				else{
+					notifyUserBlock.css({'display': 'none'});
+				}
+			}
+			if(value == "<?=get_data('notifyRoleUri')?>"){
+				if(elt.checked){
+					notifyGroupBlock.css({'display': 'block'});
+				}
+				else{
+					notifyGroupBlock.css({'display': 'none'});
+				}
+			}
+		}
+		$.each($("input.notify-element"), function(i, elt){
+			checkNotifiedElement(elt);
+		});
+		$("input.notify-element").click(function(){
+			checkNotifiedElement(this);
+		});
+	}
+	
+}
 
 
 function initActivitySwitch(clazz){

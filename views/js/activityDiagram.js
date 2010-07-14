@@ -220,18 +220,22 @@ ActivityDiagramClass.loadDiagram = function(){
 			try{
 				// $(ActivityDiagramClass.canvas).scrollTop(0);
 				// $(ActivityDiagramClass.canvas).scrollLeft(0);
-				// ActivityDiagramClass.scrollLeft = 0;
-				// ActivityDiagramClass.scrollTop = 0;
-				$(ActivityDiagramClass.canvas).css('overflow', 'hidden');
+				$(ActivityDiagramClass.canvas).empty();
+				var oldScrollLeft = ActivityDiagramClass.scrollLeft;
+				var oldScrollTop = ActivityDiagramClass.scrollTop;
+				ActivityDiagramClass.scrollLeft = $(ActivityDiagramClass.canvas).scrollLeft();//0
+				ActivityDiagramClass.scrollTop = $(ActivityDiagramClass.canvas).scrollTop();
 				
 				ActivityDiagramClass.activities = [];
 				ActivityDiagramClass.connectors = [];
 				ActivityDiagramClass.feedDiagram(processData);
 				
-				$(ActivityDiagramClass.canvas).empty();
-				
 				ActivityDiagramClass.drawDiagram();
-				$(ActivityDiagramClass.canvas).css('overflow', 'scroll');
+				
+				//restore:
+				$(ActivityDiagramClass.canvas).scrollLeft(oldScrollLeft);
+				$(ActivityDiagramClass.canvas).scrollTop(oldScrollTop);
+				
 				//initiate the mode to initial:
 				ModeController.setMode('ModeInitial');
 			}
@@ -1451,7 +1455,8 @@ ActivityDiagramClass.setBorderPoint = function(targetId, type, position, offset,
 		my: my,
 		at: at,
 		of: '#'+containerId,
-		offset: offsetSet
+		offset: offsetSet,
+		collision: "none"
 	});
 	
 	//console.log(type,targetId);

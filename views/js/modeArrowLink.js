@@ -117,6 +117,7 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 	var arrowType = 'top';
 	var flex = null;
 	var actualTarget = null;
+	var targetObject = null;
 	if(options){
 		if(options.arrowType){
 			arrowType = options.arrowType;
@@ -127,10 +128,15 @@ ModeArrowLink.createDraggableTempArrow = function(originId, position, options){
 		if(options.actualTarget){
 			actualTarget = options.actualTarget;
 		}
+		if(options.targetObject){
+			targetObject = options.targetObject;
+		}
 	}
 	ArrowClass.tempArrows[originId] = ArrowClass.calculateArrow($('#'+originId),$('#'+tipId), arrowType, flex, true);
 	
 	ArrowClass.tempArrows[originId].actualTarget = actualTarget;
+	ArrowClass.tempArrows[originId].targetObject = targetObject;
+	
 	ArrowClass.drawArrow(originId, {
 		container: ActivityDiagramClass.canvas,
 		arrowWidth: 2,
@@ -259,10 +265,11 @@ ModeArrowLink.activateDroppablePoint = function(DOMElementId){
 			var startIndex = id.indexOf('_pos_');
 			var draggableId = ui.draggable.attr('id');
 			var arrowName = draggableId.substring(0,draggableId.indexOf('_tip'));
-			
+			//console.dir(ArrowClass.tempArrows[arrowName]);
 			ArrowClass.tempArrows[arrowName].target = id;
 			ArrowClass.tempArrows[arrowName].targetObject = ArrowClass.getTargetFromId(id);
 			ArrowClass.tempArrows[arrowName].actualTarget = id;
+			//console.dir(ArrowClass.tempArrows[arrowName]);
 			ModeArrowLink.targetObject = ArrowClass.getTargetFromId(id);
 		}
 	});

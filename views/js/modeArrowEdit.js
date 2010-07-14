@@ -37,7 +37,7 @@ ModeArrowEdit.on = function(options){
 	}
 	
 	ModeArrowEdit.createDraggableTempArrow(arrowId);
-	
+	//console.dir(ArrowClass.tempArrows);
 	return true;
 }
 
@@ -118,8 +118,9 @@ ModeArrowEdit.createDraggableTempArrow = function(originId){
 				{
 					revert: 'invalid',
 					arrowType: arrow.type,
-					flex:arrow.flex,
-					actualTarget: arrow.target
+					flex: arrow.flex,
+					actualTarget: arrow.target,
+					targetObject: arrow.targetObject
 				}
 			);
 		}else{
