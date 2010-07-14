@@ -1091,12 +1091,13 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		//the activity is defined in the global activity array, so must either be last or have a connector
 		
 		var hasConnector = false;
-		if(ActivityDiagramClass.activities[activityId].isLast == false){
-			
+		if(ActivityDiagramClass.activities[activityId].isLast){
+			// elementActivity.addClass('diagram_activity_final');
 		}
 		
 		if(hasConnector == false){
 			//TODO: replace by "last actiivty" class instead
+			// elementActivity.addClass('diagram_activity_final');
 		}
 	
 
@@ -1104,29 +1105,7 @@ ActivityDiagramClass.drawActivity  = function (activityId, position, activityLab
 		if(ActivityDiagramClass.activities[activityId].isInitial == true){
 			//TODO: replace by first activity class instead:
 			
-			//create the link element:
-			var elementLinkFirstId = ActivityDiagramClass.getActivityId('free', activityId, 'link_first');
-			var elementLinkFirst = $('<div id="'+elementLinkFirstId+'"></div>');//put connector id here instead
-			elementLinkFirst.addClass('diagram_link');
-			elementLinkFirst.addClass(elementActivityId);
-			elementLinkFirst.appendTo('#'+containerId);
-			$('#'+elementLinkFirst.attr('id')).position({
-				my: "center bottom",
-				at: "center top",
-				of: '#'+elementActivityId
-			});
-		
-			//consider it to be the last activity: build the end element
-			var elementFirstId = ActivityDiagramClass.getActivityId('free', activityId, '_first');
-			var elementFirst = $('<div id="'+elementFirstId+'"></div>');//put connector id here instead
-			elementFirst.addClass('diagram_activity_first');
-			elementFirst.addClass(elementActivityId);
-			elementFirst.appendTo('#'+containerId);//containerId
-			$('#'+elementFirst.attr('id')).position({
-				my: "center bottom",
-				at: "center top",
-				of: '#'+elementLinkFirstId
-			});
+			elementActivity.addClass('diagram_activity_initial');
 		}
 	
 	}
@@ -1491,96 +1470,57 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 
 	switch(mode){
 		case 'ModeInitial':{
-			$("#feedback_message").text('Initial Mode');
+			$("#feedback_message").text('Process Diagram');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeInitial.save();
 			});
-			break;
-		}
-		case 'ModeActivityAdd':{
-			$("#feedback_message").text('activity adding mode');
-			$("#feedback_menu_save").click(function(event){
-				event.preventDefault();
-				ModeActivityAdd.save();
-			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeActivityAdd.cancel();
-			});
+			$("#feedback_menu_cancel").parent().remove();
 			break;
 		}
 		case 'ModeActivityLabel':{
-			$("#feedback_message").text('Edit the activity label then press enter');
-			break;
-		}
-		case 'ModeLinkedActivityAdd':{
-			$("#feedback_message").text('linked activity adding mode');
+			$("#feedback_message").text('Edit the activity label then press "enter" or "save".');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
-				ModeLinkedActivityAdd.save();
-			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeLinkedActivityAdd.cancel();
+				ModeActivityLabel.save();
 			});
 			break;
 		}
+		
 		case 'ModeActivityMenu':{
-			$("#feedback_message").text('activity memu: select an action');
+			$("#feedback_message").text('Activity menu: select an action from the context menu.');
 			$("#feedback_menu_save").parent().remove();
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeActivityMenu.cancel();
-			});
 			break;
 		}
 		case 'ModeArrowLink':{
-			$("#feedback_message").text('Connect to an activity or a connector');
+			$("#feedback_message").text('Drag the arrow tip and connect it to an activity or a connector.');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeArrowLink.save();
 			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeController.setMode('ModeInitial');
-			});
 			break;
 		}
 		case 'ModeActivityMove':{
-			$("#feedback_message").text('Drag the selected activity around');
+			$("#feedback_message").text('Drag and drop the selected activity.');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeActivityMove.save();
-				
-			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeController.setMode('ModeInitial');
 			});
 			break;
 		}
 		case 'ModeConnectorMove':{
-			$("#feedback_message").text('Drag the selected connector around');
+			$("#feedback_message").text('Drag and drop the selected connector.');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeConnectorMove.save();
 			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeController.setMode('ModeInitial');
-			});
 			break;
 		}
 		case 'ModeArrowEdit':{
-			$("#feedback_message").text('Move flex poins or arrow tip');
+			$("#feedback_message").text('Move flex points or arrow tip.');
 			$("#feedback_menu_save").click(function(event){
 				event.preventDefault();
 				ModeArrowEdit.save();
-			});
-			$("#feedback_menu_cancel").click(function(event){
-				event.preventDefault();
-				ModeArrowEdit.cancel();
 			});
 			break;
 		}
@@ -1588,7 +1528,16 @@ ActivityDiagramClass.setFeedbackMenu = function(mode){
 			throw 'unknown mode: '+mode;
 			eltContainer.empty();
 			return false;
-		}ModeActivityMove
+		}
+		
+		//the same cancel button for every mode:
+		if($("#feedback_menu_cancel").length){
+			$("#feedback_menu_cancel").click(function(event){
+				event.preventDefault();
+				ModeController.setMode('ModeInitial');
+			});
+		}
+		
 	}
 	
 	return true;

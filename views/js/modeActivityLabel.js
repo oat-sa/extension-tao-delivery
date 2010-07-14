@@ -3,7 +3,7 @@
 ModeActivityLabel = new Object();
 ModeActivityLabel.tempId = '';
 ModeActivityLabel.on = function(options){
-	console.log('ModeActivityLabel.on');
+	ModeActivityLabel.tempId = '';
 	if(options.activityId){
 		var activityId = options.activityId;
 		var elementTextbox = ModeActivityLabel.createLabelTextbox(activityId);
@@ -17,7 +17,7 @@ ModeActivityLabel.on = function(options){
 }
 
 ModeActivityLabel.cancel = function(){
-	var activityId = ModeActivityLabel.tempId
+	var activityId = ModeActivityLabel.tempId;
 	var returnValue = '';
 	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('#'+targetId);//id of the activity
@@ -32,10 +32,13 @@ ModeActivityLabel.cancel = function(){
 		returnValue = true;
 	}
 	
+	ModeActivityLabel.tempId = '';
 	return returnValue;
 }
 
 ModeActivityLabel.createLabelTextbox = function(activityId){
+
+	
 	var returnValue = null;
 	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('#'+targetId);//id of the activity
@@ -77,6 +80,14 @@ ModeActivityLabel.createLabelTextbox = function(activityId){
 
 ModeActivityLabel.save = function(activityId){
 	var returnValue = '';
+	
+	if(!activityId){
+		if(ModeActivityLabel.tempId){
+			activityId = ModeActivityLabel.tempId;
+		}else{
+			throw 'no actiivty id set in the activity label editing mode';
+		}
+	}
 	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('#'+targetId);//id of the activity
 	
@@ -115,12 +126,24 @@ ModeActivityLabel.save = function(activityId){
 		}
 	}
 	
+	ModeActivityLabel.tempId = '';
+	ModeController.setMode('ModeInitial');
+	
 	return returnValue;
 }
 
 
 ModeActivityLabel.destroyLabelTextbox = function(activityId){
 	var returnValue = '';
+	
+	if(!activityId){
+		if(ModeActivityLabel.tempId){
+			activityId = ModeActivityLabel.tempId;
+		}else{
+			throw 'no actiivty id set in the activity label editing mode';
+		}
+	}
+	
 	var targetId = ActivityDiagramClass.getActivityId('activity', activityId);
 	var elementActivity = $('#'+targetId);//id of the activity
 	

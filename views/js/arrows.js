@@ -481,10 +481,11 @@ ArrowClass.getDraggableFlexPoints = function(tempArrowName){
 			//create the handle in the middle:
 			var handleElement = $('<div id="'+dragHandleId+'"/>');
 			handleElement.addClass(tempArrowName);
-			var borderStr = '1px '+'solid'+' '+'green';
-			handleElement.css('border', borderStr);
-			handleElement.css('width', '5px');
-			handleElement.css('height', '5px');
+			handleElement.addClass('flex_point');
+			// var borderStr = '1px '+'solid'+' '+'green';
+			// handleElement.css('border', borderStr);
+			// handleElement.css('width', '5px');
+			// handleElement.css('height', '5px');
 			handleElement.appendTo("#"+arrowPartId);
 			$('#'+dragHandleId).position({
 				of: "#"+arrowPartId,

@@ -300,8 +300,6 @@
 		
 		EventMgr.bind('activityPropertiesSaved', function(event, response){
 			//simply reload the tree:
-			console.log('activityPropertiesSaved');
-			
 			ActivityDiagramClass.refreshRelatedTree();
 		});
 		

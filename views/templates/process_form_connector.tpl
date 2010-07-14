@@ -139,10 +139,13 @@ $(function(){
 				if(response.saved){
 					var selectedNode = $("#connectorUri").val();
 					$("#connector-form").html("connector saved");
-					// initActivityTree();
+					
+					ActivityDiagramClass.loadDiagram();
+					
 					refreshActivityTree();
-					// reselectActivityTree();
+					
 					ActivityTreeClass.selectTreeNode(selectedNode);
+					
 				}else{
 					$("#connector-form").html("connector save failed:" + response);
 				}
