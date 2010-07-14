@@ -590,11 +590,12 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 			if(nextActivityData.portData){
 				if(nextActivityData.portData.id >= 0){//it can only be node-connector,node-activity-goto or node-connector-goto
 					//feed port data into connector storehouse, to allow later next activity editing:
-					ActivityDiagramClass.connectors[connectorId].port[ nextActivityData.portData.id ] = {
-						"targetId": ActivityDiagramClass.getIdFromUri(nextActivityData.attributes.id),
-						"label": nextActivityData.portData.label,
-						"multiplicity": nextActivityData.portData.multiplicity
-					};
+					
+					//--targetId must be valid:
+					// console.log('connector', connectorId+':'+nextActivityData.portData.id);
+					// console.dir(nextActivityData);
+					
+					
 					
 					//draw arrow:
 					var originId =  ActivityDiagramClass.getActivityId('connector', connectorId, 'bottom', nextActivityData.portData.id);
@@ -608,6 +609,12 @@ ActivityDiagramClass.feedConnector = function(connectorData, positionData, prevA
 					}else{
 						throw 'unknown type of following activity';
 					}
+					
+					ActivityDiagramClass.connectors[connectorId].port[ nextActivityData.portData.id ] = {
+						"targetId": nextActivityId,
+						"label": nextActivityData.portData.label,
+						"multiplicity": nextActivityData.portData.multiplicity
+					};
 					
 					//check if the target in the arrow data matches the one recorded in the connector port data:
 					var onSync = false;

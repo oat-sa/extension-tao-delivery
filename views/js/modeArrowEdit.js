@@ -45,15 +45,22 @@ ModeArrowEdit.deleteArrow = function(arrowId){
 	//connector only:
 	if(arrowId.substr(0,10) == 'connector_'){//length=10
 		var index = arrowId.lastIndexOf('_pos_bottom_port_');//length=17
-		var indexEnd = arrowId.lastIndexOf('_tip');
+		// var indexEnd = arrowId.lastIndexOf('_tip');
 		var connectorId = arrowId.substring(10, index);
-		var portId = arrowId.substring(index+17, indexEnd);
+		var portId = arrowId.substr(index+17);
+		
+		
 		//edit connector:
+		
 		ActivityDiagramClass.editConnector(connectorId, portId, 'delete', 0);//leave the default value of "value" to trigger the deletion
 		ActivityDiagramClass.saveConnector(connectorId);
 		
+		
 		//delete arrow:
 		ArrowClass.removeArrow(arrowId);
+		
+		//require loading 
+		// (e.g. in case the next resource is a connector with the same activity reference as the current one: check performed on the server side)
 		
 		//return to default mode
 		ModeController.setMode('ModeInitial');

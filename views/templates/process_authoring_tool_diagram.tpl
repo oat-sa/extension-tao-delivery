@@ -294,7 +294,9 @@
 			if(!added){
 				//reload the tree:
 				ActivityDiagramClass.refreshRelatedTree();
+				ActivityDiagramClass.loadDiagram();
 			}
+			
 		});
 		
 		
