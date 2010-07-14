@@ -1,21 +1,23 @@
 <?include('header.tpl')?>
 
-<?if(get_data('authoringMode') == 'simple'):?>
+
 
 <div style="float:left;">
 	<div style="position:absolute;width:100%;">
-	<?include('delivery_tests.tpl');?>
-	
-	<div class="breaker"></div>
-	
-	<?include('subjects.tpl')?>
-	<?include('delivery_campaign.tpl')?>
-	
-	<div class="breaker"></div>
+		<?if(get_data('authoringMode') == 'simple'):?>
+		
+		<?include('delivery_tests.tpl');?>
+		<div class="breaker"></div>
+		<?endif?>
+		
+		<?include('subjects.tpl')?>
+		<?include('delivery_campaign.tpl')?>
+		
+		<div class="breaker"></div>
 	</div>
 </div>
 
-<?endif?>
+
 
 <div class="main-container" style="margin-left:46%;">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
