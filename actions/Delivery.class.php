@@ -176,7 +176,7 @@ class Delivery extends TaoModule {
 		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
 		
 		//temporary disable authoring mode selection: 
-		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));
+		// $myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));
 		
 		//delivery authoring mode:
 		$this->setData('authoringMode', 'simple');
@@ -344,7 +344,7 @@ class Delivery extends TaoModule {
 			$this->setData('error', true);
 			$this->setData('errorMessage', $e);
 		}
-		$this->setView('process_authoring_tool.tpl');
+		$this->setView('authoring/process_authoring_tool.tpl');
 		// $this->setView('process_authoring_tool_diagram.tpl');//template that integrate activities diagram
 	}
 	

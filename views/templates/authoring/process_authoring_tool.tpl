@@ -1,0 +1,1 @@
+<?include(PROCESS_TPL_PATH.'process_authoring_tool.tpl');?>

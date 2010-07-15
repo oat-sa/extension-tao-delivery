@@ -6,4 +6,4 @@
 <?endif?>
 
 
-<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoringConfig.js"></script>
+<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/authoringConfig.js"></script>

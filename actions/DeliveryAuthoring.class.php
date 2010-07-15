@@ -155,7 +155,7 @@ class DeliveryAuthoring extends ProcessAuthoring {
 			}
 		}
 		
-		$this->setView("process_compiling.tpl");
+		$this->setView("authoring/process_compiling.tpl");
 	}
 	
 }

@@ -49,6 +49,11 @@ define('BASE_URL', ROOT_URL . '/taoDelivery');
 #BASE WWW the web resources path
 define('BASE_WWW', BASE_URL . '/' . DIR_VIEWS);
 
+#PROCESS BASE WWW the web path of the process authoring tool
+define('PROCESS_TPL_PATH', ROOT_PATH . '/wfEngine/views/templates/authoring/');
+define('PROCESS_BASE_WWW', ROOT_URL. '/wfEngine/views/');
+define('PROCESS_SCRIPT_URL', PROCESS_BASE_WWW  . 'js/authoring/');
+
 #export resources path
 define('EXPORT_PATH', 	BASE_PATH . '/' . DIR_VIEWS . 'export');
 define('EXPORT_URL', 	BASE_URL  . '/' . DIR_VIEWS . 'export');

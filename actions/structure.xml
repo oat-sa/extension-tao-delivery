@@ -29,7 +29,7 @@
 			</actions>
 		</section>
 		
-		<!--<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />-->
+		<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />
 		
 		<section id="manage_campaigns" name="Manage campaigns" url="/taoDelivery/Campaign/index">
 			<trees>
