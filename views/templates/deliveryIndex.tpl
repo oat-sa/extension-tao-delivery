@@ -16,7 +16,7 @@
 			
 		    
         	<li>
-        		<span id="connecteduser" class="icon"><?php echo __("User Id."); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
+        		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
         	</li>
         	
          	
