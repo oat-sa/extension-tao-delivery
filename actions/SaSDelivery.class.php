@@ -13,6 +13,7 @@ class SaSDelivery extends Delivery {
      * @see Delivery::__construct()
      */
     public function __construct() {
+    	tao_helpers_Context::load('STANDALONE_MODE');
         $this->setSessionAttribute('currentExtension', 'taoDelivery');
 		parent::__construct();
     }
