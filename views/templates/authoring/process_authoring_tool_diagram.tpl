@@ -82,7 +82,7 @@
 			
 		}
 		catch(err){
-			console.log('feed&draw diagram exception', err);
+			//console.log('feed&draw diagram exception', err);
 		}
 		
 	});
@@ -161,14 +161,14 @@
 		EventMgr.unbind();
 		
 		EventMgr.bind('activityAdded', function(event, response){
-			console.log('adding act response:', response);
+			//console.log('adding act response:', response);
 			try{
 				var activity = ActivityDiagramClass.feedActivity({
 					"data": response.label,
 					"attributes": {"id": response.uri}
 				});
 				
-				console.log('activity', activity);
+				//console.log('activity', activity);
 				
 				//draw activity with the default positionning:
 				ActivityDiagramClass.drawActivity(activity.id);
@@ -197,7 +197,7 @@
 					ActivityDiagramClass.saveDiagram();
 				}
 			}catch(ex){
-				console.log('activityAdded exception:', ex);
+			//	console.log('activityAdded exception:', ex);
 			}
 		});
 		
@@ -259,17 +259,17 @@
 				//save diagram:
 				ActivityDiagramClass.saveDiagram();
 			}catch(ex){
-				console.log('connectorAdded exception:', ex);
-				console.log('connector', connector);
-				console.log('originEltId', originEltId);
-				console.log('connectorId', connectorId);
-				console.log('arrowId', arrowId);
+				//console.log('connectorAdded exception:', ex);
+				//console.log('connector', connector);
+				//console.log('originEltId', originEltId);
+				//console.log('connectorId', connectorId);
+				//console.log('arrowId', arrowId);
 			}
 				
 		});
 		
 		EventMgr.bind('connectorSaved', function(event, response){
-			console.log('connectorSaved triggered');
+			//console.log('connectorSaved triggered');
 			
 			var added = false
 			if(response.newActivities && response.previousConnectorUri){
@@ -325,7 +325,7 @@
 				GatewayProcessAuthoring.addActivity(authoringControllerPath+"addActivity", processUri);
 			}
 			catch(err){
-				console.log('addactivity on click:', err);
+				//console.log('addactivity on click:', err);
 			}
 		});
 		
