@@ -579,45 +579,111 @@ class Delivery extends TaoModule {
 	 * @param  string subjectUri
      * @return array
      */
-	public function historyListing($deliveryUri = "", $subjectUri = ""){
+	public function getDeliveryHistory($delivery = null, $subject = null){
 		
 		$returnValue = array();
 		$historyCollection = null;
 		
 		//check deliveryUri validity
-		if(empty($deliveryUri)){
-			$currentDelivery = $this->getCurrentDelivery();
-			if(is_null($currentDelivery)){
-				//no need to throw en exception here because it has already be done in the getCurrentDelivery() function
-				return $returnValue;
-			}else{
-				$deliveryUri = $currentDelivery->resourceUri;
-			}
+		if(empty($delivery)){
+			$delivery = $this->getCurrentDelivery();
 		}
 		
-		$historyCollection=$this->service->getHistory($deliveryUri, $subjectUri);
+		$historyCollection = $this->service->getHistory($delivery, $subject);
 		
 		$i=0;
 		foreach ($historyCollection->getIterator() as $history) {
 		
 			$returnValue[$i]=array();
 			
-			if(!empty($subjectUri)){
-				$subject=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP));
-				$returnValue[$i]["subject"] = $subject->getLabel(); //or $subject->literal to get the uri
-			}
-			$timestamp=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP));
-			$returnValue[$i]["timestamp"] = date('d-m-Y', $timestamp->literal);
 			
-			// $delivery=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP));//useless
+			$subject=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP));
+			$returnValue[$i]["subject"] = $subject->getLabel(); //or $subject->literal to get the uri
 			
+			$timestamp = $history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP));
+			$returnValue[$i]["time"] = date('d-m-Y G:i:s \(T\)', $timestamp->literal);
+			$returnValue[$i]["uri"] = tao_helpers_Uri::encode($history->uriResource);
 			$i++;
 		}
 			
 		return $returnValue;
-		//TODO: history listing per subject???
+		// echo json_encode($returnValue);
 	}
+	
+	/**
+	 * provide the user list data via json
+	 * @return void
+	 */
+	public function historyData(){
+		// $page = $this->getRequestParameter('page'); 
+		// $limit = $this->getRequestParameter('rows');
+		$page = 1;
+		$limit = 500;
+		// $sidx = $this->getRequestParameter('sidx');  
+		// $sord = $this->getRequestParameter('sord'); 
+		$start = $limit * $page - $limit; 
 		
+		// if(!$sidx) $sidx =1; 
+		
+		// $users = $this->userService->getAllUsers(array(
+			// 'order' 	=> $sidx,
+			// 'orderDir'	=> $sord,
+			// 'start'		=> $start,
+			// 'end'		=> $limit
+		// ));
+		$histories = $this->getDeliveryHistory($this->getCurrentDelivery());
+		
+		$count = count($histories); 
+		if( $count >0 ) { 
+			$total_pages = ceil($count/$limit); 
+		}else { 
+			$total_pages = 0; 
+		} 
+		if ($page > $total_pages){
+			$page = $total_pages; 
+		}
+		
+		$response = new stdClass();
+		$response->page = $page; 
+		$response->total = $total_pages; 
+		$response->records = $count; 
+		$i = 0;
+		// var_dump($histories);
+		foreach($histories as $history) { 
+			$cellData = array();
+			$cellData[0] = $history['subject'];
+			$cellData[1] = $history['time'];
+			$cellData[2] = '';
+			
+			$response->rows[$i]['id']= tao_helpers_Uri::encode($history['uri']);
+			$response->rows[$i]['cell'] = $cellData;
+			$i++;
+			
+		}
+		
+		echo json_encode($response); 
+	}
+	
+	public function deleteHistory(){
+		$message = __('An error occured during history deletion');
+		if($this->hasRequestParameter('historyUri')){
+			$history = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('historyUri')));
+			if($this->service->deleteHistory($history)){
+				$message = __('History deleted successfully');
+			}
+		}
+		$this->redirect(_url(
+			'index',
+			'Main',
+			'tao',
+			array(
+				'extension' => 'taoDelivery',
+				'uri'=>tao_helpers_Uri::encode($this->getCurrentDelivery()->uriResource),
+				'message' => $message
+			)
+		));
+	}
+	
 	/*
 	public function cache(){
 		//get the id of subscribed modules and connect to them

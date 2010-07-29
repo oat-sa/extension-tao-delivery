@@ -511,6 +511,13 @@ class taoDelivery_models_classes_DeliveryService
 		return $historyCollection;
 	}
 	
+	public function deleteHistory(core_kernel_classes_Resource $history){
+		$returnValue = false;
+		if(!is_null($history)){
+			$returnValue = $history->delete();
+		}
+		return $returnValue;
+	}
 	/**
      * create a delivery instance, and at the same time the process instance associated to it
      *

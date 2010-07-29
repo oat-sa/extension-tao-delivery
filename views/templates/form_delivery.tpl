@@ -30,7 +30,7 @@
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
 		<?=__("Compilation")?>
 	</div>
-	<div id="form-container" class="ui-widget-content ui-corner-bottom">
+	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
 		<div class="ext-home-container ui-state-highlight">
 		<p>
 		<?if(get_data('isCompiled')):?>
@@ -41,7 +41,7 @@
 		</p>
 		<p>
 			<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;
-			<a id='compileLink' href="#">
+			<a id='compileLink' class='compileLink' href="#">
 				<b>
 				<?if(get_data('isCompiled')):?>
 					<?=__('Recompile')?> 
@@ -53,6 +53,9 @@
 		</p>
 		</div>
 	</div>
+	
+	<?include('delivery_history.tpl');?>
+	
 </div>
 
 
@@ -65,7 +68,7 @@ $(function(){
 		// }
 	// });
 
-	$("#compileLink,#compileLinkImg").click(function(){
+	$("#compileLink,#compileLinkImg,.compileLink").click(function(){
 		$("a[title=compile]").click();
 		return false;
 	});
