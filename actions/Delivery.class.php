@@ -231,6 +231,7 @@ class Delivery extends TaoModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('deliveryGroups', json_encode(array_map("tao_helpers_Uri::encode", $this->service->getDeliveryGroups($delivery))));
 		$this->setData('formTitle', __('Edit delivery'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
@@ -873,6 +874,48 @@ class Delivery extends TaoModule {
 		}
 		
 		echo json_encode($response);
+	}
+	
+	/**
+	 * get the list of groups to populate the checkbox tree of groups to link with
+	 * @return void
+	 */
+	public function getGroups(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$options = array('chunk' => false);
+		if($this->hasRequestParameter('classUri')) {
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		}
+		echo json_encode($this->service->toTree($clazz, $options));
+	}
+	
+	/**
+	 * save from the checkbox tree the groups to link with 
+	 * @return void
+	 */
+	public function saveGroups(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$saved = false;
+		$groups = array();
+		foreach($this->getRequestParameters() as $key => $value){
+			if(preg_match("/^instance_/", $key)){
+				array_push($groups, tao_helpers_Uri::decode($value));
+			}
+		}
+		$subject = $this->getCurrentInstance();
+		
+		if($this->service->setDeliveryGroups($subject, $groups)){
+			$saved = true;
+		}
+		echo json_encode(array('saved'	=> $saved));
 	}
 	
 }

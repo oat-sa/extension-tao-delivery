@@ -1271,7 +1271,102 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		return $resultArray;
-	}	
+	}
+	
+	/**
+     * retrieve the list of groups where the delivery has been set
+     *
+     * @access public
+     * @param  Resource delivery
+     * @return array
+     */
+    public function getDeliveryGroups( core_kernel_classes_Resource $delivery){
+	
+        $returnValue = array();
+
+		if(!is_null($delivery)){
+			$groupClass 		= new core_kernel_classes_Class(TAO_GROUP_CLASS);
+			$deliveriesProperty	= new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+			
+			$groups = array();
+			
+			foreach($groupClass->getInstances(true) as $instance){
+				foreach($instance->getPropertyValues($deliveriesProperty) as $aDelivery){
+					if($aDelivery == $delivery->uriResource){
+						$groups[] = $instance->uriResource;
+						break;
+					}
+				}
+			}
+			
+			if(count($groups) > 0){
+				$groupSubClasses = array();
+				foreach($groupClass->getSubClasses(true) as $groupSubClass){
+					$groupSubClasses[] = $groupSubClass->uriResource;
+				}
+				foreach($groups as $groupUri){
+					$clazz = $this->getClass(new core_kernel_classes_Resource($groupUri));
+					if(!is_null($clazz)){
+						if(in_array($clazz->uriResource, $groupSubClasses)){
+							$returnValue[] = $clazz->uriResource;
+						}
+					}
+					$returnValue[] = $groupUri;
+				}
+			}
+			
+		}
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * set the list of groups where the subject is
+     *
+     * @access public
+     * @param  Resource delivery
+     * @param  array groups
+     * @return boolean
+     */
+    public function setDeliveryGroups( core_kernel_classes_Resource $delivery, $groups = array())
+    {
+        $returnValue = (bool) false;
+
+		if(!is_null($delivery)){
+			$groupClass 		= new core_kernel_classes_Class(TAO_GROUP_CLASS);
+			$deliveriesProperty	= new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+			
+			$done = 0;
+			foreach($groupClass->getInstances(true) as $instance){
+				$newDeliveries = array();
+				$updateIt = false;
+				foreach($instance->getPropertyValues($deliveriesProperty) as $aDelivery){
+					if($aDelivery == $delivery->uriResource){
+						$updateIt = true;
+					}
+					else{
+						$newDeliveries[] = $aDelivery;
+					}
+				}
+				if($updateIt){
+					$instance->removePropertyValues($deliveriesProperty);
+					foreach($newDeliveries as $newDelivery){
+						$instance->setPropertyValue($deliveriesProperty, $newDelivery);
+					}
+				}
+				if(in_array($instance->uriResource, $groups)){
+					if($instance->setPropertyValue($deliveriesProperty, $delivery->uriResource)){
+						$done++;
+					}
+				}
+			}
+			if($done == count($groups)){
+				$returnValue = true;
+			}
+		}
+
+        return (bool) $returnValue;
+    }
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
 ?>

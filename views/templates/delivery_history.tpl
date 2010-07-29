@@ -4,8 +4,6 @@
 <div id="form-history" class="ui-widget-content ui-corner-bottom">
 	<table id="history-list"></table>
 	<div id="history-list-pager"></div>
-	<table id="user-list"></table>
-	<div id="user-list-pager"></div> 
 </div>
 
 <script type="text/javascript">

@@ -10,10 +10,13 @@
 		<div class="breaker"></div>
 		<?endif?>
 		
+		<?include('groups.tpl')?>
 		<?include('subjects.tpl')?>
-		<?include('delivery_campaign.tpl')?>
-		
 		<div class="breaker"></div>
+		
+		<?include('delivery_campaign.tpl')?>
+		<div class="breaker"></div>
+		
 	</div>
 </div>
 

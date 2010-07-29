@@ -1,13 +1,13 @@
-<div id="campaign-container" class="data-container">
+<div id="group-container" class="data-container">
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Add to delivery campaign')?>
+		<?=__('Add to group')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content">
-		<div id="campaign-tree"></div>
+		<div id="group-tree"></div>
 		<div class="breaker"></div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
-		<input id="saver-action-campaign" type="button" value="<?=__('Save')?>" />
+		<input id="saver-action-group" type="button" value="<?=__('Save')?>" />
 	</div>
 </div>
 <?if(!get_data('myForm')):?>
@@ -16,16 +16,15 @@
 <?endif?>
 <script type="text/javascript">
 $(document).ready(function(){
-	
 	if(ctx_extension){
 		url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 	}
-	getUrl = url + 'getCampaigns';
-	setUrl = url + 'saveCampaigns';
-	new GenerisTreeFormClass('#campaign-tree', getUrl, {
-		actionId: 'campaign',
+	getUrl = url + 'getGroups';
+	setUrl = url + 'saveGroups';
+	new GenerisTreeFormClass('#group-tree', getUrl, {
+		actionId: 'group',
 		saveUrl : setUrl,
-		checkedNodes : <?=get_data('relatedCampaigns')?>
+		checkedNodes : <?=get_data('deliveryGroups')?>
 	});
 });
 </script>
