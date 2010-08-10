@@ -37,7 +37,7 @@ require_once('tao/models/classes/class.Service.php');
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_models_classes_CampaignService
-    extends tao_models_classes_Service
+    extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
 
