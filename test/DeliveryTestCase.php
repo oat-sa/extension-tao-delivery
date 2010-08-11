@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../tao/test/TestRunner.php';
-include_once dirname(__FILE__) . '/../includes/constants.php';
+include_once dirname(__FILE__) . '/../includes/common.php';
 
 error_reporting(E_ALL);
 
@@ -14,13 +14,6 @@ class DeliveryTestCase extends UnitTestCase {
 	 */
 	public function setUp(){
 		TestRunner::initTest();
-		// $this->apiModel = core_kernel_impl_ApiModelOO::singleton();
-		// $this->apiModel->logIn(LOGIN,md5(PASS),DATABASE_NAME,true);
-		// $processDefinitionClass = new core_kernel_classes_Class(CLASS_PROCESS);
-		// $processDefinition = $processDefinitionClass->createInstance('processForUnitTest','created for the unit test of process authoring service');
-		// if($processDefinition instanceof core_kernel_classes_Resource){
-			// $this->proc = $processDefinition;
-		// }
 	}
 	
 	public function testService(){
