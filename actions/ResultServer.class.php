@@ -172,7 +172,7 @@ class ResultServer extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		$clazz = $this->getCurrentClass();
-		$resultServer = $this->service->createInstance($clazz);
+		$resultServer = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
 		if(!is_null($resultServer) && $resultServer instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
 				'label'	=> $resultServer->getLabel(),

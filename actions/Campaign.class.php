@@ -173,7 +173,7 @@ class Campaign extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		$clazz = $this->getCurrentClass();
-		$campaign = $this->service->createInstance($clazz);
+		$campaign = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
 		if(!is_null($campaign) && $campaign instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
 				'label'	=> $campaign->getLabel(),

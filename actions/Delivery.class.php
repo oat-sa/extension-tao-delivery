@@ -249,7 +249,7 @@ class Delivery extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		$clazz = $this->getCurrentClass();
-		$delivery = $this->service->createInstance($clazz);
+		$delivery = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
 		
 		if(!is_null($delivery) && $delivery instanceof core_kernel_classes_Resource){
 			
