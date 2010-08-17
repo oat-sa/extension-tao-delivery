@@ -1,4 +1,4 @@
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
+<div id="form-title-history" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
 	<?=__("History")?>
 </div>
 <div id="form-history" class="ui-widget-content ui-corner-bottom">

@@ -1,9 +1,22 @@
 <?include('header.tpl')?>
 
-
-
-<div style="float:left;">
-	<div style="position:absolute;width:100%;">
+<style type="text/css">
+	div.data-container{
+		width:44%;
+	}
+	
+	#delivery-left-container{
+		float:left;
+		position:absolute;
+		width:50%;
+	}
+	
+	#delivery-main-container{
+		margin-left:46%;
+	}
+</style>
+   
+<div id="delivery-left-container">
 		<?if(get_data('authoringMode') == 'simple'):?>
 		
 		<?include('delivery_tests.tpl');?>
@@ -17,12 +30,9 @@
 		<?include('delivery_campaign.tpl')?>
 		<div class="breaker"></div>
 		
-	</div>
 </div>
 
-
-
-<div class="main-container" style="margin-left:46%;">
+<div class="main-container" id="delivery-main-container">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
