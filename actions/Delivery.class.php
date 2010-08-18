@@ -368,6 +368,13 @@ class Delivery extends TaoModule {
 		else{
 			$clazz = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
 		}
+		if($this->hasRequestParameter('selected')){
+			$selected = $this->getRequestParameter('selected');
+			if(!is_array($selected)){
+				$selected = array($selected);
+			}
+			$options['browse'] = $selected;
+		}
 		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
@@ -415,6 +422,13 @@ class Delivery extends TaoModule {
 		}
 		else{
 			$clazz = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+		}
+		if($this->hasRequestParameter('selected')){
+			$selected = $this->getRequestParameter('selected');
+			if(!is_array($selected)){
+				$selected = array($selected);
+			}
+			$options['browse'] = $selected;
 		}
 		echo json_encode($this->service->toTree($clazz, $options));
 	}
@@ -759,6 +773,13 @@ class Delivery extends TaoModule {
 		else{
 			$clazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		}
+		if($this->hasRequestParameter('selected')){
+			$selected = $this->getRequestParameter('selected');
+			if(!is_array($selected)){
+				$selected = array($selected);
+			}
+			$options['browse'] = $selected;
+		}
 		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
@@ -891,6 +912,13 @@ class Delivery extends TaoModule {
 		}
 		else{
 			$clazz = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		}
+		if($this->hasRequestParameter('selected')){
+			$selected = $this->getRequestParameter('selected');
+			if(!is_array($selected)){
+				$selected = array($selected);
+			}
+			$options['browse'] = $selected;
 		}
 		echo json_encode($this->service->toTree($clazz, $options));
 	}
