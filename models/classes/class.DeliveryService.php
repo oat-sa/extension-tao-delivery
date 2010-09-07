@@ -1367,6 +1367,28 @@ class taoDelivery_models_classes_DeliveryService
 
         return (bool) $returnValue;
     }
+	
+	public function setAuthoringMode(core_kernel_classes_Resource $delivery, $mode){
+	
+		$property = new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP);
+		switch(strtolower($mode)){
+			case 'simple':{
+				$delivery->editPropertyValues($property, TAO_DELIVERY_SIMPLEMODE);
+				//linearization required:
+				$this->linearizeDeliveryProcess($delivery);
+				break;
+			}
+			case 'advanced':{
+				$delivery->editPropertyValues($property, TAO_DELIVERY_ADVANCEDMODE);
+				break;
+			}
+			default:{
+				return false;
+			}
+		}
+		
+		
+	}
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
 ?>

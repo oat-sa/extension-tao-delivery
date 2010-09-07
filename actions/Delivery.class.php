@@ -232,11 +232,39 @@ class Delivery extends TaoModule {
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setData('deliveryGroups', json_encode(array_map("tao_helpers_Uri::encode", $this->service->getDeliveryGroups($delivery))));
-		$this->setData('formTitle', __('Edit delivery'));
+		$this->setData('formTitle', __('Delivery properties'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form_delivery.tpl');
 	}
+	
+	public function advancedMode(){
+		$this->setAuthoringMode('advanced');
+	}
+	
+	public function simpleMode(){
+		$this->setAuthoringMode('simple');
+	}
+	
+	private function setAuthoringMode($mode){
+		$mode = strtolower($mode);
+		if($mode != 'simple' && $mode != 'advanced'){
+			throw new Exception('invalid mode');
+		}
 		
+		$delivery = $this->getCurrentDelivery();
+		$clazz = $this->getCurrentClass();
+		
+		$this->service->setAuthoringMode($delivery, $mode);
+		
+		$param = array(
+			'uri' => tao_helpers_Uri::encode($delivery->uriResource),
+			'classUri' => tao_helpers_Uri::encode($clazz->uriResource)
+		);
+		
+		//reload the form, thus let the advanced authoring tab be available
+		$this->redirect(tao_helpers_Uri::url('editDelivery', 'Delivery', null, $param));
+	}
+	
 	/**
 	 * Add a delivery instance 
 	 *

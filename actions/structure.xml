@@ -26,6 +26,8 @@
 				<action name="rdf" url="/tao/Export/index"  context="*" /> 
 				<action name="import" url="/tao/Import/index"  context="class" /> 
 				<action name="compile" url="/taoDelivery/Delivery/compileView" context="instance" />
+				<action name="advanced mode" url="/taoDelivery/Delivery/advancedMode" context="instance" />
+				<action name="simple mode" url="/taoDelivery/Delivery/simpleMode" context="instance" />
 			</actions>
 		</section>
 		
