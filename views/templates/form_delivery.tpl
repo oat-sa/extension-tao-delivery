@@ -2,18 +2,53 @@
 
 <style type="text/css">
 	div.data-container{
-		width:44%;
+		width:48%;
 	}
 	
 	#delivery-left-container{
 		float:left;
 		position:absolute;
-		width:50%;
+		width:46%;
 	}
 	
 	#delivery-main-container{
 		margin-left:46%;
 	}
+	
+	#test-container, #group-container, #campaign-container{
+		margin-right:6px;
+		margin-bottom:6px;
+	}
+	
+	#form-compile, #form-container{
+		margin-bottom:6px;
+	}
+	
+	#form-compile{
+		font-size:1em;
+	}
+	
+	div.xhtml_form div .form_desc{
+		width:50%;
+	}
+	div.xhtml_form div input, div.xhtml_form div select, div.xhtml_form div textarea, div.xhtml_form div.wysiwyg, div.xhtml_form ul.form-elt-list, div.xhtml_form div .form-elt-container{
+		margin-left:50%;
+	}
+	#compileLink {
+		border-color:#CCCCCC #AAAAAA #AAAAAA #CCCCCC;
+		border-style:solid;
+		border-width:1px;
+		margin-left:0;
+		margin-right:5px;
+		padding:3px 6px;
+		text-decoration:none;
+	}
+	
+	#compileLink:hover{
+		color: #D00239;
+	}
+	
+	
 </style>
    
 <div id="delivery-left-container">
@@ -39,7 +74,8 @@
 	<div id="form-container" class="ui-widget-content ui-corner-bottom">
 		<?=get_data('myForm')?>
 	</div>
-	
+	<!-- complie box not available in standalone mode-->
+	<?if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
 		<?=__("Compilation")?>
 	</div>
@@ -52,20 +88,24 @@
 			<?=__('The delivery is not compiled yet')?>
 		<?endif;?>
 		</p>
-		<p>
-			<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;
-			<a id='compileLink' class='compileLink' href="#">
-				<b>
+		
+		<span>
+			<a id='compileLink' class='nav' href="<?=BASE_URL.'/Delivery/CompileView?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
+				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
 				<?if(get_data('isCompiled')):?>
 					<?=__('Recompile')?> 
 				<?else:?>
 					<?=__('Compile')?>
 				<?endif;?>
-				</b>
+				
 			</a>
-		</p>
+		</span>
+		
+		<br/>
+		
 		</div>
 	</div>
+	<?endif;?>
 	
 	<?include('delivery_history.tpl');?>
 	
@@ -74,17 +114,18 @@
 
 <script type="text/javascript">
 $(function(){
-	// $('label.form_desc').each(function(){
-		// var parentElt = $(this).parent();
-		// if($(this).width()>0.3*parseInt(parentElt.width())){
-			// $('<br/>').insertAfter($(this));
-		// }
-	// });
+	//correct the display of the long label:
 
-	$("#compileLink,#compileLinkImg,.compileLink").click(function(){
-		$("a[title=compile]").click();
-		return false;
-	});
+	// $("#compileLink,#compileLinkImg,.compileLink").click(function(){
+		// $('a.nav').each(function(){
+			// var href = $(this).attr('href');
+			// if(href.indexOf('compileView')>0){
+				// $(this).click();
+				// return false;
+			// }
+		// });
+		// return false;
+	// });
 });
 </script>
 
