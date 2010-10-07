@@ -385,7 +385,7 @@ msgstr "Ouvrir tout"
 msgid "Close all"
 msgstr "Fermer tout"
 
-msgid "Select testees to be <b>excluded</b>"
+msgid "Select test takers to be <b>excluded</b>"
 msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
 
 msgid "wrong login or/and password,<br/> please try again"

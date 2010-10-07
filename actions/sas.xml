@@ -51,7 +51,7 @@
 	</service>
 	<service>
 		<name>Delivery full editor</name>
-		<description>Full edit form: edit delivery properties, exclude testees and select campaigns</description>
+		<description>Full edit form: edit delivery properties, exclude test takers and select campaigns</description>
 		<location url="/taoDelivery/SaSDelivery/editDelivery">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />

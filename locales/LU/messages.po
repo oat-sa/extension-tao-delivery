@@ -385,7 +385,7 @@ msgstr "All opmaachen"
 msgid "Close all"
 msgstr "All zoumaachen"
 
-msgid "Select testees to be <b>excluded</b>"
+msgid "Select test takers to be <b>excluded</b>"
 msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
 
 msgid "wrong login or/and password,<br/> please try again"

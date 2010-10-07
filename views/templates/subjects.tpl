@@ -1,6 +1,6 @@
 <div id="subject-container" class="data-container">
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Select testees to be <b>excluded</b>')?>
+		<?=__('Select test takers to be <b>excluded</b>')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content">
 		<div id="subject-tree"></div>
