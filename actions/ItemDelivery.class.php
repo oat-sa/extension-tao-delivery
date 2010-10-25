@@ -51,29 +51,33 @@ class ItemDelivery extends CommonModule {
 			
 			//we build the data to give to the item
 			$executionEnvironment = array(
-				'token'	=> $token,
-				'processExecution' => array(
+
+				'token'			=> $token,
+				'localNamspace' => core_kernel_classes_Session::singleton()->getNameSpace(),
+			
+				CLASS_PROCESS_EXECUTIONS => array(
 					'uri'		=> $process->uriResource,
-					'label'		=> $process->getLabel()
+					RDFS_LABEL	=> $process->getLabel()
 				),
-				'item'	=> array(
+				
+				TAO_ITEM_CLASS	=> array(
 					'uri'		=> $item->uriResource,
-					'label'		=> $item->getLabel()
+					RDFS_LABEL	=> $item->getLabel()
 				),
-				'test'	=> array(
+				TAO_TEST_CLASS	=> array(
 					'uri'		=> $test->uriResource,
-					'label'		=> $test->getLabel()
+					RDFS_LABEL	=> $test->getLabel()
 				),
-				'delivery'	=> array(
+				TAO_DELIVERY_CLASS	=> array(
 					'uri'		=> $delivery->uriResource,
-					'label'		=> $delivery->getLabel()
+					RDFS_LABEL	=> $delivery->getLabel()
 				),
-				'subject' => array(
-					'uri'		=> $user->uriResource,
-					'label'		=> $user->getLabel(),
-					'login'		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-					'firstname'	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
-					'lastname'	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+				TAO_SUBJECT_CLASS => array(
+					'uri'					=> $user->uriResource,
+					RDFS_LABEL				=> $user->getLabel(),
+					PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+					PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
+					PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
 				)
 			);
 			
