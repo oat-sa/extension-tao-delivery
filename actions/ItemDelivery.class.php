@@ -86,8 +86,8 @@ class ItemDelivery extends CommonModule {
 			//retrieving of the compiled item content
 			$testFolder = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
 			$itemFolder = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-			$compiled = BASE_PATH. "/compiled/{$testFolder}/{$itemFolder}/index.html"; 
-
+			//$compiled = BASE_PATH. "/compiled/{$testFolder}/{$itemFolder}/index.html"; 
+			$compiled = ROOT_PATH."/taoItems/views/runtime/i1288014658084751100/index.html";
 			if(!file_exists($compiled)){
 				throw new Exception(__("Unable to load the compiled item content"));
 			}
