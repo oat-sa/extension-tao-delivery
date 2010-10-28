@@ -1,5 +1,5 @@
 <?php 
-require_once('tao/actions/CommonModule.class.php');
+require_once('tao/actions/Api.class.php');
 
 /**
  * This class is a container to call TAO XHTML items.
@@ -12,13 +12,7 @@ require_once('tao/actions/CommonModule.class.php');
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class ItemDelivery extends CommonModule {
-	
-	/**
-	 * Name of the variable used for the execution environment 
-	 * @var string
-	 */
-	const ENV_VAR_NAME = 'taoEnv';
+class ItemDelivery extends Api {
 	
 	/**
 	 * @see ItemDelivery::runner
@@ -33,12 +27,14 @@ class ItemDelivery extends CommonModule {
 	 */
 	public function runner(){
 		
-		if($this->hasRequestParameter('processUri') && $this->hasRequestParameter('itemUri')){
+		if($this->hasRequestParameter('processUri') && 
+				$this->hasRequestParameter('itemUri') && 
+				$this->hasRequestParameter('testUri') &&
+				$this->hasRequestParameter('deliveryUri') ){
 			
-			$subjectService = tao_models_classes_ServiceFactory::get("tao_models_classes_UserService");
-			$user = $subjectService->getCurrentUser();
+			$user = $this->userService->getCurrentUser();
 			if(is_null($user)){
-				throw new Exception(__('No user\'s logged in'));
+				throw new Exception(__('No user is logged in'));
 			}
 			
 			$process	= new core_kernel_classes_Resource($this->getRequestParameter('processUri'));
@@ -46,42 +42,7 @@ class ItemDelivery extends CommonModule {
 			$test 		= new core_kernel_classes_Resource($this->getRequestParameter('testUri'));
 			$delivery 	= new core_kernel_classes_Resource($this->getRequestParameter('deliveryUri'));
 			
-			//get the sum of a unique token to identify the content
-			$token = sha1( uniqid(self::ENV_VAR_NAME, true) );		//the env var is just used as a SALT
-			
-			//we build the data to give to the item
-			$executionEnvironment = array(
-
-				'token'			=> $token,
-				'localNamspace' => core_kernel_classes_Session::singleton()->getNameSpace(),
-			
-				CLASS_PROCESS_EXECUTIONS => array(
-					'uri'		=> $process->uriResource,
-					RDFS_LABEL	=> $process->getLabel()
-				),
-				
-				TAO_ITEM_CLASS	=> array(
-					'uri'		=> $item->uriResource,
-					RDFS_LABEL	=> $item->getLabel()
-				),
-				TAO_TEST_CLASS	=> array(
-					'uri'		=> $test->uriResource,
-					RDFS_LABEL	=> $test->getLabel()
-				),
-				TAO_DELIVERY_CLASS	=> array(
-					'uri'		=> $delivery->uriResource,
-					RDFS_LABEL	=> $delivery->getLabel()
-				),
-				TAO_SUBJECT_CLASS => array(
-					'uri'					=> $user->uriResource,
-					RDFS_LABEL				=> $user->getLabel(),
-					PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-					PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
-					PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
-				)
-			);
-			
-			Session::setAttribute(self::ENV_VAR_NAME.'_'.$user->uriResource, $executionEnvironment);
+			$executionEnvironment = $this->createExecutionEnvironment($process, $item, $test, $delivery, $user);
 			
 			//retrieving of the compiled item content
 			$deliveryFolder = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
