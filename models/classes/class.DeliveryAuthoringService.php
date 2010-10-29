@@ -107,7 +107,8 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		
 		return $delivery;
 	}
-		
+	
+	
 
 } /* end of class taoDelivery_models_classes_DeliveryAuthoringService */
 
