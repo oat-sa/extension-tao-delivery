@@ -59,7 +59,8 @@ class ItemDelivery extends Api {
 				$doc->loadHTMLFile($compiled);
 				
 				//injecting the data directly in the item
-				$clientCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
+				$varCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
+				$clientCode = '$(document).ready(function(){ initManalDataSource('.self::ENV_VAR_NAME.') });';
 				$scriptElt = $doc->createElement('script', $clientCode);
 				$scriptElt->setAttribute('type', 'text/javascript');
 				
@@ -86,5 +87,10 @@ class ItemDelivery extends Api {
 			}
 		}
 	}
+	
+	public function getEvents(){
+		
+	}
+	
 }
 ?>
