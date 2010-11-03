@@ -45,11 +45,11 @@ class ItemDelivery extends Api {
 			$executionEnvironment = $this->createExecutionEnvironment($process, $item, $test, $delivery, $user);
 			
 			//retrieving of the compiled item content
-			$deliveryFolder = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-			$itemFolder = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-			$compiled = BASE_PATH. "/compiled/{$testFolder}/{$itemFolder}/index.html"; 
+			$compiledFolder = $this->getCompiledFolder($executionEnvironment);
+			$compiled = $compiledFolder .'index.html';			
 			
-//			$compiled = ROOT_PATH."/taoItems/views/runtime/i1288014658084751100/index.html";
+			//			$compiled = ROOT_PATH."/taoItems/views/runtime/i1288014658084751100/index.html";
+			
 			if(!file_exists($compiled)){
 				throw new Exception(__("Unable to load the compiled item content"));
 			}
@@ -58,10 +58,26 @@ class ItemDelivery extends Api {
 				$doc = new DOMDocument();
 				$doc->loadHTMLFile($compiled);
 				
-				//injecting the data directly in the item
+				// We inject the data directly in the item file
+				
+				//initialization of the TAO API
 				$varCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
-				$clientCode = '$(document).ready(function(){ initManalDataSource('.self::ENV_VAR_NAME.') });';
-				$scriptElt = $doc->createElement('script', $clientCode);
+				$initAPICode = 'initManalDataSource('.self::ENV_VAR_NAME.');';
+				
+				//initialize the events logging
+				$initEventCode = '';
+				if(file_exists($compiledFolder .'events.xml')){
+					$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
+					$eventData =  json_encode($eventService->getEventList($compiledFolder .'events.xml'));
+					$initEventCode = "initEventServices({ type: 'manual', data: $eventData}, null);";
+				}
+				
+				$clientCode  = '$(document).ready(function(){ '; 
+				$clientCode .= "$varCode \n";
+				$clientCode .= "$initAPICode \n";
+				$clientCode .= "$initEventCode \n";
+				$clientCode .= '});';
+				$scriptElt   = $doc->createElement('script', $clientCode);
 				$scriptElt->setAttribute('type', 'text/javascript');
 				
 				$headNodes = $doc->getElementsByTagName('head');
@@ -88,8 +104,23 @@ class ItemDelivery extends Api {
 		}
 	}
 	
+	/**
+	 * Get the list of events regarding the events file in the item 
+	 */
 	public function getEvents(){
-		
+		$events = array();
+		if($this->hasRequestParameter('token')){
+			$token = $this->getRequestParameter('token');
+			if($this->authenticate($token)){
+				
+				$compiledFolder = $this->getCompiledFolder($this->getExecutionEnvironment());
+				if(file_exists($compiledFolder .'events.xml')){
+					$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
+					$events = $eventService->getEventList($compiledFolder .'events.xml');
+				}
+			}
+		}
+		echo json_encode($events);
 	}
 	
 }
