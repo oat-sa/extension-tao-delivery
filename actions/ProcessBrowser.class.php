@@ -5,7 +5,7 @@ class ProcessBrowser extends WfModule{
 
 	public function index($processUri, $activityUri=''){
 	
-		$_SESSION["processUri"] = $processUri;
+		Session::setAttribute("processUri", $processUri);
 		$processUri = urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri',$processUri);
 		
@@ -50,7 +50,7 @@ class ProcessBrowser extends WfModule{
 		$activityExecutionService 	= tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
 		if(!$activityExecutionService->checkAcl($activity->resource, $currentUser, $process->resource)){
 			
-			$_SESSION["processUri"] = null;
+			Session::removeAttribute("processUri");
 			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
 		
@@ -61,8 +61,7 @@ class ProcessBrowser extends WfModule{
 		
 		$activityExecutionResource = $activityExecutionService->getExecution($activity->resource, $currentUser, $process->resource);
 		$browserViewData['activityExecutionUri']= $activityExecutionResource->uriResource;
-		$_SESSION['activityExecutionUri'] = $activityExecutionResource->uriResource;
-		
+		Session::setAttribute('activityExecutionUri', $activityExecutionResource->uriResource);
 		
 		$this->setData('activity',$activity);
 		$activityPerf 		= new Activity($activity->uri, false); // Performance WA
