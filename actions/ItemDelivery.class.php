@@ -27,7 +27,7 @@ class ItemDelivery extends Api {
 	 */
 	public function runner(){
 		
-		if($this->hasRequestParameter('processUri') && 
+		if(Session::hasAttribute('processUri') && 
 				$this->hasRequestParameter('itemUri') && 
 				$this->hasRequestParameter('testUri') &&
 				$this->hasRequestParameter('deliveryUri') ){
@@ -37,7 +37,7 @@ class ItemDelivery extends Api {
 				throw new Exception(__('No user is logged in'));
 			}
 			
-			$process	= new core_kernel_classes_Resource($this->getRequestParameter('processUri'));
+			$process	= new core_kernel_classes_Resource(Session::getAttribute('processUri'));
 			$item 		= new core_kernel_classes_Resource($this->getRequestParameter('itemUri'));
 			$test 		= new core_kernel_classes_Resource($this->getRequestParameter('testUri'));
 			$delivery 	= new core_kernel_classes_Resource($this->getRequestParameter('deliveryUri'));
@@ -62,7 +62,7 @@ class ItemDelivery extends Api {
 				
 				//initialization of the TAO API
 				$varCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
-				$initAPICode = 'initManalDataSource('.self::ENV_VAR_NAME.');';
+				$initAPICode = 'initManualDataSource('.self::ENV_VAR_NAME.');';
 				
 				//initialize the events logging
 				$initEventCode = '';
@@ -85,7 +85,15 @@ class ItemDelivery extends Api {
 				foreach($headNodes as $headNode){
 					$scriptNodes = $headNode->getElementsByTagName('script');
 					if($scriptNodes->length > 0){
-						$headNode->insertBefore($scriptElt, $scriptNodes->item(0));
+						foreach($scriptNodes as $index => $scriptNode){
+							if($scriptNode->hasAttribute('src')){
+								if(preg_match("/taoApi\.min\.js$/", $scriptNode->getAttribute('src'))){
+									
+									$headNode->insertBefore($scriptElt, $scriptNodes->item($index +1));
+									break;
+								}
+							}
+						}
 					}
 					else{
 						$headNode->appendChild($scriptElt);
