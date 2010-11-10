@@ -881,9 +881,20 @@ class Delivery extends TaoModule {
 		$deliveryData['resultServer'] = $resultServer;
 		
 		$deliveryData['tests'] = array();
-		if(!empty($resultServer)){//a "valid" wsdl contract has been found
-		//TODO: check validity of the wsdl
+		if(!empty($resultServer)){
 		
+			//generate the real delivery process:
+			$deliveryProcessGenerator = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryProcessGenerator');
+			$deliveryProcess = $deliveryProcessGenerator->generateDeliveryProcess($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
+			//delete the old delivery process if exists:
+			$oldDeliveryProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
+			if(!is_null($oldDeliveryProcess)){
+				$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+				$authoringService->deleteProcess($oldDeliveryProcess);
+			}
+			//then save it in TAO_DELIVERY_PROCESS prop:
+			$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS), $deliveryProcess->uriResource);
+			
 			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 			//array of resource, test set
 			$tests = array();

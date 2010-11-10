@@ -669,57 +669,13 @@ class taoDelivery_models_classes_DeliveryService
 		
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-		
-		//set the required process variables subjectUri and wsdlContract
-		$var_subjectUri = $this->getProcessVariable("subjectUri");
-		if(is_null($var_subjectUri)){
-			$var_subjectUri = $authoringService->createProcessVariable("subject Uri", "subjectUri");
+				
+		//create formal param associated to the 3 required proc var:
+		$testUriParam = $authoringService->getFormalParameter('testUri');//it is alright if the default value (i.e. proc var has been changed)
+		if(is_null($testUriParam)){
+			$testUriParam = $authoringService->createFormalParameter('testUri', 'constant', '', 'test uri (authoring)');
 		}
-		
-		$var_subjectLabel = $this->getProcessVariable("subjectLabel");
-		if(is_null($var_subjectLabel)){
-			$var_subjectLabel = $authoringService->createProcessVariable("subject label", "subjectLabel");
-		}
-		
-		$var_wsdl = $this->getProcessVariable("wsdlContract");
-		if(is_null($var_wsdl)){
-			$var_wsdl = $authoringService->createProcessVariable("wsdl contract", "wsdlContract");
-		}
-		
-		$var_delivery = $this->getProcessVariable("delivery");
-		if(is_null($var_delivery)){
-			$var_delivery = $authoringService->createProcessVariable("delivery", "delivery");
-		}
-		
-		if(is_null($var_subjectUri) || is_null($var_wsdl) || is_null($var_subjectLabel) || is_null($var_delivery)){
-			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel" and/or "wsdlContract"');
-		}else{
-			//create formal param associated to the 3 required proc var:
-			$subjectUriParam = $authoringService->getFormalParameter('subject');//it is alright if the default value (i.e. proc var has been changed)
-			if(is_null($subjectUriParam)){
-				$subjectUriParam = $authoringService->createFormalParameter('subject', 'processvariable', $var_subjectUri->uriResource, 'subject uri (do not delete)');
-			}
-			
-			$subjectLabelParam = $authoringService->getFormalParameter('subjectLabel');
-			if(is_null($subjectLabelParam)){
-				$subjectLabelParam = $authoringService->createFormalParameter('subjectLabel', 'processvariable', $var_subjectLabel->uriResource, 'subject label (do not delete)');
-			}
-			
-			$wsdlParam = $authoringService->getFormalParameter('wsdl');
-			if(is_null($wsdlParam)){
-				$wsdlParam = $authoringService->createFormalParameter('wsdl', 'processvariable', $var_wsdl->uriResource, 'wsdl constract url (do not delete)');
-			}
-			
-			//plus the last one, providing the delivery:
-			$deliveryParam = $authoringService->getFormalParameter('delivery');
-			if(is_null($deliveryParam)){
-				$deliveryParam = $authoringService->createFormalParameter('delivery', 'processvariable', $var_delivery->uriResource, 'delivery (do not delete)');
-			}
-			
-			// var_dump($subjectUriParam, $subjectLabelParam, $wsdlParam);
-			//set default process variable:
-		}
-		
+					
 		//delete all related activities:
 		$activities = $authoringService->getActivitiesByProcess($process);
 		foreach($activities as $activity){
@@ -752,38 +708,21 @@ class taoDelivery_models_classes_DeliveryService
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), CLASS_ROLE_SUBJECT);
 			
-			//get the service definition with the wanted test uri (if doesn't exist, create one)
-			// $testId = tao_helpers_Uri::getUniqueId($test->uriResource);
-			// $testUrl = BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
-			
-			$testUrl = taoDelivery_helpers_Compilator::getCompiledTestUrl($test->uriResource);
-			
-			$serviceDefinition = null;
-			$serviceDefinitionCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(PROPERTY_SUPPORTSERVICES_URL,$testUrl);
-			if(!$serviceDefinitionCollection->isEmpty()){
-				if($serviceDefinitionCollection->get(0) instanceof core_kernel_classes_Resource){
-					$serviceDefinition = $serviceDefinitionCollection->get(0);
-				}
-			}
+			$serviceDefinition = wfEngine_helpers_ProcessUtil::getServiceDefinition(TAO_TEST_CLASS);//use the TAO_TEST_CLASS as the key to identify test services
 			if(is_null($serviceDefinition)){
 				//if no corresponding service def found, create a service definition:
 				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
-				$serviceDefinition = $serviceDefinitionClass->createInstance($test->getLabel(), 'created by delivery service');
+				$serviceDefinition = $serviceDefinitionClass->createInstance('test process container', 'created by delivery service');
 				
 				//set service definition (the test) and parameters:
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), $testUrl);
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectUriParam->uriResource);
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $subjectLabelParam->uriResource);
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $wsdlParam->uriResource);
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $deliveryParam->uriResource);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), TAO_TEST_CLASS);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $testUriParam->uriResource);
 			}
+			
 			//create a call of service and associate the service definition to it:
 			$interactiveService = $authoringService->createInteractiveService($activity);
 			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
-			$authoringService->setActualParameter($interactiveService, $subjectUriParam, $var_subjectUri->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
-			$authoringService->setActualParameter($interactiveService, $subjectLabelParam, $var_subjectLabel->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
-			$authoringService->setActualParameter($interactiveService, $wsdlParam, $var_wsdl->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
-			$authoringService->setActualParameter($interactiveService, $deliveryParam, $var_delivery->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_PROCESSVARIABLE);
+			$authoringService->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_CONSTANTVALUE);
 			
 			if($totalNumber == 1){
 				if(!is_null($interactiveService) && $interactiveService instanceof core_kernel_classes_Resource){
@@ -855,23 +794,10 @@ class taoDelivery_models_classes_DeliveryService
 		
 		//start the loop:
 		for($i=0;$i<$totalNumber;$i++){
-			//get the FIRST interactive service
-			$iService = $currentActivity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-			if(is_null($iService)){
-				throw new Exception('the current activity has no interactive service');
+			$test = $authoringService->getTestByActivity($currentActivity);
+			if(!is_null($test)){
+				$tests[$i] = $test;
 			}
-			//get the service definition
-			$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-			
-			//get the url
-			$serviceUrl = $serviceDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-
-			//regenerated the test uri
-			$testUri = taoDelivery_helpers_Compilator::getTestUri($serviceUrl);
-			
-			//set the test in the table:
-			$tests[$i] = new core_kernel_classes_Resource($testUri);
-			
 			
 			//get its connector (check the type is "sequential) if ok, get the next activity
 			$connectorCollection = core_kernel_impl_ApiModelOO::getSubject(PROPERTY_CONNECTORS_PRECACTIVITIES, $currentActivity->uriResource);

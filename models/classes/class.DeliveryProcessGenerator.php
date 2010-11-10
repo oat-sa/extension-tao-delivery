@@ -40,26 +40,30 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		if(!is_null($deliveryProcess)){
 			//get all activity processes and clone them:
 			$activities = $this->authoringService->getActivitiesByProcess($process);
+			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			
 			foreach($activities as $activityUri => $activity){
 			
-				$testProcess = $this->getTestProcessFromActivity($activity);
+				$testProcess = $authoringService->getTestProcessFromActivity($activity);
 				if(!is_null($testProcess)){
 					//clone the process segment:
-					$testInterfaces = $processCloner->cloneProcessSegment($testProcess);
-					$this->addClonedActivity($activity, $testInterfaces['in'], $testInterfaces['out']);
-					// $this->clonedActivities[$activity->uriResource] = $testInterfaces;
+					$testInterfaces = $processCloner->cloneProcessSegment($testProcess, true);
+					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
+						$this->addClonedActivity($activity, $testInterfaces['in'], $testInterfaces['out']);
+					}else{
+						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned")
+					}
 				}else{
-					$activityClone = $this->cloneActivity($activity);
+					// $activityClone = $this->cloneActivity($activity);
+					if(is_null($this->cloneActivity($activity))){
+						throw new Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
+					}
 				}
+			}
 			
-				
-				if(!is_null($activityClone)){
-					$this->addClonedActivity($activity, $activityClone);
-					// $this->clonedActivities[$activity->uriResource] = $activityClone->uriResource;
-					$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
-				}else{
-					throw new Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
-				}
+			//add all cloned activities to the cloned delivery process:
+			foreach($this->getClonedActivities() as $activityClone){
+				$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
 			}
 			
 			//reloop for connectors this time:
@@ -74,24 +78,5 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		
 		return $deliveryProcess;
 	}	
-	
-	public function getTestProcessFromActivity(core_kernel_classes_Resource $activity){
-	
-		$testProcess = null;
-		
-		foreach($this->getServicesByActivity($activity) as $service){
-			$serviceDefinition = $service->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-			$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_URL));
-			var_dump('$serviceUrl', $serviceUrl);
-			if(!empty($serviceUrl)){
-				$alledgedProcess = new core_kernel_classes_Resource($serviceUrl);
-				if(wfEngine_helpers_ProcessUtil::checkType($alledgedProcess, new core_kernel_classes_Class(CLASS_PROCESS))){
-					$testProcess = $alledgedProcess;
-				}
-			}
-		}
-		
-		return $testProcess;
-	}
 	
 } /* end of class taoDelivery_models_classes_DeliveryAuthoringService */	

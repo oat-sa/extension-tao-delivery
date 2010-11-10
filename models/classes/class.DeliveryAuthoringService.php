@@ -62,21 +62,28 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			
 			foreach ($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->getIterator() as $iService){
 				if($iService instanceof core_kernel_classes_Resource){
-						
-					$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-					if(!is_null($serviceDefinition)){
 					
-						$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-						//NOTE: PROPERTY_SUPPORTSERVICES_URL only valid for support service and not for web services
-						if(!is_null($serviceUrl) && $serviceUrl instanceof core_kernel_classes_Resource){//the problem is that an url is interpreted as a uri so it the getOnePropertyValue return it as a resource
-							//check if the url is a compiled test one:
-							$testUri = taoDelivery_helpers_Compilator::getTestUri($serviceUrl->uriResource);
-							
-							if(!empty($testUri)){
-								$returnValue = new core_kernel_classes_Resource($testUri);
+					$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+					
+					//if service definition has the url of the service test process container
+					$testContainerServiceDefinition = wfEngine_helpers_ProcessUtil::getServiceDefinition(TAO_TEST_CLASS);
+					
+					if(!is_null($testContainerServiceDefinition)){
+						if($serviceDefinition->uriResource == $testContainerServiceDefinition->uriResource){
+					
+							foreach($iService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN))->getIterator() as $actualParam){
+								
+								$formalParam = $actualParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAMETER));
+								if($formalParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_NAME)) == 'testUri'){
+									$test = $actualParam->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_CONSTANTVALUE));
+									if(!is_null($test)){
+										$returnValue = $test;
+										break(2);
+									}
+								}
 							}
+							
 						}
-						
 					}
 						
 				}
@@ -85,6 +92,15 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			
 		}
 		
+		return $returnValue;
+	}
+	
+	public function getTestProcessFromActivity(core_kernel_classes_Resource $activity){
+		$returnValue = null;
+		$test = $this->getTestByActivity($activity);
+		if(!is_null($test)){
+			$returnValue =  $test->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
+		}
 		return $returnValue;
 	}
 	
