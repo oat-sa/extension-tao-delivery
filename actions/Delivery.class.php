@@ -552,19 +552,21 @@ class Delivery extends TaoModule {
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
-	public function compile($testUri, $deliveryUri){
-		
-		//get the unique id of the test to be compiled from POST
-		// $testUri=$_POST["uri"];
-		// $testId=tao_helpers_Uri::getUniqueId($testUri);
+	public function compile(){
 		
 		$resultArray = array();
 		
-		if(empty($uri)){
+		if(!$this->hasRequestParameter('deliveryUri')){
+			throw new Exception('no delivery uri given in compile action');
+		}
+		if(!$this->hasRequestParameter('testUri')){
 			throw new Exception('no test uri given in compile action');
 		}
 		
-		$resultArray = $this->service->compileTest($testUri, $deliveryUri);
+		$deliveryUri = tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri'));
+		$testUri=  tao_helpers_Uri::decode($this->getRequestParameter('testUri'));
+		
+		$resultArray = $this->service->compileTest($deliveryUri, $testUri);
 		
 		echo json_encode($resultArray);
 	}
@@ -884,7 +886,7 @@ class Delivery extends TaoModule {
 		if(!empty($resultServer)){
 			
 			//generate the real delivery process:
-			$deliveryProcess = $this->service->generateProcess($delivery);
+		//	$deliveryProcess = $this->service->generateProcess($delivery);
 			
 			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 			//array of resource, test set

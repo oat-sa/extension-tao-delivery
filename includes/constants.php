@@ -1,6 +1,9 @@
 <?php
 //include constants for the wfEngine:
 include_once ROOT_PATH . '/wfEngine/includes/constants.php';
+include_once ROOT_PATH . '/taoItems/includes/constants.php';
+include_once ROOT_PATH . '/taoTests/includes/constants.php';
+include_once ROOT_PATH . '/taoResults/includes/constants.php';
 
 //define specific constants to delivery extension:
 $todefine = array(

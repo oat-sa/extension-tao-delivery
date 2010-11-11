@@ -93,7 +93,7 @@ class taoDelivery_helpers_Compilator
 	 * @param  string pluginPath
      * @return mixed
      */	
-	public function __construct($testUri, $compiledPath='', $pluginPath=''){
+	public function __construct($deliveryUri, $testUri, $itemUri, $compiledPath='', $pluginPath=''){
 		
 		//TODO: change testUri to deliveryUri
 		
@@ -109,15 +109,12 @@ class taoDelivery_helpers_Compilator
 					"errorMsg"=>array()
 			);
 		
-		$testId=self::getUniqueId($testUri);//get the an unique id for the test to be compiled
-		if(empty($testId)){
-			throw new Exception("The test Id to be compiled can not be empty");
-		}
+		
 		
 		if(!empty($pluginPath)){
 			$this->pluginPath = $pluginPath;
 		}else{
-			$this->pluginPath = BASE_PATH."/models/ext/deliveryRuntime/";
+			$this->pluginPath = BASE_PATH."/lib/";
 		}
 		if(!is_dir($this->pluginPath)){
 			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
@@ -131,27 +128,11 @@ class taoDelivery_helpers_Compilator
 		if(!is_writable($this->compiledPath)){
 			throw new Exception("The compiled directory '{$this->compiledPath}' is not writable");
 		}
-		//TODO more security check on the compiled path
-		
-		//create a directory where all files related to this test(i.e media files and item xml files) will be copied:
-		$directory = $this->compiledPath.$testId.'/';		
+			
 		if(!is_dir($this->compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
 			throw new Exception("The main compiled test directory '{$this->compiledPath}' does not exist");
-		}else{
-			if(!is_dir($directory)){
-				$created=mkdir($directory);
-				if($created===false){
-					$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
-					throw new Exception("The compiled test directory '{$directory}' does not exist and can not be created");
-				}else{
-					$this->completed["createdFiles"][]=$directory;
-				}
-			}
 		}
-		
-		// $this->pluginPath = $pluginPath;
-		$this->compiledPath = $directory;
 	}
 	
 	/**
@@ -272,6 +253,39 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
 	}
     
+	public function getPlugins($type = ''){
+		if(empty($type)){
+			return array_merge(
+				$this->getPlugins('JS'),
+				$this->getPlugins('CSS')
+			);
+		}
+		else{
+			if(strtoupper($type) == 'JS'){
+				$files = array();
+				foreach(scandir($this->pluginPath."js/") as $file){
+					if(is_file($this->pluginPath."js/".$file)){
+						if(preg_match("/\.js$/", $file)){
+							$files[] = $file;
+						} 
+					}
+				}
+				return $files;
+			}
+			if(strtoupper($type) == 'CSS'){
+				$files = array();
+				foreach(scandir($this->pluginPath."css/") as $file){
+					if(is_file($this->pluginPath."css/".$file)){
+						if(preg_match("/\.css$/", $file)){
+							$files[] = $file;
+						} 
+					}
+				}
+				return $files;
+			}
+		}
+	}
+	
 	/**
      * The method copyFile firstly defines the runtime files to be included in each compiled test folder
 	 * Then it calls the copyFile method to accomplish its task
@@ -282,7 +296,7 @@ class taoDelivery_helpers_Compilator
      */
 	public function copyPlugins(){
 		$affectedObject='';
-		$plugins=array(
+		/*$plugins=array(
 			'bar.swf',
 			'CLLPlugin.swf',
 			'countdown.swf',
@@ -308,26 +322,27 @@ class taoDelivery_helpers_Compilator
 			'jquery.js',
 			'swfobject.js'
 			);
+		$cssFiles=array(
+		'test_layout.css'
+			);
 			
 		foreach($plugins as $plugin){
 			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'delivery_runtime');
-		}
+		}*/
 		
-		if(!is_dir($this->compiledPath."js/")){
-			mkdir($this->compiledPath."js/");
+		
+		if(!is_dir($this->compiledPath."/js/")){
+			mkdir($this->compiledPath."/js/");
 		}	
-		foreach($jsFiles as $jsFile){
-			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."js/", 'delivery_runtime/js');
+		foreach($this->getPlugins('JS') as $jsFile){
+			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."/js/");
 		}
 
-		$cssFiles=array(
-			'test_layout.css'
-			);
-		if(!is_dir($this->compiledPath."css/")){
-			mkdir($this->compiledPath."css/");
+		if(!is_dir($this->compiledPath."/css/")){
+			mkdir($this->compiledPath."/css/");
 		}	
-		foreach($cssFiles as $cssFile){
-			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."css/", 'delivery_runtime/css');
+		foreach($this->getPlugins('CSS') as $cssFile){
+			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."/css/");
 		}
 	}
 	
@@ -349,7 +364,7 @@ class taoDelivery_helpers_Compilator
 			throw new Exception("the specified directory does not exist");
 		}
 		
-		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf','wma','wav');
+		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf','wma','wav', 'css', 'js');
 		
 		$authorizedMedia = array_merge($defaultMedia, $authorizedMedia);
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
@@ -357,21 +372,26 @@ class taoDelivery_helpers_Compilator
 		$mediaList = array();
 		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/i";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
-				
+
+		$plugins = $this->getPlugins();
+
 		$uniqueMediaList = 	array_unique($mediaList[0]);
-		
 		foreach($uniqueMediaList as $mediaUrl){
-			
-			$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
-			if(!empty($mediaPath)){
-				
-				$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
-				// var_dump($itemName, $mediaUrl,$replaced, $mediaPath);
+			if(in_array($plugins, basename($mediaUrl))){
+				if(preg_match("/\.js$/", basename($mediaUrl))){
+					$xml = str_replace($mediaUrl, './css/'.basename($mediaUrl), $xml, $replaced);
+				}
+				if(preg_match("/\.css$/", basename($mediaUrl))){
+					$xml = str_replace($mediaUrl, './js/'.basename($mediaUrl), $xml, $replaced);
+				}
+			}
+			else{
+				$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
+				if(!empty($mediaPath)){
+					$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
+				}
 			}
 		}
-		
-		// var_dump($expr, $itemName, $uniqueMediaList, xml);
-		
 		return $xml;
 	}
 	
@@ -423,8 +443,8 @@ class taoDelivery_helpers_Compilator
 	public static function getUniqueId($uriResource){
 		$returnValue='';
 		//TODO check format of the uri, preg_match()
-		if(stripos($uriResource,".rdf#")>0){
-			$returnValue = substr($uriResource,stripos($uriResource,".rdf#")+5);
+		if(stripos($uriResource,"#")>0){
+			$returnValue = substr($uriResource, stripos($uriResource,"#")+1);
 		}
 		
 		return $returnValue;
@@ -453,12 +473,12 @@ class taoDelivery_helpers_Compilator
 	/** 
 	* Get the default absolute path to the compiled folder of a test 
 	*/
-	public static function getCompiledTestUrl($testUri){
+	public static function getCompiledTestUrl($deliveryUri, $testUri, $itemUri){
 		$testUrl ='';
 		
 		$testUniqueId = self::getUniqueId($testUri);
 		if(!empty($testUniqueId)){
-			$testUrl = BASE_URL."/compiled/{$testUniqueId}/theTest.php?subject=^subjectUri&subjectLabel=^subjectLabel&wsdl=^wsdlContract";
+			$testUrl = self::getUniqueId($deliveryUri).'/'.self::getUniqueId($testUri).'/'.self::getUniqueId($itemUri).'/index.html';
 		}
 		
 		return $testUrl;

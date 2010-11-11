@@ -987,35 +987,78 @@ class taoDelivery_models_classes_DeliveryService
 	}
 	
 	/**
-	* Perform all operations required to compile a test
-	*/
-	public function compileTest($testUri){
+	 * Perform all operations required to compile a test
+	 */
+	public function compileTest($deliveryUri, $testUri){
 		
 		$resultArray = array();
 		$resultArray["success"]=0;
 				
-		//config:
-		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
-		$compilationPath=BASE_PATH."/compiled/";
-		
 		//preliminary check
 		if(empty($testUri)){
 			throw new Exception('no empty test uri is allowed in compilation');
 		}
 		
-		//copy runtime plugins:
-		$compilator = new taoDelivery_helpers_Compilator($testUri, $compilationPath, $pluginPath);//new constructor
-		$compilator->clearCompiledFolder();
-		$compilator->copyPlugins();
-		
-		//directory where all files required to launch the test will be collected
-		$directory=$compilator->getCompiledPath();
-		
 		//get the test object from the testUri
 		$aTestInstance = new core_kernel_classes_Resource($testUri);
 		
+		$testService = tao_models_classes_ServiceFactory::get('Tests');
+		$itemService = tao_models_classes_ServiceFactory::get('Items');
+		$items = $testService->getRelatedItems($aTestInstance);
+		
+		foreach($items as $item){
+		
+			try{
+				$deployParams = array(
+					'delivery_server_mode'	=> true
+				);
+				
+				$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+				$deliveryFolderName = substr($deliveryUri, strpos($deliveryUri, '#') + 1);
+				$testFolderName = substr($testUri, strpos($testUri, '#') + 1);
+				
+				$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
+				if(!is_dir($compiledFolder)){
+        			mkdir($compiledFolder);
+        		}
+        		$compiledFolder .= "/$testFolderName";
+				if(!is_dir($compiledFolder)){
+        			mkdir($compiledFolder);
+        		}
+				$compiledFolder .= "/$itemFolderName";
+				if(!is_dir($compiledFolder)){
+        			mkdir($compiledFolder);
+        		}
+        		$itemPath = "{$compiledFolder}/index.html";
+        		$itemUrl = str_replace(BASE_PATH .'/views', BASE_WWW, $itemPath);
+        		
+        		//deploy the item
+        		$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
+			
+				//copy runtime plugins:
+				$compilator = new taoDelivery_helpers_Compilator($deliveryUri, $testUri, $item->uriResource, $compiledFolder);
+				//$compilator->clearCompiledFolder();
+				
+				$compilator->copyPlugins();
+				
+				//directory where all files required to launch the test will be collected
+				//$directory=$compilator->getCompiledPath();
+				
+				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+				//$itemContent=$compilator->itemParser(file_get_contents($itemPath),$directory,"index.html");//rename to parserItem()
+						
+				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+				//$compilator->stringToFile($itemContent, $directory, "index.html");
+			
+			}
+			catch(Exception $e){
+				print $e;
+			}
+		
+		}
+		$resultArray["success"]=1;
 		//set the compiled status to "false" in case any unforseen problem should occur
-		$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
+		/*$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
 		
 		//check whether the test is active or not:
 		$testActive = $this->getTestStatus($aTestInstance, "active");
@@ -1062,7 +1105,7 @@ class taoDelivery_models_classes_DeliveryService
 						 * @require taoItems extension 
 						 * @see taoItems_models_classes_ItemsService::getAuthoringFile
 						 */
-						$itemModel = null;
+						/*$itemModel = null;
 						$itemContent = null;
 
 						//get the black file into file system instead of the RDF triple for the HAWAI item models
@@ -1169,7 +1212,7 @@ class taoDelivery_models_classes_DeliveryService
 			$resultArray["failed"]=$compilationResult["failed"];
 			
 		}
-		
+		*/
 		return $resultArray;
 	}
 	

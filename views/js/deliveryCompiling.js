@@ -40,7 +40,7 @@ function initCompilation(uri,clazz){
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
 		
-			if(r.resultServer.length>8){
+			if(r.resultServer){
 				//proceed with the test compilation:
 				//save the tests data in a global value
 				testArray = r.tests;
