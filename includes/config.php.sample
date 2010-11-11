@@ -49,6 +49,9 @@ define('BASE_URL', ROOT_URL . '/taoDelivery');
 #BASE WWW the web resources path
 define('BASE_WWW', BASE_URL . '/' . DIR_VIEWS);
 
+#the path were the event logs are saved
+define('EVENT_LOG_PATH', ROOT_PATH . '/taoResults/data');
+
 #PROCESS BASE WWW the web path of the process authoring tool
 define('PROCESS_TPL_PATH', ROOT_PATH . '/wfEngine/views/templates/authoring/');
 define('PROCESS_BASE_WWW', ROOT_URL. '/wfEngine/views/');
