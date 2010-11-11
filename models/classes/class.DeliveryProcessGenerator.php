@@ -60,7 +60,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				if(!is_null($testProcess)){
 					//clone the process segment:
 					$testInterfaces = $this->cloneProcessSegment($testProcess, true);
-					echo __LINE__.'*';
+					
 					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
 						$this->addClonedActivity($activity, $testInterfaces['in'], $testInterfaces['out']);
 					}else{

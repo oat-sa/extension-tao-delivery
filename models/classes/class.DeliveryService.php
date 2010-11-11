@@ -1344,8 +1344,11 @@ class taoDelivery_models_classes_DeliveryService
 		//delete the old delivery process if exists:
 		$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
 		$oldDeliveryProcess = $delivery->getOnePropertyValue($propDeliveryProcess);
-		if(!is_null($oldDeliveryProcess)){
+		
+		// print_r($oldDeliveryProcess);
+		if($oldDeliveryProcess instanceof core_kernel_classes_Resource){
 			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			
 			$authoringService->deleteProcess($oldDeliveryProcess);
 		}
 		//then save it in TAO_DELIVERY_PROCESS prop:

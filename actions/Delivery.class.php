@@ -886,7 +886,9 @@ class Delivery extends TaoModule {
 		if(!empty($resultServer)){
 			
 			//generate the real delivery process:
-		//	$deliveryProcess = $this->service->generateProcess($delivery);
+			
+			$deliveryProcess = $this->service->generateProcess($delivery);
+			//TODO: log potential error to display them to the users
 			
 			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 			//array of resource, test set
