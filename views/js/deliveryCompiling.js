@@ -103,7 +103,7 @@ function compileTest(testUri){
 	$.ajax({
 		type: "POST",
 		url: root_url + "/taoDelivery/Delivery/compile",
-		data: {uri : testUri},
+		data: {testUri : testUri, deliveryUri: deliveryUri},
 		dataType: "json",
 		success: function(r){
 		

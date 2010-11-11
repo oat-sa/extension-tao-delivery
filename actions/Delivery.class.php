@@ -552,7 +552,7 @@ class Delivery extends TaoModule {
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
 	 * @return void
 	 */
-	public function compile($uri){
+	public function compile($testUri, $deliveryUri){
 		
 		//get the unique id of the test to be compiled from POST
 		// $testUri=$_POST["uri"];
@@ -564,7 +564,7 @@ class Delivery extends TaoModule {
 			throw new Exception('no test uri given in compile action');
 		}
 		
-		$resultArray = $this->service->compileTest($uri);
+		$resultArray = $this->service->compileTest($testUri, $deliveryUri);
 		
 		echo json_encode($resultArray);
 	}
@@ -882,18 +882,9 @@ class Delivery extends TaoModule {
 		
 		$deliveryData['tests'] = array();
 		if(!empty($resultServer)){
-		
+			
 			//generate the real delivery process:
-			$deliveryProcessGenerator = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryProcessGenerator');
-			$deliveryProcess = $deliveryProcessGenerator->generateDeliveryProcess($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
-			//delete the old delivery process if exists:
-			$oldDeliveryProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
-			if(!is_null($oldDeliveryProcess)){
-				$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-				$authoringService->deleteProcess($oldDeliveryProcess);
-			}
-			//then save it in TAO_DELIVERY_PROCESS prop:
-			$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS), $deliveryProcess->uriResource);
+			$deliveryProcess = $this->service->generateProcess($delivery);
 			
 			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 			//array of resource, test set

@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  */
 require_once('tao/models/classes/class.Service.php');
-
+require_once(dirname(__FILE__).'/class.DeliveryProcessGenerator.php');
 /**
  * The Precompilator class provides many useful methods to accomplish the test compilation task
  *
@@ -990,10 +990,10 @@ class taoDelivery_models_classes_DeliveryService
 	* Perform all operations required to compile a test
 	*/
 	public function compileTest($testUri){
-	
+		
 		$resultArray = array();
 		$resultArray["success"]=0;
-		
+				
 		//config:
 		$pluginPath=BASE_PATH."/models/ext/deliveryRuntime/";
 		$compilationPath=BASE_PATH."/compiled/";
@@ -1288,6 +1288,27 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		
+	}
+	
+	public function generateProcess(core_kernel_classes_Resource $delivery){
+	
+		$deliveryProcess = null;
+		
+		$deliveryProcessGenerator = new taoDelivery_models_classes_DeliveryProcessGenerator();
+		
+		$deliveryProcess = $deliveryProcessGenerator->generateDeliveryProcess($delivery);
+		
+		//delete the old delivery process if exists:
+		$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
+		$oldDeliveryProcess = $delivery->getOnePropertyValue($propDeliveryProcess);
+		if(!is_null($oldDeliveryProcess)){
+			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			$authoringService->deleteProcess($oldDeliveryProcess);
+		}
+		//then save it in TAO_DELIVERY_PROCESS prop:
+		$delivery->editPropertyValues($propDeliveryProcess, $deliveryProcess->uriResource);
+		
+		return $deliveryProcess;
 	}
 } /* end of class taoDelivery_models_classes_DeliveryService */
 

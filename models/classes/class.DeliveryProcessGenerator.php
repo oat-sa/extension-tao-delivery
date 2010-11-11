@@ -17,7 +17,7 @@ error_reporting(E_ALL);
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
-
+require_once('wfEngine/models/classes/class.ProcessCloner.php');
 /**
  * The taoDelivery_models_classes_DeliveryProcessGenerator class
  *
@@ -30,28 +30,41 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 class taoDelivery_models_classes_DeliveryProcessGenerator
     extends wfEngine_models_classes_ProcessCloner
 {
-
-	public function generateDeliveryProcess(core_kernel_classes_Resource $process){
+	
+	public function __construct(){
+		parent::__construct();
+	}
+	
+	public function generateDeliveryProcess(core_kernel_classes_Resource $delivery){
+		
+		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		$deliveryProcess = null;
-		
-		$deliveryProcess = $this->cloneWfResource($process, new core_kernel_classes_Class(CLASS_PROCESS), array(PROPERTY_PROCESS_ACTIVITIES, PROPERTY_PROCESS_DIAGRAMDATA));
+		$deliveryProcess = $this->cloneWfResource(
+			$process, 
+			new core_kernel_classes_Class(CLASS_PROCESS), 
+			array(PROPERTY_PROCESS_ACTIVITIES, PROPERTY_PROCESS_DIAGRAMDATA),
+			'Actual '.$process->getLabel()
+		);
 		
 		if(!is_null($deliveryProcess)){
 			//get all activity processes and clone them:
 			$activities = $this->authoringService->getActivitiesByProcess($process);
+			
 			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 			
 			foreach($activities as $activityUri => $activity){
-			
+				
 				$testProcess = $authoringService->getTestProcessFromActivity($activity);
+				
 				if(!is_null($testProcess)){
 					//clone the process segment:
-					$testInterfaces = $processCloner->cloneProcessSegment($testProcess, true);
+					$testInterfaces = $this->cloneProcessSegment($testProcess, true);
+					echo __LINE__.'*';
 					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
 						$this->addClonedActivity($activity, $testInterfaces['in'], $testInterfaces['out']);
 					}else{
-						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned")
+						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
 					}
 				}else{
 					// $activityClone = $this->cloneActivity($activity);
@@ -71,6 +84,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				$this->currentActivity = $activity;
 				$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
 				foreach($connectors['next'] as $connector){
+					
 					$this->cloneConnector($connector);
 				}
 			}
