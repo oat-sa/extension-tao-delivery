@@ -59,10 +59,11 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				
 				if(!is_null($testProcess)){
 					//clone the process segment:
-					$testInterfaces = $this->cloneProcessSegment($testProcess, true);
+					$testInterfaces = $this->cloneProcessSegment($testProcess, false);
+					// print_r($testInterfaces);
 					
 					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
-						$this->addClonedActivity($activity, $testInterfaces['in'], $testInterfaces['out']);
+						$this->addClonedActivity($activity, $testInterfaces['in'], isset($testInterfaces['out'][0])? $testInterfaces['out'][0]:$testInterfaces['out']);
 					}else{
 						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
 					}
@@ -88,6 +89,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 					$this->cloneConnector($connector);
 				}
 			}
+			// print_r($this);
 		}
 		
 		return $deliveryProcess;
