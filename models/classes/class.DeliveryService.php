@@ -513,6 +513,7 @@ class taoDelivery_models_classes_DeliveryService
 	
 	public function deleteHistory(core_kernel_classes_Resource $history){
 		$returnValue = false;
+		// print_r($history);
 		if(!is_null($history)){
 			$returnValue = $history->delete();
 		}

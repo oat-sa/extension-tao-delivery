@@ -708,22 +708,20 @@ class Delivery extends TaoModule {
 	}
 	
 	public function deleteHistory(){
+	
+		$deleted = false;
 		$message = __('An error occured during history deletion');
 		if($this->hasRequestParameter('historyUri')){
-			$history = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('historyUri')));
+			$history = new core_kernel_classes_Resource(tao_helpers_Uri::decode(tao_helpers_Uri::decode($this->getRequestParameter('historyUri'))));
 			if($this->service->deleteHistory($history)){
+				$deleted = true;
 				$message = __('History deleted successfully');
 			}
 		}
-		$this->redirect(_url(
-			'index',
-			'Main',
-			'tao',
-			array(
-				'extension' => 'taoDelivery',
-				'uri'=>tao_helpers_Uri::encode($this->getCurrentDelivery()->uriResource),
-				'message' => $message
-			)
+		
+		echo json_encode(array(
+			'deleted' => $deleted,
+			'message' => $message
 		));
 	}
 	
