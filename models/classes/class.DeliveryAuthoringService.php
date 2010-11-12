@@ -116,7 +116,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		
 		$delivery = null;
 		
-		$deliveryCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_DELIVERYCONTENT,$process->uriResource);
+		$deliveryCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_PROCESS,$process->uriResource);
 		if(!$deliveryCollection->isEmpty()){
 			$delivery = $deliveryCollection->get(0);
 		}

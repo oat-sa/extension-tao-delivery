@@ -304,10 +304,10 @@ class taoDelivery_models_classes_DeliveryServerService
 		$availableProcessDefinition = array();
 		foreach($deliveries['ok'] as $availableDelivery){
 			if($check) {
-				$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+				$availableProcessDefinition[ $availableDelivery->uriResource ] = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 			}
 			else{
-				$res = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+				$res = $availableDelivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 				if($res !=null) {
 					$availableProcessDefinition[ $availableDelivery->uriResource ] = $res->uriResource;
 				}
