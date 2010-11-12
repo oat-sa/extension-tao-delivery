@@ -347,19 +347,21 @@ class taoDelivery_helpers_Compilator
 
 		$uniqueMediaList = 	array_unique($mediaList[0]);
 		
+		$compiledUrl = str_replace(ROOT_PATH, ROOT_URL, $this->compiledPath);
+		
 		foreach($uniqueMediaList as $mediaUrl){
 			if(in_array(basename($mediaUrl), $plugins)){
 				if(preg_match("/\.js$/", basename($mediaUrl))){
-					$xml = str_replace($mediaUrl, './css/'.basename($mediaUrl), $xml, $replaced);
+					$xml = str_replace($mediaUrl, "$compiledUrl/js/".basename($mediaUrl), $xml, $replaced);
 				}
 				if(preg_match("/\.css$/", basename($mediaUrl))){
-					$xml = str_replace($mediaUrl, './js/'.basename($mediaUrl), $xml, $replaced);
+					$xml = str_replace($mediaUrl, "$compiledUrl/css/".basename($mediaUrl), $xml, $replaced);
 				}
 			}
 			else{
 				$mediaPath = $this->copyFile($mediaUrl, $directory.'/', $itemName, true);
 				if(!empty($mediaPath)){
-					$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
+					$xml = str_replace($mediaUrl, "$compiledUrl/".basename($mediaUrl), $xml, $replaced);//replace only when copyFile is successful
 				}
 			}
 		}

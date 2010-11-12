@@ -78,7 +78,7 @@ class ResultDelivery extends Api {
 							'TAO_SUBJECT_ID' 		=> $executionEnvironment[TAO_SUBJECT_CLASS]['uri']
 						);
 						
-						$this->resultService->addResultVariables($dtis, $outcomes, true);
+						//$this->resultService->addResultVariables($dtis, $outcomes, true);
 	            	}
 	            }
             }
@@ -114,12 +114,12 @@ class ResultDelivery extends Api {
 					foreach($this->getRequestParameter('taoVars') as $key => $value){
 						$taoVars[str_replace($resultNS.'#', '', $key)] = $value;
 					}
-					$this->resultService->addResultVariables($dtis, $taoVars, false);
+					//$this->resultService->addResultVariables($dtis, $taoVars, false);
 					
 				}
 				if($this->hasRequestParameter('userVars')){
 					//here we save the user variables
-					$this->resultService->addResultVariables($dtis, $this->getRequestParamter('userVars'), true);
+					//$this->resultService->addResultVariables($dtis, $this->getRequestParamter('userVars'), true);
 				}
 				
 				$saved = true;
