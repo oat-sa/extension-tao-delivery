@@ -1010,7 +1010,9 @@ class taoDelivery_models_classes_DeliveryService
 		
 			try{
 				$deployParams = array(
-					'delivery_server_mode'	=> true
+					'delivery_server_mode'	=> true,
+					'preview_mode'	=> false,
+				 	'base_www' => ROOT_URL . '/taoItems/views/'
 				);
 				
 				$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
