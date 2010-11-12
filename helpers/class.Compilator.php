@@ -257,7 +257,8 @@ class taoDelivery_helpers_Compilator
 		if(empty($type)){
 			return array_merge(
 				$this->getPlugins('JS'),
-				$this->getPlugins('CSS')
+				$this->getPlugins('CSS'),
+				$this->getPlugins('IMG')
 			);
 		}
 		else{
@@ -283,6 +284,15 @@ class taoDelivery_helpers_Compilator
 				}
 				return $files;
 			}
+			if(strtoupper($type) == 'IMG'){
+				$files = array();
+				foreach(scandir($this->pluginPath."img/") as $file){
+					if(is_file($this->pluginPath."img/".$file) && !is_dir($this->pluginPath."img/".$file)){
+						$files[] = $file;
+					}
+				}
+				return $files;
+			}
 		}
 	}
 	
@@ -295,54 +305,14 @@ class taoDelivery_helpers_Compilator
      * @return void
      */
 	public function copyPlugins(){
-		$affectedObject='';
-		/*$plugins=array(
-			'bar.swf',
-			'CLLPlugin.swf',
-			'countdown.swf',
-			'ctest_item.swf',
-			'kohs_passation.swf',
-			'listen.swf',
-			'tao_item.swf',
-			'eXULiS.swf',
-			'eXULiS_debug.swf',
-			'hawai.swf',
-			'hawai_debug.swf',
-			'taotab.swf',
-			'Test.swf',
-			'upload_result.swf',
-			'start.html',
-			'theTest.php',
-			'uploadItem.xml'
-			);
-		
-		$jsFiles=array(
-			'elements.js',
-			'init.js',
-			'jquery.js',
-			'swfobject.js'
-			);
-		$cssFiles=array(
-		'test_layout.css'
-			);
-			
+		$plugins = array('js', 'css', 'img');
 		foreach($plugins as $plugin){
-			$this->copyFile($this->pluginPath.$plugin, $this->compiledPath, 'delivery_runtime');
-		}*/
-		
-		
-		if(!is_dir($this->compiledPath."/js/")){
-			mkdir($this->compiledPath."/js/");
-		}	
-		foreach($this->getPlugins('JS') as $jsFile){
-			$this->copyFile($this->pluginPath."js/".$jsFile, $this->compiledPath."/js/");
-		}
-
-		if(!is_dir($this->compiledPath."/css/")){
-			mkdir($this->compiledPath."/css/");
-		}	
-		foreach($this->getPlugins('CSS') as $cssFile){
-			$this->copyFile($this->pluginPath."css/".$cssFile, $this->compiledPath."/css/");
+			if(!is_dir("{$this->compiledPath}/{$plugin}/")){
+				mkdir("{$this->compiledPath}/{$plugin}/");
+			}	
+			foreach($this->getPlugins($plugin) as $file){
+				tao_helpers_File::copy("{$this->pluginPath}/{$plugin}/{$file}", "{$this->compiledPath}/{$plugin}/{$file}", true);
+			}
 		}
 	}
 	
@@ -370,14 +340,15 @@ class taoDelivery_helpers_Compilator
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/i";
+		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/mi";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
 
 		$plugins = $this->getPlugins();
 
 		$uniqueMediaList = 	array_unique($mediaList[0]);
+		
 		foreach($uniqueMediaList as $mediaUrl){
-			if(in_array($plugins, basename($mediaUrl))){
+			if(in_array(basename($mediaUrl), $plugins)){
 				if(preg_match("/\.js$/", basename($mediaUrl))){
 					$xml = str_replace($mediaUrl, './css/'.basename($mediaUrl), $xml, $replaced);
 				}
@@ -386,7 +357,7 @@ class taoDelivery_helpers_Compilator
 				}
 			}
 			else{
-				$mediaPath = $this->copyFile($mediaUrl, $directory, $itemName, true);
+				$mediaPath = $this->copyFile($mediaUrl, $directory.'/', $itemName, true);
 				if(!empty($mediaPath)){
 					$xml = str_replace($mediaUrl, $mediaPath, $xml, $replaced);//replace only when copyFile is successful
 				}

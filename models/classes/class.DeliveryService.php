@@ -992,7 +992,7 @@ class taoDelivery_models_classes_DeliveryService
 	public function compileTest($deliveryUri, $testUri){
 		
 		$resultArray = array();
-		$resultArray["success"]=0;
+		$resultArray["success"]=1;
 				
 		//preliminary check
 		if(empty($testUri)){
@@ -1044,21 +1044,18 @@ class taoDelivery_models_classes_DeliveryService
 				$compilator->copyPlugins();
 				
 				//directory where all files required to launch the test will be collected
-				//$directory=$compilator->getCompiledPath();
+				$directory=$compilator->getCompiledPath();
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-				//$itemContent=$compilator->itemParser(file_get_contents($itemPath),$directory,"index.html");//rename to parserItem()
+				$itemContent=$compilator->itemParser(file_get_contents($itemPath),$directory,"index.html");//rename to parserItem()
 						
 				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-				//$compilator->stringToFile($itemContent, $directory, "index.html");
-			
+				$compilator->stringToFile($itemContent, $directory, "index.html");
 			}
 			catch(Exception $e){
-				print $e;
+				$resultArray["success"]=0;
 			}
-		
 		}
-		$resultArray["success"]=1;
 		//set the compiled status to "false" in case any unforseen problem should occur
 		/*$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
 		
