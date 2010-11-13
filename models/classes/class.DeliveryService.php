@@ -545,16 +545,8 @@ class taoDelivery_models_classes_DeliveryService
 		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP), TAO_DELIVERY_SIMPLEMODE);
 		
 		//set the default delivery server:
-		$defaultResultServer = new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
-		//important to check if it is still there (his property value "url" = localhost)
-		$urlResource = $defaultResultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_URL_PROP));
-		if(!is_null($urlResource)){
-			if($urlResource instanceof core_kernel_classes_Literal){
-				if($urlResource->literal == 'localhost'){
-					$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), $defaultResultServer->uriResource);
-				}
-			}
-		}
+		$deliveryInstance->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+		
 		return $deliveryInstance;		
 	}
 	
@@ -1035,12 +1027,12 @@ class taoDelivery_models_classes_DeliveryService
         		$itemPath = "{$compiledFolder}/index.html";
         		$itemUrl = str_replace(BASE_PATH .'/views', BASE_WWW, $itemPath);
         		
-        		//deploy the item
-        		$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
-			
-				//copy runtime plugins:
+        		
 				$compilator = new taoDelivery_helpers_Compilator($deliveryUri, $testUri, $item->uriResource, $compiledFolder);
-				//$compilator->clearCompiledFolder();
+				$compilator->clearCompiledFolder();
+				
+				//deploy the item
+        		$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
 				
 				$compilator->copyPlugins();
 				

@@ -37,7 +37,7 @@ class ItemDelivery extends Api {
 				throw new Exception(__('No user is logged in'));
 			}
 			
-			$process	= new core_kernel_classes_Resource(Session::getAttribute('processUri'));
+			$process	= new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
 			$item 		= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('itemUri')));
 			$test 		= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
 			$delivery 	= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
