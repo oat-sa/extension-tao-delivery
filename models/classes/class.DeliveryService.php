@@ -1025,8 +1025,7 @@ class taoDelivery_models_classes_DeliveryService
         			mkdir($compiledFolder);
         		}
         		$itemPath = "{$compiledFolder}/index.html";
-        		$itemUrl = str_replace(BASE_PATH .'/views', BASE_WWW, $itemPath);
-        		
+        		$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
         		
 				$compilator = new taoDelivery_helpers_Compilator($deliveryUri, $testUri, $item->uriResource, $compiledFolder);
 				$compilator->clearCompiledFolder();

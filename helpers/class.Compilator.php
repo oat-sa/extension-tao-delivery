@@ -348,7 +348,6 @@ class taoDelivery_helpers_Compilator
 		$uniqueMediaList = 	array_unique($mediaList[0]);
 		
 		$compiledUrl = str_replace(ROOT_PATH, ROOT_URL, $this->compiledPath);
-		
 		foreach($uniqueMediaList as $mediaUrl){
 			if(in_array(basename($mediaUrl), $plugins)){
 				if(preg_match("/\.js$/", basename($mediaUrl))){
