@@ -97,17 +97,17 @@ class taoDelivery_helpers_Compilator
 		
 		//TODO: change testUri to deliveryUri
 		
-		$this->completed=array(
-					"copiedFiles"=>array(),
-					"createdFiles"=>array()
-			);
+		$this->completed = array(
+			"copiedFiles"=>array(),
+			"createdFiles"=>array()
+		);
 					
-		$this->failed=array(
-					"copiedFiles"=>array(),
-					"createdFiles"=>array(),
-					"untranslatedItems"=>array(),
-					"errorMsg"=>array()
-			);
+		$this->failed = array(
+			"copiedFiles"=>array(),
+			"createdFiles"=>array(),
+			"untranslatedItems"=>array(),
+			"errorMsg"=>array()
+		);
 		
 		
 		
@@ -130,7 +130,7 @@ class taoDelivery_helpers_Compilator
 		}
 			
 		if(!is_dir($this->compiledPath)){
-			$this->failed["createdFiles"]["compiled_test_folder"]=$directory;
+			$this->failed["createdFiles"]["compiled_test_folder"] = $directory;
 			throw new Exception("The main compiled test directory '{$this->compiledPath}' does not exist");
 		}
 	}
@@ -400,7 +400,7 @@ class taoDelivery_helpers_Compilator
      * @return array
      */	
 	public function result(){
-		$returnValue=array("completed"=>$this->completed, "failed"=>$this->failed);
+		$returnValue = array("completed"=>$this->completed, "failed"=>$this->failed);
 		return $returnValue;
 	}
 	
@@ -414,6 +414,7 @@ class taoDelivery_helpers_Compilator
      */	
 	public static function getUniqueId($uriResource){
 		$returnValue='';
+		
 		//TODO check format of the uri, preg_match()
 		if(stripos($uriResource,"#")>0){
 			$returnValue = substr($uriResource, stripos($uriResource,"#")+1);
@@ -482,7 +483,7 @@ class taoDelivery_helpers_Compilator
 			}
 		}
 		
-		$returnValue=$this->recursiveDelete($this->compiledPath, false);
+		$returnValue = $this->recursiveDelete($this->compiledPath, false);
 		
 		return $returnValue;
 	}

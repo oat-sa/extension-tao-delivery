@@ -993,12 +993,13 @@ class taoDelivery_models_classes_DeliveryService
 		}
 		
 		//get the test object from the testUri
-		$aTestInstance = new core_kernel_classes_Resource($testUri);
+		$test = new core_kernel_classes_Resource($testUri);
 		
 		$testService = tao_models_classes_ServiceFactory::get('Tests');
 		$itemService = tao_models_classes_ServiceFactory::get('Items');
-		$items = $testService->getRelatedItems($aTestInstance);
+		$items = $testService->getRelatedItems($test);
 		
+		$compilationResult = array();
 		foreach($items as $item){
 		
 			try{
@@ -1012,6 +1013,7 @@ class taoDelivery_models_classes_DeliveryService
 				$deliveryFolderName = substr($deliveryUri, strpos($deliveryUri, '#') + 1);
 				$testFolderName = substr($testUri, strpos($testUri, '#') + 1);
 				
+				//create the compilation folder for the delivery-test-item:
 				$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
 				if(!is_dir($compiledFolder)){
         			mkdir($compiledFolder);
@@ -1036,18 +1038,23 @@ class taoDelivery_models_classes_DeliveryService
 				$compilator->copyPlugins();
 				
 				//directory where all files required to launch the test will be collected
-				$directory=$compilator->getCompiledPath();
+				$directory = $compilator->getCompiledPath();
 				
 				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-				$itemContent=$compilator->itemParser(file_get_contents($itemPath),$directory,"index.html");//rename to parserItem()
+				$itemContent=$compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
 						
 				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
 				$compilator->stringToFile($itemContent, $directory, "index.html");
+				
+				$compilationResult[] = $compilator->result();
 			}
 			catch(Exception $e){
 				$resultArray["success"]=0;
 			}
 		}
+		
+		$resultArray['compilationResult'] = $compilationResult;
+		
 		//set the compiled status to "false" in case any unforseen problem should occur
 		/*$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
 		

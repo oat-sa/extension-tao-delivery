@@ -39,7 +39,7 @@ class DeliveryServer extends DeliveryServerModule{
 		$subject = $userService->getCurrentUser();
 		
 		$processDefinitionUri = urldecode($processDefinitionUri);
-		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess(new core_kernel_classes_Resource($processDefinitionUri));
+		$delivery = taoDelivery_models_classes_DeliveryAuthoringService::getDeliveryFromProcess(new core_kernel_classes_Resource($processDefinitionUri), true);
 		if(is_null($delivery)){
 			throw new Exception("no delivery found for the selected process definition");
 		}

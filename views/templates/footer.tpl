@@ -4,8 +4,6 @@ var ctx_module 		= "<?=get_data('module')?>";
 var ctx_action 		= "<?=get_data('action')?>";
 $(function(){
 	
-	setAthoringModeButtons();
-	
 	UiBootstrap.tabs.bind('tabsshow', function(event, ui) {
 		if(ui.index>0){
 			$("form[name=form_1]").html('');
@@ -22,29 +20,38 @@ $(function(){
 		uiBootstrap.initTrees();
 	<?endif;?>
 	
+	setAuthoringModeButtons();
 	EventMgr.bind('actionInitiated', function(event, response){
-		setAthoringModeButtons();
+		setAuthoringModeButtons();
 	});
 });
 
-function setAthoringModeButtons(){
-	$('#action_advanced_mode').parent().hide();
-	$('#action_simple_mode').parent().hide();
-	<?if(get_data('uri') && get_data('classUri')):?> 
-		<?if(get_data('authoringMode')=='advanced'):?>
-			$('#action_simple_mode').parent().show();
-			$('#action_simple_mode').unbind('click');
-			$('#action_simple_mode').click(function(e){
-				// e.preventDefault();
-				if(!confirm('Are you sure to switch back to the simple mode? \n The delivery process will be linearized.')){
-					// $(this).find('a').click();
-					return false;
-				}
-				// return false;
-			});
-		<?else:?>
-			$('#action_advanced_mode').parent().show();
+function setAuthoringModeButtons(){
+	$advContainer = $('#action_advanced_mode').parent();
+	$simpleContainer = $('#action_simple_mode').parent();
+	if($advContainer.length && $simpleContainer.length){
+		$advContainer.hide();
+		$simpleContainer.hide();
+		<?if(get_data('uri') && get_data('classUri')):?> 
+			<?if(get_data('authoringMode')=='advanced'):?>
+				$simpleContainer.insertAfter($advContainer);
+				$simpleContainer.show();
+				$('#action_simple_mode').unbind('click');
+				$('#action_simple_mode').click(function(e){
+					// e.preventDefault();
+					console.log('#action_simple_mode clicked');
+					if(!confirm('Are you sure to switch back to the simple mode? \n The delivery process will be linearized.')){
+						// console.log('getting simple');
+						// $(this).find('a').click();
+						console.log('#action_simple_mode click not confirmed');
+						return false;
+					}
+					console.log('#action_simple_mode click confirmed');
+				});
+			<?else:?>
+				$advContainer.show();
+			<?endif;?>
 		<?endif;?>
-	<?endif;?>
+	}
 }
 </script>

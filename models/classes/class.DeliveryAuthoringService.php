@@ -112,11 +112,16 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 	 * @param core_kernel_classes_Resource process
      * @return core_kernel_classes_Resource or null
      */	
-	public function getDeliveryFromProcess(core_kernel_classes_Resource $process){
+	public function getDeliveryFromProcess(core_kernel_classes_Resource $process, $executionProcess = false){
 		
 		$delivery = null;
 		
-		$deliveryCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_PROCESS,$process->uriResource);
+		$propDeliveryProcess = TAO_DELIVERY_DELIVERYCONTENT;
+		if($executionProcess){
+			$propDeliveryProcess = TAO_DELIVERY_PROCESS;
+		}
+		
+		$deliveryCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject($propDeliveryProcess, $process->uriResource);
 		if(!$deliveryCollection->isEmpty()){
 			$delivery = $deliveryCollection->get(0);
 		}

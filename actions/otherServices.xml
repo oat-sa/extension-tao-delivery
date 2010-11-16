@@ -9,8 +9,8 @@
 		<description>Embed a generic web service accessible via url in an iframe</description>
 		<location url="/taoDelivery/WebService/index">
 			<param key="url" value="^webServiceUrl" />
-			<param key="height" value="100%" />
-			<param key="width" value="100%" />
+			<param key="height" value="98%" />
+			<param key="width" value="98%" />
 		</location>
 	</service>
 	
