@@ -120,6 +120,51 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test2);
 	}
 	
+	
+	public function testGenerateProcessConditional(){
+		//create 2 tests with 2 items:
+		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+		$item1 = $itemClass->createInstance('UnitDelivery Item1', 'Item 1 created for delivery unit test');
+		$item2 = $itemClass->createInstance('UnitDelivery Item2', 'Item 2 created for delivery unit test');
+		$item3 = $itemClass->createInstance('UnitDelivery Item3', 'Item 3 created for delivery unit test');
+		$item4 = $itemClass->createInstance('UnitDelivery Item4', 'Item 4 created for delivery unit test');
+		
+		//create required test authoring:
+		$testsService = tao_models_classes_ServiceFactory::get('Tests');
+		$this->assertIsA($testsService, 'tao_models_classes_GenerisService');
+		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
+		
+		//create 2 test instances with the tests service (to initialize the test processes)
+		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		$test1 = $testsService->createInstance($testClass, 'UnitDelivery Test1');
+		$test2 = $testsService->createInstance($testClass, 'UnitDelivery Test2');
+		$this->assertIsA($test1, 'core_kernel_classes_Resource');
+		$this->assertIsA($test2, 'core_kernel_classes_Resource');
+		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Class(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
+		
+		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
+		$this->assertTrue($testsService->setTestItems($test1, array($item1, $item2)));
+		$this->assertTrue($testsService->setTestItems($test2, array($item3, $item4)));
+		
+		//set the 2 tests to the delivery
+		$this->assertTrue($this->deliveryService->setDeliveryTests($this->delivery, array($test1, $test2)));
+		$this->assertEqual(count($this->deliveryService->getDeliveryTests($this->delivery)), 2);
+		
+		//generate the actual delivery process:
+		$deliveryProcess = $this->deliveryService->generateProcess($this->delivery);
+		$this->assertIsA($deliveryProcess, 'core_kernel_classes_Resource');
+		
+		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 4);//there should be 4 activities (i.e. items)
+	
+		$item1->delete();
+		$item2->delete();
+		$item3->delete();
+		$item4->delete();
+		$testsService->deleteTest($test1);
+		$testsService->deleteTest($test2);
+	}
+	
 	/*
 	public function testCompileTest(){
 		// require_once(ROOT_PATH . '/taoTests/includes/constants.php');
