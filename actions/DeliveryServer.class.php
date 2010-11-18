@@ -54,6 +54,10 @@ class DeliveryServer extends DeliveryServerModule{
 		$processExecutionFactory = new ProcessExecutionFactory();
 			
 		$processExecutionFactory->name = $delivery->getLabel();
+		if(strlen(trim($processExecutionFactory->name)) == 0){
+			$deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+			$processExecutionFactory->name = "Execution ".count($deliveryService->getHistory($delivery))." of ".$delivery->getLabel();
+		}
 		$processExecutionFactory->comment = 'Created ' . date(DATE_ISO8601);
 			
 		$processExecutionFactory->execution = $processDefinitionUri;
