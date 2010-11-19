@@ -662,12 +662,6 @@ class taoDelivery_models_classes_DeliveryService
 		
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-				
-		//create formal param associated to the 3 required proc var:
-		$testUriParam = $authoringService->getFormalParameter('testUri');//it is alright if the default value (i.e. proc var has been changed)
-		if(is_null($testUriParam)){
-			$testUriParam = $authoringService->createFormalParameter('testUri', 'constant', '', 'test uri (authoring)');
-		}
 					
 		//delete all related activities:
 		$activities = $authoringService->getActivitiesByProcess($process);
@@ -694,28 +688,10 @@ class taoDelivery_models_classes_DeliveryService
 				$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 			}
 			
-			//set property value visible to true
-			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
-			
-			//set ACL mode to role user restricted with role=subject
-			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
-			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), CLASS_ROLE_SUBJECT);
-			
-			$serviceDefinition = wfEngine_helpers_ProcessUtil::getServiceDefinition(TAO_TEST_CLASS);//use the TAO_TEST_CLASS as the key to identify test services
-			if(is_null($serviceDefinition)){
-				//if no corresponding service def found, create a service definition:
-				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
-				$serviceDefinition = $serviceDefinitionClass->createInstance('test process container', 'created by delivery service');
-				
-				//set service definition (the test) and parameters:
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), TAO_TEST_CLASS);
-				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $testUriParam->uriResource);
+			$interactiveService = $authoringService->setTestByActivity($activity, $test);
+			if(is_null($interactiveService)){
+				throw new core_kernel_classes_Resource("the interactive test of test {$test->getlabel()}({$test->uriResource})");
 			}
-			
-			//create a call of service and associate the service definition to it:
-			$interactiveService = $authoringService->createInteractiveService($activity);
-			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
-			$authoringService->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_CONSTANTVALUE);
 			
 			if($totalNumber == 1){
 				if(!is_null($interactiveService) && $interactiveService instanceof core_kernel_classes_Resource){

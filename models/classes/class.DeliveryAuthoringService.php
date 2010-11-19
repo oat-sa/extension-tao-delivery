@@ -44,7 +44,46 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		parent::__construct();
 		
     }
+	public function setTestByActivity(core_kernel_classes_Resource $activity, core_kernel_classes_Resource $test){
 		
+		$returnValue = null;
+		
+		if(!is_null($activity) && !is_null($test)){
+		
+			//create formal param associated to the test definition
+			$testUriParam = $this->getFormalParameter('testUri');//it is alright if the default value (i.e. proc var has been changed)
+			if(is_null($testUriParam)){
+				$testUriParam = $this->createFormalParameter('testUri', 'constant', '', 'test uri (authoring)');
+			}
+			
+			//set property value visible to true
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
+			
+			//set ACL mode to role user restricted with role=subject
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), CLASS_ROLE_SUBJECT);
+			
+			$serviceDefinition = wfEngine_helpers_ProcessUtil::getServiceDefinition(TAO_TEST_CLASS);//use the TAO_TEST_CLASS as the key to identify test services
+			if(is_null($serviceDefinition)){
+				//if no corresponding service def found, create a service definition:
+				$serviceDefinitionClass = new core_kernel_classes_Class(CLASS_SUPPORTSERVICES);
+				$serviceDefinition = $serviceDefinitionClass->createInstance('test process container', 'created by delivery service');
+				
+				//set service definition (the test) and parameters:
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL), TAO_TEST_CLASS);
+				$serviceDefinition->setPropertyValue(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN), $testUriParam->uriResource);
+			}
+			
+			//create a call of service and associate the service definition to it:
+			$interactiveService = $this->createInteractiveService($activity);
+			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
+			$this->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_CONSTANTVALUE);
+			
+			$returnValue = $interactiveService;
+		}
+		
+		return $returnValue;
+	}	
 	
 	/**
      * Used in delivery compilation: get the test included in an activity
