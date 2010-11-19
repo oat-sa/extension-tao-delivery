@@ -176,8 +176,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$item2->delete();
 		$item3->delete();
 		$item4->delete();
-		// $testsService->deleteTest($test1);
-		// $testsService->deleteTest($test2);
+		$testsService->deleteTest($test1);
+		$testsService->deleteTest($test2);
 	}
 	/**/
 	
@@ -246,10 +246,10 @@ class DeliveryTestCase extends UnitTestCase {
 	}
 	*/
 	
-	// public function testDeleteDelivery(){
-		// $this->deliveryService->deleteDelivery($this->delivery);
-		// $this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
-		// $this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)));
-	// }
+	public function testDeleteDelivery(){
+		$this->deliveryService->deleteDelivery($this->delivery);
+		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
+		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)));
+	}
 }
 
