@@ -37,6 +37,8 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 	
 	public function generateDeliveryProcess(core_kernel_classes_Resource $delivery){
 		
+		$this->initCloningVariables();
+		$this->setCloneLabel("__Clone8");
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		$deliveryProcess = null;
@@ -63,7 +65,12 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 					// print_r($testInterfaces);
 					
 					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
-						$this->addClonedActivity($activity, $testInterfaces['in'], isset($testInterfaces['out'][0])? $testInterfaces['out'][0]:$testInterfaces['out']);
+						$inActivityUri = $testInterfaces['in'];
+						$outActivityUris = $testInterfaces['out'];
+						var_dump('test interfaces', $testInterfaces);
+						// $this->addClonedActivity($activity, $inActivityUri, isset($outActivityUris[0])?$outActivityUris[0]:$outActivityUris);//use the first branch only
+						$this->addClonedActivity($activity, $inActivityUri, $outActivityUris);
+						var_dump($this);
 					}else{
 						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
 					}
@@ -85,11 +92,11 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				$this->currentActivity = $activity;
 				$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
 				foreach($connectors['next'] as $connector){
-					
 					$this->cloneConnector($connector);
 				}
 			}
-			// print_r($this);
+			
+			var_dump('end', $this);
 		}
 		
 		return $deliveryProcess;

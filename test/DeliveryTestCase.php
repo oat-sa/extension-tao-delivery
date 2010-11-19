@@ -42,7 +42,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$this->delivery = $delivery;
 		
 	}
-	
+	/*
 	public function testSetDeliveryTests(){
 	
 		//create 2 tests:
@@ -75,7 +75,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$test1->delete();
 		$test2->delete();
 	}
-	
+	*/
+	/*
 	public function testGenerateProcess(){
 		//create 2 tests with 2 items:
 		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
@@ -119,9 +120,12 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test1);
 		$testsService->deleteTest($test2);
 	}
-	
+	*/
 	
 	public function testGenerateProcessConditional(){
+		$id = "!item: UnitDelivery ";
+		
+		
 		//create 2 tests with 2 items:
 		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
 		$item1 = $itemClass->createInstance('UnitDelivery Item1', 'Item 1 created for delivery unit test');
@@ -143,27 +147,39 @@ class DeliveryTestCase extends UnitTestCase {
 		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Class(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
 		
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
-		$this->assertTrue($testsService->setTestItems($test1, array($item1, $item2)));
-		$this->assertTrue($testsService->setTestItems($test2, array($item3, $item4)));
+		$processTest1 = $test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
+				
+		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$activityItem1 = $authoringService->createActivity($processTest1, "{$id}Item_1");
+		$activityItem1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
+		$connectorItem1 = $authoringService->createConnector($activityItem1);
 		
-		//set the 2 tests to the delivery
+		$activityItem2 = $authoringService->createSplitActivity($connectorItem1, 'then', null, "{$id}Item_2");//create actiivty for item 2:
+		$activityItem3 = $authoringService->createSplitActivity($connectorItem1, 'else', null, "{$id}Item_3");
+		
+		//processTest2 is sequential:
+		$this->assertTrue($testsService->setTestItems($test2, array($item4)));
+		
+		//set the 2 tests to the delivery sequentially:
 		$this->assertTrue($this->deliveryService->setDeliveryTests($this->delivery, array($test1, $test2)));
 		$this->assertEqual(count($this->deliveryService->getDeliveryTests($this->delivery)), 2);
 		
 		//generate the actual delivery process:
+		
 		$deliveryProcess = $this->deliveryService->generateProcess($this->delivery);
 		$this->assertIsA($deliveryProcess, 'core_kernel_classes_Resource');
 		
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 4);//there should be 4 activities (i.e. items)
 	
 		$item1->delete();
 		$item2->delete();
 		$item3->delete();
 		$item4->delete();
-		$testsService->deleteTest($test1);
-		$testsService->deleteTest($test2);
+		// $testsService->deleteTest($test1);
+		// $testsService->deleteTest($test2);
 	}
+	/**/
 	
 	/*
 	public function testCompileTest(){
@@ -230,11 +246,10 @@ class DeliveryTestCase extends UnitTestCase {
 	}
 	*/
 	
-	public function testDeleteDelivery(){
-		$this->deliveryService->deleteDelivery($this->delivery);
-		//check if the process has been deleted:
-		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
-		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)));
-	}
+	// public function testDeleteDelivery(){
+		// $this->deliveryService->deleteDelivery($this->delivery);
+		// $this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
+		// $this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)));
+	// }
 }
 
