@@ -106,19 +106,25 @@ class ItemDelivery extends Api {
 				$headNodes = $doc->getElementsByTagName('head');
 				
 				foreach($headNodes as $headNode){
+					$inserted = false;
 					$scriptNodes = $headNode->getElementsByTagName('script');
 					if($scriptNodes->length > 0){
 						foreach($scriptNodes as $index => $scriptNode){
 							if($scriptNode->hasAttribute('src')){
 								if(preg_match("/taoApi\.min\.js$/", $scriptNode->getAttribute('src'))){
-									
 									$headNode->insertBefore($scriptElt, $scriptNodes->item($index +1));
+									$inserted = true;
 									break;
 								}
 							}
 						}
 					}
-					else{
+					if(!$inserted){
+						$taoScriptElt = $doc->createElement('script');
+						$taoScriptElt->setAttribute('type', 'text/javascript');
+						$taoScriptElt->setAttribute('src', TAO_BASE_WWW.'js/taoApi/taoApi.min.js');
+						$headNode->appendChild($taoScriptElt);
+						
 						$headNode->appendChild($scriptElt);
 					}
 					break;
@@ -129,8 +135,13 @@ class ItemDelivery extends Api {
 				
 			}
 			catch(DOMException $de){
-				error_log($de->getMessage);		//log the error in the log file and display a common message
-				throw new Exception(__("An error occured while loading the item"));
+				if(DEBUG_MODE){
+					throw new Exception(__("An error occured while loading the item: ") . $de);
+				}
+				else{
+					error_log($de->getMessage);		//log the error in the log file and display a common message
+					throw new Exception(__("An error occured while loading the item"));
+				}
 			}
 		}
 	}
