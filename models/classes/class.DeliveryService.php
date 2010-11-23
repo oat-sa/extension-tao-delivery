@@ -563,13 +563,14 @@ class taoDelivery_models_classes_DeliveryService
     {
         $returnValue = null;
 		
-		$clone = $this->createInstance($clazz);
+		//call the parent create instance to prevent useless process test to be created:
+		$clone = parent::createInstance($clazz, $instance->getLabel()." bis");
+		
 		if(!is_null($clone)){
 			$noCloningProperties = array(
 				TAO_DELIVERY_DELIVERYCONTENT,
 				TAO_DELIVERY_COMPILED_PROP,
-				TAO_DELIVERY_AUTHORINGMODE_PROP,
-				TAO_DELIVERY_RESULTSERVER_PROP,
+				TAO_DELIVERY_PROCESS,
 				RDF_TYPE
 			);
 		
@@ -577,20 +578,30 @@ class taoDelivery_models_classes_DeliveryService
 			
 				if(!in_array($property->uriResource, $noCloningProperties)){
 					//allow clone of every property value but the deliverycontent, which is a process:
-					//TODO: cloning a process, idea: using recursive cloning method, i.e. for each prop, if prop is a resource, get the type then clone it again. Idea to be tested
 					foreach($instance->getPropertyValues($property) as $propertyValue){
 						$clone->setPropertyValue($property, $propertyValue);
 					}
-				}elseif($property->uriResource != TAO_DELIVERY_COMPILED_PROP){
-					$clone->editPropertyValues($property, $instance->getPropertyValues($property));
 				}
 				
 			}
-			$clone->setLabel($instance->getLabel()." bis");
+			
+			//clone the process:
+			$propInstanceContent = new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT);
+			try{
+				$process = $instance->getUniquePropertyValue($propInstanceContent);
+			}catch(Exception $e){}
+			if(!is_null($process)){
+				$processCloner = new wfEngine_models_classes_ProcessCloner();
+				$processClone = $processCloner->cloneProcess($process);
+				$clone->editPropertyValues($propInstanceContent, $processClone->uriResource);
+			}else{
+				throw new Exception("the delivery process cannot be found");
+			}
+			
 			$this->updateProcessLabel($clone);
 			$returnValue = $clone;
 		}
-
+		
         return $returnValue;
     }
 	

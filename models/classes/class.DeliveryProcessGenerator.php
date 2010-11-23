@@ -38,7 +38,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 	public function generateDeliveryProcess(core_kernel_classes_Resource $delivery){
 		
 		$this->initCloningVariables();
-		$this->setCloneLabel("__Clone3");
+		// $this->setCloneLabel("__Clone1");
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		$deliveryProcess = null;
