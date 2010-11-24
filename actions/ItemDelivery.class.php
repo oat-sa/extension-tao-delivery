@@ -68,6 +68,9 @@ class ItemDelivery extends Api {
 				$doc = new DOMDocument();
 				$doc->loadHTMLFile($compiled);
 				
+				/*
+				 * javascript injection 
+				 */
 				
 				//initialization of the TAO API
 				$varCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
@@ -95,11 +98,32 @@ class ItemDelivery extends Api {
 					$initEventCode = "initEventServices({ type: 'manual', data: $eventData}, $saveEvent);";
 				}
 				
+				//initialize the matching
+				if(isset($deploymentParams['matching_server'])){
+					$matchingParam = array();
+					if($deploymentParams['matching_server'] === true){
+						if(isset($deploymentParams['matching_url'])){
+							$matchingParam = array(
+								'url'		=> $deploymentParams['matching_url'],
+								'params'	=> array('token' => $executionEnvironment['token']) 
+							);
+						}
+						$matchingParam['options'] = array(
+							'evaluateCallback' => 'finish'
+						);
+					}
+					$matchingParam = json_encode($matchingParam);
+					$initMatching = "matchingInit($matchingParam);";
+				}
+				
+				//add all initialization
 				$clientCode  = '$(document).ready(function(){ '; 
 				$clientCode .= "$varCode \n";
 				$clientCode .= "$initAPICode \n";
 				$clientCode .= "$initEventCode \n";
+				$clientCode	.=	"$initMatching \n";
 				$clientCode .= '});';
+				
 				$scriptElt   = $doc->createElement('script', $clientCode);
 				$scriptElt->setAttribute('type', 'text/javascript');
 				
@@ -108,15 +132,21 @@ class ItemDelivery extends Api {
 				foreach($headNodes as $headNode){
 					$inserted = false;
 					$scriptNodes = $headNode->getElementsByTagName('script');
+					$poisition = 0;
 					if($scriptNodes->length > 0){
 						foreach($scriptNodes as $index => $scriptNode){
 							if($scriptNode->hasAttribute('src')){
-								if(preg_match("/taoApi\.min\.js$/", $scriptNode->getAttribute('src'))){
-									$headNode->insertBefore($scriptElt, $scriptNodes->item($index +1));
-									$inserted = true;
-									break;
+								if(preg_match("/taoApi\.min\.js$/", $scriptNode->getAttribute('src')) ||
+									preg_match("/taoMatching\.min\.js$/", $scriptNode->getAttribute('src'))){
+									if($index > $position){
+										$position = $index;
+									}
 								}
 							}
+						}
+						if($scriptNodes->item($position + 1)){
+							$headNode->insertBefore($scriptElt, $scriptNodes->item($position + 1));
+							$inserted = true;
 						}
 					}
 					if(!$inserted){
@@ -124,6 +154,11 @@ class ItemDelivery extends Api {
 						$taoScriptElt->setAttribute('type', 'text/javascript');
 						$taoScriptElt->setAttribute('src', TAO_BASE_WWW.'js/taoApi/taoApi.min.js');
 						$headNode->appendChild($taoScriptElt);
+						
+						$matchingScriptElt = $doc->createElement('script');
+						$matchingScriptElt->setAttribute('type', 'text/javascript');
+						$matchingScriptElt->setAttribute('src', TAO_BASE_WWW.'js/taoMatching/taoMatching.min.js');
+						$headNode->appendChild($matchingScriptElt);
 						
 						$headNode->appendChild($scriptElt);
 					}
