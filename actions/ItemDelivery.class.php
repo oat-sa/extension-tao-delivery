@@ -52,80 +52,20 @@ class ItemDelivery extends Api {
 				throw new Exception(__("Unable to load the compiled item content"));
 			}
 			
-			//get the deployment parameters
-			$deliveryService 	= tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
-			$resultServerService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_ResultServerService');
-			
-			$resultServer = $deliveryService->getResultServer($delivery);
-			if(is_null($resultServer)){
-				$resultServer = new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
-			}
-			$deploymentParams = $resultServerService->getDelpoymentParameters($resultServer);
-			
+			$apis = array(
+				'taoApi', 
+				'taoMatching', 
+				'wfApi'
+			);
 			
 			// We inject the data directly in the item file
 			try{
 				$doc = new DOMDocument();
 				$doc->loadHTMLFile($compiled);
 				
-				/*
-				 * javascript injection 
-				 */
-				
-				//initialization of the TAO API
-				$varCode = 'var '.self::ENV_VAR_NAME.' = '.json_encode($executionEnvironment).';';
-				$initAPICode = 'initManualDataSource('.self::ENV_VAR_NAME.');';
-				if(isset($deploymentParams['save_result_url'])){
-					$saveResult = json_encode(array(
-						'url' 		=> $deploymentParams['save_result_url'], 
-						'params'	=> array('token' => $executionEnvironment['token'])
-					));
-					$initAPICode .= "initPush($saveResult, null);";
-				}
-				
-				//initialize the events logging
-				$initEventCode = '';
-				if(file_exists($compiledFolder .'events.xml')){
-					$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
-					$eventData =  json_encode($eventService->getEventList($compiledFolder .'events.xml'));
-					$saveEvent = 'null';
-					if(isset($deploymentParams['save_event_url'])){
-						$saveEvent = json_encode(array(
-							'url' 		=> $deploymentParams['save_event_url'], 
-							'params'	=> array('token' => $executionEnvironment['token'])
-						));
-					}
-					$initEventCode = "initEventServices({ type: 'manual', data: $eventData}, $saveEvent);";
-				}
-				
-				//initialize the matching
-				if(isset($deploymentParams['matching_server'])){
-					$matchingParam = array();
-					if($deploymentParams['matching_server'] === true){
-						if(isset($deploymentParams['matching_url'])){
-							$matchingParam = array(
-								'url'		=> $deploymentParams['matching_url'],
-								'params'	=> array('token' => $executionEnvironment['token']) 
-							);
-						}
-						$matchingParam['options'] = array(
-							'evaluateCallback' => 'finish'
-						);
-					}
-					$matchingParam = json_encode($matchingParam);
-					$initMatching = "matchingInit($matchingParam);";
-				}
-				
-				//add all initialization
-				$clientCode  = '$(document).ready(function(){ '; 
-				$clientCode .= "$varCode \n";
-				$clientCode .= "$initAPICode \n";
-				$clientCode .= "$initEventCode \n";
-				$clientCode	.=	"$initMatching \n";
-				$clientCode .= '});';
-				
-				$scriptElt   = $doc->createElement('script', $clientCode);
-				$scriptElt->setAttribute('type', 'text/javascript');
+				$initScriptElt = $doc->createElement('script');
+				$initScriptElt->setAttribute('type', 'text/javascript');
+				$initScriptElt->setAttribute('src', _url('initApis', 'ItemDelivery', 'taoDelivery', array('token' => $executionEnvironment['token'])));
 				
 				$headNodes = $doc->getElementsByTagName('head');
 				
@@ -136,31 +76,31 @@ class ItemDelivery extends Api {
 					if($scriptNodes->length > 0){
 						foreach($scriptNodes as $index => $scriptNode){
 							if($scriptNode->hasAttribute('src')){
-								if(preg_match("/taoApi\.min\.js$/", $scriptNode->getAttribute('src')) ||
-									preg_match("/taoMatching\.min\.js$/", $scriptNode->getAttribute('src'))){
-									if($index > $position){
-										$position = $index;
+								foreach($apis as $api){
+									if(preg_match("/$api.min\.js$/", $scriptNode->getAttribute('src'))){
+										if($index > $position){
+											$position = $index;
+										}
+										break;
 									}
 								}
 							}
 						}
 						if($scriptNodes->item($position + 1)){
-							$headNode->insertBefore($scriptElt, $scriptNodes->item($position + 1));
+							$headNode->insertBefore($initScriptElt, $scriptNodes->item($position + 1));
 							$inserted = true;
 						}
 					}
 					if(!$inserted){
-						$taoScriptElt = $doc->createElement('script');
-						$taoScriptElt->setAttribute('type', 'text/javascript');
-						$taoScriptElt->setAttribute('src', TAO_BASE_WWW.'js/taoApi/taoApi.min.js');
-						$headNode->appendChild($taoScriptElt);
+						$apiUrl = str_replace(ROOT_PATH, ROOT_URL, $compiledFolder).'/js/';
+						foreach($apis as $api){
+							$apiScriptElt = $doc->createElement('script');
+							$apiScriptElt->setAttribute('type', 'text/javascript');
+							$apiScriptElt->setAttribute('src', $apiUrl.$api.'.min.js');
+							$headNode->appendChild($apiScriptElt);
+						}
 						
-						$matchingScriptElt = $doc->createElement('script');
-						$matchingScriptElt->setAttribute('type', 'text/javascript');
-						$matchingScriptElt->setAttribute('src', TAO_BASE_WWW.'js/taoMatching/taoMatching.min.js');
-						$headNode->appendChild($matchingScriptElt);
-						
-						$headNode->appendChild($scriptElt);
+						$headNode->appendChild($initScriptElt);
 					}
 					break;
 				}
@@ -181,5 +121,93 @@ class ItemDelivery extends Api {
 		}
 	}
 	
+	/**
+	 * Action to render a dynamic javascript page
+	 * containing the APIs initialization for the current execution context
+	 */
+	public function initApis(){
+		
+		if($this->hasRequestParameter('token')){
+
+			$executionEnvironment = $this->getExecutionEnvironment();
+			if(isset($executionEnvironment['token'])){
+				if($this->getRequestParameter('token') == $executionEnvironment['token'] && !empty($executionEnvironment['token'])){
+				
+					//get the deployment parameters
+					$deploymentParams 	= array();
+					$deliveryService 	= tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+					$delivery 			= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
+					$resultServer 		= $deliveryService->getResultServer($delivery);
+					if(!is_null($resultServer)){
+						$resultServerService 	= tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_ResultServerService');
+						$resultServer 			= new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+						$deploymentParams 		= $resultServerService->getDelpoymentParameters($resultServer);
+					}
+
+					//response is a javascript stream 
+					$this->setContentHeader('application/javascript');
+					
+					//initialize taoApi data source
+					$this->setData('envVarName', self::ENV_VAR_NAME);
+					$this->setData('executionEnvironment', json_encode($executionEnvironment));
+					
+					//initialize taoApi push parameters
+					if(isset($deploymentParams['save_result_url'])){
+						$this->setData('pushParams', json_encode(array(
+								'url' 		=> $deploymentParams['save_result_url'], 
+								'params'	=> array('token' => $executionEnvironment['token'])
+						)));
+					}
+					
+					//initialize taoApi events tracing parameters
+					$compiledFolder = $this->getCompiledFolder($executionEnvironment);
+					if(file_exists($compiledFolder .'/events.xml')){
+						$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
+						$eventData =  $eventService->getEventList($compiledFolder .'/events.xml');
+						
+						$this->setData('eventData', json_encode($eventData));
+						$eventParams = 'null';
+						if(isset($deploymentParams['save_event_url'])){
+							$eventParams = json_encode(array(
+								'url' 		=> $deploymentParams['save_event_url'], 
+								'params'	=> array('token' => $executionEnvironment['token'])
+							));
+						}
+						$this->setData('eventParams', $eventParams);
+					}
+					
+					
+					//initialize the matching Api
+					if(isset($deploymentParams['matching_server'])){
+						
+						$this->setData('matchingServer', $deploymentParams['matching_server']);
+						
+						if($deploymentParams['matching_server'] === true){
+							if(isset($deploymentParams['matching_url'])){
+								$this->setData('matchingParams', json_encode( array(
+									'url'		=> $deploymentParams['matching_url'],
+									'params'	=> array('token' => $executionEnvironment['token']) 
+								)));
+							}
+						}
+						else{
+							$itemService 	= tao_models_classes_ServiceFactory::get('taoItems_models_classes_ItemService');
+							$item			= new core_kernel_classes_Resource($executionEnvironment[TAO_ITEM_CLASS]['uri']);
+							$this->setData('matchingData', json_encode($itemService->getMatchingData($item)));
+						}
+					}
+					
+					//initialize the wfApi recovery context
+					$ctxParams = array('params' => array('token' => $executionEnvironment['token']));
+					$this->setData('contextSourceParams', json_encode($ctxParams));
+					$this->setData('contextDestinationParams', json_encode($ctxParams));
+					
+					
+					$this->setView('init_api.js.tpl');
+				}
+			}
+		}
+		return;
+	}
 }
 ?>
