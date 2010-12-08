@@ -1,64 +1,479 @@
-msgid "Campaign Class saved"
+msgid "DE"
+msgstr "German"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "LU"
+msgstr "Luxemburgish"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
+
+msgid "(Ctrl-C)"
 msgstr ""
 
-msgid "Edit campaign class"
+msgid "(still undefined)"
 msgstr ""
 
-msgid "Campaign saved"
+msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr ""
 
-msgid "Edit Campaign"
+msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
 msgstr ""
 
-msgid "Delivery Class saved"
+msgid "A delviery must to be compiled before being executed. The compilation can be done here."
 msgstr ""
 
-msgid "Edit delivery class"
-msgstr ""
-
-msgid "Delivery saved"
-msgstr ""
-
-msgid "Edit delivery"
-msgstr ""
-
-msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
-msgstr ""
-
-msgid "No account match the given login / password"
+msgid "A recompilation is also required after modification on the tests composing a delivery."
 msgstr ""
 
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
-msgid "Result Server class saved"
+msgid "Actions"
 msgstr ""
 
-msgid "Edit resultServer class"
+msgid "Active Deliveries"
 msgstr ""
 
-msgid "Result Server saved"
+msgid "Active Tests"
 msgstr ""
 
-msgid "Edit ResultServer"
+msgid "Activity"
+msgstr ""
+
+msgid "Activity Editor"
+msgstr ""
+
+msgid "Activity or Connector"
+msgstr ""
+
+msgid "Add (Ctrl-A)"
+msgstr ""
+
+msgid "Add to delivery campaign"
+msgstr ""
+
+msgid "Add to group"
+msgstr ""
+
+msgid "Advanced Authoring Tool"
+msgstr ""
+
+msgid "An error occured during history deletion"
+msgstr ""
+
+msgid "An error occured while loading the item"
+msgstr ""
+
+msgid "An error occured while loading the item:"
+msgstr ""
+
+msgid "An error occured while loading the item: "
+msgstr ""
+
+msgid "Another Inference Rule"
+msgstr ""
+
+msgid "Assignment"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Browse Tests"
+msgstr ""
+
+msgid "Campaign"
+msgstr ""
+
+msgid "Campaign Class saved"
+msgstr ""
+
+msgid "Campaign saved"
+msgstr ""
+
+msgid "Campaigns library"
+msgstr ""
+
+msgid "Close (Esc)"
+msgstr ""
+
+msgid "Close all"
+msgstr ""
+
+msgid "Compilation"
+msgstr ""
+
+msgid "Compilation of the Process"
+msgstr ""
+
+msgid "Compilation of the delivery"
+msgstr ""
+
+msgid "Compile"
+msgstr ""
+
+msgid "Connector"
+msgstr ""
+
+msgid "Connector Type"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete History"
 msgstr ""
 
 msgid "Deliveries"
 msgstr ""
 
-msgid "Manage Deliveries"
-msgstr ""
-
 msgid "Deliveries library"
 msgstr ""
 
-msgid "search"
+msgid "Delivery"
 msgstr ""
 
-msgid "new class"
+msgid "Delivery Class saved"
 msgstr ""
 
-msgid "new delivery"
+msgid "Delivery properties"
+msgstr ""
+
+msgid "Delivery saved"
+msgstr ""
+
+msgid "Drag and drop the tests to order them"
+msgstr ""
+
+msgid "ELSE"
+msgstr ""
+
+msgid "Edit Campaign"
+msgstr ""
+
+msgid "Edit ResultServer"
+msgstr ""
+
+msgid "Edit campaign class"
+msgstr ""
+
+msgid "Edit delivery"
+msgstr ""
+
+msgid "Edit delivery class"
+msgstr ""
+
+msgid "Edit error"
+msgstr ""
+
+msgid "Edit resultServer class"
+msgstr ""
+
+msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgstr ""
+
+msgid "Else"
+msgstr ""
+
+msgid "Enter remark text here"
+msgstr ""
+
+msgid "Execution History"
+msgstr ""
+
+msgid "Export - Debug only (Ctrl-E)"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Finished Test"
+msgstr ""
+
+msgid "For instance, it is a way to organize deliveries with a common objectives."
+msgstr ""
+
+msgid "Formal Parameter"
+msgstr ""
+
+msgid "Formal Parameter IN"
+msgstr ""
+
+msgid "Formal Parameter OUT"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+msgid "Go to"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "History deleted successfully"
+msgstr ""
+
+msgid "IF"
+msgstr ""
+
+msgid "If"
+msgstr ""
+
+msgid "Initialize new test"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Manage Campaigns"
+msgstr ""
+
+msgid "Manage Deliveries"
+msgstr ""
+
+msgid "Manage Result Servers"
+msgstr ""
+
+msgid "Manage campaigns"
+msgstr ""
+
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "Manage result servers"
+msgstr ""
+
+msgid "New Test"
+msgstr ""
+
+msgid "No account match the given login / password"
+msgstr ""
+
+msgid "No thanks"
+msgstr ""
+
+msgid "No user is logged in"
+msgstr ""
+
+msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
+msgstr ""
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
+msgstr ""
+
+msgid "Open all"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr ""
+
+msgid "Please confirm deletion.
+ Warning: related resources might be affected."
+msgstr ""
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr ""
+
+msgid "Please confirm history deletion"
+msgstr ""
+
+msgid "Please login"
+msgstr ""
+
+msgid "Please select a delivery before authoring it!"
+msgstr ""
+
+msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgstr ""
+
+msgid "Process Activities"
+msgstr ""
+
+msgid "Process Property"
+msgstr ""
+
+msgid "Process Variables"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
+msgid "Question (Ctrl-Q)"
+msgstr ""
+
+msgid "Recompile"
+msgstr ""
+
+msgid "Recompile the delivery"
+msgstr ""
+
+msgid "Result Server"
+msgstr ""
+
+msgid "Result Server class saved"
+msgstr ""
+
+msgid "Result Server saved"
+msgstr ""
+
+msgid "Result Servers library"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Select a test"
+msgstr ""
+
+msgid "Select delivery"
+msgstr ""
+
+msgid "Select delivery campaign"
+msgstr ""
+
+msgid "Select delivery tests"
+msgstr ""
+
+msgid "Select test takers to be <b>excluded</b>"
+msgstr ""
+
+msgid "Sequence saved successfully"
+msgstr ""
+
+msgid "Service Definition"
+msgstr ""
+
+msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
+msgstr ""
+
+msgid "Start/Resume the case"
+msgstr ""
+
+msgid "Start/Resume the test"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Suppress"
+msgstr ""
+
+msgid "Sure?"
+msgstr ""
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "THEN"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Tests sequence"
+msgstr ""
+
+msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
+msgstr ""
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr ""
+
+msgid "The delivery is not compiled yet"
+msgstr ""
+
+msgid "The delivery was last compiled on"
+msgstr ""
+
+msgid "The test"
+msgstr ""
+
+msgid "The test collection for the language"
+msgstr ""
+
+msgid "Then"
+msgstr ""
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Type (Ctrl-T)"
+msgstr ""
+
+msgid "Unable to load the compiled item content"
+msgstr ""
+
+msgid "Use the * character to replace any string"
+msgstr ""
+
+msgid "User Id."
+msgstr ""
+
+msgid "User name:"
+msgstr ""
+
+msgid "advanced mode"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "check code"
+msgstr ""
+
+msgid "checking the code..."
+msgstr ""
+
+msgid "compilation failed"
+msgstr ""
+
+msgid "compile"
+msgstr ""
+
+msgid "compiled with warning"
+msgstr ""
+
+msgid "compiling..."
+msgstr ""
+
+msgid "complete with warning"
+msgstr ""
+
+msgid "complete!"
+msgstr ""
+
+msgid "create new activity"
+msgstr ""
+
+msgid "create new connector"
+msgstr ""
+
+msgid "create table"
 msgstr ""
 
 msgid "delete"
@@ -67,79 +482,85 @@ msgstr ""
 msgid "duplicate"
 msgstr ""
 
-msgid "move"
+msgid "edit campaign"
 msgstr ""
 
-msgid "create table"
+msgid "edit result server"
 msgstr ""
 
-msgid "rdf"
+msgid "export"
+msgstr ""
+
+msgid "failed!"
 msgstr ""
 
 msgid "import"
 msgstr ""
 
-msgid "compile"
-msgstr ""
-
-msgid "Manage Campaigns"
-msgstr ""
-
-msgid "Campaigns library"
-msgstr ""
-
-msgid "new campaign"
-msgstr ""
-
-msgid "Manage Result Servers"
-msgstr ""
-
-msgid "Result Servers library"
-msgstr ""
-
-msgid "new result server"
-msgstr ""
-
-msgid "The test"
+msgid "interactive service saved"
 msgstr ""
 
 msgid "is not active so cannot be compiled"
 msgstr ""
 
-msgid "The test collection for the language"
+msgid "loading..."
+msgstr ""
+
+msgid "move"
 msgstr ""
 
 msgid "must not be empty"
 msgstr ""
 
-msgid "Please confirm deletion"
+msgid "new campaign"
 msgstr ""
 
-msgid "Please confirm deletion.\n Warning: related resources might be affected."
+msgid "new class"
 msgstr ""
 
-msgid "stand by"
+msgid "new delivery"
 msgstr ""
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgid "new property"
 msgstr ""
 
-msgid "compiling..."
+msgid "new result server"
 msgstr ""
 
 msgid "ok"
 msgstr ""
 
-msgid "compiled with warning"
+msgid "please choose another one"
 msgstr ""
 
-msgid "compilation failed"
+msgid "rdf"
 msgstr ""
 
-msgid "Recompile the delivery"
+msgid "reload"
 msgstr ""
 
-msgid "failed!"
+msgid "reloading form..."
+msgstr ""
+
+msgid "save"
+msgstr ""
+
+msgid "saved"
+msgstr ""
+
+msgid "search"
+msgstr ""
+
+msgid "simple mode"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "the chosen code has already been used for the process variable"
+msgstr ""
+
+msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
 msgstr ""
 
 msgid "the following file(s) could not be copied for the test"
@@ -151,76 +572,7 @@ msgstr ""
 msgid "the following item do not exist in or have not been translated into"
 msgstr ""
 
-msgid "complete with warning"
-msgstr ""
-
-msgid "complete!"
-msgstr ""
-
-msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
-msgstr ""
-
-msgid "Select a test"
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "Close (Esc)"
-msgstr ""
-
-msgid "Suppress"
-msgstr ""
-
-msgid "Question (Ctrl-Q)"
-msgstr ""
-
-msgid "Type (Ctrl-T)"
-msgstr ""
-
-msgid "Add (Ctrl-A)"
-msgstr ""
-
-msgid "Enter remark text here"
-msgstr ""
-
-msgid "(Ctrl-C)"
-msgstr ""
-
-msgid "Export - Debug only (Ctrl-E)"
-msgstr ""
-
-msgid "Select delivery"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
-
-msgid "User Id."
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
-msgid "Active Deliveries"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Delivery"
-msgstr ""
-
-msgid "Start/Resume the test"
-msgstr ""
-
-msgid "Finished Test"
-msgstr ""
-
-msgid "Initialize new test"
+msgid "the following item(s) has not been translated into"
 msgstr ""
 
 msgid "the login must not be empty"
@@ -229,291 +581,12 @@ msgstr ""
 msgid "the password must not be empty"
 msgstr ""
 
-msgid "Select delivery campaign"
-msgstr ""
-
-msgid "Select delivery tests"
-msgstr ""
-
-msgid "Tests sequence"
-msgstr ""
-
-msgid "Drag and drop the tests to order them"
-msgstr ""
-
-msgid "Sequence saved successfully"
-msgstr ""
-
-msgid "Compilation"
-msgstr ""
-
-msgid "The delivery was last compiled on"
-msgstr ""
-
-msgid "The delivery is not compiled yet"
-msgstr ""
-
-msgid "Recompile"
-msgstr ""
-
-msgid "Compile"
-msgstr ""
-
-msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr ""
-
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr ""
-
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr ""
-
-msgid "Campaign"
-msgstr ""
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr ""
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr ""
-
-msgid "Result Server"
-msgstr ""
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr ""
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "Please login"
-msgstr ""
-
-msgid "Please select a delivery before authoring it!"
-msgstr ""
-
-msgid "Back"
-msgstr ""
-
-msgid "Service Definition"
-msgstr ""
-
-msgid "Formal Parameter"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Process Variables"
-msgstr ""
-
-msgid "Activity Editor"
-msgstr ""
-
-msgid "Process Property"
-msgstr ""
-
-msgid "loading..."
-msgstr ""
-
-msgid "Pause"
-msgstr ""
-
-msgid "Forward"
-msgstr ""
-
-msgid "Edit error"
-msgstr ""
-
-msgid "Compilation of the delivery"
-msgstr ""
-
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
-msgstr ""
-
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr ""
-
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
-msgstr ""
-
-msgid "Sure?"
-msgstr ""
-
-msgid "reloading form..."
-msgstr ""
-
-msgid "interactive service saved"
-msgstr ""
-
-msgid "save"
-msgstr ""
-
-msgid "reload"
-msgstr ""
-
-msgid "cancel"
-msgstr ""
-
-msgid "Browse Tests"
-msgstr ""
-
-msgid "check code"
-msgstr ""
-
-msgid "checking the code..."
-msgstr ""
-
-msgid "the chosen code has already been used for the process variable"
-msgstr ""
-
-msgid "please choose another one"
-msgstr ""
-
-msgid "Use the * character to replace any string"
-msgstr ""
-
-msgid "Filter"
-msgstr ""
-
-msgid "Open all"
-msgstr ""
-
-msgid "Close all"
-msgstr ""
-
-msgid "Select test takers to be <b>excluded</b>"
-msgstr ""
-
-msgid "wrong login or/and password,<br/> please try again"
-msgstr ""
-
-msgid "saved"
-msgstr ""
-
-msgid "new property"
-msgstr ""
-
-msgid "export"
-msgstr ""
-
-msgid "Advanced Authoring Tool"
-msgstr ""
-
-msgid "edit campaign"
-msgstr ""
-
-msgid "edit result server"
-msgstr ""
-
-msgid "Label"
-msgstr ""
-
-msgid "Formal Parameter IN"
-msgstr ""
-
-msgid "Formal Parameter OUT"
-msgstr ""
-
-msgid "Connector Type"
-msgstr ""
-
-msgid "IF"
-msgstr ""
-
-msgid "THEN"
-msgstr ""
-
-msgid "Assignment"
-msgstr ""
-
-msgid "ELSE"
-msgstr ""
-
-msgid "Another Inference Rule"
-msgstr ""
-
-msgid "No thanks"
-msgstr ""
-
-msgid "create new activity"
-msgstr ""
-
-msgid "create new connector"
-msgstr ""
-
-msgid "Activity or Connector"
-msgstr ""
-
-msgid "Activity"
-msgstr ""
-
-msgid "Connector"
-msgstr ""
-
-msgid "Process Activities"
-msgstr ""
-
-msgid "Property"
+msgid "type??"
 msgstr ""
 
 msgid "undefined"
 msgstr ""
 
-msgid "If"
+msgid "wrong login or/and password,<br/> please try again"
 msgstr ""
-
-msgid "Then"
-msgstr ""
-
-msgid "Else"
-msgstr ""
-
-msgid "type??"
-msgstr ""
-
-msgid "(still undefined)"
-msgstr ""
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr ""
-
-msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
-msgstr ""
-
-msgid "the following item(s) has not been translated into"
-msgstr ""
-
-msgid "Active Tests"
-msgstr ""
-
-msgid "Test"
-msgstr ""
-
-msgid "Start/Resume the case"
-msgstr ""
-
-msgid "New Test"
-msgstr ""
-
-msgid "A delviery must to be compiled before being executed. The compilation can be done here."
-msgstr ""
-
-msgid "Compilation of the Process"
-msgstr ""
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
 
