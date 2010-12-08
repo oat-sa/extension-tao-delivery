@@ -203,7 +203,7 @@ msgid "view history"
 msgstr "Voir l'historique"
 
 msgid "(Ctrl-C)"
-msgstr ""
+msgstr "(Ctrl-C)"
 
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr ""
