@@ -16,57 +16,50 @@
 			window.activeResources = <?php echo $browserViewData['active_Resource']; ?>;
 			window.uiLanguage = '<?php echo $browserViewData['uiLanguage']; ?>';
 			
-			
 			function goToPage(page_str){
-				window.location.href = page_str;
-		    }
+				$("#loader").show();
+				$("#tools").empty();
+				setTimeout(function(){
+					window.location.href = page_str;
+				}, 100);
+			 }
 		
 		    $(document).ready(function (){
 
-		
-		
-				
-				
+		    	$("#loader").hide();
 		    	
 		       // Back and next function bindings for the ProcessBrowser.
 		       $("#back").click(function(){
-		      
-			       			
 				goToPage('<?php echo BASE_URL;?>/processBrowser/back?processUri=<?php echo urlencode($processUri); ?>');
-		       					
-			       			
-		       			
-		       		
-		       	});
+		       });
 		       
 		       if ($('#back_floating').length)
 		       {
 		       		$('#back_floating').click(function(){
-			
-			       					goToPage('<?php echo BASE_URL;?>/processBrowser/back?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
-		       					
+			       		goToPage('<?php echo BASE_URL;?>/processBrowser/back?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			       	});
 		       }	
 		       	
 			   $("#next").click(function(){
-			   		
-			       				goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
-			   					
+			       	goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			   	});
 			   	
 			   if ($('#next_floating').length)
 		       {
 		       		$('#next_floating').click(function(){
-			       		
-			       					goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
-			   				
+			       			goToPage('<?php echo BASE_URL;?>/processBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			       	});
 		       }	
-		
-		
 
+			   window.addEventListener('click', mouseclickHandler, true);	 
 
-			   window.addEventListener('click', mouseclickHandler, true);	  
+			   <?if(get_data('debugWidget')):?>
+
+				$("#debug").click(function(){
+					$("#debugWindow").toggle('slow');
+				});
+				
+				<?endif?>  
 		    });
 		    
 			
@@ -93,6 +86,7 @@
 	</head>
 	
 	<body>
+		<div id="loader"><img src="<?=BASE_WWW?>img/ajax-loader.gif" /> <?=__('Loading next item...')?></div>
 		<div id="process_view"></div>
 		<ul id="control">
 			
@@ -106,16 +100,30 @@
          		<a id="pause" class="action icon" href="<?php echo BASE_URL;?>/processBrowser/pause?processUri=<?php echo urlencode($browserViewData['processUri']); ?>"><?php echo __("Pause"); ?></a> <span class="separator" />
          	</li>
 
-         	
+         	<?if(get_data('debugWidget')):?>
+			<li>
+				<a id="debug" class="action icon" href="#">Debug</a> <span class="separator" />
+			</li>
+        	<?endif?>
 			
-        	
-         	
-         
          	<li>
          		<a id="logout" class="action icon" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
          	</li>
 
 		</ul>
+		
+		<?if(get_data('debugWidget')):?>
+				<div id="debugWindow" style="display:none;">
+					<?foreach(get_data('debugData') as $debugSection => $debugObj):?>
+					<fieldset>
+						<legend><?=$debugSection?></legend>
+						<pre>
+							<?print_r($debugObj);?>
+						</pre>
+					</fieldset>
+					<?endforeach?>
+				</div>
+		  <?endif?>
 
 		<div id="content">
 			<div id="business">

@@ -171,6 +171,32 @@ class ProcessBrowser extends WfModule{
 
 		$this->setData('browserViewData', $browserViewData);
 
+		/* <DEBUG> :populate the debug widget */
+		$this->setData('debugWidget', DEBUG_MODE);
+		if(DEBUG_MODE){
+			$tokenService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_TokenService');
+			
+			$servicesResources = array();
+			foreach($services as $service){
+				$servicesResources[] = array(
+					'resource' => $service->resource,
+					'input'		=> $service->input,
+					'output'	=> $service->output
+				);
+			}
+			
+			$this->setData('debugData', array(
+					'Activity' => $activity->resource,
+					'ActivityExecution' => $activityExecutionResource,
+					'Token' => $tokenService->getCurrent($activityExecutionResource),
+					'All tokens' => $tokenService->getCurrents($process->resource),
+					'Current activities' => $tokenService->getCurrentActivities($process->resource),
+					'Services' => $servicesResources,
+					'VariableStack' => wfEngine_models_classes_VariableService::getAll()
+			));
+		}
+		/* </DEBUG> */
+
 		$this->setView('process_browser.tpl');
 	}
 

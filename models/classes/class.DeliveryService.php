@@ -1037,6 +1037,7 @@ class taoDelivery_models_classes_DeliveryService
 			}
 			catch(Exception $e){
 				$resultArray["success"]=0;
+				$resultArray['compilationResult'][] = $e->getMessage();
 			}
 		}
 		

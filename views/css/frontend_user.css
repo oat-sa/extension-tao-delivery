@@ -70,7 +70,10 @@ background-image:url('../img/cup_key.png');
 {
 background-image:url('../img/delete.png');
 }
-
+#debug
+{
+background-image:url('../img/bug.png');	
+}
 #logout
 {
 background-image:url('../img/door_in.png');
@@ -162,3 +165,25 @@ background-image:url('../img/home.png');
 /* Utilities */	
 .hidden { visibility: hidden; }
 .nodisplay { display: none; }
+
+/* Debug widget*/
+div#debugWindow{
+	width:80%;
+	margin:auto;
+	border: solid #ccc 1px;
+	height: 400px;
+	overflow-y: scroll;
+}
+div#debugWindow fieldset{
+	border: solid #B3D0DC 1px;
+	margin:10px;
+}
+div#debugWindow fieldset legend{
+	font-weight: bold;
+	color:#5196B3;
+}
+div#debugWindow pre{
+	background-color:#e0e0e0;
+	margin:10px;
+	text-align:left;
+}
