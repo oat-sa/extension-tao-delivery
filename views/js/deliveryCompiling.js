@@ -25,6 +25,10 @@ function updateProgress(){
 
 function initCompilation(uri,clazz){
 	$("#initCompilation").hide();
+	
+	$('#generatingProcess_feedback').empty().hide();
+	$('#generatingProcess_info').hide();
+	
 	deliveryUri = uri;
 	classUri = clazz;
 	//detroying the progressbar, if it has been initiated
@@ -130,17 +134,19 @@ function compileTest(testUri){
 					finalMessage(__('failed!'),'failed.png');
 				}
 				
-				resultTag="#result"+ getTestId(testUri);
-				errorMessage="";
-				failedCopy="";
-				failedCreation="";
-				untranslatedItems="";
-				error="";
+				var resultTag="#result"+ getTestId(testUri);
+				var errorMessage="";
+				var failedCopy="";
+				var failedCreation="";
+				var untranslatedItems="";
+				var unexistingItems = "";
+				
+				var error="";
 				for(key in r.failed.copiedFiles) {
 
 					failedCopy+= __("the following file(s) could not be copied for the test")+' '+key+":";
 					
-					for(i=0;i<r.failed.copiedFiles[key].length;i++) {
+					for(var i=0;i<r.failed.copiedFiles[key].length;i++) {
 						failedCopy+="<ul>";
 						failedCopy+="<li>"+r.failed.copiedFiles[key][i]+"</li>";
 						failedCopy+="</ul>";
@@ -151,7 +157,7 @@ function compileTest(testUri){
 				
 					failedCreation+= __("the following file(s) could not be created for the test")+':';
 					
-					for(i=0;i<r.failed.createdFiles[key].length;i++) {
+					for(var i=0;i<r.failed.createdFiles[key].length;i++) {
 						failedCreation+="<ul>";
 						failedCreation+="<li>"+r.failed.createdFiles[key][i]+"</li>";
 						failedCreation+="</ul>";
@@ -162,11 +168,21 @@ function compileTest(testUri){
 				
 					untranslatedItems+= __("the following item do not exist in or have not been translated into")+' '+key+':';
 					
-					for(i=0;i<r.failed.untranslatedItems[key].length;i++) {
+					for(var i=0;i<r.failed.untranslatedItems[key].length;i++) {
 						untranslatedItems+="<ul>";
 						untranslatedItems+="<li>"+r.failed.untranslatedItems[key][i]+"</li>";
 						untranslatedItems+="</ul>";
 					}
+				}
+				
+				for(key in r.failed.unexistingItems) {
+				
+					unexistingItems+= __("the following items no longer exist")+':';
+					unexistingItems+="<ul>";
+					for(var i=0;i<r.failed.unexistingItems.length;i++) {
+						unexistingItems+="<li>"+r.failed.unexistingItems[i]+"</li>";
+					}
+					unexistingItems+="</ul>";
 				}
 				
 				for(i=0;i<r.failed.errorMsg.length;i++){
@@ -197,12 +213,15 @@ function endCompilation(){
 	testIndex = 0;
 	testArray = null;
 	
+	$('#generatingProcess_info').show();
+	
 	$.ajax({
 		type: "POST",
 		url: root_url + "/taoDelivery/Delivery/endCompilation",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){
+			$('#generatingProcess_info').hide();
 			if(r.result == 1){
 				incrementProgressbar(remainValue);
 				$("#initCompilation").html( __("Recompile the delivery") ).show();
@@ -213,7 +232,8 @@ function endCompilation(){
 					finalMessage(__('complete!'),'ok.png');
 				}
 			}else{
-				alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
+				$('#generatingProcess_feedback').html(r.errorMessage).show();;
+				// alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
 			}
 			if( progressbar != null ){
 				progressbar.progressbar( 'destroy' );

@@ -969,208 +969,102 @@ class taoDelivery_models_classes_DeliveryService
 	/**
 	 * Perform all operations required to compile a test
 	 */
-	public function compileTest($deliveryUri, $testUri){
+	public function compileTest(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test){
 		
-		$resultArray = array();
-		$resultArray["success"]=1;
+		$resultArray = array(
+			'success' => 1,
+			'failed' => array()
+		);
 				
 		//preliminary check
-		if(empty($testUri)){
-			throw new Exception('no empty test uri is allowed in compilation');
+		if(is_null($test)){
+			throw new Exception('no empty test is allowed in compilation');
 		}
-		
-		//get the test object from the testUri
-		$test = new core_kernel_classes_Resource($testUri);
 		
 		$testService = tao_models_classes_ServiceFactory::get('Tests');
 		$itemService = tao_models_classes_ServiceFactory::get('Items');
 		$items = $testService->getRelatedItems($test);
 		
 		$compilationResult = array();
+		$propRDFtype = new core_kernel_classes_Property(RDF_TYPE);
+		
 		foreach($items as $item){
-		
-			try{
-				
-				
-				$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-				$deliveryFolderName = substr($deliveryUri, strpos($deliveryUri, '#') + 1);
-				$testFolderName = substr($testUri, strpos($testUri, '#') + 1);
-				
-				//create the compilation folder for the delivery-test-item:
-				$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
-				if(!is_dir($compiledFolder)){
-        			mkdir($compiledFolder);
-        		}
-        		$compiledFolder .= "/$testFolderName";
-				if(!is_dir($compiledFolder)){
-        			mkdir($compiledFolder);
-        		}
-				$compiledFolder .= "/$itemFolderName";
-				if(!is_dir($compiledFolder)){
-        			mkdir($compiledFolder);
-        		}
-        		$itemPath = "{$compiledFolder}/index.html";
-        		$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
-        		
-				$compilator = new taoDelivery_helpers_Compilator($deliveryUri, $testUri, $item->uriResource, $compiledFolder);
-				$compilator->clearCompiledFolder();
-				
-				
-				$www = dirname($itemUrl);
-				
-				$deployParams = array(
-					'delivery_server_mode'	=> true,
-					'preview_mode'			=> false,
-					'tao_base_www'			=> $www,
-					'qti_base_www'			=> $www,
-				 	'base_www' 				=> $www,
-					'root_url'				=> $www
-				);
-				
-				//deploy the item
-        		$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
-				
-				$compilator->copyPlugins();
-				
-				//directory where all files required to launch the test will be collected
-				$directory = $compilator->getCompiledPath();
-				
-				//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-				$itemContent=$compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
-						
-				//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-				$compilator->stringToFile($itemContent, $directory, "index.html");
-				
-				$compilationResult[] = $compilator->result();
-			}
-			catch(Exception $e){
-				$resultArray["success"]=0;
-				$resultArray['compilationResult'][] = $e->getMessage();
-			}
-		}
-		
-		$resultArray['compilationResult'] = $compilationResult;
-		
-		//set the compiled status to "false" in case any unforseen problem should occur
-		/*$aTestInstance->editPropertyValues(new core_kernel_classes_Property(TEST_COMPILED_PROP),GENERIS_FALSE);
-		
-		//check whether the test is active or not:
-		$testActive = $this->getTestStatus($aTestInstance, "active");
-		if(!$testActive){
-			//return a test error message here:
-			$errorMsg = __("The test")." '{$aTestInstance->getLabel()}' ".__("is not active so cannot be compiled").".";
-			$compilator->setErrorMsg($errorMsg);
-			// throw new Exception("The test '$testUri' is not active so cannot be compiled.");
-		}else{
-		
-			//get the language code of available languages for the current test:
-			$testContentProperty = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
-			$languages = array();
-			$languages = $aTestInstance->getUsedLanguages($testContentProperty);
-			
-			$testContentArray = array();//array of XML files containing the testContent in every available langauge
-			
-			foreach($languages as $language){
-				
-				$testContentCollection = $aTestInstance->getPropertyValuesByLg($testContentProperty, $language);
-				if($testContentCollection->count() == 1){
-					//string version of the testContent aimed at being modified
-					$testContentArray[$language] = $testContentCollection->get(0)->literal;
+			//check if the item exists: if not, append to the test failure message
+			$itemClass = $item->getOnePropertyValue($propRDFtype);
+			if(!is_null($itemClass)){
+				try{
 					
-					//dom version of testContent for easy parsing purpose
-					$testContentDom = new DomDocument();//testContent in the given language, converted into an XML file with:  $dom = new DomDocument(); $dom->loadXML($chaineXML);
-					@$testContentDom->loadHTML($testContentArray[$language]);
+					$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+					$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+					$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
 					
-					//fetch the uri of all Items of the Test instance in the given language, by  parsing the testContent DOM
-					$items=$testContentDom->getElementsByTagName('citem');
-					
-					//add the last item to upload the test result
-					$sequence=$items->length+1;
-					$testContentArray[$language]=str_replace('</tao:TEST>','<tao:CITEM weight="0" Sequence="'.$sequence.'" itemModel="taotab.swf">uploadItem</tao:CITEM></tao:TEST>',$testContentArray[$language]);
-					
-					foreach ($items as $item){
-						$itemUri=$item->nodeValue;
-						//get an unique item id from its uri
-						$itemId=tao_helpers_Uri::getUniqueId($itemUri);
-						
-						$anItemInstance = new core_kernel_classes_Resource($itemUri);
-						
-						/*
-						 * @require taoItems extension 
-						 * @see taoItems_models_classes_ItemsService::getAuthoringFile
-						 */
-						/*$itemModel = null;
-						$itemContent = null;
-
-						//get the black file into file system instead of the RDF triple for the HAWAI item models
-						try{
-							$itemModel = $anItemInstance->getUniquePropertyValue(new core_kernel_classes_Property(TAO_ITEM_MODEL_PROPERTY));
-							if($itemModel instanceof core_kernel_classes_Resource){
-								if($itemModel->uriResource == TAO_ITEM_MODEL_WATERPHENIX){
-									
-									//get content into black file
-									$itemService = tao_models_classes_ServiceFactory::get('Items');
-									
-									//Common black file not used now
-									//$itemContent = file_get_contents($itemService->getAuthoringFile($anItemInstance->uriResource));
-									
-									//Temp Common black file used instead
-									//@todo use the common and clean black file once the runtime implement it
-									$itemContent = file_get_contents($itemService->getTempAuthoringFile($anItemInstance->uriResource, true));
-								}
-							}
-						}
-						catch(Exception $e){}
-						if(is_null($itemContent)){
-							$itemContentCollection = $anItemInstance->getPropertyValuesByLg(new core_kernel_classes_Property(ITEM_ITEMCONTENT_PROP), $language);
-						
-							//get ItemContent in the given language, which is an XML file, in the language defined by $language
-							if($itemContentCollection->count() > 0){//there should be only one per language
-								$itemContent=$itemContentCollection->get(0)->literal;//string version of the itemContent aimed at being parsed and modified
-							}
-							else{
-								//display a warning to the user
-								// throw new Exception("Incorrect number of elements in item collection: ".$itemContentCollection->count() );
-								$compilator->setUntranslatedItem($anItemInstance->getlabel(), $language);
-								//set the item has not been translated:
-								
-							}
-						}
-										
-						//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-						$itemContent=$compilator->itemParser($itemContent,$directory,"$itemId$language.xml");//rename to parserItem()
-						
-						//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-						$compilator->stringToFile($itemContent, $directory, "$itemId$language.xml");
-						
-						//add another parser to define the new path to the item's xml file in the Test.Language.xml file. 
-						$escapedItemUri=preg_replace('/\//', "\/", $itemUri);
-						$testContentArray[$language]=preg_replace("/$escapedItemUri/", $itemId.$language, $testContentArray[$language], 1);
+					//create the compilation folder for the delivery-test-item:
+					$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
+					if(!is_dir($compiledFolder)){
+						mkdir($compiledFolder);
 					}
-					//when the compilation in a language is done, write the new test xml file associated to the language:
-					$compilator->stringToFile($testContentArray[$language], $directory, "test$language.xml");//nom de la var $testContentArray[$language]
-				}
-				else{
-					//return an error message to the user:
-					$errorMsg = __("The test collection for the language")." '$language' ".__("must not be empty").".";
-					$compilator->setErrorMsg($errorMsg);
-					// throw new Exception("The test collection for the language '$language' must not be empty");
-				}
+					$compiledFolder .= "/$testFolderName";
+					if(!is_dir($compiledFolder)){
+						mkdir($compiledFolder);
+					}
+					$compiledFolder .= "/$itemFolderName";
+					if(!is_dir($compiledFolder)){
+						mkdir($compiledFolder);
+					}
+					$itemPath = "{$compiledFolder}/index.html";
+					$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
+					
+					$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
+					$compilator->clearCompiledFolder();
+					
+					$www = dirname($itemUrl);
 				
-			}//end of foreach language of test
-			
-			//create a test.xml file with links to the file of all test languages
-			$testXMLfile="";
-			$testXMLfile='<?xml version="1.0" encoding="UTF-8"?>
-			<tao:TEST rdfid="'.$testUri.'" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#">';
-			foreach ($languages as $language){
-				$testXMLfile.="<tao:TESTcontent lang=\"$language\">test$language</tao:TESTcontent>";
+					$deployParams = array(
+						'delivery_server_mode'	=> true,
+						'preview_mode'			=> false,
+						'tao_base_www'			=> $www,
+						'qti_base_www'			=> $www,
+						'base_www' 				=> $www,
+						'root_url'				=> $www
+					);
+				
+					//deploy the item
+					$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
+					
+					$compilator->copyPlugins();
+					
+					//directory where all files required to launch the test will be collected
+					$directory = $compilator->getCompiledPath();
+					
+					//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+					$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
+							
+					//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+					$compilator->stringToFile($itemContent, $directory, "index.html");
+					
+					$compilationResult[] = $compilator->result();
+					
+					
+				}
+				catch(Exception $e){
+					$resultArray["failed"]["errorMsg"][] = $e->getMessage();
+				}
+			}else{
+				//the item no longer exists, set error message and break the loop and thus the compilation:
+				if(!isset($resultArray["failed"]['unexistingItems'])){
+					$resultArray["failed"]['unexistingItems'] = array();
+				}
+				$resultArray["failed"]['unexistingItems'][] = $item->uriResource;
+				continue;
 			}
-			$testXMLfile.='</tao:TEST>';
-			
-			$compilator->stringToFile($testXMLfile, $directory, "Test.xml");
+		}		
+		
+		if(empty($resultArray["failed"])){
+			$resultArray["success"] = 1;
 		}
 		
+		//legacy to be reformatted:
+		/*
 		//then send the success message to the user
 		$resultArray = array();
 		$compilationResult = $compilator->result();
@@ -1207,6 +1101,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 		}
 		*/
+		
 		return $resultArray;
 	}
 	
@@ -1342,7 +1237,6 @@ class taoDelivery_models_classes_DeliveryService
 		// print_r($oldDeliveryProcess);
 		if($oldDeliveryProcess instanceof core_kernel_classes_Resource){
 			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-			
 			$authoringService->deleteProcess($oldDeliveryProcess);
 		}
 		//then save it in TAO_DELIVERY_PROCESS prop:

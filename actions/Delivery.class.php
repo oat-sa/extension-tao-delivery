@@ -178,14 +178,16 @@ class Delivery extends TaoModule {
 		//delivery authoring mode:
 		$this->setData('authoringMode', 'simple');
 		$authoringMode = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP));
+		
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));
+		
+		//remove the authoring buttons
+		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_DELIVERYCONTENT));
+		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_PROCESS));
 		
 		if($authoringMode->uriResource == TAO_DELIVERY_ADVANCEDMODE){
 			$this->setData('authoringMode', 'advanced');
 		}else{
-			//remove the authoring button
-			$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_DELIVERYCONTENT));
-			
 			//the default option is the simple mode:
 			$allTests = array();
 			foreach($this->service->getAllTests() as $testUri => $testLabel){
@@ -562,10 +564,10 @@ class Delivery extends TaoModule {
 			throw new Exception('no test uri given in compile action');
 		}
 		
-		$deliveryUri = tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri'));
-		$testUri=  tao_helpers_Uri::decode($this->getRequestParameter('testUri'));
+		$delivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
+		$test = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
 		
-		$resultArray = $this->service->compileTest($deliveryUri, $testUri);
+		$resultArray = $this->service->compileTest($delivery, $test);
 		
 		echo json_encode($resultArray);
 	}
@@ -882,11 +884,6 @@ class Delivery extends TaoModule {
 		$deliveryData['tests'] = array();
 		if(!empty($resultServer)){
 			
-			//generate the real delivery process:
-			
-			$deliveryProcess = $this->service->generateProcess($delivery);
-			//TODO: log potential error to display them to the users
-			
 			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
 			//array of resource, test set
 			$tests = array();
@@ -916,6 +913,11 @@ class Delivery extends TaoModule {
 		
 		$response = array();
 		$response["result"]=0;
+		
+		//generate the actual delivery process:		
+		$deliveryProcess = $this->service->generateProcess($delivery);
+		//TODO: log potential error to display them to the users
+		$response['errorMessage'] = 'error processing :(';
 		
 		if ($delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP), GENERIS_TRUE)){
 			$response["result"] = 1;
