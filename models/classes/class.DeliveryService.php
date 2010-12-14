@@ -990,11 +990,7 @@ class taoDelivery_models_classes_DeliveryService
 		foreach($items as $item){
 		
 			try{
-				$deployParams = array(
-					'delivery_server_mode'	=> true,
-					'preview_mode'	=> false,
-				 	'base_www' => ROOT_URL . '/taoItems/views/'
-				);
+				
 				
 				$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
 				$deliveryFolderName = substr($deliveryUri, strpos($deliveryUri, '#') + 1);
@@ -1018,6 +1014,18 @@ class taoDelivery_models_classes_DeliveryService
         		
 				$compilator = new taoDelivery_helpers_Compilator($deliveryUri, $testUri, $item->uriResource, $compiledFolder);
 				$compilator->clearCompiledFolder();
+				
+				
+				$www = dirname($itemUrl);
+				
+				$deployParams = array(
+					'delivery_server_mode'	=> true,
+					'preview_mode'			=> false,
+					'tao_base_www'			=> $www,
+					'qti_base_www'			=> $www,
+				 	'base_www' 				=> $www,
+					'root_url'				=> $www
+				);
 				
 				//deploy the item
         		$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
