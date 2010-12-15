@@ -30,6 +30,7 @@ class DeliveryTestCase extends UnitTestCase {
 	   $this->deliveryService->deleteDelivery($this->delivery);
     }
 	
+	/*
 	public function testService(){
 		$deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
 		$this->assertIsA($deliveryService, 'tao_models_classes_Service');
@@ -187,7 +188,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test1);
 		$testsService->deleteTest($test2);
 	}
-	
+	*/
 	
 	public function testGenerateProcessConditionalDelivery(){
 		$prefix_item = "!item: UnitCondDelivery ";
@@ -247,8 +248,13 @@ class DeliveryTestCase extends UnitTestCase {
 		$interactiveService = $authoringService->setTestByActivity($activityTest3, $test3);
 				
 		//generate the actual delivery process:
-		$deliveryProcess = $this->deliveryService->generateProcess($this->delivery);
+		$generationResult = $this->deliveryService->generateProcess($this->delivery);
+		$this->assertTrue($generationResult['success']);
+		var_dump($generationResult);
+		$deliveryProcess = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 		$this->assertIsA($deliveryProcess, 'core_kernel_classes_Resource');
+		$deliveryProcessChecker = new wfEngine_models_classes_ProcessChecker($deliveryProcess);
+		$this->assertTrue($deliveryProcessChecker->checkProcess());
 		
 		
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 5);

@@ -915,15 +915,38 @@ class Delivery extends TaoModule {
 		$response["result"]=0;
 		
 		//generate the actual delivery process:		
-		$deliveryProcess = $this->service->generateProcess($delivery);
-		//TODO: log potential error to display them to the users
-		$response['errorMessage'] = 'error processing :(';
-		
-		if ($delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP), GENERIS_TRUE)){
-			$response["result"] = 1;
-			$response["compiledDate"] = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->format('d/m/Y H:i:s');
-			
-		}
+		$generationResult = $this->service->generateProcess($delivery);
+		if($generationResult['success']){
+			$propCompiled = new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP);
+			if($delivery->editPropertyValues($propCompiled, GENERIS_TRUE)){
+				$response = array(
+					'result' => 1,
+					'compiledDate' => $delivery->getLastModificationDate($propCompiled)->format('d/m/Y H:i:s')
+				);
+			}
+		}else{
+			$response['errors'] = array();
+			if(isset($generationResult['errors']['delivery'])){
+				//bad design in delivery:
+				$response['errors']['delivery']['initialActivity'] = $generationResult['errors']['delivery']['initialActivity'];
+				$response['errors']['delivery']['isolatedConnectors'] = array();
+				foreach($generationResult['errors']['delivery']['isolatedConnectors'] as $connector){
+					$response['errors']['delivery']['isolatedConnectors'][] = $connector->getLabel();
+				}
+			}else{
+				$i = 0;
+				foreach($generationResult['errors']['tests'] as $testErrors){
+					//bad design in some tests:
+					$response['errors']['tests'][$i] = array();
+					$response['errors']['tests'][$i]['label'] = $testErrors['resource']->getLabel();
+					foreach($testErrors['isolatedConnectors'] as $connector){
+						$response['errors']['tests'][$i]['isolatedConnectors'][] = $connector->getLabel();
+					}
+					
+					$i++;
+				}
+			}
+		}		
 		
 		echo json_encode($response);
 	}

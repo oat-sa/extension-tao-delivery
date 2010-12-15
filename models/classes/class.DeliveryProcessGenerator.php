@@ -31,17 +31,38 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
     extends wfEngine_models_classes_ProcessCloner
 {
 	
+	protected $processError = array();
+	
 	public function __construct(){
 		parent::__construct();
 	}
 	
+	public function getErrors(){
+		return $this->processError;
+	}
+	
 	public function generateDeliveryProcess(core_kernel_classes_Resource $delivery){
 		
+		$failed = false;
+		$deliveryProcess = null;
+		$this->processError = array('tests'=>array());
 		$this->initCloningVariables();
 		// $this->setCloneLabel("__Clone1");
+		
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
-		$deliveryProcess = null;
+		//check delivery process:
+		$deliveryProcessChecker = new wfEngine_models_classes_ProcessChecker($process);
+		if(!$deliveryProcessChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
+			var_dump($deliveryProcessChecker);
+			$this->processError['delivery'] = array(
+				'resource' => $delivery,
+				'initialActivity' => (bool) count($deliveryProcessChecker->getInitialActivities()),
+				'isolatedConnectors' => $deliveryProcessChecker->getIsolatedConnectors()
+			);
+			return $deliveryProcess;
+		}
+		
 		$deliveryProcess = $this->cloneWfResource(
 			$process, 
 			new core_kernel_classes_Class(CLASS_PROCESS), 
@@ -50,6 +71,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		);
 		
 		if(!is_null($deliveryProcess)){
+			
 			//get all activity processes and clone them:
 			$activities = $this->authoringService->getActivitiesByProcess($process);
 			
@@ -60,16 +82,36 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				$testProcess = $authoringService->getTestProcessFromActivity($activity);
 				
 				if(!is_null($testProcess)){
-					//clone the process segment:
-					$testInterfaces = $this->cloneProcessSegment($testProcess, false);
-					// print_r($testInterfaces);
-					
-					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
-						$inActivityUri = $testInterfaces['in'];
-						$outActivityUris = $testInterfaces['out'];
-						$this->addClonedActivity($activity, $inActivityUri, $outActivityUris);
+					//validate the test process:
+					$processChecker = new wfEngine_models_classes_ProcessChecker($testProcess);
+					if($processChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
+						//clone the process segment:
+						$testInterfaces = $this->cloneProcessSegment($testProcess, false);
+						// print_r($testInterfaces);
+						
+						if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
+							$inActivityUri = $testInterfaces['in'];
+							$outActivityUris = $testInterfaces['out'];
+							$this->addClonedActivity($activity, $inActivityUri, $outActivityUris);
+						}else{
+							throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
+						}
 					}else{
-						throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
+						//log error:
+						$failed = true;
+						
+						$testCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TEST_TESTCONTENT_PROP, $testProcess->uriResource); 
+						if(!$testCollection->isEmpty()){
+							$test = $testCollection->get(0);
+							$this->processError['tests'][$test->uriResource] = array(
+								'resource' => $test,
+								'initialActivity' => (bool) count($processChecker->getInitialActivities()),
+								'isolatedConnectors' => $processChecker->getIsolatedConnectors()
+							);
+						}else{
+							throw new Exception('no test found for the related test process');
+						}
+						
 					}
 				}else{
 					// $activityClone = $this->cloneActivity($activity);
@@ -79,19 +121,29 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				}
 			}
 			
-			//add all cloned activities to the cloned delivery process:
-			foreach($this->getClonedActivities() as $activityClone){
-				$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
-			}
-			
-			//reloop for connectors this time:
-			foreach($activities as $activityUri => $activity){
-				$this->currentActivity = $activity;
-				$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
-				foreach($connectors['next'] as $connector){
-					$this->cloneConnector($connector);
+			if($failed){
+				
+				//cancel everything
+				$this->revertCloning();
+				$this->authoringService->deleteProcess($deliveryProcess);
+				$deliveryProcess = null;
+				
+			}else{
+				//add all cloned activities to the cloned delivery process:
+				foreach($this->getClonedActivities() as $activityClone){
+					$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
+				}
+				
+				//reloop for connectors this time:
+				foreach($activities as $activityUri => $activity){
+					$this->currentActivity = $activity;
+					$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
+					foreach($connectors['next'] as $connector){
+						$this->cloneConnector($connector);
+					}
 				}
 			}
+			
 			
 			// var_dump('end', $this);
 		}

@@ -176,8 +176,10 @@ class taoDelivery_models_classes_DeliveryService
 		if(!is_null($delivery)){
 			//delete the process associated to the delivery:
 			$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+			$actualProcess = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 			$processAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 			$processAuthoringService->deleteProcess($process);
+			$processAuthoringService->deleteProcess($actualProcess);
 			
 			$returnValue = $delivery->delete();
 		}
@@ -1224,25 +1226,31 @@ class taoDelivery_models_classes_DeliveryService
 	
 	public function generateProcess(core_kernel_classes_Resource $delivery){
 	
-		$deliveryProcess = null;
+		$returnValue = array(
+			'success' => false
+		);
 		
 		$deliveryProcessGenerator = new taoDelivery_models_classes_DeliveryProcessGenerator();
-		
 		$deliveryProcess = $deliveryProcessGenerator->generateDeliveryProcess($delivery);
 		
-		//delete the old delivery process if exists:
-		$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
-		$oldDeliveryProcess = $delivery->getOnePropertyValue($propDeliveryProcess);
-		
-		// print_r($oldDeliveryProcess);
-		if($oldDeliveryProcess instanceof core_kernel_classes_Resource){
-			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-			$authoringService->deleteProcess($oldDeliveryProcess);
+		if(!is_null($deliveryProcess)){
+			//delete the old delivery process if exists:
+			$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
+			$oldDeliveryProcess = $delivery->getOnePropertyValue($propDeliveryProcess);
+			
+			// print_r($oldDeliveryProcess);
+			if($oldDeliveryProcess instanceof core_kernel_classes_Resource){
+				$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+				$authoringService->deleteProcess($oldDeliveryProcess);
+			}
+			//then save it in TAO_DELIVERY_PROCESS prop:
+			$delivery->editPropertyValues($propDeliveryProcess, $deliveryProcess->uriResource);
+			$returnValue['success'] = true; 
+		}else{
+			$returnValue['errors'] = $deliveryProcessGenerator->getErrors();
 		}
-		//then save it in TAO_DELIVERY_PROCESS prop:
-		$delivery->editPropertyValues($propDeliveryProcess, $deliveryProcess->uriResource);
 		
-		return $deliveryProcess;
+		return $returnValue;
 	}
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
