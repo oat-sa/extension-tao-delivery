@@ -8,25 +8,36 @@ class DeliveryTestCase extends UnitTestCase {
 	
 	protected $deliveryService = null;
 	protected $delivery = null;
+	protected $authoringService = null;
 	
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
 		TestRunner::initTest();
+		
+		$this->authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+		
+		// $processDefinitionClass = new core_kernel_classes_Class(CLASS_PROCESS);
+		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery');
+		if($delivery instanceof core_kernel_classes_Resource){
+			$this->delivery = $delivery;
+		}
 	}
 	
+	public function tearDown() {
+	   $this->deliveryService->deleteDelivery($this->delivery);
+    }
+	
 	public function testService(){
-		
 		$deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
 		$this->assertIsA($deliveryService, 'tao_models_classes_Service');
 		$this->assertIsA($deliveryService, 'taoDelivery_models_classes_DeliveryService');
-		
-		$this->deliveryService = $deliveryService;
 	}
 	
 	public function testCreateInstance(){
-		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery1');
+		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
 		
 		//check if a process is associated to the delivery content:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
@@ -38,11 +49,8 @@ class DeliveryTestCase extends UnitTestCase {
 		if(!is_null($defaultDeliveryServer)){
 			$this->assertEqual($defaultDeliveryServer->uriResource, TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		}
-		
-		$this->delivery = $delivery;
-		
 	}
-	/*
+	
 	public function testSetDeliveryTests(){
 	
 		//create 2 tests:
@@ -75,8 +83,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$test1->delete();
 		$test2->delete();
 	}
-	*/
-	/*
+
 	public function testGenerateProcess(){
 		//create 2 tests with 2 items:
 		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
@@ -96,7 +103,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$test2 = $testsService->createInstance($testClass, 'UnitDelivery Test2');
 		$this->assertIsA($test1, 'core_kernel_classes_Resource');
 		$this->assertIsA($test2, 'core_kernel_classes_Resource');
-		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Class(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
+		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
 		
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
 		$this->assertTrue($testsService->setTestItems($test1, array($item1, $item2)));
@@ -120,7 +127,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test1);
 		$testsService->deleteTest($test2);
 	}
-	
+		
 	
 	public function testGenerateProcessConditionalTest(){
 		$id = "!item: UnitDelivery ";
@@ -144,7 +151,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$test2 = $testsService->createInstance($testClass, 'UnitDelivery Test2');
 		$this->assertIsA($test1, 'core_kernel_classes_Resource');
 		$this->assertIsA($test2, 'core_kernel_classes_Resource');
-		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Class(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
+		
+		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
 		
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
 		$processTest1 = $test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
@@ -171,7 +179,7 @@ class DeliveryTestCase extends UnitTestCase {
 		
 		
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 4);//there should be 4 activities (i.e. items)
-	
+		
 		$item1->delete();
 		$item2->delete();
 		$item3->delete();
@@ -179,7 +187,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test1);
 		$testsService->deleteTest($test2);
 	}
-	*/
+	
 	
 	public function testGenerateProcessConditionalDelivery(){
 		$prefix_item = "!item: UnitCondDelivery ";
@@ -204,14 +212,16 @@ class DeliveryTestCase extends UnitTestCase {
 		$test2 = $testsService->createInstance($testClass, 'UnitDelivery Test2');
 		$test3 = $testsService->createInstance($testClass, 'UnitDelivery Test3');
 		$this->assertIsA($test1, 'core_kernel_classes_Resource');
-		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Class(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
+			
+		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
 		
 		//init authoring service:
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 		
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
 		$processTest1 = $test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
-
+		
+		
 		$activityItem1 = $authoringService->createActivity($processTest1, "{$prefix_item}Item_1");
 		$activityItem1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 		$connectorItem1 = $authoringService->createConnector($activityItem1);
@@ -223,7 +233,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$this->assertTrue($testsService->setTestItems($test2, array($item4)));
 		$this->assertTrue($testsService->setTestItems($test3, array($item5)));
 		
-		//set the 3 tests in a condiitonal delivery:
+		//set the 3 tests in a conditional delivery:
 		$processDelivery = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		$activityTest1 = $authoringService->createActivity($processDelivery, "{$prefix_test}Test_1");
 		$activityTest1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
@@ -232,19 +242,17 @@ class DeliveryTestCase extends UnitTestCase {
 		$activityTest3 = $authoringService->createSplitActivity($connectorTest1, 'else', null, "{$prefix_test}Test_3");
 		
 		$interactiveService = $authoringService->setTestByActivity($activityTest1, $test1);
+		$this->assertNotNull($interactiveService);
 		$interactiveService = $authoringService->setTestByActivity($activityTest2, $test2);
 		$interactiveService = $authoringService->setTestByActivity($activityTest3, $test3);
-		
-		// $this->assertEqual(count($this->deliveryService->getDeliveryTests($this->delivery)), 3);
-		
+				
 		//generate the actual delivery process:
-		
 		$deliveryProcess = $this->deliveryService->generateProcess($this->delivery);
 		$this->assertIsA($deliveryProcess, 'core_kernel_classes_Resource');
 		
 		
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 5);
-		
+	
 		$item1->delete();
 		$item2->delete();
 		$item3->delete();
@@ -253,78 +261,6 @@ class DeliveryTestCase extends UnitTestCase {
 		$testsService->deleteTest($test1);
 		$testsService->deleteTest($test2);
 		$testsService->deleteTest($test3);
-	}
-	/**/
-	
-	/*
-	public function testCompileTest(){
-		// require_once(ROOT_PATH . '/taoTests/includes/constants.php');
-		$testContentRefPath = ROOT_PATH .'/taoTests/data/test_content_ref.xml';
-		// var_dump($testContentRefPath, TEST_CONTENT_REF_FILE);
-		$this->assertTrue(file_exists($testContentRefPath));
-		define('TEST_CONTENT_REF_FILE', $testContentRefPath);//explicitely define here, because required in testsService:
-		define('TAO_ITEM_CONTENT_PROPERTY', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
-					
-		//create a full delivery, with real tests and items:
-		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
-		$item1 = $itemClass->createInstance('UnitDelivery Item1', 'Item 1 create for delivery unit test');
-		$item2 = $itemClass->createInstance('UnitDelivery Item2', 'Item 2 create for delivery unit test');
-		$item3 = $itemClass->createInstance('UnitDelivery Item3', 'Item 3 create for delivery unit test');
-		$item4 = $itemClass->createInstance('UnitDelivery Item4', 'Item 4 create for delivery unit test');
-		
-		$itemContentProp = new core_kernel_classes_Property(TAO_ITEM_CONTENT_PROPERTY);
-		$item1->editPropertyValues($itemContentProp, $xmlCTest);				
-		$item2->editPropertyValues($itemContentProp, $xmlQCM);//$xmlQCM problem with img file copying
-		$item3->editPropertyValues($itemContentProp, $xmlKohs);
-		$item4->editPropertyValues($itemContentProp, $xmlHAWAI);
-		
-		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$test1 = $testClass->createInstance('UnitDelivery Test1', 'Test 1 create for delivery unit test');
-		
-		//assign the items to the tests: 
-		// $itemService = tao_models_classes_ServiceFactory::get('Items');
-		// $this->assertIsA($itemsService, 'tao_models_classes_Service');
-		// $this->assertIsA($itemsService, 'taoItems_models_classes_ItemsService');
-		$testsService = tao_models_classes_ServiceFactory::get('Tests');
-		$this->assertIsA($testsService, 'tao_models_classes_Service');
-		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
-		$testsService->setRelatedItems($test1, array($item1->uriResource, $item2->uriResource, $item3->uriResource), true);
-		
-		//set tests to active to allow compilation:
-		$test1->editPropertyValues(new core_kernel_classes_Property(TEST_ACTIVE_PROP), GENERIS_TRUE);
-		
-		//execute compilation:
-		$results = $this->deliveryService->compileTest($test1->uriResource);
-		$this->assertEqual($results['success'], 1);
-		if($results['success'] != 1){
-			var_dump($results);
-		}
-		
-		//check create folder and files:
-		$compilator = new taoDelivery_helpers_Compilator($test1->uriResource);
-		$compiledPath = $compilator->getCompiledPath();
-		// var_dump($compiledPath);
-		$this->assertTrue(is_dir($compiledPath));
-		$this->assertTrue(file_exists($compiledPath.'Test.xml'));
-		$this->assertTrue(file_exists($compiledPath.'Test.swf'));
-		$this->assertTrue(file_exists($compiledPath.'theTest.php'));
-		
-		//destroy compile folder contents:
-		$this->assertTrue($compilator->clearCompiledFolder());
-		$this->assertFalse(file_exists($compiledPath.'Test.xml'));
-		
-		$item1->delete();
-		$item2->delete();
-		$item3->delete();
-		$item4->delete();
-		$test1->delete();
-	}
-	*/
-	
-	public function testDeleteDelivery(){
-		$this->deliveryService->deleteDelivery($this->delivery);
-		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)));
-		$this->assertNull($this->delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)));
 	}
 }
 

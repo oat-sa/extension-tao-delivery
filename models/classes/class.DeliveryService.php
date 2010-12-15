@@ -743,7 +743,7 @@ class taoDelivery_models_classes_DeliveryService
      * @param  core_kernel_classes_Resource delivery
      * @return array
      */
-	public function getDeliveryTests(core_kernel_classes_Resource $delivery){
+	public function getDeliveryTests(core_kernel_classes_Resource $delivery){//sequential tests only
 		
 		$tests = array();
 		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
