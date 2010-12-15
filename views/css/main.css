@@ -6,8 +6,10 @@
 	margin:15px auto 15px auto;
 	font-size: 18px;
 	font-weight: bold;
-	padding-left: 20px;
+	padding:5px 5px 20px 5px;
 	color: #255581;
+	border-bottom: solid 1px #ccc;
+	text-align:center;
 }
 
 .section_title
@@ -119,11 +121,29 @@
 	background: #E5F2FF;
 }
 
-#new_process
+#new_process{
+	margin: 10px 0 20px 40px;	
+}
+
+#new_process ul
 {
 	display: block;
-	margin: 20px 0 20px 20px;
 	list-style-image: url(../img/taoDelivery_small.png); 
+}
+#new_process ul li{
+	margin-bottom:10px;
+}
+
+#new_process a:link, #new_process a:visited
+{
+	color: #000000;
+	text-decoration: none;	
+}
+
+#new_process a:hover
+{
+	color: #000000;
+	text-decoration: underline;	
 }
 
 #process_view

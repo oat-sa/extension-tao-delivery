@@ -2,12 +2,13 @@
 
 #welcome_message
 {
-	width:350px;
 	margin:15px auto 50px auto;
-	font-size: 22px;
+	font-size: 24px;
 	font-weight: bold;
 	padding-left: 20px;
 	color: #255581;
+	line-height:28px;
+	text-align:center;
 }
 
 /* Login form. */

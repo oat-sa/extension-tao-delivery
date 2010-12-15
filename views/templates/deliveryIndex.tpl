@@ -4,6 +4,7 @@
 		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/jquery.js"/></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/wfEngine.js"/></script>
+		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.custom.css" />
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>/css/main.css);
 		</style>
@@ -13,20 +14,16 @@
 		<div id="process_view"></div>
 		
 		<ul id="control">
-			
-		    
         	<li>
         		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
         	</li>
-        	
-         	
          	<li>
          		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
 		
-		<div id="content">
-			<h1 id="welcome_message"><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
+		<div id="content" class='ui-corner-bottom'>
+			<h1 id="welcome_message"><img src="<?=BASE_WWW?>/img/taoDelivery_medium.png" alt='delivery' />&nbsp;<?= __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
 			<div id="business">
 				<h2 class="section_title"><?php echo __("Active Deliveries"); ?></h2>
 			<?php if(!empty($processViewData)) : ?>
@@ -72,17 +69,22 @@
 			<?php if(!empty($availableProcessDefinition)) : ?>
 				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
 				<div id="new_process">
-					<?php foreach($availableProcessDefinition as $procDef) : ?>
-					<li>
-						<a href="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
-						<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
-					</li>
-					<?php endforeach;  ?>			
+					<ul>
+						<?php foreach($availableProcessDefinition as $procDef) : ?>
+						<li>
+							<a href="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
+							<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
+						</li>
+						<?php endforeach;  ?>		
+					</ul>	
 				</div>
 			<?php endif; ?>
 			</div>
 			
 		</div>
 		<!-- End of content -->
+		<div id="footer">
+			TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
+		</div>
 	</body>
 </html>

@@ -1,6 +1,4 @@
 <?php
-require_once('tao/actions/CommonModule.class.php');
-require_once('tao/actions/TaoModule.class.php');
 
 /**
  * DeliveryServer Controller

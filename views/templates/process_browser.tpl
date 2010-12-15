@@ -17,16 +17,14 @@
 			window.uiLanguage = '<?php echo $browserViewData['uiLanguage']; ?>';
 			
 			function goToPage(page_str){
-				$("#loader").show();
+				$("#loader").css('display', 'block');
 				$("#tools").empty();
-				setTimeout(function(){
-					window.location.href = page_str;
-				}, 100);
+				window.location.href = page_str;
 			 }
 		
 		    $(document).ready(function (){
 
-		    	$("#loader").hide();
+		    	$("#loader").css('display', 'none');
 		    	
 		       // Back and next function bindings for the ProcessBrowser.
 		       $("#back").click(function(){
@@ -129,13 +127,20 @@
 			<div id="business">
 		
 				<div id="navigation">
-					<?php if ($browserViewData['isBackable'] && USE_PREVIOUS): ?>
-					<input type="button" id="back" value="<?php echo __("Back"); ?>"/>
-					<?php endif; ?>
-										
-					<input type="button" id="next" value="<?php echo __("Forward"); ?>"/>
+					<?if ($browserViewData['isBackable'] && USE_PREVIOUS): ?>
+						<?if($browserViewData['controls']['backward']):?>
+							<input type="button" id="back" value="<?= __("Back")?>"/>
+						<?else:?>
+							<input type="button" id="back" value="" style="display:none;"/>
+						<?endif?>
+					<?endif?>
+					
+					<?if ($browserViewData['controls']['forward']): ?>				
+						<input type="button" id="next" value="<?= __("Forward")?>"/>
+					<?else:?>
+						<input type="button" id="next" value="" style="display:none;"/>
+					<?endif?>
 				</div>
-			
 				
 				<div id="navigation_floating">
 					<?php if ($browserViewData['isBackable']): ?>
@@ -160,7 +165,9 @@
  
 
   		<div id="consistency" title="<?php echo ((!$consistencyViewData['isConsistent']) ? $consistencyViewData['source'] : '') . ' ' . __("Edit error"); ?>"></div>
-
+		<div id="footer">
+			TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
+		</div>
 	</body>
 
 </html>

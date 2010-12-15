@@ -14,8 +14,8 @@
 		<ul id="control">    
 			<li></li>
 		</ul>
-		<div id="content">
-			<h1 id="welcome_message"><img src="<?=BASE_WWW?>/img/taoDelivery.png" />&nbsp;<?= __("TAO Delivery Server"); ?></h1>
+		<div id="content" class='ui-corner-bottom'>
+			<h1 id="welcome_message"><img src="<?=BASE_WWW?>/img/taoDelivery_medium.png" alt='delivery' />&nbsp;<?= __("TAO Delivery Server"); ?></h1>
 			<div id="business">
 				<br />
 				<?if(get_data('errorMessage')):?>
@@ -30,6 +30,9 @@
 					<?=get_data('form')?>
 				</div>
 			</div>
+		</div>
+		<div id="footer">
+			TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
 		</div>
 	</body>
 </html>

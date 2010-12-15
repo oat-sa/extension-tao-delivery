@@ -64,6 +64,7 @@ class ProcessBrowser extends WfModule{
 		Session::setAttribute('activityExecutionUri', $activityExecutionResource->uriResource);
 		
 		$this->setData('activity',$activity);
+		
 		$activityPerf 		= new Activity($activity->uri, false); // Performance WA
 		$activityExecution 	= new ActivityExecution($process, $activityExecutionResource);
 
@@ -73,6 +74,14 @@ class ProcessBrowser extends WfModule{
 		if ($process->status == 'Paused'){
 			$process->resume();
 		}
+		
+		$controls = $activity->getControls();
+		$browserViewData['controls'] = array(
+			'backward' 	=> (in_array(INSTANCE_CONTROL_BACKWARD, $controls)),
+			'forward'	=> (in_array(INSTANCE_CONTROL_FORWARD, $controls))
+		);
+		
+		
 		// Browser view main data.
 		$browserViewData['isInteractiveService']	= false;
 
@@ -170,7 +179,7 @@ class ProcessBrowser extends WfModule{
 		$this->setData('services',$services);
 
 		$this->setData('browserViewData', $browserViewData);
-
+		
 		/* <DEBUG> :populate the debug widget */
 		$this->setData('debugWidget', DEBUG_MODE);
 		if(DEBUG_MODE){
@@ -196,6 +205,7 @@ class ProcessBrowser extends WfModule{
 			));
 		}
 		/* </DEBUG> */
+		
 
 		$this->setView('process_browser.tpl');
 	}

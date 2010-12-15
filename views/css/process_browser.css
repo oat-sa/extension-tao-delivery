@@ -1,6 +1,19 @@
 @import url(frontend_user.css);
 @import url(dialogs.css);
 
+
+div#content{
+	width: 960px;
+  	min-height :600px;	
+  	padding: 3px;
+}
+#control{
+	width: 960px;
+}
+#business{
+	width:100%;
+}
+
 #toolbox
 {
 	list-style-type: none;
@@ -14,7 +27,7 @@
 #toolbox li
 {
 	display: inline;
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
 #toolbox li a
@@ -35,7 +48,7 @@
 /* The area containing the classical Back and Next action buttons. */
 #navigation
 {
-	width: 940px;
+	width: 100%;
 	text-align: right;
 	margin: 20px 0px 5px 0px;
 }
@@ -82,8 +95,8 @@
 /* The area containing Interactive tools (e.g. HyperViews, CLI, ...) */
 #tools
 {
-  width: 1024px;
-  height : 800px;
+  width: 100%;
+  min-height : 600px;
   margin: 0px auto 0px auto;
   position: relative;
 }
