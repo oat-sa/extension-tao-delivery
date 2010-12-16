@@ -176,10 +176,10 @@ class taoDelivery_models_classes_DeliveryService
 		if(!is_null($delivery)){
 			//delete the process associated to the delivery:
 			$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-			$actualProcess = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
+			$actualProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 			$processAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 			$processAuthoringService->deleteProcess($process);
-			$processAuthoringService->deleteProcess($actualProcess);
+			if(!is_null($actualProcess)) $processAuthoringService->deleteProcess($actualProcess);
 			
 			$returnValue = $delivery->delete();
 		}
