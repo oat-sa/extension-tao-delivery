@@ -568,6 +568,12 @@ class Delivery extends TaoModule {
 		$test = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
 		
 		$resultArray = $this->service->compileTest($delivery, $test);
+		if(isset($resultArray["failed"]['unexistingItems'])){
+			foreach($resultArray["failed"]['unexistingItems'] as $itemUri => $item){
+				$itemLabel = $item->getLabel();
+				$resultArray["failed"]['unexistingItems'][$itemUri] = empty($itemLabel)?__('unknown label'):$itemLabel;
+			}
+		}
 		
 		echo json_encode($resultArray);
 	}
@@ -927,6 +933,7 @@ class Delivery extends TaoModule {
 		}else{
 			$response['errors'] = array();
 			if(isset($generationResult['errors']['delivery'])){
+				$response['errors']['delivery'] = array();
 				//bad design in delivery:
 				$response['errors']['delivery']['initialActivity'] = $generationResult['errors']['delivery']['initialActivity'];
 				$response['errors']['delivery']['isolatedConnectors'] = array();
@@ -935,10 +942,18 @@ class Delivery extends TaoModule {
 				}
 			}else{
 				$i = 0;
+				$response['errors']['tests'] = array();
 				foreach($generationResult['errors']['tests'] as $testErrors){
 					//bad design in some tests:
-					$response['errors']['tests'][$i] = array();
-					$response['errors']['tests'][$i]['label'] = $testErrors['resource']->getLabel();
+					$response['errors']['tests'][$i] = array(
+						'initialActivity' => $testErrors['initialActivity'],
+						'label' => $testErrors['resource']->getLabel(),
+						'isolatedConnectors' => array()
+					);
+					
+					// $response['errors']['tests'][$i]['initialActivity'] = $testErrors['initialActivity'];
+					// $response['errors']['tests'][$i]['label'] = $testErrors['resource']->getLabel();
+					// $response['errors']['tests'][$i]['isolatedConnectors'] = array();
 					foreach($testErrors['isolatedConnectors'] as $connector){
 						$response['errors']['tests'][$i]['isolatedConnectors'][] = $connector->getLabel();
 					}

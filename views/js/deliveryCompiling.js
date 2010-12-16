@@ -144,7 +144,7 @@ function compileTest(testUri){
 				var error="";
 				for(key in r.failed.copiedFiles) {
 
-					failedCopy+= __("the following file(s) could not be copied for the test")+' '+key+":";
+					failedCopy+= __("The following file(s) could not be copied for the test")+' '+key+":";
 					
 					for(var i=0;i<r.failed.copiedFiles[key].length;i++) {
 						failedCopy+="<ul>";
@@ -155,7 +155,7 @@ function compileTest(testUri){
 				
 				for(key in r.failed.createdFiles) {
 				
-					failedCreation+= __("the following file(s) could not be created for the test")+':';
+					failedCreation+= __("The following file(s) could not be created for the test")+':';
 					
 					for(var i=0;i<r.failed.createdFiles[key].length;i++) {
 						failedCreation+="<ul>";
@@ -166,7 +166,7 @@ function compileTest(testUri){
 				
 				for(key in r.failed.untranslatedItems) {
 				
-					untranslatedItems+= __("the following item do not exist in or have not been translated into")+' '+key+':';
+					untranslatedItems+= __("The following item do not exist in or have not been translated into")+' '+key+':';
 					
 					for(var i=0;i<r.failed.untranslatedItems[key].length;i++) {
 						untranslatedItems+="<ul>";
@@ -175,33 +175,51 @@ function compileTest(testUri){
 					}
 				}
 				
-				for(key in r.failed.unexistingItems) {
+				if(r.failed.unexistingItems) {
 				
-					unexistingItems+= __("the following items no longer exist")+':';
+					unexistingItems+= __("The following items do not exist or are empty")+':';
 					unexistingItems+="<ul>";
-					for(var i=0;i<r.failed.unexistingItems.length;i++) {
-						unexistingItems+="<li>"+r.failed.unexistingItems[i]+"</li>";
+					for(key in r.failed.unexistingItems) {
+						unexistingItems+='<li>'+key+' ('+r.failed.unexistingItems[key]+')</li>';
 					}
 					unexistingItems+="</ul>";
 				}
 				
-				for(i=0;i<r.failed.errorMsg.length;i++){
-					error+='<b>' + r.failed.errorMsg[i] + '</b><br/>';
+				if(r.failed.errorMsg){
+					for(i=0;i<r.failed.errorMsg.length;i++){
+						error+='<b>' + r.failed.errorMsg[i] + '</b><br/>';
+					}
 				}
 				
-				errorMessage="<div>";
-				errorMessage+=failedCopy;
-				errorMessage+="<br/><br/>";
-				errorMessage+=failedCreation;
-				errorMessage+="<br/><br/>";
-				errorMessage+=untranslatedItems;
-				errorMessage+="<br/><br/>";
-				errorMessage+=error;
-				errorMessage+='<br/><br/><a href="#" onclick="$(\''+resultTag+'\').hide(); return false;">close</a>';
-				errorMessage+="</div>";
+				$closeButton = $('<a href="#" />').text(__('close')).bind('click', {resultTag:resultTag}, function(e){
+					e.preventDefault();
+					$(this).parent().hide();
+				});
+				// $closeButton.text(__('close'));
 				
-				$(resultTag).html(errorMessage);
+				$errorMessage = $('<div />').css('padding', '20px 30px');
+				if(unexistingItems){
+					$errorMessage.append(unexistingItems).append('<br/><br/>');
+				}
+				if(error){
+					$errorMessage.append(error).append('<br/><br/>');
+				}
 				
+				$errorMessage.append($closeButton);
+				
+				// errorMessage="<div>";
+				// errorMessage+=failedCopy;
+				// errorMessage+="<br/><br/>";
+				// errorMessage+=failedCreation;
+				// errorMessage+="<br/><br/>";
+				// errorMessage+=untranslatedItems;
+				// errorMessage+="<br/><br/>";
+				// errorMessage+=error;
+				// errorMessage+='<br/><br/><a href="#" onclick="$(\''+resultTag+'\').hide(); return false;">close</a>';
+				// errorMessage+="</div>";
+				
+				// $(resultTag).html($errorMessage.html());
+				$(resultTag).append($errorMessage);
 				
 			}
 		}//end success function callback
@@ -232,8 +250,56 @@ function endCompilation(){
 					finalMessage(__('complete!'),'ok.png');
 				}
 			}else{
-				$('#generatingProcess_feedback').html(r.errorMessage).show();;
-				// alert(__("the delivery has been successfully compiled but an issue happened with the delivery status update"));
+				var $deliveryError = $('<div />');
+				var msg = '';
+				if(r.errors.delivery){
+					msg = __('Error in delivery process');
+					
+					if(!r.errors.delivery.initialActivity){
+						//there is no initial activity
+						var noInitialActivity = __('there is no initial activity for the delivery process definition');
+						$deliveryError.append('<br/>').append(noInitialActivity);
+					}
+					
+					if(r.errors.delivery.isolatedConnectors.length){
+						var isolatedConnectors = __("The delivery process has isolated connectors")+':';
+						isolatedConnectors += "<ul>";
+						for(var i=0; i<r.errors.delivery.isolatedConnectors.length; i++){
+							isolatedConnectors += '<li>'+r.errors.delivery.isolatedConnectors[i]+'</li>';
+						}
+						isolatedConnectors += "</ul>";
+						$deliveryError.append('<br/>').append(isolatedConnectors);
+					}
+					
+				}else{
+					msg = __('Error in test process');
+					
+					for(var i=0; i<r.errors.tests.length; i++){
+						var testError = r.errors.tests[i];
+						$deliveryError.append('<br/>').append(__('Issue found for the process definiiton of the test')+' "'+testError.label+'":').append('<br/>');
+						if(!testError.initialActivity){
+							//there is no initial activity
+							var noInitialActivity = __('There is no initial activity for the test process definition');
+							$deliveryError.append('<br/>').append(noInitialActivity);
+						}
+						
+						if(testError.isolatedConnectors.length){
+							var isolatedConnectors = __("The test process has isolated connectors")+':';
+							isolatedConnectors += "<ul>";
+							for(var i=0; i<testError.isolatedConnectors.length; i++){
+								isolatedConnectors += '<li>'+testError.isolatedConnectors[i]+'</li>';
+							}
+							isolatedConnectors += "</ul>";
+							$deliveryError.append('<br/>').append(isolatedConnectors);
+						}
+					}
+					
+					
+				}
+				
+				$('#generatingProcess_feedback').append($deliveryError).show();
+				
+				finalMessage(msg, 'failed.png');
 			}
 			if( progressbar != null ){
 				progressbar.progressbar( 'destroy' );

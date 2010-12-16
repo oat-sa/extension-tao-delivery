@@ -974,7 +974,7 @@ class taoDelivery_models_classes_DeliveryService
 	public function compileTest(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test){
 		
 		$resultArray = array(
-			'success' => 1,
+			'success' => 0,
 			'failed' => array()
 		);
 				
@@ -989,11 +989,12 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$compilationResult = array();
 		$propRDFtype = new core_kernel_classes_Property(RDF_TYPE);
-		
+		$propItemModel = new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP);
 		foreach($items as $item){
 			//check if the item exists: if not, append to the test failure message
 			$itemClass = $item->getOnePropertyValue($propRDFtype);
-			if(!is_null($itemClass)){
+			if(!is_null($itemClass) && !is_null($item->getOnePropertyValue($propItemModel))){
+				
 				try{
 					
 					$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
@@ -1056,7 +1057,7 @@ class taoDelivery_models_classes_DeliveryService
 				if(!isset($resultArray["failed"]['unexistingItems'])){
 					$resultArray["failed"]['unexistingItems'] = array();
 				}
-				$resultArray["failed"]['unexistingItems'][] = $item->uriResource;
+				$resultArray["failed"]['unexistingItems'][$item->uriResource] = $item;
 				continue;
 			}
 		}		

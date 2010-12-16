@@ -54,7 +54,6 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		//check delivery process:
 		$deliveryProcessChecker = new wfEngine_models_classes_ProcessChecker($process);
 		if(!$deliveryProcessChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
-			var_dump($deliveryProcessChecker);
 			$this->processError['delivery'] = array(
 				'resource' => $delivery,
 				'initialActivity' => (bool) count($deliveryProcessChecker->getInitialActivities()),
