@@ -33,7 +33,6 @@ class DeliveryTestCase extends UnitTestCase {
 	
 	public function testService(){
 		$deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
-		$this->assertIsA($deliveryService, 'tao_models_classes_Service');
 		$this->assertIsA($deliveryService, 'taoDelivery_models_classes_DeliveryService');
 	}
 	
@@ -50,6 +49,9 @@ class DeliveryTestCase extends UnitTestCase {
 		if(!is_null($defaultDeliveryServer)){
 			$this->assertEqual($defaultDeliveryServer->uriResource, TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		}
+		
+		$this->deliveryService->deleteDelivery($delivery);
+		$this->assertNull($delivery->getOnePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
 	}
 
 	public function testSetDeliveryTests(){
