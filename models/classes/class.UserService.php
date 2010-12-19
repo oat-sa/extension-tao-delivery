@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API -
+ * TAO - taoDelivery\models\classes\class.UserService.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 20.05.2010, 17:34:50 with ArgoUML PHP module 
+ * Automatically generated on 19.12.2010, 16:46:53 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -24,23 +24,23 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * This class provide service on user management
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  */
 require_once('tao/models/classes/class.UserService.php');
 
 /* user defined includes */
-// section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002420-includes begin
-// section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002420-includes end
+// section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D31-includes begin
+// section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D31-includes end
 
 /* user defined constants */
-// section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002420-constants begin
-// section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002420-constants end
+// section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D31-constants begin
+// section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D31-constants end
 
 /**
  * Short description of class taoDelivery_models_classes_UserService
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -58,21 +58,21 @@ class taoDelivery_models_classes_UserService
      * Short description of method initRoles
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @return mixed
      */
     public function initRoles()
     {
-        // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002421 begin
+        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 begin
 		$this->allowedRoles = array(CLASS_ROLE_SUBJECT);
-        // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002421 end
+        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 end
     }
 
     /**
      * Short description of method loginUser
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  string login
      * @param  string password
      * @return boolean
@@ -81,8 +81,8 @@ class taoDelivery_models_classes_UserService
     {
         $returnValue = (bool) false;
 
-        // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002423 begin
-		 if(parent::loginUser($login, $password)){
+        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 begin
+		if(parent::loginUser($login, $password)){
         	
         	if($this->connectCurrentUser()){
 	        	$currentUser = $this->getCurrentUser();
@@ -117,7 +117,7 @@ class taoDelivery_models_classes_UserService
 	        	}
         	}
         }
-        // section 10-11-2-22-1f35d42c:128b4acd65a:-8000:0000000000002423 end
+        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 end
 
         return (bool) $returnValue;
     }

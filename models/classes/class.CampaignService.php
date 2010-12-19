@@ -3,15 +3,18 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API -
+ * TAO - taoDelivery\models\classes\class.CampaignService.php
  *
- * This file is part of Generis Object Oriented API.
+ * $Id$
  *
+ * This file is part of TAO.
  *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * Automatically generated on 19.12.2010, 16:21:02 with ArgoUML PHP module 
+ * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ *
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -20,21 +23,27 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 /**
  * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every service instances.
+ * Used to centralize the behavior related to every servcie instances.
  *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  */
-require_once('tao/models/classes/class.Service.php');
+require_once('tao/models/classes/class.GenerisService.php');
 
+/* user defined includes */
+// section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201B-includes begin
+// section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201B-includes end
+
+/* user defined constants */
+// section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201B-constants begin
+// section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201B-constants end
 
 /**
- * The taoDelivery_models_classes_CampaignService class provides methods to connect to several ontologies and interact with them.
+ * Short description of class taoDelivery_models_classes_CampaignService
  *
  * @access public
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_models_classes_CampaignService
     extends tao_models_classes_GenerisService
@@ -45,87 +54,35 @@ class taoDelivery_models_classes_CampaignService
     // --- ATTRIBUTES ---
 
     /**
-     * The attribute campaignClass contains the default TAO Campaign Class
+     * Short description of attribute campaignClass
      *
      * @access protected
      * @var Class
      */
     protected $campaignClass = null;
-	
-	
-	
+
     // --- OPERATIONS ---
 
-	/**
-     * The method __construct intiates the CampaignService class and loads the required ontologies from the other extensions 
+    /**
+     * Short description of method __construct
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @return mixed
-     */	
+     */
     public function __construct()
     {
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002049 begin
 		parent::__construct();
-		
 		$this->campaignClass = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002049 end
     }
-	
-	/**
-     * The method getCampaignClass return the current Campaign Class
-	 * (not used yet in the current implementation)
+
+    /**
+     * Short description of method createCampaignClass
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string uri
-     * @return core_kernel_classes_Class
-     */
-    public function getCampaignClass($uri = '')
-    {
-        $returnValue = null;
-
-		if(empty($uri) && !is_null($this->campaignClass)){
-			$returnValue = $this->campaignClass;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isCampaignClass($clazz)){
-				$returnValue = $clazz;
-			}
-		}
-
-        return $returnValue;
-    }
-		
-	/**
-     * Returns a campaign by providing either its uri (default) or its label and the campaign class
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param  string identifier
-     * @param  string mode
-     * @param  Class clazz
-     * @return core_kernel_classes_Resource
-     */
-    public function getCampaign($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
-    {
-        $returnValue = null;
-
-		if(is_null($clazz)){
-			$clazz = $this->campaignClass;
-		}
-		if($this->isCampaignClass($clazz)){
-			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
-		}
-		
-        return $returnValue;
-    }
-	
-	 /**
-     * Create a new subclass of Campaign, which is basically always a subclass of an existing Campaign class.
-	 * Require an array('propertyName' => 'propertyValue')
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  Class clazz
      * @param  string label
      * @param  array properties
@@ -135,6 +92,7 @@ class taoDelivery_models_classes_CampaignService
     {
         $returnValue = null;
 
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204B begin
 		if(is_null($clazz)){
 			$clazz = $this->campaignClass;
 		}
@@ -151,36 +109,37 @@ class taoDelivery_models_classes_CampaignService
 			}
 			$returnValue = $campaignClass;
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204B end
 
         return $returnValue;
     }
-	
-	/**
-     * Method to be called to delete a campaign instance
-     * (Method is not used in the current implementation yet)
-	 *
+
+    /**
+     * Short description of method deleteCampaign
+     *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  Resource campaign
      * @return boolean
      */
     public function deleteCampaign( core_kernel_classes_Resource $campaign)
     {
         $returnValue = (bool) false;
-		
+
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204D begin
 		if(!is_null($campaign)){
 			$returnValue = $campaign->delete();
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204D end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Method to be called to delete a campaign class
-     * (Method is not used in the current implementation yet)
+     * Short description of method deleteCampaignClass
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  Class clazz
      * @return boolean
      */
@@ -188,54 +147,83 @@ class taoDelivery_models_classes_CampaignService
     {
         $returnValue = (bool) false;
 
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204F begin
 		if(!is_null($clazz)){
 			if($this->isCampaignClass($clazz) && $clazz->uriResource != $this->campaignClass->uriResource){
 				$returnValue = $clazz->delete();
 			}
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000204F end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Check whether the object is a campaign class
-     * (Method is not used in the current implementation yet)
+     * Short description of method getCampaign
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @param  Integer identifier
+     * @param  string mode
      * @param  Class clazz
-     * @return boolean
+     * @return core_kernel_classes_Resource
      */
-    public function isCampaignClass( core_kernel_classes_Class $clazz)
+    public function getCampaign( tao_helpers_form_validators_Integer $identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
     {
-        $returnValue = (bool) false;
+        $returnValue = null;
 
-		if($clazz->uriResource == $this->campaignClass->uriResource){
-			$returnValue = true;	
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002051 begin
+		if(is_null($clazz)){
+			$clazz = $this->campaignClass;
+		}
+		if($this->isCampaignClass($clazz)){
+			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
+		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002051 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getCampaignClass
+     *
+     * @access public
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @param  string uri
+     * @return core_kernel_classes_Class
+     */
+    public function getCampaignClass($uri = '')
+    {
+        $returnValue = null;
+
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002057 begin
+		if(empty($uri) && !is_null($this->campaignClass)){
+			$returnValue = $this->campaignClass;
 		}
 		else{
-			foreach($this->campaignClass->getSubClasses(true) as $subclass){
-				if($clazz->uriResource == $subclass->uriResource){
-					$returnValue = true;
-					break;	
-				}
+			$clazz = new core_kernel_classes_Class($uri);
+			if($this->isCampaignClass($clazz)){
+				$returnValue = $clazz;
 			}
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002057 end
 
-        return (bool) $returnValue;
+        return $returnValue;
     }
-			
+
     /**
-     * get the list of deliveries in the campaign in parameter
+     * Short description of method getRelatedDeliveries
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  Resource campaign
      * @return array
      */
-    public function getRelatedDeliveries( core_kernel_classes_Resource $campaign){
+    public function getRelatedDeliveries( core_kernel_classes_Resource $campaign)
+    {
         $returnValue = array();
-		
+
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002059 begin
 		if(!is_null($campaign)){
 		
 			//get the list of deliveries, by using getSubjects(TAO_DELIVERY_CAMPAIGN_PROP,$campaign->resourceUri);
@@ -250,15 +238,45 @@ class taoDelivery_models_classes_CampaignService
 				// $returnValue = array_merge($returnValue, getRelatedDeliveries($subclass)); 
 			// }
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002059 end
 
         return (array) $returnValue;
     }
 
     /**
-     * define the list of tests composing a campaign
+     * Short description of method isCampaignClass
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @param  Class clazz
+     * @return boolean
+     */
+    public function isCampaignClass( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = (bool) false;
+
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000205B begin
+		if($clazz->uriResource == $this->campaignClass->uriResource){
+			$returnValue = true;	
+		}
+		else{
+			foreach($this->campaignClass->getSubClasses(true) as $subclass){
+				if($clazz->uriResource == $subclass->uriResource){
+					$returnValue = true;
+					break;	
+				}
+			}
+		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000205B end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method setRelatedDeliveries
+     *
+     * @access public
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
      * @param  Resource campaign
      * @param  array deliveries
      * @return boolean
@@ -266,7 +284,8 @@ class taoDelivery_models_classes_CampaignService
     public function setRelatedDeliveries( core_kernel_classes_Resource $campaign, $deliveries = array())
     {
         $returnValue = (bool) false;
-		
+
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000205D begin
 		if(!is_null($campaign)){
 			//the property of the DELIVERIES that will be modified
 			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
@@ -302,6 +321,7 @@ class taoDelivery_models_classes_CampaignService
 				$returnValue = true;
 			}
 		}
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000205D end
 
         return (bool) $returnValue;
     }
