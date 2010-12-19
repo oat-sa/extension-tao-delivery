@@ -258,7 +258,8 @@ class taoDelivery_helpers_Compilator
 			return array_merge(
 				$this->getPlugins('JS'),
 				$this->getPlugins('CSS'),
-				$this->getPlugins('IMG')
+				$this->getPlugins('IMG'),
+				$this->getPlugins('SWF')
 			);
 		}
 		else{
@@ -293,6 +294,15 @@ class taoDelivery_helpers_Compilator
 				}
 				return $files;
 			}
+			if(strtoupper($type) == 'SWF'){
+				$files = array();
+				foreach(scandir($this->pluginPath."swf/") as $file){
+					if(is_file($this->pluginPath."swf/".$file) && !is_dir($this->pluginPath."swf/".$file)){
+						$files[] = $file;
+					}
+				}
+				return $files;
+			}
 		}
 	}
 	
@@ -305,7 +315,7 @@ class taoDelivery_helpers_Compilator
      * @return void
      */
 	public function copyPlugins(){
-		$plugins = array('js', 'css', 'img');
+		$plugins = array('js', 'css', 'img', 'swf');
 		foreach($plugins as $plugin){
 			if(!is_dir("{$this->compiledPath}/{$plugin}/")){
 				mkdir("{$this->compiledPath}/{$plugin}/");
@@ -355,6 +365,9 @@ class taoDelivery_helpers_Compilator
 				}
 				if(preg_match("/\.css$/", basename($mediaUrl))){
 					$xml = str_replace($mediaUrl, "$compiledUrl/css/".basename($mediaUrl), $xml, $replaced);
+				}
+				if(preg_match("/\.swf$/", basename($mediaUrl))){
+					$xml = str_replace($mediaUrl, "$compiledUrl/swf/".basename($mediaUrl), $xml, $replaced);
 				}
 			}
 			else{
