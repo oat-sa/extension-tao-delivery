@@ -10,7 +10,7 @@
 		</style>
 	</head>
 	
-	<body>
+	<body style="background-color:#FFFFFF;">
 		<ul id="control">    
 			<li></li>
 		</ul>
