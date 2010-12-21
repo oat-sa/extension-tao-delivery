@@ -119,12 +119,12 @@ class ResultDelivery extends Api {
 					foreach($this->getRequestParameter('taoVars') as $key => $value){
 						$taoVars[str_replace($resultNS.'#', '', $key)] = $value;
 					}
-					$this->resultService->addResultVariables($dtis, $taoVars, false);
+					$this->resultService->addResultVariables($dtis, $taoVars, true);
 					
 				}
 				if($this->hasRequestParameter('userVars')){
 					//here we save the user variables
-					$this->resultService->addResultVariables($dtis, $this->getRequestParamter('userVars'), true);
+					$this->resultService->addResultVariables($dtis, $this->getRequestParamter('userVars'), false);
 				}
 				
 				$saved = true;
