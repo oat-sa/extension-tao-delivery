@@ -3,46 +3,91 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API -
+ * TAO - taoDelivery\models\classes\class.DeliveryProcessGenerator.php
  *
- * This file is part of Generis Object Oriented API.
+ * $Id$
  *
+ * This file is part of TAO.
  *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * Automatically generated on 03.01.2011, 18:01:25 with ArgoUML PHP module 
+ * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ *
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
-require_once('wfEngine/models/classes/class.ProcessCloner.php');
+
 /**
- * The taoDelivery_models_classes_DeliveryProcessGenerator class
+ * include wfEngine_models_classes_ProcessCloner
+ *
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ */
+require_once('wfEngine/models/classes/class.ProcessCloner.php');
+
+/* user defined includes */
+// section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007177-includes begin
+// section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007177-includes end
+
+/* user defined constants */
+// section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007177-constants begin
+// section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007177-constants end
+
+/**
+ * Short description of class
  *
  * @access public
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
  * @subpackage models_classes
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_models_classes_DeliveryProcessGenerator
     extends wfEngine_models_classes_ProcessCloner
 {
-	
-	protected $processError = array();
-	
-	public function __construct(){
+    // --- ASSOCIATIONS ---
+
+
+    // --- ATTRIBUTES ---
+
+    /**
+     * Short description of attribute processError
+     *
+     * @access protected
+     * @var array
+     */
+    protected $processError = array();
+
+    // --- OPERATIONS ---
+
+    /**
+     * Short description of method __construct
+     *
+     * @access public
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     */
+    public function __construct()
+    {
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:000000000000717D begin
 		parent::__construct();
-	}
-	
-	public function getErrors(){
-		return $this->processError;
-	}
-	
-	public function generateDeliveryProcess(core_kernel_classes_Resource $delivery){
-		
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:000000000000717D end
+    }
+
+    /**
+     * Short description of method generateDeliveryProcess
+     *
+     * @access public
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @param  Resource delivery
+     * @return core_kernel_classes_Resource
+     */
+    public function generateDeliveryProcess( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = null;
+
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007180 begin
 		$failed = false;
 		$deliveryProcess = null;
 		$this->processError = array('tests'=>array());
@@ -89,9 +134,9 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 						// print_r($testInterfaces);
 						
 						if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
-							$inActivityUri = $testInterfaces['in'];
-							$outActivityUris = $testInterfaces['out'];
-							$this->addClonedActivity($activity, $inActivityUri, $outActivityUris);
+							$inActivity = $testInterfaces['in'];
+							$outActivities = $testInterfaces['out'];
+							$this->addClonedActivity($inActivity, $activity, $outActivities);
 						}else{
 							throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
 						}
@@ -143,11 +188,32 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				}
 			}
 			
-			
+			$returnValue = $deliveryProcess;
 			// var_dump('end', $this);
 		}
-		
-		return $deliveryProcess;
-	}	
-	
-} /* end of class taoDelivery_models_classes_DeliveryAuthoringService */	
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007180 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getErrors
+     *
+     * @access public
+     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @return array
+     */
+    public function getErrors()
+    {
+        $returnValue = array();
+
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007183 begin
+		$returnValue = $this->processError;
+        // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007183 end
+
+        return (array) $returnValue;
+    }
+
+} /* end of class taoDelivery_models_classes_DeliveryProcessGenerator */
+
+?>
