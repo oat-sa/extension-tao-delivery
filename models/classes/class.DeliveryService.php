@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.12.2010, 15:54:51 with ArgoUML PHP module 
+ * Automatically generated on 04.01.2011, 15:26:51 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
@@ -1135,7 +1135,6 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$deliveryProcessGenerator = new taoDelivery_models_classes_DeliveryProcessGenerator();
 		$deliveryProcess = $deliveryProcessGenerator->generateDeliveryProcess($delivery);
-		
 		if(!is_null($deliveryProcess)){
 			//delete the old delivery process if exists:
 			$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
@@ -1241,7 +1240,7 @@ class taoDelivery_models_classes_DeliveryService
      * @param  string mode
      * @return boolean
      */
-    public function setAuthoringMode( taoItems_models_classes_QTI_Resource $delivery, $mode)
+    public function setAuthoringMode( core_kernel_classes_Resource $delivery, $mode)
     {
         $returnValue = (bool) false;
 

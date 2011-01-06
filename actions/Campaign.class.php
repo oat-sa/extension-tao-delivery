@@ -32,35 +32,7 @@ class Campaign extends TaoModule {
 /*
  * conveniance methods
  */
-	
-	/**
-	 * get the selected campaign from the current context (from the uri and classUri parameter in the request)
-	 * @return core_kernel_classes_Resource $campaign
-	 */
-	private function getCurrentCampaign(){
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
-			throw new Exception("No valid uri found");
-		}
-		
-		$clazz = $this->getCurrentClass();
-		
-		$campaign = $this->service->getCampaign($uri, 'uri', $clazz);
-		if(is_null($campaign)){
-			throw new Exception("No campaign found for the uri {$uri}");
-		}
-		
-		return $campaign;
-	}
-	
-	/**
-	 * @see TaoModule::getCurrentInstance
-	 * @return core_kernel_classes_Resource
-	 */
-	protected function getCurrentInstance(){
-		return $this->getCurrentCampaign();
-	}
-	
+			
 	/**
 	 * @see TaoModule::getRootClass
 	 * @return core_kernel_classes_Classes
@@ -137,7 +109,7 @@ class Campaign extends TaoModule {
 	public function editCampaign(){
 		$clazz = $this->getCurrentClass();
 		
-		$campaign = $this->getCurrentCampaign();
+		$campaign = $this->getCurrentInstance();
 		
 		$formContainer = new tao_actions_form_Instance($clazz, $campaign);
 		$myForm = $formContainer->getForm();
@@ -210,7 +182,7 @@ class Campaign extends TaoModule {
 		
 		$deleted = false;
 		if($this->getRequestParameter('uri')){
-			$deleted = $this->service->deleteCampaign($this->getCurrentCampaign());
+			$deleted = $this->service->deleteCampaign($this->getCurrentInstance());
 		}
 		else{
 			$deleted = $this->service->deleteCampaignClass($this->getCurrentClass());
@@ -228,7 +200,7 @@ class Campaign extends TaoModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$campaign = $this->getCurrentCampaign();
+		$campaign = $this->getCurrentInstance();
 		$clazz = $this->getCurrentClass();
 		
 		$clone = $this->service->createInstance($clazz);
@@ -291,7 +263,7 @@ class Campaign extends TaoModule {
 			}
 		}
 		
-		if($this->service->setRelatedDeliveries($this->getCurrentCampaign(), $deliveries)){
+		if($this->service->setRelatedDeliveries($this->getCurrentInstance(), $deliveries)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));
