@@ -88,7 +88,6 @@ class ProcessBrowser extends WfModule{
 		$browserViewData['processLabel'] 			= $process->process->label;
 		$browserViewData['processExecutionLabel']	= $process->label;
 		$browserViewData['activityLabel'] 			= $activity->label;
-		$browserViewData['isBackable']				= (FlowHelper::isProcessBackable($process));
 		$browserViewData['uiLanguage']				= $GLOBALS['lang'];
 		$browserViewData['contentlanguage']			= $_SESSION['taoqual.serviceContentLang'];
 		$browserViewData['processUri']				= $processUri ;
@@ -233,40 +232,17 @@ class ProcessBrowser extends WfModule{
 		$processUri 	= urldecode($processUri);
 		$processExecution = new ProcessExecution($processUri);
 	
-		try
-		{
+		$processExecution->performTransition($activityExecutionUri,($ignoreConsistency == 'true') ? true : false);
 
-			$processExecution->performTransition($activityExecutionUri,($ignoreConsistency == 'true') ? true : false);
-
-			if ($processExecution->isFinished()){
-				$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
-			}
-			elseif($processExecution->isPaused()){
-				$this->pause($processUri);
-			}
-			else{
-				$this->redirect(tao_helpers_Uri::url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
-			}
+		if ($processExecution->isFinished()){
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
-		catch (ConsistencyException $consistencyException)
-		{
-			echo $consistencyException;
-			// A consistency error occured when trying to go
-			// forward in the process. Let's try to get useful
-			// information from the exception.
-		
-			// We need to tell the "index" action of the "ProcessBrowser" controller
-			// that a consistency exception occured. To do so, we will use the concept
-			// of flash variable. This kind of variable survives during one and only one
-			// HTTP request lifecycle. So that in the "index" action, the session variable
-			// depicting the error will be systematically erased after each processing.
-			//$_SESSION['taoqual.flashvar.consistency'] = $consistencyException;
-			$consistency = ConsistencyHelper::BuildConsistencyStructure($consistencyException);
-			$_SESSION['taoqual.flashvar.consistency'] = $consistency;
-			
+		elseif($processExecution->isPaused()){
+			$this->pause($processUri);
+		}
+		else{
 			$this->redirect(tao_helpers_Uri::url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
 		}
-		
 	}
 
 	public function pause($processUri){

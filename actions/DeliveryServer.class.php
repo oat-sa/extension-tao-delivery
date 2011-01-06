@@ -101,11 +101,12 @@ class DeliveryServer extends DeliveryServerModule{
 		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
 		$subject = $userService->getCurrentUser();
 
-		$wfEngine = $_SESSION["WfEngine"];
 		$login = $_SESSION['taoqual.userId'];
 		$this->setData('login',$login);
 		
-		$processes 			= $wfEngine->getProcessExecutions();
+		$wfEngineService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_WfEngineService');
+		
+		$processes 			= $wfEngineService->getProcessExecutions();
 		
 		//init required services
 		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');

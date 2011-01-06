@@ -127,7 +127,7 @@
 			<div id="business">
 		
 				<div id="navigation">
-					<?if ($browserViewData['isBackable'] && USE_PREVIOUS): ?>
+					<?if(USE_PREVIOUS): ?>
 						<?if($browserViewData['controls']['backward']):?>
 							<input type="button" id="back" value="<?= __("Back")?>"/>
 						<?else:?>
@@ -143,14 +143,10 @@
 				</div>
 				
 				<div id="navigation_floating">
-					<?php if ($browserViewData['isBackable']): ?>
-						<input type="button" id="back_floating" value="&lt;&lt;"/>
-					<?php endif; ?>
+					<input type="button" id="back_floating" value="&lt;&lt;"/>
 					<input type="button" id="next_floating" value="&gt;&gt;"/>
 				</div>
 				
-				
-
 			
 				<div id="tools">
 					<?php foreach($services as $service): ?>
