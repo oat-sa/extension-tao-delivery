@@ -89,7 +89,8 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 
         // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007180 begin
 		$failed = false;
-		$deliveryProcess = null;
+		
+		
 		$this->processError = array('tests'=>array());
 		$this->initCloningVariables();
 		// $this->setCloneLabel("__Clone1");
@@ -104,14 +105,15 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				'initialActivity' => (bool) count($deliveryProcessChecker->getInitialActivities()),
 				'isolatedConnectors' => $deliveryProcessChecker->getIsolatedConnectors()
 			);
-			return $deliveryProcess;
+			return $returnValue;
 		}
 		
+		$deliveryProcess = null;
 		$deliveryProcess = $this->cloneWfResource(
 			$process, 
 			new core_kernel_classes_Class(CLASS_PROCESS), 
 			array(PROPERTY_PROCESS_ACTIVITIES, PROPERTY_PROCESS_DIAGRAMDATA),
-			'Actual '.$process->getLabel()
+			__('Actual').' '.$process->getLabel()
 		);
 		
 		if(!is_null($deliveryProcess)){
@@ -128,7 +130,10 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				if(!is_null($testProcess)){
 					//validate the test process:
 					$processChecker = new wfEngine_models_classes_ProcessChecker($testProcess);
+					
 					if($processChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
+						
+						
 						//clone the process segment:
 						$testInterfaces = $this->cloneProcessSegment($testProcess, false);
 						// print_r($testInterfaces);
@@ -141,6 +146,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 							throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
 						}
 					}else{
+						
 						//log error:
 						$failed = true;
 						
@@ -186,9 +192,12 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 						$this->cloneConnector($connector);
 					}
 				}
+				
+				//set the valid delivery process as the return value:
+				$returnValue = $deliveryProcess;
 			}
 			
-			$returnValue = $deliveryProcess;
+			
 			// var_dump('end', $this);
 		}
         // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007180 end
