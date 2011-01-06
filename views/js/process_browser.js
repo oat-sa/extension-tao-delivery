@@ -22,19 +22,6 @@ registerToServiceEvent = function(handler, eventType, serviceId)
 	$('#' + serviceId).get(0).contentWindow.giveMeAnHandler(handler, eventType);
 }
 
-mouseclickHandler = function(event)
-{
-	var tagName = event.target.tagName;
-	
-	if (tagName != 'A' && tagName != 'INPUT' && tagName != 'TEXTAREA' && tagName != 'SELECT' && tagName != 'BUTTON' &&
-	    event.originalTarget.className != 'ui-dialog-overlay' && event.originalTarget.className != 'ui-dialog-container' &&
-	    event.originalTarget.className != 'ui-dialog-buttonpane' && event.originalTarget.className != 'ui-dialog-titlebar' && 
-	    event.originalTarget.className != 'ui-dialog-content')
-	{
-		$('#xul_question').get(0).contentWindow.focusNode(null, true, true);
-	}
-}
-
 getToolHeight = function(index)
 {
 	var tool = $(index).get(0);

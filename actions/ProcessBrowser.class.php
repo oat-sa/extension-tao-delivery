@@ -88,14 +88,8 @@ class ProcessBrowser extends WfModule{
 		$browserViewData['processLabel'] 			= $process->process->label;
 		$browserViewData['processExecutionLabel']	= $process->label;
 		$browserViewData['activityLabel'] 			= $activity->label;
-		$browserViewData['uiLanguage']				= $GLOBALS['lang'];
-		$browserViewData['contentlanguage']			= $_SESSION['taoqual.serviceContentLang'];
 		$browserViewData['processUri']				= $processUri ;
 
-		$browserViewData['uiLanguages']				= I18nUtil::getAvailableLanguages();
-		$browserViewData['activityContentLanguages'] = I18nUtil::getAvailableServiceContentLanguages();
-
-		$browserViewData['showCalendar']			= $activityPerf->showCalendar;
 
 		// process variables data.
 		$variablesViewData = array();
@@ -107,59 +101,7 @@ class ProcessBrowser extends WfModule{
 
 		$this->setData('variablesViewData',$variablesViewData);
 		
-		// consistency data.
-		$consistencyViewData = array();
-		if (isset($_SESSION['taoqual.flashvar.consistency'])){
-			$consistencyException 		= $_SESSION['taoqual.flashvar.consistency'];
-			$involvedActivities 		= $consistencyException['involvedActivities'];
-			$consistencyViewData['isConsistent']		= false;
-			$consistencyViewData['suppressable']		= $consistencyException['suppressable'];
-			$consistencyViewData['notification']		= str_replace(array("\r", "\n"), '', $consistencyException['notification']);
-			$consistencyViewData['processExecutionUri'] = urlencode($processUri);
-			$consistencyViewData['activityUri']			= urlencode($activity->uri);
-			$consistencyViewData['source']				= $consistencyException['source'];
 
-			$consistencyViewData['involvedActivities']	= array();
-
-			foreach ($involvedActivities as $involvedActivity)
-			{
-				$consistencyViewData['involvedActivities'][] = array('uri' => $involvedActivity['uri'],
-																	 'label' => $involvedActivity['label'],
-																	 'processUri' => $processUri);
-			}
-			
-			// Clean flash variables.
-			$_SESSION['taoqual.flashvar.consistency'] = null;
-		}else{
-			// Everything is allright with data consistency for this process.
-			$consistencyViewData['isConsistent'] = true;
-
-			$_SESSION['taoqual.flashvar.consistency'] = null;
-		}
-		
-		$this->setData('consistencyViewData',$consistencyViewData);
-
-		//The following takes about 0.2 seconds -->cache
-
-		//retrieve activities
-
-		if (!($qSortedActivities = common_Cache::getCache("aprocess_activities"))){
-
-			$processDefinition = new core_kernel_classes_resource($process->process->uri);
-			$activities = $processDefinition->getPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES));
-
-			//sort the activities
-			$qSortedActivities =array();
-			foreach ($activities as $key=>$val)
-			{
-				$activity_res = new core_kernel_classes_resource($val);
-				$label = $activity_res->label;
-				$qSortedActivities[$label] = $val;
-
-			}
-			ksort($qSortedActivities);
-			common_Cache::setCache($qSortedActivities,"aprocess_activities");
-		}
 
 		$browserViewData['annotationsResourcesJsArray'] = array();
 		foreach ($qSortedActivities as $key=>$val){

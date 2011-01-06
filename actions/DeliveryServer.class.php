@@ -117,7 +117,7 @@ class DeliveryServer extends DeliveryServerModule{
 		//init variable that save data to be used in the view
 		$processViewData 	= array();
 
-		$uiLanguages		= I18nUtil::getAvailableLanguages();
+		$uiLanguages		= tao_helpers_I18n::getAvailableLangs();
 		$this->setData('uiLanguages',$uiLanguages);
 		
 		//get the definition of delivery available for the subject:
