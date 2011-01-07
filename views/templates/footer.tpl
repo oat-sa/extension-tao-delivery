@@ -39,18 +39,15 @@ function setAuthoringModeButtons(){
 				$('#action_simple_mode').unbind('click');
 				$('#action_simple_mode').click(function(e){
 					// e.preventDefault();
-					console.log('#action_simple_mode clicked');
 					if(!confirm('Are you sure to switch back to the simple mode? \n The delivery process will be linearized.')){
-						// console.log('getting simple');
-						// $(this).find('a').click();
-						console.log('#action_simple_mode click not confirmed');
 						return false;
 					}
-					console.log('#action_simple_mode click confirmed');
 				});
 			<?else:?>
 				$advContainer.show();
 			<?endif;?>
+		<?else:?>
+			$advContainer.show();
 		<?endif;?>
 	}
 }
