@@ -1,10 +1,10 @@
 div.data-container{
-	width:48%;
+	width:49%;
 }
 
 #delivery-left-container{
 	float:left;
-	position:absolute;
+	position:relative;
 	width:46%;
 }
 
