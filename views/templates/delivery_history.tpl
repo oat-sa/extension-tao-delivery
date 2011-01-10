@@ -7,68 +7,83 @@
 </div>
 
 <script type="text/javascript">
+// alert('t1');
+// console.log('CL_t2');
 
-
-$(function(){
-	
-	var historyGrid = null;
-	function buildHistoryGrid(){
-		historyGrid = $("#history-list").jqGrid({
-			url: "<?=_url('historyData', 'Delivery', 'taoDelivery')?>", 
-			datatype: "json", 
-			colNames:[ __('Subject'), __('Time'), __('Actions')], 
-			colModel:[ 
-				{name:'subject',index:'subject'}, 
-				{name:'time',index:'time'}, 
-				{name:'actions',index:'actions', align:"center", sortable: false}
-			], 
-			rowNum:20, 
-			height:300, 
-			width:'',
-			pager: '#history-list-pager', 
-			sortname: 'subject', 
-			viewrecords: false, 
-			sortorder: "asc", 
-			caption: __("Execution History"),
-			postData: {'uri': "<?=get_data('uri')?>", 'classUri': "<?=get_data('classUri')?>"},
-			gridComplete: function(){
-				$.each(historyGrid.getDataIDs(), function(index, elt){
-					historyGrid.setRowData(elt, {
-						actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
-					});
+var historyGrid = null;
+function buildHistoryGrid(selector){
+	historyGrid = $(selector).jqGrid({
+		url: "<?=_url('historyData', 'Delivery', 'taoDelivery')?>", 
+		datatype: "json", 
+		colNames:[ __('Subject'), __('Time'), __('Actions')], 
+		colModel:[ 
+			{name:'subject',index:'subject'}, 
+			{name:'time',index:'time'}, 
+			{name:'actions',index:'actions', align:"center", sortable: false}
+		], 
+		rowNum:20,
+		height:300,
+		autowidth:true,
+		shrinkToFit:true,
+		pager: '#history-list-pager', 
+		sortname: 'subject', 
+		viewrecords: false, 
+		sortorder: "asc", 
+		caption: __("Execution History"),
+		postData: {'uri': "<?=get_data('uri')?>", 'classUri': "<?=get_data('classUri')?>"},
+		gridComplete: function(){
+			$.each(historyGrid.getDataIDs(), function(index, elt){
+				historyGrid.setRowData(elt, {
+					actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
 				});
-				$(".user_deletor").click(function(e){
-					e.preventDefault();
-					removeHistory(this.id.replace('history_deletor_', ''));
-				});
-			}
-		});
-		historyGrid.navGrid('#history-list-pager',{edit:false, add:false, del:false});
-	}
-	
-	buildHistoryGrid();	
-	
-	var removeHistory = function(uri){
-		if(confirm("<?=__('Please confirm history deletion')?>")){ 
-			$.ajax({
-				url: "<?=_url('deleteHistory', 'Delivery', 'taoDelivery')?>",
-				type: "POST",
-				data: {
-					'historyUri': uri,
-					'uri': "<?=get_data('uri')?>",
-					'classUri': "<?=get_data('classUri')?>"
-				},
-				dataType: 'json',
-				success: function(r){
-					if (r.deleted){
-						historyGrid.trigger("reloadGrid");
-						createInfoMessage(r.message);
-					}else{
-						createErrorMessage(r.message);
-					}
-				}
+			});
+			$(".user_deletor").click(function(e){
+				e.preventDefault();
+				removeHistory(this.id.replace('history_deletor_', ''));
+			});
+			
+			historyGrid.jqGrid('setGridWidth', $('#form-history').width()-2);
+			$(window).unbind('resize').bind('resize', function(){
+				// console.log('$(selector).width()', $('#form-history').width());
+				historyGrid.jqGrid('setGridWidth', $('#form-history').width()-2);
 			});
 		}
+	});
+	historyGrid.navGrid('#history-list-pager',{edit:false, add:false, del:false});
+}
+
+var removeHistory = function(uri){
+	if(confirm("<?=__('Please confirm history deletion')?>")){ 
+		$.ajax({
+			url: "<?=_url('deleteHistory', 'Delivery', 'taoDelivery')?>",
+			type: "POST",
+			data: {
+				'historyUri': uri,
+				'uri': "<?=get_data('uri')?>",
+				'classUri': "<?=get_data('classUri')?>"
+			},
+			dataType: 'json',
+			success: function(r){
+				if (r.deleted){
+					historyGrid.trigger("reloadGrid");
+					createInfoMessage(r.message);
+				}else{
+					createErrorMessage(r.message);
+				}
+			}
+		});
 	}
+}
+	
+$(function(){
+	try{
+		buildHistoryGrid("#history-list");
+		// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);		
+	}catch(err){
+		// console.log('error building history grid: '+err);
+	}
+	
+	
+	
 });
 </script>
