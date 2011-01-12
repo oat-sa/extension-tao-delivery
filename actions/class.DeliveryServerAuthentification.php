@@ -1,5 +1,5 @@
 <?php
-class DeliveryServerAuthentification extends Module
+class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Module
 {
 	public function index()
 	{

@@ -1,5 +1,4 @@
 <?php
-require_once ('tao/actions/Api.class.php');
 include_once('taoResults/includes/constants.php');
 
 /**
@@ -9,7 +8,7 @@ include_once('taoResults/includes/constants.php');
  * @subpackage action
  *
  */
-class ResultDelivery extends Api {
+class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 
 	protected $resultService;
 	

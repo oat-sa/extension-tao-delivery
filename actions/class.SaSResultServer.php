@@ -1,16 +1,16 @@
 <?php
 /**
- * SaSDelivery Controller provide process services
+ * SaSResultServer Controller provide process services
  * 
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package taoDelivery
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class SaSDelivery extends Delivery {
+class taoDelivery_actions_SaSResultServer extends taoDelivery_actions_ResultServer {
     
     /**
-     * @see Delivery::__construct()
+     * @see ResultServer::__construct()
      */
     public function __construct() {
     	tao_helpers_Context::load('STANDALONE_MODE');
@@ -18,6 +18,7 @@ class SaSDelivery extends Delivery {
 		parent::__construct();
     }
     
+		
 	/**
      * @see TaoModule::setView()
      */
@@ -46,33 +47,20 @@ class SaSDelivery extends Delivery {
         }
 		return $this->getRootClass();
     }
-
+	
 	/**
-	 * Render the tree to exclude subjects of the delivery 
+	 * Render the tree to select the deliveries 
 	 * @return void
 	 */
-	public function excludeSubjects(){
+	public function selectDeliveries(){
 		$this->setData('uri', $this->getRequestParameter('uri'));
 		$this->setData('classUri', $this->getRequestParameter('classUri'));
 		
-		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('excludedSubjects', json_encode($excludedSubjects));
+		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
+		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
 		
-		$this->setView('subjects.tpl');
-	}
-		
-	/**
-	 * Render the tree to select the campaign 
-	 * @return void
-	 */
-	public function selectCampaign(){
-		$this->setData('uri', $this->getRequestParameter('uri'));
-		$this->setData('classUri', $this->getRequestParameter('classUri'));
-		
-		$relatedCampaigns = tao_helpers_Uri::encodeArray($this->service->getRelatedCampaigns($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
-		
-		$this->setView('delivery_campaign.tpl');
+		$this->setData('index', '1');
+		$this->setView('delivery.tpl');
 	}
 }
 ?>

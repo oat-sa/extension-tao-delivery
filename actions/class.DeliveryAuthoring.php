@@ -8,7 +8,7 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class DeliveryAuthoring extends ProcessAuthoring {
+class taoDelivery_actions_DeliveryAuthoring extends wfEngine_actions_ProcessAuthoring {
 	
 	/**
 	 * constructor: initialize the service and the default data

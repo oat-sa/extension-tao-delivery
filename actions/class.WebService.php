@@ -1,5 +1,5 @@
 <?
-class WebService extends CommonModule{
+class taoDelivery_actions_WebService extends tao_actions_CommonModule{
 	public function __construct(){}
 	
 	public function index(){

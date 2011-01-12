@@ -1,10 +1,6 @@
 <?php
-require_once('tao/actions/CommonModule.class.php');
-require_once('tao/actions/TaoModule.class.php');
-require_once(BASE_PATH.'/models/classes/class.CampaignService.php');
-
 /**
- * Campaign Controller provide actions performed from url resolution
+ * ResultServer Controller provide actions performed from url resolution
  * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
@@ -12,7 +8,7 @@ require_once(BASE_PATH.'/models/classes/class.CampaignService.php');
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class Campaign extends TaoModule {
+class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 	
 	/**
 	 * constructor: initialize the service and the default data
@@ -23,38 +19,65 @@ class Campaign extends TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = new taoDelivery_models_classes_CampaignService();
+		$this->service = new taoDelivery_models_classes_ResultServerService();
 		$this->defaultData();
 		
-		Session::setAttribute('currentSection', 'campaign');
+		Session::setAttribute('currentSection', 'result_server');
 	}
 	
 /*
  * conveniance methods
  */
-			
+	
+	/**
+	 * get the selected resultServer from the current context (from the uri and classUri parameter in the request)
+	 * @return core_kernel_classes_Resource $resultServer
+	 */
+	private function getCurrentResultServer(){
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		if(is_null($uri) || empty($uri)){
+			throw new Exception("No valid uri found");
+		}
+		
+		$clazz = $this->getCurrentClass();
+		
+		$resultServer = $this->service->getResultServer($uri, 'uri', $clazz);
+		if(is_null($resultServer)){
+			throw new Exception("No resultServer found for the uri {$uri}");
+		}
+		
+		return $resultServer;
+	}
+	
+	/**
+	 * @see TaoModule::getCurrentInstance
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function getCurrentInstance(){
+		return $this->getCurrentResultServer();
+	}
+	
 	/**
 	 * @see TaoModule::getRootClass
 	 * @return core_kernel_classes_Classes
 	 */
 	protected function getRootClass(){
-		return $this->service->getCampaignClass();
+		return $this->service->getResultServerClass();
 	}
 	
 /*
  * controller actions
  */
 	/**
-	 * Render json data to populate the campaign tree 
+	 * Render json data to populate the result servers tree 
 	 * 'modelType' must be in the request parameters
 	 * @return void
 	 */
-	public function getCampaigns(){
+	public function getResultServers(){
 		
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
 		$options = array(
 			'subclasses' => true, 
 			'instances' => true, 
@@ -70,34 +93,34 @@ class Campaign extends TaoModule {
 			$options['chunk'] = true;
 		}
 		else{
-			$clazz = $this->service->getCampaignClass();
+			$clazz = $this->service->getResultServerClass();
 		}
 		
 		echo json_encode( $this->service->toTree($clazz , $options));
 	}
 	
 	/**
-	 * Edit a campaign class
+	 * Edit a resultServer class
 	 * @return void
 	 */
-	public function editCampaignClass(){
+	public function editResultServerClass(){
 		$clazz = $this->getCurrentClass();
 		
 		if($this->hasRequestParameter('property_mode')){
 			$this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
 		}
 		
-		$myForm = $this->editClass($clazz, $this->service->getCampaignClass());
+		$myForm = $this->editClass($clazz, $this->service->getResultServerClass());
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				if($clazz instanceof core_kernel_classes_Resource){
 					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
 				}
-				$this->setData('message', __('Campaign Class saved'));
+				$this->setData('message', __('Result Server class saved'));
 				$this->setData('reload', true);
 			}
 		}
-		$this->setData('formTitle', __('Edit campaign class'));
+		$this->setData('formTitle', __('Edit resultServer class'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl');
 	}
@@ -106,63 +129,63 @@ class Campaign extends TaoModule {
 	 * Edit a delviery instance
 	 * @return void
 	 */
-	public function editCampaign(){
+	public function editResultServer(){
 		$clazz = $this->getCurrentClass();
 		
-		$campaign = $this->getCurrentInstance();
+		$resultServer = $this->getCurrentResultServer();
 		
-		$formContainer = new tao_actions_form_Instance($clazz, $campaign);
+		$formContainer = new tao_actions_form_Instance($clazz, $resultServer);
 		$myForm = $formContainer->getForm();
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$campaign = $this->service->bindProperties($campaign, $myForm->getValues());
-				
-				$this->setData('message', __('Campaign saved'));
+				$resultServer = $this->service->bindProperties($resultServer, $myForm->getValues());
+				$this->setData('message', __('Result Server saved'));
 				$this->setData('reload', true);
 			}
 		}
 		
-		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($campaign->uriResource));
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
 		
-		//get the deliveries related to this delivery campaign
-		$relatedTests = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($campaign), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('relatedDeliveries', json_encode($relatedTests));
-		$this->setData('index', '1');
+		//get the deliveries related to this delivery resultServer
+		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($resultServer), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
+		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
+		$this->setData('index', '2');
 		
-		$this->setData('formTitle', __('Edit Campaign'));
+		
+		$this->setData('formTitle', __('Edit ResultServer'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('form_campaign.tpl');
+		$this->setView('form_resultserver.tpl');
 	}
 	
 	/**
-	 * Add a campaign instance        
+	 * Add a resultServer instance        
 	 * @return void
 	 */
-	public function addCampaign(){
+	public function addResultServer(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		$clazz = $this->getCurrentClass();
-		$campaign = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
-		if(!is_null($campaign) && $campaign instanceof core_kernel_classes_Resource){
+		$resultServer = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
+		if(!is_null($resultServer) && $resultServer instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
-				'label'	=> $campaign->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($campaign->uriResource)
+				'label'	=> $resultServer->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($resultServer->uriResource)
 			));
 		}
 	}
 	
 	/**
-	 * Add a campaign subclass
+	 * Add a resultServer subclass
 	 * @return void
 	 */
-	public function addCampaignClass(){
+	public function addResultServerClass(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$clazz = $this->service->createCampaignClass($this->getCurrentClass());
+		$clazz = $this->service->createResultServerClass($this->getCurrentClass());
 		if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
 			echo json_encode(array(
 				'label'	=> $clazz->getLabel(),
@@ -172,7 +195,7 @@ class Campaign extends TaoModule {
 	}
 	
 	/**
-	 * Delete a campaign or a campaign class
+	 * Delete a resultServer or a resultServer class
 	 * @return void
 	 */
 	public function delete(){
@@ -182,36 +205,36 @@ class Campaign extends TaoModule {
 		
 		$deleted = false;
 		if($this->getRequestParameter('uri')){
-			$deleted = $this->service->deleteCampaign($this->getCurrentInstance());
+			$deleted = $this->service->deleteResultServer($this->getCurrentResultServer());
 		}
 		else{
-			$deleted = $this->service->deleteCampaignClass($this->getCurrentClass());
+			$deleted = $this->service->deleteResultServerClass($this->getCurrentClass());
 		}
 		
 		echo json_encode(array('deleted'	=> $deleted));
 	}
 	
 	/**
-	 * Duplicate a campaign instance
+	 * Duplicate a resultServer instance
 	 * @return void
 	 */
-	public function cloneCampaign(){
+	public function cloneResultServer(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		
-		$campaign = $this->getCurrentInstance();
+		$resultServer = $this->getCurrentResultServer();
 		$clazz = $this->getCurrentClass();
 		
 		$clone = $this->service->createInstance($clazz);
 		if(!is_null($clone)){
 			
 			foreach($clazz->getProperties() as $property){
-				foreach($campaign->getPropertyValues($property) as $propertyValue){
+				foreach($resultServer->getPropertyValues($property) as $propertyValue){
 					$clone->setPropertyValue($property, $propertyValue);
 				}
 			}
-			$clone->setLabel($campaign->getLabel()."'");
+			$clone->setLabel($resultServer->getLabel()."'");
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
@@ -246,7 +269,7 @@ class Campaign extends TaoModule {
 	}
 	
 	/**
-	 * Save the delivery related deliveries
+	 * Save the related deliveries
 	 * @return void
 	 */
 	public function saveDeliveries(){
@@ -263,7 +286,7 @@ class Campaign extends TaoModule {
 			}
 		}
 		
-		if($this->service->setRelatedDeliveries($this->getCurrentInstance(), $deliveries)){
+		if($this->service->setRelatedDeliveries($this->getCurrentResultServer(), $deliveries)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));
@@ -282,7 +305,7 @@ class Campaign extends TaoModule {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
-		$this->setView('index_campaign.tpl');
+		$this->setView('index_resultserver.tpl');
 	}
 		
 	

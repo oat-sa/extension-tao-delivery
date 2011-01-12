@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DeliveryServer Controller
  *
@@ -9,7 +8,7 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
-class DeliveryServer extends DeliveryServerModule{
+class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliveryServerModule{
 
 	/**
 	 * constructor: initialize the service and the default data

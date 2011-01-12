@@ -7,7 +7,7 @@
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class SaSCampaign extends Campaign {
+class taoDelivery_actions_SaSCampaign extends taoDelivery_actions_Campaign {
     
     /**
      * @see Campaign::__construct()

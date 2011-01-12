@@ -1,6 +1,4 @@
 <?php 
-require_once('tao/actions/Api.class.php');
-
 /**
  * This class is a container to call TAO XHTML items.
  * 
@@ -12,7 +10,7 @@ require_once('tao/actions/Api.class.php');
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class ItemDelivery extends Api {
+class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 	
 	/**
 	 * @see ItemDelivery::runner

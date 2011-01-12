@@ -1,5 +1,5 @@
 <?php
-class DeliveryServerModule extends Module
+class taoDelivery_actions_DeliveryServerModule extends tao_actions_Module
 {
 	
 	public function __construct(){
