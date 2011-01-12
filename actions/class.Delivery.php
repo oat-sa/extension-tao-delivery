@@ -221,6 +221,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		//compilation state:
 		$isCompiled = $this->service->isCompiled($delivery);
 		$this->setData("isCompiled", $isCompiled);
+		
 		if($isCompiled){
 			$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
 			$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
@@ -496,47 +497,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->setData('section',Session::getAttribute('currentSection'));
 		$this->setView('index.tpl');
 	}
-	
-	/**
-	 * Render json data to populate the list of available delivery 
-	 * It provides the value of the delivery properties such as label, uri and active and compiled status
-	 * (Note: For the old implementation of delivery when 1 delivery = 1 test)
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function deliveryListing(){
-		$allTestArray=$this->service->getTestClass()->getInstances(true);
-		$testData=array();
-		$i=0;
-		foreach($allTestArray as $test){
-		
-			$testData[$i]=array();
-			$testData[$i]["label"]=$test->getLabel();
-			$testData[$i]["uri"]=$test->uriResource;
-			$testData[$i]["id"]=tao_helpers_Uri::getUniqueId($test->uriResource);
-			$testData[$i]["compiled"]=0;
-			$testData[$i]["active"]=0;
-			
-			$isCompiled=$this->service->getTestStatus($test, "compiled");
-			if($isCompiled){
-				$testData[$i]["compiled"]=1;
-				$testData[$i]["active"]=1;
-			}else{
-				//if not, check if it is active:
-				$isActive=$this->service->getTestStatus($test, "active");
-				if($isActive){
-					$testData[$i]["active"]=1;
-				}
-			}
-			$i++;
-		}
-		$result=array();
-		$result["tests"]=$testData;
-		echo json_encode($result);
-	}
-			
+				
 	/**
 	 * Compile a test by providing its uri, via POST method.
 	 * Its main purpose is to collect every required resource to run the test in a single folder so they become immediately available for the test launch, without any delay. 
@@ -573,33 +534,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		}
 		
 		echo json_encode($resultArray);
-	}
-		
-	/**
-	 * From the uri of a compiled test, this action will redirect the user to the compiled test folder
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function preview($testUri=''){
-		//get encoded url
-		$testUri=urldecode($_GET["uri"]);
-		
-		//firstly check if the delivery instance is compiled or not
-		$aTestInstance = new core_kernel_classes_Resource($testUri);
-		try{
-			$testCompiled=$this->service->getTestStatus($aTestInstance, "compiled");
-		}
-		catch(Exception $e){ echo $e;}
-		
-		if($testCompiled){
-			$testId=tao_helpers_Uri::getUniqueId($testUri);
-			$testUrl=BASE_URL."/compiled/$testId/theTest.php?subject=previewer";
-			header("location: $testUrl");
-		}else{
-			echo __("Sorry, the test seems not to be compiled.<br/> Please compile it then try again.");
-		}
 	}
 	
 	/**

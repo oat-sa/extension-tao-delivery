@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 04.01.2011, 15:26:51 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2011, 14:20:54 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
@@ -641,53 +641,26 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Short description of method getTestStatus
+     * Short description of method isTestActive
      *
      * @access public
      * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  Resource aTestInstance
-     * @param  string status
+     * @param  Resource test
      * @return boolean
      */
-    public function getTestStatus( core_kernel_classes_Resource $aTestInstance, $status)
+    public function isTestActive( core_kernel_classes_Resource $test)
     {
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C9 begin
-		if(!($aTestInstance instanceof core_kernel_classes_Resource) ){
-			throw new Exception("wrong resource in getTestStatus parameter");
-			return $returnValue;
-		}
 		
-		switch($status){
-			case "active":
-				$property=TEST_ACTIVE_PROP;
-				break;
-				
-			case "compiled":
-				$property=TEST_COMPILED_PROP;
-				
-				//check if the compiled folder exists:
-				/*
-				$testId=tao_helpers_Uri::getUniqueId($aTestInstance->uriResource);
-				
-				if(!is_dir(BASE_PATH."/compiled/$testId/")){
-					return $returnValue;
-				}*/ 
-				break;
-				
-			default:
-				throw new Exception("wrong test status parameter");
-				return $returnValue;
-		}
-		
-		foreach ($aTestInstance->getPropertyValuesCollection(new core_kernel_classes_Property($property))->getIterator() as $value){
-			if($value instanceof core_kernel_classes_Resource ){
-				if ($value->uriResource == GENERIS_TRUE){
-					$returnValue=true;
-				}
+		$value = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TEST_ACTIVE_PROP));
+		if($value instanceof core_kernel_classes_Resource ){
+			if ($value->uriResource == GENERIS_TRUE){
+				$returnValue=true;
 			}
 		}
+		
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C9 end
 
         return (bool) $returnValue;
@@ -698,28 +671,22 @@ class taoDelivery_models_classes_DeliveryService
      *
      * @access public
      * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  Resource aDeliveryInstance
+     * @param  Resource delivery
      * @return boolean
      */
-    public function isCompiled( core_kernel_classes_Resource $aDeliveryInstance)
+    public function isCompiled( core_kernel_classes_Resource $delivery)
     {
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020CB begin
-		if(!($aDeliveryInstance instanceof core_kernel_classes_Resource) ){
-			throw new Exception("wrong resource in getTestStatus parameter");
-			return $returnValue;
-		}
 		
-		//could use the function getOnePropertyValue($prop, true) instead
-		foreach ($aDeliveryInstance->getPropertyValuesCollection(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP))->getIterator() as $value){
-			if($value instanceof core_kernel_classes_Resource ){
-				if ($value->uriResource == GENERIS_TRUE){
-					$returnValue=true;
-					break;
-				}
+		$value = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
+		if($value instanceof core_kernel_classes_Resource ){
+			if ($value->uriResource == GENERIS_TRUE){
+				$returnValue = true;
 			}
 		}
+		
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020CB end
 
         return (bool) $returnValue;
@@ -1012,11 +979,11 @@ class taoDelivery_models_classes_DeliveryService
 		
 		$compilationResult = array();
 		$propRDFtype = new core_kernel_classes_Property(RDF_TYPE);
-		$propItemModel = new core_kernel_classes_Property(ITEM_ITEMMODEL_PROP);
+		
 		foreach($items as $item){
 			//check if the item exists: if not, append to the test failure message
 			$itemClass = $item->getOnePropertyValue($propRDFtype);
-			if(!is_null($itemClass) && !is_null($item->getOnePropertyValue($propItemModel))){
+			if(!is_null($itemClass) && !is_null($itemService->isItemModelDefined($item))){
 				
 				try{
 					
