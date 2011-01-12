@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2011, 14:20:54 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2011, 16:51:50 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
@@ -638,32 +638,6 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C5 end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method isTestActive
-     *
-     * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  Resource test
-     * @return boolean
-     */
-    public function isTestActive( core_kernel_classes_Resource $test)
-    {
-        $returnValue = (bool) false;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C9 begin
-		
-		$value = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TEST_ACTIVE_PROP));
-		if($value instanceof core_kernel_classes_Resource ){
-			if ($value->uriResource == GENERIS_TRUE){
-				$returnValue=true;
-			}
-		}
-		
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C9 end
-
-        return (bool) $returnValue;
     }
 
     /**
