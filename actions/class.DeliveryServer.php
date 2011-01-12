@@ -48,7 +48,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 
 		ini_set('max_execution_time', 200);
 
-		$processExecutionFactory = new ProcessExecutionFactory();
+		$processExecutionFactory = new wfEngine_models_classes_ProcessExecutionFactory();
 			
 		$processExecutionFactory->name = $delivery->getLabel();
 		if(strlen(trim($processExecutionFactory->name)) == 0){

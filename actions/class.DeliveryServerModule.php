@@ -1,5 +1,5 @@
 <?php
-class taoDelivery_actions_DeliveryServerModule extends tao_actions_Module
+class taoDelivery_actions_DeliveryServerModule extends Module
 {
 	
 	public function __construct(){

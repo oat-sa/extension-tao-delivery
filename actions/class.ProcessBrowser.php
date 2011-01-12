@@ -15,13 +15,13 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		$this->setData('userViewData',$userViewData);
 		$browserViewData 	= array(); // general data for browser view.
 		
-		$process 			= new ProcessExecution($processUri);
+		$process 			= new wfEngine_models_classes_ProcessExecution($processUri);
 		$currentActivity = null;
 		if(!empty($activityUri)){
 			//check that it is an uri of a valid activity definition (which is contained in currentActivity):
 			foreach($process->currentActivity as $processCurrentActivity){
 				if($processCurrentActivity->uri == $activityUri){
-					$currentActivity = new Activity($activityUri);
+					$currentActivity = new wfEngine_models_classes_Activity($activityUri);
 					break;
 				}
 			}
@@ -65,8 +65,8 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		
 		$this->setData('activity',$activity);
 		
-		$activityPerf 		= new Activity($activity->uri, false); // Performance WA
-		$activityExecution 	= new ActivityExecution($process, $activityExecutionResource);
+		$activityPerf 		= new wfEngine_models_classes_Activity($activity->uri, false); // Performance WA
+		$activityExecution 	= new wfEngine_models_classes_ActivityExecution($process, $activityExecutionResource);
 
 		$browserViewData['activityContentLanguages'] = array();
 
@@ -154,7 +154,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 	public function back($processUri){
 	
 		$processUri 	= urldecode($processUri);
-		$processExecution = new ProcessExecution($processUri);
+		$processExecution = new wfEngine_models_classes_ProcessExecution($processUri);
 		$activity = $processExecution->currentActivity[0];
 		$processExecution->performBackwardTransition($activity);
 		$processUri 	 = urlencode($processUri);
@@ -172,7 +172,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 	public function next($processUri, $activityExecutionUri, $ignoreConsistency = 'false'){
 	
 		$processUri 	= urldecode($processUri);
-		$processExecution = new ProcessExecution($processUri);
+		$processExecution = new wfEngine_models_classes_ProcessExecution($processUri);
 	
 		$processExecution->performTransition($activityExecutionUri,($ignoreConsistency == 'true') ? true : false);
 
@@ -190,7 +190,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 	public function pause($processUri){
 
 		$processUri 	= urldecode($processUri);
-		$processExecution = new ProcessExecution($processUri);
+		$processExecution = new wfEngine_models_classes_ProcessExecution($processUri);
 
 		$processExecution->pause();
 		$_SESSION["processUri"]= null;
