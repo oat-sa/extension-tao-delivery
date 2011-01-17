@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $GLOBALS['lang']; ?>" lang="<?php echo $GLOBALS['lang']; ?>">
 	<head>
 		<title><?= __("TAO Delivery Server"); ?></title>
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/layout.css" />
+	 	<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/layout.css" />
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/form.css" />
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.custom.css" />
+		 
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>/css/login.css);
 		</style>
@@ -31,6 +32,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div id="footer">
 			TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
 		</div>
