@@ -52,6 +52,9 @@ msgstr ""
 msgid "Activity or Connector"
 msgstr ""
 
+msgid "Actual"
+msgstr ""
+
 msgid "Add (Ctrl-A)"
 msgstr ""
 
@@ -184,6 +187,12 @@ msgstr ""
 msgid "Enter remark text here"
 msgstr ""
 
+msgid "Error in delivery process"
+msgstr ""
+
+msgid "Error in test process"
+msgstr ""
+
 msgid "Execution History"
 msgstr ""
 
@@ -211,6 +220,9 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
+msgid "Generating the delivery process, please wait"
+msgstr ""
+
 msgid "Go to"
 msgstr ""
 
@@ -229,7 +241,13 @@ msgstr ""
 msgid "Initialize new test"
 msgstr ""
 
+msgid "Issue found for the process definiiton of the test"
+msgstr ""
+
 msgid "Label"
+msgstr ""
+
+msgid "Loading next item..."
 msgstr ""
 
 msgid "Logout"
@@ -404,7 +422,22 @@ msgstr ""
 msgid "The delivery is not compiled yet"
 msgstr ""
 
+msgid "The delivery process has isolated connectors"
+msgstr ""
+
 msgid "The delivery was last compiled on"
+msgstr ""
+
+msgid "The following file(s) could not be copied for the test"
+msgstr ""
+
+msgid "The following file(s) could not be created for the test"
+msgstr ""
+
+msgid "The following item do not exist in or have not been translated into"
+msgstr ""
+
+msgid "The following items do not exist or are empty"
 msgstr ""
 
 msgid "The test"
@@ -413,7 +446,13 @@ msgstr ""
 msgid "The test collection for the language"
 msgstr ""
 
+msgid "The test process has isolated connectors"
+msgstr ""
+
 msgid "Then"
+msgstr ""
+
+msgid "There is no initial activity for the test process definition"
 msgstr ""
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
@@ -447,6 +486,9 @@ msgid "check code"
 msgstr ""
 
 msgid "checking the code..."
+msgstr ""
+
+msgid "close"
 msgstr ""
 
 msgid "compilation failed"
@@ -581,10 +623,16 @@ msgstr ""
 msgid "the password must not be empty"
 msgstr ""
 
+msgid "there is no initial activity for the delivery process definition"
+msgstr ""
+
 msgid "type??"
 msgstr ""
 
 msgid "undefined"
+msgstr ""
+
+msgid "unknown label"
 msgstr ""
 
 msgid "wrong login or/and password,<br/> please try again"

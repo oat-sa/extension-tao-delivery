@@ -1,209 +1,8 @@
+msgid ""
+msgstr ""
+
 msgid "(still undefined)"
 msgstr "(encore indéfini)"
-
-msgid "Back"
-msgstr "Retour"
-
-msgid "Campaign"
-msgstr "Campagne"
-
-msgid "Campaign Class saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaign saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaigns library"
-msgstr "Librairie de campagnes"
-
-msgid "Close all"
-msgstr "Fermer tout"
-
-msgid "DE"
-msgstr "Allemand"
-
-msgid "Deliveries library"
-msgstr "Librarie de Deliveries"
-
-msgid "Delivery"
-msgstr "Delivery"
-
-msgid "Delivery Class saved"
-msgstr "Classe de Delivery Sauvegardée"
-
-msgid "Delivery authoring"
-msgstr "Editer un delivery"
-
-msgid "Delivery saved"
-msgstr "Delivery Sauvegardé"
-
-msgid "EN"
-msgstr "Anglais"
-
-msgid "Edit Campaign"
-msgstr "Editer une campagne"
-
-msgid "Edit ResultServer"
-msgstr "Editer un serveur de résultats"
-
-msgid "Edit campaign class"
-msgstr "Editer une classe de campagne"
-
-msgid "Edit delivery"
-msgstr "Editer un Delivery"
-
-msgid "Edit delivery class"
-msgstr "Editer une classe de Delivery"
-
-msgid "Edit resultServer class"
-msgstr "Editer une classe de serveur de résultats"
-
-msgid "FR"
-msgstr "Français"
-
-msgid "Filter"
-msgstr "Filtrer"
-
-msgid "LU"
-msgstr "Luxembourgeois"
-
-msgid "Label"
-msgstr "Label"
-
-msgid "Manage Campaigns"
-msgstr "Gérer les campagnes"
-
-msgid "Manage Result Servers"
-msgstr "Gérer les serveurs de résultats"
-
-msgid "Manage deliveries"
-msgstr "Gérer les deliveries"
-
-msgid "Open all"
-msgstr "Ouvrir tout"
-
-msgid "Please confirm deletion"
-msgstr "Veuillez confirmer la suppression"
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "Veuillez confirmer la suppression"
-
-msgid "Please select a delivery before authoring it!"
-msgstr "Veuillez sélectionner un delivery avant de l'éditer."
-
-msgid "Result Server"
-msgstr "Serveur de résultats"
-
-msgid "Result Server class saved"
-msgstr "Classe de server de résultats sauvegardée"
-
-msgid "Result Server saved"
-msgstr "Server de résultat sauvegardé"
-
-msgid "Result Servers library"
-msgstr "Librairie de serveurs de résultats"
-
-msgid "Save"
-msgstr "Sauvegarder"
-
-msgid "Select delivery"
-msgstr "Choisir un delivery"
-
-msgid "Select delivery campaign"
-msgstr "Selectionner une campagne de delivery"
-
-msgid "Select test takers to be <b>excluded</b>"
-msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
-
-msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "Cette section permet d'ajouter, d'éditer et d'assigner des deliveries à une campagne de delivery"
-
-msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
-
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
-
-msgid "Use the * character to replace any string"
-msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
-
-msgid "cache"
-msgstr "Cache"
-
-msgid "cancel"
-msgstr "Annuler"
-
-msgid "compile"
-msgstr "Compiler"
-
-msgid "create new activity"
-msgstr "Créer une nouvelle activitée"
-
-msgid "create new connector"
-msgstr "Créer un nouveau connector"
-
-msgid "create table"
-msgstr "Créer une table"
-
-msgid "delete"
-msgstr "Supprimer"
-
-msgid "duplicate"
-msgstr "Dupliquer"
-
-msgid "edit campaign"
-msgstr "Editer une campagne"
-
-msgid "edit delivery"
-msgstr "Editer un delivery"
-
-msgid "edit result server"
-msgstr "Editer un serveur de résultats"
-
-msgid "export"
-msgstr "Exporter"
-
-msgid "loading..."
-msgstr "Chargement..."
-
-msgid "new campaign"
-msgstr "Nouvelle camapgne"
-
-msgid "new class"
-msgstr "Nouvelle Classe"
-
-msgid "new delivery"
-msgstr "Nouveau Delivery"
-
-msgid "new property"
-msgstr "Nouveau delivery"
-
-msgid "new result server"
-msgstr "Nouveau serveur de résultats"
-
-msgid "reload"
-msgstr "Recharger"
-
-msgid "save"
-msgstr "Sauvegarder"
-
-msgid "saved"
-msgstr "sauvegardé"
-
-msgid "search"
-msgstr "Recherche"
-
-msgid "undefined"
-msgstr "indéfini"
-
-msgid "view history"
-msgstr "Voir l'historique"
-
-msgid "(Ctrl-C)"
-msgstr "(Ctrl-C)"
 
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
@@ -256,23 +55,35 @@ msgstr "Une erreur s'est produite lors de la suppression de l'historique"
 msgid "An error occured while loading the item"
 msgstr "Une erreur s'est produite lors du chargement de l'item"
 
-msgid "An error occured while loading the item:"
-msgstr "Une erreur s'est produite lors du chargement de l'item:"
-
-msgid "An error occured while loading the item: "
-msgstr "Une erreur s'est produite lors du chargement de l'item:"
-
 msgid "Another Inference Rule"
 msgstr "Une autre règle d'inférence"
 
 msgid "Assignment"
 msgstr "Affectation"
 
+msgid "Back"
+msgstr "Retour"
+
 msgid "Browse Tests"
 msgstr "Parcourir les tests"
 
+msgid "Campaign"
+msgstr "Campagne"
+
+msgid "Campaign Class saved"
+msgstr "Campagne sauvegardée"
+
+msgid "Campaign saved"
+msgstr "Campagne sauvegardée"
+
+msgid "Campaigns library"
+msgstr "Librairie de campagnes"
+
 msgid "Close (Esc)"
 msgstr "Fermer (Esc)"
+
+msgid "Close all"
+msgstr "Fermer tout"
 
 msgid "Compilation"
 msgstr "Compilation"
@@ -292,6 +103,9 @@ msgstr "Connecteur"
 msgid "Connector Type"
 msgstr "Type de connecteur"
 
+msgid "DE"
+msgstr "Allemand"
+
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -301,8 +115,23 @@ msgstr "Supprimer l'historique"
 msgid "Deliveries"
 msgstr "Deliveries"
 
+msgid "Deliveries library"
+msgstr "Librarie de Deliveries"
+
+msgid "Delivery"
+msgstr "Delivery"
+
+msgid "Delivery Class saved"
+msgstr "Classe de Delivery Sauvegardée"
+
+msgid "Delivery authoring"
+msgstr "Editer un delivery"
+
 msgid "Delivery properties"
 msgstr "Propriétés du delivery"
+
+msgid "Delivery saved"
+msgstr "Delivery Sauvegardé"
 
 msgid "Drag and drop the tests to order them"
 msgstr "Faites glisser et déposez les tests pour les ordonner"
@@ -310,8 +139,29 @@ msgstr "Faites glisser et déposez les tests pour les ordonner"
 msgid "ELSE"
 msgstr "ELSE"
 
+msgid "EN"
+msgstr "Anglais"
+
+msgid "Edit Campaign"
+msgstr "Editer une campagne"
+
+msgid "Edit ResultServer"
+msgstr "Editer un serveur de résultats"
+
+msgid "Edit campaign class"
+msgstr "Editer une classe de campagne"
+
+msgid "Edit delivery"
+msgstr "Editer un Delivery"
+
+msgid "Edit delivery class"
+msgstr "Editer une classe de Delivery"
+
 msgid "Edit error"
 msgstr "Modifier erreur"
+
+msgid "Edit resultServer class"
+msgstr "Editer une classe de serveur de résultats"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Modifier un delivery consiste à mettre les tests qui composent le delivery et leur séquence, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par l'sujet, la période de delivery, le serveur de résultat."
@@ -327,6 +177,12 @@ msgstr "Historique d'exécution"
 
 msgid "Export - Debug only (Ctrl-E)"
 msgstr "Exporter - Debug seulement (Ctrl-E)"
+
+msgid "FR"
+msgstr "Français"
+
+msgid "Filter"
+msgstr "Filtrer"
 
 msgid "Finished Test"
 msgstr "Test terminé"
@@ -364,14 +220,29 @@ msgstr "Si"
 msgid "Initialize new test"
 msgstr "Initialiser nouveau test"
 
+msgid "LU"
+msgstr "Luxembourgeois"
+
+msgid "Label"
+msgstr "Label"
+
 msgid "Logout"
 msgstr "Déconnexion"
+
+msgid "Manage Campaigns"
+msgstr "Gérer les campagnes"
 
 msgid "Manage Deliveries"
 msgstr "Gérer les deliveries"
 
+msgid "Manage Result Servers"
+msgstr "Gérer les serveurs de résultats"
+
 msgid "Manage campaigns"
 msgstr "Gérer les campagnes"
+
+msgid "Manage deliveries"
+msgstr "Gérer les deliveries"
 
 msgid "Manage result servers"
 msgstr "Gérer les serveurs de résultats"
@@ -391,18 +262,26 @@ msgstr "Aucun utilisateur connecté"
 msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
 msgstr "Aucun contrat WSDL valide trouvée pour le serveur résultat défini. <br/> S'il vous plaît sélectionner un valide dans le module d'édition de livraison puis essayez à nouveau."
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr "Note: veuillez vous assurer que tous les deliveries qui composent la livraison sont bien définies et à «actif» dans le prolongement d'essai avant de compiler la livraison."
+msgid "Open all"
+msgstr "Ouvrir tout"
 
 msgid "Pause"
 msgstr "Pause"
 
+msgid "Please confirm deletion"
+msgstr "Veuillez confirmer la suppression"
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr "Veuillez confirmer la suppression"
 
 msgid "Please confirm history deletion"
 msgstr "Veuillez confirmer la suppression de l'historique"
 
 msgid "Please login"
 msgstr "Veuillez vous connecter"
+
+msgid "Please select a delivery before authoring it!"
+msgstr "Veuillez sélectionner un delivery avant de l'éditer."
 
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
@@ -428,14 +307,38 @@ msgstr "Recompiler"
 msgid "Recompile the delivery"
 msgstr "Recompiler le delivery"
 
+msgid "Result Server"
+msgstr "Serveur de résultats"
+
+msgid "Result Server class saved"
+msgstr "Classe de server de résultats sauvegardée"
+
+msgid "Result Server saved"
+msgstr "Server de résultat sauvegardé"
+
+msgid "Result Servers library"
+msgstr "Librairie de serveurs de résultats"
+
 msgid "Role"
 msgstr "Rôle"
+
+msgid "Save"
+msgstr "Sauvegarder"
 
 msgid "Select a test"
 msgstr "Sélectionnez un test"
 
+msgid "Select delivery"
+msgstr "Choisir un delivery"
+
+msgid "Select delivery campaign"
+msgstr "Selectionner une campagne de delivery"
+
 msgid "Select delivery tests"
 msgstr "Sélectionnez les tests du delivery"
+
+msgid "Select test takers to be <b>excluded</b>"
+msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
 
 msgid "Sequence saved successfully"
 msgstr "Séquence enregistré avec succès"
@@ -479,8 +382,17 @@ msgstr "Test"
 msgid "Tests sequence"
 msgstr "Séquence de tests"
 
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr "Cette section permet d'ajouter, d'éditer et d'assigner des deliveries à une campagne de delivery"
+
 msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
 msgstr "La Section de la gestion de la campagne permet d'ajouter, modifier et attribuer les livraisons aux campagnes de livraison."
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
 
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
@@ -497,6 +409,9 @@ msgstr "La collection de test pour la langue"
 msgid "Then"
 msgstr "Ensuite,"
 
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
+
 msgid "Time"
 msgstr "Temps"
 
@@ -505,6 +420,9 @@ msgstr "Type (Ctrl-T)"
 
 msgid "Unable to load the compiled item content"
 msgstr "Impossible de charger le contenu de l'item compilé"
+
+msgid "Use the * character to replace any string"
+msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
 
 msgid "User Id."
 msgstr "Utilisateur n°"
@@ -515,6 +433,12 @@ msgstr "Nom d'utilisateur:"
 msgid "advanced mode"
 msgstr "mode avancé"
 
+msgid "cache"
+msgstr "Cache"
+
+msgid "cancel"
+msgstr "Annuler"
+
 msgid "check code"
 msgstr "code de vérification"
 
@@ -523,6 +447,9 @@ msgstr "vérifier le code ..."
 
 msgid "compilation failed"
 msgstr "la compilation a échoué"
+
+msgid "compile"
+msgstr "Compiler"
 
 msgid "compiled with warning"
 msgstr "compilé avec des alertes"
@@ -536,6 +463,33 @@ msgstr "avec avertissement"
 msgid "complete!"
 msgstr "complète!"
 
+msgid "create new activity"
+msgstr "Créer une nouvelle activitée"
+
+msgid "create new connector"
+msgstr "Créer un nouveau connector"
+
+msgid "create table"
+msgstr "Créer une table"
+
+msgid "delete"
+msgstr "Supprimer"
+
+msgid "duplicate"
+msgstr "Dupliquer"
+
+msgid "edit campaign"
+msgstr "Editer une campagne"
+
+msgid "edit delivery"
+msgstr "Editer un delivery"
+
+msgid "edit result server"
+msgstr "Editer un serveur de résultats"
+
+msgid "export"
+msgstr "Exporter"
+
 msgid "failed!"
 msgstr "a échoué!"
 
@@ -548,11 +502,29 @@ msgstr "service interactif sauvegardé"
 msgid "is not active so cannot be compiled"
 msgstr "n'est pas actif ne peut donc pas être compilé"
 
+msgid "loading..."
+msgstr "Chargement..."
+
 msgid "move"
 msgstr "déplacer"
 
 msgid "must not be empty"
 msgstr "ne doit pas être vide"
+
+msgid "new campaign"
+msgstr "Nouvelle camapgne"
+
+msgid "new class"
+msgstr "Nouvelle Classe"
+
+msgid "new delivery"
+msgstr "Nouveau Delivery"
+
+msgid "new property"
+msgstr "Nouveau delivery"
+
+msgid "new result server"
+msgstr "Nouveau serveur de résultats"
 
 msgid "ok"
 msgstr "ok"
@@ -563,8 +535,20 @@ msgstr "veuillez en choisir un autre"
 msgid "rdf"
 msgstr "rdf"
 
+msgid "reload"
+msgstr "Recharger"
+
 msgid "reloading form..."
 msgstr "rechargement du formulaire ..."
+
+msgid "save"
+msgstr "Sauvegarder"
+
+msgid "saved"
+msgstr "sauvegardé"
+
+msgid "search"
+msgstr "Recherche"
 
 msgid "simple mode"
 msgstr "mode simple"
@@ -599,5 +583,69 @@ msgstr "le mot de passe ne doit pas être vide"
 msgid "type??"
 msgstr "type?"
 
+msgid "undefined"
+msgstr "indéfini"
+
+msgid "view history"
+msgstr "Voir l'historique"
+
 msgid "wrong login or/and password,<br/> please try again"
 msgstr "mauvais login et / ou mot de passe, <br/> Veuillez essayer à nouveau"
+
+msgid "Actual"
+msgstr "Actuel"
+
+msgid "An error occured while loading the item:"
+msgstr "Une erreur est survenue durant le chargement de l'item"
+
+msgid "An error occured while loading the item: "
+msgstr "Une erreur est survenue durant le chargement de l'item: "
+
+msgid "Error in delivery process"
+msgstr "Erreur dans le processus de passation"
+
+msgid "Error in test process"
+msgstr "Erreur dans le processus de test"
+
+msgid "Generating the delivery process, please wait"
+msgstr "Génération du processus de passation en cours, veuillez patienter"
+
+msgid "Issue found for the process definiiton of the test"
+msgstr "Un problème a été détecté dans la définition du processus du test"
+
+msgid "Loading next item..."
+msgstr "Chargement du prochain item..."
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgstr "A noter: veuillez vérifier que tous les tests composant la passation sont définis correctement et sont \"actifs\" dans l'extension Tests, avant de compiler la passation."
+
+msgid "The delivery process has isolated connectors"
+msgstr "Le processus de passation a des connecteurs isolés"
+
+msgid "The following file(s) could not be copied for the test"
+msgstr "Le(s) fichier(s) suivant ne peuvent pas être copié pour le test"
+
+msgid "The following file(s) could not be created for the test"
+msgstr "Le(s) fichier(s) suivant ne peuvent pas être créé pour le test"
+
+msgid "The following item do not exist in or have not been translated into"
+msgstr "L'item suivant n'existe pas ou n'a pas été traduit en"
+
+msgid "The following items do not exist or are empty"
+msgstr "Les items suivant n'existent pas ou sont vides"
+
+msgid "The test process has isolated connectors"
+msgstr "Le processus de test contient des connecteurs isolés"
+
+msgid "There is no initial activity for the test process definition"
+msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
+
+msgid "close"
+msgstr "fermer"
+
+msgid "there is no initial activity for the delivery process definition"
+msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
+
+msgid "unknown label"
+msgstr "label inconnu"
+
