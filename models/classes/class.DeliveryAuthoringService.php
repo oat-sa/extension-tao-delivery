@@ -192,11 +192,8 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		
 		if(!is_null($activity) && !is_null($test)){
 		
-			//create formal param associated to the test definition
-			$testUriParam = $this->getFormalParameter('testUri');//it is alright if the default value (i.e. proc var has been changed)
-			if(is_null($testUriParam)){
-				$testUriParam = $this->createFormalParameter('testUri', 'constant', '', 'test uri (authoring)');
-			}
+			//get formal param associated to the test definition (defined in the delivery model so undeletable)
+			$testUriParam = new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_TESTURI);
 			
 			//set property value visible to true
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISHIDDEN), GENERIS_FALSE);
