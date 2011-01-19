@@ -43,6 +43,7 @@ $todefine = array(
 	'TAO_GROUP_DELIVERIES_PROP'	=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
 	
 	'INSTANCE_FORMALPARAM_TESTURI' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1288956260043375900',
+	'INSTANCE_SERVICEDEFINITION_TESTCONTAINER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer'
 );
 
 foreach($todefine as $constName => $constValue){
