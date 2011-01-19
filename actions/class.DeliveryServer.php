@@ -59,14 +59,11 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 			
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
-		// $var_subjectUri = $this->service->getProcessVariable("subjectUri");
-		// $var_subjectLabel = $this->service->getProcessVariable("subjectLabel");
-		// $var_wsdl = $this->service->getProcessVariable("wsdlContract");
-		$var_delivery = $this->service->getProcessVariable("delivery");
-		if(!is_null($var_delivery)){
+		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
+		if(wfEngine_helpers_ProcessUtil::checkType($var_delivery, new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
 			$processExecutionFactory->variables = array($var_delivery->uriResource => $delivery->uriResource);//no need to encode here, will be donce in Service::getUrlCall
 		}else{
-			throw new Exception('one of the required process variables is missing: "subjectUri", "subjectLabel", "wsdlContract" and/or "delivery"');
+			throw new Exception('the required process variable "delivery" is missing in delivery server, reinstalling tao is required');
 		}
 
 		$newProcessExecution = $processExecutionFactory->create();
