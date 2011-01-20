@@ -10,24 +10,39 @@
 	line-height:28px;
 	text-align:center;
 }
+#login-box{
+	width: 380px;
+	margin: auto;
+}
+.error-message{
+	padding:5px;
+	font-weight:bold;	
+}
 
 /* Login form. */
-#login_form
+#login-form
 {
-	width: 380px;
-	margin: 200px auto 0px auto;
-	padding: 0px 0px 0px 0px;
+	margin:  0px;
+	padding: 5px 0px 0px 5px;
+}
+#login-title
+{
+	margin:  0px;
+	padding: 5px 0px 0px 5px;
+	height: 20px;
+	font-weight:bold;
+	font-size: 14px;
 }
 
 /* Labels relevant to input fields of the login form. */
-#login_form label 
+#login-form label 
 {
 	font-size: 14px;
 }
  
 /* Items items (lines) of the login form. Each of them
    contains a label, and an input element. */
-#login_form .item
+#login-form .item
 {
 	position: relative;
 	margin: 0px 0px 10px 0px;
@@ -38,7 +53,7 @@
 
 /* Input elements contained in items (lines) of the 
    login form */
-#login_form .item .input
+#login-form .item .input
 {
 	position: absolute;
 	display: block;
@@ -55,7 +70,7 @@
 
 /* Validation container of the login form containing the confirmation
    input element. */
-#login_form .validation
+#login-form .validation
 {
 	position: relative;
 	padding: 10px 0px 0px 0px;
@@ -67,7 +82,7 @@
 }
 
 /* Confirmation input button for the login form. */
-#login_form .validation .confirm
+#login-form .validation .confirm
 {
 	color: #000000;
 }

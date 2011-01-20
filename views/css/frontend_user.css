@@ -19,7 +19,7 @@ div#content{
 	border: solid 1px #ccc;
 	border-top-width: 0px;
 	padding: 3px 3px 50px 3px;
-	min-height:400px;
+	min-height:670px;
 }
 
 /* The control area contains a list of various actions/items that are always reachable
@@ -202,10 +202,10 @@ div#debugWindow pre{
 }
 
 #footer{
-	font-size:10px;
+	font-size:11px;
 	width:100%;
 	text-align:center;
-	position:absolute;
 	bottom:0%;
-	margin:0px auto 0px auto;
+	margin:15px auto 0px auto;
+	color:#333;
 }
