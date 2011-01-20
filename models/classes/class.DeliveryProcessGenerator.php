@@ -121,18 +121,17 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 			//get all activity processes and clone them:
 			$activities = $this->authoringService->getActivitiesByProcess($process);
 			
-			$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 			
 			foreach($activities as $activityUri => $activity){
 				
-				$testProcess = $authoringService->getTestProcessFromActivity($activity);
+				$testProcess = $deliveryAuthoringService->getTestProcessFromActivity($activity);
 				
 				if(!is_null($testProcess)){
 					//validate the test process:
 					$processChecker = new wfEngine_models_classes_ProcessChecker($testProcess);
 					
 					if($processChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
-						
 						
 						//clone the process segment:
 						$testInterfaces = $this->cloneProcessSegment($testProcess, false);
@@ -164,9 +163,11 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 						
 					}
 				}else{
-					// $activityClone = $this->cloneActivity($activity);
-					if(is_null($this->cloneActivity($activity))){
+					$activityClone = $this->cloneActivity($activity);
+					if(is_null($activityClone)){
 						throw new Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
+					}else{
+						$this->addClonedActivity($activityClone, $activity);
 					}
 				}
 			}

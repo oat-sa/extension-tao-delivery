@@ -117,14 +117,11 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			foreach ($activity->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES))->getIterator() as $iService){
 				if($iService instanceof core_kernel_classes_Resource){
 					
-					$serviceDefinition = $iService->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+					$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
+					if(!is_null($serviceDefinition)){
 					
-					//if service definition has the url of the service test process container
-					$testContainerServiceDefinition = wfEngine_helpers_ProcessUtil::getServiceDefinition(TAO_TEST_CLASS);
-					
-					if(!is_null($testContainerServiceDefinition)){
-						if($serviceDefinition->uriResource == $testContainerServiceDefinition->uriResource){
-					
+						if($serviceDefinition->uriResource == INSTANCE_SERVICEDEFINITION_TESTCONTAINER){
+				
 							foreach($iService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN))->getIterator() as $actualParam){
 								
 								$formalParam = $actualParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAMETER));
@@ -138,8 +135,9 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 							}
 							
 						}
-					}
 						
+					}
+					
 				}
 				
 			}
