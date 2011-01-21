@@ -2,10 +2,6 @@
 /**
  * main configuration file
  */
-
-# plugins directory
-define("DIR_PLUGIN"			, dirname(__FILE__). "/../plugins/");
-
 # actions directory
 define("DIR_ACTIONS"		, dirname(__FILE__). "/../actions/");
 

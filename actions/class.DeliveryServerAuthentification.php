@@ -3,7 +3,6 @@ class taoDelivery_actions_DeliveryServerAuthentification extends Module
 {
 	public function index()
 	{
-
 		if($this->hasRequestParameter('errorMessage')){
 			$this->setData('errorMessage',$this->getRequestParameter('errorMessage'));
 		}
@@ -32,6 +31,7 @@ class taoDelivery_actions_DeliveryServerAuthentification extends Module
 
 	public function logout(){
 		unset($_SESSION['taoqual.authenticated']);
+		session_destroy();
 		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification'));
 	}
 }

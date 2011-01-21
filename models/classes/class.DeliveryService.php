@@ -992,7 +992,7 @@ class taoDelivery_models_classes_DeliveryService
 						'tao_base_www'			=> $www,
 						'qti_base_www'			=> $www,
 						'base_www' 				=> $www,
-						'root_url'				=> $www
+						'root_url'				=> ROOT_URL
 					);
 				
 					//deploy the item

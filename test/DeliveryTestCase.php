@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../tao/test/TestRunner.php';
-include_once dirname(__FILE__) . '/../includes/common.php';
+include_once dirname(__FILE__) . '/bootstrap.php';
 
 error_reporting(E_ALL);
 

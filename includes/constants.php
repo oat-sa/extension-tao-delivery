@@ -34,17 +34,17 @@ $todefine = array(
 	'TAO_DELIVERY_MAXEXEC_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#MaxExec',
 	
 	'TAO_DELIVERY_AUTHORINGMODE_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringMode',
-	'TAO_DELIVERY_SIMPLEMODE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1268049036038811802',
-	'TAO_DELIVERY_ADVANCEDMODE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1268049036038811803',
+	'TAO_DELIVERY_SIMPLEMODE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple',
+	'TAO_DELIVERY_ADVANCEDMODE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeAdvanced',
 	
 	'TAO_DELIVERY_DELIVERYCONTENT'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent',
 	'TAO_DELIVERY_PROCESS'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess',
 	
 	'TAO_GROUP_DELIVERIES_PROP'	=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
 	
-	'INSTANCE_FORMALPARAM_TESTURI' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1288956260043375900',
+	'INSTANCE_FORMALPARAM_TESTURI' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri',
 	'INSTANCE_SERVICEDEFINITION_TESTCONTAINER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer',
-	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1278922897063796600'
+	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery'
 );
 
 foreach($todefine as $constName => $constValue){
