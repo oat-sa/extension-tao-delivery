@@ -122,11 +122,11 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 					
 						if($serviceDefinition->uriResource == INSTANCE_SERVICEDEFINITION_TESTCONTAINER){
 				
-							foreach($iService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMIN))->getIterator() as $actualParam){
+							foreach($iService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN))->getIterator() as $actualParam){
 								
-								$formalParam = $actualParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_FORMALPARAMETER));
+								$formalParam = $actualParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_FORMALPARAMETER));
 								if($formalParam->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_NAME)) == 'testUri'){
-									$test = $actualParam->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAM_CONSTANTVALUE));
+									$test = $actualParam->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_CONSTANTVALUE));
 									if(!is_null($test)){
 										$returnValue = $test;
 										break(2);
@@ -213,7 +213,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			$testUriParam = new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_TESTURI);
 			
 			//create an actual parameter to the service:
-			$this->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMIN, PROPERTY_ACTUALPARAM_CONSTANTVALUE);
+			$this->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN, PROPERTY_ACTUALPARAMETER_CONSTANTVALUE);
 			
 			$returnValue = $interactiveService;
 		}
