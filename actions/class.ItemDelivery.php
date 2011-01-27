@@ -197,9 +197,10 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 					
 					//initialize the wfApi recovery context
 					$ctxParams = array('params' => array('token' => $executionEnvironment['token']));
-					$this->setData('contextSourceParams', json_encode($ctxParams));
-					$this->setData('contextDestinationParams', json_encode($ctxParams));
-					
+					$ctxSourceParams = array_merge($ctxParams, array('url' => _url('retrieve', 'RecoveryContext')));
+					$ctxDestParams = array_merge($ctxParams, array('url' => _url('save', 'RecoveryContext')));
+					$this->setData('contextSourceParams', json_encode($ctxSourceParams));
+					$this->setData('contextDestinationParams', json_encode($ctxDestParams));
 					
 					$this->setView('init_api.js.tpl');
 				}

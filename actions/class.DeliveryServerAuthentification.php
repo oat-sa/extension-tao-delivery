@@ -3,6 +3,7 @@ class taoDelivery_actions_DeliveryServerAuthentification extends Module
 {
 	public function index()
 	{
+		
 		if($this->hasRequestParameter('errorMessage')){
 			$this->setData('errorMessage',$this->getRequestParameter('errorMessage'));
 		}

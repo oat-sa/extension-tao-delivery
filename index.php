@@ -5,7 +5,25 @@
  */
 require_once dirname(__FILE__). '/../tao/includes/class.Bootstrap.php';
 
-$bootStrap = new BootStrap('taoDelivery');
+
+//use a different session name when we deliver a test
+$modules = array(
+	'DeliveryServerAuthentification', 
+	'DeliveryServer', 
+	'ProcessBrowser', 
+	'ItemDelivery', 
+	'ResultDelivery',
+	'RecoveryContext'
+);
+$options = array();
+foreach($modules as $module){
+	if(tao_helpers_Request::contains('module', $module)){
+		$options['session_name'] = 'TAO_TEST_SESSION';
+		break;
+	}
+}
+
+$bootStrap = new BootStrap('taoDelivery', $options);
 $bootStrap->start();
 $bootStrap->dispatch();
 ?>

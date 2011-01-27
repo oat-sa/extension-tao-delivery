@@ -32,7 +32,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 				die('No current activity found in the process: ' . $processUri);
 			}else{
 				if(count($process->currentActivity) > 1) {
-					$this->redirect(_url('pause', 'processBrowser'));
+					$this->redirect(_url('pause', 'ProcessBrowser'));
 				}else{
 					//use the first one:
 					$currentActivity = $process->currentActivity[0];
@@ -165,7 +165,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		}
 		else
 		{
-			$this->redirect(tao_helpers_Uri::url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
+			$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 	}
 
@@ -183,7 +183,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 			$this->pause($processUri);
 		}
 		else{
-			$this->redirect(tao_helpers_Uri::url('index', 'processBrowser', null, array('processUri' => urlencode($processUri))));
+			$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 	}
 
