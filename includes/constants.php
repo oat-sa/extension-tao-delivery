@@ -1,12 +1,4 @@
 <?php
-//include constants for the wfEngine:
-include_once ROOT_PATH . '/wfEngine/includes/constants.php';
-include_once ROOT_PATH . '/tao/includes/constants.php';
-include_once ROOT_PATH . '/taoItems/includes/constants.php';
-include_once ROOT_PATH . '/taoTests/includes/constants.php';
-include_once ROOT_PATH . '/taoResults/includes/constants.php';
-
-
 //define specific constants to delivery extension:
 $todefine = array(
 	'TAO_ITEM_MODEL_CLASS' 	=> 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModels',
@@ -46,12 +38,4 @@ $todefine = array(
 	'INSTANCE_SERVICEDEFINITION_TESTCONTAINER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer',
 	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery'
 );
-
-foreach($todefine as $constName => $constValue){
-	if(!defined($constName)){
-		define($constName, $constValue);
-	}
-}
-unset($todefine);
-
 ?>

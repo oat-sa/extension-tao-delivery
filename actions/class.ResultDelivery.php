@@ -1,5 +1,4 @@
 <?php
-include_once('taoResults/includes/constants.php');
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -14,6 +13,8 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 	
 	public function __construct(){
 		parent::__construct();
+		
+		Bootstrap::loadConstants('taoResults');
 		
 		$this->resultService = tao_models_classes_ServiceFactory::get('Results');
 	}

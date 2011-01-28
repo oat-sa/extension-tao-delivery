@@ -23,6 +23,9 @@ foreach($modules as $module){
 	}
 }
 
+//need to load additional constants
+$options['constants'] = array('taoTests', 'taoItems', 'taoResults');
+
 $bootStrap = new BootStrap('taoDelivery', $options);
 $bootStrap->start();
 $bootStrap->dispatch();
