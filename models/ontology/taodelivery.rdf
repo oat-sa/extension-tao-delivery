@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <rdf:RDF 
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-	xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#"
-	xmlns:delivery="http://www.tao.lu/Ontologies/TAODelivery.rdf#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#" 
+	xmlns:delivery="http://www.tao.lu/Ontologies/TAODelivery.rdf#" 
+	xmlns:wf="http://www.tao.lu/middleware/wfEngine.rdf#" 
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#" 
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery">
     <rdf:type xml:lang="EN" rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables"/>
@@ -11,10 +14,13 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <wf:PropertyCode><![CDATA[delivery]]></wf:PropertyCode>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices"/>
     <rdfs:label><![CDATA[Test container]]></rdfs:label>
+    <wf:PropertySupportServicesUrl rdf:resource="http://www.tao.lu/Ontologies/TAOTest.rdf#Test"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery">
     <rdfs:label xml:lang="EN"><![CDATA[Delivery]]></rdfs:label>
@@ -27,6 +33,8 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Maximum Times of Execution per subject]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -34,6 +42,8 @@
     <rdfs:comment xml:lang="EN"><![CDATA[The start date of the delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -41,6 +51,8 @@
     <rdfs:comment xml:lang="EN"><![CDATA[The end date of the delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Compiled">
     <rdfs:isDefinedBy xml:lang="EN"/>
@@ -58,11 +70,13 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Excluded Subjects]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups">
     <rdfs:comment xml:lang="EN"><![CDATA[Excluded Groups]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOGroup.rdf#group"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#History">
     <rdfs:label xml:lang="EN"><![CDATA[History]]></rdfs:label>
@@ -96,6 +110,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Campaign]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign">
     <rdfs:label xml:lang="EN"><![CDATA[Delivery Campaign]]></rdfs:label>
@@ -108,6 +123,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[The start date of the campaign]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignEnd">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -115,6 +131,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[The end date of the campaign]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -122,6 +139,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Result Server]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer">
     <rdfs:label xml:lang="EN"><![CDATA[Result Server]]></rdfs:label>
@@ -132,6 +150,7 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
     <rdfs:label xml:lang="EN"><![CDATA[save result url]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[The url where we push the results of an item]]></rdfs:comment>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
     <rdfs:range xml:lang="EN" rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   </rdf:Description>
@@ -141,6 +160,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[DeliveryContent]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessDefinitions"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringMode">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -148,6 +168,7 @@
     <rdfs:comment xml:lang="EN"><![CDATA[AuthoringMode]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes">
     <rdfs:label xml:lang="EN"><![CDATA[Delivery Authoring Modes]]></rdfs:label>
@@ -167,19 +188,29 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Item Uri]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[itemUri]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultProcessVariable rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1278922891087219400"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Test Uri]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[testUri]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultProcessVariable rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1278922895046249500"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamDeliveryUri">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Delivery Uri]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[deliveryUri]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultProcessVariable rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceItemRunner">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices"/>
     <rdfs:label><![CDATA[Item Runner]]></rdfs:label>
     <rdfs:comment><![CDATA[Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts]]></rdfs:comment>
+    <wf:PropertySupportServicesUrl><![CDATA[/taoDelivery/ItemDelivery/runner?itemUri=^itemUri&testUri=^testUri&deliveryUri=^deliveryUri&]]></wf:PropertySupportServicesUrl>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamDeliveryUri"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrlParam">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables"/>
@@ -187,29 +218,41 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <wf:PropertyCode><![CDATA[webServiceUrl]]></wf:PropertyCode>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1289808483002585700">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables"/>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <wf:PropertyCode><![CDATA[100%]]></wf:PropertyCode>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrl">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Web Service Url]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[url]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultProcessVariable rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrlParam"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamHeight">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Height]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[height]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultConstantValue><![CDATA[100%]]></wf:PropertyFormalParametersDefaultConstantValue>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamWidth">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label><![CDATA[Width]]></rdfs:label>
+    <wf:PropertyFormalParametersName><![CDATA[width]]></wf:PropertyFormalParametersName>
+    <wf:PropertyFormalParametersDefaultConstantValue><![CDATA[100%]]></wf:PropertyFormalParametersDefaultConstantValue>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceWebService">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices"/>
     <rdfs:label><![CDATA[Web Service]]></rdfs:label>
     <rdfs:comment><![CDATA[Embed a generic web service accessible via url in an iframe]]></rdfs:comment>
+    <wf:PropertySupportServicesUrl><![CDATA[/taoDelivery/WebService/index?url=^webServiceUrl&height=100%&width=100%&]]></wf:PropertySupportServicesUrl>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrl"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamHeight"/>
+    <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamWidth"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -217,9 +260,11 @@
     <rdfs:comment xml:lang="EN"><![CDATA[the actual Delivery Process generated for execution]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessDefinitions"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#saveEventUrl">
     <rdfs:range xml:lang="EN" rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
     <rdfs:comment xml:lang="EN"><![CDATA[The url where we push the events traced in an item]]></rdfs:comment>
     <rdfs:label xml:lang="EN"><![CDATA[save events url]]></rdfs:label>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
@@ -227,6 +272,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingUrl">
     <rdfs:range xml:lang="EN" rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
     <rdfs:comment xml:lang="EN"><![CDATA[The url where we send the response of an item to evaluate]]></rdfs:comment>
     <rdfs:label xml:lang="EN"><![CDATA[matching url]]></rdfs:label>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
@@ -234,6 +280,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingServerSide">
     <rdfs:range xml:lang="EN" rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Boolean"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox"/>
     <rdfs:comment xml:lang="EN"><![CDATA[If the response evaluation is made on the client or on the server side]]></rdfs:comment>
     <rdfs:label xml:lang="EN"><![CDATA[Matching evaluation on server side?]]></rdfs:label>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
