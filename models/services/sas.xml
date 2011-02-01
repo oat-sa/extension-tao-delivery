@@ -3,17 +3,6 @@
 <services>
 	<description>Delivery services</description>
 	
-<!-- item container service -->
-	<service>
-		<name>Item Runner</name>
-		<description>Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts</description>
-		<location url="/taoDelivery/ItemDelivery/runner">
-			<param key="itemUri" value="^itemUri" />
-			<param key="testUri" value="^testUri" />
-			<param key="deliveryUri" value="^deliveryUri" />
-		</location>
-	</service>
-	
 <!--  services regarding the delivery interface  -->
 	<service>
 		<name>Delivery class selection</name>
