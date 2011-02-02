@@ -10,7 +10,7 @@
 // alert('t1');
 // console.log('CL_t2');
 
-var historyGrid = null;
+
 function buildHistoryGrid(selector){
 	historyGrid = $(selector).jqGrid({
 		url: "<?=_url('historyData', 'Delivery', 'taoDelivery')?>", 
@@ -23,7 +23,7 @@ function buildHistoryGrid(selector){
 		], 
 		rowNum:20,
 		height:300,
-		autowidth:true,
+		width:parseInt($(selector).width()) - 2,
 		shrinkToFit:true,
 		pager: '#history-list-pager', 
 		sortname: 'subject', 
@@ -42,10 +42,8 @@ function buildHistoryGrid(selector){
 				removeHistory(this.id.replace('history_deletor_', ''));
 			});
 			
-			historyGrid.jqGrid('setGridWidth', $('#form-history').width()-2);
 			$(window).unbind('resize').bind('resize', function(){
-				// console.log('$(selector).width()', $('#form-history').width());
-				historyGrid.jqGrid('setGridWidth', $('#form-history').width()-2);
+				historyGrid.jqGrid('setGridWidth', parseInt($(selector).width()) - 2);
 			});
 		}
 	});
@@ -77,6 +75,7 @@ var removeHistory = function(uri){
 	
 $(function(){
 	try{
+		var historyGrid = null;
 		buildHistoryGrid("#history-list");
 		// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);		
 	}catch(err){
