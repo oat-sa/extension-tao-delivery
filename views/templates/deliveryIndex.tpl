@@ -47,7 +47,7 @@
 							<?php if ($procData['status'] != 'Finished'): ?>
 								<?php foreach ($procData['activities'] as $activity): ?>
 									<?php if ($activity['may_participate']): ?>
-									<a href="<?php echo BASE_URL;?>/processBrowser/index?processUri=<?php echo urlencode($procData['uri']); ?>"><?php echo $activity['label']; ?></a>
+									<a href="<?php echo BASE_URL;?>/ProcessBrowser/index?processUri=<?php echo urlencode($procData['uri']); ?>"><?php echo $activity['label']; ?></a>
 									<?php else: ?>
 									<span></span>
 									<?php endif; ?>
@@ -72,7 +72,7 @@
 					<ul>
 						<?php foreach($availableProcessDefinition as $procDef) : ?>
 						<li>
-							<a href="<?php echo BASE_URL;?>/DeliveryServer/processAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
+							<a href="<?php echo BASE_URL;?>/DeliveryServer/ProcessAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
 							<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
 						</li>
 						<?php endforeach;  ?>		

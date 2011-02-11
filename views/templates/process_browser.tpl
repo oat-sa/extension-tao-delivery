@@ -66,7 +66,7 @@
          	
 
          	<li>
-         		<a id="pause" class="action icon" href="<?php echo BASE_URL;?>/processBrowser/pause?processUri=<?php echo urlencode($browserViewData['processUri']); ?>"><?php echo __("Pause"); ?></a> <span class="separator" />
+         		<a id="pause" class="action icon" href="<?php echo BASE_URL;?>/ProcessBrowser/pause?processUri=<?php echo urlencode($browserViewData['processUri']); ?>"><?php echo __("Pause"); ?></a> <span class="separator" />
          	</li>
 
          	<?if(get_data('debugWidget')):?>
