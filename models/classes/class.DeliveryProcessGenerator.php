@@ -113,7 +113,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 			$process, 
 			new core_kernel_classes_Class(CLASS_PROCESS), 
 			array(PROPERTY_PROCESS_ACTIVITIES, PROPERTY_PROCESS_DIAGRAMDATA),
-			__('Actual').' '.$process->getLabel()
+			$delivery->getLabel()
 		);
 		
 		if(!is_null($deliveryProcess)){
