@@ -253,8 +253,8 @@ class DeliveryTestCase extends UnitTestCase {
 		
 		$deliveryProcess = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 		$this->assertIsA($deliveryProcess, 'core_kernel_classes_Resource');
-		$deliveryProcessChecker = new wfEngine_models_classes_ProcessChecker($deliveryProcess);
-		$this->assertTrue($deliveryProcessChecker->checkProcess());
+		$deliveryProcessChecker = new taoDelivery_models_classes_DeliveryProcessChecker($deliveryProcess);
+		$this->assertTrue($deliveryProcessChecker->check());
 		
 		
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 5);

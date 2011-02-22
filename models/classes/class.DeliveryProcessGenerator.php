@@ -98,8 +98,8 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		//check delivery process:
-		$deliveryProcessChecker = new wfEngine_models_classes_ProcessChecker($process);
-		if(!$deliveryProcessChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
+		$deliveryProcessChecker = new taoDelivery_models_classes_DeliveryProcessChecker($process);
+		if(!$deliveryProcessChecker->check()){
 			$this->processError['delivery'] = array(
 				'resource' => $delivery,
 				'initialActivity' => (bool) count($deliveryProcessChecker->getInitialActivities()),
@@ -129,9 +129,9 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 				
 				if(!is_null($testProcess)){
 					//validate the test process:
-					$processChecker = new wfEngine_models_classes_ProcessChecker($testProcess);
+					$processChecker = new taoDelivery_models_classes_DeliveryProcessChecker($testProcess);
 					
-					if($processChecker->checkProcess(array('hasInitialActivity', 'hasNoIsolatedConnector'))){
+					if($processChecker->check()){
 						
 						//clone the process segment:
 						$testInterfaces = $this->cloneProcessSegment($testProcess, false);
