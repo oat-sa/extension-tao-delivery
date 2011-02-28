@@ -9,8 +9,8 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2011, 16:51:50 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 28.02.2011, 17:17:17 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
  * @package taoDelivery
@@ -1093,31 +1093,6 @@ class taoDelivery_models_classes_DeliveryService
 			$returnValue['errors'] = $deliveryProcessGenerator->getErrors();
 		}
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CEE end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getDeliveriesBySubject
-     *
-     * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  string subjectUri
-     * @return array
-     */
-    public function getDeliveriesBySubject($subjectUri)
-    {
-        $returnValue = array();
-
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CF3 begin
-		$groups = core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subjectUri);
-		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
-		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
-		}
-		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
-		$returnValue = $deliveries;
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CF3 end
 
         return (array) $returnValue;
     }
