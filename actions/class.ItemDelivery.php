@@ -38,8 +38,25 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 			$process	= new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
 			$item 		= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('itemUri')));
 			$test 		= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
-			$delivery 	= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
-			
+		
+			if(preg_match("/^http/", $this->getRequestParameter('deliveryUri'))){
+				$delivery 	= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
+			}
+			else{
+				error_reporting(E_ALL & ~E_NOTICE);
+				$deliveryParams = unserialize(urldecode($this->getRequestParameter('deliveryUri')));
+				if($deliveryParams === false){
+					throw new Exception(__("Wrong delivery uri"));
+				}
+				if(is_array($deliveryParams) && count($deliveryParams) > 0){
+					$delivery 	= new core_kernel_classes_Resource(tao_helpers_Uri::decode($deliveryParams[0]));
+				}
+				else{
+					throw new Exception(__("Unable to load the  delivery"));
+				}
+				error_reporting(E_ALL);
+			}
+	
 			$executionEnvironment = $this->createExecutionEnvironment($process, $item, $test, $delivery, $user);
 			
 			//retrieving of the compiled item content
