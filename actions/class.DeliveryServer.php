@@ -30,7 +30,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
      */
 	public function processAuthoring($processDefinitionUri)
 	{
-
+		
 		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
 		$subject = $userService->getCurrentUser();
 		
