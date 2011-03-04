@@ -29,12 +29,14 @@
 		       $("#back").click(function(){
 				   goToPage('<?php echo BASE_URL;?>/ProcessBrowser/back?processUri=<?php echo urlencode($processUri); ?>');
 				   $(this).unbind('click');
+				   $("#next").unbind('click');
 			    });
 		       
 		       	
 			   $("#next").click(function(){
 			       	goToPage('<?php echo BASE_URL;?>/ProcessBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
 			       	$(this).unbind('click');
+			       	$("#back").unbind('click');
 				});
 			   	
 
