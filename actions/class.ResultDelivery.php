@@ -124,7 +124,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 				}
 				if($this->hasRequestParameter('userVars')){
 					//here we save the user variables
-					$this->resultService->addResultVariables($dtis, $this->getRequestParamter('userVars'), false);
+					$this->resultService->addResultVariables($dtis, $this->getRequestParameter('userVars'), false);
 				}
 				
 				$saved = true;
