@@ -1,11 +1,6 @@
 Options +FollowSymLinks
 RewriteEngine On
 
-RewriteCond %{REQUEST_METHOD} ^GET$
-RewriteCond %{REQUEST_URI} (.*)/taoDelivery/ItemDelivery/eXULiS.swf$ [NC]
-RewriteRule ^(.*)$ ../taoDelivery/views/swf/eXULiS.swf [L]
-
-
 #usual behavior for resources calls
 RewriteCond %{REQUEST_URI} !/views/  [NC]
 RewriteCond %{REQUEST_URI} !/test/  [NC]
