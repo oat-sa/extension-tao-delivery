@@ -57,7 +57,10 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		//initialise the activity execution and assign the tokens to the current user
 		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
 	
-		$processExecutionService->initCurrentExecution($process->resource, $activity->resource, $currentUser);
+		if(!$processExecutionService->initCurrentExecution($process->resource, $activity->resource, $currentUser)){
+			Session::removeAttribute("processUri");
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
+		}
 		
 		$activityExecutionResource = $activityExecutionService->getExecution($activity->resource, $currentUser, $process->resource);
 		$browserViewData['activityExecutionUri']= $activityExecutionResource->uriResource;

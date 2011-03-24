@@ -111,20 +111,22 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 				);
 				
 				if($this->hasRequestParameter('taoVars')){
+					if(is_array($this->getRequestParameter('taoVars'))){
+						$resultNS = $executionEnvironment['localNamespace'];
 					
-					$resultNS = $executionEnvironment['localNamespace'];
-					
-					//here we save the TAO variables
-					$taoVars = array();
-					foreach($this->getRequestParameter('taoVars') as $key => $value){
-						$taoVars[str_replace($resultNS.'#', '', $key)] = $value;
+						//here we save the TAO variables
+						$taoVars = array();
+						foreach($this->getRequestParameter('taoVars') as $key => $value){
+							$taoVars[str_replace($resultNS.'#', '', $key)] = $value;
+						}
+						$this->resultService->addResultVariables($dtis, $taoVars, true);
 					}
-					$this->resultService->addResultVariables($dtis, $taoVars, true);
-					
 				}
 				if($this->hasRequestParameter('userVars')){
-					//here we save the user variables
-					$this->resultService->addResultVariables($dtis, $this->getRequestParameter('userVars'), false);
+					if(is_array($this->getRequestParameter('userVars'))){
+						//here we save the user variables
+						$this->resultService->addResultVariables($dtis, $this->getRequestParameter('userVars'), false);
+					}
 				}
 				
 				$saved = true;
