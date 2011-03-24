@@ -998,7 +998,18 @@ class taoDelivery_models_classes_DeliveryService
 					//deploy the item
 					$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
 					
-					$compilator->copyPlugins();
+					if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+						$compilator->copyPlugins(array('js', 'css', 'img'));
+					}
+					else if($itemService->hasItemModel($item, array( TAO_ITEM_MODEL_HAWAI, TAO_ITEM_MODEL_XHTML))){
+						$compilator->copyPlugins(array('js'));
+					}
+					else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_KOHS, TAO_ITEM_MODEL_CTEST))){
+						$compilator->copyPlugins(array('swf', 'js'));
+					}
+					else{
+						$compilator->copyPlugins(array('js'));
+					}
 					
 					//directory where all files required to launch the test will be collected
 					$directory = $compilator->getCompiledPath();

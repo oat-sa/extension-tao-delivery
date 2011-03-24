@@ -312,11 +312,12 @@ class taoDelivery_helpers_Compilator
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param array $plugins to be copied. If not set all are copied
      * @return void
      */
-	public function copyPlugins(){
-		$plugins = array('js', 'css', 'img', 'swf');
+	public function copyPlugins($plugins = array()){
 		foreach($plugins as $plugin){
+			$plugin = strtolower($plugin);
 			if(!is_dir("{$this->compiledPath}/{$plugin}/")){
 				mkdir("{$this->compiledPath}/{$plugin}/");
 			}	
@@ -353,6 +354,7 @@ class taoDelivery_helpers_Compilator
 		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/mi";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
 
+		
 		$plugins = $this->getPlugins();
 
 		$uniqueMediaList = 	array_unique($mediaList[0]);
