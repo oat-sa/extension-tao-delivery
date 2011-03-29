@@ -39,7 +39,7 @@ function initCompilation(uri,clazz){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/initCompilation",
+		url: root_url + "/taoDelivery/Delivery/initCompilation?STANDALONE_MODE=true",
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
@@ -106,7 +106,7 @@ function compileTest(testUri){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/compile",
+		url: root_url + "/taoDelivery/Delivery/compile?STANDALONE_MODE=1",
 		data: {testUri : testUri, deliveryUri: deliveryUri},
 		dataType: "json",
 		success: function(r){
@@ -235,7 +235,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/endCompilation",
+		url: root_url + "/taoDelivery/Delivery/endCompilation?STANDALONE_MODE=1",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){

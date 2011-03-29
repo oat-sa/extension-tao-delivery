@@ -19,6 +19,10 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 */
 	public function __construct(){
 		
+		if(isset($_GET['STANDALONE_MODE']) && (bool) $_GET['STANDALONE_MODE']){
+			tao_helpers_Context::load('STANDALONE_MODE');
+		}
+		
 		parent::__construct();
 		
 		//the service is initialized by default

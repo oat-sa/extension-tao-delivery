@@ -12,8 +12,16 @@
 
 
 function buildHistoryGrid(selector){
+	var actionUrl = '';
+	
+	<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
+	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
+	<?else:?>
+	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
+	<?endif;?>
+	
 	historyGrid = $(selector).jqGrid({
-		url: "<?=_url('historyData', 'Delivery', 'taoDelivery')?>", 
+		url: actionUrl, 
 		datatype: "json", 
 		colNames:[ __('Subject'), __('Time'), __('Actions')], 
 		colModel:[ 
