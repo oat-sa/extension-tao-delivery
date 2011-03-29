@@ -139,7 +139,11 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 						$taoVars = array();
 						foreach($this->getRequestParameter('taoVars') as $key => $value){
 							$taoVars[str_replace($resultNS.'#', '', $key)] = addcslashes($value,"'");
+							if($key == $resultNS.'#ENDORSMENT'){
+								wfEngine_models_classes_VariableService::save(array('PREV_ENDORSMENT' => $value));
+							}
 						}
+						
 						$this->resultService->addResultVariables($dtis, $taoVars, true);
 					}
 				}
