@@ -7,17 +7,13 @@
 </div>
 
 <script type="text/javascript">
-// alert('t1');
-// console.log('CL_t2');
-
-
 function buildHistoryGrid(selector){
 	var actionUrl = '';
 	
 	<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
-	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
-	<?else:?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
+	<?else:?>
+	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
 	<?endif;?>
 	
 	historyGrid = $(selector).jqGrid({
