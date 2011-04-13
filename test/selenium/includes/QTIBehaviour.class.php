@@ -34,6 +34,12 @@ class QTIBehaviour extends ItemBehaviour {
 				$this->addInteraction(new QTIChoiceBehaviour($selenium, $i));
 			}
 		}
+		
+		if (($count = $selenium->getXpathCount(QTIMatchBehaviour::getXPath())) > 0) {
+			for ($i = 0; $i < $count; $i++) {
+				$this->addInteraction(new QTIMatchBehaviour($selenium, $i));
+			}
+		}
 	}
 	
 	private function addInteraction(QTIInteractionBehaviour $behaviour) {

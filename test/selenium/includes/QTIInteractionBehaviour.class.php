@@ -11,11 +11,16 @@ abstract class QTIInteractionBehaviour extends QTIBehaviour {
 	}
 	
 	public function getIndex() {
-		return $index;
+		return $this->index;
 	}
 	
 	public function setIndex($index) {
 		$this->index = $index;
+	}
+	
+	public function validateItem() {
+		$selenium = $this->getSelenium();
+		$selenium->clickAndWait("//a[@id='qti_validate']");
 	}
 	
 	public abstract function getXPath();

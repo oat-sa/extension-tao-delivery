@@ -8,10 +8,13 @@ class QTIChoiceBehaviour extends QTIInteractionBehaviour {
 		
 		// Select the correct behaviour regarding the item nature.
 		$xPath = $this->getXPath();
-    	$optionsCount = $selenium->getXpathCount("${xPath}/ul[@class='qti_choice_list']/li");
+		$interactionIndex = $this->getIndex() + 1;
+    	$optionsCount = $selenium->getXpathCount("${xPath}[${interactionIndex}]/ul[@class='qti_choice_list']/li");
     	$indexToClick = rand(1, $optionsCount);
     	$selenium->click("//ul[@class='qti_choice_list']/li[${indexToClick}]");
-    	$selenium->clickAndWait("//a[@id='qti_validate']");
+    	
+    	// Valdiate
+    	$this->validateItem();
 	}
 	
 	public function getXPath() {
