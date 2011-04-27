@@ -200,7 +200,7 @@ msgid "Formal Parameter OUT"
 msgstr "Paramètre formel en SORTIE"
 
 msgid "Forward"
-msgstr "Transférer"
+msgstr "Suivant"
 
 msgid "Go to"
 msgstr "Allez à"
