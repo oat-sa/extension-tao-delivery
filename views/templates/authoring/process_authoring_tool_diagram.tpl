@@ -17,7 +17,7 @@
 	</div>
 	
 <?else:?>
-	<link rel="stylesheet" type="text/css" href="/<?=get_data('extension')?>/views/css/process_authoring_tool.css" />
+	<link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/process_authoring_tool.css" />
 	
 	<script type="text/javascript">
 		//constants:
@@ -29,21 +29,21 @@
 		INSTANCE_TYPEOFCONNECTORS_JOIN = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_JOIN)?>";
 	</script>
 	
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/authoringConfig.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/json2.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/util.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/arrows.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/activityDiagram.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeController.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeInitial.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeActivityLabel.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeActivityAdd.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeActivityMenu.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeArrowLink.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeActivityMove.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeConnectorMove.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeArrowEdit.js"></script>
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/authoring/modeLinkedActivityAdd.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/authoringConfig.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/json2.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/util.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/arrows.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/activityDiagram.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeController.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeInitial.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeActivityLabel.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeActivityAdd.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeActivityMenu.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeArrowLink.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeActivityMove.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeConnectorMove.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeArrowEdit.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeLinkedActivityAdd.js"></script>
 	
 	<script type="text/javascript">
 	//init:
@@ -149,7 +149,7 @@
 	
 	</div><!--end authoring-container -->
 	
-	<script type="text/javascript" src="/<?=get_data('extension')?>/views/js/activity.tree.js"></script>
+	<script type="text/javascript" src="<?=BASE_WWW?>js/activity.tree.js"></script>
 	<script type="text/javascript">
 	
 	

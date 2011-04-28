@@ -355,19 +355,19 @@ class taoDelivery_models_classes_ResultServerService
         
         if(!is_null($resultServer)){
         	
-        	$resultUrl 		= $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_RESULT_URL_PROP));
-        	$eventUrl		= $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_EVENT_URL_PROP));
-        	$matchingUrl	= $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_MATCHING_URL_PROP));
+        	$resultUrl 		= (string) $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_RESULT_URL_PROP));
+        	$eventUrl		= (string) $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_EVENT_URL_PROP));
+        	$matchingUrl	= (string) $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_MATCHING_URL_PROP));
         	$matchingSide 	= $resultServer->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_MATCHING_SERVER_PROP));
         	
         	$returnValue = array(
-        		'save_result_url' 	=> (string)$resultUrl,
-        		'save_event_url' 	=> (string)$eventUrl,
-        		'matching_url' 		=> (string)$matchingUrl,
+        		'save_result_url' 	=> preg_match('/^\//',$resultUrl)? ROOT_URL.$resultUrl : $resultUrl,
+        		'save_event_url' 	=> preg_match('/^\//',$eventUrl)? ROOT_URL.$eventUrl : $eventUrl,
+        		'matching_url' 		=> preg_match('/^\//',$matchingUrl)? ROOT_URL.$matchingUrl : $matchingUrl,
         		'matching_server' 	=> ($matchingSide->uriResource == GENERIS_TRUE)
         	);
         }
-        
+		
         // section 127-0-1-1--1fd8ff6b:12c3688e878:-8000:00000000000028A1 end
 
         return (array) $returnValue;
