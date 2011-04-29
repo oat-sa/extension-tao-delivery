@@ -73,13 +73,6 @@
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView"/>
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups">
-    <rdfs:comment xml:lang="EN"><![CDATA[Excluded Groups]]></rdfs:comment>
-    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
-    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOGroup.rdf#group"/>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeView"/>
-    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#History">
     <rdfs:label xml:lang="EN"><![CDATA[History]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[History]]></rdfs:comment>
