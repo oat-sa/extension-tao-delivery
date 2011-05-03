@@ -4,8 +4,6 @@ class taoDelivery_actions_DeliveryServerModule extends Module
 	
 	public function __construct(){
 		
-		$GLOBALS['lang'] = $GLOBALS['default_lang'];
-		
 		if($this->_isAllowed()){
 			tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService')->connectCurrentUser();
 			
@@ -14,11 +12,6 @@ class taoDelivery_actions_DeliveryServerModule extends Module
 			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification', 'taoDelivery', array('errorMessage' => urlencode(__('Access denied. Please renew your authentication!')))));
 		}
 		
-		//initialize I18N
-		if(tao_helpers_I18n::getLangCode() == ''){
-			(Session::hasAttribute('ui_lang')) ? $uiLang = Session::getAttribute('ui_lang') : $uiLang = $GLOBALS['default_lang'];
-			tao_helpers_I18n::init($uiLang);
-		}
 	}
 	
 	/**
