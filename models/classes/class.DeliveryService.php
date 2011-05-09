@@ -952,88 +952,89 @@ class taoDelivery_models_classes_DeliveryService
 		$items = $testService->getRelatedItems($test);
 		
 		$compilationResult = array();
-		$propRDFtype = new core_kernel_classes_Property(RDF_TYPE);
-		
 		foreach($items as $item){
 			//check if the item exists: if not, append to the test failure message
-			$itemClass = $item->getOnePropertyValue($propRDFtype);
-			if(!is_null($itemClass) && !is_null($itemService->isItemModelDefined($item))){
-				
-				try{
+			$itemClasses = $item->getType();
+			foreach($itemClasses as $itemClass){
+				if(!is_null($itemClass) && !is_null($itemService->isItemModelDefined($item))){
 					
-					$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-					$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-					$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+					try{
+						
+						$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+						$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+						$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+						
+						//create the compilation folder for the delivery-test-item:
+						$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
+						if(!is_dir($compiledFolder)){
+							mkdir($compiledFolder);
+						}
+						$compiledFolder .= "/$testFolderName";
+						if(!is_dir($compiledFolder)){
+							mkdir($compiledFolder);
+						}
+						$compiledFolder .= "/$itemFolderName";
+						if(!is_dir($compiledFolder)){
+							mkdir($compiledFolder);
+						}
+						$itemPath = "{$compiledFolder}/index.html";
+						$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
+						
+						$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
+						$compilator->clearCompiledFolder();
+						
+						$www = dirname($itemUrl);
 					
-					//create the compilation folder for the delivery-test-item:
-					$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
-					if(!is_dir($compiledFolder)){
-						mkdir($compiledFolder);
+						$deployParams = array(
+							'delivery_server_mode'	=> true,
+							'preview_mode'			=> false,
+							'tao_base_www'			=> $www,
+							'qti_base_www'			=> $www,
+							'base_www' 				=> $www,
+							'root_url'				=> ROOT_URL
+						);
+					
+						//deploy the item
+						$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
+						
+						if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+							$compilator->copyPlugins(array('js', 'css', 'img'));
+						}
+						else if($itemService->hasItemModel($item, array( TAO_ITEM_MODEL_HAWAI, TAO_ITEM_MODEL_XHTML))){
+							$compilator->copyPlugins(array('js'));
+						}
+						else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_KOHS, TAO_ITEM_MODEL_CTEST))){
+							$compilator->copyPlugins(array('swf', 'js'));
+						}
+						else{
+							$compilator->copyPlugins(array('js'));
+						}
+						
+						//directory where all files required to launch the test will be collected
+						$directory = $compilator->getCompiledPath();
+						
+						//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+						$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
+								
+						//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+						$compilator->stringToFile($itemContent, $directory, "index.html");
+						
+						$compilationResult[] = $compilator->result();
+						
+						
 					}
-					$compiledFolder .= "/$testFolderName";
-					if(!is_dir($compiledFolder)){
-						mkdir($compiledFolder);
+					catch(Exception $e){
+						$resultArray["failed"]["errorMsg"][] = $e->getMessage();
 					}
-					$compiledFolder .= "/$itemFolderName";
-					if(!is_dir($compiledFolder)){
-						mkdir($compiledFolder);
+				}else{
+					//the item no longer exists, set error message and break the loop and thus the compilation:
+					if(!isset($resultArray["failed"]['unexistingItems'])){
+						$resultArray["failed"]['unexistingItems'] = array();
 					}
-					$itemPath = "{$compiledFolder}/index.html";
-					$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
-					
-					$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
-					$compilator->clearCompiledFolder();
-					
-					$www = dirname($itemUrl);
-				
-					$deployParams = array(
-						'delivery_server_mode'	=> true,
-						'preview_mode'			=> false,
-						'tao_base_www'			=> $www,
-						'qti_base_www'			=> $www,
-						'base_www' 				=> $www,
-						'root_url'				=> ROOT_URL
-					);
-				
-					//deploy the item
-					$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
-					
-					if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
-						$compilator->copyPlugins(array('js', 'css', 'img'));
-					}
-					else if($itemService->hasItemModel($item, array( TAO_ITEM_MODEL_HAWAI, TAO_ITEM_MODEL_XHTML))){
-						$compilator->copyPlugins(array('js'));
-					}
-					else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_KOHS, TAO_ITEM_MODEL_CTEST))){
-						$compilator->copyPlugins(array('swf', 'js'));
-					}
-					else{
-						$compilator->copyPlugins(array('js'));
-					}
-					
-					//directory where all files required to launch the test will be collected
-					$directory = $compilator->getCompiledPath();
-					
-					//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-					$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
-							
-					//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-					$compilator->stringToFile($itemContent, $directory, "index.html");
-					
-					$compilationResult[] = $compilator->result();
-					
-					
+					$resultArray["failed"]['unexistingItems'][$item->uriResource] = $item;
+					continue;
 				}
-				catch(Exception $e){
-					$resultArray["failed"]["errorMsg"][] = $e->getMessage();
-				}
-			}else{
-				//the item no longer exists, set error message and break the loop and thus the compilation:
-				if(!isset($resultArray["failed"]['unexistingItems'])){
-					$resultArray["failed"]['unexistingItems'] = array();
-				}
-				$resultArray["failed"]['unexistingItems'][$item->uriResource] = $item;
-				continue;
+				break;
 			}
 		}		
 		

@@ -143,8 +143,10 @@ class taoDelivery_actions_DeliveryAuthoring extends wfEngine_actions_ProcessAuth
 			
 			$this->setData("processUri", urlencode($currentDelivery->uriResource));
 			$this->setData("processLabel", $currentDelivery->getLabel());
-			$this->setData("deliveryClass", tao_helpers_Uri::encode($currentDelivery->getUniquePropertyValue(new core_kernel_classes_Property(RDF_TYPE))->uriResource));
-			
+			foreach($currentDelivery->getType() as $deliveryClass){
+				$this->setData("deliveryClass", tao_helpers_Uri::encode($deliveryClass->uriResource));
+				break;
+			}
 			//compilation state:
 			$deliveryService = tao_models_classes_ServiceFactory::get('Delivery');
 			$isCompiled=$deliveryService->isCompiled($currentDelivery);
