@@ -226,17 +226,13 @@ class taoDelivery_models_classes_CampaignService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002059 begin
 		if(!is_null($campaign)){
 		
-			//get the list of deliveries, by using getSubjects(TAO_DELIVERY_CAMPAIGN_PROP,$campaign->resourceUri);
-			$deliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
-			foreach ($deliveries->getIterator() as $delivery){
+			$campaignClass = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
+			$deliveries = $campaignClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false));
+			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
 				}
 			}
-			
-			// foreach($campaign->getSubClasses(false) as $subclass){
-				// $returnValue = array_merge($returnValue, getRelatedDeliveries($subclass)); 
-			// }
 		}
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002059 end
 
@@ -291,8 +287,9 @@ class taoDelivery_models_classes_CampaignService
 			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
 			
 			//a way to remove the campaign property value of the delivery that are used to be associated to THIS campaign
-			$oldRelatedDeliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource);
-			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
+			$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+			$oldDeliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false));
+			foreach ($oldDeliveries as $oldRelatedDelivery) {
 				//TODO check if it is a delivery instance
 				
 				//find a way to remove the property value associated to THIS campaign ONLY

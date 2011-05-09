@@ -149,9 +149,10 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 						//log error:
 						$failed = true;
 						
-						$testCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject(TEST_TESTCONTENT_PROP, $testProcess->uriResource); 
-						if(!$testCollection->isEmpty()){
-							$test = $testCollection->get(0);
+						$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+						$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->uriResource));//use default options 
+						if(count($testArray)){
+							$test = $testArray[0];
 							$this->processError['tests'][$test->uriResource] = array(
 								'resource' => $test,
 								'initialActivity' => (bool) count($processChecker->getInitialActivities()),

@@ -567,32 +567,33 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	public function getDeliveryHistory($delivery = null, $subject = null){
 		
 		$returnValue = array();
-		$historyCollection = null;
+		$histories = array();
 		
 		//check deliveryUri validity
 		if(empty($delivery)){
 			$delivery = $this->getCurrentDelivery();
 		}
 		
-		$historyCollection = $this->service->getHistory($delivery, $subject);
+		$histories = $this->service->getHistory($delivery, $subject);
 		
+		$propHistorySubject = new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP);
+		$propHistoryTimestamp = new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP);
 		$i=0;
-		foreach ($historyCollection->getIterator() as $history) {
+		foreach ($histories as $history) {
 		
-			$returnValue[$i]=array();
+			$returnValue[$i] = array();
 			
-			
-			$subject=$history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP));
+			$subject = $history->getUniquePropertyValue($propHistorySubject);
 			$returnValue[$i]["subject"] = $subject->getLabel(); //or $subject->literal to get the uri
 			
-			$timestamp = $history->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP));
+			$timestamp = $history->getUniquePropertyValue($propHistoryTimestamp);
 			$returnValue[$i]["time"] = date('d-m-Y G:i:s \(T\)', $timestamp->literal);
+			
 			$returnValue[$i]["uri"] = tao_helpers_Uri::encode($history->uriResource);
 			$i++;
 		}
 			
 		return $returnValue;
-		// echo json_encode($returnValue);
 	}
 	
 	/**
@@ -600,6 +601,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 * @return void
 	 */
 	public function historyData(){
+	
 		// $page = $this->getRequestParameter('page'); 
 		// $limit = $this->getRequestParameter('rows');
 		$page = 1;

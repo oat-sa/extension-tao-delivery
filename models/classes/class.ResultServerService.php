@@ -181,10 +181,11 @@ class taoDelivery_models_classes_ResultServerService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002177 begin
         
-    if(!is_null($resultServer)){
-		
-			$deliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
-			foreach ($deliveries->getIterator() as $delivery){
+		if(!is_null($resultServer)){
+			
+			$deliveryClass =  new core_kernel_classes_Class(PROPERTY_DELIVERIES);
+			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_RESULTSERVER_PROP => $resultServer->uriResource), array('like' => false));
+			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
 				}
@@ -238,35 +239,31 @@ class taoDelivery_models_classes_ResultServerService
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000217B begin
-        
-   	 if(!is_null($resultServer)){
-			//the property of the DELIVERIES that will be modified
-			$resultServerProp = new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP);
+        if(!is_null($resultServer)){
+			$deliveryClass 		= new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+			$resultServerProp	= new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP);
 			
-			//a way to remove the resultServer property value of the delivery that are used to be associated to THIS resultServer
-			$oldRelatedDeliveries = core_kernel_impl_ApiModelOO::singleton()->getSubject(TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource);
-			foreach ($oldRelatedDeliveries->getIterator() as $oldRelatedDelivery) {
-				//TODO check if it is a delivery instance
-				
-				//find a way to remove the property value associated to THIS resultServer ONLY
-				core_kernel_impl_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_RESULTSERVER_PROP, $resultServer->uriResource, '');
-				
-				// $oldRelatedDelivery->removePropertyValues($resultServerProp);//issue with this implementation: delete all property values
-			}
-			
-			//assign the current compaign to the selected deliveries	
 			$done = 0;
-			foreach($deliveries as $delivery){
-				//the delivery instance to be modified
-				$deliveryInstance=new core_kernel_classes_Resource($delivery);
-			
-				//remove the property value associated to another delivery in case ONE delivery can ONLY be associated to ONE resultServer
-				//if so, then change the widget from comboBox to treeView in the delivery property definition
-				$deliveryInstance->removePropertyValues($resultServerProp);
-				
-				//now, truly assigning the resultServer uri to the affected deliveries
-				if($deliveryInstance->setPropertyValue($resultServerProp, $resultServer->uriResource)){
-					$done++;
+			foreach($deliveryClass->getInstances(true) as $instance){
+				$newMembers = array();
+				$updateIt = false;
+				foreach($instance->getPropertyValues($resultServerProp) as $member){
+					if($member == $resultServer->uriResource){
+						$updateIt = true;
+					}else{
+						$newMembers[] = $member;
+					}
+				}
+				if($updateIt){
+					$instance->removePropertyValues($resultServerProp);
+					foreach($newMembers as $newMember){
+						$instance->setPropertyValue($resultServerProp, $newMember);
+					}
+				}
+				if(in_array($instance->uriResource, $deliveries)){
+					if($instance->setPropertyValue($resultServerProp, $resultServer->uriResource)){
+						$done++;
+					}
 				}
 			}
 			if($done == count($deliveries)){

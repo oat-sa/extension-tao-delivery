@@ -424,16 +424,17 @@ class taoDelivery_models_classes_DeliveryServerService
         $returnValue = array();
 
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C3A begin
-		$groups = core_kernel_impl_ApiModelOO::singleton()->getSubject('http://www.tao.lu/Ontologies/TAOGroup.rdf#Members' , $subject->uriResource);
-		$deliveries = new core_kernel_classes_ContainerCollection(new common_Object());
-		foreach ($groups->getIterator() as $group) {
-			$deliveries = $deliveries->union(core_kernel_impl_ApiModelOO::singleton()->getObject($group->uriResource, 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'));
-		}
-		//TODO: eliminate duplicate deliveries (with a function like unique_array() ):
-		foreach ($deliveries->getIterator() as $delivery) {
-			$returnValue[$delivery->uriResource] = $delivery;
-		}
+		$propGroupDeliveries = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false));
 		
+		$deliveries = array();
+		foreach ($groups as $group) {
+			$deliveryCollection = $group->getPropertyValuesCollection($propGroupDeliveries);
+			foreach($deliveryCollection->getIterator() as $delivery){
+				$deliveries[$delivery->uriResource] = $delivery;
+			}
+		}
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C3A end
 
         return (array) $returnValue;

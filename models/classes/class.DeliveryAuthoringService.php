@@ -87,9 +87,10 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			$propDeliveryProcess = TAO_DELIVERY_PROCESS;
 		}
 		
-		$deliveryCollection = core_kernel_impl_ApiModelOO::singleton()->getSubject($propDeliveryProcess, $process->uriResource);
-		if(!$deliveryCollection->isEmpty()){
-			$returnValue = $deliveryCollection->get(0);
+		$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+		$deliveries = $deliveryClass->searchInstances(array($propDeliveryProcess => $process->uriResource), array('like'=>false));
+		if(!empty($deliveries)){
+			$returnValue = $deliveries[0];
 		}
 		
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002061 end
