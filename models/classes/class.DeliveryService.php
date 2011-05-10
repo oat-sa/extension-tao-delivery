@@ -384,11 +384,12 @@ class taoDelivery_models_classes_DeliveryService
 			}
 			
 			//get its connector (check the type is "sequential) if ok, get the next activity
-			$connectorCollection = core_kernel_impl_ApiModelOO::getSubject(PROPERTY_CONNECTORS_PREVIOUSACTIVITIES, $currentActivity->uriResource);
+			$connectorClass = new core_kernel_classes_Class(CLASS_CONNECTORS);
+			$connectors = $connectorClass->searchInstances(array(PROPERTY_CONNECTORS_PREVIOUSACTIVITIES =>$currentActivity->uriResource), array('like'=>false));
 			$nextActivity = null;
-			foreach($connectorCollection->getIterator() as $connector){
+			foreach($connectors as $connector){
 				$connectorType = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE));
-				if($connectorType->uriResource = INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
+				if($connectorType->uriResource == INSTANCE_TYPEOFCONNECTORS_SEQUENCE){
 					$nextActivity = $connector->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_NEXTACTIVITIES));
 					break;
 				}
