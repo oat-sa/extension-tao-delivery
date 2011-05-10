@@ -176,7 +176,8 @@ class taoDelivery_models_classes_DeliveryServerService
 		}catch(Exception $e){
 			echo "error: ".$e->getMessage();
 		}
-
+			
+		
 		$deliveries = array();
 		$deliveries['ok'] = array();
 		
@@ -428,6 +429,8 @@ class taoDelivery_models_classes_DeliveryServerService
 		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false, 'recursive' => true));
 		
+		
+		
 		$deliveries = array();
 		foreach ($groups as $group) {
 			$deliveryCollection = $group->getPropertyValuesCollection($propGroupDeliveries);
@@ -435,6 +438,8 @@ class taoDelivery_models_classes_DeliveryServerService
 				$deliveries[$delivery->uriResource] = $delivery;
 			}
 		}
+		
+		$returnValue = $deliveries;
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C3A end
 
         return (array) $returnValue;

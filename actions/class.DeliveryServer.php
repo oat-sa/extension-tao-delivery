@@ -120,7 +120,6 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 				
 		foreach ($processes as $proc)
 		{
-
 			$type 	= $proc->process->label;
 			$label 	= $proc->label;
 			$uri 	= $proc->uri;
