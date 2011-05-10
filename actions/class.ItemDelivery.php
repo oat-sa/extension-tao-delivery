@@ -87,7 +87,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 				foreach($headNodes as $headNode){
 					$inserted = false;
 					$scriptNodes = $headNode->getElementsByTagName('script');
-					$poisition = 0;
+					$position = 0;
 					if($scriptNodes->length > 0){
 						foreach($scriptNodes as $index => $scriptNode){
 							if($scriptNode->hasAttribute('src')){
