@@ -88,7 +88,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		}
 		
 		$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$deliveries = $deliveryClass->searchInstances(array($propDeliveryProcess => $process->uriResource), array('like'=>false));
+		$deliveries = $deliveryClass->searchInstances(array($propDeliveryProcess => $process->uriResource), array('like'=>false, 'recursive' => true));
 		if(!empty($deliveries)){
 			$returnValue = $deliveries[0];
 		}
