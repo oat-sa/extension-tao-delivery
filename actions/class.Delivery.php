@@ -762,7 +762,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 */
 	public function saveTests(){
 		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
+		//	throw new Exception("wrong request mode");
 		}
 		$saved = false;
 		
@@ -772,6 +772,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 				array_push($tests, new core_kernel_classes_Resource(tao_helpers_Uri::decode($value)));
 			}
 		}
+		
 		if($this->service->setDeliveryTests($this->getCurrentDelivery(), $tests)){
 			$saved = true;
 		}

@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 
 	public function index($processUri, $activityUri=''){
-		
+	
 		Session::setAttribute("processUri", $processUri);
 		$processUri = urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri',$processUri);
@@ -83,39 +83,28 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 			'forward'	=> (in_array(INSTANCE_CONTROL_FORWARD, $controls))
 		);
 		
-		
 		// Browser view main data.
-		$browserViewData['isInteractiveService']	= false;
-
 		$browserViewData['processLabel'] 			= $process->process->label;
 		$browserViewData['processExecutionLabel']	= $process->label;
 		$browserViewData['activityLabel'] 			= $activity->label;
 		$browserViewData['processUri']				= $processUri ;
-
-
+		$browserViewData['active_Resource']			="'".$activity->uri."'" ;
+		$browserViewData['isInteractiveService'] 	= true;
+		$this->setData('browserViewData', $browserViewData);
+		
 		// process variables data.
 		$variablesViewData = array();
 		$variables = $process->getVariables();
-
 		foreach ($variables as $var){
 			$variablesViewData[$var->uri] = urlencode($var->value);	
 		}
-
 		$this->setData('variablesViewData',$variablesViewData);
 		
-
-		$browserViewData['active_Resource']="'".$activity->uri."'" ;
-		$browserViewData['isInteractiveService'] 	= true;
 		
-		
-		$servicesViewData 	= array();
-
 		$services = $activityExecution->getInteractiveServices();
-		
-		
 		$this->setData('services',$services);
 
-		$this->setData('browserViewData', $browserViewData);
+		
 		
 		/* <DEBUG> :populate the debug widget */
 		$this->setData('debugWidget', DEBUG_MODE);

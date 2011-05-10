@@ -727,6 +727,7 @@ class taoDelivery_models_classes_DeliveryService
 			}
 		}
 		
+		
 		//create the list of activities and interactive services and tests plus their appropriate property values:
 		$totalNumber = count($tests);//0...n
 		$previousConnector = null; 

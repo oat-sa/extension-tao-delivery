@@ -43,8 +43,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 				$delivery 	= new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
 			}
 			else{
-				error_reporting(E_ALL & ~E_NOTICE);
-				$deliveryParams = unserialize(urldecode($this->getRequestParameter('deliveryUri')));
+				$deliveryParams = @unserialize(urldecode($this->getRequestParameter('deliveryUri')));
 				if($deliveryParams === false){
 					throw new Exception(__("Wrong delivery uri"));
 				}
@@ -54,7 +53,6 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 				else{
 					throw new Exception(__("Unable to load the  delivery"));
 				}
-				error_reporting(E_ALL);
 			}
 	
 			$executionEnvironment = $this->createExecutionEnvironment($process, $item, $test, $delivery, $user);
@@ -62,8 +60,11 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 			//retrieving of the compiled item content
 			$compiledFolder = $this->getCompiledFolder($executionEnvironment);
 			$compiled = $compiledFolder .'index.html';	
-
+			
 			if(!file_exists($compiled)){
+				if(DEBUG_MODE){
+					echo "File: ".$compiled;
+				}
 				throw new Exception(__("Unable to load the compiled item content"));
 			}
 			
