@@ -227,8 +227,15 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->setData("isCompiled", $isCompiled);
 		
 		if($isCompiled){
-			$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
-			$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
+			try{
+				$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
+				if(!is_null($compiledDate)){
+					$compiledDate = $compiledDate->format('d/m/Y H:i:s');
+				}
+			}catch(core_kernel_persistence_ProhibitedFunctionException $e){
+				$compiledDate = __('(date not available for hardified resource)');
+			}
+			$this->setData("compiledDate", $compiledDate);
 		}
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
@@ -859,7 +866,9 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$response["result"]=0;
 		
 		//generate the actual delivery process:		
+		
 		$generationResult = $this->service->generateProcess($delivery);
+		
 		if($generationResult['success']){
 			$propCompiled = new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP);
 			if($delivery->editPropertyValues($propCompiled, GENERIS_TRUE)){
