@@ -120,8 +120,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 				
 		foreach ($processes as $proc)
 		{
-			$type 	= $proc->process->label;
-			$label 	= $proc->label;
+			$type 	= $proc->process->resource->getLabel();
+			$label 	= $proc->resource->getLabel();
 			$uri 	= $proc->uri;
 			$status = $proc->status;
 			$persid	= "-";
@@ -144,7 +144,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser, $proc->resource);
 						
 						$currentActivities[] = array(
-							'label'				=> $currentActivity->label,
+							'label'				=> $currentActivity->resource->getLabel(),
 							'uri' 				=> $currentActivity->uri,
 							'may_participate'	=> (!$proc->isFinished() && $isAllowed),
 							'finished'			=> $proc->isFinished(),

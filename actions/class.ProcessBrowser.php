@@ -84,9 +84,9 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		);
 		
 		// Browser view main data.
-		$browserViewData['processLabel'] 			= $process->process->label;
-		$browserViewData['processExecutionLabel']	= $process->label;
-		$browserViewData['activityLabel'] 			= $activity->label;
+		$browserViewData['processLabel'] 			= $process->process->resource->getLabel();
+		$browserViewData['processExecutionLabel']	= $process->resource->getLabel();
+		$browserViewData['activityLabel'] 			= $activity->resource->getLabel();
 		$browserViewData['processUri']				= $processUri ;
 		$browserViewData['active_Resource']			="'".$activity->uri."'" ;
 		$browserViewData['isInteractiveService'] 	= true;
