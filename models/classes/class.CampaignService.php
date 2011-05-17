@@ -290,13 +290,8 @@ class taoDelivery_models_classes_CampaignService
 			$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
 			$oldDeliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => true));
 			foreach ($oldDeliveries as $oldRelatedDelivery) {
-				//TODO check if it is a delivery instance
-				
 				//find a way to remove the property value associated to THIS campaign ONLY
-				$remove = core_kernel_impl_ApiModelOO::singleton()->removeStatement($oldRelatedDelivery->uriResource, TAO_DELIVERY_CAMPAIGN_PROP, $campaign->uriResource, '');
-				// $this->assertTrue($remove);
-				
-				// $oldRelatedDelivery->removePropertyValues($campaignProp);//issue with this implementation: delete all property values
+				$remove = $oldRelatedDelivery->removePropertyValues($campaignProp, array('pattern' => $campaign->uriResource));
 			}
 			
 			//assign the current compaign to the selected deliveries	
