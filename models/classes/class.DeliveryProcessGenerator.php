@@ -152,7 +152,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 						$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
 						$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->uriResource), array('like' => false, 'recursive' => true));
 						if(count($testArray)){
-							$test = $testArray[0];
+							$test = array_shift($testArray);
 							$this->processError['tests'][$test->uriResource] = array(
 								'resource' => $test,
 								'initialActivity' => (bool) count($processChecker->getInitialActivities()),
