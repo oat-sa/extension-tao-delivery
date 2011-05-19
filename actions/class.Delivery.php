@@ -227,15 +227,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->setData("isCompiled", $isCompiled);
 		
 		if($isCompiled){
-			try{
-				$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
-				if(!is_null($compiledDate)){
-					$compiledDate = $compiledDate->format('d/m/Y H:i:s');
-				}
-			}catch(core_kernel_persistence_ProhibitedFunctionException $e){
-				$compiledDate = __('(date not available for hardified resource)');
-			}
-			$this->setData("compiledDate", $compiledDate);
+			$this->setData("compiledDate", $this->service->getCompiledDate($delivery));
 		}
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
@@ -805,8 +797,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$isCompiled = $this->service->isCompiled($delivery);
 		$this->setData("isCompiled", $isCompiled);
 		if($isCompiled){
-			$compiledDate = $delivery->getLastModificationDate(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
-			$this->setData("compiledDate", $compiledDate->format('d/m/Y H:i:s'));
+			$this->setData("compiledDate", $this->service->getCompiledDate($delivery));
 		}
 		
 		$this->setView("delivery_compiling.tpl");
@@ -874,7 +865,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			if($delivery->editPropertyValues($propCompiled, GENERIS_TRUE)){
 				$response = array(
 					'result' => 1,
-					'compiledDate' => $delivery->getLastModificationDate($propCompiled)->format('d/m/Y H:i:s')
+					'compiledDate' => $this->service->getCompiledDate($delivery)
 				);
 			}
 		}else{
