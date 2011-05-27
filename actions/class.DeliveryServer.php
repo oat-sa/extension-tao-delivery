@@ -101,13 +101,22 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		
 		$wfEngineService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_WfEngineService');
 		
-		$processes 			= $wfEngineService->getProcessExecutions();
+		//$processes 			= $wfEngineService->getProcessExecutions();
+		$processes = array();
 		
 		//init required services
 		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
 		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
 		//get current user:
 		$currentUser = $userService->getCurrentUser();
+	
+		// Get the activities where the user has an active token.
+		$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
+		$processExecutionClass = new core_kernel_classes_Class(CLASS_PROCESSINSTANCES);
+		$currentUserActivities = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource));
+		foreach ($currentUserActivities as $activity) {
+			$processes[] = new wfEngine_models_classes_ProcessExecution($activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION))->uriResource);
+		}
 		
 		//init variable that save data to be used in the view
 		$processViewData 	= array();
