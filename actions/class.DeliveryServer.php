@@ -100,8 +100,6 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$this->setData('login',$login);
 		
 		$wfEngineService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_WfEngineService');
-		
-		//$processes 			= $wfEngineService->getProcessExecutions();
 		$processes = array();
 		
 		//init required services
@@ -146,9 +144,22 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 
 					
 				if(in_array($defUri,$visibleProcess)){
-
-						
+					
 					$currentActivities = array();
+					
+					// Bypass ACL Check if possible...
+					if ($status == 'Finished') {
+						$processViewData[] = array(
+							'type' 			=> $type,
+							'label' 		=> $label,
+							'uri' 			=> $uri,
+							'persid'		=> $persid,
+							'activities'	=> array(array('label' => '', 'uri' => '', 'may_participate' => false, 'finished' => true, 'allowed'=> true)),
+							'status'		=> $status
+						);
+						
+						continue;
+					}
 					
 					$isAllowed = false;
 					foreach ($proc->currentActivity as $currentActivity){
