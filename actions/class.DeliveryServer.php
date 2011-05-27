@@ -111,11 +111,15 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$currentUser = $userService->getCurrentUser();
 	
 		// Get the activities where the user has an active token.
+		$tokenClass = new core_kernel_classes_Class(CLASS_TOKEN);
 		$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
 		$processExecutionClass = new core_kernel_classes_Class(CLASS_PROCESSINSTANCES);
-		$currentUserActivities = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource));
-		foreach ($currentUserActivities as $activity) {
-			$processes[] = new wfEngine_models_classes_ProcessExecution($activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION))->uriResource);
+
+		$currentUserTokens = $tokenClass->searchInstances(array(PROPERTY_TOKEN_CURRENTUSER => $currentUser->uriResource));
+		foreach ($currentUserTokens as $token) {
+			$activityExecution = $token->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TOKEN_ACTIVITYEXECUTION));
+			$processExecution = $activityExecution->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION));
+			$processes[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
 		}
 		
 		//init variable that save data to be used in the view
