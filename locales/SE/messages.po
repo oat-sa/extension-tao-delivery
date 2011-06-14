@@ -1,0 +1,641 @@
+msgid "DE"
+msgstr "Tyska"
+
+msgid "EN"
+msgstr "Engelska"
+
+msgid "FR"
+msgstr "Franska"
+
+msgid "LU"
+msgstr "Luxemburgiska"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "Resultatsstyrningsservern låter dig lägga till, redigera och knyta Resultatleveransservern till Leveranser."
+
+msgid "(Ctrl-C)"
+msgstr "Ctrl-C"
+
+msgid "(still undefined)"
+msgstr "Ej definierat ännu"
+
+msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgstr "En leverans måste sammanställas innan verkställande. Sammanställningen kan göras här."
+
+msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
+msgstr "En leveransserver krävs för varje leverans. Den bestämmer var leveransens resultat kommer att laddas upp."
+
+msgid "A delviery must to be compiled before being executed. The compilation can be done here."
+msgstr "En leverans måste sammanställas innan verkställande. Sammanställningen kan göras här."
+
+msgid "A recompilation is also required after modification on the tests composing a delivery."
+msgstr "En ny sammanställning krävs efter förändring av ett test under sammanställningen av en leverans."
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Åtkomst nekad. Var vänlig och förnya din verifikation!"
+
+msgid "Actions"
+msgstr "Handlingar"
+
+msgid "Active Deliveries"
+msgstr "Aktiva leveranser"
+
+msgid "Active Tests"
+msgstr "Aktiva test"
+
+msgid "Activity"
+msgstr "Aktivitet"
+
+msgid "Activity Editor"
+msgstr "Aktivitetsredigerare"
+
+msgid "Activity or Connector"
+msgstr "Aktivitet eller anslutare"
+
+msgid "Actual"
+msgstr "Aktuell"
+
+msgid "Add (Ctrl-A)"
+msgstr "Lägg till (Ctrl-A)"
+
+msgid "Add to delivery campaign"
+msgstr "Lägg till till leveranskampanj"
+
+msgid "Add to group"
+msgstr "Lägg till till grupp"
+
+msgid "Advanced Authoring Tool"
+msgstr "Avancerat skaparverktyg"
+
+msgid "An error occured during history deletion"
+msgstr "Ett fel uppstod under raderandet av historia"
+
+msgid "An error occured while loading the item"
+msgstr "Ett fel uppstod under uppladningen av momentet"
+
+msgid "An error occured while loading the item:"
+msgstr "Ett fel uppstod under uppladningen av momentet:"
+
+msgid "An error occured while loading the item: "
+msgstr "Ett fel uppstod under uppladningen av momentet: "
+
+msgid "Another Inference Rule"
+msgstr "Annan slutledningsregel"
+
+msgid "Assignment"
+msgstr "Anvisning"
+
+msgid "Back"
+msgstr "Bakåt"
+
+msgid "Browse Tests"
+msgstr "Bläddra genom test"
+
+msgid "Campaign"
+msgstr "Kampanj"
+
+msgid "Campaign Class saved"
+msgstr "Kampanjklass sparad"
+
+msgid "Campaign saved"
+msgstr "Kampanj sparad"
+
+msgid "Campaigns library"
+msgstr "Kampanjarkiv"
+
+msgid "Close (Esc)"
+msgstr "Stäng (Esc)"
+
+msgid "Close all"
+msgstr "Stäng alla"
+
+msgid "Compilation"
+msgstr "Sammanställande"
+
+msgid "Compilation of the Process"
+msgstr "Sammantällande av processen"
+
+msgid "Compilation of the delivery"
+msgstr "Sammanställande av leveransen"
+
+msgid "Compile"
+msgstr "Sammanställ"
+
+msgid "Connector"
+msgstr "Anslutare"
+
+msgid "Connector Type"
+msgstr "Anslutartyp"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Delete History"
+msgstr "Radera historia"
+
+msgid "Deliveries"
+msgstr "Leveranser"
+
+msgid "Deliveries library"
+msgstr "Leveransarkiv"
+
+msgid "Delivery"
+msgstr "Leverans"
+
+msgid "Delivery Class saved"
+msgstr "Leveransklass sparad"
+
+msgid "Delivery properties"
+msgstr "Leveransegenskaper"
+
+msgid "Delivery saved"
+msgstr "Leverans sparad"
+
+msgid "Drag and drop the tests to order them"
+msgstr "Dra och släpp testen för att ordna dem"
+
+msgid "ELSE"
+msgstr "ANNAT"
+
+msgid "Edit Campaign"
+msgstr "Redigera kampanj"
+
+msgid "Edit ResultServer"
+msgstr "Redigera Resultatserver"
+
+msgid "Edit campaign class"
+msgstr "Redigera kampanjklass"
+
+msgid "Edit delivery"
+msgstr "Redigera leverans"
+
+msgid "Edit delivery class"
+msgstr "Redigera leveransklass"
+
+msgid "Edit error"
+msgstr "Redigera misstag"
+
+msgid "Edit resultServer class"
+msgstr "Redigera Resultatserverklass"
+
+msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgstr "Att redigera en leverans involverar att fastställa testet genom att arrangera leveransen och dess innehålls ordningsföljd: det maximala antalet verkställande per ämne, leveransperiod, resultatserver."
+
+msgid "Else"
+msgstr "Annat"
+
+msgid "Enter remark text here"
+msgstr "Skriv in märkt text här"
+
+msgid "Error in delivery process"
+msgstr "Fel i leveransprocessen"
+
+msgid "Error in test process"
+msgstr "Fel i testprocessen"
+
+msgid "Execution History"
+msgstr "Utförandehistoria"
+
+msgid "Export - Debug only (Ctrl-E)"
+msgstr "Exportera - felsök endast (Ctrl-E)"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Finished Test"
+msgstr "Avslutat test"
+
+msgid "For instance, it is a way to organize deliveries with a common objectives."
+msgstr "Exempelvis är detta ett sätt att organisera leveranser med gemensamma mål"
+
+msgid "Formal Parameter"
+msgstr "Formell parameter"
+
+msgid "Formal Parameter IN"
+msgstr "Formell parameter IN"
+
+msgid "Formal Parameter OUT"
+msgstr "Formell parameter UT"
+
+msgid "Forward"
+msgstr "Framåt"
+
+msgid "Generating the delivery process, please wait"
+msgstr "Framställer leveransprocessen, var vänlig vänta"
+
+msgid "Go to"
+msgstr "Gå till"
+
+msgid "History"
+msgstr "Historia"
+
+msgid "History deleted successfully"
+msgstr "Historia framgångsrikt raderad"
+
+msgid "IF"
+msgstr "OM"
+
+msgid "If"
+msgstr "Om"
+
+msgid "Initialize new test"
+msgstr "Initialisera nytt test"
+
+msgid "Issue found for the process definiiton of the test"
+msgstr "Problem funnet vid processendefinitionen av testet"
+
+msgid "Label"
+msgstr "Etikett"
+
+msgid "Loading next item..."
+msgstr "Laddar nästa moment..."
+
+msgid "Logout"
+msgstr "Logga ut"
+
+msgid "Manage Campaigns"
+msgstr "Hantera kampanjer"
+
+msgid "Manage Deliveries"
+msgstr "Hantera leveranser"
+
+msgid "Manage Result Servers"
+msgstr "Hantera resultatserver"
+
+msgid "Manage campaigns"
+msgstr "Hantera kampanjer"
+
+msgid "Manage deliveries"
+msgstr "Hantera leveranser"
+
+msgid "Manage result servers"
+msgstr "Hantera resultatservrar"
+
+msgid "New Test"
+msgstr "Nytt test"
+
+msgid "No account match the given login / password"
+msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
+
+msgid "No thanks"
+msgstr "Nej tack"
+
+msgid "No user is logged in"
+msgstr "Ingen användare är inloggad"
+
+msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
+msgstr "Inget giltigt wsdl-kontrakt hittat för den definierade resultatservern. Var vänlig välj ett giltigt alternativ ur leveransredigeringssektionen. Försök sedan igen."
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
+msgstr "Notera: Var vänlig och försäkra dig om att alla tester som ska levereras i leveransen är väl definierade och aktiverade i testdelarna innan du sammanställer leveransen."
+
+msgid "Open all"
+msgstr "Öppna alla"
+
+msgid "Pause"
+msgstr "Paus"
+
+msgid "Please confirm deletion"
+msgstr "Var vänlig bekräfta radering"
+
+msgid "Please confirm deletion.
+ Warning: related resources might be affected."
+msgstr "Var vänlig bekräfta radering.
+Varning: besläktade resurser kan påverkas."
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr "Var vänlig bekräfta radering. Varning: besläktade anknytningar kan påverkas."
+
+msgid "Please confirm history deletion"
+msgstr "Var vänlig bekräfta raderandet av historia"
+
+msgid "Please login"
+msgstr "Var vänlig logga in"
+
+msgid "Please select a delivery before authoring it!"
+msgstr "Var vänlig välj en leverans innan skapandet av den"
+
+msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgstr "Var vänlig välj en giltig resultatserver i leveransredigeringssektionen, försök sedan igen.(Inget giltigt wsdl-kontrakt hittades för den definierade resultatservern) "
+
+msgid "Process Activities"
+msgstr "Bearbeta aktiviteter"
+
+msgid "Process Property"
+msgstr "Bearbeta egenskaper"
+
+msgid "Process Variables"
+msgstr "Bearbeta variabler"
+
+msgid "Property"
+msgstr "Egenskap"
+
+msgid "Question (Ctrl-Q)"
+msgstr "Fråga (Ctrl-Q)"
+
+msgid "Recompile"
+msgstr "Återsammanställ"
+
+msgid "Recompile the delivery"
+msgstr "Återsammanställ leveransen"
+
+msgid "Result Server"
+msgstr "Resultatserver"
+
+msgid "Result Server class saved"
+msgstr "Resultatserverklass sparad"
+
+msgid "Result Server saved"
+msgstr "Resultatserver sparad"
+
+msgid "Result Servers library"
+msgstr "Resultatserverarkiv"
+
+msgid "Role"
+msgstr "Roll"
+
+msgid "Save"
+msgstr "Spara"
+
+msgid "Select a test"
+msgstr "Välj ett test"
+
+msgid "Select delivery"
+msgstr "Välj leverans"
+
+msgid "Select delivery campaign"
+msgstr "Välj leveranskampanj"
+
+msgid "Select delivery tests"
+msgstr "Välj leveranstest"
+
+msgid "Select test takers to be <b>excluded</b>"
+msgstr "Välj testtagare som ska exkluderas"
+
+msgid "Sequence saved successfully"
+msgstr "Ordningsföljd framgångsrikt sparad"
+
+msgid "Service Definition"
+msgstr "Servicedifinition"
+
+msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
+msgstr "Testet verkar tyvärr inte vara sammanställt. Var vänlig, sammanställ det och försök igen"
+
+msgid "Start/Resume the case"
+msgstr "Starta/återuppta fallet"
+
+msgid "Start/Resume the test"
+msgstr "Starta/återuppta testet"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Subject"
+msgstr "Testtagare"
+
+msgid "Suppress"
+msgstr "Upphäv"
+
+msgid "Sure?"
+msgstr "Säkert?"
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr "TAO - En öppen, smidig och mångsidig datorbaserad utvärderingsplattform"
+
+msgid "TAO Delivery Server"
+msgstr "TAO leversansserver"
+
+msgid "THEN"
+msgstr "DÅ"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Tests sequence"
+msgstr "Testordningsföljd"
+
+msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
+msgstr "Kampanjhanteringssektionen låter dig lägga till, redigera samt knyta leveranser till leveranskampanjer"
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Leveransmodulen låter alla användare definiera testleveransparametrar"
+
+msgid "The delivery is not compiled yet"
+msgstr "Leveransen är inte sammanställd än"
+
+msgid "The delivery process has isolated connectors"
+msgstr "Leveransprocessen har isolerade anslutare"
+
+msgid "The delivery was last compiled on"
+msgstr "Leveransen sammanställdes senast"
+
+msgid "The following file(s) could not be copied for the test"
+msgstr "Följande fil(er) kunde inte kopieras för testet"
+
+msgid "The following file(s) could not be created for the test"
+msgstr "Följande fil(er) kunde inte skapas för testet"
+
+msgid "The following item do not exist in or have not been translated into"
+msgstr "Följande moment existerar inte eller har inte översatts till"
+
+msgid "The following items do not exist or are empty"
+msgstr "Följande moment existerar inte eller är tomma"
+
+msgid "The test"
+msgstr "Testet"
+
+msgid "The test collection for the language"
+msgstr "Testsamlingen för språket"
+
+msgid "The test process has isolated connectors"
+msgstr "Testprocessen har isolerade anslutare"
+
+msgid "Then"
+msgstr "Då"
+
+msgid "There is no initial activity for the test process definition"
+msgstr "Det finns ingen inledande aktivitet för processdefinitionen"
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr "Denna leveranshanteringssektion låter dig lägga till och ta bort leveranser samt redigera deras egenskapsvärden."
+
+msgid "Time"
+msgstr "Tid"
+
+msgid "Type (Ctrl-T)"
+msgstr "Skriv (Ctrl-T)"
+
+msgid "Unable to load the compiled item content"
+msgstr "Lyckades ej ladda det sammanställda momentets innehåll"
+
+msgid "Use the * character to replace any string"
+msgstr "Använd * tecknet för att ersätta en tråd"
+
+msgid "User Id."
+msgstr "Användar-id"
+
+msgid "User name:"
+msgstr "Användarnamn"
+
+msgid "advanced mode"
+msgstr "avancerad metod"
+
+msgid "cancel"
+msgstr "upphäv"
+
+msgid "check code"
+msgstr "stopkod"
+
+msgid "checking the code..."
+msgstr "stoppar koden..."
+
+msgid "close"
+msgstr "stäng"
+
+msgid "compilation failed"
+msgstr "sammanställning misslyckades"
+
+msgid "compile"
+msgstr "sammanställning"
+
+msgid "compiled with warning"
+msgstr "sammanställd med varning"
+
+msgid "compiling..."
+msgstr "sammanställer..."
+
+msgid "complete with warning"
+msgstr "färdig med varning"
+
+msgid "complete!"
+msgstr "färdig!"
+
+msgid "create new activity"
+msgstr "skapa ny aktivitet"
+
+msgid "create new connector"
+msgstr "skapa ny anslutare"
+
+msgid "create table"
+msgstr "skapa tabell"
+
+msgid "delete"
+msgstr "radera"
+
+msgid "duplicate"
+msgstr "dublett"
+
+msgid "edit campaign"
+msgstr "redigera kampanj"
+
+msgid "edit result server"
+msgstr "redigera resultatserver"
+
+msgid "export"
+msgstr "exportera"
+
+msgid "failed!"
+msgstr "misslyckades!"
+
+msgid "import"
+msgstr "importera"
+
+msgid "interactive service saved"
+msgstr "interaktiv service sparad"
+
+msgid "is not active so cannot be compiled"
+msgstr "är ej aktiv och kan därför inte sammanställas"
+
+msgid "loading..."
+msgstr "laddar..."
+
+msgid "move"
+msgstr "flytta"
+
+msgid "must not be empty"
+msgstr "får ej vara tom"
+
+msgid "new campaign"
+msgstr "ny kampanj"
+
+msgid "new class"
+msgstr "ny klass"
+
+msgid "new delivery"
+msgstr "ny leverans"
+
+msgid "new property"
+msgstr "ny egenskap"
+
+msgid "new result server"
+msgstr "ny resultatserver"
+
+msgid "ok"
+msgstr "ok"
+
+msgid "please choose another one"
+msgstr "var vänlig välj en annan"
+
+msgid "rdf"
+msgstr "rdf"
+
+msgid "reload"
+msgstr "ladda om"
+
+msgid "reloading form..."
+msgstr "laddar om från..."
+
+msgid "save"
+msgstr "spara"
+
+msgid "saved"
+msgstr "sparad"
+
+msgid "search"
+msgstr "sök"
+
+msgid "simple mode"
+msgstr "enkel metod"
+
+msgid "stand by"
+msgstr "beredskap"
+
+msgid "the chosen code has already been used for the process variable"
+msgstr "den valda koden har redan använts för processvariabeln"
+
+msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
+msgstr "leveransen har framgångsrikt sammanställts men ett problem men leveransstatusuppdateraren uppstod"
+
+msgid "the following file(s) could not be copied for the test"
+msgstr "följande fil(er) kunde inte kopieras för testet"
+
+msgid "the following file(s) could not be created for the test"
+msgstr "följande fil(er) kunde inte skapas för testet"
+
+msgid "the following item do not exist in or have not been translated into"
+msgstr "följande moment existerar inte i eller har inte översatts till"
+
+msgid "the following item(s) has not been translated into"
+msgstr "följande moment har inte översatts till"
+
+msgid "the login must not be empty"
+msgstr "inloggningen får inte vara tom"
+
+msgid "the password must not be empty"
+msgstr "lösenordet får inte vara tomt"
+
+msgid "there is no initial activity for the delivery process definition"
+msgstr "det finns ingen inledande aktivitet för leveransprocessdefinitionen"
+
+msgid "type??"
+msgstr "skriv??"
+
+msgid "undefined"
+msgstr "odefinierad"
+
+msgid "unknown label"
+msgstr "okänd etikett"
+
+msgid "wrong login or/and password,<br/> please try again"
+msgstr "fel inloggning eller/och lösenord, var vänlig försök igen"
+
