@@ -390,9 +390,9 @@ class taoDelivery_models_classes_DeliveryServerService
 			
 			$maxExec = $this->getMaxExec($delivery);
 			if($maxExec>=0){
-				$historyCollection = $this->getHistory($delivery, $subject);
-				if(!$historyCollection->isEmpty()){
-					if($historyCollection->count() >= $maxExec ){
+				$histories = $this->getHistory($delivery, $subject);
+				if(count($histories)){
+					if(count($histories) >= $maxExec ){
 						$returnValue = false;
 					}
 				}else{
