@@ -501,22 +501,18 @@ class taoDelivery_models_classes_DeliveryService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BF begin
         $historyClass = new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS);
-		$returnValue = new core_kernel_classes_ContainerCollection($historyClass);
         if(empty($subject)){
-			//select History by delivery only (subject independent listing, i.e. select for all subjects)
-			$histories = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource), array('like'=>false, 'recursive' => true));
-			
-		}else{
-			//select history by delivery and subject
-			$histories = $historyClass->searchInstances(array(
-				TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource, 
-				TAO_DELIVERY_HISTORY_SUBJECT_PROP => $subject->uriResource), 
-			array('like'=>false, 'recursive' => true));
-		}
-		foreach($histories as $history){
-			$returnValue->add($history);
-		}
-		
+                //select History by delivery only (subject independent listing, i.e. select for all subjects)
+                $returnValue = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource), array('like'=>false, 'recursive' => true));
+
+        }else{
+                //select history by delivery and subject
+                $returnValue = $historyClass->searchInstances(array(
+                        TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource, 
+                        TAO_DELIVERY_HISTORY_SUBJECT_PROP => $subject->uriResource), 
+                array('like'=>false, 'recursive' => true));
+        }
+				
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BF end
 
         return (array) $returnValue;
