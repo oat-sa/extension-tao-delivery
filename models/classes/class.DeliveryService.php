@@ -3,13 +3,13 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery\models\classes\class.DeliveryService.php
+ * TAO - taoDelivery/models/classes/class.DeliveryService.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.05.2011, 16:49:11 with ArgoUML PHP module 
+ * Automatically generated on 15.06.2011, 13:21:07 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -217,23 +217,39 @@ class taoDelivery_models_classes_DeliveryService
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource delivery
+     * @param  boolean deleteHistory
+     * @param  boolean deleteCompiledFolder
      * @return boolean
      */
-    public function deleteDelivery( core_kernel_classes_Resource $delivery)
+    public function deleteDelivery( core_kernel_classes_Resource $delivery, $deleteHistory = true, $deleteCompiledFolder = true)
     {
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B1 begin
-		if(!is_null($delivery)){
-			//delete the process associated to the delivery:
-			$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-			$actualProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
-			$processAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-			$processAuthoringService->deleteProcess($process);
-			if(!is_null($actualProcess)) $processAuthoringService->deleteProcess($actualProcess);
-			
-			$returnValue = $delivery->delete();
-		}
+        
+        if(!is_null($delivery)){
+                //delete the process associated to the delivery:
+                $process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+                $actualProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
+                $processAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+                $processAuthoringService->deleteProcess($process);
+                if(!is_null($actualProcess)) $processAuthoringService->deleteProcess($actualProcess);
+
+                if($deleteHistory){
+                        foreach ($this->getHistory($delivery) as $history){
+                                $this->deleteHistory($history);
+                        }
+                }
+                
+                if($deleteCompiledFolder){
+                        $deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+                        $path = BASE_PATH."/compiled/$deliveryFolderName";
+                        $returnValue = tao_helpers_File::remove($path, true);
+                }
+
+                $returnValue = $delivery->delete();
+        }
+        
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B1 end
 
         return (bool) $returnValue;
@@ -1056,14 +1072,23 @@ class taoDelivery_models_classes_DeliveryService
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource history
+     * @param  boolean deleteProcessInstance
      * @return boolean
      */
-    public function deleteHistory( core_kernel_classes_Resource $history)
+    public function deleteHistory( core_kernel_classes_Resource $history, $deleteProcessInstance = true)
     {
         $returnValue = (bool) false;
 
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CEA begin
 		if(!is_null($history)){
+                        if($deleteProcessInstance){
+                                $relatedProcessExecution = $history->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_PROCESS_INSTANCE));
+                                if(!is_null($relatedProcessExecution)){
+                                        $processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+                                        $processExecutionService->deleteProcessExecution($relatedProcessExecution);
+                                }
+                        }
+                        
 			$returnValue = $history->delete();
 		}
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CEA end

@@ -76,7 +76,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 
 
 		//add history of delivery execution in the delivery ontology
-		$this->service->addHistory($delivery, $subject);
+		$this->service->addHistory($delivery, $subject, $newProcessExecution->resource);
 
 		$param = array( 'processUri' => urlencode($processUri));
 		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
@@ -117,7 +117,12 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		foreach ($currentUserTokens as $token) {
 			$activityExecution = $token->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TOKEN_ACTIVITYEXECUTION));
 			$processExecution = $activityExecution->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION));
-			$processes[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
+			if($processExecution instanceof core_kernel_classes_Resource && $processExecution->exists()){
+                                $processes[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
+                        }else{
+                                //could reasonably remove the token safely
+                        }
+                        
 		}
 		
 		//init variable that save data to be used in the view
