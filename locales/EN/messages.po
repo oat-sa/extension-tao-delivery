@@ -76,9 +76,6 @@ msgstr ""
 msgid "An error occured while loading the item:"
 msgstr ""
 
-msgid "An error occured while loading the item: "
-msgstr ""
-
 msgid "Another Inference Rule"
 msgstr ""
 
@@ -284,9 +281,6 @@ msgid "No user is logged in"
 msgstr ""
 
 msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
-msgstr ""
-
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
 msgstr ""
 
 msgid "Open all"
