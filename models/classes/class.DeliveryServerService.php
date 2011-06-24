@@ -232,8 +232,11 @@ class taoDelivery_models_classes_DeliveryServerService
 		$propDeliveryProcess = new core_kernel_classes_Property(TAO_DELIVERY_PROCESS);
 		foreach($deliveries['ok'] as $availableDelivery){
 			$deliveryProcess = $availableDelivery->getOnePropertyValue($propDeliveryProcess);
-			if($deliveryProcess !=null) {
-				$returnValue[ $availableDelivery->uriResource ] = $check?$deliveryProcess:$deliveryProcess->uriResource;
+			
+			// /!\ Check if the $deliveryProcess is not a literal. If not compiled, we get an empty
+			// literal and it produces an error.
+			if($deliveryProcess != null && !$deliveryProcess instanceof core_kernel_classes_Literal) {
+				$returnValue[ $availableDelivery->uriResource ] = (($check) ? $deliveryProcess : $deliveryProcess->uriResource);
 			}
 		}
 		
