@@ -183,7 +183,7 @@ class taoDelivery_models_classes_ResultServerService
         
 		if(!is_null($resultServer)){
 			
-			$deliveryClass =  new core_kernel_classes_Class(PROPERTY_DELIVERIES);
+			$deliveryClass =  new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
 			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_RESULTSERVER_PROP => $resultServer->uriResource), array('like' => false, 'recursive' => true));
 			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
