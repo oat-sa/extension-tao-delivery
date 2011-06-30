@@ -226,8 +226,8 @@ class taoDelivery_models_classes_CampaignService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002059 begin
 		if(!is_null($campaign)){
 		
-			$campaignClass = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
-			$deliveries = $campaignClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => true));
+			$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => true));
 			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
