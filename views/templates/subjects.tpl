@@ -23,9 +23,10 @@ $(document).ready(function(){
 	getUrl = url + 'getSubjects';
 	setUrl = url + 'saveSubjects';
 	new GenerisTreeFormClass('#subject-tree', getUrl, {
-		actionId: 'subject',
-		saveUrl : setUrl,
-		checkedNodes : <?=get_data('excludedSubjects')?>
+		actionId: 		'subject',
+		saveUrl: 		setUrl,
+		checkedNodes: 	<?=get_data('excludedSubjects')?>,
+		paginate:		5
 	});
 });
 </script>

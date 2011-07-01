@@ -24,7 +24,8 @@ $(document).ready(function(){
 	new GenerisTreeFormClass('#group-tree', getUrl, {
 		actionId: 'group',
 		saveUrl : setUrl,
-		checkedNodes : <?=get_data('deliveryGroups')?>
+		checkedNodes : <?=get_data('deliveryGroups')?>,
+		paginate : 5
 	});
 });
 </script>
