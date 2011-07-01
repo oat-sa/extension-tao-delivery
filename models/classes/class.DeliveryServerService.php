@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 15.06.2011, 13:25:27 with ArgoUML PHP module 
+ * Automatically generated on 01.07.2011, 14:08:35 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -475,6 +475,54 @@ class taoDelivery_models_classes_DeliveryServerService
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C6E end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getStartedProcessExecutions
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  Resource currentUser
+     * @return array
+     */
+    public function getStartedProcessExecutions( core_kernel_classes_Resource $currentUser = null)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A begin
+        
+        $tokenClass = new core_kernel_classes_Class(CLASS_TOKEN);
+        $propTokenActivityExec = new core_kernel_classes_Property(PROPERTY_TOKEN_ACTIVITYEXECUTION);
+        $propActivityExecProcessExec = new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION);
+        $propProcessExecExecutionOf = new core_kernel_classes_Property(PROPERTY_PROCESSINSTANCES_EXECUTIONOF);
+        $currentUserTokens = $tokenClass->searchInstances(array(PROPERTY_TOKEN_CURRENTUSER => $currentUser->uriResource));
+                
+        if(!is_null($currentUser)){
+                
+                // Get the activities where the user has an active token.
+		foreach ($currentUserTokens as $token) {
+			$validToken = false;
+                        $activityExecution = $token->getOnePropertyValue($propTokenActivityExec);
+			$processExecution = $activityExecution->getOnePropertyValue($propActivityExecProcessExec);
+			if($processExecution instanceof core_kernel_classes_Resource && $processExecution->exists()){
+                                $processDefinition = $processExecution->getOnePropertyValue($propProcessExecExecutionOf);
+                                if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
+                                        $validToken = true;
+                                }
+                        }
+                        
+                        if($validToken){
+                                $returnValue[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
+                        }else{
+                                $token->delete();
+                        }
+		}
+                
+        }
+        
+        // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A end
+
+        return (array) $returnValue;
     }
 
 } /* end of class taoDelivery_models_classes_DeliveryServerService */

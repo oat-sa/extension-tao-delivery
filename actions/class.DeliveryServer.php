@@ -90,65 +90,43 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 	 * @param processDefinitionUri
      * @return void
      */
-	public function index()
-	{
-		
-		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
-		$subject = $userService->getCurrentUser();
+	public function index(){
 
 		$login = $_SESSION['taoqual.userId'];
 		$this->setData('login',$login);
 		
-		$wfEngineService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_WfEngineService');
-		$processes = array();
-		
 		//init required services
 		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
-		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
-		//get current user:
-		$currentUser = $userService->getCurrentUser();
-	
-		// Get the activities where the user has an active token.
-		$tokenClass = new core_kernel_classes_Class(CLASS_TOKEN);
-		$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
-		$processExecutionClass = new core_kernel_classes_Class(CLASS_PROCESSINSTANCES);
-
-		$currentUserTokens = $tokenClass->searchInstances(array(PROPERTY_TOKEN_CURRENTUSER => $currentUser->uriResource));
-		foreach ($currentUserTokens as $token) {
-			$activityExecution = $token->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_TOKEN_ACTIVITYEXECUTION));
-			$processExecution = $activityExecution->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION));
-			if($processExecution instanceof core_kernel_classes_Resource && $processExecution->exists()){
-                                $processes[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
-                        }else{
-                                //could reasonably remove the token safely
-                        }
-                        
-		}
-		
+                $userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
+				
+                //get current user:
+		$subject = $userService->getCurrentUser();
+                
 		//init variable that save data to be used in the view
 		$processViewData 	= array();
-
 		$uiLanguages		= tao_helpers_I18n::getAvailableLangs();
 		$this->setData('uiLanguages',$uiLanguages);
 		
 		//get the definition of delivery available for the subject:
 		$visibleProcess = $this->service->getDeliveries($subject,false);
-				
-		foreach ($processes as $proc)
-		{
-			$type 	= $proc->process->resource->getLabel();
+		
+                $processes = array();
+                $processes = $this->service->getStartedProcessExecutions($subject);
+                
+		foreach ($processes as $proc){
+			
 			$label 	= $proc->resource->getLabel();
 			$uri 	= $proc->uri;
 			$status = $proc->status;
 			$persid	= "-";
-
-			$executionOfProp = new core_kernel_classes_Property(PROPERTY_PROCESSINSTANCES_EXECUTIONOF);
-			$res = $proc->resource->getOnePropertyValue($executionOfProp);
+                        $res = $proc->process->resource;
+                        
 			if($res !=null && $res instanceof core_kernel_classes_Resource){
+                                
 				$defUri = $res->uriResource;
-
+                                $type 	= $proc->process->resource->getLabel();
 					
-				if(in_array($defUri,$visibleProcess)){
+				if(in_array($defUri, $visibleProcess)){
 					
 					$currentActivities = array();
 					
@@ -170,7 +148,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 					foreach ($proc->currentActivity as $currentActivity){
 						$activity = $currentActivity;
 						
-						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $currentUser, $proc->resource);
+						$isAllowed = $activityExecutionService->checkAcl($activity->resource, $subject, $proc->resource);
 						
 						$currentActivities[] = array(
 							'label'				=> $currentActivity->resource->getLabel(),
@@ -208,7 +186,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
 		$authorizedProcessDefinitions = array();
 		foreach($availableProcessDefinitions as $processDefinition){
-			if($processExecutionService->checkAcl($processDefinition, $currentUser)){
+			if($processExecutionService->checkAcl($processDefinition, $subject)){
 				$authorizedProcessDefinitions[] = $processDefinition;
 			}
 		}
