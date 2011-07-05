@@ -31,15 +31,12 @@ function initCompilation(uri,clazz){
 	
 	deliveryUri = uri;
 	classUri = clazz;
-	//detroying the progressbar, if it has been initiated
+	
 	$("#progressbar").empty();
-	// if( progressbar != null ){
-		// progressbar.progressbar( 'destroy' );
-	// }
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/initCompilation?STANDALONE_MODE=true",
+		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/initCompilation",
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
@@ -48,7 +45,6 @@ function initCompilation(uri,clazz){
 				//proceed with the test compilation:
 				//save the tests data in a global value
 				testArray = r.tests;
-				progressbarStep = Math.floor(100/parseInt(testArray.length));
 				
 				//table creation
 				var testTable = '<table id="user-list" class="ui-jqgrid-btable" cellspacing="0" cellpadding="0" border="0" role="grid" aria-multiselectable="false" aria-labelledby="gbox_user-list" style="width: 100%;">'
@@ -80,10 +76,6 @@ function initCompilation(uri,clazz){
 				
 				$("#testsContainer").html(testTable);
 				
-				//initiate the progressbar:
-				remainValue = 100-progressbarStep*testArray.length;
-				progressbar = $("#progressbar").progressbar({ value: 0 }).width("60%");
-				
 				updateProgress();
 				
 			}else{
@@ -100,34 +92,31 @@ function getTestId(uri){
 }
 
 function compileTest(testUri){
-	var testTag = "#test_compiling_" + getTestId(testUri);
-	$(testTag).html( __("compiling...") );
-	// var success=0;
-	
+        var $testTag = $('#test_compiling_' + getTestId(testUri));
+        
+	$testTag.html( __('compiling...'));
+	$('<img src="'+ img_url +'ajax-loader-small.gif" title="'+ __('compiling...') +'"/>').css('top', 2).appendTo($testTag);
+        
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/compile?STANDALONE_MODE=1",
+		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/compile",
 		data: {testUri : testUri, deliveryUri: deliveryUri},
 		dataType: "json",
 		success: function(r){
 		
 			if(r.success==1){
 				//let the user know that the compilation succeeded
-				$(testTag).html( __("ok") );
-				
-				//update the progress bar
-				incrementProgressbar(progressbarStep);
+				$testTag.html( __("ok") );
 				
 				//go to next step
 				updateProgress();
 			}else{
 				if(r.success==2){
 					warning = true;
-					$(testTag).html( __("compiled with warning") );
-					incrementProgressbar(progressbarStep);
+					$testTag.html( __("compiled with warning") );
 					updateProgress();
 				}else{
-					$(testTag).html( __("compilation failed") );
+					$testTag.html( __("compilation failed") );
 					//quit compilation and annonce it as failed: print recompile option:
 					$("#initCompilation").html( __("Recompile the delivery") ).show();
 					
@@ -235,13 +224,12 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + "/taoDelivery/Delivery/endCompilation?STANDALONE_MODE=1",
+		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/endCompilation",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){
 			$('#generatingProcess_info').hide();
 			if(r.result == 1){
-				incrementProgressbar(remainValue);
 				$("#initCompilation").html( __("Recompile the delivery") ).show();
 				$("#compiledDate").html(r.compiledDate);
 				if(warning){
@@ -301,24 +289,14 @@ function endCompilation(){
 				
 				finalMessage(msg, 'failed.png');
 			}
-			if( progressbar != null ){
-				progressbar.progressbar( 'destroy' );
-			}
 		}
 	});	
 }
 
-function incrementProgressbar(value){
-	//update the progress bar
-	progressbar.progressbar("option", "value", progressbar.progressbar("option", "value") + value);
-}
-
 function finalMessage(msg, imageFile){
-	$(document.createElement("img")).attr({ "src": img_url + imageFile}).appendTo($("#progressbar"));
+	$('<img/>').attr("src", img_url + imageFile).appendTo($("#progressbar"));
 	$("#progressbar").append(msg);
-	if( progressbar != null ){
-		progressbar.progressbar( 'destroy' );
-	}
+        
 	//reinitiate the values and suggest recompilation
 	testIndex = 0;
 	testArray = null;
