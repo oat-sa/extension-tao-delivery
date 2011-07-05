@@ -456,7 +456,7 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = array();
 
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 begin
-		 foreach($this->deliveryClass->getInstances(true) as $delivery){
+	foreach($this->deliveryClass->getInstances(true) as $delivery){
         	$returnValue[$delivery->uriResource] =  $this->getRelatedTests($delivery);
         }
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 end
@@ -644,6 +644,7 @@ class taoDelivery_models_classes_DeliveryService
 					foreach($activities as $activity){
 						$test = $authoringService->getTestByActivity($activity);
 						if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
+                                                        $test->getLabel();//make sure that the label is set
 							$returnValue[$test->uriResource] = $test;
 						}
 					}
