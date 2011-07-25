@@ -1006,11 +1006,11 @@ class taoDelivery_models_classes_DeliveryService
 					
 						$deployParams = array(
 							'delivery_server_mode'	=> true,
-							'preview_mode'			=> false,
-							'tao_base_www'			=> $www,
-							'qti_base_www'			=> $www,
-							'base_www' 				=> $www,
-							'root_url'				=> ROOT_URL
+							'preview_mode'		=> false,
+							'tao_base_www'		=> $www,
+							'qti_base_www'		=> $www,
+							'base_www' 		=> $www,
+							'root_url'		=> ROOT_URL
 						);
 					
 						//deploy the item
@@ -1032,8 +1032,8 @@ class taoDelivery_models_classes_DeliveryService
 						//directory where all files required to launch the test will be collected
 						$directory = $compilator->getCompiledPath();
 						
-						//parse the XML file with the helper Precompilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-						$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");//rename to parserItem()
+						//parse the XML file with the helper compilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+						$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");
 								
 						//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
 						$compilator->stringToFile($itemContent, $directory, "index.html");

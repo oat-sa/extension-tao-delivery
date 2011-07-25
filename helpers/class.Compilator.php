@@ -203,7 +203,7 @@ class taoDelivery_helpers_Compilator
 					}
 					if($addAuth){
 						curl_setopt($curlHandler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		            	curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
+                                                curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
 					}
 				}
 				curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
@@ -358,24 +358,20 @@ class taoDelivery_helpers_Compilator
 		$plugins = $this->getPlugins();
 
 		$uniqueMediaList = 	array_unique($mediaList[0]);
-		
+                
 		$compiledUrl = str_replace(ROOT_PATH, ROOT_URL, $this->compiledPath);
 		foreach($uniqueMediaList as $mediaUrl){
 			if(in_array(basename($mediaUrl), $plugins)){
-				if(preg_match("/\.js$/", basename($mediaUrl))){
-					$xml = str_replace($mediaUrl, "$compiledUrl/js/".basename($mediaUrl), $xml, $replaced);
-				}
-				if(preg_match("/\.css$/", basename($mediaUrl))){
-					$xml = str_replace($mediaUrl, "$compiledUrl/css/".basename($mediaUrl), $xml, $replaced);
-				}
-				if(preg_match("/\.swf$/", basename($mediaUrl))){
-					$xml = str_replace($mediaUrl, "$compiledUrl/swf/".basename($mediaUrl), $xml, $replaced);
-				}
+                                //if it is only a (valid) plugin file, don't try to download it but simply change the link:
+                                //if the user upload an OWI with the exact same name and path, consider it as the same as the TAO version
+                                if(preg_match_all('/\.(js|css|swf)$/i', basename($mediaUrl), $matches)){
+                                        $xml = str_replace($mediaUrl, $compiledUrl.'/'.$matches[1][0].'/'.basename($mediaUrl), $xml, $replaced);
+                                }
 			}
 			else{
 				$mediaPath = $this->copyFile($mediaUrl, $directory.'/', $itemName, true);
 				if(!empty($mediaPath)){
-					$xml = str_replace($mediaUrl, "$compiledUrl/".basename($mediaUrl), $xml, $replaced);//replace only when copyFile is successful
+					$xml = str_replace($mediaUrl, $compiledUrl.'/'.basename($mediaUrl), $xml, $replaced);//replace only when copyFile is successful
 				}
 			}
 		}
