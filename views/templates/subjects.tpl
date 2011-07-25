@@ -26,7 +26,7 @@ $(document).ready(function(){
 		actionId: 		'subject',
 		saveUrl: 		setUrl,
 		checkedNodes: 	<?=get_data('excludedSubjects')?>,
-		paginate:		5
+		paginate:		10
 	});
 });
 </script>
