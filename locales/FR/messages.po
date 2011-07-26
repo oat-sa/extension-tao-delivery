@@ -280,9 +280,6 @@ msgstr "Aucun utilisateur connecté"
 msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
 msgstr "Aucun contrat WSDL valide trouvée pour le serveur résultat défini. <br/> S'il vous plaît sélectionner un valide dans le module d'édition de livraison puis essayez à nouveau."
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
-msgstr "A noter: veuillez vérifier que tous les tests composant la passation sont définis correctement et sont "actifs" dans l'extension Tests, avant de compiler la passation."
-
 msgid "Open all"
 msgstr "Ouvrir tout"
 
@@ -644,5 +641,23 @@ msgid "wrong login or/and password,<br/> please try again"
 msgstr "mauvais login et / ou mot de passe, <br/> Veuillez essayer à nouveau"
 
 msgid ""
+msgstr ""
+
+msgid "(Ctrl-C)"
+msgstr ""
+
+msgid "(date not available for hardified resource)"
+msgstr ""
+
+msgid "An error occured while loading the item: "
+msgstr ""
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgstr ""
+
+msgid "Unable to load the  delivery"
+msgstr ""
+
+msgid "Wrong delivery uri"
 msgstr ""
 

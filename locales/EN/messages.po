@@ -16,6 +16,9 @@ msgstr "The Result Server Management section allows to add, edit and assign Deli
 msgid "(Ctrl-C)"
 msgstr ""
 
+msgid "(date not available for hardified resource)"
+msgstr ""
+
 msgid "(still undefined)"
 msgstr ""
 
@@ -74,6 +77,9 @@ msgid "An error occured while loading the item"
 msgstr ""
 
 msgid "An error occured while loading the item:"
+msgstr ""
+
+msgid "An error occured while loading the item: "
 msgstr ""
 
 msgid "Another Inference Rule"
@@ -283,6 +289,9 @@ msgstr ""
 msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
 msgstr ""
 
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgstr ""
+
 msgid "Open all"
 msgstr ""
 
@@ -458,6 +467,9 @@ msgstr ""
 msgid "Type (Ctrl-T)"
 msgstr ""
 
+msgid "Unable to load the  delivery"
+msgstr ""
+
 msgid "Unable to load the compiled item content"
 msgstr ""
 
@@ -468,6 +480,9 @@ msgid "User Id."
 msgstr ""
 
 msgid "User name:"
+msgstr ""
+
+msgid "Wrong delivery uri"
 msgstr ""
 
 msgid "advanced mode"

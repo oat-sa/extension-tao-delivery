@@ -1,6 +1,3 @@
-msgid ""
-msgstr ""
-
 msgid "(still undefined)"
 msgstr "(لا يزال غير معروف)"
 
@@ -37,8 +34,11 @@ msgstr "محرر نشاط"
 msgid "Activity or Connector"
 msgstr "نشاط أو رابط"
 
+msgid "Actual"
+msgstr "الجاري"
+
 msgid "Add (Ctrl-A)"
-msgstr " اضافة(Ctrl-A)"
+msgstr "اضافة(Ctrl-A)"
 
 msgid "Add to delivery campaign"
 msgstr "Ajouter à la campagne du delivery"
@@ -54,6 +54,9 @@ msgstr "حدث خطا اثناء حذف الارشيف"
 
 msgid "An error occured while loading the item"
 msgstr "Une erreur s'est produite lors du chargement de l'item"
+
+msgid "An error occured while loading the item:"
+msgstr ":حدث خطا اثناء تحميل السؤال"
 
 msgid "Another Inference Rule"
 msgstr "قاعدة استدلال أخرى"
@@ -172,11 +175,17 @@ msgstr "Sinon"
 msgid "Enter remark text here"
 msgstr "أدخل النص لملاحظة هنا"
 
+msgid "Error in delivery process"
+msgstr "Erreur dans le processus de passation"
+
+msgid "Error in test process"
+msgstr "Erreur dans le processus de test"
+
 msgid "Execution History"
 msgstr "تاريخ التنفيذ"
 
 msgid "Export - Debug only (Ctrl-E)"
-msgstr " (Ctrl-E)تصدير - تصحيح فقط "
+msgstr "(Ctrl-E)تصدير - تصحيح فقط"
 
 msgid "FR"
 msgstr "الفرنسية"
@@ -202,6 +211,9 @@ msgstr "Paramètre formel en SORTIE"
 msgid "Forward"
 msgstr "تحويل"
 
+msgid "Generating the delivery process, please wait"
+msgstr "Génération du processus de passation en cours, veuillez patienter"
+
 msgid "Go to"
 msgstr "الذهاب الى"
 
@@ -220,11 +232,17 @@ msgstr "اذا"
 msgid "Initialize new test"
 msgstr "ابدا اختبار جديد"
 
+msgid "Issue found for the process definiiton of the test"
+msgstr "Un problème a été détecté dans la définition du processus du test"
+
 msgid "LU"
 msgstr "اللكسمبورجية"
 
 msgid "Label"
 msgstr "تسمية"
+
+msgid "Loading next item..."
+msgstr "...تحميل السؤال التالي"
 
 msgid "Logout"
 msgstr "خروج"
@@ -262,8 +280,8 @@ msgstr "لم يتم دخول اي مستخدم"
 msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
 msgstr "Aucun contrat WSDL valide trouvée pour le serveur résultat défini. <br/> S'il vous plaît sélectionner un valide dans le module d'édition de livraison puis essayez à nouveau."
 
-msgid "فتح الكل"
-msgstr "Ouvrir tout"
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
+msgstr "A noter: veuillez vérifier que tous les tests composant la passation sont définis correctement et sont "actifs" dans l'extension Tests, avant de compiler la passation."
 
 msgid "Pause"
 msgstr "وقف"
@@ -397,8 +415,23 @@ msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de ré
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
 
+msgid "The delivery process has isolated connectors"
+msgstr "Le processus de passation a des connecteurs isolés"
+
 msgid "The delivery was last compiled on"
 msgstr "Le delivery a été compilé le"
+
+msgid "The following file(s) could not be copied for the test"
+msgstr "لا يمكن نسخ الملف التالي للاختبار"
+
+msgid "The following file(s) could not be created for the test"
+msgstr "لا يمكن انشاء الملف التالي للاختبار"
+
+msgid "The following item do not exist in or have not been translated into"
+msgstr "السؤال التالي لا يوجد او لم يتم ترجمته"
+
+msgid "The following items do not exist or are empty"
+msgstr "الاسئلة التالية لا توجد او فارغة"
 
 msgid "The test"
 msgstr "الاختبار"
@@ -406,8 +439,14 @@ msgstr "الاختبار"
 msgid "The test collection for the language"
 msgstr "سلسلة الاختبار الخاصة باللغة"
 
+msgid "The test process has isolated connectors"
+msgstr "Le processus de test contient des connecteurs isolés"
+
 msgid "Then"
 msgstr "Ensuite,"
+
+msgid "There is no initial activity for the test process definition"
+msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
 msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
@@ -444,6 +483,9 @@ msgstr "التحقق من الرمز"
 
 msgid "checking the code..."
 msgstr "...التحقق من الرمز"
+
+msgid "close"
+msgstr "اغلاق"
 
 msgid "compilation failed"
 msgstr "فشل الترجمة"
@@ -580,6 +622,9 @@ msgstr "المعرف لا يجب ان يكون فارغ"
 msgid "the password must not be empty"
 msgstr "لا يجب ان تكون كلمة السر خالية"
 
+msgid "there is no initial activity for the delivery process definition"
+msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
+
 msgid "type??"
 msgstr "نوع؟"
 
@@ -592,60 +637,30 @@ msgstr "مشاهدة التاريخ"
 msgid "wrong login or/and password,<br/> please try again"
 msgstr "mauvais login et / ou mot de passe, <br/> Veuillez essayer à nouveau"
 
-msgid "Actual"
-msgstr "الجاري"
+msgid "فتح الكل"
+msgstr "Ouvrir tout"
 
-msgid "An error occured while loading the item:"
-msgstr ":حدث خطا اثناء تحميل السؤال"
+msgid ""
+msgstr ""
+
+msgid "(Ctrl-C)"
+msgstr ""
+
+msgid "(date not available for hardified resource)"
+msgstr ""
 
 msgid "An error occured while loading the item: "
-msgstr ":حدث خطا اثناء تحميل السؤال"
-
-msgid "Error in delivery process"
-msgstr "Erreur dans le processus de passation"
-
-msgid "Error in test process"
-msgstr "Erreur dans le processus de test"
-
-msgid "Generating the delivery process, please wait"
-msgstr "Génération du processus de passation en cours, veuillez patienter"
-
-msgid "Issue found for the process definiiton of the test"
-msgstr "Un problème a été détecté dans la définition du processus du test"
-
-msgid "Loading next item..."
-msgstr "...تحميل السؤال التالي"
+msgstr ""
 
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr "A noter: veuillez vérifier que tous les tests composant la passation sont définis correctement et sont \"actifs\" dans l'extension Tests, avant de compiler la passation."
+msgstr ""
 
-msgid "The delivery process has isolated connectors"
-msgstr "Le processus de passation a des connecteurs isolés"
+msgid "Unable to load the  delivery"
+msgstr ""
 
-msgid "The following file(s) could not be copied for the test"
-msgstr "لا يمكن نسخ الملف التالي للاختبار"
-
-msgid "The following file(s) could not be created for the test"
-msgstr "لا يمكن انشاء الملف التالي للاختبار"
-
-msgid "The following item do not exist in or have not been translated into"
-msgstr "السؤال التالي لا يوجد او لم يتم ترجمته"
-
-msgid "The following items do not exist or are empty"
-msgstr "الاسئلة التالية لا توجد او فارغة"
-
-msgid "The test process has isolated connectors"
-msgstr "Le processus de test contient des connecteurs isolés"
-
-msgid "There is no initial activity for the test process definition"
-msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
-
-msgid "close"
-msgstr "اغلاق"
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
+msgid "Wrong delivery uri"
+msgstr ""
 
 msgid "unknown label"
-msgstr "تسمية غير معروفة
+msgstr ""
 
