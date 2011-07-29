@@ -2,8 +2,27 @@
 	<?=__("History")?>
 </div>
 <div id="form-history" class="ui-widget-content ui-corner-bottom">
-	<table id="history-list"></table>
-	<div id="history-list-pager"></div>
+	<div id="history-link-container" class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
+		<p>
+		<?if(get_data('executionNumber')):?>
+			<?=__('There are currently')?>&nbsp;<?=get_data('executionNumber')?>&nbsp;<?=__('delivery executions')?>.
+		<?else:?>
+			<?=__('There is currently no delivery execution.')?>
+		<?endif;?>
+		</p>
+		
+		<?if(get_data('executionNumber')):?>
+		<span>
+			<a id='historyLink' href="#">
+				<img id='historyLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;<?=__('View History')?> 
+			</a>
+		</span>
+		<?endif;?>
+	</div>
+	<div>
+		<table id="history-list"></table>
+		<div id="history-list-pager"></div>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -28,7 +47,6 @@ function buildHistoryGrid(selector){
 		rowNum:20,
 		height:300,
 		width:parseInt($(selector).width()) - 2,
-		shrinkToFit:true,
 		pager: '#history-list-pager', 
 		sortname: 'subject', 
 		viewrecords: false, 
@@ -47,7 +65,7 @@ function buildHistoryGrid(selector){
 			});
 			
 			$(window).unbind('resize').bind('resize', function(){
-				historyGrid.jqGrid('setGridWidth', parseInt($(selector).width()) - 2);
+				historyGrid.jqGrid('setGridWidth', (parseInt($(selector).width())-2));
 			});
 		}
 	});
@@ -76,17 +94,18 @@ var removeHistory = function(uri){
 		});
 	}
 }
-	
+
+
 $(function(){
-	try{
-		var historyGrid = null;
-		buildHistoryGrid("#history-list");
-		// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);		
-	}catch(err){
-		// console.log('error building history grid: '+err);
-	}
-	
-	
-	
+	$('#historyLink').click(function(){
+		$('#history-link-container').hide();
+		try{
+			var historyGrid = null;	
+			buildHistoryGrid("#history-list");
+			// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);		
+		}catch(err){
+			// console.log('error building history grid:s '+err);
+		}
+	});
 });
 </script>

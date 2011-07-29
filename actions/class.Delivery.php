@@ -225,10 +225,13 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		//compilation state:
 		$isCompiled = $this->service->isCompiled($delivery);
 		$this->setData("isCompiled", $isCompiled);
-		
 		if($isCompiled){
 			$this->setData("compiledDate", $this->service->getCompiledDate($delivery));
 		}
+		
+		//get history stats:
+		$histories = $this->service->getHistory($delivery);
+		$this->setData("executionNumber", count($histories));
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));

@@ -31,7 +31,7 @@
 		<?=__("Compilation")?>
 	</div>
 	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
-		<div class="ext-home-container ui-state-highlight">
+		<div class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
 		<p>
 		<?if(get_data('isCompiled')):?>
 			<?=__('The delivery was last compiled on')?> <?=get_data('compiledDate')?>.
