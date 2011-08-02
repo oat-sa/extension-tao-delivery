@@ -97,9 +97,9 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		
 		//init required services
 		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
-                $userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
-				
-                //get current user:
+		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
+
+		//get current user:
 		$subject = $userService->getCurrentUser();
                 
 		//init variable that save data to be used in the view
@@ -110,8 +110,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		//get the definition of delivery available for the subject:
 		$visibleProcess = $this->service->getDeliveries($subject,false);
 		
-                $processes = array();
-                $processes = $this->service->getStartedProcessExecutions($subject);
+		$processes = array();
+		$processes = $this->service->getStartedProcessExecutions($subject);
                 
 		foreach ($processes as $proc){
 			
@@ -119,12 +119,12 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 			$uri 	= $proc->uri;
 			$status = $proc->status;
 			$persid	= "-";
-                        $res = $proc->process->resource;
+			$res = $proc->process->resource;
                         
 			if($res !=null && $res instanceof core_kernel_classes_Resource){
                                 
 				$defUri = $res->uriResource;
-                                $type 	= $proc->process->resource->getLabel();
+				$type 	= $proc->process->resource->getLabel();
 					
 				if(in_array($defUri, $visibleProcess)){
 					

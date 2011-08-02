@@ -499,23 +499,23 @@ class taoDelivery_models_classes_DeliveryServerService
                 
         if(!is_null($currentUser)){
                 
-                // Get the activities where the user has an active token.
+        // Get the activities where the user has an active token.
 		foreach ($currentUserTokens as $token) {
 			$validToken = false;
-                        $activityExecution = $token->getOnePropertyValue($propTokenActivityExec);
+            $activityExecution = $token->getOnePropertyValue($propTokenActivityExec);
 			$processExecution = $activityExecution->getOnePropertyValue($propActivityExecProcessExec);
 			if($processExecution instanceof core_kernel_classes_Resource && $processExecution->exists()){
-                                $processDefinition = $processExecution->getOnePropertyValue($propProcessExecExecutionOf);
-                                if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
-                                        $validToken = true;
-                                }
-                        }
-                        
-                        if($validToken){
-                                $returnValue[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
-                        }else{
-                                $token->delete();
-                        }
+				$processDefinition = $processExecution->getOnePropertyValue($propProcessExecExecutionOf);
+				if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
+						$validToken = true;
+				}
+			}
+
+			if($validToken){
+					$returnValue[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
+			}else{
+					$token->delete();
+			}
 		}
                 
         }
