@@ -65,7 +65,8 @@
 			
 			
         	<li>
-        		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $userViewData['username']; ?></span></span> <span class="separator" />
+        		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $userViewData['username']; ?></span></span>
+        		<span class="separator"></span>
         	</li>
          	
 
