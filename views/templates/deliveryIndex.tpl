@@ -15,7 +15,8 @@
 		
 		<ul id="control">
         	<li>
-        		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $login; ?></span> </span><span class="separator" />
+        		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $login; ?></span> </span>
+        		<span class="separator"></span>
         	</li>
          	<li>
          		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
