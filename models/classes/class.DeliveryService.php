@@ -519,14 +519,14 @@ class taoDelivery_models_classes_DeliveryService
         $historyClass = new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS);
         if(empty($subject)){
                 //select History by delivery only (subject independent listing, i.e. select for all subjects)
-                $returnValue = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource), array('like'=>false, 'recursive' => true));
+                $returnValue = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource), array('like'=>false, 'recursive' => 0));
 
         }else{
                 //select history by delivery and subject
                 $returnValue = $historyClass->searchInstances(array(
                         TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource, 
                         TAO_DELIVERY_HISTORY_SUBJECT_PROP => $subject->uriResource), 
-                array('like'=>false, 'recursive' => true));
+                array('like'=>false, 'recursive' => 0));
         }
 				
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BF end
@@ -548,7 +548,7 @@ class taoDelivery_models_classes_DeliveryService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C1 begin
 		$processVariableClass =  new core_kernel_classes_Class(CLASS_PROCESSVARIABLES);
-		$variables = $processVariableClass->searchInstances(array(PROPERTY_PROCESSVARIABLES_CODE => $code), array('like' => false, 'recursive' => false));
+		$variables = $processVariableClass->searchInstances(array(PROPERTY_PROCESSVARIABLES_CODE => $code), array('like' => false, 'recursive' => 0));
 		if(!empty($variables)){
 			if($variables[0] instanceof core_kernel_classes_Resource){
 				$returnValue = $variables[0];

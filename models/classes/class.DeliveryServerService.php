@@ -432,7 +432,7 @@ class taoDelivery_models_classes_DeliveryServerService
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C3A begin
 		$propGroupDeliveries = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
 		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false, 'recursive' => true));
+		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false, 'recursive' => 1000));
 		
 		
 		

@@ -227,7 +227,7 @@ class taoDelivery_models_classes_CampaignService
 		if(!is_null($campaign)){
 		
 			$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => true));
+			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => 0));
 			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
 					$returnValue[] = $delivery->uriResource;
@@ -288,7 +288,7 @@ class taoDelivery_models_classes_CampaignService
 			
 			//a way to remove the campaign property value of the delivery that are used to be associated to THIS campaign
 			$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-			$oldDeliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => true));
+			$oldDeliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_CAMPAIGN_PROP => $campaign->uriResource), array('like'=>false, 'recursive' => 0));
 			foreach ($oldDeliveries as $oldRelatedDelivery) {
 				//find a way to remove the property value associated to THIS campaign ONLY
 				$remove = $oldRelatedDelivery->removePropertyValues($campaignProp, array('pattern' => $campaign->uriResource));
