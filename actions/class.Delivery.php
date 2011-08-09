@@ -152,16 +152,36 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$myForm = $formContainer->getForm();
 		
 		$maxExecElt	= $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_MAXEXEC_PROP));
-		$maxExecElt->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
+		if(!is_null($maxExecElt)){
+			$maxExecElt->addValidators(array(
+					tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
+				));
+			$myForm->addElement($maxExecElt);
+		}
+		
+		$periodEndElt = $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_END_PROP));
+		if(!is_null($periodEndElt)){
+			
+			$periodEndElt->addValidators(array(
+				tao_helpers_form_FormFactory::getValidator(
+					'DateTime', 
+					array(
+						'comparator' => '>',
+						'datetime2_ref' => $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_START_PROP))
+					)
+				)
 			));
-		$myForm->addElement($maxExecElt);
+			$myForm->addElement($periodEndElt);
+		}
+		
 		
 		$resultServerElt = $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_RESULTSERVER_PROP));
-		$resultServerElt->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('NotEmpty')
-			));
-		$myForm->addElement($resultServerElt);
+		if(!is_null($resultServerElt)){
+			$resultServerElt->addValidators(array(
+					tao_helpers_form_FormFactory::getValidator('NotEmpty')
+				));
+			$myForm->addElement($resultServerElt);
+		}
 		
 		$myForm->evaluate();
 		

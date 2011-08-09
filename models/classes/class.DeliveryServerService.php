@@ -138,7 +138,6 @@ class taoDelivery_models_classes_DeliveryServerService
 				}
 			}
 			
-			// var_dump($startDate);var_dump($endDate);var_dump( date_create('2010-03-01') );die();
 			if(!empty($startDate)){
 				if(!empty($endDate)) {$returnValue = (date_create()>=$startDate and date_create()<=$endDate); }
 				else  {$returnValue = (date_create()>=$startDate);}

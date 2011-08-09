@@ -25,6 +25,8 @@ $todefine = array(
 	'TAO_DELIVERY_HISTORY_PROCESS_INSTANCE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryProcessInstance',
     
 	'TAO_DELIVERY_MAXEXEC_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec',
+	'TAO_DELIVERY_START_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart',
+	'TAO_DELIVERY_END_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd',
 	
 	'TAO_DELIVERY_AUTHORINGMODE_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringMode',
 	'TAO_DELIVERY_SIMPLEMODE' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple',
