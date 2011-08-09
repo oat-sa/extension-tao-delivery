@@ -150,6 +150,21 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		
 		$formContainer = new tao_actions_form_Instance($clazz, $delivery);
 		$myForm = $formContainer->getForm();
+		
+		$maxExecElt	= $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_MAXEXEC_PROP));
+		$maxExecElt->addValidators(array(
+				tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
+			));
+		$myForm->addElement($maxExecElt);
+		
+		$resultServerElt = $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_RESULTSERVER_PROP));
+		$resultServerElt->addValidators(array(
+				tao_helpers_form_FormFactory::getValidator('NotEmpty')
+			));
+		$myForm->addElement($resultServerElt);
+		
+		$myForm->evaluate();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$propertyValues = $myForm->getValues();
