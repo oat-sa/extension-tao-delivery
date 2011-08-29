@@ -202,7 +202,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			
 			//get the item runner service definition: must exists!
 			$testContainerServiceDefinition = new core_kernel_classes_Resource(INSTANCE_SERVICEDEFINITION_TESTCONTAINER);
-			if(!wfEngine_helpers_ProcessUtil::checkType($testContainerServiceDefinition, new core_kernel_classes_Class(CLASS_SUPPORTSERVICES))){
+			if(!$testContainerServiceDefinition->hasType(new core_kernel_classes_Class(CLASS_SUPPORTSERVICES))){
 				throw new Exception('the required service definition test container does not exists, reinstall tao is required');
 			}
 			

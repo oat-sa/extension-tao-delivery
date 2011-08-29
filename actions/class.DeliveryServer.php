@@ -59,7 +59,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$processExecutionFactory->execution = $processDefinitionUri;
 			
 		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
-		if(wfEngine_helpers_ProcessUtil::checkType($var_delivery, new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
+		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
 			$processExecutionFactory->variables = array($var_delivery->uriResource => $delivery->uriResource);//no need to encode here, will be donce in Service::getUrlCall
 		}else{
 			throw new Exception('the required process variable "delivery" is missing in delivery server, reinstalling tao is required');
