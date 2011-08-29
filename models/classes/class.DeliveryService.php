@@ -1002,14 +1002,14 @@ class taoDelivery_models_classes_DeliveryService
 						$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
 						$compilator->clearCompiledFolder();
 						
-						$www = dirname($itemUrl);
-					
+						//get all scripts from taoItems:
 						$deployParams = array(
 							'delivery_server_mode'	=> true,
 							'preview_mode'		=> false,
-							'tao_base_www'		=> $www,
-							'qti_base_www'		=> $www,
-							'base_www' 		=> $www,
+							'tao_base_www'		=> ROOT_URL.'/tao/views/',
+							'qti_base_www'		=> dirname($itemUrl).'/',
+							'qti_lib_www'		=> ROOT_URL . '/taoItems/views/js/QTI/',
+							'base_www' 		=> ROOT_URL . '/taoItems/views/',
 							'root_url'		=> ROOT_URL
 						);
 					

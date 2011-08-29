@@ -351,22 +351,22 @@ class taoDelivery_helpers_Compilator
 		$authorizedMedia = array_unique($authorizedMedia);//eliminate duplicate
 		
 		$mediaList = array();
-		$expr="/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/mi";
+		$expr = "/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/mi";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
 
 		
 		$plugins = $this->getPlugins();
 
 		$uniqueMediaList = 	array_unique($mediaList[0]);
-                
+		
 		$compiledUrl = str_replace(ROOT_PATH, ROOT_URL, $this->compiledPath);
 		foreach($uniqueMediaList as $mediaUrl){
 			if(in_array(basename($mediaUrl), $plugins)){
-                                //if it is only a (valid) plugin file, don't try to download it but simply change the link:
-                                //if the user upload an OWI with the exact same name and path, consider it as the same as the TAO version
-                                if(preg_match_all('/\.(js|css|swf)$/i', basename($mediaUrl), $matches)){
-                                        $xml = str_replace($mediaUrl, $compiledUrl.'/'.$matches[1][0].'/'.basename($mediaUrl), $xml, $replaced);
-                                }
+				//if it is only a (valid) plugin file, don't try to download it but simply change the link:
+				//if the user upload an OWI with the exact same name and path, consider it as the same as the TAO version
+				if(preg_match_all('/\.(js|css|swf)$/i', basename($mediaUrl), $matches)){
+						$xml = str_replace($mediaUrl, $compiledUrl.'/'.$matches[1][0].'/'.basename($mediaUrl), $xml, $replaced);
+				}
 			}
 			else{
 				$mediaPath = $this->copyFile($mediaUrl, $directory.'/', $itemName, true);
