@@ -3,8 +3,8 @@
 	<head>
 		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
 		
-		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.js"></script>
-		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.ui.js"></script>
+		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery-ui-1.8.4.custom.min.js"></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.json.js"></script>	
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/jquery.ui.taoqualDialog.js"></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>js/wfEngine.js"></script>
@@ -111,7 +111,7 @@
 						<?endif?>
 					<?endif?>
 					
-					<?if ($browserViewData['controls']['forward']): ?>				
+					<?if($browserViewData['controls']['forward']): ?>				
 						<input type="button" id="next" value="<?= __("Forward")?>"/>
 					<?else:?>
 						<input type="button" id="next" value="" style="display:none;"/>
