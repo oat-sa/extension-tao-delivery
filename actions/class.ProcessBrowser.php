@@ -79,8 +79,8 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		
 		$controls = $activity->getControls();
 		$browserViewData['controls'] = array(
-			'backward' 	=> (in_array(INSTANCE_CONTROL_BACKWARD, $controls)),
-			'forward'	=> (in_array(INSTANCE_CONTROL_FORWARD, $controls))
+			'backward' 	=> ($controls[INSTANCE_CONTROL_BACKWARD]),
+			'forward'	=> ($controls[INSTANCE_CONTROL_FORWARD])
 		);
 		
 		// Browser view main data.
