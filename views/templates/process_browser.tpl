@@ -118,11 +118,9 @@
 					<?endif?>
 				</div>
 				
-				
-			
 				<div id="tools">
 					<?php foreach($services as $service): ?>
-					<iframe frameborder="0" style="<?php echo $service->getStyle();?>" src="<?php echo $service->getCallUrl($variablesViewData);?>"></iframe>
+					<iframe class="toolframe" frameborder="0" style="<?php echo $service->getStyle();?>" src="<?php echo $service->getCallUrl($variablesViewData);?>"></iframe>
 					<?php endforeach;?>
 				</div>
 

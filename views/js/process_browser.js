@@ -824,3 +824,17 @@ function disableConsistencyButtons()
 {
 	$('.ui-dialog-buttonpane > button').attr('disabled', true);
 }
+
+// Auto adapt tool container regarding iframe heights
+$(document).ready(function() { 
+	$('.toolframe').load(function() {
+		var frame = this;
+		var doc = frame.contentWindow || frame.contentDocument;
+		if (doc.document) {
+			doc = doc.document;	
+		}
+		
+		var height = $(doc).height();
+		$('#tools').height(height);	
+	});	
+});
