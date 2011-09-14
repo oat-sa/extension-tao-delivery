@@ -489,35 +489,39 @@ class taoDelivery_models_classes_DeliveryServerService
         $returnValue = array();
 
         // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A begin
-        
-        $tokenClass = new core_kernel_classes_Class(CLASS_TOKEN);
-        $propTokenActivityExec = new core_kernel_classes_Property(PROPERTY_TOKEN_ACTIVITYEXECUTION);
-        $propActivityExecProcessExec = new core_kernel_classes_Property(PROPERTY_ACTIVITY_EXECUTION_PROCESSEXECUTION);
-        $propProcessExecExecutionOf = new core_kernel_classes_Property(PROPERTY_PROCESSINSTANCES_EXECUTIONOF);
-        $currentUserTokens = $tokenClass->searchInstances(array(PROPERTY_TOKEN_CURRENTUSER => $currentUser->uriResource));
-                
         if(!is_null($currentUser)){
-                
-        // Get the activities where the user has an active token.
-		foreach ($currentUserTokens as $token) {
-			$validToken = false;
-            $activityExecution = $token->getOnePropertyValue($propTokenActivityExec);
-			$processExecution = $activityExecution->getOnePropertyValue($propActivityExecProcessExec);
-			if($processExecution instanceof core_kernel_classes_Resource && $processExecution->exists()){
-				$processDefinition = $processExecution->getOnePropertyValue($propProcessExecExecutionOf);
-				if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
-						$validToken = true;
+			
+			$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
+			$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource), array('like'=>false));
+			$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
+			$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+			
+			foreach($currentUserActivityExecutions as $currentUserActivityExecution){
+				
+				$validExecution = false;
+				$processExecution = null;
+				try{
+					$processExecution = $activityExecutionService->getRelatedProcessExecution($currentUserActivityExecution);
+				}catch(wfEngine_models_classes_ProcessExecutionException $e){}
+				
+				if(!is_null($processExecution)){
+					$processDefinition = null;
+					try{
+						$processDefinition = $processExecutionService->getExecutionOf($processExecution);
+					}catch(wfEngine_models_classes_ProcessExecutionException $e){}
+					
+					if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
+						$validExecution = true;
+					}
+				}
+				
+				if($validExecution){
+					$returnValue[] = $processExecution;
+				}else{
+					$currentUserActivityExecution->delete();
 				}
 			}
-
-			if($validToken){
-					$returnValue[] = new wfEngine_models_classes_ProcessExecution($processExecution->uriResource);
-			}else{
-					$token->delete();
-			}
 		}
-                
-        }
         
         // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A end
 

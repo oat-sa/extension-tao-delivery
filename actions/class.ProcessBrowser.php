@@ -7,15 +7,64 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 	
 		Session::setAttribute("processUri", $processUri);
 		$processUri = urldecode($processUri); // parameters clean-up.
-		$this->setData('processUri',$processUri);
+		$this->setData('processUri', $processUri);
+		$processExecution = new core_kernel_classes_Resource($processUri);
 		
 		$activityUri = urldecode($activityUri);
 		
-		$userViewData 		= UsersHelper::buildCurrentUserForView(); // user data for browser view.
-		$this->setData('userViewData',$userViewData);
-		$browserViewData 	= array(); // general data for browser view.
+		//user data for browser view
+		$userViewData = UsersHelper::buildCurrentUserForView(); 
+		$this->setData('userViewData', $userViewData);
+		$browserViewData = array(); // general data for browser view.
 		
-		$process 			= new wfEngine_models_classes_ProcessExecution($processUri);
+		//init services:
+		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+		
+		//get current user:
+		$currentUser = $userService->getCurrentUser();
+		if(is_null($currentUser)){
+			throw new Exception("No current user found!");
+		}
+		
+		//get activity execution from currently available process definitions:
+		
+		
+		//TODO: results really need to be cached!!
+		$currentlyAvailableActivityDefinitions = $processExecutionService->getAvailableCurrentActivityExecutions($processExecution, $currentUser, true);
+		$activityExecution = null;
+		if(count($currentlyAvailableActivityDefinitions) == 0){
+			//no available current activity definition found: no permission or issue in process execution:
+			Session::removeAttribute("processUri");
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
+		}else{
+			if(!empty($activityUri)){
+				foreach($currentlyAvailableActivityDefinitions as $availableActivity){
+					if($availableActivity->uriResource == $activityUri){
+						$activityExecution = $processExecutionService->initCurrentActivityExecution($processExecution, new core_kernel_classes_Resource($activityUri), $currentUser);
+						break;
+					}
+				}
+				if(is_null($activityExecution)){
+					//invalid choice of activity definition:
+					throw new wfEngine_models_classes_ProcessExecutionException('invalid choice of activity definition in process browser');
+				}
+			}else{
+				if(count($currentlyAvailableActivityDefinitions) == 1){
+					$activityExecution = $processExecutionService->initCurrentActivityExecution($processExecution, array_pop($currentlyAvailableActivityDefinitions), $currentUser);
+					if(is_null($activityExecution)){
+						throw new wfEngine_models_classes_ProcessExecutionException('cannot initiate the actiivty execution of the unique next activity definition');
+					}
+				}else{
+					//count > 1:
+					//parallel branch:
+					$this->redirect(_url('pause', 'ProcessBrowser'));
+				}
+			}
+		}
+		
+		
+		$process = new wfEngine_models_classes_ProcessExecution($processUri);
 		$currentActivity = null;
 		if(!empty($activityUri)){
 			//check that it is an uri of a valid activity definition (which is contained in currentActivity):
@@ -40,11 +89,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 			}
 		}
 		$activity = $currentActivity;
-		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
-		$currentUser = $userService->getCurrentUser();
-		if(is_null($currentUser)){
-			throw new Exception("No current user found!");
-		}
+		
 		
 		//security check if the user is allowed to access this activity
 		$activityExecutionService 	= tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
@@ -67,7 +112,6 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		
 		$this->setData('activity',$activity);
 		
-		$activityPerf 		= new wfEngine_models_classes_Activity($activity->uri, false); // Performance WA
 		$activityExecution 	= new wfEngine_models_classes_ActivityExecution($process, $activityExecutionResource);
 
 		$browserViewData['activityContentLanguages'] = array();
@@ -159,8 +203,8 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		$processUri 	= urldecode($processUri);
 		$processExecution = new wfEngine_models_classes_ProcessExecution($processUri);
 	
-		$processExecution->performTransition($activityExecutionUri,($ignoreConsistency == 'true') ? true : false);
-
+		$nextActivityDefinitions = $processExecution->performTransition($activityExecutionUri,($ignoreConsistency == 'true') ? true : false);
+		
 		if ($processExecution->isFinished()){
 			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		}
@@ -168,6 +212,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 			$this->pause($processUri);
 		}
 		else{
+			//if $nextActivityDefinitions count = 1, pass it to the url:
 			$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, array('processUri' => urlencode($processUri))));
 		}
 	}

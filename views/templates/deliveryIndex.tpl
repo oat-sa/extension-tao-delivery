@@ -39,13 +39,10 @@
 				<tbody>
 					<?php foreach ($processViewData as $procData): ?>
 					<tr>
-						<td class="status"><img src="<?php echo BASE_WWW;?>/<?php echo GUIHelper::buildStatusImageURI($procData['status']); ?>"/></td>
-						
-						
-						<td class="label"><?php echo GUIHelper::sanitizeGenerisString($procData['label']); ?></td>
-		
+						<td class="status"><img src="<?php echo BASE_WWW;?>/<?php echo wfEngine_helpers_GUIHelper::buildStatusImageURI($procData['status']); ?>"/></td>
+						<td class="label"><?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procData['label']); ?></td>
 						<td class="join">
-							<?php if ($procData['status'] != 'Finished'): ?>
+							<?php if($procData['status'] instanceof core_kernel_classes_Resource && $procData['status']->uriResource != INSTANCE_PROCESSSTATUS_FINISHED): ?>
 								<?php foreach ($procData['activities'] as $activity): ?>
 									<?php if ($activity['may_participate']): ?>
 									<a href="<?php echo BASE_URL;?>/ProcessBrowser/index?processUri=<?php echo urlencode($procData['uri']); ?>"><?php echo $activity['label']; ?></a>
@@ -74,7 +71,7 @@
 						<?php foreach($availableProcessDefinition as $procDef) : ?>
 						<li>
 							<a href="<?php echo BASE_URL;?>/DeliveryServer/ProcessAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
-							<?php echo GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
+							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
 						</li>
 						<?php endforeach;  ?>		
 					</ul>	
