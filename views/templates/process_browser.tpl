@@ -12,7 +12,7 @@
 			
 		<script type="text/javascript">
 			window.processUri = '<?php echo urlencode($processUri); ?>';
-			window.activityUri = '<?php echo urlencode($activity->uri); ?>';
+			window.activityUri = '<?php echo urlencode($activity->uriResource); ?>';
 			window.activeResources = <?php echo $browserViewData['active_Resource']; ?>;
 			
 			function goToPage(page_str){
@@ -27,14 +27,14 @@
 		    	
 		       // Back and next function bindings for the ProcessBrowser.
 		       $("#back").click(function(){
-				   goToPage('<?php echo BASE_URL;?>/ProcessBrowser/back?processUri=<?php echo urlencode($processUri); ?>');
+				   goToPage('<?php echo BASE_URL;?>/ProcessBrowser/back?processUri=<?=urlencode($processUri)?>&activityExecutionUri=<?=urlencode($browserViewData['activityExecutionUri'])?>');
 				   $(this).unbind('click');
 				   $("#next").unbind('click');
 			    });
 		       
 		       	
 			   $("#next").click(function(){
-			       	goToPage('<?php echo BASE_URL;?>/ProcessBrowser/next?processUri=<?php echo urlencode($processUri); ?>&activityExecutionUri=<?php echo urlencode($browserViewData['activityExecutionUri']);?>');
+			       	goToPage('<?php echo BASE_URL;?>/ProcessBrowser/next?processUri=<?=urlencode($processUri)?>&activityExecutionUri=<?=urlencode($browserViewData['activityExecutionUri'])?>');
 			       	$(this).unbind('click');
 			       	$("#back").unbind('click');
 				});
@@ -120,7 +120,7 @@
 				
 				<div id="tools">
 					<?php foreach($services as $service): ?>
-					<iframe class="toolframe" frameborder="0" style="<?php echo $service->getStyle();?>" src="<?php echo $service->getCallUrl($variablesViewData);?>"></iframe>
+					<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=$service['callUrl']?>"></iframe>
 					<?php endforeach;?>
 				</div>
 

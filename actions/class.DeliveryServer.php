@@ -28,10 +28,12 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 	 * @param processDefinitionUri
      * @return void
      */
-	public function processAuthoring($processDefinitionUri){
+	public function initDeliveryExecution($processDefinitionUri){
 		
 		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
-		$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryServerService');
+		$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+		
 		$subject = $userService->getCurrentUser();
 		
 		$processDefinitionUri = urldecode($processDefinitionUri);
@@ -53,12 +55,12 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$processVariables = array();
 		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
 		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
-			$processVariables[$var_delivery->uriResource] = $var_delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
+			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
 		}else{
 			throw new Exception('the required process variable "delivery" is missing in delivery server, reinstalling tao is required');
 		}
 
-		$newProcessExecution = $this->service->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
+		$newProcessExecution = $processExecutionService->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
 
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject, $newProcessExecution);
@@ -91,7 +93,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		//init variable that save data to be used in the view
 		$processViewData 	= array();
 		$uiLanguages		= tao_helpers_I18n::getAvailableLangs();
-		$this->setData('uiLanguages',$uiLanguages);
+		$this->setData('uiLanguages', $uiLanguages);
 		
 		//get the definition of delivery available for the subject:
 		$visibleProcess = $this->service->getDeliveries($subject,false);
@@ -125,14 +127,14 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 					}else{
 						
 						$isAllowed = false;
-						$availableCurrentActivities = $processExecutionService->getCurrentAvailableActivityExecutions($processExecution, $subject);
+						$availableCurrentActivities = $processExecutionService->getAvailableCurrentActivityDefinitions($processExecution, $subject);
 						foreach ($availableCurrentActivities as $uri => $currentActivity){
 							$isAllowed = $activityExecutionService->checkAcl($currentActivity, $subject, $processExecution);
 							$currentActivities[] = array(
 								'label'				=> $currentActivity->getLabel(),
 								'uri' 				=> $uri,
 								'may_participate'	=> ($status->uriResource != INSTANCE_PROCESSSTATUS_FINISHED && $isAllowed),
-								'finished'			=> $processExecution->isFinished(),
+								'finished'			=> ($status->uriResource == INSTANCE_PROCESSSTATUS_FINISHED),
 								'allowed'			=> $isAllowed
 							);
 

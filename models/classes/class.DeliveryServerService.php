@@ -433,8 +433,6 @@ class taoDelivery_models_classes_DeliveryServerService
 		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false, 'recursive' => 1000));
 		
-		
-		
 		$deliveries = array();
 		foreach ($groups as $group) {
 			$deliveryCollection = $group->getPropertyValuesCollection($propGroupDeliveries);
@@ -516,7 +514,7 @@ class taoDelivery_models_classes_DeliveryServerService
 				}
 				
 				if($validExecution){
-					$returnValue[] = $processExecution;
+					$returnValue[$processExecution->uriResource] = $processExecution;
 				}else{
 					$currentUserActivityExecution->delete();
 				}

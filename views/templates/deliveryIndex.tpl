@@ -70,7 +70,7 @@
 					<ul>
 						<?php foreach($availableProcessDefinition as $procDef) : ?>
 						<li>
-							<a href="<?php echo BASE_URL;?>/DeliveryServer/ProcessAuthoring?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
+							<a href="<?php echo BASE_URL;?>/DeliveryServer/initDeliveryExecution?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
 							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
 						</li>
 						<?php endforeach;  ?>		
