@@ -78,7 +78,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
      * @return void
      */
 	public function index(){
-
+		
+		//should be removed
 		$login = $_SESSION['taoqual.userId'];
 		$this->setData('login',$login);
 		
