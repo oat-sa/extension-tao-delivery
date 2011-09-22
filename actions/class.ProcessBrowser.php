@@ -52,8 +52,13 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 	}
 	
 	public function index($processUri, $activityUri=''){
-	
-		Session::setAttribute("processUri", $processUri);//to be deleted
+		/*
+		 * known use in:
+		 * taoDelivery_actions_ItemDelivery::runner()
+		 * tao_actions_Api::createAuthEnvironment()
+		 * TODO: clean usage
+		 */
+		Session::setAttribute("processUri", $processUri);//actually used somewhere...
 		$activityUri = urldecode($activityUri);
 		$processUri = urldecode($processUri); // parameters clean-up.
 		$this->setData('processUri', $processUri);
@@ -78,8 +83,6 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		}
 		
 		//get activity execution from currently available process definitions:
-		
-		//TODO: results really need to be cached!!
 		$currentlyAvailableActivityDefinitions = $processExecutionService->getAvailableCurrentActivityDefinitions($processExecution, $currentUser, true);
 		
 		$activityExecution = null;
@@ -110,7 +113,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 					}
 				}else{
 					//count > 1:
-					//parallel branch:
+					//parallel branch, ask the user to select activity to execute:
 					$this->pause(urlencode($processExecution->uriResource));
 					return;
 				}
@@ -120,15 +123,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		if(!is_null($activityExecution)){
 			
 			$browserViewData['activityExecutionUri']= $activityExecution->uriResource;
-			Session::setAttribute('activityExecutionUri', $activityExecution->uriResource);
-			
-			// process variables data.
-//			$variablesViewData = array();
-//			$variables = $process->getVariables();
-//			foreach ($variables as $var){
-//				$variablesViewData[$var->uri] = urlencode($var->value);	
-//			}
-//			$this->setData('variablesViewData',$variablesViewData);
+			Session::setAttribute('activityExecutionUri', $activityExecution->uriResource);//for variable service only?
 			
 			//get interactive services (call of services):
 			$activityDefinition = $activityExecutionService->getExecutionOf($activityExecution);
@@ -137,7 +132,8 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 			foreach($interactiveServices as $interactiveService){
 				$services[] = array(
 					'callUrl'	=> $interactiveServiceService->getCallUrl($interactiveService, $activityExecution),
-					'style'		=> $interactiveServiceService->getStyle($interactiveService)
+					'style'		=> $interactiveServiceService->getStyle($interactiveService),
+					'resource'	=> $interactiveService,
 				);
 			}
 			$this->setData('services', $services);
@@ -169,23 +165,25 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		
 		
 			/* <DEBUG> :populate the debug widget */
-			
-			if(false){
+			if(DEBUG_MODE){
+				
 				$this->setData('debugWidget', DEBUG_MODE);
 				
 				$servicesResources = array();
 				foreach($services as $service){
 					$servicesResources[] = array(
-						'resource' => $service->resource,
-						'input'		=> $service->input,
-						'output'	=> $service->output
+						'resource' => $service['resource'],
+						'callUrl'	=> $service['callUrl'],
+						'style'	=> $service['style'],
+						'input'		=> $interactiveServiceService->getInputValues($interactiveService, $activityExecution),
+						'output'	=> $interactiveServiceService->getOutputValues($interactiveService, $activityExecution)
 					);
 				}
-
+				
 				$this->setData('debugData', array(
-						'Activity' => $activity->resource,
+						'Activity' => $activityDefinition,
 						'ActivityExecution' => $activityExecution,
-						'Current activities' => $tokenService->getCurrentActivities($process->resource),
+						'CurrentActivities' => $currentlyAvailableActivityDefinitions,
 						'Services' => $servicesResources,
 						'VariableStack' => wfEngine_models_classes_VariableService::getAll()
 				));
@@ -274,7 +272,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_WfModule{
 		}
 		
 		Session::removeAttribute("processUri");
-		$_SESSION["processUri"]= null;
+//		$_SESSION["processUri"]= null;
 		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 		
 	}
