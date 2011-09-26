@@ -33,6 +33,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
 		$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
 		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
 		
 		$subject = $userService->getCurrentUser();
 		
@@ -51,17 +52,22 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		ini_set('max_execution_time', 200);
 		
 		$processExecName = $delivery->getLabel();
-		$processExecComment = 'Created in delivery server on' . date(DATE_ISO8601);
+		$processExecComment = 'Created in delivery server on ' . date(DATE_ISO8601);
 		$processVariables = array();
 		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
 		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
 			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
 		}else{
-			throw new Exception('the required process variable "delivery" is missing in delivery server, reinstalling tao is required');
+			throw new Exception('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
 		}
 
 		$newProcessExecution = $processExecutionService->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
-
+		
+		//create nonce to initial activity executions:
+		foreach($processExecutionService->getCurrentActivityExecutions($newProcessExecution) as $initialActivityExecution){
+			$activityExecutionService->createNonce($initialActivityExecution);
+		}
+		
 		//add history of delivery execution in the delivery ontology
 		$this->service->addHistory($delivery, $subject, $newProcessExecution);
 
