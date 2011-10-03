@@ -2,13 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><?= __("TAO Delivery Server"); ?></title>
-	 	<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/layout.css" />
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/form.css" />
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.custom.css" />
+	 	<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/form.css" />
+		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.custom.css" />
 		 
 		<style media="screen">
-			@import url(<?echo BASE_WWW; ?>/css/login.css);
+			@import url(<?echo BASE_WWW; ?>css/login.css);
 		</style>
+		<script type="text/javascript" src="<?=BASE_WWW?>js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="<?=BASE_WWW ?>js/login.js"></script>
 	</head>
 	
 	<body style="background-color:#FFFFFF;">
