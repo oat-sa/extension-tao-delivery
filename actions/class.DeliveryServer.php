@@ -134,9 +134,10 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 					}else{
 						
 						$isAllowed = false;
-						$availableCurrentActivities = $processExecutionService->getAvailableCurrentActivityDefinitions($processExecution, $subject);
-						foreach ($availableCurrentActivities as $uri => $currentActivity){
-							$isAllowed = $activityExecutionService->checkAcl($currentActivity, $subject, $processExecution);
+						$currentActivityExecutions = $processExecutionService->getCurrentActivityExecutions($processExecution);
+						foreach ($currentActivityExecutions as $uri => $currentActivityExecution){
+							$isAllowed = $activityExecutionService->checkAcl($currentActivityExecution, $subject, $processExecution);
+							$currentActivity = $activityExecutionService->getExecutionOf($currentActivityExecution);
 							$currentActivities[] = array(
 								'label'				=> $currentActivity->getLabel(),
 								'uri' 				=> $uri,
