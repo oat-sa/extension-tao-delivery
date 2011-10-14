@@ -165,8 +165,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$activityItem1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 		$connectorItem1 = $authoringService->createConnector($activityItem1);
 		
-		$activityItem2 = $authoringService->createSplitActivity($connectorItem1, 'then', null, "{$id}Item_2");//create actiivty for item 2:
-		$activityItem3 = $authoringService->createSplitActivity($connectorItem1, 'else', null, "{$id}Item_3");
+		$activityItem2 = $authoringService->createConditionalActivity($connectorItem1, 'then', null, "{$id}Item_2");//create actiivty for item 2:
+		$activityItem3 = $authoringService->createConditionalActivity($connectorItem1, 'else', null, "{$id}Item_3");
 		
 		//processTest2 is sequential:
 		$this->assertTrue($testsService->setTestItems($test2, array($item4)));
@@ -227,8 +227,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$activityItem1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 		$connectorItem1 = $authoringService->createConnector($activityItem1);
 		
-		$activityItem2 = $authoringService->createSplitActivity($connectorItem1, 'then', null, "{$prefix_item}Item_2");//create actiivty for item 2:
-		$activityItem3 = $authoringService->createSplitActivity($connectorItem1, 'else', null, "{$prefix_item}Item_3");
+		$activityItem2 = $authoringService->createConditionalActivity($connectorItem1, 'then', null, "{$prefix_item}Item_2");//create actiivty for item 2:
+		$activityItem3 = $authoringService->createConditionalActivity($connectorItem1, 'else', null, "{$prefix_item}Item_3");
 		
 		//processTest2 and 3 are sequential:
 		$this->assertTrue($testsService->setTestItems($test2, array($item4)));
@@ -239,8 +239,8 @@ class DeliveryTestCase extends UnitTestCase {
 		$activityTest1 = $authoringService->createActivity($processDelivery, "{$prefix_test}Test_1");
 		$activityTest1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 		$connectorTest1 = $authoringService->createConnector($activityTest1);
-		$activityTest2 = $authoringService->createSplitActivity($connectorTest1, 'then', null, "{$prefix_test}Test_2");//create actiivty for item 2:
-		$activityTest3 = $authoringService->createSplitActivity($connectorTest1, 'else', null, "{$prefix_test}Test_3");
+		$activityTest2 = $authoringService->createConditionalActivity($connectorTest1, 'then', null, "{$prefix_test}Test_2");//create actiivty for item 2:
+		$activityTest3 = $authoringService->createConditionalActivity($connectorTest1, 'else', null, "{$prefix_test}Test_3");
 		
 		$interactiveService = $authoringService->setTestByActivity($activityTest1, $test1);
 		$this->assertNotNull($interactiveService);
