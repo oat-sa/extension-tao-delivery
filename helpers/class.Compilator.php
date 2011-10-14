@@ -184,10 +184,11 @@ class taoDelivery_helpers_Compilator
 		}
 		
 		if($isCopied === false){
-			
-			//since the file has not been downloaded yet, start downloading it usin cUrl
-			
-			if(preg_match("/^http/", $url)){
+			// Since the file has not been downloaded yet, start downloading it using cUrl
+
+			// Only if the resource is external to TAO or in the filemanager of the current instance.
+			error_reporting(E_ALL);
+			if(!preg_match('@^' . BASE_URL . '@', $url)){
 				
 				$curlHandler = curl_init();
 				curl_setopt($curlHandler, CURLOPT_URL, $url);
@@ -220,14 +221,16 @@ class taoDelivery_helpers_Compilator
 			}
 			else{
 			
-				$fileContent = @file_get_contents($url);
+				// Duplicated file copy. Not useful.
+				//$fileContent = @file_get_contents($url);
+				$fileContent = null;
 			}
 			
 			if ($fileContent === false){
 				
 				$this->failed["copiedFiles"][$affectedObject][]=$url;
 				return $returnValue;
-			};
+			}
 						
 			//check file name compatibility: 
 			//e.g. if a file with a common name (e.g. car.jpg, house.png, sound.mp3) already exists in the destination folder
@@ -240,14 +243,20 @@ class taoDelivery_helpers_Compilator
 				$fileName = strrev($reverseName)."_.".strrev($reverseExt);
 			}
 			
-			if(file_put_contents($directory.$fileName, $fileContent) === false){
+			if($fileContent !== null && file_put_contents($directory.$fileName, $fileContent) === false){
 				throw new Exception("the file $directory.$fileName cannot be written");
 			}
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
-			$this->completed["copiedFiles"][$affectedObject][]=$url;
+			if ($fileContent !== null){
+				$this->completed["copiedFiles"][$affectedObject][]=$url;
+				$returnValue = $fileName;
+			}
+			else {
+				$returnValue = false;	
+			}
 			
-			$returnValue = $fileName;
+			
 		}
 				
 		return $returnValue;
@@ -365,12 +374,19 @@ class taoDelivery_helpers_Compilator
 				//if it is only a (valid) plugin file, don't try to download it but simply change the link:
 				//if the user upload an OWI with the exact same name and path, consider it as the same as the TAO version
 				if(preg_match_all('/\.(js|css|swf)$/i', basename($mediaUrl), $matches)){
-						$xml = str_replace($mediaUrl, $compiledUrl.'/'.$matches[1][0].'/'.basename($mediaUrl), $xml, $replaced);
+					// This break paths ! to change in further versions.	
+					//$xml = str_replace($mediaUrl, $compiledUrl.'/'.$matches[1][0].'/'.basename($mediaUrl), $xml, $replaced);
 				}
 			}
 			else{
+				// This is a file that has to be stored in the item compilation folder itself...
+				// I do not get why they are all copied. They are all there they were copied from the item module...
+				// But I agree that remote resources (somewhere on the Internet) should be copied via curl.
+				// So if the URL does not matches a place where the TAO server is, we curl the resource and store it.
+				// FileManager files should be considered as remote resources to avoid 404 issues. Indeed, a backoffice
+				// user might delete an image in the filemanager during a delivery campain. This is dangerous.
 				$mediaPath = $this->copyFile($mediaUrl, $directory.'/', $itemName, true);
-				if(!empty($mediaPath)){
+				if(!empty($mediaPath) && $mediaPath !== false){
 					$xml = str_replace($mediaUrl, $compiledUrl.'/'.basename($mediaUrl), $xml, $replaced);//replace only when copyFile is successful
 				}
 			}
