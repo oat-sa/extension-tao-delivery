@@ -137,10 +137,11 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 					
 						//here we save the TAO variables
 						$taoVars = array();
+						$variableService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_VariableService');
 						foreach($this->getRequestParameter('taoVars') as $key => $value){
 							$taoVars[str_replace($resultNS.'#', '', $key)] = addcslashes($value,"'");
 							if($key == $resultNS.'#ENDORSMENT'){
-								wfEngine_models_classes_VariableService::save(array('PREV_ENDORSMENT' => $value));
+								$variableService->save(array('PREV_ENDORSMENT' => $value));
 							}
 						}
 						
