@@ -433,7 +433,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			foreach($tests as $test){
 				$clazz = $this->getClass($test);
-				if(in_array($clazz->uriResource, $testSubClasses)){
+				if($clazz && in_array($clazz->uriResource, $testSubClasses)){
 					$returnValue[] = $clazz;
 				}
 				$returnValue[] = $test;
