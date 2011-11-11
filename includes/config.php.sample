@@ -58,4 +58,8 @@ define('TAO_TPL_PATH', ROOT_PATH . '/tao/' . DIR_VIEWS . $GLOBALS['dir_theme']);
 
 #default wsdl contract on localhost:
 define('LOCAL_RESULT_SERVER',  BASE_URL."/taoDelivery/DeliveryServer/resultUploadWsdl");
+
+#Items BASE URL
+define('TAO_ITEMS_BASE_URL', ROOT_URL . '/taoItems');
+
 ?>
