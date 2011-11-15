@@ -92,6 +92,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		//init required services
 		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
 		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+		$processDefinitionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessDefinitionService');
 		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
 
 		//get current user:
@@ -172,7 +173,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		//filter process that can be initialized by the current user (2nd check...)
 		$authorizedProcessDefinitions = array();
 		foreach($availableProcessDefinitions as $processDefinition){
-			if($processExecutionService->checkAcl($processDefinition, $subject)){
+			if($processDefinitionService->checkAcl($processDefinition, $subject)){
 				$authorizedProcessDefinitions[] = $processDefinition;
 			}
 		}
