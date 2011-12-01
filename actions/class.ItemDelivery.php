@@ -151,11 +151,11 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 				
 					//get the deployment parameters
 					$deploymentParams 	= array();
-					$deliveryService 	= tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+					$deliveryService 	= taoDelivery_models_classes_DeliveryService::singleton();
 					$delivery 			= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
 					$resultServer 		= $deliveryService->getResultServer($delivery);
 					if(!is_null($resultServer)){
-						$resultServerService 	= tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_ResultServerService');
+						$resultServerService 	= taoDelivery_models_classes_ResultServerService::singleton();
 						$resultServer 			= new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 						$deploymentParams 		= $resultServerService->getDelpoymentParameters($resultServer);
 					}
@@ -178,7 +178,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 					//initialize taoApi events tracing parameters
 					$compiledFolder = $this->getCompiledFolder($executionEnvironment);
 					if(file_exists($compiledFolder .'/events.xml')){
-						$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
+						$eventService = tao_models_classes_EventsService::singleton();
 						$eventData =  $eventService->getEventList($compiledFolder .'/events.xml');
 						
 						$this->setData('eventData', json_encode($eventData));
@@ -207,7 +207,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 							}
 						}
 						else{
-							$itemService 	= tao_models_classes_ServiceFactory::get('taoItems_models_classes_ItemService');
+							$itemService 	= taoItems_models_classes_ItemsService::singleton();
 							$item			= new core_kernel_classes_Resource($executionEnvironment[TAO_ITEM_CLASS]['uri']);
 							$this->setData('matchingData', json_encode($itemService->getMatchingData($item)));
 						}

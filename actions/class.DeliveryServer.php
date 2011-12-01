@@ -17,7 +17,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 	public function __construct(){
 
 		parent::__construct();
-		$this->service = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryServerService');
+		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
 	}
 		
 	/**
@@ -30,10 +30,10 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
      */
 	public function initDeliveryExecution($processDefinitionUri){
 		
-		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
-		$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
-		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
+		$userService = taoDelivery_models_classes_UserService::singleton();
+		$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
+		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
 		
 		$subject = $userService->getCurrentUser();
 		
@@ -90,10 +90,10 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$this->setData('login',$login);
 		
 		//init required services
-		$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
-		$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
-		$processDefinitionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessDefinitionService');
-		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
+		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
+		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
+		$processDefinitionService = wfEngine_models_classes_ProcessDefinitionService::singleton();
+		$userService = taoDelivery_models_classes_UserService::singleton();
 
 		//get current user:
 		$subject = $userService->getCurrentUser();

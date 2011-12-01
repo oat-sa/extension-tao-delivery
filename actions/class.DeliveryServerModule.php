@@ -5,7 +5,7 @@ class taoDelivery_actions_DeliveryServerModule extends Module
 	public function __construct(){
 		
 		if($this->_isAllowed()){
-			tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService')->connectCurrentUser();
+			taoDelivery_models_classes_UserService::singleton()->connectCurrentUser();
 			
 		}
 		else{

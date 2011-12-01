@@ -121,7 +121,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 			//get all activity processes and clone them:
 			$activities = $this->authoringService->getActivitiesByProcess($process);
 			
-			$deliveryAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 			
 			foreach($activities as $activityUri => $activity){
 				

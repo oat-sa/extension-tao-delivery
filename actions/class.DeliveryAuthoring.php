@@ -148,7 +148,7 @@ class taoDelivery_actions_DeliveryAuthoring extends wfEngine_actions_ProcessAuth
 				break;
 			}
 			//compilation state:
-			$deliveryService = tao_models_classes_ServiceFactory::get('Delivery');
+			$deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 			$isCompiled=$deliveryService->isCompiled($currentDelivery);
 			$this->setData("isCompiled", $isCompiled);
 			if($isCompiled){

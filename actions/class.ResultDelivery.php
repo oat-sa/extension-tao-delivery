@@ -37,7 +37,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 		
 		Bootstrap::loadConstants('taoResults');
 		
-		$this->resultService = tao_models_classes_ServiceFactory::get('Results');
+		$this->resultService = taoResults_models_classes_ResultsService::singleton();
 	}
 	
 	/**
@@ -87,7 +87,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
             	$item = new core_kernel_classes_Resource($executionEnvironment[TAO_ITEM_CLASS]['uri']);
             	
             	if(!is_null($responses) && !is_null($item)){
-	            	$itemService = tao_models_classes_ServiceFactory::get('Items');
+	            	$itemService = taoItems_models_classes_ItemsService::singleton();
 	            	$outcomes = $itemService->evaluate($item, $responses);
 	            	
 		            if(count($outcomes) > 0){
@@ -137,7 +137,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 					
 						//here we save the TAO variables
 						$taoVars = array();
-						$variableService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_VariableService');
+						$variableService = wfEngine_models_classes_VariableService::singleton();
 						foreach($this->getRequestParameter('taoVars') as $key => $value){
 							$taoVars[str_replace($resultNS.'#', '', $key)] = addcslashes($value,"'");
 							if($key == $resultNS.'#ENDORSMENT'){
@@ -177,7 +177,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 				
 				$compiledFolder = $this->getCompiledFolder($this->getExecutionEnvironment());
 				if(file_exists($compiledFolder .'events.xml')){
-					$eventService = tao_models_classes_ServiceFactory::get("tao_models_classes_EventsService");
+					$eventService = tao_models_classes_EventsService::singleton();
 					$events = $eventService->getEventList($compiledFolder .'events.xml');
 				}
 			}
@@ -206,7 +206,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 						$processURI = $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'];
 						$process_id = substr($processURI, strpos($processURI, '#') + 1);
 						
-						$eventService = tao_models_classes_ServiceFactory::get('tao_models_classes_EventsService');
+						$eventService = tao_models_classes_EventsService::singleton();
 					
 						//get the event to be foltered on the server side
 						$eventFilter = array();

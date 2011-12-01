@@ -491,8 +491,8 @@ class taoDelivery_models_classes_DeliveryServerService
 			
 			$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
 			$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource), array('like'=>false));
-			$activityExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ActivityExecutionService');
-			$processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+			$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
+			$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
 			
 			foreach($currentUserActivityExecutions as $currentUserActivityExecution){
 				

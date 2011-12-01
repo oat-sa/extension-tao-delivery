@@ -8,7 +8,7 @@ class taoDelivery_actions_DeliveryServerAuthentification extends Module
 			$this->setData('errorMessage',$this->getRequestParameter('errorMessage'));
 		}
 		
-		$userService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_UserService');
+		$userService = taoDelivery_models_classes_UserService::singleton();
 		
 		$myLoginFormContainer = new wfEngine_actions_form_Login();
 		$myForm = $myLoginFormContainer->getForm();

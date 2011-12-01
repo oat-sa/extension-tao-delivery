@@ -231,7 +231,7 @@ class taoDelivery_models_classes_DeliveryService
                 //delete the process associated to the delivery:
                 $process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
                 $actualProcess = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
-                $processAuthoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+                $processAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
                 $processAuthoringService->deleteProcess($process);
                 if(!is_null($actualProcess)) $processAuthoringService->deleteProcess($actualProcess);
 
@@ -366,7 +366,7 @@ class taoDelivery_models_classes_DeliveryService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BB begin
 		$tests = array();
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		
 		//get the associated process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
@@ -634,7 +634,7 @@ class taoDelivery_models_classes_DeliveryService
 		if(!is_null($delivery)){
 		
 			try{
-			 	$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+			 	$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 			 	$process = $delivery->getUniquePropertyValue(
 					new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT)
 				);
@@ -727,7 +727,7 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020CF begin
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		
 		// get the current process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
@@ -894,7 +894,7 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-13-1-39--791be41d:12767a251df:-8000:00000000000021E5 begin
 		//get list of all tests in the delivery, without order:
 		$tests = array();
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		
 		//get the associated process:
 		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
@@ -966,8 +966,8 @@ class taoDelivery_models_classes_DeliveryService
 			throw new Exception('no empty test is allowed in compilation');
 		}
 		
-		$testService = tao_models_classes_ServiceFactory::get('Tests');
-		$itemService = tao_models_classes_ServiceFactory::get('Items');
+		$testService = taoTests_models_classes_TestsService::singleton();
+		$itemService = taoItems_models_classes_ItemsService::singleton();
 		$items = $testService->getRelatedItems($test);
 		
 		$compilationResult = array();
@@ -1085,7 +1085,7 @@ class taoDelivery_models_classes_DeliveryService
                         if($deleteProcessInstance){
                                 $relatedProcessExecution = $history->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_PROCESS_INSTANCE));
                                 if(!is_null($relatedProcessExecution)){
-                                        $processExecutionService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_ProcessExecutionService');
+                                        $processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
                                         $processExecutionService->deleteProcessExecution($relatedProcessExecution);
                                 }
                         }
@@ -1123,7 +1123,7 @@ class taoDelivery_models_classes_DeliveryService
 			
 			// print_r($oldDeliveryProcess);
 			if($oldDeliveryProcess instanceof core_kernel_classes_Resource){
-				$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+				$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 				$authoringService->deleteProcess($oldDeliveryProcess);
 			}
 			//then save it in TAO_DELIVERY_PROCESS prop:

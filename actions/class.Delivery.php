@@ -26,7 +26,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = tao_models_classes_ServiceFactory::get('Delivery');
+		$this->service = taoDelivery_models_classes_DeliveryService::singleton();
 		$this->defaultData();
 		
 		Session::setAttribute('currentSection', 'delivery');

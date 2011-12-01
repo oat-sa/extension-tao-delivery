@@ -16,8 +16,8 @@ class DeliveryTestCase extends UnitTestCase {
 	public function setUp(){
 		TestRunner::initTest();
 		
-		$this->authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
-		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+		$this->authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 		
 		// $processDefinitionClass = new core_kernel_classes_Class(CLASS_PROCESS);
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery');
@@ -32,7 +32,7 @@ class DeliveryTestCase extends UnitTestCase {
 	
 	
 	public function testService(){
-		$deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+		$deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 		$this->assertIsA($deliveryService, 'taoDelivery_models_classes_DeliveryService');
 	}
 	
@@ -68,7 +68,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$process = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 		
 		// count the number of activity:
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		$activities = $authoringService->getActivitiesByProcess($process);
 		$this->assertEqual(count($activities), 2);
 		
@@ -95,7 +95,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$item4 = $itemClass->createInstance('UnitDelivery Item4', 'Item 4 created for delivery unit test');
 		
 		//create required test authoring:
-		$testsService = tao_models_classes_ServiceFactory::get('Tests');
+		$testsService = taoTests_models_classes_TestsService::singleton();
 		$this->assertIsA($testsService, 'tao_models_classes_GenerisService');
 		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
 		
@@ -120,7 +120,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$this->assertTrue($generationResult['success']);
 		$deliveryProcess = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_PROCESS));
 		
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		$this->assertEqual(count($authoringService->getActivitiesByProcess($deliveryProcess)), 4);//there should be 4 activities (i.e. items)
 	
 		$item1->delete();
@@ -144,7 +144,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$item4 = $itemClass->createInstance('UnitDelivery Item4', 'Item 4 created for delivery unit test');
 		
 		//create required test authoring:
-		$testsService = tao_models_classes_ServiceFactory::get('Tests');
+		$testsService = taoTests_models_classes_TestsService::singleton();
 		$this->assertIsA($testsService, 'tao_models_classes_GenerisService');
 		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
 		
@@ -160,7 +160,7 @@ class DeliveryTestCase extends UnitTestCase {
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
 		$processTest1 = $test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
 				
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		$activityItem1 = $authoringService->createActivity($processTest1, "{$id}Item_1");
 		$activityItem1->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL), GENERIS_TRUE);
 		$connectorItem1 = $authoringService->createConnector($activityItem1);
@@ -203,7 +203,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$item5 = $itemClass->createInstance('UnitDelivery Item5', 'Item 5 created for delivery unit test');
 		
 		//create required test authoring:
-		$testsService = tao_models_classes_ServiceFactory::get('Tests');
+		$testsService = taoTests_models_classes_TestsService::singleton();
 		$this->assertIsA($testsService, 'tao_models_classes_GenerisService');
 		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
 		
@@ -217,7 +217,7 @@ class DeliveryTestCase extends UnitTestCase {
 		$this->assertIsA($test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP)), 'core_kernel_classes_Resource');
 		
 		//init authoring service:
-		$authoringService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryAuthoringService');
+		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		
 		//set item 1 and 2 to test 1 and items 3 and 4 to test 2
 		$processTest1 = $test1->getUniquePropertyValue(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP));
