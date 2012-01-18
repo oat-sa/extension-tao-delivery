@@ -1,17 +1,12 @@
-msgid "DE"
-msgstr "German"
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "LU"
-msgstr "Luxemburgish"
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.2-alpha\n"
+"PO-Revision-Date: 2012-01-18T15:50:39\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: EN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 msgid "(Ctrl-C)"
 msgstr ""
@@ -19,16 +14,10 @@ msgstr ""
 msgid "(date not available for hardified resource)"
 msgstr ""
 
-msgid "(still undefined)"
-msgstr ""
-
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr ""
 
 msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr ""
-
-msgid "A delviery must to be compiled before being executed. The compilation can be done here."
 msgstr ""
 
 msgid "A recompilation is also required after modification on the tests composing a delivery."
@@ -43,19 +32,7 @@ msgstr ""
 msgid "Active Deliveries"
 msgstr ""
 
-msgid "Active Tests"
-msgstr ""
-
-msgid "Activity"
-msgstr ""
-
 msgid "Activity Editor"
-msgstr ""
-
-msgid "Activity or Connector"
-msgstr ""
-
-msgid "Actual"
 msgstr ""
 
 msgid "Add (Ctrl-A)"
@@ -70,28 +47,19 @@ msgstr ""
 msgid "Advanced Authoring Tool"
 msgstr ""
 
+msgid "advanced mode"
+msgstr ""
+
 msgid "An error occured during history deletion"
 msgstr ""
 
 msgid "An error occured while loading the item"
 msgstr ""
 
-msgid "An error occured while loading the item:"
-msgstr ""
-
 msgid "An error occured while loading the item: "
 msgstr ""
 
-msgid "Another Inference Rule"
-msgstr ""
-
-msgid "Assignment"
-msgstr ""
-
 msgid "Back"
-msgstr ""
-
-msgid "Browse Tests"
 msgstr ""
 
 msgid "Campaign"
@@ -106,16 +74,16 @@ msgstr ""
 msgid "Campaigns library"
 msgstr ""
 
-msgid "Close (Esc)"
+msgid "close"
 msgstr ""
 
-msgid "Close all"
+msgid "Close (Esc)"
 msgstr ""
 
 msgid "Compilation"
 msgstr ""
 
-msgid "Compilation of the Process"
+msgid "compilation failed"
 msgstr ""
 
 msgid "Compilation of the delivery"
@@ -124,13 +92,28 @@ msgstr ""
 msgid "Compile"
 msgstr ""
 
-msgid "Connector"
+msgid "compile"
 msgstr ""
 
-msgid "Connector Type"
+msgid "compiled with warning"
+msgstr ""
+
+msgid "compiling..."
+msgstr ""
+
+msgid "complete with warning"
+msgstr ""
+
+msgid "complete!"
+msgstr ""
+
+msgid "create table"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+msgid "delete"
 msgstr ""
 
 msgid "Delete History"
@@ -148,6 +131,9 @@ msgstr ""
 msgid "Delivery Class saved"
 msgstr ""
 
+msgid "delivery executions"
+msgstr ""
+
 msgid "Delivery properties"
 msgstr ""
 
@@ -157,34 +143,25 @@ msgstr ""
 msgid "Drag and drop the tests to order them"
 msgstr ""
 
-msgid "ELSE"
+msgid "duplicate"
 msgstr ""
 
 msgid "Edit Campaign"
 msgstr ""
 
-msgid "Edit ResultServer"
-msgstr ""
-
 msgid "Edit campaign class"
-msgstr ""
-
-msgid "Edit delivery"
 msgstr ""
 
 msgid "Edit delivery class"
 msgstr ""
 
-msgid "Edit error"
+msgid "Edit ResultServer"
 msgstr ""
 
 msgid "Edit resultServer class"
 msgstr ""
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr ""
-
-msgid "Else"
 msgstr ""
 
 msgid "Enter remark text here"
@@ -199,10 +176,13 @@ msgstr ""
 msgid "Execution History"
 msgstr ""
 
+msgid "export"
+msgstr ""
+
 msgid "Export - Debug only (Ctrl-E)"
 msgstr ""
 
-msgid "Filter"
+msgid "failed!"
 msgstr ""
 
 msgid "Finished Test"
@@ -212,12 +192,6 @@ msgid "For instance, it is a way to organize deliveries with a common objectives
 msgstr ""
 
 msgid "Formal Parameter"
-msgstr ""
-
-msgid "Formal Parameter IN"
-msgstr ""
-
-msgid "Formal Parameter OUT"
 msgstr ""
 
 msgid "Forward"
@@ -235,10 +209,7 @@ msgstr ""
 msgid "History deleted successfully"
 msgstr ""
 
-msgid "IF"
-msgstr ""
-
-msgid "If"
+msgid "import"
 msgstr ""
 
 msgid "Initialize new test"
@@ -247,22 +218,13 @@ msgstr ""
 msgid "Issue found for the process definiiton of the test"
 msgstr ""
 
-msgid "Label"
-msgstr ""
-
 msgid "Loading next item..."
 msgstr ""
 
+msgid "loading..."
+msgstr ""
+
 msgid "Logout"
-msgstr ""
-
-msgid "Manage Campaigns"
-msgstr ""
-
-msgid "Manage Deliveries"
-msgstr ""
-
-msgid "Manage Result Servers"
 msgstr ""
 
 msgid "Manage campaigns"
@@ -274,38 +236,34 @@ msgstr ""
 msgid "Manage result servers"
 msgstr ""
 
-msgid "New Test"
+msgid "move"
+msgstr ""
+
+msgid "new campaign"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "new delivery"
+msgstr ""
+
+msgid "new result server"
 msgstr ""
 
 msgid "No account match the given login / password"
 msgstr ""
 
-msgid "No thanks"
-msgstr ""
-
 msgid "No user is logged in"
-msgstr ""
-
-msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
 msgstr ""
 
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
 msgstr ""
 
-msgid "Open all"
+msgid "ok"
 msgstr ""
 
 msgid "Pause"
-msgstr ""
-
-msgid "Please confirm deletion"
-msgstr ""
-
-msgid "Please confirm deletion.
- Warning: related resources might be affected."
-msgstr ""
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
 msgstr ""
 
 msgid "Please confirm history deletion"
@@ -320,16 +278,13 @@ msgstr ""
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr ""
 
-msgid "Process Activities"
+msgid "Prepare, publish deliveries sessions and campaigns."
 msgstr ""
 
 msgid "Process Property"
 msgstr ""
 
 msgid "Process Variables"
-msgstr ""
-
-msgid "Property"
 msgstr ""
 
 msgid "Question (Ctrl-Q)"
@@ -359,13 +314,13 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+msgid "search"
+msgstr ""
+
 msgid "Select a test"
 msgstr ""
 
 msgid "Select delivery"
-msgstr ""
-
-msgid "Select delivery campaign"
 msgstr ""
 
 msgid "Select delivery tests"
@@ -380,10 +335,10 @@ msgstr ""
 msgid "Service Definition"
 msgstr ""
 
-msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
+msgid "simple mode"
 msgstr ""
 
-msgid "Start/Resume the case"
+msgid "stand by"
 msgstr ""
 
 msgid "Start/Resume the test"
@@ -398,19 +353,10 @@ msgstr ""
 msgid "Suppress"
 msgstr ""
 
-msgid "Sure?"
-msgstr ""
-
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
 
 msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "THEN"
-msgstr ""
-
-msgid "Test"
 msgstr ""
 
 msgid "Tests sequence"
@@ -419,10 +365,10 @@ msgstr ""
 msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
 msgstr ""
 
-msgid "The Delivery module allows users to define tests delivery parameters."
+msgid "The delivery is not compiled yet"
 msgstr ""
 
-msgid "The delivery is not compiled yet"
+msgid "The Delivery module allows users to define tests delivery parameters."
 msgstr ""
 
 msgid "The delivery process has isolated connectors"
@@ -443,16 +389,25 @@ msgstr ""
 msgid "The following items do not exist or are empty"
 msgstr ""
 
-msgid "The test"
+msgid "the login must not be empty"
 msgstr ""
 
-msgid "The test collection for the language"
+msgid "the password must not be empty"
 msgstr ""
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
 
 msgid "The test process has isolated connectors"
 msgstr ""
 
-msgid "Then"
+msgid "There are currently"
+msgstr ""
+
+msgid "There is currently no delivery execution."
+msgstr ""
+
+msgid "there is no initial activity for the delivery process definition"
 msgstr ""
 
 msgid "There is no initial activity for the test process definition"
@@ -473,177 +428,15 @@ msgstr ""
 msgid "Unable to load the compiled item content"
 msgstr ""
 
-msgid "Use the * character to replace any string"
-msgstr ""
-
-msgid "User Id."
+msgid "unknown label"
 msgstr ""
 
 msgid "User name:"
 msgstr ""
 
+msgid "View History"
+msgstr ""
+
 msgid "Wrong delivery uri"
-msgstr ""
-
-msgid "advanced mode"
-msgstr ""
-
-msgid "cancel"
-msgstr ""
-
-msgid "check code"
-msgstr ""
-
-msgid "checking the code..."
-msgstr ""
-
-msgid "close"
-msgstr ""
-
-msgid "compilation failed"
-msgstr ""
-
-msgid "compile"
-msgstr ""
-
-msgid "compiled with warning"
-msgstr ""
-
-msgid "compiling..."
-msgstr ""
-
-msgid "complete with warning"
-msgstr ""
-
-msgid "complete!"
-msgstr ""
-
-msgid "create new activity"
-msgstr ""
-
-msgid "create new connector"
-msgstr ""
-
-msgid "create table"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "duplicate"
-msgstr ""
-
-msgid "edit campaign"
-msgstr ""
-
-msgid "edit result server"
-msgstr ""
-
-msgid "export"
-msgstr ""
-
-msgid "failed!"
-msgstr ""
-
-msgid "import"
-msgstr ""
-
-msgid "interactive service saved"
-msgstr ""
-
-msgid "is not active so cannot be compiled"
-msgstr ""
-
-msgid "loading..."
-msgstr ""
-
-msgid "move"
-msgstr ""
-
-msgid "must not be empty"
-msgstr ""
-
-msgid "new campaign"
-msgstr ""
-
-msgid "new class"
-msgstr ""
-
-msgid "new delivery"
-msgstr ""
-
-msgid "new property"
-msgstr ""
-
-msgid "new result server"
-msgstr ""
-
-msgid "ok"
-msgstr ""
-
-msgid "please choose another one"
-msgstr ""
-
-msgid "rdf"
-msgstr ""
-
-msgid "reload"
-msgstr ""
-
-msgid "reloading form..."
-msgstr ""
-
-msgid "save"
-msgstr ""
-
-msgid "saved"
-msgstr ""
-
-msgid "search"
-msgstr ""
-
-msgid "simple mode"
-msgstr ""
-
-msgid "stand by"
-msgstr ""
-
-msgid "the chosen code has already been used for the process variable"
-msgstr ""
-
-msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
-msgstr ""
-
-msgid "the following file(s) could not be copied for the test"
-msgstr ""
-
-msgid "the following file(s) could not be created for the test"
-msgstr ""
-
-msgid "the following item do not exist in or have not been translated into"
-msgstr ""
-
-msgid "the following item(s) has not been translated into"
-msgstr ""
-
-msgid "the login must not be empty"
-msgstr ""
-
-msgid "the password must not be empty"
-msgstr ""
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr ""
-
-msgid "type??"
-msgstr ""
-
-msgid "undefined"
-msgstr ""
-
-msgid "unknown label"
-msgstr ""
-
-msgid "wrong login or/and password,<br/> please try again"
 msgstr ""
 

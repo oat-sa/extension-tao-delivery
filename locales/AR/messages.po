@@ -1,14 +1,24 @@
-msgid "(still undefined)"
-msgstr "(لا يزال غير معروف)"
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.2-alpha\n"
+"PO-Revision-Date: 2012-01-18T15:50:37\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: AR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "(Ctrl-C)"
+msgstr ""
+
+msgid "(date not available for hardified resource)"
+msgstr ""
 
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
 
 msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
 msgstr "Un serveur de delivery est requise pour chaque livraison, il définit l'endroit où les résultats de cette prestation sera transféré."
-
-msgid "A delviery must to be compiled before being executed. The compilation can be done here."
-msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
 
 msgid "A recompilation is also required after modification on the tests composing a delivery."
 msgstr "Une recompilation est également nécessaire après modification sur les tests composant un delivery."
@@ -22,20 +32,8 @@ msgstr "الأعمال"
 msgid "Active Deliveries"
 msgstr "Deliveries actifs"
 
-msgid "Active Tests"
-msgstr "Tests actif"
-
-msgid "Activity"
-msgstr "نشاط"
-
 msgid "Activity Editor"
 msgstr "محرر نشاط"
-
-msgid "Activity or Connector"
-msgstr "نشاط أو رابط"
-
-msgid "Actual"
-msgstr "الجاري"
 
 msgid "Add (Ctrl-A)"
 msgstr "اضافة(Ctrl-A)"
@@ -49,26 +47,20 @@ msgstr "أضف الى المجموعة"
 msgid "Advanced Authoring Tool"
 msgstr "محرر متقدم"
 
+msgid "advanced mode"
+msgstr "الطريقة المتقدمة"
+
 msgid "An error occured during history deletion"
 msgstr "حدث خطا اثناء حذف الارشيف"
 
 msgid "An error occured while loading the item"
 msgstr "Une erreur s'est produite lors du chargement de l'item"
 
-msgid "An error occured while loading the item:"
-msgstr ":حدث خطا اثناء تحميل السؤال"
-
-msgid "Another Inference Rule"
-msgstr "قاعدة استدلال أخرى"
-
-msgid "Assignment"
-msgstr "تعيين"
+msgid "An error occured while loading the item: "
+msgstr ""
 
 msgid "Back"
 msgstr "رجوع"
-
-msgid "Browse Tests"
-msgstr "تصفح الاختبارات"
 
 msgid "Campaign"
 msgstr "Campagne"
@@ -82,17 +74,17 @@ msgstr "Campagne sauvegardée"
 msgid "Campaigns library"
 msgstr "Librairie de campagnes"
 
+msgid "close"
+msgstr "اغلاق"
+
 msgid "Close (Esc)"
 msgstr "إغلاق (Esc)"
-
-msgid "Close all"
-msgstr "إغلاق جميع"
 
 msgid "Compilation"
 msgstr "ترجمة"
 
-msgid "Compilation of the Process"
-msgstr "Compilation du processus de"
+msgid "compilation failed"
+msgstr "فشل الترجمة"
 
 msgid "Compilation of the delivery"
 msgstr "Compilation du delivery"
@@ -100,16 +92,28 @@ msgstr "Compilation du delivery"
 msgid "Compile"
 msgstr "ترجمة"
 
-msgid "Connector"
-msgstr "رابط"
+msgid "compile"
+msgstr "ترجم"
 
-msgid "Connector Type"
-msgstr "نوع الرابط"
+msgid "compiled with warning"
+msgstr "compilé avec des alertes"
 
-msgid "DE"
-msgstr "الالمانية"
+msgid "compiling..."
+msgstr "...ترجمة"
+
+msgid "complete with warning"
+msgstr "مع التنبيه"
+
+msgid "complete!"
+msgstr "!كامل"
+
+msgid "create table"
+msgstr "انشاء جدول"
 
 msgid "Delete"
+msgstr "حذف"
+
+msgid "delete"
 msgstr "حذف"
 
 msgid "Delete History"
@@ -127,8 +131,8 @@ msgstr "Delivery"
 msgid "Delivery Class saved"
 msgstr "Classe de Delivery Sauvegardée"
 
-msgid "Delivery authoring"
-msgstr "Editer un delivery"
+msgid "delivery executions"
+msgstr ""
 
 msgid "Delivery properties"
 msgstr "Propriétés du delivery"
@@ -139,38 +143,26 @@ msgstr "Delivery Sauvegardé"
 msgid "Drag and drop the tests to order them"
 msgstr "سحب و اسقاط الاختبارات لترتيبها"
 
-msgid "ELSE"
-msgstr "اخر"
-
-msgid "EN"
-msgstr "الانجليزية"
+msgid "duplicate"
+msgstr "تكرار"
 
 msgid "Edit Campaign"
 msgstr "تحرير"
 
-msgid "Edit ResultServer"
-msgstr "تحرير خادم نتائج"
-
 msgid "Edit campaign class"
 msgstr "Editer une classe de campagne"
-
-msgid "Edit delivery"
-msgstr "Editer un Delivery"
 
 msgid "Edit delivery class"
 msgstr "Editer une classe de Delivery"
 
-msgid "Edit error"
-msgstr "تحرير الخطأ"
+msgid "Edit ResultServer"
+msgstr "تحرير خادم نتائج"
 
 msgid "Edit resultServer class"
 msgstr "تحرير صنف خادم نتيجة"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Modifier un delivery consiste à mettre les tests qui composent le delivery et leur séquence, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par l'sujet, la période de delivery, le serveur de résultat."
-
-msgid "Else"
-msgstr "Sinon"
 
 msgid "Enter remark text here"
 msgstr "أدخل النص لملاحظة هنا"
@@ -184,14 +176,14 @@ msgstr "Erreur dans le processus de test"
 msgid "Execution History"
 msgstr "تاريخ التنفيذ"
 
+msgid "export"
+msgstr "تصدير"
+
 msgid "Export - Debug only (Ctrl-E)"
 msgstr "(Ctrl-E)تصدير - تصحيح فقط"
 
-msgid "FR"
-msgstr "الفرنسية"
-
-msgid "Filter"
-msgstr "فلتر"
+msgid "failed!"
+msgstr "!فشل"
 
 msgid "Finished Test"
 msgstr "الاختبار المنتهي"
@@ -201,12 +193,6 @@ msgstr "Par exemple, c'est un moyen d'organiser les deliveries avec un des objec
 
 msgid "Formal Parameter"
 msgstr "اعداد شكلي"
-
-msgid "Formal Parameter IN"
-msgstr "Paramètre formel en ENTREE"
-
-msgid "Formal Parameter OUT"
-msgstr "Paramètre formel en SORTIE"
 
 msgid "Forward"
 msgstr "تحويل"
@@ -223,11 +209,8 @@ msgstr "التاريخ"
 msgid "History deleted successfully"
 msgstr "تم حذف الارشيف بنجاح"
 
-msgid "IF"
-msgstr "اذا"
-
-msgid "If"
-msgstr "اذا"
+msgid "import"
+msgstr "استيراد"
 
 msgid "Initialize new test"
 msgstr "ابدا اختبار جديد"
@@ -235,26 +218,14 @@ msgstr "ابدا اختبار جديد"
 msgid "Issue found for the process definiiton of the test"
 msgstr "Un problème a été détecté dans la définition du processus du test"
 
-msgid "LU"
-msgstr "اللكسمبورجية"
-
-msgid "Label"
-msgstr "تسمية"
-
 msgid "Loading next item..."
 msgstr "...تحميل السؤال التالي"
 
+msgid "loading..."
+msgstr "...تحميل"
+
 msgid "Logout"
 msgstr "خروج"
-
-msgid "Manage Campaigns"
-msgstr "Gérer les campagnes"
-
-msgid "Manage Deliveries"
-msgstr "Gérer les deliveries"
-
-msgid "Manage Result Servers"
-msgstr "Gérer les serveurs de résultats"
 
 msgid "Manage campaigns"
 msgstr "إدارة العمليات"
@@ -265,32 +236,35 @@ msgstr "Gérer les deliveries"
 msgid "Manage result servers"
 msgstr "ادارة خوادم النتائج"
 
-msgid "New Test"
-msgstr "اختبار جديد"
+msgid "move"
+msgstr "حرك"
+
+msgid "new campaign"
+msgstr "Nouvelle camapgne"
+
+msgid "new class"
+msgstr "صنف جديد"
+
+msgid "new delivery"
+msgstr "Nouveau Delivery"
+
+msgid "new result server"
+msgstr "خادم نتائج جديد"
 
 msgid "No account match the given login / password"
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
-msgid "No thanks"
-msgstr "لا شكرا"
-
 msgid "No user is logged in"
 msgstr "لم يتم دخول اي مستخدم"
 
-msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
-msgstr "Aucun contrat WSDL valide trouvée pour le serveur résultat défini. <br/> S'il vous plaît sélectionner un valide dans le module d'édition de livraison puis essayez à nouveau."
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgstr ""
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery."
-msgstr "A noter: veuillez vérifier que tous les tests composant la passation sont définis correctement et sont "actifs" dans l'extension Tests, avant de compiler la passation."
+msgid "ok"
+msgstr "موافق"
 
 msgid "Pause"
 msgstr "وقف"
-
-msgid "Please confirm deletion"
-msgstr "الرجاء تأكيد الحذف"
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "الرجاء تأكيد الحذف"
 
 msgid "Please confirm history deletion"
 msgstr "الرجاء تاكيد حذف الارشيف"
@@ -304,17 +278,14 @@ msgstr "Veuillez sélectionner un delivery avant de l'éditer."
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
 
-msgid "Process Activities"
-msgstr "Activités du processus"
+msgid "Prepare, publish deliveries sessions and campaigns."
+msgstr ""
 
 msgid "Process Property"
 msgstr "Propriété du processus"
 
 msgid "Process Variables"
 msgstr "Variables de processus"
-
-msgid "Property"
-msgstr "خاصية"
 
 msgid "Question (Ctrl-Q)"
 msgstr "(Ctrl-Q) سؤال"
@@ -343,14 +314,14 @@ msgstr "دور"
 msgid "Save"
 msgstr "حفظ"
 
+msgid "search"
+msgstr "بحث"
+
 msgid "Select a test"
 msgstr "تحديد اختبار"
 
 msgid "Select delivery"
 msgstr "Choisir un delivery"
-
-msgid "Select delivery campaign"
-msgstr "Selectionner une campagne de delivery"
 
 msgid "Select delivery tests"
 msgstr "Sélectionnez les tests du delivery"
@@ -364,11 +335,11 @@ msgstr "تم حفظ التسلسل بنجاح"
 msgid "Service Definition"
 msgstr "تعريف الخدمة"
 
-msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
-msgstr "Désolé, le test ne semble pas être compilé. <br/> Veuillez le compiler puis essayez à nouveau."
+msgid "simple mode"
+msgstr "الطريقة البسيطة"
 
-msgid "Start/Resume the case"
-msgstr "Start / Resume le cas"
+msgid "stand by"
+msgstr "STAND BY"
 
 msgid "Start/Resume the test"
 msgstr "Start / Resume le test"
@@ -382,38 +353,23 @@ msgstr "الموضوع"
 msgid "Suppress"
 msgstr "حذف"
 
-msgid "Sure?"
-msgstr "هل انت متاكد؟"
-
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
 
 msgid "TAO Delivery Server"
 msgstr "Serveur de delivery TAO"
 
-msgid "THEN"
-msgstr "ثم"
-
-msgid "Test"
-msgstr "اختبار"
-
 msgid "Tests sequence"
 msgstr "سلسلة الاختبارات"
-
-msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "Cette section permet d'ajouter, d'éditer et d'assigner des deliveries à une campagne de delivery"
 
 msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
 msgstr "La Section de la gestion de la campagne permet d'ajouter, modifier et attribuer les livraisons aux campagnes de livraison."
 
-msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
-
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
 
 msgid "The delivery process has isolated connectors"
 msgstr "Le processus de passation a des connecteurs isolés"
@@ -433,17 +389,26 @@ msgstr "السؤال التالي لا يوجد او لم يتم ترجمته"
 msgid "The following items do not exist or are empty"
 msgstr "الاسئلة التالية لا توجد او فارغة"
 
-msgid "The test"
-msgstr "الاختبار"
+msgid "the login must not be empty"
+msgstr "المعرف لا يجب ان يكون فارغ"
 
-msgid "The test collection for the language"
-msgstr "سلسلة الاختبار الخاصة باللغة"
+msgid "the password must not be empty"
+msgstr "لا يجب ان تكون كلمة السر خالية"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
 
 msgid "The test process has isolated connectors"
 msgstr "Le processus de test contient des connecteurs isolés"
 
-msgid "Then"
-msgstr "Ensuite,"
+msgid "There are currently"
+msgstr ""
+
+msgid "There is currently no delivery execution."
+msgstr ""
+
+msgid "there is no initial activity for the delivery process definition"
+msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
 
 msgid "There is no initial activity for the test process definition"
 msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
@@ -457,210 +422,21 @@ msgstr "الوقت"
 msgid "Type (Ctrl-T)"
 msgstr "(Ctrl-T)النوع"
 
+msgid "Unable to load the  delivery"
+msgstr ""
+
 msgid "Unable to load the compiled item content"
 msgstr "Impossible de charger le contenu de l'item compilé"
 
-msgid "Use the * character to replace any string"
-msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
-
-msgid "User Id."
-msgstr "معرف المستخدم"
+msgid "unknown label"
+msgstr ""
 
 msgid "User name:"
 msgstr ":اسم المستخدم"
 
-msgid "advanced mode"
-msgstr "الطريقة المتقدمة"
-
-msgid "cache"
-msgstr "اخفاء"
-
-msgid "cancel"
-msgstr "الغاء"
-
-msgid "check code"
-msgstr "التحقق من الرمز"
-
-msgid "checking the code..."
-msgstr "...التحقق من الرمز"
-
-msgid "close"
-msgstr "اغلاق"
-
-msgid "compilation failed"
-msgstr "فشل الترجمة"
-
-msgid "compile"
-msgstr "ترجم"
-
-msgid "compiled with warning"
-msgstr "compilé avec des alertes"
-
-msgid "compiling..."
-msgstr "...ترجمة"
-
-msgid "complete with warning"
-msgstr "مع التنبيه"
-
-msgid "complete!"
-msgstr "!كامل"
-
-msgid "create new activity"
-msgstr "انشاء نشاط جديد"
-
-msgid "create new connector"
-msgstr "انشاء رابط جديد"
-
-msgid "create table"
-msgstr "انشاء جدول"
-
-msgid "delete"
-msgstr "حذف"
-
-msgid "duplicate"
-msgstr "تكرار"
-
-msgid "edit campaign"
-msgstr "Editer une campagne"
-
-msgid "edit delivery"
-msgstr "Editer un delivery"
-
-msgid "edit result server"
-msgstr "تحرير خادم نتائج"
-
-msgid "export"
-msgstr "تصدير"
-
-msgid "failed!"
-msgstr "!فشل"
-
-msgid "import"
-msgstr "استيراد"
-
-msgid "interactive service saved"
-msgstr "service interactif sauvegardé"
-
-msgid "is not active so cannot be compiled"
-msgstr "غير نشط لا يمكن ترجمته"
-
-msgid "loading..."
-msgstr "...تحميل"
-
-msgid "move"
-msgstr "حرك"
-
-msgid "must not be empty"
-msgstr "يجب ان لا يكون فارغ"
-
-msgid "new campaign"
-msgstr "Nouvelle camapgne"
-
-msgid "new class"
-msgstr "صنف جديد"
-
-msgid "new delivery"
-msgstr "Nouveau Delivery"
-
-msgid "new property"
-msgstr "خاصية جديدة"
-
-msgid "new result server"
-msgstr "خادم نتائج جديد"
-
-msgid "ok"
-msgstr "موافق"
-
-msgid "please choose another one"
-msgstr "الرجاء اختيار اخر"
-
-msgid "rdf"
-msgstr "rdf"
-
-msgid "reload"
-msgstr "اعادة التحميل"
-
-msgid "reloading form..."
-msgstr "rechargement du formulaire ..."
-
-msgid "save"
-msgstr "حفظ"
-
-msgid "saved"
-msgstr "تم الحفظ"
-
-msgid "search"
-msgstr "بحث"
-
-msgid "simple mode"
-msgstr "الطريقة البسيطة"
-
-msgid "stand by"
-msgstr "STAND BY"
-
-msgid "the chosen code has already been used for the process variable"
-msgstr "le code choisi a déjà été utilisé pour la variable de processus"
-
-msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
-msgstr "le delivery a été compilé avec succès, mais un problème s'est produit avec le statut de livraison mise à jour"
-
-msgid "the following file(s) could not be copied for the test"
-msgstr "لا يمكن نسخ الملف التالي للاختبار"
-
-msgid "the following file(s) could not be created for the test"
-msgstr "لا يمكن انشاء الملف التالي للاختبار"
-
-msgid "the following item do not exist in or have not been translated into"
-msgstr "السؤال التالي لا يوجد او لم يتم ترجمته"
-
-msgid "the following item(s) has not been translated into"
-msgstr "السؤال التالي لم يتم ترجمته"
-
-msgid "the login must not be empty"
-msgstr "المعرف لا يجب ان يكون فارغ"
-
-msgid "the password must not be empty"
-msgstr "لا يجب ان تكون كلمة السر خالية"
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
-
-msgid "type??"
-msgstr "نوع؟"
-
-msgid "undefined"
-msgstr "غير معرف"
-
-msgid "view history"
-msgstr "مشاهدة التاريخ"
-
-msgid "wrong login or/and password,<br/> please try again"
-msgstr "mauvais login et / ou mot de passe, <br/> Veuillez essayer à nouveau"
-
-msgid "فتح الكل"
-msgstr "Ouvrir tout"
-
-msgid ""
-msgstr ""
-
-msgid "(Ctrl-C)"
-msgstr ""
-
-msgid "(date not available for hardified resource)"
-msgstr ""
-
-msgid "An error occured while loading the item: "
-msgstr ""
-
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr ""
-
-msgid "Unable to load the  delivery"
+msgid "View History"
 msgstr ""
 
 msgid "Wrong delivery uri"
-msgstr ""
-
-msgid "unknown label"
 msgstr ""
 
