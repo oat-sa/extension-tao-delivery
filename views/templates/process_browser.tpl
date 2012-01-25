@@ -46,7 +46,22 @@
 				$aFrame.unbind('load').load(function(){
 					$(this).attr('src', "<?=$service['callUrl']?>");
 					$(this).unbind('load');
+					
+					$(this).load(function() {
+						// Auto adapt tool container regarding iframe heights
+						var frame = this;
+						var doc = frame.contentWindow || frame.contentDocument;
+						
+						if (doc.document) {
+							doc = doc.document;	
+						}
+						
+						var oldHeight = $('#tools').height();
+						var height = $(doc).height();
+						$('#tools').height(height + oldHeight);	
+					});
 				});
+				
 				<?endforeach;?>
 			   
 			   <?if(get_data('debugWidget')):?>
