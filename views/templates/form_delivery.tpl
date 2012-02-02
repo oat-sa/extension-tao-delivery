@@ -1,24 +1,24 @@
 <?include('header.tpl')?>
 
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
-   
+
 <div id="delivery-left-container">
 	<?if(get_data('authoringMode') == 'simple'):?>
-	
+
 	<?include('delivery_tests.tpl');?>
 	<div class="breaker"></div>
 	<?endif?>
-	
+
 	<?include('groups.tpl')?>
 	<?include('subjects.tpl')?>
 	<div class="breaker"></div>
-	
+
 	<?include('delivery_campaign.tpl')?>
 	<div class="breaker"></div>
-		
+
 </div>
 
-<div class="main-container" id="delivery-main-container">
+<div class="main-container medium" id="delivery-main-container">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
@@ -39,27 +39,27 @@
 			<?=__('The delivery is not compiled yet')?>
 		<?endif;?>
 		</p>
-		
+
 		<span>
 			<a id='compileLink' class='nav' href="<?=BASE_URL.'/Delivery/CompileView?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
 				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
 				<?if(get_data('isCompiled')):?>
-					<?=__('Recompile')?> 
+					<?=__('Recompile')?>
 				<?else:?>
 					<?=__('Compile')?>
 				<?endif;?>
-				
+
 			</a>
 		</span>
-		
+
 		<br/>
-		
+
 		</div>
 	</div>
 	<?endif;?>
-	
+
 	<?include('delivery_history.tpl');?>
-	
+
 </div>
 
 <?include('footer.tpl');?>

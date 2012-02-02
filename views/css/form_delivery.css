@@ -4,12 +4,12 @@ div.data-container{
 
 #delivery-left-container{
 	float:left;
-	position:relative;
-	width:46%;
+	/*position:relative;*/
+	width:50%;
 }
 
 #delivery-main-container{
-	margin-left:46%;
+	/*margin-left:46%;*/
 }
 
 #test-container, #group-container, #campaign-container{
