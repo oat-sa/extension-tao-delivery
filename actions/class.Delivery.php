@@ -166,7 +166,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 				tao_helpers_form_FormFactory::getValidator(
 					'DateTime', 
 					array(
-						'comparator' => '>',
+						'comparator' => '>=',
 						'datetime2_ref' => $myForm->getElement(tao_helpers_Uri::encode(TAO_DELIVERY_START_PROP))
 					)
 				)

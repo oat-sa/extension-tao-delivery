@@ -139,10 +139,18 @@ class taoDelivery_models_classes_DeliveryServerService
 			}
 			
 			if(!empty($startDate)){
-				if(!empty($endDate)) {$returnValue = (date_create()>=$startDate and date_create()<=$endDate); }
-				else  {$returnValue = (date_create()>=$startDate);}
+				if(!empty($endDate)){
+				    $endDate->add(new DateInterval("P1D"));
+				    $returnValue = (date_create()>=$startDate and date_create()<=$endDate); 
+                }
+				else{
+				    $returnValue = (date_create()>=$startDate);
+                }
 			}else{
-				if(!empty($endDate)) {$returnValue = (date_create()<=$endDate);}
+				if(!empty($endDate)){
+				    $endDate->add(new DateInterval("P1D"));
+				    $returnValue = (date_create()<=$endDate);
+                }
 				else $returnValue = true;
 			}
 			
