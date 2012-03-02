@@ -21,5 +21,14 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
 	protected function autoredirectToIndex(){
 		$this->redirectToIndex();
 	}
+    
+    /**
+     * Behaviour to adopt if the user is not allowed to access the current action.
+     */
+    protected function notAllowedRedirection() {
+        $this->redirect(_url('index', 'DeliveryServerAuthentification', 'taoDelivery', array(
+                    'errorMessage' => urlencode(__('Access denied. Please renew your authentication.'))
+                )));
+    }
 }
 ?>
