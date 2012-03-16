@@ -40,7 +40,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="EN"><![CDATA[Period Start]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Start Date]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[The start date of the delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
@@ -50,7 +50,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="EN"><![CDATA[Period End]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[End Date]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[The end date of the delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
