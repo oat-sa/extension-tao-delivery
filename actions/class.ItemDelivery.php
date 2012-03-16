@@ -155,11 +155,13 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 					$delivery 			= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
 					$resultServer 		= $deliveryService->getResultServer($delivery);
 					if(!is_null($resultServer)){
-						$resultServerService 	= taoDelivery_models_classes_ResultServerService::singleton();
-						$resultServer 			= new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+						$resultServerService 	= taoDelivery_models_classes_ResultServerAuthoringService::singleton();
+						//$resultServer 			= new core_kernel_classes_Resource(TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 						$deploymentParams 		= $resultServerService->getDelpoymentParameters($resultServer);
+					} else {
+						common_Logger::w('No resultserver for delivery '.$delivery->getUri().' during initApis()', 'TAODELIVERY');
 					}
-
+					
 					//response is a javascript stream 
 					$this->setContentHeader('application/javascript');
 					

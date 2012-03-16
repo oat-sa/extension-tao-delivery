@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery/models/classes/class.ResultServerService.php
+ * TAO - taoDelivery/models/classes/class.ResultServerAuthoringService.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 10.11.2010, 17:10:06 with ArgoUML PHP module 
+ * Automatically generated on 02.03.2012, 10:50:06 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -38,14 +38,14 @@ require_once('tao/models/classes/class.GenerisService.php');
 // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201D-constants end
 
 /**
- * Short description of class taoDelivery_models_classes_ResultServerService
+ * Short description of class
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
-class taoDelivery_models_classes_ResultServerService
+class taoDelivery_models_classes_ResultServerAuthoringService
     extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
@@ -67,7 +67,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -85,7 +85,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method createResultServerClass
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @param  array properties
@@ -123,7 +123,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method deleteResultServer
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource resultServer
      * @return boolean
      */
@@ -146,7 +146,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method deleteResultServerClass
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -171,7 +171,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method getRelatedDeliveries
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource resultServer
      * @return array
      */
@@ -201,7 +201,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method getResultServer
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string identifier
      * @param  string mode
      * @param  Class clazz
@@ -229,7 +229,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method setRelatedDeliveries
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource resultServer
      * @param  array deliveries
      * @return boolean
@@ -280,7 +280,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method isResultServerClass
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -311,7 +311,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method getResultServerClass
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Class
      */
@@ -340,7 +340,7 @@ class taoDelivery_models_classes_ResultServerService
      * Short description of method getDelpoymentParameters
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource resultServer
      * @return array
      */
@@ -370,6 +370,6 @@ class taoDelivery_models_classes_ResultServerService
         return (array) $returnValue;
     }
 
-} /* end of class taoDelivery_models_classes_ResultServerService */
+} /* end of class taoDelivery_models_classes_ResultServerAuthoringService */
 
 ?>

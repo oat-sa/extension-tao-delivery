@@ -303,9 +303,9 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900">
     <rdf:type xml:lang="EN" rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
     <rdfs:label><![CDATA[Local Result Server]]></rdfs:label>
-    <delivery:saveResultUrl><![CDATA[/taoDelivery/ResultDelivery/save]]></delivery:saveResultUrl>
-    <delivery:saveEventUrl><![CDATA[/taoDelivery/ResultDelivery/traceEvents]]></delivery:saveEventUrl>
-    <delivery:matchingUrl><![CDATA[/taoDelivery/ResultDelivery/evaluate]]></delivery:matchingUrl>
+    <delivery:saveResultUrl><![CDATA[/taoDelivery/InternalResultServer/save]]></delivery:saveResultUrl>
+    <delivery:saveEventUrl><![CDATA[/taoDelivery/InternalResultServer/traceEvents]]></delivery:saveEventUrl>
+    <delivery:matchingUrl><![CDATA[/taoDelivery/InternalResultServer/evaluate]]></delivery:matchingUrl>
     <delivery:matchingServerSide rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
   </rdf:Description>
 </rdf:RDF>

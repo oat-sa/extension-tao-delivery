@@ -19,7 +19,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = new taoDelivery_models_classes_ResultServerService();
+		$this->service = new taoDelivery_models_classes_ResultServerAuthoringService();
 		$this->defaultData();
 		
 		Session::setAttribute('currentSection', 'result_server');

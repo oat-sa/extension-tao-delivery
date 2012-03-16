@@ -13,7 +13,8 @@ $modules = array(
 	'ProcessBrowser', 
 	'ItemDelivery', 
 	'ResultDelivery',
-	'RecoveryContext'
+	'RecoveryContext',
+	'InternalResultServer'
 );
 $options = array();
 foreach($modules as $module){
