@@ -11,691 +11,721 @@
 >
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_Campaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_Campaign]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module Campaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module Campaign]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[Campaign]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign getCampaigns">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_getCampaigns">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign getCampaigns]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign getCampaigns]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign getCampaigns]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getCampaigns]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getCampaigns]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getCampaigns]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign editCampaignClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_editCampaignClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign editCampaignClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign editCampaignClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign editCampaignClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editCampaignClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editCampaignClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editCampaignClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign editCampaign">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_editCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign editCampaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign editCampaign]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign editCampaign]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editCampaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editCampaign]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editCampaign]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign addCampaign">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_addCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign addCampaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign addCampaign]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign addCampaign]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addCampaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addCampaign]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addCampaign]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign addCampaignClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_addCampaignClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign addCampaignClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign addCampaignClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign addCampaignClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addCampaignClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addCampaignClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addCampaignClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign delete">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_delete">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign delete]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign delete]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign delete]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action delete]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action delete]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[delete]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign cloneCampaign">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_cloneCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign cloneCampaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign cloneCampaign]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign cloneCampaign]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action cloneCampaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action cloneCampaign]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[cloneCampaign]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign getDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_getDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign getDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign getDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign getDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign saveDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_saveDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign saveDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign saveDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign saveDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign getMetaData">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_getMetaData">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign getMetaData]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign getMetaData]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign getMetaData]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getMetaData]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getMetaData]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getMetaData]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign saveComment">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Campaign_saveComment">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Campaign saveComment]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Campaign saveComment]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Campaign saveComment]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveComment]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveComment]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveComment]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_Delivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_Delivery]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module Delivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module Delivery]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[Delivery]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery editDeliveryClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_editDeliveryClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery editDeliveryClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery editDeliveryClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery editDeliveryClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editDeliveryClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editDeliveryClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editDeliveryClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery editDelivery">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_editDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery editDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery editDelivery]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery editDelivery]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editDelivery]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editDelivery]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery advancedMode">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_advancedMode">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery advancedMode]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery advancedMode]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery advancedMode]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action advancedMode]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action advancedMode]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[advancedMode]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery simpleMode">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_simpleMode">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery simpleMode]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery simpleMode]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery simpleMode]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action simpleMode]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action simpleMode]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[simpleMode]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery addDelivery">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_addDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery addDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery addDelivery]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery addDelivery]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addDelivery]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addDelivery]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery addDeliveryClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_addDeliveryClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery addDeliveryClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery addDeliveryClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery addDeliveryClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addDeliveryClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addDeliveryClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addDeliveryClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery delete">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_delete">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery delete]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery delete]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery delete]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action delete]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action delete]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[delete]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery cloneDelivery">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_cloneDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery cloneDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery cloneDelivery]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery cloneDelivery]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action cloneDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action cloneDelivery]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[cloneDelivery]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery authoring">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_authoring">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery authoring]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery authoring]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery authoring]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action authoring]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action authoring]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[authoring]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getSubjects">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getSubjects">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getSubjects]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getSubjects]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getSubjects]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getSubjects]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getSubjects]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getSubjects]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery saveSubjects">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_saveSubjects">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveSubjects]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveSubjects]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery saveSubjects]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveSubjects]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveSubjects]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveSubjects]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getCampaigns">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getCampaigns">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getCampaigns]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getCampaigns]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getCampaigns]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getCampaigns]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getCampaigns]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getCampaigns]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery saveCampaigns">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_saveCampaigns">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveCampaigns]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveCampaigns]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery saveCampaigns]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveCampaigns]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveCampaigns]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveCampaigns]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery compile">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_compile">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery compile]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery compile]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery compile]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action compile]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action compile]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[compile]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery viewHistory">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_viewHistory">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery viewHistory]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery viewHistory]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery viewHistory]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action viewHistory]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action viewHistory]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[viewHistory]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getDeliveryHistory">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getDeliveryHistory">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveryHistory]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveryHistory]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getDeliveryHistory]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveryHistory]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveryHistory]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveryHistory]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery historyData">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_historyData">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery historyData]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery historyData]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery historyData]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action historyData]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action historyData]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[historyData]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery deleteHistory">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_deleteHistory">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery deleteHistory]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery deleteHistory]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery deleteHistory]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action deleteHistory]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action deleteHistory]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[deleteHistory]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getDeliveriesTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getDeliveriesTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveriesTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getDeliveriesTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getDeliveriesTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveriesTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveriesTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveriesTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getAllTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getAllTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getAllTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getAllTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getAllTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getAllTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getAllTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getAllTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery saveTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_saveTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery saveTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery compileView">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_compileView">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery compileView]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery compileView]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery compileView]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action compileView]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action compileView]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[compileView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery initCompilation">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_initCompilation">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery initCompilation]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery initCompilation]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery initCompilation]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action initCompilation]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action initCompilation]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[initCompilation]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery endCompilation">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_endCompilation">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery endCompilation]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery endCompilation]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery endCompilation]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action endCompilation]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action endCompilation]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[endCompilation]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery getGroups">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_getGroups">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery getGroups]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery getGroups]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery getGroups]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getGroups]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getGroups]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getGroups]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery saveGroups">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_Delivery_saveGroups">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveGroups]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_Delivery saveGroups]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_Delivery saveGroups]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveGroups]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveGroups]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveGroups]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_DeliveryAuthoring]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_DeliveryAuthoring]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryAuthoring]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module DeliveryAuthoring]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module DeliveryAuthoring]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[DeliveryAuthoring]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring getTestData">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring_getTestData">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getTestData]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getTestData]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryAuthoring getTestData]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getTestData]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getTestData]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getTestData]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring getDeliveryTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring_getDeliveryTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getDeliveryTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getDeliveryTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryAuthoring getDeliveryTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveryTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveryTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveryTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring getProcessTests">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring_getProcessTests">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getProcessTests]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring getProcessTests]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryAuthoring getProcessTests]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getProcessTests]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getProcessTests]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getProcessTests]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring compileView">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryAuthoring_compileView">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring compileView]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryAuthoring compileView]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryAuthoring compileView]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action compileView]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action compileView]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[compileView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServer]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServer]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module DeliveryServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module DeliveryServer]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[DeliveryServer]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServer initDeliveryExecution">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServer_initDeliveryExecution">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServer initDeliveryExecution]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServer initDeliveryExecution]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServer initDeliveryExecution]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action initDeliveryExecution]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action initDeliveryExecution]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[initDeliveryExecution]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServer index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServer_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServer index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServer index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServer index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServerAuthentification]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServerAuthentification]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServerAuthentification]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module DeliveryServerAuthentification]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module DeliveryServerAuthentification]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[DeliveryServerAuthentification]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServerAuthentification index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServerAuthentification_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServerAuthentification index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServerAuthentification index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServerAuthentification index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServerAuthentification logout">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_DeliveryServerAuthentification_logout">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServerAuthentification logout]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_DeliveryServerAuthentification logout]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServerAuthentification logout]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action logout]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action logout]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[logout]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerModule">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServerModule]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_DeliveryServerModule]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_DeliveryServerModule]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module DeliveryServerModule]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module DeliveryServerModule]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[DeliveryServerModule]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
+    <rdfs:label xml:lang="EN"><![CDATA[module InternalResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module InternalResultServer]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[InternalResultServer]]></funcacl:moduleIdentifier>
+		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_InternalResultServer_save">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[action save]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action save]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[save]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_InternalResultServer_traceEvents">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[action traceEvents]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action traceEvents]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[traceEvents]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_InternalResultServer_evaluate">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[action evaluate]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action evaluate]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[evaluate]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+  </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_ItemDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_ItemDelivery]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_ItemDelivery]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module ItemDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module ItemDelivery]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[ItemDelivery]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ItemDelivery index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery runner">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery_runner">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery runner]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery runner]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ItemDelivery runner]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action runner]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action runner]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[runner]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery initApis">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ItemDelivery_initApis">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery initApis]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ItemDelivery initApis]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ItemDelivery initApis]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action initApis]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action initApis]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[initApis]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_ProcessBrowser]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_ProcessBrowser]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_ProcessBrowser]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module ProcessBrowser]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module ProcessBrowser]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[ProcessBrowser]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ProcessBrowser loading">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ProcessBrowser_loading">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ProcessBrowser loading]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ProcessBrowser loading]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ProcessBrowser loading]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action loading]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action loading]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[loading]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_RecoveryContext">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_RecoveryContext]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_RecoveryContext]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_RecoveryContext]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module RecoveryContext]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module RecoveryContext]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[RecoveryContext]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_ResultDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_ResultDelivery]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module ResultDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module ResultDelivery]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[ResultDelivery]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery initialize">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery_initialize">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery initialize]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery initialize]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery initialize]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action initialize]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action initialize]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[initialize]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery evaluate">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery_evaluate">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery evaluate]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery evaluate]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery evaluate]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action evaluate]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action evaluate]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[evaluate]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery save">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery_save">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery save]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery save]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery save]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action save]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action save]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[save]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery getEvents">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery_getEvents">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery getEvents]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery getEvents]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery getEvents]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getEvents]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getEvents]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getEvents]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery traceEvents">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultDelivery_traceEvents">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery traceEvents]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultDelivery traceEvents]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultDelivery traceEvents]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action traceEvents]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action traceEvents]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[traceEvents]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_ResultServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_ResultServer]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module ResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module ResultServer]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[ResultServer]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer getResultServers">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_getResultServers">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getResultServers]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getResultServers]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer getResultServers]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getResultServers]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getResultServers]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getResultServers]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer editResultServerClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_editResultServerClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer editResultServerClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer editResultServerClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer editResultServerClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editResultServerClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editResultServerClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editResultServerClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer editResultServer">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_editResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer editResultServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer editResultServer]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer editResultServer]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action editResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action editResultServer]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editResultServer]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer addResultServer">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_addResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer addResultServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer addResultServer]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer addResultServer]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addResultServer]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addResultServer]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer addResultServerClass">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_addResultServerClass">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer addResultServerClass]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer addResultServerClass]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer addResultServerClass]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action addResultServerClass]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action addResultServerClass]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addResultServerClass]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer delete">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_delete">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer delete]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer delete]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer delete]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action delete]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action delete]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[delete]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer cloneResultServer">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_cloneResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer cloneResultServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer cloneResultServer]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer cloneResultServer]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action cloneResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action cloneResultServer]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[cloneResultServer]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer getDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_getDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer getDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer saveDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_saveDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer saveDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer saveDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer saveDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer getMetaData">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_getMetaData">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getMetaData]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer getMetaData]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer getMetaData]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action getMetaData]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action getMetaData]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getMetaData]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer saveComment">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_ResultServer_saveComment">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_ResultServer saveComment]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_ResultServer saveComment]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_ResultServer saveComment]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action saveComment]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action saveComment]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[saveComment]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_SaSCampaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_SaSCampaign]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSCampaign]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module SaSCampaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module SaSCampaign]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[SaSCampaign]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSCampaign setView">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSCampaign_setView">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSCampaign setView]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSCampaign setView]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSCampaign setView]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action setView]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action setView]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[setView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSCampaign selectDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSCampaign_selectDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSCampaign selectDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSCampaign selectDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSCampaign selectDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action selectDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action selectDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[selectDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_SaSDelivery]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_SaSDelivery]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSDelivery]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module SaSDelivery]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module SaSDelivery]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[SaSDelivery]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery setView">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery_setView">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery setView]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery setView]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSDelivery setView]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action setView]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action setView]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[setView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery excludeSubjects">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery_excludeSubjects">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery excludeSubjects]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery excludeSubjects]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSDelivery excludeSubjects]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action excludeSubjects]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action excludeSubjects]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[excludeSubjects]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery selectCampaign">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSDelivery_selectCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery selectCampaign]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSDelivery selectCampaign]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSDelivery selectCampaign]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action selectCampaign]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action selectCampaign]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[selectCampaign]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_SaSResultServer]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_SaSResultServer]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSResultServer]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module SaSResultServer]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module SaSResultServer]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[SaSResultServer]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSResultServer setView">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSResultServer_setView">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSResultServer setView]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSResultServer setView]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSResultServer setView]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action setView]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action setView]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[setView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer" />
   </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSResultServer selectDeliveries">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_SaSResultServer_selectDeliveries">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_SaSResultServer selectDeliveries]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_SaSResultServer selectDeliveries]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_SaSResultServer selectDeliveries]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action selectDeliveries]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action selectDeliveries]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[selectDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer" />
   </rdf:Description>
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Settings">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_Settings]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_Settings]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_Settings]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module Settings]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module Settings]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[Settings]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_WebService">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module taoDelivery_WebService]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module taoDelivery_WebService]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[taoDelivery_WebService]]></funcacl:moduleIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[module WebService]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module WebService]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[WebService]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_WebService index">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_WebService_index">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label xml:lang="EN"><![CDATA[action taoDelivery_WebService index]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[action taoDelivery_WebService index]]></rdfs:comment>
-		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[taoDelivery_WebService index]]></funcacl:actionIdentifier>
+    <rdfs:label xml:lang="EN"><![CDATA[action index]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[action index]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_WebService" />
   </rdf:Description>
 
