@@ -81,18 +81,21 @@ class taoDelivery_actions_InternalResultServer
 			//here we save the TAO variables
 			$taoVars = array();
 			$variableService = wfEngine_models_classes_VariableService::singleton();
-			foreach($this->getRequestParameter('taoVars') as $key => $value){
+			foreach($this->getRequestParameter('taoVars') as $key => $encoded){
 				list ($namespace, $suffix) = explode('#', $key, 2);
 				switch ($suffix) {
 					case 'ENDORSMENT':
-						$variableService->save(array('PREV_ENDORSMENT' => $value));
+						$variableService->save(array('PREV_ENDORSMENT' => $encoded));
 						break;
 					case ANSWERED_VALUES_ID:
-						$this->resultService->setAnsweredValue(
-							$this->getCurrentDeliveryResult(),
-							$this->getCurrentActivityExecution(),
-							$value
-						);
+						foreach (json_decode($encoded, true) as $varIdentifier => $varValue) {
+							$this->resultService->setAnsweredValue(
+								$this->getCurrentDeliveryResult(),
+								$this->getCurrentActivityExecution(),
+								$varIdentifier,
+								$varValue
+							);
+						}
 						break;
 						
 					default:
@@ -200,11 +203,13 @@ class taoDelivery_actions_InternalResultServer
     	// cost of current implementation: EXPENSIV SEARCH
     	
         $localNS = core_kernel_classes_Session::singleton()->getNameSpace();
-        
         $drClass = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
         
+        $environment = $this->getExecutionEnvironment();
+		$classProcessInstance = new core_kernel_classes_Resource($environment[CLASS_PROCESS_EXECUTIONS]['uri']);
+        
         $result = $drClass->searchInstances(array(
-        	PROPERTY_RESULT_OF_PROCESS	=> $this->getCurrentActivityExecution()
+        	PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance->getUri()
         ));
         
         if (count($result) > 1) {
@@ -218,7 +223,7 @@ class taoDelivery_actions_InternalResultServer
 			$subject = $environment[TAO_SUBJECT_CLASS]['uri'];
 			$delivery = $environment[TAO_DELIVERY_CLASS]['uri'];
 			$returnValue = $drClass->createInstanceWithProperties(array(
-				PROPERTY_RESULT_OF_PROCESS	=> $this->getCurrentActivityExecution(),
+				PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance,
 				PROPERTY_RESULT_OF_DELIVERY => $delivery,
 				PROPERTY_RESULT_OF_SUBJECT	=> $subject,
 			));
