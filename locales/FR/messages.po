@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-01-18T15:50:41\n"
+"PO-Revision-Date: 2012-03-21T09:38:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -25,6 +25,9 @@ msgstr "Une recompilation est également nécessaire après modification sur les
 
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification!"
+
+msgid "Access denied. Please renew your authentication."
+msgstr ""
 
 msgid "Actions"
 msgstr "Actions"
@@ -110,10 +113,10 @@ msgstr "complète!"
 msgid "create table"
 msgstr "Créer une table"
 
-msgid "Delete"
+msgid "delete"
 msgstr "Supprimer"
 
-msgid "delete"
+msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delete History"
