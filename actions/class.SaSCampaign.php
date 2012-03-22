@@ -30,7 +30,7 @@ class taoDelivery_actions_SaSCampaign extends taoDelivery_actions_Campaign {
 			$this->setData('includedView', $identifier);
 		}
 		else{
-			$this->setData('includedView', BASE_PATH . '/' . DIR_VIEWS . $GLOBALS['dir_theme'] . $identifier);
+			$this->setData('includedView', DIR_VIEWS . $GLOBALS['dir_theme'] . $identifier);
 		}
 		return parent::setView('sas.tpl', true);
     }
