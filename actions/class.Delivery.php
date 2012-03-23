@@ -563,6 +563,11 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 */
 	public function compile(){
 		
+        // execution time might be long...
+        if (defined('TEST_COMPILATION_TIME')){
+            set_time_limit(TEST_COMPILATION_TIME);
+        }
+        
 		$resultArray = array();
 		
 		if(!$this->hasRequestParameter('deliveryUri')){

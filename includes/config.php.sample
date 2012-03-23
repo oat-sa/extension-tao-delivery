@@ -61,7 +61,10 @@ define('TAO_TPL_PATH', TAOVIEW_PATH . $GLOBALS['dir_theme']);
 #default wsdl contract on localhost:
 define('LOCAL_RESULT_SERVER',  BASE_URL."/taoDelivery/DeliveryServer/resultUploadWsdl");
 
-#Items BASE URL
+#items BASE URL
 define('TAO_ITEMS_BASE_URL', ROOT_URL . '/taoItems');
+
+#test compilation maximum execution time
+define('TEST_COMPILATION_TIME', 300);
 
 ?>
