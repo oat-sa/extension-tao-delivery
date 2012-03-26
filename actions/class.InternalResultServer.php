@@ -57,6 +57,14 @@ class taoDelivery_actions_InternalResultServer
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute DELIVERYRESULT_SESSION_SERIAL
+     *
+     * @access private
+     * @var string
+     */
+    const DELIVERYRESULT_SESSION_SERIAL = 'resultserver_dr';
+
     // --- OPERATIONS ---
 
     /**
@@ -199,34 +207,42 @@ class taoDelivery_actions_InternalResultServer
         $returnValue = null;
 
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000384F begin
-        
-    	// cost of current implementation: EXPENSIV SEARCH
-    	
-        $localNS = core_kernel_classes_Session::singleton()->getNameSpace();
-        $drClass = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
-        
-        $environment = $this->getExecutionEnvironment();
-		$classProcessInstance = new core_kernel_classes_Resource($environment[CLASS_PROCESS_EXECUTIONS]['uri']);
-        
-        $result = $drClass->searchInstances(array(
-        	PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance->getUri()
-        ));
-        
-        if (count($result) > 1) {
-        	throw new common_exception_Error('More then 1 deliveryResult for process '.$this->getCurrentActivityExecution());
-        } elseif (count($result) == 1) {
-        	$returnValue = array_shift($result);
+
+        if (tao_models_classes_cache_SessionCache::singleton()->contains(self::DELIVERYRESULT_SESSION_SERIAL)) {
+        	$returnValue = new core_kernel_classes_Resource(
+        		tao_models_classes_cache_SessionCache::singleton()->get(self::DELIVERYRESULT_SESSION_SERIAL)
+        	);
         } else {
-			// create Instance
-			// since we are on the same server we can load the environment imediately from session
-        	$environment = $this->getExecutionEnvironment();
-			$subject = $environment[TAO_SUBJECT_CLASS]['uri'];
-			$delivery = $environment[TAO_DELIVERY_CLASS]['uri'];
-			$returnValue = $drClass->createInstanceWithProperties(array(
-				PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance,
-				PROPERTY_RESULT_OF_DELIVERY => $delivery,
-				PROPERTY_RESULT_OF_SUBJECT	=> $subject,
-			));
+	    	// cost of current implementation: EXPENSIV SEARCH
+	        $localNS = core_kernel_classes_Session::singleton()->getNameSpace();
+	        $drClass = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
+	        
+	        $environment = $this->getExecutionEnvironment();
+			$classProcessInstance = new core_kernel_classes_Resource($environment[CLASS_PROCESS_EXECUTIONS]['uri']);
+	        
+	        $result = $drClass->searchInstances(array(
+	        	PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance->getUri()
+	        ));
+	        
+	        if (count($result) > 1) {
+	        	throw new common_exception_Error('More then 1 deliveryResult for process '.$this->getCurrentActivityExecution());
+	        } elseif (count($result) == 1) {
+	        	$returnValue = array_shift($result);
+				common_Logger::d('found Delivery Result for '.$subject->getUri());
+	        } else {
+				// create Instance
+				// since we are on the same server we can load the environment imediately from session
+	        	$environment = $this->getExecutionEnvironment();
+				$subject = $environment[TAO_SUBJECT_CLASS]['uri'];
+				$delivery = $environment[TAO_DELIVERY_CLASS]['uri'];
+				$returnValue = $drClass->createInstanceWithProperties(array(
+					PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance,
+					PROPERTY_RESULT_OF_DELIVERY => $delivery,
+					PROPERTY_RESULT_OF_SUBJECT	=> $subject,
+				));
+				common_Logger::d('spawned Delivery Result for '.$subject->getUri());
+	        }
+	        tao_models_classes_cache_SessionCache::singleton()->put(self::DELIVERYRESULT_SESSION_SERIAL, $returnValue->getUri());
         }
     	
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000384F end
