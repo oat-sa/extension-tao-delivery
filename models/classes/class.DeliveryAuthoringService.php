@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery\models\classes\class.DeliveryAuthoringService.php
+ * TAO - taoDelivery/models/classes/class.DeliveryAuthoringService.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.01.2011, 15:20:30 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 05.04.2012, 15:17:49 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include wfEngine_models_classes_ProcessAuthoringService
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('wfEngine/models/classes/class.ProcessAuthoringService.php');
 
@@ -40,7 +40,7 @@ require_once('wfEngine/models/classes/class.ProcessAuthoringService.php');
  * Short description of class
  *
  * @access public
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -58,7 +58,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
     public function __construct()
     {
@@ -71,7 +71,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Get the delivery associated to a process
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource process
      * @param  boolean executionProcess
      * @return core_kernel_classes_Resource
@@ -103,7 +103,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * If found, it returns the delivery resource and null otherwise
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @return core_kernel_classes_Resource
      */
@@ -151,10 +151,42 @@ class taoDelivery_models_classes_DeliveryAuthoringService
     }
 
     /**
+     * Short description of method getItemByActivity
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource activity
+     * @return core_kernel_classes_Resource
+     */
+    public function getItemByActivity( core_kernel_classes_Resource $activity)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038F1 begin
+    	$service = $activity->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
+		foreach ($service->getPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN)) as $parameter) {
+			$parameterRessource = new core_kernel_classes_Resource($parameter);
+			$paramvals = $parameterRessource->getPropertiesValues(array(
+				new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_FORMALPARAMETER),
+				new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_CONSTANTVALUE)
+			));
+        		
+			$formal = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]);
+			if ($formal->getUri() == INSTANCE_FORMALPARAM_ITEMURI && isset($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])) {
+				$returnValue = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]);
+				break;
+			}
+		}
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038F1 end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method getTestProcessFromActivity
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @return core_kernel_classes_Resource
      */
@@ -178,7 +210,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method setTestByActivity
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @param  Resource test
      * @return core_kernel_classes_Resource

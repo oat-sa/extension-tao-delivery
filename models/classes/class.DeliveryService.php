@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 15.06.2011, 13:21:07 with ArgoUML PHP module 
+ * Automatically generated on 05.04.2012, 15:08:35 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -42,7 +42,7 @@ require_once(dirname(__FILE__).'/class.DeliveryProcessGenerator.php');
  * Short description of class taoDelivery_models_classes_DeliveryService
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -83,7 +83,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method cloneDelivery
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource instance
      * @param  Class clazz
      * @return core_kernel_classes_Resource
@@ -140,7 +140,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method createDeliveryClass
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @param  array properties
@@ -178,7 +178,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method createInstance
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource
@@ -215,7 +215,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteDelivery
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  boolean deleteHistory
      * @param  boolean deleteCompiledFolder
@@ -259,7 +259,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteDeliveryClass
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -282,7 +282,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getAllTests
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getAllTests()
@@ -303,7 +303,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDelivery
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string identifier
      * @param  string mode
      * @param  Class clazz
@@ -329,7 +329,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveryClass
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Class
      */
@@ -353,12 +353,13 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Short description of method getDeliveryTests
+     * Returns tests of the delivery in order
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
+     * @see getRelatedTests
      */
     public function getDeliveryTests( core_kernel_classes_Resource $delivery)
     {
@@ -448,7 +449,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveriesTests
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getDeliveriesTests()
@@ -456,7 +457,7 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = array();
 
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 begin
-	foreach($this->deliveryClass->getInstances(true) as $delivery){
+		foreach($this->deliveryClass->getInstances(true) as $delivery){
         	$returnValue[$delivery->uriResource] =  $this->getRelatedTests($delivery);
         }
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 end
@@ -468,7 +469,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getExcludedSubjects
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
      */
@@ -506,7 +507,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getHistory
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  Resource subject
      * @return array
@@ -538,7 +539,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getProcessVariable
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string code
      * @return core_kernel_classes_Resource
      */
@@ -563,7 +564,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getRelatedCampaigns
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
      */
@@ -601,7 +602,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getResultServer
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return core_kernel_classes_Resource
      */
@@ -619,12 +620,13 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Short description of method getRelatedTests
+     * returns the tests of the delivery in no specific order
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
+     * @see getDeliveryTests
      */
     public function getRelatedTests( core_kernel_classes_Resource $delivery)
     {
@@ -662,7 +664,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method isCompiled
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return boolean
      */
@@ -688,7 +690,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method isDeliveryClass
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -717,7 +719,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setDeliveryTests
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  array tests
      * @return boolean
@@ -799,7 +801,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setRelatedCampaigns
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  array campaigns
      * @return boolean
@@ -833,7 +835,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setExcludedSubjects
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  array subjects
      * @return boolean
@@ -867,7 +869,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method updateProcessLabel
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return mixed
      */
@@ -883,7 +885,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method linearizeDeliveryProcess
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return boolean
      */
@@ -946,7 +948,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method compileTest
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  Resource test
      * @return array
@@ -1071,7 +1073,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteHistory
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource history
      * @param  boolean deleteProcessInstance
      * @return boolean
@@ -1101,7 +1103,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method generateProcess
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
      */
@@ -1141,7 +1143,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveryGroups
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return array
      */
@@ -1191,7 +1193,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setAuthoringMode
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  string mode
      * @return boolean
@@ -1226,7 +1228,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setDeliveryGroups
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  array groups
      * @return boolean
@@ -1277,7 +1279,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getCompiledDate
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return string
      */
@@ -1297,6 +1299,73 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-13-1--128-4f552b1e:13008b73005:-8000:0000000000002E4A end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method containsHumanAssistedMeasurements
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource delivery
+     * @return boolean
+     */
+    public function containsHumanAssistedMeasurements( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E1 begin
+    		foreach ($this->getDeliveryItems($delivery) as $item) {
+				$measurements	= taoItems_models_classes_ItemsService::singleton()->getItemMeasurements($item);
+		        foreach ($measurements as $measurement) {
+		        	if ($measurement->isHumanAssisted()) {
+		        		$returnValue = true;
+		        		return $returnValue;
+		        	}
+		        }
+			}
+		        
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E1 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getDeliveryItems
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource delivery
+     * @param  boolean inOrder
+     * @return array
+     */
+    public function getDeliveryItems( core_kernel_classes_Resource $delivery, $inOrder = false)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E4 begin
+        if ($inOrder) {
+    		foreach ($this->getDeliveryTests($delivery) as $test) {
+				foreach (taoTests_models_classes_TestsService::singleton()->getTestItems($test) as $item) {
+					$returnValue[] = $item; 
+				}
+			}
+        } else {
+		 	$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+		 	$process = $delivery->getUniquePropertyValue(
+				new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)
+			);
+			if(!is_null($process)){
+				$activities = $authoringService->getActivitiesByProcess($process);
+
+				foreach($activities as $activity){
+					$item = $authoringService->getItemByActivity($activity);
+					$returnValue[$item->getUri()] = $item;
+				}
+			}
+        }
+        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E4 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */

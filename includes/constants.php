@@ -39,6 +39,16 @@ $todefine = array(
 	
 	'INSTANCE_FORMALPARAM_TESTURI' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri',
 	'INSTANCE_SERVICEDEFINITION_TESTCONTAINER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer',
-	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery'
+	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery',
+	
+	// Coding
+	'TAO_DELIVERY_CODINGMETHODE_PROP'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode',
+	'TAO_DELIVERY_CODINGMETHODE_AUTOMATED'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated',
+	'TAO_DELIVERY_CODINGMETHODE_MANUAL'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual',
+
+	'TAO_DELIVERY_CODINGSTATUS_PROP'			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus',
+	'TAO_DELIVERY_CODINGSTATUS_GRADING'			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading',
+	'TAO_DELIVERY_CODINGSTATUS_CONCILIATION'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation',
+	'TAO_DELIVERY_CODINGSTATUS_COMMITED'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited',
 );
 ?>
