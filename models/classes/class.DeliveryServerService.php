@@ -119,7 +119,7 @@ class taoDelivery_models_classes_DeliveryServerService
 			
 			//supposing that the literal value saved in the properties is in the right format: YYYY-MM-DD HH:MM:SS or YYYY-MM-DD
 			$startDate=null;
-			foreach ($delivery->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart'))->getIterator() as $value){
+			foreach ($delivery->getPropertyValuesCollection(new core_kernel_classes_Property(TAO_DELIVERY_START_PROP))->getIterator() as $value){
 				if($value instanceof core_kernel_classes_Literal ){
 					if(!empty($value->literal)){
 						$startDate = date_create($value->literal);
@@ -129,7 +129,7 @@ class taoDelivery_models_classes_DeliveryServerService
 			}
 			
 			$endDate=null;
-			foreach ($delivery->getPropertyValuesCollection(new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd'))->getIterator() as $value){
+			foreach ($delivery->getPropertyValuesCollection(new core_kernel_classes_Property(TAO_DELIVERY_END_PROP))->getIterator() as $value){
 				if($value instanceof core_kernel_classes_Literal ){
 					if(!empty($value->literal)){
 						$endDate = date_create($value->literal);
