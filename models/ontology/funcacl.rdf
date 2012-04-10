@@ -397,14 +397,6 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
   </rdf:Description>
 
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerModule">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module DeliveryServerModule]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module DeliveryServerModule]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[DeliveryServerModule]]></funcacl:moduleIdentifier>
-		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
-  </rdf:Description>
-
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -480,14 +472,6 @@
 		<rdfs:comment xml:lang="EN"><![CDATA[action loading]]></rdfs:comment>
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[loading]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
-  </rdf:Description>
-
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_RecoveryContext">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module RecoveryContext]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module RecoveryContext]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[RecoveryContext]]></funcacl:moduleIdentifier>
-		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
 
@@ -702,14 +686,6 @@
 		<rdfs:comment xml:lang="EN"><![CDATA[action selectDeliveries]]></rdfs:comment>
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[selectDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer" />
-  </rdf:Description>
-
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Settings">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label xml:lang="EN"><![CDATA[module Settings]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[module Settings]]></rdfs:comment>
-		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[Settings]]></funcacl:moduleIdentifier>
-		<funcacl:moduleExtension xml:lang="EN"><![CDATA[taoDelivery]]></funcacl:moduleExtension>
   </rdf:Description>
 
 
