@@ -15,12 +15,12 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Methodes to code a delivery]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated">
-    <rdfs:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode"/>
+    <rdf:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode"/>
     <rdfs:label xml:lang="EN"><![CDATA[Automated coding]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[delivery is coded automaticly]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual">
-    <rdfs:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode"/>
+    <rdf:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode"/>
     <rdfs:label xml:lang="EN"><![CDATA[Manual coding]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[the delivery is at least partialy coded manualy]]></rdfs:comment>
   </rdf:Description>
@@ -39,17 +39,17 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Status of the coding of a delivery]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading">
-    <rdfs:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
+    <rdf:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
     <rdfs:label xml:lang="EN"><![CDATA[In grading]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Delivery is being graded]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation">
-    <rdfs:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
+    <rdf:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
     <rdfs:label xml:lang="EN"><![CDATA[In conciliation]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Delivery is being conciliated]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited">
-    <rdfs:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
+    <rdf:type rdf:resource="ttp://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus"/>
     <rdfs:label xml:lang="EN"><![CDATA[Coding commited]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Coding has been commited]]></rdfs:comment>
   </rdf:Description>
