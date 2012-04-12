@@ -120,8 +120,8 @@
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign">
-    <rdfs:label xml:lang="EN"><![CDATA[Delivery Campaign]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[Delivery Campaign]]></rdfs:comment>
+    <rdfs:label xml:lang="EN"><![CDATA[Campaign]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Campaign]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignStart">
