@@ -11,8 +11,10 @@ if(PHP_SAPI == 'cli'){
 }
 require_once dirname(__FILE__).'/../../tao/includes/class.Bootstrap.php';
 
+$options = array();
 //need to load additional constants
 $options['constants'] = array('taoTests', 'taoItems', 'taoResults', 'taoGroups');
+$options['session_name'] = TestRunner::SESSION_KEY;
 
 $bootStrap = new BootStrap('taoDelivery', $options);
 $bootStrap->start();

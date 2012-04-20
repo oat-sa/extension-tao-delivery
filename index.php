@@ -19,7 +19,7 @@ $modules = array(
 $options = array();
 foreach($modules as $module){
 	if(tao_helpers_Request::contains('module', $module)){
-		$options['session_name'] = 'TAO_TEST_SESSION';
+		$options['session_name'] = 'TAO_DELIVERY_SESSION';
 		break;
 	}
 }
