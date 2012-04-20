@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 01.07.2011, 14:08:35 with ArgoUML PHP module 
+ * Automatically generated on 10.04.2012, 11:19:43 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include taoDelivery_models_classes_DeliveryService
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('taoDelivery/models/classes/class.DeliveryService.php');
 
@@ -40,7 +40,7 @@ require_once('taoDelivery/models/classes/class.DeliveryService.php');
  * Short description of class taoDelivery_models_classes_DeliveryServerService
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -58,7 +58,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return taoDelivery_models_classes_DeliveryServerService
      */
     public function __construct()
@@ -76,7 +76,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * add history of delivery execution in the ontology
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @param  Resource subject
      * @param  Resource processInstance
@@ -104,7 +104,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * It returns true if the delivery execution period is valid at the current
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array param
      * @return boolean
      */
@@ -167,7 +167,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * the deliveries the subject is allowed to execute.
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource subject
      * @param  boolean check
      * @param  array checkList
@@ -183,6 +183,7 @@ class taoDelivery_models_classes_DeliveryServerService
 		try{
 			$deliveriesBySubject = $this->getDeliveriesBySubject($subject);
 		}catch(Exception $e){
+			common_Logger::e('Could not get Deliveries for subject '.$subject->getUri(), 'DELIVERY');
 			echo "error: ".$e->getMessage();
 		}
 			
@@ -256,7 +257,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Get the maximal number of execution for a delivery
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return int
      */
@@ -284,7 +285,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Check if the subject is set as excluded from the delivery execution
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource subject
      * @param  Resource delivery
      * @return boolean
@@ -314,7 +315,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkCompiled
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array param
      * @return boolean
      */
@@ -336,7 +337,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkResultServer
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array param
      * @return boolean
      */
@@ -361,7 +362,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkExcludedSubject
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array param
      * @return boolean
      */
@@ -386,7 +387,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkMaxExecution
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array param
      * @return boolean
      */
@@ -420,6 +421,33 @@ class taoDelivery_models_classes_DeliveryServerService
     }
 
     /**
+     * Short description of method checkDeliveryStatus
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  array param
+     * @return boolean
+     */
+    public function checkDeliveryStatus($param = array())
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--64338aa:1369b89eee1:-8000:00000000000038F3 begin
+   		if($this->hasParameters($param, array('delivery'))){
+			$delivery = $param['delivery'];
+			$status = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP));
+			if ($status->getUri() == GENERIS_TRUE) {
+				$returnValue = true;
+			}
+		} else {
+			throw new common_exception_Error('checkDeliveryStatus called without delivery');
+		}
+        // section 127-0-1-1--64338aa:1369b89eee1:-8000:00000000000038F3 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
      * Get all deliveries available for the identified subject.
      * This method is used on the Delivery Server and uses direct access to the
      * for performance purposes.
@@ -428,7 +456,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * To be tested when core_kernel_impl_ApiModelOO::getObject() is implemented
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource subject
      * @return array
      */
@@ -459,7 +487,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method hasParameters
      *
      * @access protected
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array params
      * @param  array keys
      * @return boolean
@@ -486,7 +514,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method getStartedProcessExecutions
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource currentUser
      * @return array
      */

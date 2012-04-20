@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 05.04.2012, 15:08:35 with ArgoUML PHP module 
+ * Automatically generated on 06.04.2012, 15:52:22 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -206,7 +206,9 @@ class taoDelivery_models_classes_DeliveryService
 		//set the default delivery server:
 		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020AF end
+		//set to active
+		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP), GENERIS_TRUE);
+		// section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020AF end
 
         return $returnValue;
     }
@@ -1366,6 +1368,28 @@ class taoDelivery_models_classes_DeliveryService
         // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E4 end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method isDeliveryOpen
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource delivery
+     * @return boolean
+     */
+    public function isDeliveryOpen( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-60224649:1368791ec8c:-8000:00000000000038F0 begin
+		$status = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP));
+		if ($status->getUri() == GENERIS_TRUE) {
+			$returnValue = true;
+		}
+        // section 127-0-1-1-60224649:1368791ec8c:-8000:00000000000038F0 end
+
+        return (bool) $returnValue;
     }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */

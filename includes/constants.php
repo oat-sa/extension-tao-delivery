@@ -50,5 +50,8 @@ $todefine = array(
 	'TAO_DELIVERY_CODINGSTATUS_GRADING'			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading',
 	'TAO_DELIVERY_CODINGSTATUS_CONCILIATION'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation',
 	'TAO_DELIVERY_CODINGSTATUS_COMMITED'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited',
+
+	'TAO_DELIVERY_ACTIVE_PROP'				=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#active',
+
 );
 ?>
