@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-26T16:11:44\n"
+"PO-Revision-Date: 2012-04-27T16:24:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -9,10 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "(Ctrl-C)"
-msgstr ""
+msgstr "(Ctrl-C)"
 
 msgid "(date not available for hardified resource)"
-msgstr ""
+msgstr "(date non disponible pour les ressources durcies)"
 
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
@@ -27,7 +27,7 @@ msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification!"
 
 msgid "Access denied. Please renew your authentication."
-msgstr ""
+msgstr "Accès refusé. Veuillez renouveller votre authentification."
 
 msgid "Actions"
 msgstr "Actions"
@@ -60,7 +60,7 @@ msgid "An error occured while loading the item"
 msgstr "Une erreur s'est produite lors du chargement de l'item"
 
 msgid "An error occured while loading the item: "
-msgstr ""
+msgstr "Une erreur est survenue durant le chargement de l'item:"
 
 msgid "Back"
 msgstr "Retour"
@@ -132,22 +132,22 @@ msgid "Delivery"
 msgstr "Delivery"
 
 msgid "Delivery Class saved"
-msgstr "Classe de Delivery Sauvegardée"
+msgstr "Classe de Passation Sauvegardée"
 
 msgid "delivery executions"
-msgstr ""
+msgstr "exécutions de passations"
 
 msgid "Delivery properties"
-msgstr "Propriétés du delivery"
+msgstr "Propriétés de la passation"
 
 msgid "Delivery saved"
-msgstr "Delivery Sauvegardé"
+msgstr "Passations"
 
 msgid "Drag and drop the tests to order them"
 msgstr "Faites glisser et déposez les tests pour les ordonner"
 
 msgid "duplicate"
-msgstr "Dupliquer"
+msgstr "dupliquer"
 
 msgid "Edit Campaign"
 msgstr "Editer une campagne"
@@ -261,7 +261,7 @@ msgid "No user is logged in"
 msgstr "Aucun utilisateur connecté"
 
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr ""
+msgstr "Note: veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation de la passation."
 
 msgid "ok"
 msgstr "ok"
@@ -282,7 +282,7 @@ msgid "Please select a valid result server in the delivery editing section then 
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
 
 msgid "Prepare, publish deliveries sessions and campaigns."
-msgstr ""
+msgstr "Préparer, publier des sessions de passations et des campagnes."
 
 msgid "Process Property"
 msgstr "Propriété du processus"
@@ -405,10 +405,10 @@ msgid "The test process has isolated connectors"
 msgstr "Le processus de test contient des connecteurs isolés"
 
 msgid "There are currently"
-msgstr ""
+msgstr "Il y a en ce moment"
 
 msgid "There is currently no delivery execution."
-msgstr ""
+msgstr "Il n'y aucune passation en cours d'exécution."
 
 msgid "there is no initial activity for the delivery process definition"
 msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
@@ -426,7 +426,7 @@ msgid "Type (Ctrl-T)"
 msgstr "Type (Ctrl-T)"
 
 msgid "Unable to load the  delivery"
-msgstr ""
+msgstr "Impossible de charger la passation"
 
 msgid "Unable to load the compiled item content"
 msgstr "Impossible de charger le contenu de l'item compilé"
@@ -438,8 +438,8 @@ msgid "User name:"
 msgstr "Nom d'utilisateur:"
 
 msgid "View History"
-msgstr ""
+msgstr "Voir l'Historique"
 
 msgid "Wrong delivery uri"
-msgstr ""
+msgstr "Mauvais identifiant (URI) de passation"
 

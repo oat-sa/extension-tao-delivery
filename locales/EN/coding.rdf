@@ -166,4 +166,22 @@
     -->
     <rdfs:comment xml:lang="EN"><![CDATA[Current status of a deliverys coding]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#active">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Active
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Active]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source active / inactive state
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[active / inactive state]]></rdfs:comment>
+  </rdf:Description>
 </rdf:RDF>
