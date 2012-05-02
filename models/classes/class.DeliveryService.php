@@ -980,71 +980,87 @@ class taoDelivery_models_classes_DeliveryService
 			$itemClasses = $item->getType();
 			foreach($itemClasses as $itemClass){
 				if(!is_null($itemClass) && !is_null($itemService->isItemModelDefined($item))){
-					
 					try{
-						
-						$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-						$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-						$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
-						
-						//create the compilation folder for the delivery-test-item:
-						$compiledFolder = BASE_PATH."/compiled/$deliveryFolderName";
-						if(!is_dir($compiledFolder)){
-							mkdir($compiledFolder);
-						}
-						$compiledFolder .= "/$testFolderName";
-						if(!is_dir($compiledFolder)){
-							mkdir($compiledFolder);
-						}
-						$compiledFolder .= "/$itemFolderName";
-						if(!is_dir($compiledFolder)){
-							mkdir($compiledFolder);
-						}
-						$itemPath = "{$compiledFolder}/index.html";
-						$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
-						
-						$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
-						$compilator->clearCompiledFolder();
-						
-						//get all scripts from taoItems:
-						$deployParams = array(
-							'delivery_server_mode'	=> true,
-							'preview_mode'		=> false,
-							'tao_base_www'		=> ROOT_URL.'/tao/views/',
-							'qti_base_www'		=> dirname($itemUrl).'/',
-							'qti_lib_www'		=> ROOT_URL . '/taoItems/views/js/QTI/',
-							'base_www' 		=> ROOT_URL . '/taoItems/views/',
-							'root_url'		=> ROOT_URL
-						);
-					
-						//deploy the item
-						$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
-						
-						if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
-							$compilator->copyPlugins(array('js', 'css', 'img'));
-						}
-						else if($itemService->hasItemModel($item, array( TAO_ITEM_MODEL_HAWAI, TAO_ITEM_MODEL_XHTML))){
-							$compilator->copyPlugins(array('js'));
-						}
-						else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_KOHS, TAO_ITEM_MODEL_CTEST))){
-							$compilator->copyPlugins(array('swf', 'js'));
-						}
-						else{
-							$compilator->copyPlugins(array('js'));
-						}
-						
-						//directory where all files required to launch the test will be collected
-						$directory = $compilator->getCompiledPath();
-						
-						//parse the XML file with the helper compilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
-						$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");
+						// Get the triples related to the item content to distinguish the
+						// different languages in which the item was authored. Each language found
+						// will be then a new compilation location.
+						$itemContentTriples = $item->getRdfTriples()->sequence;
+						$processedLanguages = array(); // Defensive
+						foreach ($itemContentTriples as $triple){
+							if ($triple->predicate == TAO_ITEM_CONTENT_PROPERTY
+								&& !in_array($triple->lg, $processedLanguages)){
+
+								// Set the language as 'processed' to have
+								// no duplicate (defensive).
+								$processedLanguages[] = $triple->lg;
+								$compilationLanguage = $triple->lg;
 								
-						//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
-						$compilator->stringToFile($itemContent, $directory, "index.html");
-						
-						$compilationResult[] = $compilator->result();
-						
-						
+								$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+								$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+								$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+								
+								//create the compilation folder for the delivery-test-item:
+								$compiledFolder = BASE_PATH."/compiled/${deliveryFolderName}";
+								if(!is_dir($compiledFolder)){
+									mkdir($compiledFolder);
+								}
+								$compiledFolder .= "/${testFolderName}";
+								if(!is_dir($compiledFolder)){
+									mkdir($compiledFolder);
+								}
+								$compiledFolder .= "/${itemFolderName}";
+								if(!is_dir($compiledFolder)){
+									mkdir($compiledFolder);
+								}
+								$compiledFolder .= "/${compilationLanguage}";
+								if(!is_dir($compiledFolder)){
+									mkdir($compiledFolder);	
+								}
+								$itemPath = "{$compiledFolder}/index.html";
+								$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
+								
+								$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
+								$compilator->clearCompiledFolder();
+								
+								//get all scripts from taoItems:
+								$deployParams = array(
+									'delivery_server_mode'	=> true,
+									'preview_mode'		=> false,
+									'tao_base_www'		=> ROOT_URL.'/tao/views/',
+									'qti_base_www'		=> dirname($itemUrl).'/',
+									'qti_lib_www'		=> ROOT_URL . '/taoItems/views/js/QTI/',
+									'base_www' 		=> ROOT_URL . '/taoItems/views/',
+									'root_url'		=> ROOT_URL
+								);
+							
+								//deploy the item
+								$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
+								
+								if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+									$compilator->copyPlugins(array('js', 'css', 'img'));
+								}
+								else if($itemService->hasItemModel($item, array( TAO_ITEM_MODEL_HAWAI, TAO_ITEM_MODEL_XHTML))){
+									$compilator->copyPlugins(array('js'));
+								}
+								else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_KOHS, TAO_ITEM_MODEL_CTEST))){
+									$compilator->copyPlugins(array('swf', 'js'));
+								}
+								else{
+									$compilator->copyPlugins(array('js'));
+								}
+								
+								//directory where all files required to launch the test will be collected
+								$directory = $compilator->getCompiledPath();
+								
+								//parse the XML file with the helper compilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
+								$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");
+										
+								//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
+								$compilator->stringToFile($itemContent, $directory, "index.html");
+								
+								$compilationResult[] = $compilator->result();
+							}
+						}
 					}
 					catch(Exception $e){
 						$resultArray["failed"]["errorMsg"][] = $e->getMessage();
