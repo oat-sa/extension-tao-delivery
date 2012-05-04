@@ -38,7 +38,7 @@ function buildHistoryGrid(selector){
 	historyGrid = $(selector).jqGrid({
 		url: actionUrl, 
 		datatype: "json", 
-		colNames:[ __('Subject'), __('Time'), __('Actions')], 
+		colNames:[ __('Test Taker'), __('Time'), __('Actions')], 
 		colModel:[ 
 			{name:'subject',index:'subject'}, 
 			{name:'time',index:'time'}, 
