@@ -102,6 +102,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Campaign" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module Delivery]]></rdfs:label>
@@ -314,6 +319,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_Delivery" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module DeliveryAuthoring]]></rdfs:label>
@@ -351,6 +361,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryAuthoring" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module DeliveryServer]]></rdfs:label>
@@ -374,6 +389,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module DeliveryServerAuthentification]]></rdfs:label>
@@ -396,6 +416,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[logout]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
+	</rdf:Description>
+
 
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer">
@@ -428,6 +453,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module ItemDelivery]]></rdfs:label>
@@ -458,6 +488,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module ProcessBrowser]]></rdfs:label>
@@ -473,6 +508,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[loading]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
+	</rdf:Description>
+
 
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery">
@@ -518,6 +558,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[traceEvents]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultDelivery" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -612,6 +657,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ResultServer" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module SaSCampaign]]></rdfs:label>
@@ -634,6 +684,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[selectDeliveries]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSCampaign" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -665,6 +720,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSDelivery" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module SaSResultServer]]></rdfs:label>
@@ -688,6 +748,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_SaSResultServer" />
+	</rdf:Description>
+
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_WebService">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -704,5 +769,10 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[index]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_WebService" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_WebService" />
+	</rdf:Description>
+
 
 </rdf:RDF>
