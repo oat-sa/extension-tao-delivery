@@ -686,7 +686,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$response->total = $total_pages; 
 		$response->records = $count; 
 		$i = 0;
-		// var_dump($histories);
+		
 		foreach($histories as $history) { 
 			$cellData = array();
 			$cellData[0] = $history['subject'];
