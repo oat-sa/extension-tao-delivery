@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T16:24:36\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T12:41:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -350,9 +350,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-msgid "Subject"
-msgstr ""
-
 msgid "Suppress"
 msgstr ""
 
@@ -360,6 +357,9 @@ msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
 
 msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "Test Taker"
 msgstr ""
 
 msgid "Tests sequence"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T16:24:41\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T12:41:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -350,9 +350,6 @@ msgstr "Starta/återuppta testet"
 msgid "Status"
 msgstr "Status"
 
-msgid "Subject"
-msgstr "Testtagare"
-
 msgid "Suppress"
 msgstr "Upphäv"
 
@@ -361,6 +358,9 @@ msgstr "TAO - En öppen, smidig och mångsidig datorbaserad utvärderingsplattfo
 
 msgid "TAO Delivery Server"
 msgstr "TAO leversansserver"
+
+msgid "Test Taker"
+msgstr ""
 
 msgid "Tests sequence"
 msgstr "Testordningsföljd"

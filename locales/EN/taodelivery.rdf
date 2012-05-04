@@ -4,6 +4,34 @@
     @targetLanguage EN
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Delivery process variable
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Delivery process variable]]></rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Test container
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Test container]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Test container
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceTestContainer
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Test container]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery">
     <!--
     @sourceLanguage EN
@@ -134,7 +162,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source History Delivery
+    @source Delivery History
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryDelivery
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -142,7 +170,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source The related delivery
+    @source Delivery History
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#HistoryDelivery
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -160,7 +188,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source The related Subject
+    @source Subject of the delivery history
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#HistorySubject
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -314,7 +342,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source save result url
+    @source Save result url
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#saveResultUrl
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -340,7 +368,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source DeliveryContent
+    @source Delivery Content
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -358,7 +386,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source AuthoringMode
+    @source Authoring Mode
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringMode
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -376,11 +404,209 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source DeliveryAuthoringModes
+    @source Delivery Authoring Modes
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="EN"><![CDATA[DeliveryAuthoringModes]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Simple
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Simple]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Simple delivery authoring mode
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Simple delivery authoring mode]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeAdvanced">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Advanced
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeAdvanced
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Advanced]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Advanced delivery authoring mode
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeAdvanced
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Advanced delivery authoring mode]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Item Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Item Uri]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Item Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Item Uri]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Test Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Test Uri]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Test Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamTestUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Test Uri]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamDeliveryUri">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Delivery Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamDeliveryUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Delivery Uri]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Delivery Uri
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamDeliveryUri
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Delivery Uri]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceItemRunner">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Item Runner
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceItemRunner
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Item Runner]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceItemRunner
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrlParam">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Web Service Url
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrlParam
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Web Service Url]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Web Service Url
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrlParam
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Web Service Url]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrl">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Web Service Url
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrl
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Web Service Url]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Web Service Url
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#WebServiceUrl
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Web Service Url]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamHeight">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Height
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamHeight
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Height]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Height
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamHeight
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Height]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamWidth">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Width
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamWidth
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Width]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Width
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamWidth
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Width]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceWebService">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Web Service
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceWebService
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Web Service]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Embed a generic web service accessible via url in an iframe
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ServiceWebService
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Embed a generic web service accessible via url in an iframe]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess">
     <!--
@@ -394,7 +620,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source the actual Delivery Process generated for execution
+    @source The actual Delivery Process generated for execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -404,7 +630,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source save events url
+    @source Save events url
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#saveEventUrl
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -453,5 +679,23 @@
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="EN"><![CDATA[If the response evaluation is made on the client or on the server side]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
