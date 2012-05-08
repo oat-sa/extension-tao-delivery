@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-08T17:56:40\n"
+"PO-Revision-Date: 2012-05-08T22:55:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -165,10 +165,10 @@ msgid "Edit resultServer class"
 msgstr "Editer une classe de serveur de résultats"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr "Modifier un delivery consiste à mettre les tests qui composent le delivery et leur séquence, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par l'sujet, la période de delivery, le serveur de résultat."
+msgstr "Modifier une passation consiste à séquencer les tests qui le composent, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par participant, la période de passation, le serveur de résultat."
 
 msgid "Enter remark text here"
-msgstr "Entrez le texte remarquable ici"
+msgstr "Entrez la remarque"
 
 msgid "Error in delivery process"
 msgstr "Erreur dans le processus de passation"
@@ -180,7 +180,7 @@ msgid "Execution History"
 msgstr "Historique d'exécution"
 
 msgid "export"
-msgstr "Exporter"
+msgstr "exporter"
 
 msgid "Export - Debug only (Ctrl-E)"
 msgstr "Exporter - Debug seulement (Ctrl-E)"
@@ -192,7 +192,7 @@ msgid "Finished Test"
 msgstr "Test terminé"
 
 msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr "Par exemple, c'est un moyen d'organiser les deliveries avec un des objectifs communs."
+msgstr "Par exemple, c'est un moyen d'organiser les passations avec des objectifs communs."
 
 msgid "Formal Parameter"
 msgstr "Paramètre formel"
@@ -216,10 +216,10 @@ msgid "import"
 msgstr "importer"
 
 msgid "Initialize new test"
-msgstr "Initialiser nouveau test"
+msgstr "Initialiser un nouveau test"
 
 msgid "Issue found for the process definiiton of the test"
-msgstr "Un problème a été détecté dans la définition du processus du test"
+msgstr "Un problème a été détecté dans la définition du processus de test"
 
 msgid "Loading next item..."
 msgstr "Chargement du prochain item..."
@@ -261,7 +261,7 @@ msgid "No user is logged in"
 msgstr "Aucun utilisateur connecté"
 
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr "Note: veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation de la passation."
+msgstr "Note: veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation."
 
 msgid "ok"
 msgstr "ok"
@@ -330,7 +330,7 @@ msgid "Select delivery tests"
 msgstr "Sélectionnez les tests du delivery"
 
 msgid "Select test takers to be <b>excluded</b>"
-msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
+msgstr "Sélectionner les participants de tests à <b>exclure</b>"
 
 msgid "Sequence saved successfully"
 msgstr "Séquence enregistré avec succès"
@@ -360,7 +360,7 @@ msgid "TAO Delivery Server"
 msgstr "Serveur de delivery TAO"
 
 msgid "Test Taker"
-msgstr "Sujet"
+msgstr "Participant"
 
 msgid "Tests sequence"
 msgstr "Séquence de tests"
