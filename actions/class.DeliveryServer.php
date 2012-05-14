@@ -39,7 +39,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		
 		$processDefinitionUri = urldecode($processDefinitionUri);
 		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
-		$delivery = $deliveryAuthoringService->getDeliveryFromProcess($processDefinition, true);
+		$delivery = $deliveryAuthoringService->getDeliveryFromProcess($processDefinition);
 		if(is_null($delivery)){
 			throw new Exception("no delivery found for the selected process definition");
 		}

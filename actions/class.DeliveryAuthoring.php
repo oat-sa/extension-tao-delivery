@@ -136,7 +136,7 @@ class taoDelivery_actions_DeliveryAuthoring extends wfEngine_actions_ProcessAuth
 		$currentProcess = $this->getCurrentProcess();
 		if(!is_null($currentProcess)){
 			
-			$currentDelivery = $this->service->getDeliveryFromProcess($currentProcess);
+			$currentDelivery = $this->service->getDeliveryContentFromProcess($currentProcess);
 			if(is_null($currentDelivery)){
 				throw new Exception("no delivery found for the current process");
 			}
