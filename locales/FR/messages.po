@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-23T10:59:08\n"
+"PO-Revision-Date: 2012-05-24T16:46:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -123,13 +123,13 @@ msgid "Delete History"
 msgstr "Supprimer l'historique"
 
 msgid "Deliveries"
-msgstr "Deliveries"
+msgstr "Passations"
 
 msgid "Deliveries library"
-msgstr "Librarie de Deliveries"
+msgstr "Librarie de Passations"
 
 msgid "Delivery"
-msgstr "Delivery"
+msgstr "Passation"
 
 msgid "Delivery Class saved"
 msgstr "Classe de Passation Sauvegardée"
