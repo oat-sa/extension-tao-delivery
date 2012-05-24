@@ -977,7 +977,7 @@ class taoDelivery_models_classes_DeliveryService
 		$compilationResult = array();
 		foreach($items as $item){
 			//check if the item exists: if not, append to the test failure message
-			$itemClasses = $item->getType();
+			$itemClasses = $item->getTypes();
 			foreach($itemClasses as $itemClass){
 				if(!is_null($itemClass) && !is_null($itemService->isItemModelDefined($item))){
 					try{
