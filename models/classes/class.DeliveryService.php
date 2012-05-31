@@ -960,6 +960,9 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = array();
 
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CE6 begin
+        $session = core_kernel_classes_Session::singleton();
+        $tmpSessionLang = $session->getLg();
+        
 		$resultArray = array(
 			'success' => 0,
 			'failed' => array()
@@ -975,6 +978,9 @@ class taoDelivery_models_classes_DeliveryService
 		$items = $testService->getRelatedItems($test);
 		
 		$compilationResult = array();
+        
+        // We will compile the item in any available language.
+        
 		foreach($items as $item){
 			//check if the item exists: if not, append to the test failure message
 			$itemClasses = $item->getTypes();
@@ -988,8 +994,8 @@ class taoDelivery_models_classes_DeliveryService
 						$processedLanguages = array(); // Defensive
 						foreach ($itemContentTriples as $triple){
 							if ($triple->predicate == TAO_ITEM_CONTENT_PROPERTY
-								&& !in_array($triple->lg, $processedLanguages)){
-
+								&& !in_array($triple->lg, $processedLanguages)){    
+                                   
 								// Set the language as 'processed' to have
 								// no duplicate (defensive).
 								$processedLanguages[] = $triple->lg;
@@ -1034,7 +1040,12 @@ class taoDelivery_models_classes_DeliveryService
 								);
 							
 								//deploy the item
+								
+								// We change the Generis API Session language to
+                                // get the data in the correct language.
+                                $session->setLg($triple->lg); 
 								$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
+                                $session->setLg($tmpSessionLang);
 								
 								if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
 									$compilator->copyPlugins(array('js', 'css', 'img'));
