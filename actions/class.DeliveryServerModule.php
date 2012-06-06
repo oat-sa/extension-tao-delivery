@@ -1,5 +1,5 @@
 <?php
-class taoDelivery_actions_DeliveryServerModule extends Module
+class taoDelivery_actions_DeliveryServerModule extends tao_actions_CommonModule
 {
 	
 	public function __construct(){
@@ -13,14 +13,6 @@ class taoDelivery_actions_DeliveryServerModule extends Module
 		}
 		
 	}
-	
-	/**
-	 * Check if the current user is allowed to acces the request
-	 * Override this method to allow/deny a request
-	 * @return boolean
-	 */
-	protected function _isAllowed(){
-		return (isset($_SESSION['taoqual.authenticated']) && core_kernel_users_Service::singleton()->isASessionOpened());	//if a user is logged in
-	}
+
 }
 ?>

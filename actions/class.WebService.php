@@ -1,6 +1,5 @@
 <?
 class taoDelivery_actions_WebService extends tao_actions_CommonModule{
-	public function __construct(){}
 	
 	public function index(){
 		$width = $this->hasRequestParameter('width')?$this->getRequestParameter('width'):'100%';
