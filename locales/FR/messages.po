@@ -146,7 +146,7 @@ msgid "Delivery saved"
 msgstr "Passations"
 
 msgid "Drag and drop the items to order them"
-msgstr ""
+msgstr "Glissez et déposez les items pour les ordonner"
 
 msgid "duplicate"
 msgstr "dupliquer"
