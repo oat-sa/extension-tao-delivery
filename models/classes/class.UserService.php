@@ -64,7 +64,7 @@ class taoDelivery_models_classes_UserService
     public function initRoles()
     {
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 begin
-		$this->allowedRoles = array(CLASS_ROLE_SUBJECT);
+		$this->allowedRoles = array(CLASS_ROLE_FRONTOFFICE);
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 end
     }
 
@@ -84,28 +84,16 @@ class taoDelivery_models_classes_UserService
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 begin
 		if(parent::loginUser($login, $password)){
         	
-        	if($this->connectCurrentUser()){
-	        	$currentUser = $this->getCurrentUser();
-	        	if(!is_null($currentUser)){
+        	$currentUser = $this->getCurrentUser();
+        	if(!is_null($currentUser)){
 	        		
-	        		$login 			= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
-	        		$password 		= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
-					try{
-	        			$dataLang 	= (string)$currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-					}
-					catch(common_Exception $ce){
-						$dataLang 	= 'EN';
-					}
-					
-							
-					// Taoqual authentication and language markers.
-					$_SESSION['taoqual.authenticated'] 		= true;
-					$_SESSION['taoqual.lang']				= $dataLang;
-					$_SESSION['taoqual.serviceContentLang'] = $dataLang;
-					$_SESSION['taoqual.userId']				= $login;
-					
-					$returnValue = true;
-	        	}
+				// Taoqual authentication and language markers.
+				$_SESSION['taoqual.authenticated'] 		= true;
+				$_SESSION['taoqual.lang']				= core_kernel_classes_Session::singleton()->getInterfaceLanguage();
+				$_SESSION['taoqual.serviceContentLang'] = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
+				$_SESSION['taoqual.userId']				= $login;
+				
+				$returnValue = true;
         	}
         }
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 end

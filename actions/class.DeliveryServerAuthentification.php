@@ -17,9 +17,11 @@ class taoDelivery_actions_DeliveryServerAuthentification extends Module
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
 				if($userService->loginUser($values['login'], md5($values['password']))){//no md5 yet for subject password
+					common_Logger::d('good');
 					$this->redirect(_url('index', 'DeliveryServer'));
 				}
 				else{
+					common_Logger::d('bad');
 					$this->setData('errorMessage', __('No account match the given login / password'));
 				}
 			}

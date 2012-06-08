@@ -961,7 +961,7 @@ class taoDelivery_models_classes_DeliveryService
 
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CE6 begin
         $session = core_kernel_classes_Session::singleton();
-        $tmpSessionLang = $session->getLg();
+        $tmpSessionLang = $session->getDataLanguage();
         
 		$resultArray = array(
 			'success' => 0,
@@ -1043,9 +1043,9 @@ class taoDelivery_models_classes_DeliveryService
 								
 								// We change the Generis API Session language to
                                 // get the data in the correct language.
-                                $session->setLg($triple->lg); 
+                                $session->setDataLanguage($triple->lg); 
 								$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
-                                $session->setLg($tmpSessionLang);
+                                $session->setDataLanguage($tmpSessionLang);
 								
 								if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
 									$compilator->copyPlugins(array('js', 'css', 'img'));
