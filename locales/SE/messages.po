@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-24T16:14:26\n"
+"Project-Id-Version: TAO v2.2-beta2\n"
+"PO-Revision-Date: 2012-06-08T13:41:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -47,6 +47,7 @@ msgstr "Lägg till till leveranskampanj"
 msgid "Add to group"
 msgstr "Lägg till till grupp"
 
+#, tao-public
 msgid "Advanced Authoring Tool"
 msgstr "Avancerat skaparverktyg"
 
@@ -122,6 +123,7 @@ msgstr "Radera"
 msgid "Delete History"
 msgstr "Radera historia"
 
+#, tao-public
 msgid "Deliveries"
 msgstr "Leveranser"
 
@@ -143,8 +145,8 @@ msgstr "Leveransegenskaper"
 msgid "Delivery saved"
 msgstr "Leverans sparad"
 
-msgid "Drag and drop the tests to order them"
-msgstr "Dra och släpp testen för att ordna dem"
+msgid "Drag and drop the items to order them"
+msgstr ""
 
 msgid "duplicate"
 msgstr "dublett"
@@ -230,12 +232,15 @@ msgstr "laddar..."
 msgid "Logout"
 msgstr "Logga ut"
 
+#, tao-public
 msgid "Manage campaigns"
 msgstr "Hantera kampanjer"
 
+#, tao-public
 msgid "Manage deliveries"
 msgstr "Hantera leveranser"
 
+#, tao-public
 msgid "Manage result servers"
 msgstr "Hantera resultatservrar"
 
@@ -281,6 +286,7 @@ msgstr "Var vänlig välj en leverans innan skapandet av den"
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Var vänlig välj en giltig resultatserver i leveransredigeringssektionen, försök sedan igen.(Inget giltigt wsdl-kontrakt hittades för den definierade resultatservern)"
 
+#, tao-public
 msgid "Prepare, publish deliveries sessions and campaigns."
 msgstr ""
 

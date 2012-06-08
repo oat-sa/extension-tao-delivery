@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-24T16:14:30\n"
+"Project-Id-Version: TAO v2.2-beta2\n"
+"PO-Revision-Date: 2012-06-08T13:41:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: _raw\n"
@@ -47,6 +47,7 @@ msgstr ""
 msgid "Add to group"
 msgstr ""
 
+#, tao-public
 msgid "Advanced Authoring Tool"
 msgstr ""
 
@@ -122,6 +123,7 @@ msgstr ""
 msgid "Delete History"
 msgstr ""
 
+#, tao-public
 msgid "Deliveries"
 msgstr ""
 
@@ -143,7 +145,7 @@ msgstr ""
 msgid "Delivery saved"
 msgstr ""
 
-msgid "Drag and drop the tests to order them"
+msgid "Drag and drop the items to order them"
 msgstr ""
 
 msgid "duplicate"
@@ -230,12 +232,15 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+#, tao-public
 msgid "Manage campaigns"
 msgstr ""
 
+#, tao-public
 msgid "Manage deliveries"
 msgstr ""
 
+#, tao-public
 msgid "Manage result servers"
 msgstr ""
 
@@ -281,6 +286,7 @@ msgstr ""
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr ""
 
+#, tao-public
 msgid "Prepare, publish deliveries sessions and campaigns."
 msgstr ""
 

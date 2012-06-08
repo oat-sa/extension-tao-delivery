@@ -680,22 +680,40 @@
     -->
     <rdfs:comment xml:lang="FR"><![CDATA[Si l'évaluation des résultats est faite côté serveur ou côté client]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer">
     <!--
     @sourceLanguage EN
     @targetLanguage FR
     @source Local Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Serveur de résultats local]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Local Result Server]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
     @source Local Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Le serveur de résultats local]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Local Result Server]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage FR
+    @source Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="FR"><![CDATA[Local Result Server]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage FR
+    @source Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="FR"><![CDATA[Local Result Server]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

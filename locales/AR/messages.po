@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-24T16:14:09\n"
+"Project-Id-Version: TAO v2.2-beta2\n"
+"PO-Revision-Date: 2012-06-08T13:41:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -47,6 +47,7 @@ msgstr "Ajouter à la campagne du delivery"
 msgid "Add to group"
 msgstr "أضف الى المجموعة"
 
+#, tao-public
 msgid "Advanced Authoring Tool"
 msgstr "محرر متقدم"
 
@@ -122,6 +123,7 @@ msgstr "حذف"
 msgid "Delete History"
 msgstr "حذف"
 
+#, tao-public
 msgid "Deliveries"
 msgstr "Deliveries"
 
@@ -143,8 +145,8 @@ msgstr "Propriétés du delivery"
 msgid "Delivery saved"
 msgstr "Delivery Sauvegardé"
 
-msgid "Drag and drop the tests to order them"
-msgstr "سحب و اسقاط الاختبارات لترتيبها"
+msgid "Drag and drop the items to order them"
+msgstr ""
 
 msgid "duplicate"
 msgstr "تكرار"
@@ -230,12 +232,15 @@ msgstr "...تحميل"
 msgid "Logout"
 msgstr "خروج"
 
+#, tao-public
 msgid "Manage campaigns"
 msgstr "إدارة العمليات"
 
+#, tao-public
 msgid "Manage deliveries"
 msgstr "Gérer les deliveries"
 
+#, tao-public
 msgid "Manage result servers"
 msgstr "ادارة خوادم النتائج"
 
@@ -281,6 +286,7 @@ msgstr "Veuillez sélectionner un delivery avant de l'éditer."
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
 
+#, tao-public
 msgid "Prepare, publish deliveries sessions and campaigns."
 msgstr ""
 
