@@ -74,6 +74,7 @@ $(document).ready(function(){
 					}
 				}
 				buildTestList("test-sequence", newSequence, labels);
+				if ($('#test-sequence li').length) $('#test-sequence').prev('.elt-info').show();
 			}
 		},
 		checkedNodes : sequence
