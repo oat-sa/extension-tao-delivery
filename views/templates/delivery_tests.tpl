@@ -16,7 +16,7 @@
 	</div>
 	<div class="ui-widget ui-widget-content container-content">
 		<div id="item-list">
-			<br />
+			<span class="elt-info"><?=__('Drag and drop the tests to order them')?></span>
 			<ul id="test-sequence" class="sortable-list">
 			<?foreach(get_data('testSequence') as $index => $test):?>
 				<li class="ui-state-default" id="test_<?=$test['uri']?>" >
@@ -26,7 +26,6 @@
 				</li>
 			<?endforeach?>
 			</ul>
-			<span class="elt-info"><?=__('Drag and drop the tests to order them')?></span>
 		</div>
 	</div>
 	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
@@ -39,11 +38,11 @@
 <?endif?>
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	
+
+
 	var sequence = <?=get_data('relatedTests')?>;
 	var labels = <?=get_data('allTests')?>;
-	
+
 	function buildTestList(id, tests, labels){
 		html = '';
 		for (i in tests) {
@@ -55,7 +54,7 @@ $(document).ready(function(){
 		}
 		$("#" + id).html(html);
 	}
-	
+
 	if(ctx_extension){
 		url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 	}
@@ -79,8 +78,8 @@ $(document).ready(function(){
 		},
 		checkedNodes : sequence
 	});
-	
-	
+
+
 	$("#test-sequence").sortable({
 		axis: 'y',
 		opacity: 0.6,
@@ -98,14 +97,14 @@ $(document).ready(function(){
 			buildTestList('test-sequence', newSequence, labels);
 		}
 	});
-	
+
 	$("#test-sequence li").bind('mousedown', function(){
 		$(this).css('cursor', 'move');
 	});
 	$("#test-sequence li").bind('mouseup',function(){
 		$(this).css('cursor', 'pointer');
 	});
-	
+
 	$("#saver-action-test-sequence").click(function(){
 		toSend = {};
 		for(index in sequence){
