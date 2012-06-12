@@ -218,7 +218,8 @@ class taoDelivery_models_classes_DeliveryServerService
 								'subject' => $subject
 							));
 						}catch(Exception $e){
-							echo "error: ".$e->getMessage();
+							common_Logger::e("Error during delivery evaluation: ".$e->getMessage());
+							$ok = false;
 						}
 						
 						if(!$ok){
