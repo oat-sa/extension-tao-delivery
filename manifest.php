@@ -18,7 +18,6 @@ return array(
 			'rdf' => array(
 					array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/taodelivery.rdf'),
 					array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/coding.rdf'),
-					array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/funcacl.rdf')
 			)
 		),
 		'classLoaderPackages' => array(
