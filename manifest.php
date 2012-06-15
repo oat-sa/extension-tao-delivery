@@ -8,7 +8,7 @@ return array(
 	'name' => 'taoDelivery',
 	'description' => 'TAO http://www.tao.lu',
 	'additional' => array(
-		'version' => '2.0',
+		'version' => '2.3',
 		'author' => 'CRP Henri Tudor',
 		'dependances' => array('wfEngine'),
 		'extends' => 'tao',
