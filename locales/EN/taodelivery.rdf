@@ -684,7 +684,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Local Result Server
+    @source Local Dual Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -692,7 +692,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Local Result Server
+    @source Local Dual Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -702,7 +702,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Local Result Server
+    @source Local Legacy Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -710,7 +710,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Local Result Server
+    @source Local Legacy Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
