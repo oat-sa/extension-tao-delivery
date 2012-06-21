@@ -45,7 +45,7 @@ div.xhtml_form div input, div.xhtml_form div select, div.xhtml_form div textarea
 	color: #D00239;
 }
 
-div#subject-container.data-container div.container-title b{color:#D00239; text-decoration:underline;}
-div#subject-container.data-container div.container-content{border-color:#D00239;}
+div#subject-container.data-container div.container-title b{ color:#D00239 }
+div#subject-container.data-container div.container-content{ border-color:#D00239 }
 
 div.ui-state-highlight-delivery{padding-bottom: 10px;}
