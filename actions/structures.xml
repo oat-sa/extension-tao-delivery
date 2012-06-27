@@ -7,6 +7,7 @@
 			<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 				<trees>
 					<tree name="Deliveries library" 
+						className="Delivery"
 						dataUrl="/taoDelivery/Delivery/getDeliveries" 
 						editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
 						editInstanceUrl="/taoDelivery/Delivery/editDelivery"
@@ -37,7 +38,8 @@
 			
 			<section id="manage_campaigns" name="Manage campaigns" url="/taoDelivery/Campaign/index">
 				<trees>
-					<tree name="Campaigns library" 
+					<tree name="Campaigns library"
+						className="Campaign" 
 						dataUrl="/taoDelivery/Campaign/getCampaigns" 
 						editClassUrl="/taoDelivery/Campaign/editCampaignClass"
 						editInstanceUrl="/taoDelivery/Campaign/editCampaign"
@@ -63,7 +65,8 @@
 			
 			<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
 				<trees>
-					<tree name="Result Servers library" 
+					<tree name="Result Servers library"
+						className="Result Server" 
 						dataUrl="/taoDelivery/ResultServer/getResultServers" 
 						editClassUrl="/taoDelivery/ResultServer/editResultServerClass"
 						editInstanceUrl="/taoDelivery/ResultServer/editResultServer"
