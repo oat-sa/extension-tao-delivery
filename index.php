@@ -5,25 +5,6 @@
  */
 require_once dirname(__FILE__). '/../tao/includes/class.Bootstrap.php';
 
-
-//use a different session name when we deliver a test
-$modules = array(
-	'DeliveryServerAuthentification', 
-	'DeliveryServer', 
-	'ProcessBrowser', 
-	'ItemDelivery', 
-	'ResultDelivery',
-	'RecoveryContext',
-	'InternalResultServer'
-);
-$options = array();
-foreach($modules as $module){
-	if(tao_helpers_Request::contains('module', $module)){
-		$options['session_name'] = 'TAO_DELIVERY_SESSION';
-		break;
-	}
-}
-
 //need to load additional constants
 $options['constants'] = array('taoTests', 'taoItems', 'taoResults');
 
