@@ -67,4 +67,7 @@ define('TAO_ITEMS_BASE_URL', ROOT_URL . '/taoItems');
 #test compilation maximum execution time
 define('TEST_COMPILATION_TIME', 300);
 
+#export resources path
+define('EXPORT_PATH', 	BASE_PATH . '/views/export');
+
 ?>
