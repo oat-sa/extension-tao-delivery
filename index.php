@@ -6,6 +6,7 @@
 require_once dirname(__FILE__). '/../tao/includes/class.Bootstrap.php';
 
 //need to load additional constants
+$options = array();
 $options['constants'] = array('taoTests', 'taoItems', 'taoResults');
 
 $bootStrap = new BootStrap('taoDelivery', $options);
