@@ -6,9 +6,9 @@
 		<sections>
 			<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 				<trees>
-					<tree name="Deliveries library" 
+					<tree name="Deliveries library"
 						className="Delivery"
-						dataUrl="/taoDelivery/Delivery/getDeliveries" 
+						dataUrl="/taoDelivery/Delivery/getDeliveries"
 						editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
 						editInstanceUrl="/taoDelivery/Delivery/editDelivery"
 						addInstanceUrl="/taoDelivery/Delivery/addDelivery"
@@ -26,21 +26,20 @@
 					<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/Delivery/cloneDelivery" context="instance" />
 					<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 					<action name="create table" url="/taoResults/Results/createTable"  context="class" />
-					<action name="export" url="/tao/Export/index"  context="*" /> 
-					<action name="import" url="/tao/Import/index"  context="class" /> 
-					<action name="compile" url="/taoDelivery/Delivery/compileView" context="instance" />
+					<action name="export" url="/tao/Export/index"  context="*" />
+					<action name="import" url="/tao/Import/index"  context="class" />
 					<action name="advanced mode" url="/taoDelivery/Delivery/advancedMode" context="instance" />
 					<action name="simple mode" url="/taoDelivery/Delivery/simpleMode" context="instance" />
 				</actions>
 			</section>
-			
+
 			<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />
-			
+
 			<section id="manage_campaigns" name="Manage campaigns" url="/taoDelivery/Campaign/index">
 				<trees>
 					<tree name="Campaigns library"
-						className="Campaign" 
-						dataUrl="/taoDelivery/Campaign/getCampaigns" 
+						className="Campaign"
+						dataUrl="/taoDelivery/Campaign/getCampaigns"
 						editClassUrl="/taoDelivery/Campaign/editCampaignClass"
 						editInstanceUrl="/taoDelivery/Campaign/editCampaign"
 						addInstanceUrl="/taoDelivery/Campaign/addCampaign"
@@ -58,16 +57,16 @@
 					<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/Campaign/cloneInstance" context="instance" />
 					<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 					<action name="create table" url="/taoResults/Results/createTable"  context="class" />
-					<action name="export" url="/tao/Export/index"  context="*" /> 
-					<action name="import" url="/tao/Import/index"  context="class" /> 
+					<action name="export" url="/tao/Export/index"  context="*" />
+					<action name="import" url="/tao/Import/index"  context="class" />
 				</actions>
 			</section>
-			
+
 			<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
 				<trees>
 					<tree name="Result Servers library"
-						className="Result Server" 
-						dataUrl="/taoDelivery/ResultServer/getResultServers" 
+						className="Result Server"
+						dataUrl="/taoDelivery/ResultServer/getResultServers"
 						editClassUrl="/taoDelivery/ResultServer/editResultServerClass"
 						editInstanceUrl="/taoDelivery/ResultServer/editResultServer"
 						addInstanceUrl="/taoDelivery/ResultServer/addResultServer"
@@ -85,11 +84,11 @@
 					<action name="duplicate" js="GenerisAction.duplicateNode" url="/taoDelivery/ResultServer/cloneInstance" context="instance" />
 					<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 					<action name="create table" url="/taoResults/Results/createTable"  context="class" />
-					<action name="export" url="/tao/Export/index"  context="*" /> 
-					<action name="import" url="/tao/Import/index"  context="class" /> 
+					<action name="export" url="/tao/Export/index"  context="*" />
+					<action name="import" url="/tao/Import/index"  context="class" />
 				</actions>
 			</section>
-			
+
 		</sections>
 	</structure>
 </structures>
