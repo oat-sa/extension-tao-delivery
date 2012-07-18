@@ -21,7 +21,7 @@ else{
 require_once  PHPCOVERAGE_HOME. "/CoverageRecorder.php";
 require_once PHPCOVERAGE_HOME . "/reporter/HtmlCoverageReporter.php";
 //run the unit test suite
-$includePaths = array(ROOT_PATH."taoDelivery/actions", ROOT_PATH.'taoDelivery/models',ROOT_PATH.'taoDelivery/helpers');
+$includePaths = array(ROOT_PATH.'taoDelivery/models',ROOT_PATH.'taoDelivery/helpers');
 $excludePaths = array();
 $covReporter = new HtmlCoverageReporter("Code Coverage Report taoDelivery", "", PHPCOVERAGE_REPORTS."/taoDelivery");
 $cov = new CoverageRecorder($includePaths, $excludePaths, $covReporter);
