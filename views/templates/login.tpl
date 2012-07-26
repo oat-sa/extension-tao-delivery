@@ -4,7 +4,7 @@
 		<title><?= __("TAO Delivery Server"); ?></title>
 	 	<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/layout.css" />
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/form.css" />
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.custom.css" />
+		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
 
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>css/login.css);

@@ -4,7 +4,7 @@
 		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/jquery-1.7.2.min.js"/></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/wfEngine.js"/></script>
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.custom.css" />
+		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.22.custom.css" />
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>/css/main.css);
 		</style>
