@@ -2,17 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $GLOBALS['lang']; ?>" lang="<?php echo $GLOBALS['lang']; ?>">
 	<head>
 		<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
-		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/jquery-1.4.2.min.js"/></script>
+		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/jquery-1.7.2.min.js"/></script>
 		<script type="text/javascript" src="<?echo BASE_WWW; ?>/js/wfEngine.js"/></script>
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/custom-theme/jquery-ui-1.8.custom.css" />
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>/css/main.css);
 		</style>
 	</head>
-	
+
 	<body>
 		<div id="process_view"></div>
-		
+
 		<ul id="control">
         	<li>
         		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo $login; ?></span> </span>
@@ -22,9 +22,9 @@
          		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
-		
+
 		<div id="content" class='ui-corner-bottom'>
-			<h1 id="welcome_message"><img src="<?=BASE_WWW?>/img/taoDelivery_medium.png" alt='delivery' />&nbsp;<?= __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>	
+			<h1 id="welcome_message"><img src="<?=BASE_WWW?>/img/taoDelivery_medium.png" alt='delivery' />&nbsp;<?= __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>
 			<div id="business">
 				<h2 class="section_title"><?php echo __("Active Deliveries"); ?></h2>
 			<?php if(!empty($processViewData)) : ?>
@@ -62,7 +62,7 @@
 			<?php else:?>
 			<br/><br/>
 			<?php endif; ?>
-			
+
 			<!-- End of Active Processes -->
 			<?php if(!empty($availableProcessDefinition)) : ?>
 				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
@@ -73,12 +73,12 @@
 							<a href="<?php echo BASE_URL;?>/DeliveryServer/initDeliveryExecution?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
 							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
 						</li>
-						<?php endforeach;  ?>		
-					</ul>	
+						<?php endforeach;  ?>
+					</ul>
 				</div>
 			<?php endif; ?>
 			</div>
-			
+
 		</div>
 		<!-- End of content -->
 		<? include TAO_TPL_PATH .'footer/layout_footer_'.TAO_RELEASE_STATUS.'.tpl' ?>
