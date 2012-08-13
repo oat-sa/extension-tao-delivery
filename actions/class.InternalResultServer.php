@@ -236,9 +236,12 @@ class taoDelivery_actions_InternalResultServer
 				// create Instance
 				// since we are on the same server we can load the environment imediately from session
 	        	$environment = $this->getExecutionEnvironment();
-				$subject = $environment[TAO_SUBJECT_CLASS]['uri'];
-				$delivery = $environment[TAO_DELIVERY_CLASS]['uri'];
+				$subject = new core_kernel_classes_Resource($environment[TAO_SUBJECT_CLASS]['uri']);
+				$delivery = new core_kernel_classes_Resource($environment[TAO_DELIVERY_CLASS]['uri']);
+				
+				$label = $delivery->getLabel().' '.$subject->getLabel();
 				$returnValue = $drClass->createInstanceWithProperties(array(
+					RDFS_LABEL					=> $label,
 					PROPERTY_RESULT_OF_PROCESS	=> $classProcessInstance,
 					PROPERTY_RESULT_OF_DELIVERY => $delivery,
 					PROPERTY_RESULT_OF_SUBJECT	=> $subject,
