@@ -10,11 +10,11 @@
 			<?=__('There is currently no delivery execution.')?>
 		<?endif;?>
 		</p>
-		
+
 		<?if(get_data('executionNumber')):?>
 		<span>
 			<a id='historyLink' href="#">
-				<img id='historyLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;<?=__('View History')?> 
+				<img id='historyLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;<?=__('View History')?>
 			</a>
 		</span>
 		<?endif;?>
@@ -28,29 +28,29 @@
 <script type="text/javascript">
 function buildHistoryGrid(selector){
 	var actionUrl = '';
-	
+
 	<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
 	<?else:?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
 	<?endif;?>
-	
+
 	historyGrid = $(selector).jqGrid({
-		url: actionUrl, 
-		datatype: "json", 
-		colNames:[ __('Test Taker'), __('Time'), __('Actions')], 
-		colModel:[ 
-			{name:'subject',index:'subject'}, 
-			{name:'time',index:'time'}, 
+		url: actionUrl,
+		datatype: "json",
+		colNames:[ __('Test Taker'), __('Time'), __('Actions')],
+		colModel:[
+			{name:'subject',index:'subject'},
+			{name:'time',index:'time'},
 			{name:'actions',index:'actions', align:"center", sortable: false}
-		], 
+		],
 		rowNum:20,
 		height:300,
 		width:parseInt($(selector).width()) - 2,
-		pager: '#history-list-pager', 
-		sortname: 'subject', 
-		viewrecords: false, 
-		sortorder: "asc", 
+		pager: '#history-list-pager',
+		sortname: 'subject',
+		viewrecords: false,
+		sortorder: "asc",
 		caption: __("Execution History"),
 		postData: {'uri': "<?=get_data('uri')?>", 'classUri': "<?=get_data('classUri')?>"},
 		gridComplete: function(){
@@ -63,7 +63,7 @@ function buildHistoryGrid(selector){
 				e.preventDefault();
 				removeHistory(this.id.replace('history_deletor_', ''));
 			});
-			
+
 			$(window).unbind('resize').bind('resize', function(){
 				historyGrid.jqGrid('setGridWidth', (parseInt($(selector).width())-2));
 			});
@@ -73,7 +73,7 @@ function buildHistoryGrid(selector){
 }
 
 var removeHistory = function(uri){
-	if(confirm("<?=__('Please confirm history deletion')?>")){ 
+	if(confirm("<?=__('Please confirm history deletion')?>")){
 		$.ajax({
 			url: "<?=_url('deleteHistory', 'Delivery', 'taoDelivery')?>",
 			type: "POST",
@@ -86,9 +86,9 @@ var removeHistory = function(uri){
 			success: function(r){
 				if (r.deleted){
 					historyGrid.trigger("reloadGrid");
-					createInfoMessage(r.message);
+					helpers.createInfoMessage(r.message);
 				}else{
-					createErrorMessage(r.message);
+					helpers.createErrorMessage(r.message);
 				}
 			}
 		});
@@ -100,9 +100,9 @@ $(function(){
 	$('#historyLink').click(function(){
 		$('#history-link-container').hide();
 		try{
-			var historyGrid = null;	
+			var historyGrid = null;
 			buildHistoryGrid("#history-list");
-			// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);		
+			// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);
 		}catch(err){
 			// console.log('error building history grid:s '+err);
 		}

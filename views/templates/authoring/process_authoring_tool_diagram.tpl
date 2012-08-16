@@ -15,10 +15,10 @@
 			<a href="#" onclick="selectTabByName('manage_deliveries');"><?=__('Back')?></a>
 		</span>
 	</div>
-	
+
 <?else:?>
 	<link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/process_authoring_tool.css" />
-	
+
 	<script type="text/javascript">
 		//constants:
 		RDFS_LABEL = "<?=tao_helpers_Uri::encode(RDFS_LABEL)?>";
@@ -28,7 +28,7 @@
 		INSTANCE_TYPEOFCONNECTORS_PARALLEL = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_PARALLEL)?>";
 		INSTANCE_TYPEOFCONNECTORS_JOIN = "<?=tao_helpers_Uri::encode(INSTANCE_TYPEOFCONNECTORS_JOIN)?>";
 	</script>
-	
+
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/authoringConfig.js"></script>
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/json2.js"></script>
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/util.js"></script>
@@ -44,7 +44,7 @@
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeConnectorMove.js"></script>
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeArrowEdit.js"></script>
 	<script type="text/javascript" src="<?=BASE_WWW?>js/authoring/modeLinkedActivityAdd.js"></script>
-	
+
 	<script type="text/javascript">
 	//init:
 	var canvas = "#process_diagram_container";
@@ -52,39 +52,39 @@
 	ArrowClass.canvas = ActivityDiagramClass.canvas;
 	var processUri = "<?=get_data("processUri")?>";
 	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(core_kernel_classes_Session::singleton()->getNameSpace().'#')?>";
-	
+
 	ModeArrowLink.tempId = "defaultConnectorId";
-	
+
 	$(function() {
 		// window.loadFirebugConsole();
-		
+
 		$(ActivityDiagramClass.canvas).scroll(function(){
 			//TODO: set a more cross-browser way to retrieve scroll left and top values:
 			ActivityDiagramClass.scrollLeft = this.scrollLeft;
 			ActivityDiagramClass.scrollTop = this.scrollTop;
 		});
-		
+
 		// $(ArrowClass.canvas).mousemove(function(e){
 			  // $('#status').html(e.pageX +', '+ e.pageY);
 		// });
-		
+
 		try{
-			
-			
-			
+
+
+
 			// ActivityDiagramClass.setActivityMenuHandler("ActivityTempId");
 			// console.log('ModeActivityMenu', ModeActivityMenu);
 			// ModeActivityMenu.on("ActivityTempId");
-			
+
 			// ActivityDiagramClass.feedDiagram();
 			// ActivityDiagramClass.drawDiagram();
 			ActivityDiagramClass.loadDiagram();
-			
+
 		}
 		catch(err){
 			//console.log('feed&draw diagram exception', err);
 		}
-		
+
 	});
 
 	</script>
@@ -119,7 +119,7 @@
 			<div id="variable_form"/>
 		</div>
 	</div><!--end accordion -->
-	
+
 	<div id="accordion_container_2">
 	<div id="accordion2" style="font-size:0.8em;">
 		<h3><a href="#"><?=__('Activity Editor')?></a></h3>
@@ -146,45 +146,45 @@
 		</div>
 	</div><!--end accordion -->
 	</div><!--end accordion_container_2 -->
-	
+
 	</div><!--end authoring-container -->
-	
+
 	<script type="text/javascript" src="<?=BASE_WWW?>js/activity.tree.js"></script>
 	<script type="text/javascript">
-	
-	
-	
+
+
+
 	$(function(){
-		 
-	
-		// EventMgr.unbind('activityAdded');
-		EventMgr.unbind();
-		
-		EventMgr.bind('activityAdded', function(event, response){
+
+
+		// eventMgr.unbind('activityAdded');
+		eventMgr.unbind();
+
+		eventMgr.bind('activityAdded', function(event, response){
 			//console.log('adding act response:', response);
 			try{
 				var activity = ActivityDiagramClass.feedActivity({
 					"data": response.label,
 					"attributes": {"id": response.uri}
 				});
-				
+
 				//console.log('activity', activity);
-				
+
 				//draw activity with the default positionning:
 				ActivityDiagramClass.drawActivity(activity.id);
 				ActivityDiagramClass.setActivityMenuHandler(activity.id);
-				
+
 				//draw arrow if need be (i.e. in case of adding an activity with a connector)
 				if(response.previousConnectorUri && response.port>=0){
 					//should be a connector:
 					var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousConnectorUri);
 					var originEltId = ActivityDiagramClass.getActivityId('connector', previousObjectId);
 					var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
-					
+
 					var activityId = ActivityDiagramClass.getActivityId('container', activity.id);
 					ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+activityId));
 					// ActivityDiagramClass.setActivityMenuHandler(activityId);
-					
+
 					//create and draw arrow:
 					var activityTopId = ActivityDiagramClass.getActivityId('activity', activity.id, 'top');
 					ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+activityTopId), 'top', new Array(), false);
@@ -192,7 +192,7 @@
 						container: ActivityDiagramClass.canvas,
 						arrowWidth: 2
 					});
-					
+
 					//save diagram:
 					ActivityDiagramClass.saveDiagram();
 				}
@@ -200,15 +200,15 @@
 			//	console.log('activityAdded exception:', ex);
 			}
 		});
-		
-		EventMgr.bind('connectorAdded', function(event, response){
+
+		eventMgr.bind('connectorAdded', function(event, response){
 			try{
 				//a connector is always added throught the "linked mode"
 				var previousObjectId = ActivityDiagramClass.getIdFromUri(response.previousActivityUri);
 				if(response.previousIsActivity){
 					var originEltId = ActivityDiagramClass.getActivityId('activity', previousObjectId);
 					var arrowId = ActivityDiagramClass.getActivityId('activity', previousObjectId, 'bottom');
-					
+
 					var activityRefId = previousObjectId;
 				}else{
 					//should be a connector:
@@ -216,16 +216,16 @@
 					var arrowId = ActivityDiagramClass.getActivityId('connector', previousObjectId, 'bottom', response.port);
 					if(ActivityDiagramClass.connectors[previousObjectId]){
 						var activityRefId = ActivityDiagramClass.connectors[previousObjectId].activityRef;
-						
+
 						//update the local datastore on the previous activity:
 						ActivityDiagramClass.connectors[previousObjectId].port[response.port].targetId = ActivityDiagramClass.getIdFromUri(response.uri);
 						//update multiplicity here?
 					}else{
 						throw 'the connector does not exist in the connectors array';
 					}
-					
+
 				}
-				
+
 				var connector = ActivityDiagramClass.feedConnector(
 					{
 						"data": response.label,
@@ -237,25 +237,25 @@
 					null,
 					activityRefId
 				);
-				
-				
-				
+
+
+
 				//draw connector and reposition it:
 				var connectorId = ActivityDiagramClass.getActivityId('connector', connector.id);
 				var connectorTopId = ActivityDiagramClass.getActivityId('connector', connector.id, 'top');
-				
+
 				ActivityDiagramClass.drawConnector(connector.id);
 				ActivityDiagramClass.positionNewActivity($('#'+originEltId), $('#'+connectorId));
 				ActivityDiagramClass.setConnectorMenuHandler(connector.id);
-				
+
 				//create and draw arrow:
 				ArrowClass.arrows[arrowId] = ArrowClass.calculateArrow($('#'+arrowId), $('#'+connectorTopId), 'top', new Array(), false);
 				ArrowClass.drawArrow(arrowId, {
 					container: ActivityDiagramClass.canvas,
 					arrowWidth: 2
 				});
-				
-				
+
+
 				//save diagram:
 				ActivityDiagramClass.saveDiagram();
 			}catch(ex){
@@ -265,60 +265,60 @@
 				//console.log('connectorId', connectorId);
 				//console.log('arrowId', arrowId);
 			}
-				
+
 		});
-		
-		EventMgr.bind('connectorSaved', function(event, response){
+
+		eventMgr.bind('connectorSaved', function(event, response){
 			//console.log('connectorSaved triggered');
-			
+
 			var added = false
 			if(response.newActivities && response.previousConnectorUri){
 				if(response.newActivities.length > 0){
 					var activityAddedResponse = response.newActivities[0];//currently, the first one is enough
 					activityAddedResponse.previousConnectorUri = response.previousConnectorUri;
-					EventMgr.trigger('activityAdded', activityAddedResponse);
+					eventMgr.trigger('activityAdded', activityAddedResponse);
 					added = true;
 				}
 			}
-			
+
 			if(response.newConnectors && response.previousConnectorUri){
 				if(response.newConnectors.length > 0){
 					var connectorAddedResponse = response.newConnectors[0];//currently, the first one is enough
 					connectorAddedResponse.previousActivityUri = response.previousConnectorUri;
 					connectorAddedResponse.previousIsActivity = false;//the previous activity is obviously a connector here
-					EventMgr.trigger('connectorAdded', connectorAddedResponse);
+					eventMgr.trigger('connectorAdded', connectorAddedResponse);
 					added = true;
 				}
 			}
-			
+
 			if(!added){
 				//reload the tree:
 				ActivityDiagramClass.refreshRelatedTree();
 				ActivityDiagramClass.loadDiagram();
 			}
-			
+
 		});
-		
-		
-		EventMgr.bind('activityPropertiesSaved', function(event, response){
+
+
+		eventMgr.bind('activityPropertiesSaved', function(event, response){
 			//simply reload the tree:
 			ActivityDiagramClass.refreshRelatedTree();
 		});
-		
-		EventMgr.bind('activityDeleted', function(event, response){
+
+		eventMgr.bind('activityDeleted', function(event, response){
 			ActivityDiagramClass.reloadDiagram();
 		});
-		
-		EventMgr.bind('connectorDeleted', function(event, response){
+
+		eventMgr.bind('connectorDeleted', function(event, response){
 			ActivityDiagramClass.reloadDiagram();
 		});
-		
+
 		$(ActivityDiagramClass.canvas).click(function(evt){
 			if (evt.target == evt.currentTarget) {
 				ModeController.setMode('ModeInitial');
 			}
 		});
-		
+
 		$("#activity_menu_addActivity").click(function(event){
 			try{
 				event.preventDefault();
@@ -328,7 +328,7 @@
 				//console.log('addactivity on click:', err);
 			}
 		});
-		
+
 		$("#accordion1").accordion({
 			fillSpace: false,
 			autoHeight: false,
@@ -336,43 +336,43 @@
 			active: 0,
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
-		
+
 		//load activity tree:
 		loadActivityTree();
-		
-		
+
+
 		//load the trees:
 		loadSectionTree("serviceDefinition");//use get_value instead to get the uriResource of the service definition class and make
 		/*loadSectionTree("formalParameter");
 		loadSectionTree("role");
 		loadSectionTree("variable");
-		
+
 		processProperty();
-		
+
 		loadCompilationForm();
 		*/
 	});
-	
+
 	$(function(){
 		$("#accordion2").accordion({
 			fillSpace: false,
 			autoHeight: false,
 			collapsible: false,
-			
+
 			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
 		});
-		
+
 		//load the trees:
-		
+
 	});
-	
+
 	function processProperty(){
-		_load("#process_form", 
-			authoringControllerPath+"editProcessProperty", 
+		_load("#process_form",
+			authoringControllerPath+"editProcessProperty",
 			{processUri: processUri}
 		);
 	}
-	
+
 	function loadSectionTree(section){
 	//section in [serviceDefinition, formalParameter, role]
 		$.ajax({
@@ -385,7 +385,7 @@
 			}
 		});
 	}
-	
+
 	function loadActivityTree(){
 		$.ajax({
 			url: authoringControllerPath+'getActivityTree',
@@ -397,7 +397,7 @@
 			}
 		});
 	}
-	
+
 	function loadCompilationForm(){
 		$.ajax({
 			url: authoringControllerPath+'compileView',
@@ -410,7 +410,7 @@
 		});
 	}
 	</script>
-	
+
 <?endif?>
 
 <?include('footer.tpl')?>

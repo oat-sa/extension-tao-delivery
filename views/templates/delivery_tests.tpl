@@ -38,8 +38,6 @@
 <?endif?>
 <script type="text/javascript">
 $(document).ready(function(){
-
-
 	var sequence = <?=get_data('relatedTests')?>;
 	var labels = <?=get_data('allTests')?>;
 
@@ -55,31 +53,31 @@ $(document).ready(function(){
 		$("#" + id).html(html);
 	}
 
-	if(ctx_extension){
+	if (ctx_extension) {
 		url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 	}
-	getTestUrl = url + 'getAllTests';
-	setTestUrl = url + 'saveTests';
-	new GenerisTreeFormClass('#test-tree', getTestUrl, {
-		actionId: 'test',
-		saveUrl : setTestUrl,
-		saveCallback: function (data){
-			if (buildTestList != undefined) {
-				newSequence = {};
-				sequence = {};
-				for(attr in data){
-					if(/^instance_/.test(attr)){
-						newSequence[parseInt(attr.replace('instance_', ''))+1] = 'test_'+ data[attr];
-						sequence[parseInt(attr.replace('instance_', ''))+1] = data[attr];
-					}
-				}
-				buildTestList("test-sequence", newSequence, labels);
-				if ($('#test-sequence li').length) $('#test-sequence').prev('.elt-info').show();
-			}
-		},
-		checkedNodes : sequence
-	});
 
+	require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
+		new GenerisTreeSelectClass('#test-tree', url + 'getAllTests', {
+			actionId: 'test',
+			saveUrl : url + 'saveTests',
+			saveCallback: function (data){
+				if (buildTestList != undefined) {
+					newSequence = {};
+					sequence = {};
+					for(attr in data){
+						if(/^instance_/.test(attr)){
+							newSequence[parseInt(attr.replace('instance_', ''))+1] = 'test_'+ data[attr];
+							sequence[parseInt(attr.replace('instance_', ''))+1] = data[attr];
+						}
+					}
+					buildTestList("test-sequence", newSequence, labels);
+					if ($('#test-sequence li').length) $('#test-sequence').prev('.elt-info').show();
+				}
+			},
+			checkedNodes : sequence
+		});
+	});
 
 	$("#test-sequence").sortable({
 		axis: 'y',
@@ -114,17 +112,17 @@ $(document).ready(function(){
 		toSend.uri = $("input[name=uri]").val();
 		toSend.classUri = $("input[name=classUri]").val();
 		$.ajax({
-			url: setTestUrl,
+			url: url + 'saveTests',
 			type: "POST",
 			data: toSend,
 			dataType: 'json',
 			success: function(response){
 				if (response.saved) {
-					createInfoMessage("<?=__('Sequence saved successfully')?>");
+					helpers.createInfoMessage("<?=__('Sequence saved successfully')?>");
 				}
 			},
 			complete: function(){
-				loaded();
+				helpers.loaded();
 			}
 		});
 	});

@@ -3,11 +3,10 @@
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
 
 <div id="delivery-left-container">
-	<?if(get_data('authoringMode') == 'simple'):?>
-
+<?if(get_data('authoringMode') == 'simple'):?>
 	<?include('delivery_tests.tpl');?>
 	<div class="breaker"></div>
-	<?endif?>
+<?endif?>
 
 	<?include('groups.tpl')?>
 	<?include('subjects.tpl')?>
@@ -15,7 +14,6 @@
 
 	<?include('delivery_campaign.tpl')?>
 	<div class="breaker"></div>
-
 </div>
 
 <div class="main-container medium" id="delivery-main-container">
