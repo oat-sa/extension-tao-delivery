@@ -3,12 +3,15 @@
 	<head>
 		<title><?=__("TAO - An Open and Versatile Computer-Based Assessment Platform")?></title>
 
-		<script type="text/javascript" src="<?=TAOBASE_WWW?>js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="<?=TAOBASE_WWW?>js/jquery-ui-1.8.22.custom.min.js"></script>
-		<script type="text/javascript" src="<?=BASE_WWW?>js/jquery.json.js"></script>
-		<script type="text/javascript" src="<?=BASE_WWW?>js/jquery.ui.taoqualDialog.js"></script>
-		<script type="text/javascript" src="<?=BASE_WWW?>js/wfEngine.js"></script>
-		<script type="text/javascript" src="<?=BASE_WWW?>js/process_browser.js"></script>
+		<script type="text/javascript">
+			var root_url = '<?=ROOT_URL?>';
+			var base_url = '<?=BASE_URL?>';
+			var taobase_www = '<?=TAOBASE_WWW?>';
+			var base_www = '<?=BASE_WWW?>';
+			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
+		</script>
+		<script src="<?=TAOBASE_WWW?>js/require-2.0.4.js"></script>
+		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
 
 		<script type="text/javascript">
 			window.processUri = '<?=urlencode($browserViewData['processUri'])?>';
@@ -19,61 +22,56 @@
 				$("#loader").css('display', 'block');
 				$("#tools").empty();
 				window.location.href = page_str;
-			 }
+			}
 
-		    $(document).ready(function (){
-
-		    	$("#loader").css('display', 'none');
-
-		       // Back and next function bindings for the ProcessBrowser.
-		       $("#back").click(function(){
-				   $("#navigation").hide();
-				   goToPage('<?=BASE_URL;?>/ProcessBrowser/back?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
-				   $(this).unbind('click');
-				   $("#next").unbind('click');
-			    });
-
-
-			   $("#next").click(function(){
-					$("#navigation").hide();
-			       	goToPage('<?=BASE_URL;?>/ProcessBrowser/next?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
-			       	$(this).unbind('click');
-			       	$("#back").unbind('click');
-				});
-
-				<?foreach($services as $service):?>
-				var $aFrame = $('<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=BASE_URL?>/ProcessBrowser/loading"></iframe>').appendTo('#tools');
-				$aFrame.unbind('load').load(function(){
-					$(this).attr('src', "<?=$service['callUrl']?>");
-					$(this).unbind('load');
-
-					$(this).load(function() {
-						// Auto adapt tool container regarding iframe heights
-						var frame = this;
-						var doc = frame.contentWindow || frame.contentDocument;
-
-						if (doc.document) {
-							doc = doc.document;
-						}
-
-						var oldHeight = $('#tools').height();
-						var height = $(doc).height();
-						$('#tools').height(height + oldHeight);
+			require(['require', 'jquery', 'json2', "<?=BASE_WWW?>js/jquery.ui.taoqualDialog.js", "<?=BASE_WWW?>js/wfEngine.js", "<?=BASE_WWW?>js/process_browser.js"], function(req, $) {
+				$(function(){
+					$("#loader").css('display', 'none');
+					// Back and next function bindings for the ProcessBrowser.
+					$("#back").click(function(){
+						$("#navigation").hide();
+						goToPage('<?=BASE_URL;?>/ProcessBrowser/back?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
+						$(this).unbind('click');
+						$("#next").unbind('click');
 					});
+
+					$("#next").click(function(){
+						$("#navigation").hide();
+						goToPage('<?=BASE_URL;?>/ProcessBrowser/next?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
+						$(this).unbind('click');
+						$("#back").unbind('click');
+					});
+
+<?foreach($services as $service):?>
+					var $aFrame = $('<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=BASE_URL?>/ProcessBrowser/loading"></iframe>').appendTo('#tools');
+					$aFrame.unbind('load').load(function(){
+						$(this).attr('src', "<?=$service['callUrl']?>");
+						$(this).unbind('load');
+
+						$(this).load(function() {
+							// Auto adapt tool container regarding iframe heights
+							var frame = this;
+							var doc = frame.contentWindow || frame.contentDocument;
+
+							if (doc.document) {
+								doc = doc.document;
+							}
+
+							var oldHeight = $('#tools').height();
+							var height = $(doc).height();
+							$('#tools').height(height + oldHeight);
+						});
+					});
+
+<?endforeach;?>
+<?if(get_data('debugWidget')):?>
+
+					$("#debug").click(function(){
+						$("#debugWindow").toggle('slow');
+					});
+<?endif?>
 				});
-
-				<?endforeach;?>
-
-			   <?if(get_data('debugWidget')):?>
-
-				$("#debug").click(function(){
-					$("#debugWindow").toggle('slow');
-				});
-
-				<?endif?>
-		    });
-
-
+			});
 		</script>
 
 		<style media="screen">
