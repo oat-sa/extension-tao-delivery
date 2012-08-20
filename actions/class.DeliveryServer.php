@@ -86,7 +86,13 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 	public function index(){
 		
 		//should be removed
-		$login = $_SESSION['taoqual.userId'];
+		if(isset($_SESSION['taoqual.userId'])){
+			$login = $_SESSION['taoqual.userId'];
+		}
+		else{
+			session_destroy();
+			$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification'));
+		}
 		$this->setData('login',$login);
 		
 		//init required services
