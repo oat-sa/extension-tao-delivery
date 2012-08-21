@@ -37,7 +37,7 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 		
 		Bootstrap::loadConstants('taoResults');
 		
-		$this->resultService = taoResults_models_classes_ResultsService::singleton();
+		$this->resultService = taoResults_models_classes_LegacyResultsService::singleton();
 	}
 	
 	/**

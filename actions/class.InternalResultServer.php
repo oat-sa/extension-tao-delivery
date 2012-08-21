@@ -97,7 +97,7 @@ class taoDelivery_actions_InternalResultServer
 						break;
 					case ANSWERED_VALUES_ID:
 						foreach (json_decode($encoded, true) as $varIdentifier => $varValue) {
-							$this->resultService->setAnsweredValue(
+							$this->resultService->storeResponse(
 								$this->getCurrentDeliveryResult(),
 								$this->getCurrentActivityExecution(),
 								$varIdentifier,
@@ -143,7 +143,20 @@ class taoDelivery_actions_InternalResultServer
     public function evaluate()
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383F begin
-        parent::evaluate();
+        //parent::evaluate();
+        $responses = json_decode($_POST['data']);
+
+		$itemService = taoItems_models_classes_ItemsService::singleton();
+	    $outcomes = $itemService->evaluate($this->getCurrentItem(), $responses);
+	    
+	    foreach ($outcomes as $identifier => $value) {
+			$this->resultService->storeGrade(
+				$this->getCurrentDeliveryResult(),
+				$this->getCurrentActivityExecution(),
+				$identifier,
+				$value
+			);
+	    }
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383F end
     }
 
@@ -191,6 +204,29 @@ class taoDelivery_actions_InternalResultServer
         
         $returnValue = $classProcessInstance->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESSINSTANCES_CURRENTACTIVITYEXECUTIONS));
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000384D end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getCurrentItem
+     *
+     * @access private
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return core_kernel_classes_Resource
+     */
+    private function getCurrentItem()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--6c3f6a0b:13944999530:-8000:0000000000003B8A begin
+
+        // cost of current implementation: 1 query
+        
+        // since we are on the same server we can load the environment imediately from session
+        $environment = $this->getExecutionEnvironment();
+		$returnValue = new core_kernel_classes_Resource($environment[TAO_ITEM_CLASS]['uri']);
+        // section 127-0-1-1--6c3f6a0b:13944999530:-8000:0000000000003B8A end
 
         return $returnValue;
     }
