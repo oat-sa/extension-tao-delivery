@@ -9,7 +9,7 @@
 			var base_www = '<?=BASE_WWW?>';
 			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
 		</script>
-		<script src="<?=TAOBASE_WWW?>js/require-2.0.4.js"></script>
+		<script src="<?=TAOBASE_WWW?>js/require-2.0.6.js"></script>
 		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
 		<script type="text/javascript" src="<?=BASE_WWW?>js/wfEngine.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
