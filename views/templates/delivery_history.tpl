@@ -26,50 +26,52 @@
 </div>
 
 <script type="text/javascript">
-function buildHistoryGrid(selector){
+	var historyGrid = null;
 	var actionUrl = '';
 
-	<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
+function buildHistoryGrid(selector) {
+<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
-	<?else:?>
+<?else:?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
-	<?endif;?>
-
-	historyGrid = $(selector).jqGrid({
-		url: actionUrl,
-		datatype: "json",
-		colNames:[ __('Test Taker'), __('Time'), __('Actions')],
-		colModel:[
-			{name:'subject',index:'subject'},
-			{name:'time',index:'time'},
-			{name:'actions',index:'actions', align:"center", sortable: false}
-		],
-		rowNum:20,
-		height:300,
-		width:parseInt($(selector).width()) - 2,
-		pager: '#history-list-pager',
-		sortname: 'subject',
-		viewrecords: false,
-		sortorder: "asc",
-		caption: __("Execution History"),
-		postData: {'uri': "<?=get_data('uri')?>", 'classUri': "<?=get_data('classUri')?>"},
-		gridComplete: function(){
-			$.each(historyGrid.getDataIDs(), function(index, elt){
-				historyGrid.setRowData(elt, {
-					actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
+<?endif;?>
+	require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
+		historyGrid = $(selector).jqGrid({
+			url: actionUrl,
+			datatype: "json",
+			colNames:[ __('Test Taker'), __('Time'), __('Actions')],
+			colModel:[
+				{name:'subject',index:'subject'},
+				{name:'time',index:'time'},
+				{name:'actions',index:'actions', align:"center", sortable: false}
+			],
+			rowNum:20,
+			height:300,
+			width:parseInt($(selector).width()) - 2,
+			pager: '#history-list-pager',
+			sortname: 'subject',
+			viewrecords: false,
+			sortorder: "asc",
+			caption: __("Execution History"),
+			postData: {'uri': "<?=get_data('uri')?>", 'classUri': "<?=get_data('classUri')?>"},
+			gridComplete: function(){
+				$.each(historyGrid.getDataIDs(), function(index, elt){
+					historyGrid.setRowData(elt, {
+						actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
+					});
 				});
-			});
-			$(".user_deletor").click(function(e){
-				e.preventDefault();
-				removeHistory(this.id.replace('history_deletor_', ''));
-			});
+				$(".user_deletor").click(function(e){
+					e.preventDefault();
+					removeHistory(this.id.replace('history_deletor_', ''));
+				});
 
-			$(window).unbind('resize').bind('resize', function(){
-				historyGrid.jqGrid('setGridWidth', (parseInt($(selector).width())-2));
-			});
-		}
+				$(window).unbind('resize').bind('resize', function(){
+					historyGrid.jqGrid('setGridWidth', (parseInt($(selector).width())-2));
+				});
+			}
+		});
+		historyGrid.navGrid('#history-list-pager',{edit:false, add:false, del:false});
 	});
-	historyGrid.navGrid('#history-list-pager',{edit:false, add:false, del:false});
 }
 
 var removeHistory = function(uri){
@@ -97,15 +99,10 @@ var removeHistory = function(uri){
 
 
 $(function(){
-	$('#historyLink').click(function(){
+	$('#historyLink').click(function(e){
+		e.preventDefault();
 		$('#history-link-container').hide();
-		try{
-			var historyGrid = null;
-			buildHistoryGrid("#history-list");
-			// historyGrid.jqGrid('setGridWidth', $('#form-history').width()-10);
-		}catch(err){
-			// console.log('error building history grid:s '+err);
-		}
+		buildHistoryGrid("#history-list");
 	});
 });
 </script>
