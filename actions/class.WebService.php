@@ -14,5 +14,3 @@ class taoDelivery_actions_WebService extends tao_actions_CommonModule{
 		echo $control.$content;
 	}
 }
-?>
-
