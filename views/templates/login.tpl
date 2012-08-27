@@ -16,7 +16,7 @@
 			var base_www = '<?=BASE_WWW?>';
 			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
 		</script>
-		<script src="<?=TAOBASE_WWW?>js/require-2.0.6.js"></script>
+		<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
 		<script type="text/javascript" src="<?=TAOBASE_WWW?>js/login.js"></script>
 	</head>
