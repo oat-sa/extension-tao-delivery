@@ -143,7 +143,7 @@ class taoDelivery_actions_InternalResultServer
     public function evaluate()
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383F begin
-        //parent::evaluate();
+        parent::evaluate();
         $responses = json_decode($_POST['data']);
 
 		$itemService = taoItems_models_classes_ItemsService::singleton();
