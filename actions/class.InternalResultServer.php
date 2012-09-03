@@ -97,6 +97,9 @@ class taoDelivery_actions_InternalResultServer
 						break;
 					case ANSWERED_VALUES_ID:
 						foreach (json_decode($encoded, true) as $varIdentifier => $varValue) {
+							if (!is_string($varValue)) {
+								$varValue = json_encode($varValue);
+							}
 							$this->resultService->storeResponse(
 								$this->getCurrentDeliveryResult(),
 								$this->getCurrentActivityExecution(),
