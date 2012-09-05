@@ -1,4 +1,4 @@
-<?
+<?php
 class taoDelivery_actions_WebService extends tao_actions_CommonModule{
 	
 	public function index(){
