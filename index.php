@@ -9,6 +9,11 @@ require_once dirname(__FILE__). '/../tao/includes/class.Bootstrap.php';
 $options = array();
 $options['constants'] = array('taoTests', 'taoItems', 'taoResults');
 
+$GLOBALS['classpath']			= array(DIR_CORE,
+										DIR_CORE_UTILS,
+										DIR_ACTIONS,
+										DIR_MODELS);
+
 $bootStrap = new BootStrap('taoDelivery', $options);
 $bootStrap->start();
 $bootStrap->dispatch();

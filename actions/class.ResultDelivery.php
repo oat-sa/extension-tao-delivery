@@ -214,10 +214,10 @@ class taoDelivery_actions_ResultDelivery extends tao_actions_Api {
 						if(file_exists($compiledFolder .'events.xml')){
 							$eventFilter = $eventService->getEventList($compiledFolder .'events.xml', 'server');
 						}
-						//var_dump($events, $process_id, EVENT_LOG_PATH, $eventFilter);
 					
 						//trace the events
-						$saved = $eventService->traceEvent($events, $process_id, EVENT_LOG_PATH, $eventFilter);
+						$resultExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoResults');
+						$saved = $eventService->traceEvent($events, $process_id, $resultExt->getConstant('EVENT_LOG_PATH'), $eventFilter);
 					}
 				}
 			}
