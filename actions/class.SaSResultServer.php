@@ -30,7 +30,7 @@ class taoDelivery_actions_SaSResultServer extends taoDelivery_actions_ResultServ
 			$this->setData('includedView', $identifier);
 		}
 		else{
-			$this->setData('includedView', DIR_VIEWS . $GLOBALS['dir_theme'] . $identifier);
+			$this->setData('includedView', DIR_VIEWS . 'templates/' . $identifier);
 		}
 		return parent::setView('sas.tpl', true);
     }

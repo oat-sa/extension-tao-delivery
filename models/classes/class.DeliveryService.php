@@ -1018,7 +1018,9 @@ class taoDelivery_models_classes_DeliveryService
 								}
 								$compiledFolder .= "/${testFolderName}";
 								if(!is_dir($compiledFolder)){
-									mkdir($compiledFolder);
+									if (!mkdir($compiledFolder)) {
+										common_Logger::w('Could not create directory \''.$compiledFolder.'\'');
+									}
 								}
 								$compiledFolder .= "/${itemFolderName}";
 								if(!is_dir($compiledFolder)){
