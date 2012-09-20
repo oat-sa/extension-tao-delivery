@@ -34,27 +34,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 	 * @return core_kernel_classes_Resource $resultServer
 	 */
 	private function getCurrentResultServer(){
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
-			throw new Exception("No valid uri found");
-		}
-		
-		$clazz = $this->getCurrentClass();
-		
-		$resultServer = $this->service->getResultServer($uri, 'uri', $clazz);
-		if(is_null($resultServer)){
-			throw new Exception("No resultServer found for the uri {$uri}");
-		}
-		
-		return $resultServer;
-	}
-	
-	/**
-	 * @see TaoModule::getCurrentInstance
-	 * @return core_kernel_classes_Resource
-	 */
-	protected function getCurrentInstance(){
-		return $this->getCurrentResultServer();
+		return getCurrentInstance();
 	}
 	
 	/**

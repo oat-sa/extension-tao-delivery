@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.04.2012, 15:52:22 with ArgoUML PHP module
+ * Automatically generated on 20.09.2012, 17:42:08 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -22,7 +22,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * The Service class is an abstraction of each service instance.
+ * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -214,7 +214,7 @@ class taoDelivery_models_classes_DeliveryService
 
 		//set to active
 		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP), GENERIS_TRUE);
-		// section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020AF end
+        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020AF end
 
         return $returnValue;
     }
@@ -305,32 +305,6 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B5 end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getDelivery
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string identifier
-     * @param  string mode
-     * @param  Class clazz
-     * @return core_kernel_classes_Resource
-     */
-    public function getDelivery($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
-    {
-        $returnValue = null;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B7 begin
-		if(is_null($clazz)){
-			$clazz = $this->deliveryClass;
-		}
-		if($this->isDeliveryClass($clazz)){
-			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B7 end
-
-        return $returnValue;
     }
 
     /**

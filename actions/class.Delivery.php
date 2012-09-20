@@ -44,26 +44,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 * @return core_kernel_classes_Resource $delivery
 	 */
 	private function getCurrentDelivery(){
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
-			throw new Exception("No valid uri found");
-		}
-		
-		$clazz = $this->getCurrentClass();
-		$delivery = $this->service->getDelivery($uri, 'uri', $clazz);
-		if(is_null($delivery)){
-			throw new Exception("No delivery found for the uri {$uri}");
-		}
-		
-		return $delivery;
-	}
-	
-	/**
-	 * @see TaoModule::getCurrentInstance
-	 * @return core_kernel_classes_Resource
-	 */
-	protected function getCurrentInstance(){
-		return $this->getCurrentDelivery();
+		return parent::getCurrentInstance();
 	}
 	
 	/**

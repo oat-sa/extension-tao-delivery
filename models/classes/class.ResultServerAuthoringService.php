@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.03.2012, 10:50:06 with ArgoUML PHP module 
+ * Automatically generated on 20.09.2012, 17:44:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -195,34 +195,6 @@ class taoDelivery_models_classes_ResultServerAuthoringService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002177 end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getResultServer
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string identifier
-     * @param  string mode
-     * @param  Class clazz
-     * @return core_kernel_classes_Resource
-     */
-    public function getResultServer($identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
-    {
-        $returnValue = null;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002179 begin
-        
-   		if(is_null($clazz)){
-			$clazz = $this->resultServerClass;
-		}
-		if($this->isResultServerClass($clazz)){
-			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
-		}
-        
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002179 end
-
-        return $returnValue;
     }
 
     /**

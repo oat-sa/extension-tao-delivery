@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery\models\classes\class.CampaignService.php
+ * TAO - taoDelivery/models/classes/class.CampaignService.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.12.2010, 16:21:02 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 20.09.2012, 17:42:08 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -41,7 +41,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * Short description of class taoDelivery_models_classes_CampaignService
  *
  * @access public
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -67,7 +67,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -82,7 +82,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method createCampaignClass
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @param  array properties
@@ -118,7 +118,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method deleteCampaign
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource campaign
      * @return boolean
      */
@@ -139,7 +139,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method deleteCampaignClass
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -159,36 +159,10 @@ class taoDelivery_models_classes_CampaignService
     }
 
     /**
-     * Short description of method getCampaign
-     *
-     * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  Integer identifier
-     * @param  string mode
-     * @param  Class clazz
-     * @return core_kernel_classes_Resource
-     */
-    public function getCampaign( tao_helpers_form_validators_Integer $identifier, $mode = 'uri',  core_kernel_classes_Class $clazz = null)
-    {
-        $returnValue = null;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002051 begin
-		if(is_null($clazz)){
-			$clazz = $this->campaignClass;
-		}
-		if($this->isCampaignClass($clazz)){
-			$returnValue = $this->getOneInstanceBy( $clazz, $identifier, $mode);
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002051 end
-
-        return $returnValue;
-    }
-
-    /**
      * Short description of method getCampaignClass
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Class
      */
@@ -215,7 +189,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method getRelatedDeliveries
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource campaign
      * @return array
      */
@@ -243,7 +217,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method isCampaignClass
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @return boolean
      */
@@ -272,7 +246,7 @@ class taoDelivery_models_classes_CampaignService
      * Short description of method setRelatedDeliveries
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource campaign
      * @param  array deliveries
      * @return boolean
