@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-rc01\n"
-"PO-Revision-Date: 2012-06-15T13:37:01\n"
+"Project-Id-Version: TAO v2.3-beta\n"
+"PO-Revision-Date: 2012-09-21T15:07:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -96,9 +96,6 @@ msgstr ""
 msgid "Compile"
 msgstr ""
 
-msgid "compile"
-msgstr ""
-
 msgid "compiled with warning"
 msgstr ""
 
@@ -114,10 +111,10 @@ msgstr ""
 msgid "create table"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete History"
@@ -145,7 +142,7 @@ msgstr ""
 msgid "Delivery saved"
 msgstr ""
 
-msgid "Drag and drop the items to order them"
+msgid "Drag and drop the tests to order them"
 msgstr ""
 
 msgid "duplicate"
