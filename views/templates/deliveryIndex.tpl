@@ -53,7 +53,7 @@
 							<?php if($procData['status'] instanceof core_kernel_classes_Resource && $procData['status']->uriResource != INSTANCE_PROCESSSTATUS_FINISHED): ?>
 								<?php foreach ($procData['activities'] as $activity): ?>
 									<?php if ($activity['may_participate']): ?>
-									<a href="<?php echo BASE_URL;?>/ProcessBrowser/index?processUri=<?php echo urlencode($procData['uri']);?>&activityUri=<?php echo urlencode($activity['uri']);?>"><?php echo $activity['label']; ?></a>
+									<a href="<?= _url('index', 'ProcessBrowser', null, array('processUri' => $procData['uri'], 'activityUri' => $activity['uri']));?>"><?php echo $activity['label']; ?></a>
 									<?php else: ?>
 									<span></span>
 									<?php endif; ?>
