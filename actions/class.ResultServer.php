@@ -34,7 +34,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 	 * @return core_kernel_classes_Resource $resultServer
 	 */
 	private function getCurrentResultServer(){
-		return getCurrentInstance();
+		return $this->getCurrentInstance();
 	}
 	
 	/**

@@ -688,7 +688,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="AR"><![CDATA[Local Result Server]]></rdfs:label>
+    <rdfs:label xml:lang="AR"><![CDATA[Local Dual Result Server]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage AR
@@ -696,7 +696,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="AR"><![CDATA[Local Result Server]]></rdfs:comment>
+    <rdfs:comment xml:lang="AR"><![CDATA[Local Dual Result Server]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer">
     <!--
@@ -706,7 +706,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="AR"><![CDATA[Local Result Server]]></rdfs:label>
+    <rdfs:label xml:lang="AR"><![CDATA[Local Legacy Result Server]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage AR
@@ -714,6 +714,6 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="AR"><![CDATA[Local Result Server]]></rdfs:comment>
+    <rdfs:comment xml:lang="AR"><![CDATA[Local Legacy Result Server]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
