@@ -108,7 +108,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 						}
 					}
 					if(!$inserted){
-						$apiUrl = str_replace(ROOT_PATH, ROOT_URL, $compiledFolder).'/js/';
+						$apiUrl = tao_helpers_Uri::getUrlForPath($compiledFolder).'/js/';
 						foreach($apis as $api){
 							$apiScriptElt = $doc->createElement('script');
 							$apiScriptElt->setAttribute('type', 'text/javascript');
