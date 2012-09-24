@@ -36,7 +36,7 @@ function initCompilation(uri,clazz){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/initCompilation",
+		url: root_url + ctx_extension + '/' + ctx_module + "/initCompilation",
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
@@ -99,7 +99,7 @@ function compileTest(testUri){
         
 	$.ajax({
 		type: "POST",
-		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/compile",
+		url: root_url + ctx_extension + '/' + ctx_module + "/compile",
 		data: {testUri : testUri, deliveryUri: deliveryUri},
 		dataType: "json",
 		success: function(r){
@@ -224,7 +224,7 @@ function endCompilation(){
 	
 	$.ajax({
 		type: "POST",
-		url: root_url + '/' + ctx_extension + '/' + ctx_module + "/endCompilation",
+		url: root_url + ctx_extension + '/' + ctx_module + "/endCompilation",
 		data: {uri:deliveryUri, classUri:classUri},
 		dataType: "json",
 		success: function(r){
