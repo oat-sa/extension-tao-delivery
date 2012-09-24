@@ -363,12 +363,10 @@ class taoDelivery_helpers_Compilator
 		$expr = "/http[s]?:\/\/[^<'\"&?]+\.(".implode('|',$authorizedMedia).")/mi";
 		preg_match_all($expr, $xml, $mediaList, PREG_PATTERN_ORDER);
 
-		
 		$plugins = $this->getPlugins();
-
 		$uniqueMediaList = 	array_unique($mediaList[0]);
+		$compiledUrl = tao_helpers_Uri::getUrlForPath($this->compiledPath);
 		
-		$compiledUrl = str_replace(ROOT_PATH, ROOT_URL, $this->compiledPath);
 		foreach($uniqueMediaList as $mediaUrl){
 			if(in_array(basename($mediaUrl), $plugins)){
 				//if it is only a (valid) plugin file, don't try to download it but simply change the link:

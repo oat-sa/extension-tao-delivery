@@ -986,7 +986,7 @@ class taoDelivery_models_classes_DeliveryService
 								$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
 
 								//create the compilation folder for the delivery-test-item:
-								$compiledFolder = BASE_PATH."/compiled/${deliveryFolderName}";
+								$compiledFolder = BASE_PATH."compiled/${deliveryFolderName}";
 								if(!is_dir($compiledFolder)){
 									mkdir($compiledFolder);
 								}
@@ -1005,7 +1005,7 @@ class taoDelivery_models_classes_DeliveryService
 									mkdir($compiledFolder);
 								}
 								$itemPath = "{$compiledFolder}/index.html";
-								$itemUrl = str_replace(ROOT_PATH , ROOT_URL, $itemPath);
+								$itemUrl = tao_helpers_uri::getUrlForPath($itemPath);
 
 								$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
 								$compilator->clearCompiledFolder();
