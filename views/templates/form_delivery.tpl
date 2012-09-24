@@ -39,7 +39,7 @@
 		</p>
 
 		<span>
-			<a id='compileLink' class='nav' href="<?=BASE_URL.'/Delivery/CompileView?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
+			<a id='compileLink' class='nav' href="<?=BASE_URL.'Delivery/CompileView?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
 				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
 				<?if(get_data('isCompiled')):?>
 					<?=__('Recompile')?>
