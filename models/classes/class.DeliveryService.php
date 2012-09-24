@@ -1014,10 +1014,10 @@ class taoDelivery_models_classes_DeliveryService
 								$deployParams = array(
 									'delivery_server_mode'	=> true,
 									'preview_mode'		=> false,
-									'tao_base_www'		=> ROOT_URL.'/tao/views/',
+									'tao_base_www'		=> ROOT_URL.'tao/views/',
 									'qti_base_www'		=> dirname($itemUrl).'/',
-									'qti_lib_www'		=> ROOT_URL . '/taoItems/views/js/QTI/',
-									'base_www' 		=> ROOT_URL . '/taoItems/views/',
+									'qti_lib_www'		=> ROOT_URL . 'taoItems/views/js/QTI/',
+									'base_www' 		=> ROOT_URL . 'taoItems/views/',
 									'root_url'		=> ROOT_URL
 								);
 
