@@ -17,7 +17,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	if(ctx_extension){
-		url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+		url = root_url + ctx_extension + '/' + ctx_module + '/';
 	}
 	getUrl = url + 'getCampaigns';
 	setUrl = url + 'saveCampaigns';

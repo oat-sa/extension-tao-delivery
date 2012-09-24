@@ -30,14 +30,14 @@
 					// Back and next function bindings for the ProcessBrowser.
 					$("#back").click(function(){
 						$("#navigation").hide();
-						goToPage('<?=BASE_URL;?>/ProcessBrowser/back?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
+						goToPage('<?=BASE_URL;?>ProcessBrowser/back?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
 						$(this).unbind('click');
 						$("#next").unbind('click');
 					});
 
 					$("#next").click(function(){
 						$("#navigation").hide();
-						goToPage('<?=BASE_URL;?>/ProcessBrowser/next?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
+						goToPage('<?=BASE_URL;?>ProcessBrowser/next?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
 						$(this).unbind('click');
 						$("#back").unbind('click');
 					});
@@ -93,7 +93,7 @@
 
 
          	<li>
-         		<a id="pause" class="action icon" href="<?=BASE_URL?>/ProcessBrowser/pause?processUri=<?=urlencode($browserViewData['processUri'])?>"><?=__("Pause")?></a> <span class="separator"></span>
+         		<a id="pause" class="action icon" href="<?=BASE_URL?>ProcessBrowser/pause?processUri=<?=urlencode($browserViewData['processUri'])?>"><?=__("Pause")?></a> <span class="separator"></span>
          	</li>
 
          	<?if(get_data('debugWidget')):?>
@@ -103,7 +103,7 @@
         	<?endif?>
 
          	<li>
-         		<a id="logout" class="action icon" href="<?=BASE_URL?>/DeliveryServerAuthentification/logout"><?=__("Logout")?></a>
+         		<a id="logout" class="action icon" href="<?=BASE_URL?>DeliveryServerAuthentification/logout"><?=__("Logout")?></a>
          	</li>
 
 		</ul>
