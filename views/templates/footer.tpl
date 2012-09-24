@@ -27,8 +27,8 @@
 	});
 
 	function setAuthoringModeButtons(){
-		$advContainer = $('#action_advanced_mode').parent();
-		$simpleContainer = $('#action_simple_mode').parent();
+		$advContainer = $('#action_advanced_mode');
+		$simpleContainer = $('#action_simple_mode');
 		if($advContainer.length && $simpleContainer.length){
 			$advContainer.hide();
 			$simpleContainer.hide();
