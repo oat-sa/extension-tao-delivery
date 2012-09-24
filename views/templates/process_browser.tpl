@@ -43,7 +43,7 @@
 					});
 
 <?foreach($services as $service):?>
-					var $aFrame = $('<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=BASE_URL?>/ProcessBrowser/loading"></iframe>').appendTo('#tools');
+					var $aFrame = $('<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=BASE_URL?>ProcessBrowser/loading"></iframe>').appendTo('#tools');
 					$aFrame.unbind('load').load(function(){
 						$(this).attr('src', "<?=$service['callUrl']?>");
 						$(this).unbind('load');

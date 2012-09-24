@@ -27,7 +27,7 @@
         		<span class="separator"></span>
         	</li>
          	<li>
-         		<a class="action icon" id="logout" href="<?php echo BASE_URL;?>/DeliveryServerAuthentification/logout"><?php echo __("Logout"); ?></a>
+         		<a class="action icon" id="logout" href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
 
@@ -78,7 +78,7 @@
 					<ul>
 						<?php foreach($availableProcessDefinition as $procDef) : ?>
 						<li>
-							<a href="<?php echo BASE_URL;?>/DeliveryServer/initDeliveryExecution?processDefinitionUri=<?php echo urlencode($procDef->uriResource); ?>">
+							<a href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('processDefinitionUri' => $procDef->getUri()))?>">
 							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
 						</li>
 						<?php endforeach;  ?>
