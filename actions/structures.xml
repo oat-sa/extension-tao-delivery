@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../../tao/doc/structures.dtd">
 <structures>
-	<structure id="delivery" name="Deliveries" url="/taoDelivery/Delivery/index" level="4" visible="true">
+	<structure id="delivery" name="Deliveries" level="4" visible="true">
 		<description>Prepare, publish deliveries sessions and campaigns.</description>
 		<sections>
 			<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
