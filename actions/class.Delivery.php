@@ -895,10 +895,10 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		
 		if($generationResult['success']){
 			if ($this->service->containsHumanAssistedMeasurements($delivery)) {
-				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHODE_PROP), TAO_DELIVERY_CODINGMETHODE_MANUAL);
+				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_MANUAL);
 				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGSTATUS_PROP), TAO_DELIVERY_CODINGSTATUS_GRADING);
 			} else {
-				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHODE_PROP), TAO_DELIVERY_CODINGMETHODE_AUTOMATED);
+				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_AUTOMATED);
 			}
 		}
 		

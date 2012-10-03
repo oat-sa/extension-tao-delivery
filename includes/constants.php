@@ -42,9 +42,9 @@ $todefine = array(
 	'INSTANCE_PROCESSVARIABLE_DELIVERY' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery',
 	
 	// Coding
-	'TAO_DELIVERY_CODINGMETHODE_PROP'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode',
-	'TAO_DELIVERY_CODINGMETHODE_AUTOMATED'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated',
-	'TAO_DELIVERY_CODINGMETHODE_MANUAL'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual',
+	'TAO_DELIVERY_CODINGMETHOD_PROP'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode',
+	'TAO_DELIVERY_CODINGMETHOD_AUTOMATED'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated',
+	'TAO_DELIVERY_CODINGMETHOD_MANUAL'		=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual',
 
 	'TAO_DELIVERY_CODINGSTATUS_PROP'			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus',
 	'TAO_DELIVERY_CODINGSTATUS_GRADING'			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading',
