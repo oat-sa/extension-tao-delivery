@@ -116,92 +116,104 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 			$delivery->getLabel()
 		);
 		
-		if(!is_null($deliveryProcess)){
+		if(is_null($deliveryProcess)){
+			throw new common_exception_Error('Delivery Process '.$process->getUri().' could not be cloned');
+		}
+		$this->clonedProcess = $deliveryProcess;
 			
-			//get all activity processes and clone them:
-			$activities = $this->authoringService->getActivitiesByProcess($process);
+		//get all activity processes and clone them:
+		$activities = $this->authoringService->getActivitiesByProcess($process);
+		
+		$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+		
+		$toLink = array();
+		foreach($activities as $activityUri => $activity){
 			
-			$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+			$testProcess = $deliveryAuthoringService->getTestProcessFromActivity($activity);
 			
-			foreach($activities as $activityUri => $activity){
+			if(!is_null($testProcess)){
+				//validate the test process:
+				$processChecker = new taoDelivery_models_classes_DeliveryProcessChecker($testProcess);
 				
-				$testProcess = $deliveryAuthoringService->getTestProcessFromActivity($activity);
-				
-				if(!is_null($testProcess)){
-					//validate the test process:
-					$processChecker = new taoDelivery_models_classes_DeliveryProcessChecker($testProcess);
+				if($processChecker->check()){
 					
-					if($processChecker->check()){
+					//clone the process segment:
+					$testInterfaces = $this->cloneProcessSegment($testProcess, false);
+					// print_r($testInterfaces);
+					
+					if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
+						$inActivity = $testInterfaces['in'];
+						$firstout = current($testInterfaces['out']);
+						$this->addClonedActivity($inActivity, $activity, $firstout);
+						common_Logger::i('Cloned T '.$activity->getUri().' to '.$inActivity->getUri().'=>'.$firstout->getUri());
 						
-						//clone the process segment:
-						$testInterfaces = $this->cloneProcessSegment($testProcess, false);
-						// print_r($testInterfaces);
-						
-						if(!empty($testInterfaces['in']) && !empty($testInterfaces['out'])){
-							$inActivity = $testInterfaces['in'];
-							$outActivities = $testInterfaces['out'];
-							$this->addClonedActivity($inActivity, $activity, $outActivities);
-						}else{
-							throw new Exception("the process segment of the test process {$testProcess->uriResource} cannot be cloned");
-						}
+						$toLink[] = $activity;
 					}else{
-						
-						//log error:
-						$failed = true;
-						
-						$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-						$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->uriResource), array('like' => false, 'recursive' => 1000));
-						if(count($testArray)){
-							$test = array_shift($testArray);
-							$this->processError['tests'][$test->uriResource] = array(
-								'resource' => $test,
-								'initialActivity' => (bool) count($processChecker->getInitialActivities()),
-								'isolatedConnectors' => $processChecker->getIsolatedConnectors()
-							);
-						}else{
-							throw new Exception('no test found for the related test process');
-						}
-						
+						throw new Exception("the process segment of the test process {$testProcess->getUri()} cannot be cloned");
 					}
 				}else{
-					$activityClone = $this->cloneActivity($activity);
-					if(is_null($activityClone)){
-						throw new Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
+					
+					//log error:
+					$failed = true;
+					
+					$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+					$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->uriResource), array('like' => false, 'recursive' => 1000));
+					if(count($testArray)){
+						$test = array_shift($testArray);
+						$this->processError['tests'][$test->uriResource] = array(
+							'resource' => $test,
+							'initialActivity' => (bool) count($processChecker->getInitialActivities()),
+							'isolatedConnectors' => $processChecker->getIsolatedConnectors()
+						);
 					}else{
-						$this->addClonedActivity($activityClone, $activity);
+						throw new Exception('no test found for the related test process');
 					}
+					
 				}
-			}
-			
-			if($failed){
-				
-				//cancel everything
-				$this->revertCloning();
-				$this->authoringService->deleteProcess($deliveryProcess);
-				$deliveryProcess = null;
-				
 			}else{
-				//add all cloned activities to the cloned delivery process:
-				foreach($this->getClonedActivities() as $activityClone){
-					$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
+				$activityClone = $this->cloneActivity($activity);
+				if(is_null($activityClone)){
+					throw new common_Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
+				}else{
+					$this->addClonedActivity($activityClone, $activity);
 				}
-				
-				//reloop for connectors this time:
-				foreach($activities as $activityUri => $activity){
-					$this->currentActivity = $activity;
-					$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
-					foreach($connectors['next'] as $connector){
-						$this->cloneConnector($connector);
-					}
-				}
-				
-				//set the valid delivery process as the return value:
-				$returnValue = $deliveryProcess;
+			}
+		}
+	
+		if($failed){
+			common_Logger::w('Something failed during ');
+			//cancel everything
+			$this->revertCloning();
+			$this->authoringService->deleteProcess($deliveryProcess);
+			$deliveryProcess = null;
+			
+		}else{
+			//add all cloned activities to the cloned delivery process:
+			foreach($this->getClonedActivities() as $activityClone){
+				$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
 			}
 			
+			//reloop for connectors this time:
+			foreach($activities as $activityUri => $activity){
+				$this->currentActivity = $activity;
+				$connectors = $this->authoringService->getConnectorsByActivity($activity, array('next'));
+				//$this->linkClonedStep($this->getClonedActivity($activity, 'out'), $activity);
+				foreach($connectors['next'] as $connector){
+					$clone = $this->cloneConnector($connector);
+					$this->addClonedConnector($connector, $clone);
+					$toLink[] = $connector;
+				}
+			}
 			
-			// var_dump('end', $this);
+			foreach($toLink as $step){
+				common_Logger::d('relinking '.$step->getLabel().'('.$step->getUri().')');
+				$this->linkClonedStep($step);
+			}
+			
+			//set the valid delivery process as the return value:
+			$returnValue = $deliveryProcess;
 		}
+			
         // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007180 end
 
         return $returnValue;
