@@ -41,12 +41,12 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
 		$delivery = $deliveryAuthoringService->getDeliveryFromProcess($processDefinition);
 		if(is_null($delivery)){
-			throw new Exception("no delivery found for the selected process definition");
+			throw new common_exception_Error("no delivery found for the selected process definition");
 		}
 
 		$wsdlContract = $this->service->getResultServer($delivery);
 		if(empty($wsdlContract)){
-			throw new Exception("no wsdl contract found for the current delivery");
+			throw new common_exception_Error("no wsdl contract found for the current delivery");
 		}
 
 		ini_set('max_execution_time', 200);
@@ -58,7 +58,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
 			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
 		}else{
-			throw new Exception('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
+			throw new common_exception_Error('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
 		}
 
 		$newProcessExecution = $processExecutionService->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
