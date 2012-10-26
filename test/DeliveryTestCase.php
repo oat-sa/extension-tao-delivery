@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../tao/test/TestRunner.php';
+require_once dirname(__FILE__) . '/../../tao/test/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 error_reporting(E_ALL);
@@ -14,7 +14,7 @@ class DeliveryTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){
-		TestRunner::initTest();
+		TaoTestRunner::initTest();
 		
 		$this->authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
 		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
