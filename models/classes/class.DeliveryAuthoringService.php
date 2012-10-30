@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 14.05.2012, 16:20:05 with ArgoUML PHP module 
+ * Automatically generated on 26.10.2012, 14:40:17 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -22,11 +22,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include wfEngine_models_classes_ProcessAuthoringService
+ * include wfAuthoring_models_classes_ProcessService
  *
- * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
-require_once('wfEngine/models/classes/class.ProcessAuthoringService.php');
+require_once('wfAuthoring/models/classes/class.ProcessService.php');
 
 /* user defined includes */
 // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000201C-includes begin
@@ -40,12 +40,12 @@ require_once('wfEngine/models/classes/class.ProcessAuthoringService.php');
  * Short description of class
  *
  * @access public
- * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
 class taoDelivery_models_classes_DeliveryAuthoringService
-    extends wfEngine_models_classes_ProcessAuthoringService
+    extends wfAuthoring_models_classes_ProcessService
 {
     // --- ASSOCIATIONS ---
 
@@ -58,7 +58,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method __construct
      *
      * @access public
-     * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
     public function __construct()
     {
@@ -71,7 +71,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Get the delivery associated to a process
      *
      * @access public
-     * @author Yannick Rekinger, <yanick.rekinger@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource process
      * @return core_kernel_classes_Resource
      */
@@ -95,38 +95,11 @@ class taoDelivery_models_classes_DeliveryAuthoringService
     }
 
     /**
-     * Get the delivery content associated to a process
-     *
-     * @access public
-     * @author Yannick Rekinger, <yannick.rekinger@tudor.lu>
-     * @param  Resource process
-     * @return core_kernel_classes_Resource
-     */
-    public function getDeliveryContentFromProcess( core_kernel_classes_Resource $process)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--4d76012c:1374bad4278:-8000:0000000000003A72 begin
-        
-        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-        $deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_DELIVERYCONTENT => $process->uriResource), array('like'=>false, 'recursive' => 1000));
-        
-        if(!empty($deliveries))
-        {
-        	$returnValue = array_pop($deliveries);
-        }
-        
-        // section 127-0-1-1--4d76012c:1374bad4278:-8000:0000000000003A72 end
-
-        return $returnValue;
-    }
-
-    /**
      * Used in delivery compilation: get the test included in an activity
      * If found, it returns the delivery resource and null otherwise
      *
      * @access public
-     * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @return core_kernel_classes_Resource
      */
@@ -177,7 +150,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method getItemByActivity
      *
      * @access public
-     * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @return core_kernel_classes_Resource
      */
@@ -209,7 +182,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method getTestProcessFromActivity
      *
      * @access public
-     * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @return core_kernel_classes_Resource
      */
@@ -233,7 +206,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
      * Short description of method setTestByActivity
      *
      * @access public
-     * @author Lionel Lecaque, <lionel.lecaque@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource activity
      * @param  Resource test
      * @return core_kernel_classes_Resource
@@ -275,6 +248,33 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 		}
 		
         // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000002E2B end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getDeliveryContentFromProcess
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource process
+     * @return core_kernel_classes_Resource
+     */
+    public function getDeliveryContentFromProcess( core_kernel_classes_Resource $process)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--4d76012c:1374bad4278:-8000:0000000000003A72 begin
+        
+        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+        $deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_DELIVERYCONTENT => $process->uriResource), array('like'=>false, 'recursive' => 1000));
+        
+        if(!empty($deliveries))
+        {
+        	$returnValue = array_pop($deliveries);
+        }
+        
+        // section 127-0-1-1--4d76012c:1374bad4278:-8000:0000000000003A72 end
 
         return $returnValue;
     }

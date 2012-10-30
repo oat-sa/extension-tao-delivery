@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery\models\classes\class.DeliveryProcessChecker.php
+ * TAO - taoDelivery/models/classes/class.DeliveryProcessChecker.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 22.02.2011, 15:27:51 with ArgoUML PHP module 
+ * Automatically generated on 26.10.2012, 14:53:03 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -22,11 +22,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include wfEngine_models_classes_ProcessChecker
+ * include wfAuthoring_models_classes_ProcessChecker
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
-require_once('wfEngine/models/classes/class.ProcessChecker.php');
+require_once('wfAuthoring/models/classes/class.ProcessChecker.php');
 
 /* user defined includes */
 // section 10-13-1-39--7378788e:12e4d9bbe63:-8000:0000000000004FC0-includes begin
@@ -40,12 +40,12 @@ require_once('wfEngine/models/classes/class.ProcessChecker.php');
  * Short description of class taoDelivery_models_classes_DeliveryProcessChecker
  *
  * @access public
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
 class taoDelivery_models_classes_DeliveryProcessChecker
-    extends wfEngine_models_classes_ProcessChecker
+    extends wfAuthoring_models_classes_ProcessChecker
 {
     // --- ASSOCIATIONS ---
 
@@ -58,7 +58,7 @@ class taoDelivery_models_classes_DeliveryProcessChecker
      * Short description of method check
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return boolean
      */
     public function check()

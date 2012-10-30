@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery\models\classes\class.DeliveryProcessGenerator.php
+ * TAO - taoDelivery/models/classes/class.DeliveryProcessGenerator.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.01.2011, 18:01:25 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 26.10.2012, 11:35:24 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -22,11 +22,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include wfEngine_models_classes_ProcessCloner
+ * include wfAuthoring_models_classes_ProcessCloner
  *
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
-require_once('wfEngine/models/classes/class.ProcessCloner.php');
+require_once('wfAuthoring/models/classes/class.ProcessCloner.php');
 
 /* user defined includes */
 // section 10-13-1-39--56440278:12d4c05ae3c:-8000:0000000000007177-includes begin
@@ -40,12 +40,12 @@ require_once('wfEngine/models/classes/class.ProcessCloner.php');
  * Short description of class
  *
  * @access public
- * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
 class taoDelivery_models_classes_DeliveryProcessGenerator
-    extends wfEngine_models_classes_ProcessCloner
+    extends wfAuthoring_models_classes_ProcessCloner
 {
     // --- ASSOCIATIONS ---
 
@@ -66,7 +66,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
     public function __construct()
     {
@@ -79,7 +79,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
      * Short description of method generateDeliveryProcess
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource delivery
      * @return core_kernel_classes_Resource
      */
@@ -223,7 +223,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
      * Short description of method getErrors
      *
      * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getErrors()
