@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery/models/classes/class.DeliveryProcessChecker.php
+ * TAO - taoDelivery\models\classes\class.DeliveryProcessChecker.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 26.10.2012, 14:53:03 with ArgoUML PHP module 
+ * Automatically generated on 20.11.2012, 10:24:32 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include wfAuthoring_models_classes_ProcessChecker
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('wfAuthoring/models/classes/class.ProcessChecker.php');
 
@@ -40,7 +40,7 @@ require_once('wfAuthoring/models/classes/class.ProcessChecker.php');
  * Short description of class taoDelivery_models_classes_DeliveryProcessChecker
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -58,10 +58,11 @@ class taoDelivery_models_classes_DeliveryProcessChecker
      * Short description of method check
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array checkList
      * @return boolean
      */
-    public function check()
+    public function check($checkList = array())
     {
         $returnValue = (bool) false;
 
