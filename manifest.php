@@ -21,6 +21,10 @@ return array(
 				array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/taodelivery.rdf'),
 				array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/coding.rdf'),
 				array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/aclrole.rdf')
+		),
+		'checks' => array(
+			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/compiled', 'rights' => 'rw')),
+			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'r'))
 		)
 	),
 	'classLoaderPackages' => array(
