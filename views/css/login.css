@@ -86,3 +86,7 @@
 {
 	color: #000000;
 }
+
+.releasestatus strong{
+	font-weight: bold;
+}
