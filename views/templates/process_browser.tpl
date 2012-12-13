@@ -75,6 +75,7 @@
 		</script>
 
 		<style media="screen">
+			@import url(<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css);
 			@import url(<?=BASE_WWW?>css/process_browser.css);
 		</style>
 

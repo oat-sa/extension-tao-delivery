@@ -297,3 +297,22 @@ input[type="button"]
 	font-size: 26px;
 	color: #CCC;
 }
+
+div#footer .releasestatus {
+width: 380px;
+margin: 10px auto 10px auto;
+padding: 5px 5px 5px 62px;
+text-align: center;
+position: relative;
+font-size: 12px;
+}
+
+div#footer .releasestatus img {
+position: absolute;
+left: 15px;
+top: 5px;
+}
+
+div#footer .releasestatus a {
+font-size: 10px;
+}
