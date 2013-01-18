@@ -249,8 +249,8 @@ class taoDelivery_actions_InternalResultServer
 	    $environment = $this->getExecutionEnvironment();
         $classProcessInstance = new core_kernel_classes_Resource($environment[CLASS_PROCESS_EXECUTIONS]['uri']);
 		
-        if (tao_models_classes_cache_SessionCache::singleton()->contains(self::DELIVERYRESULT_SESSION_SERIAL)) {
-        	$data = tao_models_classes_cache_SessionCache::singleton()->get(self::DELIVERYRESULT_SESSION_SERIAL);
+        if (common_cache_SessionCache::singleton()->contains(self::DELIVERYRESULT_SESSION_SERIAL)) {
+        	$data = common_cache_SessionCache::singleton()->get(self::DELIVERYRESULT_SESSION_SERIAL);
         	if (isset($data['process']) && $data['process'] == $classProcessInstance->getUri()) {
 	        	$returnValue = new core_kernel_classes_Resource($data['dr']);
         	} else {
@@ -288,7 +288,7 @@ class taoDelivery_actions_InternalResultServer
 				common_Logger::d('spawned Delivery Result for '.$classProcessInstance);
 	        }
 	        $data = array('process' => $classProcessInstance->getUri(), 'dr' => $returnValue->getUri());
-	        tao_models_classes_cache_SessionCache::singleton()->put($data, self::DELIVERYRESULT_SESSION_SERIAL);
+	        common_cache_SessionCache::singleton()->put($data, self::DELIVERYRESULT_SESSION_SERIAL);
         }
     	
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000384F end
