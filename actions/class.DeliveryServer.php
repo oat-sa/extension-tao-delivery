@@ -49,7 +49,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 			throw new common_exception_Error("no wsdl contract found for the current delivery");
 		}
 
-		ini_set('max_execution_time', 200);
+		// Initialize a process can be long depending on its complexity...
+		set_time_limit(200);
 		
 		$processExecName = $delivery->getLabel();
 		$processExecComment = 'Created in delivery server on ' . date(DATE_ISO8601);
@@ -72,6 +73,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$this->service->addHistory($delivery, $subject, $newProcessExecution);
 
 		$param = array('processUri' => urlencode($newProcessExecution->uriResource));
+		
 		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
 	}
 	

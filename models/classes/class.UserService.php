@@ -64,7 +64,7 @@ class taoDelivery_models_classes_UserService
     public function initRoles()
     {
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 begin
-		$this->allowedRoles = array(CLASS_ROLE_FRONTOFFICE);
+		$this->allowedRoles = array(INSTANCE_ROLE_DELIVERY => new core_kernel_classes_Resource(INSTANCE_ROLE_DELIVERY));
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 end
     }
 
@@ -83,7 +83,7 @@ class taoDelivery_models_classes_UserService
 
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 begin
 		if(parent::loginUser($login, $password)){
-        	
+			
         	$currentUser = $this->getCurrentUser();
         	if(!is_null($currentUser)){
 	        		
