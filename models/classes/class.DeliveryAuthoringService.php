@@ -226,9 +226,8 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			
 			//set ACL mode to role user restricted with role=subject
 			$extManager = common_ext_ExtensionsManager::singleton();
-			$taoExt = $extManager->getExtensionById('tao');
 			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ACL_MODE), INSTANCE_ACL_ROLE);//should be eventually INSTANCE_ACL_ROLE_RESTRICTED_USER_INHERITED
-			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), $taoExt->getConstant('INSTANCE_ROLE_DELIVERY'));
+			$activity->editPropertyValues(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_RESTRICTED_ROLE), INSTANCE_ROLE_DELIVERY);
 			
 			//get the item runner service definition: must exists!
 			$testContainerServiceDefinition = new core_kernel_classes_Resource(INSTANCE_SERVICEDEFINITION_TESTCONTAINER);

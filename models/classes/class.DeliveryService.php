@@ -201,9 +201,8 @@ class taoDelivery_models_classes_DeliveryService
 
 		//set ACL right to delivery process initialization:
 		$extManager = common_ext_ExtensionsManager::singleton();
-		$taoExt = $extManager->getExtensionById('tao');
 		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_ACL_MODE), INSTANCE_ACL_ROLE);
-		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), $taoExt->getConstant('INSTANCE_ROLE_DELIVERY'));
+		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), INSTANCE_ROLE_DELIVERY);
 
 		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
 		$this->updateProcessLabel($returnValue);
