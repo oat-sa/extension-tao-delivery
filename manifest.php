@@ -77,7 +77,8 @@ return array(
 		'USE_NEXT'				=> true,
 		'USE_PREVIOUS'			=> true,
 		'FORCE_NEXT'			=> true,
-									
+
+		# Maximum Compilation Time of a Test before Timeout
 		'TEST_COMPILATION_TIME'	=> 300,
 	)
 );
