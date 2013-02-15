@@ -16,10 +16,6 @@
 			uiBootstrap.tabs.tabs('disable', helpers.getTabIndexByName('delivery_authoring'));
 		<?endif;?>
 
-		<?if(get_data('reload')):?>
-			uiBootstrap.initTrees();
-		<?endif;?>
-
 		setAuthoringModeButtons();
 		eventMgr.bind('actionInitiated', function(event, response){
 			setAuthoringModeButtons();
