@@ -10,7 +10,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
 	}
 	
 	protected function redirectToMain(){
-		Session::removeAttribute("processUri");
+		$this->removeSessionAttribute("processUri");
 		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServer'));
 	}
 	

@@ -22,7 +22,7 @@ class taoDelivery_actions_Campaign extends tao_actions_TaoModule {
 		$this->service = new taoDelivery_models_classes_CampaignService();
 		$this->defaultData();
 		
-		Session::setAttribute('currentSection', 'campaign');
+		$this->setSessionAttribute('currentSection', 'campaign');
 	}
 	
 /*

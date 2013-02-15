@@ -29,7 +29,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->service = taoDelivery_models_classes_DeliveryService::singleton();
 		$this->defaultData();
 		
-		Session::setAttribute('currentSection', 'delivery');
+		$this->setSessionAttribute('currentSection', 'delivery');
 	}
 	
 /*
@@ -525,7 +525,8 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
-		$this->setData('section',Session::getAttribute('currentSection'));
+		
+		$this->setData('section', $this->getSessionAttribute('currentSection'));
 		$this->setView('index.tpl');
 	}
 				
