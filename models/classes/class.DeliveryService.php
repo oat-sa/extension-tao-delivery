@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 20.09.2012, 17:42:08 with ArgoUML PHP module 
+ * Automatically generated on 19.02.2013, 14:03:02 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -42,7 +42,7 @@ require_once(dirname(__FILE__).'/class.DeliveryProcessGenerator.php');
  * Short description of class taoDelivery_models_classes_DeliveryService
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method __construct
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return mixed
      */
     public function __construct()
@@ -83,7 +83,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method cloneDelivery
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource instance
      * @param  Class clazz
      * @return core_kernel_classes_Resource
@@ -146,7 +146,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method createDeliveryClass
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Class clazz
      * @param  string label
      * @param  array properties
@@ -184,7 +184,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method createInstance
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource
@@ -224,7 +224,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteDelivery
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  boolean deleteHistory
      * @param  boolean deleteCompiledFolder
@@ -268,7 +268,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteDeliveryClass
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Class clazz
      * @return boolean
      */
@@ -291,7 +291,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getAllTests
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return array
      */
     public function getAllTests()
@@ -312,7 +312,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveryClass
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  string uri
      * @return core_kernel_classes_Class
      */
@@ -339,7 +339,7 @@ class taoDelivery_models_classes_DeliveryService
      * Returns tests of the delivery in order
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      * @see getRelatedTests
@@ -433,7 +433,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveriesTests
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return array
      */
     public function getDeliveriesTests()
@@ -453,7 +453,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getExcludedSubjects
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      */
@@ -491,7 +491,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getHistory
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  Resource subject
      * @return array
@@ -523,7 +523,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getProcessVariable
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  string code
      * @return core_kernel_classes_Resource
      */
@@ -548,7 +548,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getRelatedCampaigns
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      */
@@ -586,7 +586,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getResultServer
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return core_kernel_classes_Resource
      */
@@ -607,7 +607,7 @@ class taoDelivery_models_classes_DeliveryService
      * returns the tests of the delivery in no specific order
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      * @see getDeliveryTests
@@ -648,7 +648,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method isCompiled
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return boolean
      */
@@ -674,7 +674,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method isDeliveryClass
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Class clazz
      * @return boolean
      */
@@ -703,7 +703,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setDeliveryTests
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  array tests
      * @return boolean
@@ -785,7 +785,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setRelatedCampaigns
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  array campaigns
      * @return boolean
@@ -819,7 +819,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setExcludedSubjects
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  array subjects
      * @return boolean
@@ -853,7 +853,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method updateProcessLabel
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return mixed
      */
@@ -869,7 +869,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method linearizeDeliveryProcess
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return boolean
      */
@@ -932,7 +932,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method compileTest
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  Resource test
      * @return array
@@ -1083,7 +1083,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method deleteHistory
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource history
      * @param  boolean deleteProcessInstance
      * @return boolean
@@ -1113,7 +1113,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method generateProcess
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      */
@@ -1153,7 +1153,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveryGroups
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return array
      */
@@ -1203,7 +1203,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setAuthoringMode
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  string mode
      * @return boolean
@@ -1238,7 +1238,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method setDeliveryGroups
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  array groups
      * @return boolean
@@ -1289,7 +1289,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getCompiledDate
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return string
      */
@@ -1315,7 +1315,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method containsHumanAssistedMeasurements
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return boolean
      */
@@ -1343,7 +1343,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method getDeliveryItems
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  boolean inOrder
      * @return array
@@ -1382,7 +1382,7 @@ class taoDelivery_models_classes_DeliveryService
      * Short description of method isDeliveryOpen
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return boolean
      */
@@ -1398,6 +1398,62 @@ class taoDelivery_models_classes_DeliveryService
         // section 127-0-1-1-60224649:1368791ec8c:-8000:00000000000038F0 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method initDeliveryExecution
+     *
+     * @access public
+     * @author Joel Bout, <joel@taotesting.com>
+     * @param  Resource processDefinition
+     * @param  Resource user
+     * @return core_kernel_classes_Resource
+     */
+    public function initDeliveryExecution( core_kernel_classes_Resource $processDefinition,  core_kernel_classes_Resource $user)
+    {
+        $returnValue = null;
+
+        // section 10-30-1--78-36889277:13cf288bd30:-8000:0000000000003C87 begin
+        $deliveryServerService = taoDelivery_models_classes_DeliveryServerService::singleton();
+		$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
+		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
+		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
+		
+		$delivery = $deliveryAuthoringService->getDeliveryFromProcess($processDefinition);
+		if(is_null($delivery)){
+			throw new common_exception_Error("no delivery found for the selected process definition");
+		}
+
+		$wsdlContract = $deliveryServerService->getResultServer($delivery);
+		if(empty($wsdlContract)){
+			throw new common_exception_Error("no wsdl contract found for the current delivery");
+		}
+
+		// Initialize a process can be long depending on its complexity...
+		set_time_limit(200);
+		
+		$processExecName = $delivery->getLabel();
+		$processExecComment = 'Created in delivery server on ' . date(DATE_ISO8601);
+		$processVariables = array();
+		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
+		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
+			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
+		}else{
+			throw new common_exception_Error('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
+		}
+
+		$returnValue = $processExecutionService->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
+		
+		//create nonce to initial activity executions:
+		foreach($processExecutionService->getCurrentActivityExecutions($returnValue) as $initialActivityExecution){
+			$activityExecutionService->createNonce($initialActivityExecution);
+		}
+		
+		//add history of delivery execution in the delivery ontology
+		$deliveryServerService->addHistory($delivery, $user, $returnValue);
+        // section 10-30-1--78-36889277:13cf288bd30:-8000:0000000000003C87 end
+
+        return $returnValue;
     }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */

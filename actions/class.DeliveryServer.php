@@ -30,50 +30,16 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
      */
 	public function initDeliveryExecution($processDefinitionUri){
 		
-		$userService = taoDelivery_models_classes_UserService::singleton();
-		$deliveryAuthoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
-		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
-		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
-		
-		$subject = $userService->getCurrentUser();
-		
 		$processDefinitionUri = urldecode($processDefinitionUri);
 		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
-		$delivery = $deliveryAuthoringService->getDeliveryFromProcess($processDefinition);
-		if(is_null($delivery)){
-			throw new common_exception_Error("no delivery found for the selected process definition");
-		}
-
-		$wsdlContract = $this->service->getResultServer($delivery);
-		if(empty($wsdlContract)){
-			throw new common_exception_Error("no wsdl contract found for the current delivery");
-		}
-
-		// Initialize a process can be long depending on its complexity...
-		set_time_limit(200);
 		
-		$processExecName = $delivery->getLabel();
-		$processExecComment = 'Created in delivery server on ' . date(DATE_ISO8601);
-		$processVariables = array();
-		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
-		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
-			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
-		}else{
-			throw new common_exception_Error('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
-		}
+		$userService = taoDelivery_models_classes_UserService::singleton();
+		$subject = $userService->getCurrentUser();
+		
+		$newProcessExecution = taoDelivery_models_classes_DeliveryService::singleton()->initDeliveryExecution($processDefinition, $subject);
 
-		$newProcessExecution = $processExecutionService->createProcessExecution($processDefinition, $processExecName, $processExecComment, $processVariables);
-		
-		//create nonce to initial activity executions:
-		foreach($processExecutionService->getCurrentActivityExecutions($newProcessExecution) as $initialActivityExecution){
-			$activityExecutionService->createNonce($initialActivityExecution);
-		}
-		
-		//add history of delivery execution in the delivery ontology
-		$this->service->addHistory($delivery, $subject, $newProcessExecution);
 
-		$param = array('processUri' => urlencode($newProcessExecution->uriResource));
-		
+		$param = array('processUri' => $newProcessExecution->getUri());
 		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
 	}
 	
