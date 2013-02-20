@@ -127,7 +127,7 @@ class taoDelivery_models_classes_DeliveryService
 				$process = $instance->getUniquePropertyValue($propInstanceContent);
 			}catch(Exception $e){}
 			if(!is_null($process)){
-				$processCloner = new wfEngine_models_classes_ProcessCloner();
+				$processCloner = new wfAuthoring_models_classes_ProcessCloner();
 				$processClone = $processCloner->cloneProcess($process);
 				$clone->editPropertyValues($propInstanceContent, $processClone->uriResource);
 			}else{
