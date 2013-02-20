@@ -327,4 +327,12 @@
     <delivery:matchingUrl><![CDATA[/taoDelivery/ResultDelivery/evaluate]]></delivery:matchingUrl>
     <delivery:matchingServerSide rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
   </rdf:Description>
+  
+  <!-- Management Role -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
+  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  	<rdfs:label xml:lang="EN"><![CDATA[Delivery Manager]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[The Delivery Manager Role]]></rdfs:comment>
+  </rdf:Description>
 </rdf:RDF>
