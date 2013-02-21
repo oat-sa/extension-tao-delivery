@@ -110,11 +110,11 @@ class taoDelivery_helpers_Compilator
 		);
 		
 		
-		
+		$deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
 		if(!empty($pluginPath)){
 			$this->pluginPath = $pluginPath;
 		}else{
-			$this->pluginPath = BASE_PATH."/lib/";
+			$this->pluginPath = $deliveryExtension->getConstant('BASE_PATH')."/lib/";
 		}
 		if(!is_dir($this->pluginPath)){
 			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
@@ -123,7 +123,7 @@ class taoDelivery_helpers_Compilator
 		if(!empty($compiledPath)){
 			$this->compiledPath = $compiledPath;
 		}else{
-			$this->compiledPath = BASE_PATH."/compiled/";
+			$this->compiledPath = $deliveryExtension->getConstant('BASE_PATH')."/compiled/";
 		}
 		if(!is_writable($this->compiledPath)){
 			throw new Exception("The compiled directory '{$this->compiledPath}' is not writable");

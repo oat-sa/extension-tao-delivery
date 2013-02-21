@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - taoDelivery/models/classes/class.DeliveryService.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 19.02.2013, 14:03:02 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * returns the folder to store the compiled delivery
  *
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
@@ -39,7 +32,7 @@ require_once(dirname(__FILE__).'/class.DeliveryProcessGenerator.php');
 // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002020-constants end
 
 /**
- * Short description of class taoDelivery_models_classes_DeliveryService
+ * returns the folder to store the compiled delivery
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -251,9 +244,7 @@ class taoDelivery_models_classes_DeliveryService
                 }
 
                 if($deleteCompiledFolder){
-                        $deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-                        $path = BASE_PATH."/compiled/$deliveryFolderName";
-                        $returnValue = tao_helpers_File::remove($path, true);
+					$returnValue = tao_helpers_File::remove($this->getCompiledFolder($delivery), true);
                 }
 
                 $returnValue = $delivery->delete();
@@ -984,18 +975,19 @@ class taoDelivery_models_classes_DeliveryService
 								$compilationLanguage = $triple->lg;
 
 								$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-								$deliveryFolderName = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
 								$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
 
 								//create the compilation folder for the delivery-test-item:
-								$compiledFolder = BASE_PATH."compiled/${deliveryFolderName}";
+								$compiledFolder = $this->getCompiledFolder($delivery);
 								if(!is_dir($compiledFolder)){
-									mkdir($compiledFolder);
+									if (!mkdir($compiledFolder)) {
+										common_Logger::w('Could not create delivery directory \''.$compiledFolder.'\'');
+									};
 								}
 								$compiledFolder .= "/${testFolderName}";
 								if(!is_dir($compiledFolder)){
 									if (!mkdir($compiledFolder)) {
-										common_Logger::w('Could not create directory \''.$compiledFolder.'\'');
+										common_Logger::w('Could not create test directory \''.$compiledFolder.'\'');
 									}
 								}
 								$compiledFolder .= "/${itemFolderName}";
@@ -1454,6 +1446,27 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-30-1--78-36889277:13cf288bd30:-8000:0000000000003C87 end
 
         return $returnValue;
+    }
+
+    /**
+     * returns the folder to store the compiled delivery
+     *
+     * @access public
+     * @author Joel Bout, <joel@taotesting.com>
+     * @param  Resource delivery
+     * @return string
+     */
+    public function getCompiledFolder( core_kernel_classes_Resource $delivery)
+    {
+        $returnValue = (string) '';
+
+        // section 10-30-1--78--15e7ecbd:13cfbda82e1:-8000:0000000000003C8E begin
+        $deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+        $deliveryFolderName = substr($delivery->getUri(), strpos($delivery->getUri(), '#') + 1);
+		$returnValue = $deliveryExtension->getConstant('BASE_PATH')."/compiled/$deliveryFolderName";
+        // section 10-30-1--78--15e7ecbd:13cfbda82e1:-8000:0000000000003C8E end
+
+        return (string) $returnValue;
     }
 
 } /* end of class taoDelivery_models_classes_DeliveryService */
