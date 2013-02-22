@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 10.04.2012, 11:19:43 with ArgoUML PHP module 
+ * Automatically generated on 22.02.2013, 16:31:42 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -22,9 +22,9 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include taoDelivery_models_classes_DeliveryService
+ * returns the folder to store the compiled delivery
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  */
 require_once('taoDelivery/models/classes/class.DeliveryService.php');
 
@@ -40,7 +40,7 @@ require_once('taoDelivery/models/classes/class.DeliveryService.php');
  * Short description of class taoDelivery_models_classes_DeliveryServerService
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  * @subpackage models_classes
  */
@@ -58,7 +58,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method __construct
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return taoDelivery_models_classes_DeliveryServerService
      */
     public function __construct()
@@ -76,7 +76,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * add history of delivery execution in the ontology
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @param  Resource subject
      * @param  Resource processInstance
@@ -104,7 +104,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * It returns true if the delivery execution period is valid at the current
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -167,7 +167,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * the deliveries the subject is allowed to execute.
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource subject
      * @param  boolean check
      * @param  array checkList
@@ -258,7 +258,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Get the maximal number of execution for a delivery
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource delivery
      * @return int
      */
@@ -286,7 +286,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Check if the subject is set as excluded from the delivery execution
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource subject
      * @param  Resource delivery
      * @return boolean
@@ -316,7 +316,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkCompiled
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -338,7 +338,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkResultServer
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -363,7 +363,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkExcludedSubject
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -388,7 +388,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkMaxExecution
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -425,7 +425,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method checkDeliveryStatus
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array param
      * @return boolean
      */
@@ -457,7 +457,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * To be tested when core_kernel_impl_ApiModelOO::getObject() is implemented
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource subject
      * @return array
      */
@@ -488,7 +488,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method hasParameters
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  array params
      * @param  array keys
      * @return boolean
@@ -515,49 +515,45 @@ class taoDelivery_models_classes_DeliveryServerService
      * Short description of method getStartedProcessExecutions
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource currentUser
      * @return array
      */
-    public function getStartedProcessExecutions( core_kernel_classes_Resource $currentUser = null)
+    public function getStartedProcessExecutions( core_kernel_classes_Resource $currentUser)
     {
         $returnValue = array();
 
         // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A begin
-        if(!is_null($currentUser)){
+		$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
+		$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource), array('like'=>false));
+		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
+		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
+		
+		foreach($currentUserActivityExecutions as $currentUserActivityExecution){
 			
-			$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
-			$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource), array('like'=>false));
-			$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
-			$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
+			$validExecution = false;
+			$processExecution = null;
+			try{
+				$processExecution = $activityExecutionService->getRelatedProcessExecution($currentUserActivityExecution);
+			}catch(wfEngine_models_classes_ProcessExecutionException $e){}
 			
-			foreach($currentUserActivityExecutions as $currentUserActivityExecution){
-				
-				$validExecution = false;
-				$processExecution = null;
+			if(!is_null($processExecution)){
+				$processDefinition = null;
 				try{
-					$processExecution = $activityExecutionService->getRelatedProcessExecution($currentUserActivityExecution);
+					$processDefinition = $processExecutionService->getExecutionOf($processExecution);
 				}catch(wfEngine_models_classes_ProcessExecutionException $e){}
 				
-				if(!is_null($processExecution)){
-					$processDefinition = null;
-					try{
-						$processDefinition = $processExecutionService->getExecutionOf($processExecution);
-					}catch(wfEngine_models_classes_ProcessExecutionException $e){}
-					
-					if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
-						$validExecution = true;
-					}
-				}
-				
-				if($validExecution){
-					$returnValue[$processExecution->uriResource] = $processExecution;
-				}else{
-					$currentUserActivityExecution->delete();
+				if($processDefinition instanceof core_kernel_classes_Resource && $processDefinition->exists()){
+					$validExecution = true;
 				}
 			}
+			
+			if($validExecution){
+				$returnValue[$processExecution->uriResource] = $processExecution;
+			}else{
+				$currentUserActivityExecution->delete();
+			}
 		}
-        
         // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A end
 
         return (array) $returnValue;
