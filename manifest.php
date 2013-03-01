@@ -11,7 +11,7 @@ return array(
 	'name' => 'taoDelivery',
 	'description' => 'TAO http://www.tao.lu',
 	'version' => '2.4',
-	'author' => 'CRP Henri Tudor',
+	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
 	'dependencies' => array('wfEngine', 'wfAuthoring', 'taoItems', 'taoTests'),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
