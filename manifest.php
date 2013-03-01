@@ -12,7 +12,7 @@ return array(
 	'description' => 'TAO http://www.tao.lu',
 	'version' => '2.4',
 	'author' => 'CRP Henri Tudor',
-	'dependencies' => array('wfAuthoring'),
+	'dependencies' => array('taoItems', 'taoTests', 'wfAuthoring'),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
 		'http://www.tao.lu/Ontologies/taoFuncACL.rdf'),
