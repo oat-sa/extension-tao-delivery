@@ -24,7 +24,7 @@ class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
 	 * @return void
 	 */
 	public function runner(){
-		$session = Context::getInstance()->getSession();
+		$session = PHPSession::singleton();
 		
 		if($session->hasAttribute('processUri') && 
 				$this->hasRequestParameter('itemUri') && 
