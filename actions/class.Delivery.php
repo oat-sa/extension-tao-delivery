@@ -181,7 +181,8 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 				}
 				
 				//then save the property values as usual
-				$delivery = $this->service->bindProperties($delivery, $propertyValues);
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($delivery);
+				$delivery = $binder->bind($propertyValues);
 				
 				//edit process label:
 				$this->service->updateProcessLabel($delivery);

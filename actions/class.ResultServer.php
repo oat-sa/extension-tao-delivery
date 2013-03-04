@@ -120,7 +120,9 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$resultServer = $this->service->bindProperties($resultServer, $myForm->getValues());
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($resultServer);
+				
+				$resultServer = $binder->bind($myForm->getValues());
 				$this->setData('message', __('Result Server saved'));
 				$this->setData('reload', true);
 			}

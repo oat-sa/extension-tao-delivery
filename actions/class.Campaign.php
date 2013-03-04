@@ -113,7 +113,8 @@ class taoDelivery_actions_Campaign extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$campaign = $this->service->bindProperties($campaign, $myForm->getValues());
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($campaign);
+				$campaign = $bind->bind($myForm->getValues());
 				
 				$this->setData('message', __('Campaign saved'));
 				$this->setData('reload', true);
