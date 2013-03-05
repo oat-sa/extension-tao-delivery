@@ -522,10 +522,12 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 	 * @return void
 	 */
 	public function index(){
+		/* unreachable code?
 		if($this->getData('reload') == true){
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
+		*/
 		
 		$this->setData('section', $this->getSessionAttribute('currentSection'));
 		$this->setView('index.tpl');
