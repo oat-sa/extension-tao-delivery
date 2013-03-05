@@ -3,7 +3,7 @@
     @sourceLanguage EN
     @targetLanguage IT
 -->
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ProcessVarDelivery">
     <!--
     @sourceLanguage EN
@@ -715,5 +715,23 @@
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="IT"><![CDATA[Local Legacy Result Server]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Delivery Manager
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="IT"><![CDATA[Delivery Manager]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source The Delivery Manager Role
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="IT"><![CDATA[The Delivery Manager Role]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
