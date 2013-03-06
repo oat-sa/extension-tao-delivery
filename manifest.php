@@ -18,9 +18,9 @@ return array(
 		'http://www.tao.lu/Ontologies/taoFuncACL.rdf'),
 	'install' => array(
 		'rdf' => array(
-				array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/taodelivery.rdf'),
-				array('ns' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf', 'file' => dirname(__FILE__). '/models/ontology/coding.rdf'),
-				array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/aclrole.rdf')
+				dirname(__FILE__). '/models/ontology/taodelivery.rdf',
+				dirname(__FILE__). '/models/ontology/coding.rdf',
+				dirname(__FILE__). '/models/ontology/aclrole.rdf'
 		),
 		'checks' => array(
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/compiled', 'rights' => 'rw')),
@@ -67,6 +67,7 @@ return array(
 	
 		#PROCESS BASE WWW the web path of the process authoring tool
 		'PROCESS_BASE_WWW'		=> ROOT_URL. 'wfEngine/views/',
+		'WFAUTHORING_CSS_URL'	=> ROOT_URL. 'wfAuthoring/views/css/',
 		'WFAUTHORING_SCRIPTS_URL'	=> ROOT_URL. 'wfAuthoring/views/js/authoring/',
 		'PROCESS_BASE_PATH'		=> ROOT_PATH.'wfEngine'.DIRECTORY_SEPARATOR,
 		'PROCESS_TPL_PATH'		=> ROOT_PATH.'wfEngine'.DIRECTORY_SEPARATOR
