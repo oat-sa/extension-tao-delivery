@@ -244,7 +244,10 @@ class taoDelivery_models_classes_DeliveryService
                 }
 
                 if($deleteCompiledFolder){
-					$returnValue = tao_helpers_File::remove($this->getCompiledFolder($delivery), true);
+                	$folder = $this->getCompiledFolder($delivery);
+                	if (file_exists($folder)) { 
+						$returnValue = tao_helpers_File::remove($folder, true);
+                	}
                 }
 
                 $returnValue = $delivery->delete();
