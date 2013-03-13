@@ -295,11 +295,6 @@ class taoDelivery_actions_Campaign extends tao_actions_TaoModule {
 	 * @return void
 	 */
 	public function index(){
-		
-		if($this->getData('reload') == true){
-			unset($_SESSION[SESSION_NAMESPACE]['uri']);
-			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
-		}
 		$this->setView('index_campaign.tpl');
 	}
 		
