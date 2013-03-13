@@ -19,6 +19,10 @@
 		<?if(get_data('reload')):?>
 			uiBootstrap.initTrees();
 		<?endif;?>
+		
+		<?if(has_data('message')):?>
+			helpers.createMessage("<?=get_data('message')?>");
+		<?endif?>
 
 		setAuthoringModeButtons();
 		eventMgr.bind('actionInitiated', function(event, response){
