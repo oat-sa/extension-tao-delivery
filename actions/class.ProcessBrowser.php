@@ -22,7 +22,14 @@
 <?php
 
 error_reporting(E_ALL);
-
+/**
+ * A customised wfEngine ProcessBrowser module
+ * 
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * @package taoDelivery
+ * @subpackage actions
+ */
 class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser{
 	
 	public function __construct(){
@@ -48,8 +55,19 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
      */
     protected function notAllowedRedirection() {
         $this->redirect(_url('index', 'DeliveryServerAuthentification', 'taoDelivery', array(
-                    'errorMessage' => urlencode(__('Access denied. Please renew your authentication.'))
-                )));
+			'errorMessage' => urlencode(__('Access denied. Please renew your authentication.'))
+		)));
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see wfEngine_actions_ProcessBrowser::index()
+     */
+    public function index() {
+    	if ($this->hasRequestParameter('allowControl')) {
+    		$this->setData('allowControl', $this->getRequestParameter('allowControl'));
+    	}
+    	parent::index();
     }
 }
 ?>
