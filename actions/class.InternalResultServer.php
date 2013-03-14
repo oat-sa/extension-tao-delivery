@@ -42,7 +42,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  */
-require_once('taoDelivery/actions/class.ResultDelivery.php');
+
+//require_once('taoDelivery/actions/class.ResultDelivery.php');
 
 /**
  * include taoDelivery_models_classes_ResultServerInterface
@@ -70,7 +71,9 @@ require_once('taoDelivery/models/classes/interface.ResultServerInterface.php');
  * @subpackage actions
  */
 class taoDelivery_actions_InternalResultServer
-    extends taoDelivery_actions_ResultDelivery
+    //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
+    //extends taoDelivery_actions_ResultDelivery
+    extends tao_actions_Api
         implements taoDelivery_models_classes_ResultServerInterface
 {
     // --- ASSOCIATIONS ---
@@ -100,8 +103,6 @@ class taoDelivery_actions_InternalResultServer
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383B begin
         $saved = false;
-		
-        
         // save Answers
     	if($this->hasRequestParameter('taoVars') && is_array($this->getRequestParameter('taoVars'))){
     		$executionEnvironment = $this->getExecutionEnvironment();
@@ -139,7 +140,11 @@ class taoDelivery_actions_InternalResultServer
 
         //save scores
         //save variables
-        parent::save();
+	
+        //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
+		//parent::save();
+		//
+	echo json_encode(array('saved' => $saved));
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383B end
     }
 
@@ -153,7 +158,8 @@ class taoDelivery_actions_InternalResultServer
     public function traceEvents()
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383D begin
-        parent::traceEvents();
+        
+	parent::traceEvents();
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383D end
     }
 
@@ -167,7 +173,9 @@ class taoDelivery_actions_InternalResultServer
     public function evaluate()
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383F begin
-        parent::evaluate();
+        //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
+	//is now calling tao_actions_Api
+	//parent::evaluate();
         $responses = json_decode($_POST['data']);
 
 		$itemService = taoItems_models_classes_ItemsService::singleton();
@@ -194,9 +202,13 @@ class taoDelivery_actions_InternalResultServer
     public function __construct()
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:0000000000003844 begin
-        parent::__construct();
+        //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
+	//is now calling tao_actions_Api
+	parent::__construct();
+	
+	Bootstrap::loadConstants('taoResults');
         
-        $this->resultService = taoResults_models_classes_ResultsService::singleton();
+	$this->resultService = taoResults_models_classes_ResultsService::singleton();
         
         // this test is worthless, since we can not progress if we don't have the executionEvironement in our Session
         if(!$this->hasRequestParameter('token')
