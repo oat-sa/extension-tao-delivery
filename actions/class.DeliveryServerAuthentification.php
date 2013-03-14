@@ -53,7 +53,6 @@ class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Com
 
 
 	public function logout(){
-		unset($_SESSION['taoqual.authenticated']);
 		session_destroy();
 		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification'));
 	}

@@ -288,8 +288,7 @@ class taoDelivery_helpers_Compilator
 			return array_merge(
 				$this->getPlugins('JS'),
 				$this->getPlugins('CSS'),
-				$this->getPlugins('IMG'),
-				$this->getPlugins('SWF')
+				$this->getPlugins('IMG')
 			);
 		}
 		else{
@@ -319,15 +318,6 @@ class taoDelivery_helpers_Compilator
 				$files = array();
 				foreach(scandir($this->pluginPath."img/") as $file){
 					if(is_file($this->pluginPath."img/".$file) && !is_dir($this->pluginPath."img/".$file)){
-						$files[] = $file;
-					}
-				}
-				return $files;
-			}
-			if(strtoupper($type) == 'SWF'){
-				$files = array();
-				foreach(scandir($this->pluginPath."swf/") as $file){
-					if(is_file($this->pluginPath."swf/".$file) && !is_dir($this->pluginPath."swf/".$file)){
 						$files[] = $file;
 					}
 				}

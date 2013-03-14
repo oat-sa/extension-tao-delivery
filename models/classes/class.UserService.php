@@ -89,39 +89,6 @@ class taoDelivery_models_classes_UserService
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D32 end
     }
 
-    /**
-     * Short description of method loginUser
-     *
-     * @access public
-     * @author Somsack SIPASSEUTH, <s.sipasseuth@gmail.com>
-     * @param  string login
-     * @param  string password
-     * @return boolean
-     */
-    public function loginUser($login, $password = '')
-    {
-        $returnValue = (bool) false;
-
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 begin
-		if(parent::loginUser($login, $password)){
-			
-        	$currentUser = $this->getCurrentUser();
-        	if(!is_null($currentUser)){
-	        		
-				// Taoqual authentication and language markers.
-				$_SESSION['taoqual.authenticated'] 		= true;
-				$_SESSION['taoqual.lang']				= core_kernel_classes_Session::singleton()->getInterfaceLanguage();
-				$_SESSION['taoqual.serviceContentLang'] = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
-				$_SESSION['taoqual.userId']				= $login;
-				
-				$returnValue = true;
-        	}
-        }
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000004D34 end
-
-        return (bool) $returnValue;
-    }
-
 } /* end of class taoDelivery_models_classes_UserService */
 
 ?>
