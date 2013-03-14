@@ -1044,16 +1044,9 @@ class taoDelivery_models_classes_DeliveryService
                                 $session->setDataLanguage($triple->lg);
 								$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
                                 $session->setDataLanguage($tmpSessionLang);
-
-								if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
-									$compilator->copyPlugins(array('js', 'css', 'img'));
-								}
-								else if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_XHTML))){
-									$compilator->copyPlugins(array('js'));
-								}
-								else{
-									$compilator->copyPlugins(array('js'));
-								}
+								
+								//copy required plugins to delivery folder to make stand alone delivery packages
+								$compilator->copyPlugins($itemService->getItemModel($item));
 
 								//directory where all files required to launch the test will be collected
 								$directory = $compilator->getCompiledPath();

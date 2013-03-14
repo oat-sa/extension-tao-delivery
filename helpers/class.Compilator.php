@@ -231,13 +231,7 @@ class taoDelivery_helpers_Compilator
 				curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
 				
 				$fileContent = curl_exec($curlHandler);
-				/* TO DEBUG
-				 if ($fileContent === false){
-					$error = curl_error($curlHandler);
-					curl_close($curlHandler);  
-					throw new Exception($error);
-				}
-				*/
+				
 				curl_close($curlHandler);  
 			}
 			else{
@@ -283,48 +277,14 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
 	}
     
-	public function getPlugins($type = ''){
-		if(empty($type)){
-			return array_merge(
-				$this->getPlugins('JS'),
-				$this->getPlugins('CSS'),
-				$this->getPlugins('IMG')
-			);
-		}
-		else{
-			if(strtoupper($type) == 'JS'){
-				$files = array();
-				foreach(scandir($this->pluginPath."js/") as $file){
-					if(is_file($this->pluginPath."js/".$file)){
-						if(preg_match("/\.js$/", $file)){
-							$files[] = $file;
-						} 
-					}
-				}
-				return $files;
-			}
-			if(strtoupper($type) == 'CSS'){
-				$files = array();
-				foreach(scandir($this->pluginPath."css/") as $file){
-					if(is_file($this->pluginPath."css/".$file)){
-						if(preg_match("/\.css$/", $file)){
-							$files[] = $file;
-						} 
-					}
-				}
-				return $files;
-			}
-			if(strtoupper($type) == 'IMG'){
-				$files = array();
-				foreach(scandir($this->pluginPath."img/") as $file){
-					if(is_file($this->pluginPath."img/".$file) && !is_dir($this->pluginPath."img/".$file)){
-						$files[] = $file;
-					}
-				}
-				return $files;
-			}
-		}
-	}
+	/**
+	 * @todo : get the plugins to be copied in thte compiled delivery according to the item type
+	 * @access public
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @param core_kernel_classes_Resource $itemModel
+     * @return array
+	 */
+	public function getPlugins($itemModel){}
 	
 	/**
      * The method copyFile firstly defines the runtime files to be included in each compiled test folder
@@ -332,20 +292,10 @@ class taoDelivery_helpers_Compilator
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param array $plugins to be copied. If not set all are copied
+     * @param core_kernel_classes_Resource $itemModel
      * @return void
      */
-	public function copyPlugins($plugins = array()){
-		foreach($plugins as $plugin){
-			$plugin = strtolower($plugin);
-			if(!is_dir("{$this->compiledPath}/{$plugin}/")){
-				mkdir("{$this->compiledPath}/{$plugin}/");
-			}	
-			foreach($this->getPlugins($plugin) as $file){
-				tao_helpers_File::copy("{$this->pluginPath}/{$plugin}/{$file}", "{$this->compiledPath}/{$plugin}/{$file}", true);
-			}
-		}
-	}
+	public function copyPlugins($itemModel){}
 	
 	/**
      * The method itemParser parses the ItemContent xml file and executes fileCOpy with media to be downloaded.

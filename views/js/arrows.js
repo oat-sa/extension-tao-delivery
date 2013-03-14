@@ -21,8 +21,17 @@
 
 //TODO: replace attribute 'name' by 'class'
 
-// var arrows = new Array();
-// var tempArrows = new Array();
+processUtil = new Object();
+
+processUtil.isset = function(object){
+
+	if(typeof(object)=='undefined' || object===null){
+		return false;
+	}else{
+		return true;
+	}
+
+}
 
 ArrowClass = new Object();
 ArrowClass.margin = 20;

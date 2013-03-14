@@ -11,7 +11,6 @@
 		</script>
 		<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
-		<script type="text/javascript" src="<?=BASE_WWW?>js/wfEngine.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>css/main.css);
@@ -62,7 +61,6 @@
 								<span><?php echo __("Finished Test"); ?></span>
 							<?php endif; ?>
 						</td>
-						<!--<td class="situation"><a href="#"><img onclick="openProcess('../../../WorkFlowEngine/index.php?do=processInstance&param1=<?php echo urlencode($procData['uri']); ?>')" src="<?php echo BASE_WWW;?>img/open_process_view.png"/></a></td>-->
 					</tr>
 					<?php endforeach;  ?>
 				</tbody>
