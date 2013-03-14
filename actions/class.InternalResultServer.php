@@ -159,7 +159,40 @@ class taoDelivery_actions_InternalResultServer
     {
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383D begin
         
-	parent::traceEvents();
+	$saved = false;
+		if($this->hasRequestParameter('token') && $this->hasRequestParameter('events')){
+			$token = $this->getRequestParameter('token');
+			if($this->authenticate($token)){
+				
+				//check if there is events
+				$events = $this->getRequestParameter('events');
+				if(is_array($events)){
+					
+					$executionEnvironment = $this->getExecutionEnvironment();
+					
+					//get the process execution uri
+					if(isset($executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'])){
+					
+						$processURI = $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'];
+						$process_id = substr($processURI, strpos($processURI, '#') + 1);
+						
+						$eventService = tao_models_classes_EventsService::singleton();
+					
+						//get the event to be foltered on the server side
+						$eventFilter = array();
+						$compiledFolder = $this->getCompiledFolder($executionEnvironment);
+						if(file_exists($compiledFolder .'events.xml')){
+							$eventFilter = $eventService->getEventList($compiledFolder .'events.xml', 'server');
+						}
+					
+						//trace the events
+						$resultExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoResults');
+						$saved = $eventService->traceEvent($events, $process_id, $resultExt->getConstant('EVENT_LOG_PATH'), $eventFilter);
+					}
+				}
+			}
+		}
+		echo json_encode(array('saved' => $saved));
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383D end
     }
 
