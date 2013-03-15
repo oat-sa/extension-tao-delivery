@@ -35,7 +35,6 @@ class taoDelivery_actions_SaSResultServer extends taoDelivery_actions_ResultServ
      */
     public function __construct() {
     	tao_helpers_Context::load('STANDALONE_MODE');
-        $this->setSessionAttribute('currentExtension', 'taoDelivery');
 		parent::__construct();
     }
     
