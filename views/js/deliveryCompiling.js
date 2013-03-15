@@ -150,7 +150,7 @@ function compileTest(testUri){
 				var unexistingItems = "";
 				
 				var error="";
-				for(key in r.failed.copiedFiles) {
+				for(var key in r.failed.copiedFiles) {
 
 					failedCopy+= __("The following file(s) could not be copied for the test")+' '+key+":";
 					
@@ -161,7 +161,7 @@ function compileTest(testUri){
 					}
 				}
 				
-				for(key in r.failed.createdFiles) {
+				for(var key in r.failed.createdFiles) {
 				
 					failedCreation+= __("The following file(s) could not be created for the test")+':';
 					
@@ -172,7 +172,7 @@ function compileTest(testUri){
 					}
 				}
 				
-				for(key in r.failed.untranslatedItems) {
+				for(var key in r.failed.untranslatedItems) {
 				
 					untranslatedItems+= __("The following item do not exist in or have not been translated into")+' '+key+':';
 					
@@ -199,13 +199,12 @@ function compileTest(testUri){
 					}
 				}
 				
-				$closeButton = $('<a href="#" />').text(__('close')).bind('click', {resultTag:resultTag}, function(e){
+				var $closeButton = $('<a href="#" />').text(__('close')).bind('click', {resultTag:resultTag}, function(e){
 					e.preventDefault();
 					$(this).parent().hide();
 				});
-				// $closeButton.text(__('close'));
 				
-				$errorMessage = $('<div />').css('padding', '20px 30px');
+				var $errorMessage = $('<div />').css('padding', '20px 30px');
 				if(unexistingItems){
 					$errorMessage.append(unexistingItems).append('<br/><br/>');
 				}

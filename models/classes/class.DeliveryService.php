@@ -1025,7 +1025,7 @@ class taoDelivery_models_classes_DeliveryService
 								$itemPath = "{$compiledFolder}/index.html";
 								$itemUrl = tao_helpers_uri::getUrlForPath($itemPath);
 
-								$compilator = new taoDelivery_helpers_Compilator($delivery->uriResource, $test->uriResource, $item->uriResource, $compiledFolder);
+								$compilator = new taoDelivery_helpers_Compilator($delivery, $test, $item, $compiledFolder);
 								$compilator->clearCompiledFolder();
 
 								//get all scripts from taoItems:
@@ -1045,15 +1045,15 @@ class taoDelivery_models_classes_DeliveryService
 								$itemService->deployItem($item, $itemPath, $itemUrl,  $deployParams);
                                 $session->setDataLanguage($tmpSessionLang);
 								
-								//copy required plugins to delivery folder to make stand alone delivery packages
-								$compilator->copyPlugins($itemService->getItemModel($item));
-
 								//directory where all files required to launch the test will be collected
 								$directory = $compilator->getCompiledPath();
 
 								//parse the XML file with the helper compilator: media files are downloaded and a new xml file is generated, by replacing the new path for these media with the old ones
 								$itemContent = $compilator->itemParser(file_get_contents($itemPath), $directory, "index.html");
-
+								
+								//copy required plugins to delivery folder to make stand alone delivery packages
+								$compilator->copyPlugins();
+								
 								//create and write the new xml file in the folder of the test of the delivery being compiled (need for this so to enable LOCAL COMPILED access to the media)
 								$compilator->stringToFile($itemContent, $directory, "index.html");
 
@@ -1075,7 +1075,7 @@ class taoDelivery_models_classes_DeliveryService
 				break;
 			}
 		}
-
+		
 		if(empty($resultArray["failed"])){
 			$resultArray["success"] = 1;
 		}

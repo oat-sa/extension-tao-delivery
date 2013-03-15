@@ -87,20 +87,28 @@ class taoDelivery_helpers_Compilator
 	protected $compiledPath = '';
 	
 	/**
-     * The attribute "testUri" define the uri of the test that is being compiled
+     * The attribute "item" define the item that is being compiled
      *
      * @access protected
-     * @var string
+     * @var core_kernel_classes_Resource
      */
-	protected $testUri = "";
+	protected $item = null;
 	
 	/**
-     * The attribute "deliveryUri" define the uri of the delivery that is being compiled
+     * The attribute "test" define the test that is being compiled
      *
      * @access protected
-     * @var string
+     * @var core_kernel_classes_Resource
      */
-	protected $deliveryUri = "";
+	protected $test = null;
+	
+	/**
+     * The attribute "delivery" define the delivery that is being compiled
+     *
+     * @access protected
+     * @var core_kernel_classes_Resource
+     */
+	protected $delivery = null;
 	
     // --- OPERATIONS ---
 	
@@ -109,14 +117,17 @@ class taoDelivery_helpers_Compilator
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @param  string testUri
+	 * @param  string delivery
+	 * @param  string test
+	 * @param  string item
 	 * @param  string compiledPath
-	 * @param  string pluginPath
      * @return mixed
      */	
-	public function __construct($deliveryUri, $testUri, $itemUri, $compiledPath='', $pluginPath=''){
+	public function __construct(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test, core_kernel_classes_Resource $item, $compiledPath=''){
 		
-		//TODO: change testUri to deliveryUri
+		$this->delivery = $delivery;
+		$this->test = $test;
+		$this->item = $item;
 		
 		$this->completed = array(
 			"copiedFiles"=>array(),
@@ -151,7 +162,7 @@ class taoDelivery_helpers_Compilator
 		}
 			
 		if(!is_dir($this->compiledPath)){
-			$this->failed["createdFiles"]["compiled_test_folder"] = $directory;
+			$this->failed["createdFiles"]["compiled_test_folder"] = $this->compiledPath;
 			throw new Exception("The main compiled test directory '{$this->compiledPath}' does not exist");
 		}
 	}
@@ -168,7 +179,7 @@ class taoDelivery_helpers_Compilator
 	}
 	
 	/**
-     * The method copyFile enable a precompilator instance to copy a file
+     * The method copyFile enable tje conpilator to copy a file from a remote location
 	 * Depending on the success or the failure of the operation, it records the result either in the class attribute "completed" or "failed"
      * If the copy succeeds, it returns the name and the extension of the copied file, with the format "name.extension". 
      * It returns an empty string otherwise.
@@ -225,7 +236,7 @@ class taoDelivery_helpers_Compilator
 					}
 					if($addAuth){
 						curl_setopt($curlHandler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                                                curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
+						curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
 					}
 				}
 				curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
@@ -281,10 +292,54 @@ class taoDelivery_helpers_Compilator
 	 * @todo : get the plugins to be copied in thte compiled delivery according to the item type
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param core_kernel_classes_Resource $itemModel
      * @return array
 	 */
-	public function getPlugins($itemModel){}
+	public function getPlugins(){
+		
+		$returnValue = array();
+		
+		//@todo : get the plugins to be copied in thte compiled delivery according to the item type
+		//@todo : distinguish language dependent and non-dependent resources?
+		$itemModel = taoItems_models_classes_ItemsService::singleton()->getItemModel($this->item);
+		if($itemModel->getUri() == TAO_ITEM_MODEL_QTI){
+			$taoQTIext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQTI');
+			$libs = array(
+				'QtiImg' => array(
+					'path' => $taoQTIext->getConstant('BASE_PATH') . 'views/js/QTI/img/',
+					'relativePath' => '../img/',
+					'files' => '*'
+				),
+				'QtiJqueryUIimg' => array(
+					'path' => TAOVIEW_PATH . 'css/custom-theme/images/',
+					'relativePath' => 'images/',
+					'files' => '*'
+				)
+			);
+
+			foreach ($libs as $libConf) {
+				if (isset($libConf['path']) && isset($libConf['relativePath']) && isset($libConf['files'])) {
+					$path = $libConf['path'];
+					$relativePath = $libConf['relativePath'];
+					$files = $libConf['files'];
+					if ($files === '*') {
+						foreach (scandir($path) as $fileName) {
+							if (is_file($path . $fileName)) {
+								$returnValue[$path . $fileName] = $relativePath . $fileName;
+							}
+						}
+					} elseif (is_array($files)) {
+						foreach ($files as $fileName) {
+							if (is_file($path . $fileName)) {
+								$returnValue[$path . $fileName] = $relativePath . $fileName;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return $returnValue;
+	}
 	
 	/**
      * The method copyFile firstly defines the runtime files to be included in each compiled test folder
@@ -292,10 +347,17 @@ class taoDelivery_helpers_Compilator
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param core_kernel_classes_Resource $itemModel
      * @return void
      */
-	public function copyPlugins($itemModel){}
+	public function copyPlugins(){
+		foreach ($this->getPlugins() as $absoluePath => $relativePath){
+			if(tao_helpers_File::copy($absoluePath, $this->compiledPath.'/'.$relativePath, true)){
+				$this->completed['copiedFiles'][] = $absoluePath;
+			}else{
+				$this->failed['copiedFiles'][] = $absoluePath;
+			}
+		}
+	}
 	
 	/**
      * The method itemParser parses the ItemContent xml file and executes fileCOpy with media to be downloaded.
@@ -372,7 +434,7 @@ class taoDelivery_helpers_Compilator
 				throw new Exception("The folder $directory does not exist and can not be created");
 			}
 		}
-		$handle = fopen("$directory/$fileName","wb");
+		$handle = fopen($directory.'/'.$fileName,'wb');
 		$content = fwrite($handle,$content);
 		fclose($handle);
 		$this->completed["createdFiles"][]=$fileName;

@@ -24,7 +24,7 @@
 				window.location.href = page_str;
 			}
 
-			require(['require', 'jquery', 'json2', "<?=BASE_WWW?>js/jquery.ui.taoqualDialog.js", "<?=BASE_WWW?>js/wfEngine.js", "<?=BASE_WWW?>js/process_browser.js"], function(req, $) {
+			require(['require', 'jquery', 'json2'], function(req, $) {
 				$(function(){
 					$("#loader").css('display', 'none');
 					// Back and next function bindings for the ProcessBrowser.
