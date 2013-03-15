@@ -560,44 +560,6 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Short description of method getRelatedCampaigns
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param  Resource delivery
-     * @return array
-     */
-    public function getRelatedCampaigns( core_kernel_classes_Resource $delivery)
-    {
-        $returnValue = array();
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C3 begin
-		if(!is_null($delivery)){
-			$campaigns = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP));
-
-			if(count($campaigns)>0){
-				$campaignClass =  new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
-				$campaignSubClasses = array();
-				foreach($campaignClass->getSubClasses(true) as $campaignSubClass){
-					$campaignSubClasses[] = $campaignSubClass->uriResource;
-				}
-				foreach($campaigns as $campaignUri){
-					$clazz = $this->getClass(new core_kernel_classes_Resource($campaignUri));
-					if(!is_null($clazz)){
-						if(in_array($clazz->uriResource, $campaignSubClasses)){
-							$returnValue[] = $clazz->uriResource;
-						}
-					}
-					$returnValue[] = $campaignUri;
-				}
-			}
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020C3 end
-
-        return (array) $returnValue;
-    }
-
-    /**
      * Short description of method getResultServer
      *
      * @access public
@@ -792,40 +754,6 @@ class taoDelivery_models_classes_DeliveryService
 			}
 		}
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020CF end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method setRelatedCampaigns
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param  Resource delivery
-     * @param  array campaigns
-     * @return boolean
-     */
-    public function setRelatedCampaigns( core_kernel_classes_Resource $delivery, $campaigns = array())
-    {
-        $returnValue = (bool) false;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020D1 begin
-		if(!is_null($delivery)){
-
-			$campaignProp = new core_kernel_classes_Property(TAO_DELIVERY_CAMPAIGN_PROP);
-
-			$delivery->removePropertyValues($campaignProp);
-			$done = 0;
-			foreach($campaigns as $campaign){
-				if($delivery->setPropertyValue($campaignProp, $campaign)){
-					$done++;
-				}
-			}
-			if($done == count($campaigns)){
-				$returnValue = true;
-			}
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020D1 end
 
         return (bool) $returnValue;
     }

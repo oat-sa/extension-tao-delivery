@@ -252,10 +252,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			$this->setData('relatedTests', json_encode($relatedTest));
 		}
 		
-		//get the campaign(s) related to this delivery
-		$relatedCampaigns = tao_helpers_Uri::encodeArray($this->service->getRelatedCampaigns($delivery), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
-		
 		//get the subjects related to the test(s) of the current delivery!	
 		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($delivery), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
 		$this->setData('excludedSubjects', json_encode($excludedSubjects));
@@ -276,6 +272,10 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->setData('deliveryGroups', json_encode(array_map("tao_helpers_Uri::encode", $this->service->getDeliveryGroups($delivery))));
 		$this->setData('formTitle', __('Delivery properties'));
 		$this->setData('myForm', $myForm->render());
+		$campaignExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoCampaign'); 
+		if ($campaignExt->isEnabled()) {
+			$this->setData('campaign', taoCampaign_helpers_Campaign::renderCampaignTree($delivery));
+		}
 		$this->setView('form_delivery.tpl');
 	}
 	
@@ -477,59 +477,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		}
 		
 		if($this->service->setExcludedSubjects($this->getCurrentDelivery(), $subjects)){
-			$saved = true;
-		}
-		echo json_encode(array('saved'	=> $saved));
-	}
-	
-	/**
-	 * Get the data to populate the tree of delivery campaigns
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function getCampaigns(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		$options = array('chunk' => false);
-		if($this->hasRequestParameter('classUri')) {
-			$clazz = $this->getCurrentClass();
-			$options['chunk'] = true;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class(TAO_DELIVERY_CAMPAIGN_CLASS);
-		}
-		if($this->hasRequestParameter('selected')){
-			$selected = $this->getRequestParameter('selected');
-			if(!is_array($selected)){
-				$selected = array($selected);
-			}
-			$options['browse'] = $selected;
-		}
-		echo json_encode($this->service->toTree($clazz, $options));
-	}
-	
-	/**
-	 * Save the delivery related campaigns
-	 * @access public
-	 * @return void
-	 */
-	public function saveCampaigns(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		$saved = false;
-		
-		$campaigns = array();
-		foreach($this->getRequestParameters() as $key => $value){
-			if(preg_match("/^instance_/", $key)){
-				array_push($campaigns, tao_helpers_Uri::decode($value));
-			}
-		}
-		
-		if($this->service->setRelatedCampaigns($this->getCurrentDelivery(), $campaigns)){
 			$saved = true;
 		}
 		echo json_encode(array('saved'	=> $saved));

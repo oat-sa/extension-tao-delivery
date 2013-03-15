@@ -11,9 +11,7 @@
 	<?include('groups.tpl')?>
 	<?include('subjects.tpl')?>
 	<div class="breaker"></div>
-
-	<?include('delivery_campaign.tpl')?>
-	<div class="breaker"></div>
+	<?= has_data('campaign') ? get_data('campaign') : '';?>
 </div>
 
 <div class="main-container medium" id="delivery-main-container">

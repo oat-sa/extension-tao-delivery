@@ -2,7 +2,7 @@
 <!DOCTYPE extension SYSTEM "../../tao/doc/structures.dtd">
 <structures>
 	<structure id="delivery" name="Deliveries" level="4" visible="true">
-		<description>Prepare, publish deliveries sessions and campaigns.</description>
+		<description>Prepare, publish deliveries sessions.</description>
 		<sections>
 			<section id="manage_deliveries" name="Manage deliveries" url="/taoDelivery/Delivery/index">
 				<trees>
@@ -29,37 +29,11 @@
 					<action name="import" url="/tao/Import/index"  context="class" />
 					<action name="advanced mode" url="/taoDelivery/Delivery/advancedMode" context="instance" />
 					<action name="simple mode" url="/taoDelivery/Delivery/simpleMode" context="instance" />
+					<action name="LTI export" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
 				</actions>
 			</section>
 
 			<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />
-
-			<section id="manage_campaigns" name="Manage campaigns" url="/taoDelivery/Campaign/index">
-				<trees>
-					<tree name="Campaigns library"
-						className="Campaign"
-						dataUrl="/taoDelivery/Campaign/getCampaigns"
-						editClassUrl="/taoDelivery/Campaign/editCampaignClass"
-						editInstanceUrl="/taoDelivery/Campaign/editCampaign"
-						addInstanceUrl="/taoDelivery/Campaign/addCampaign"
-						addSubClassUrl="/taoDelivery/Campaign/addCampaignClass"
-						deleteUrl="/taoDelivery/Campaign/delete"
-						duplicateUrl="/taoDelivery/Campaign/cloneInstance"
-						moveInstanceUrl="/taoDelivery/Campaign/moveInstance"
-					/>
-				</trees>
-				<actions>
-					<action name="search" url="/taoDelivery/Campaign/search" context="*" />
-					<action name="new class" js="generisActions.subClass" url="/taoDelivery/Campaign/addCampaignClass" context="class" />
-					<action name="new campaign" js="generisActions.instanciate" url="/taoDelivery/Campaign/addCampaign" context="class" />
-					<action name="delete" js="generisActions.removeNode" url="/taoDelivery/Campaign/delete" context="resource" />
-					<action name="duplicate" js="generisActions.duplicateNode" url="/taoDelivery/Campaign/cloneInstance" context="instance" />
-					<action name="move" js="generisActions.moveNode" url="" context="instance" />
-					<action name="create table" url="/taoResults/LegacyResults/createTable"  context="class" />
-					<action name="export" url="/tao/Export/index"  context="*" />
-					<action name="import" url="/tao/Import/index"  context="class" />
-				</actions>
-			</section>
 
 			<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
 				<trees>
