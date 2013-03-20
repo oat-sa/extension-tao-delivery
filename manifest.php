@@ -53,6 +53,10 @@ return array(
 		dirname(__FILE__).'/actions/',
 		dirname(__FILE__).'/helpers/'
 	),
+	'optimizableClasses' => array(
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf#History'
+	),
 	'constants' => array(
 		# actions directory
 		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,
