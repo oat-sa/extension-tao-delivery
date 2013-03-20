@@ -211,15 +211,14 @@ class taoDelivery_actions_InternalResultServer
 	//parent::evaluate();
         $responses = json_decode($_POST['data']);
 
-		$itemService = taoItems_models_classes_ItemsService::singleton();
-	    $outcomes = $itemService->evaluate($this->getCurrentItem(), $responses);
-	    
-	    foreach ($outcomes as $identifier => $value) {
+	$itemService = taoItems_models_classes_ItemsService::singleton();
+	$outcomes = $itemService->evaluate($this->getCurrentItem(), $responses);
+	foreach ($outcomes as $identifier => $value) {
 			$this->resultService->storeGrade(
 				$this->getCurrentDeliveryResult(),
 				$this->getCurrentActivityExecution(),
 				$identifier,
-				$value
+				$value["value"] //$outcome is an array with "identifier" and "value" sending the whole array makes the grade to contain two values "SCORE" and the actual score
 			);
 	    }
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383F end
