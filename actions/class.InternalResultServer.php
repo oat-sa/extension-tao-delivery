@@ -238,7 +238,8 @@ class taoDelivery_actions_InternalResultServer
 	//is now calling tao_actions_Api
 	parent::__construct();
 	
-	Bootstrap::loadConstants('taoResults');
+	$loader = new common_ext_ExtensionLoader(common_ext_ExtensionsManager::singleton()->getExtensionById('taoResults'));
+	$loader->load();
         
 	$this->resultService = taoResults_models_classes_ResultsService::singleton();
         

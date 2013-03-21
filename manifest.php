@@ -49,10 +49,6 @@ return array(
 		)
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
-	'classLoaderPackages' => array(
-		dirname(__FILE__).'/actions/',
-		dirname(__FILE__).'/helpers/'
-	),
 	'optimizableClasses' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#History'
