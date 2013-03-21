@@ -35,8 +35,8 @@ return array(
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
 	'dependencies' => array('wfEngine', 'wfAuthoring', 'taoItems', 'taoTests'),
 	'models' => array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf',
-		'http://www.tao.lu/Ontologies/taoFuncACL.rdf'),
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
+	),
 	'install' => array(
 		'rdf' => array(
 				dirname(__FILE__). '/models/ontology/taodelivery.rdf',
