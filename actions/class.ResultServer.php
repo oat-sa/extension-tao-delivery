@@ -43,7 +43,6 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 		$this->service = new taoDelivery_models_classes_ResultServerAuthoringService();
 		$this->defaultData();
 		
-		$this->setSessionAttribute('currentSection', 'result_server');
 	}
 	
 /*

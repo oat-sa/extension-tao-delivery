@@ -50,7 +50,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->service = taoDelivery_models_classes_DeliveryService::singleton();
 		$this->defaultData();
 		
-		$this->setSessionAttribute('currentSection', 'delivery');
 	}
 	
 /*
@@ -497,7 +496,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		}
 		*/
 		
-		$this->setData('section', $this->getSessionAttribute('currentSection'));
 		$this->setView('index.tpl');
 	}
 				

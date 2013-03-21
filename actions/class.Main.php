@@ -33,7 +33,6 @@ class taoDelivery_actions_Main extends tao_actions_Main {
 	public function getSectionTrees()
 	{
 		parent::getSectionTrees();
-		$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
 	}
 }
 ?>
