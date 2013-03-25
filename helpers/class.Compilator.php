@@ -507,67 +507,28 @@ class taoDelivery_helpers_Compilator
 	}
 	
 	/**
-	 * The method clear the compiled folder
+	 * Prepares the compiled folder
 	 *
 	 * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return boolean
      */	
-	public function clearCompiledFolder(){
+	public function prepareCompileFolder(){
 		$returnValue=false;
 		
 		$path = $this->compiledPath;
-		
-		//security check: detect directory traversal (deny the ../)
-		if(preg_match("/\.\.\//", $path)){
-			throw new Exception("forbidden path format");
-			return $returnValue;
+		if (!tao_helpers_File::securityCheck($path, true)) {
+			throw new common_exception_Error("forbidden path format");
 		}
 		
-		//security check:  detect the null byte poison by finding the null char injection
-		for($i = 0; $i < strlen($path); $i++){
-			if(ord($path[$i]) === 0){
-				throw new Exception("forbidden path format");
-				return $returnValue;
-			}
+		if (file_exists($this->compiledPath)) {
+			helpers_File::remove($this->compiledPath);
 		}
-		
-		$returnValue = $this->recursiveDelete($this->compiledPath, false);
+		mkdir($this->compiledPath);
 		
 		return $returnValue;
 	}
-	
-	/**
-	 * Delete a file or recursively delete a directory
-	 *
-	 * @access protected
-	 * @param string $toDelete
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return boolean
-     */	
-    protected function recursiveDelete($toDelete, $empty=true){
-		$returnValue=false;
-		
-        if(is_file($toDelete)){
-            if(@unlink($toDelete)){
-				$returnValue=true;
-			}else{
-				throw new Exception("the file $toDelete cannot be deleted, please check the access permission");
-			}
-        }
-        elseif(is_dir($toDelete)){
-            $scan = glob(rtrim($toDelete,'/').'/*');
-            foreach($scan as $index=>$path){
-                $returnValue = $this->recursiveDelete($path, false);//delete entirely the subfolders (currently /css and /js)
-            }
-			if($empty === true){
-				if (@rmdir($toDelete)) $returnValue=true;
-				else throw new Exception("the folder $toDelete cannot be deleted, please check the access permission");
-			}
-        }
-		
-		return $returnValue;
-    }
+
 	
 	/**
 	* record the items that have translation issues in the "failed" array

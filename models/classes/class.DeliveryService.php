@@ -18,39 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * returns the folder to store the compiled delivery
- *
- * @author Joel Bout, <joel@taotesting.com>
- * @package taoDelivery
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Joel Bout, <joel@taotesting.com>
- */
-require_once('tao/models/classes/class.GenerisService.php');
-
-/* user defined includes */
-// section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002020-includes begin
-require_once(dirname(__FILE__).'/class.DeliveryProcessGenerator.php');
-// section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002020-includes end
-
-/* user defined constants */
-// section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002020-constants begin
-// section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002020-constants end
 
 /**
  * returns the folder to store the compiled delivery
@@ -954,7 +921,7 @@ class taoDelivery_models_classes_DeliveryService
 								$itemUrl = tao_helpers_uri::getUrlForPath($itemPath);
 
 								$compilator = new taoDelivery_helpers_Compilator($delivery, $test, $item, $compiledFolder);
-								$compilator->clearCompiledFolder();
+								$compilator->prepareCompileFolder();
 
 								//get all scripts from taoItems:
 								$deployParams = array(
