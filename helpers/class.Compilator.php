@@ -452,26 +452,7 @@ class taoDelivery_helpers_Compilator
 		$returnValue = array("completed"=>$this->completed, "failed"=>$this->failed);
 		return $returnValue;
 	}
-	
-	/**
-	 * The method getUniqueId provide an unique id for the ressource, which is a substring of the resource uri
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @param  string uriResource
-     * @return string
-     */	
-	public static function getUniqueId($uriResource){
-		$returnValue='';
-		
-		//TODO check format of the uri, preg_match()
-		if(stripos($uriResource,"#")>0){
-			$returnValue = substr($uriResource, stripos($uriResource,"#")+1);
-		}
-		
-		return $returnValue;
-	}
-	
+
 	/**
 	* retrieve the test uri from the test compiled folder 
 	*/
@@ -498,9 +479,9 @@ class taoDelivery_helpers_Compilator
 	public static function getCompiledTestUrl($deliveryUri, $testUri, $itemUri){
 		$testUrl ='';
 		
-		$testUniqueId = self::getUniqueId($testUri);
+		$testUniqueId = tao_helpers_Uri::getUniqueId($testUri);
 		if(!empty($testUniqueId)){
-			$testUrl = self::getUniqueId($deliveryUri).'/'.self::getUniqueId($testUri).'/'.self::getUniqueId($itemUri).'/index.html';
+			$testUrl = tao_helpers_Uri::getUniqueId($deliveryUri).'/'.tao_helpers_Uri::getUniqueId($testUri).'/'.tao_helpers_Uri::getUniqueId($itemUri).'/index.html';
 		}
 		
 		return $testUrl;
