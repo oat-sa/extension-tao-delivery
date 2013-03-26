@@ -117,11 +117,14 @@ class DeliveryServiceTestCase extends UnitTestCase {
 		$this->assertTrue($test2->equals(array_shift($tests)));
 		$this->assertTrue(empty($tests));
 						
-		$this->assertTrue($this->deliveryService->setAuthoringMode($this->delivery, 'simple'));
+		$this->assertTrue($this->deliveryService->setAuthoringMode($this->delivery, 'simple'), 'Setting authoring to simple failed');
 		$tests = $this->deliveryService->getDeliveryTests($this->delivery);
-		$this->assertTrue($test1->equals(array_shift($tests)));
-		$this->assertTrue($test2->equals(array_shift($tests)));
-		$this->assertTrue(empty($tests));
+		if (count($tests) == 2) {
+			$this->assertTrue($test1->equals(array_shift($tests)));
+			$this->assertTrue($test2->equals(array_shift($tests)));
+		} else {
+			$this->assertFalse('Wrong amount of tests in linearized delivery: '.count($tests));
+		}
 				
 		$test1->delete();
 		$test2->delete();
