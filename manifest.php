@@ -76,7 +76,7 @@ return array(
 	
 		#BASE WWW the web resources path
 		'BASE_WWW'				=> ROOT_URL . 'taoDelivery/views/',
-	 
+	
 	 	#TAO extension Paths
 		'TAOBASE_WWW'			=> ROOT_URL  . 'tao/views/',
 		'TAOVIEW_PATH'			=> $taopath.'views'.DIRECTORY_SEPARATOR,
@@ -97,6 +97,8 @@ return array(
 		'USE_PREVIOUS'			=> true,
 		'FORCE_NEXT'			=> true,
 
+		'COMPILE_FOLDER'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'compiled'.DIRECTORY_SEPARATOR,
+									
 		# Maximum Compilation Time of a Test before Timeout
 		'TEST_COMPILATION_TIME'	=> 300,
 	)

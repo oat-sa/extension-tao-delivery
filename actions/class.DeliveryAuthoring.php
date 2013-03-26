@@ -87,7 +87,7 @@ class taoDelivery_actions_DeliveryAuthoring extends wfAuthoring_actions_ProcessA
 				// $testId = tao_helpers_Uri::getUniqueId( tao_helpers_Uri::decode($test['attributes']['id']) );
 				$testUrl = taoDelivery_helpers_Compilator::getCompiledTestUrl(tao_helpers_Uri::decode($test['attributes']['id']));
 				if(!empty($testUrl)){
-					$test['attributes']['val'] = $testUrl;//BASE_URL."/compiled/{$testId}/theTest.php?subject=^subjectUri&wsdl=^wsdlContract";	
+					$test['attributes']['val'] = $testUrl;	
 				}
 				
 			}elseif($test['attributes']['class'] == 'node-class'){

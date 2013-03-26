@@ -873,7 +873,7 @@ class taoDelivery_models_classes_DeliveryService
 										common_Logger::w('Could not create delivery directory \''.$compiledFolder.'\'');
 									};
 								}
-								$compiledFolder .= "/${testFolderName}";
+								$compiledFolder .= "${testFolderName}";
 								if(!is_dir($compiledFolder)){
 									if (!mkdir($compiledFolder)) {
 										common_Logger::w('Could not create test directory \''.$compiledFolder.'\'');
@@ -1343,7 +1343,7 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-30-1--78--15e7ecbd:13cfbda82e1:-8000:0000000000003C8E begin
         $deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         $deliveryFolderName = substr($delivery->getUri(), strpos($delivery->getUri(), '#') + 1);
-		$returnValue = $deliveryExtension->getConstant('BASE_PATH')."/compiled/$deliveryFolderName";
+		$returnValue = $deliveryExtension->getConstant('COMPILE_FOLDER').$deliveryFolderName.DIRECTORY_SEPARATOR;
         // section 10-30-1--78--15e7ecbd:13cfbda82e1:-8000:0000000000003C8E end
 
         return (string) $returnValue;
@@ -1358,9 +1358,7 @@ class taoDelivery_models_classes_DeliveryService
      */
     public function getCompiledTestFolder( core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test)
     {
-    	return $this->getCompiledFolder($delivery).DIRECTORY_SEPARATOR
-    		.substr($test->getUri(), strpos($test->getUri(), '#') + 1)
-    		.DIRECTORY_SEPARATOR;
+    	return $this->getCompiledFolder($delivery).substr($test->getUri(), strpos($test->getUri(), '#') + 1).DIRECTORY_SEPARATOR;
     }
     
     /**
@@ -1376,7 +1374,7 @@ class taoDelivery_models_classes_DeliveryService
      */
     public function getCompiledItemFolder( core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test, core_kernel_classes_Resource $item, $languages)
     {
-    	$base = $this->getCompiledTestFolder($delivery, $test).DIRECTORY_SEPARATOR
+    	$base = $this->getCompiledTestFolder($delivery, $test)
     		.substr($item->getUri(), strpos($item->getUri(), '#') + 1)
     		.DIRECTORY_SEPARATOR;
     	foreach ($languages as $lang) {
