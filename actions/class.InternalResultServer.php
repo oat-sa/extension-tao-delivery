@@ -74,7 +74,7 @@ require_once('taoDelivery/models/classes/interface.ResultServerInterface.php');
 class taoDelivery_actions_InternalResultServer
     //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
     //extends taoDelivery_actions_ResultDelivery
-    extends tao_actions_Api
+    extends taoDelivery_actions_DeliveryApi
         implements taoDelivery_models_classes_ResultServerInterface
 {
     // --- ASSOCIATIONS ---
@@ -145,7 +145,7 @@ class taoDelivery_actions_InternalResultServer
         //disabling the call to the legacy ResultDelivery Service, TODO PPL update the configured result servers
 		//parent::save();
 		//
-	echo json_encode(array('saved' => $saved));
+		echo json_encode(array('saved' => $saved));
         // section 127-0-1-1-6a6ca908:135cdb14af0:-8000:000000000000383B end
     }
 

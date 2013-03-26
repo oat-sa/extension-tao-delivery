@@ -32,7 +32,7 @@
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class taoDelivery_actions_ItemDelivery extends tao_actions_Api {
+class taoDelivery_actions_ItemDelivery extends taoDelivery_actions_DeliveryApi {
 	
 	/**
 	 * @see ItemDelivery::runner
