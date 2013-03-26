@@ -799,40 +799,10 @@ class taoDelivery_models_classes_DeliveryService
 		$activities = $authoringService->getActivitiesByProcess($process);
 
 		foreach($activities as $activity){
-
-			//get the FIRST interactive service
-			$iService = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-			if(!is_null($iService)){
-
-				//get the service definition
-				$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-				if(!is_null($serviceDefinition)){
-
-					//get the url
-					$serviceUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-					if(!is_null($serviceUrl)){
-
-						//regenerate the test uri
-						$testUri = taoDelivery_helpers_Compilator::getTestUri($serviceUrl);
-						if(!empty($testUri)){
-							//set the test in the table:
-							$tests[$testUri] = new core_kernel_classes_Resource($testUri);
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-		//the functuon setDeliveryTests require an array with numerical key
-		$numericalKeyTestArray = array();
-		foreach($tests as $test){
-			$numericalKeyTestArray[] = $test;
+			$tests[] = $authoringService->getTestByActivity($activity);
 		}
 
-		$returnValue = $this->setDeliveryTests($delivery, $numericalKeyTestArray);
+		$returnValue = $this->setDeliveryTests($delivery, $tests);
         // section 10-13-1-39--791be41d:12767a251df:-8000:00000000000021E5 end
 
         return (bool) $returnValue;
