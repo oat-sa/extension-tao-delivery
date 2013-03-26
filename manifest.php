@@ -45,7 +45,7 @@ return array(
 				dirname(__FILE__). '/models/ontology/aclrole.rdf'
 		),
 		'checks' => array(
-			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/compiled', 'rights' => 'rw')),
+			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/data/compiled', 'rights' => 'rw')),
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'r'))
 		)
 	),
