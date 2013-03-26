@@ -453,26 +453,6 @@ class taoDelivery_helpers_Compilator
 		return $returnValue;
 	}
 
-	/**
-	* retrieve the test uri from the test compiled folder 
-	*/
-	public static function getTestUri($url){
-	
-		$returnValue = '';
-		$urlPart = explode('/', strip_tags($url));
-		$lastPart = array_pop($urlPart);
-		// $paramStartIndex = strpos($lastPart,'?');throw new Exception($paramStartIndex);
-		$lastPart = substr($lastPart,0,strpos($lastPart,'?'));
-		
-		if($lastPart == 'theTest.php'){
-			$uri = array_pop($urlPart);
-			$session = core_kernel_classes_Session::singleton();
-			$returnValue =  $session->getNameSpace().'#'.$uri;
-		}
-		
-		return $returnValue;
-	}
-	
 	/** 
 	* Get the default absolute path to the compiled folder of a test 
 	*/
