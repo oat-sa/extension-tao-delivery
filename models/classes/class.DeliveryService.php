@@ -1379,6 +1379,45 @@ class taoDelivery_models_classes_DeliveryService
         return (string) $returnValue;
     }
 
+    /**
+     * Returns the folder in which the compiled test is stored
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @param core_kernel_classes_Resource $test
+     * @return string
+     */
+    public function getCompiledTestFolder( core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test)
+    {
+    	return $this->getCompiledFolder($delivery).DIRECTORY_SEPARATOR
+    		.substr($test->getUri(), strpos($test->getUri(), '#') + 1)
+    		.DIRECTORY_SEPARATOR;
+    }
+    
+    /**
+     *
+     * Returns the folder in which the compiled item is stored
+     * returns the first language of the array provided that can be found
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @param core_kernel_classes_Resource $test
+     * @param core_kernel_classes_Resource $item
+     * @param core_kernel_classes_Resource $languages
+     * @return string
+     */
+    public function getCompiledItemFolder( core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test, core_kernel_classes_Resource $item, $languages)
+    {
+    	$base = $this->getCompiledTestFolder($delivery, $test).DIRECTORY_SEPARATOR
+    		.substr($item->getUri(), strpos($item->getUri(), '#') + 1)
+    		.DIRECTORY_SEPARATOR;
+    	foreach ($languages as $lang) {
+    		if (is_dir($base.$lang)) {
+    			return $base.$lang.DIRECTORY_SEPARATOR;
+    		}
+    	}
+    	// language not found:
+    	throw new common_Exception('no matching language itemfolder found at '.$base);
+	}
+    
 } /* end of class taoDelivery_models_classes_DeliveryService */
 
 ?>
