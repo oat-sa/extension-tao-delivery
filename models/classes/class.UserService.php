@@ -41,7 +41,7 @@ class taoDelivery_models_classes_UserService
      * @author Somsack Sipasseuth, <sam@taotesting.com>
      * @return array An array of core_kernel_classes_Resource
      */
-    public function getAllowedRolesForLogin(){
+    public function getAllowedRoles(){
 		return array(INSTANCE_ROLE_DELIVERY => new core_kernel_classes_Resource(INSTANCE_ROLE_DELIVERY));
     }
     
