@@ -690,7 +690,7 @@ class taoDelivery_models_classes_DeliveryService
 
 			$interactiveService = $authoringService->setTestByActivity($activity, $test);
 			if(is_null($interactiveService)){
-				throw new core_kernel_classes_Resource("the interactive test of test {$test->getlabel()}({$test->uriResource})");
+				throw new common_Exception("the interactive test of test {$test->getlabel()}({$test->uriResource})");
 			}
 
 			if($totalNumber == 1){
@@ -788,21 +788,8 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = (bool) false;
 
         // section 10-13-1-39--791be41d:12767a251df:-8000:00000000000021E5 begin
-		//get list of all tests in the delivery, without order:
-		$tests = array();
-		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
-
-		//get the associated process:
-		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-
-		//get list of all activities:
-		$activities = $authoringService->getActivitiesByProcess($process);
-
-		foreach($activities as $activity){
-			$tests[] = $authoringService->getTestByActivity($activity);
-		}
-
-		$returnValue = $this->setDeliveryTests($delivery, $tests);
+        $tests = array_values($this->getDeliveryTests($delivery));
+        $returnValue = $this->setDeliveryTests($delivery,$tests);
         // section 10-13-1-39--791be41d:12767a251df:-8000:00000000000021E5 end
 
         return (bool) $returnValue;

@@ -116,7 +116,7 @@ class CompilationTestCase extends UnitTestCase {
 				$res    = curl_exec( $ch );
 				$res    = explode( ' ', substr( $res, 0, strpos( $res, "\n" ) ) );
 				if (curl_error($ch)) {
-					$this->fail('curl request failed');
+					$this->fail('curl request failed '. $url);
 				} else {
 					$this->assertNotEqual($res[1], 404, $url.' not found');
 				}
