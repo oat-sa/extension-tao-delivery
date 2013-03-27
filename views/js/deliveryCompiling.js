@@ -18,6 +18,7 @@
  * 
  */
 
+var img_url = root_url + "/taoDelivery/views/img/";
 var deliveryUri = '';
 var classUri = '';
 var testIndex = 0;
