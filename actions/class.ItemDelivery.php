@@ -95,6 +95,8 @@ class taoDelivery_actions_ItemDelivery extends taoDelivery_actions_DeliveryApi {
 				'wfApi'
 			);
 			
+			$apis = array();
+			
 			// We inject the data directly in the item file
 			try{
 				$doc = new DOMDocument();
@@ -107,39 +109,7 @@ class taoDelivery_actions_ItemDelivery extends taoDelivery_actions_DeliveryApi {
 				$headNodes = $doc->getElementsByTagName('head');
 				
 				foreach($headNodes as $headNode){
-					$inserted = false;
-					$scriptNodes = $headNode->getElementsByTagName('script');
-					$position = 0;
-					if($scriptNodes->length > 0){
-						foreach($scriptNodes as $index => $scriptNode){
-							if($scriptNode->hasAttribute('src')){
-								foreach($apis as $api){
-									if(preg_match("/$api.min\.js$/", $scriptNode->getAttribute('src'))){
-										if($index > $position){
-											$position = $index;
-										}
-										break;
-									}
-								}
-							}
-						}
-						if($scriptNodes->item($position + 1)){
-							$headNode->insertBefore($initScriptElt, $scriptNodes->item($position + 1));
-							$inserted = true;
-						}
-					}
-					if(!$inserted){
-						$apiUrl = tao_helpers_Uri::getUrlForPath($compiledFolder).'/js/';
-						foreach($apis as $api){
-							$apiScriptElt = $doc->createElement('script');
-							$apiScriptElt->setAttribute('type', 'text/javascript');
-							$apiScriptElt->setAttribute('src', $apiUrl.$api.'.min.js');
-							$headNode->appendChild($apiScriptElt);
-						}
-						
-						$headNode->appendChild($initScriptElt);
-					}
-					break;
+					$headNode->appendChild($initScriptElt);
 				}
 				
 				//render the item
