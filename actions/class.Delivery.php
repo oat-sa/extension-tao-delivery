@@ -273,7 +273,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		$this->setData('formTitle', __('Delivery properties'));
 		$this->setData('myForm', $myForm->render());
 		$campaignExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoCampaign'); 
-		if ($campaignExt->isEnabled()) {
+		if (!is_null($campaignExt) && $campaignExt->isEnabled()) {
 			$this->setData('campaign', taoCampaign_helpers_Campaign::renderCampaignTree($delivery));
 		}
 		$this->setView('form_delivery.tpl');
