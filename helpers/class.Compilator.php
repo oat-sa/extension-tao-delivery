@@ -19,40 +19,19 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * The precompilator helper provides methods for the delivery compilation action
- * such as file copy, error management or file parser
- *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @package taoDelivery
- * @subpackage helpers
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- */
- 
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
 
 /**
  * The precompilator helper provides methods for the delivery compilation action
  * such as file copy, error management or file parser
  *
  * @access public
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
  * @package taoDelivery
  * @subpackage helpers
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_helpers_Compilator
 {
-    // --- ASSOCIATIONS ---
-
-    // --- ATTRIBUTES ---
 	/**
      * The attribute "completed" contains the array of completed actions performed during the delivery compilation
 	 * (e.g. file copy, file or folder creation) 
@@ -111,18 +90,17 @@ class taoDelivery_helpers_Compilator
      */
 	protected $delivery = null;
 	
-    // --- OPERATIONS ---
 	
 	/**
      * The method __construct intiates the Precompilator class by setting the initial values to the attributes 
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	 * @param  string delivery
 	 * @param  string test
 	 * @param  string item
 	 * @param  string compiledPath
-     * @return mixed
+	 * @throws taoDelivery_helpers_CompilationException
      */	
 	public function __construct(core_kernel_classes_Resource $delivery, core_kernel_classes_Resource $test, core_kernel_classes_Resource $item, $compiledPath=''){
 		
@@ -150,7 +128,7 @@ class taoDelivery_helpers_Compilator
 			$this->pluginPath = $deliveryExtension->getConstant('BASE_PATH')."/lib/";
 		}
 		if(!is_dir($this->pluginPath)){
-			throw new Exception("The plugin directory '{$this->pluginPath}' does not exist");
+			throw new taoDelivery_helpers_CompilationException("The plugin directory '{$this->pluginPath}' does not exist", $this->item);
 		}
 		
 		if(!empty($compiledPath)){
@@ -159,12 +137,12 @@ class taoDelivery_helpers_Compilator
 			$this->compiledPath = $deliveryExtension->getConstant('BASE_PATH')."/compiled/";
 		}
 		if(!is_writable($this->compiledPath)){
-			throw new Exception("The compiled directory '{$this->compiledPath}' is not writable");
+			throw new taoDelivery_helpers_CompilationException("The compiled directory '{$this->compiledPath}' is not writable", $this->item);
 		}
 			
 		if(!is_dir($this->compiledPath)){
 			$this->failed["createdFiles"]["compiled_test_folder"] = $this->compiledPath;
-			throw new Exception("The main compiled test directory '{$this->compiledPath}' does not exist");
+			throw new taoDelivery_helpers_CompilationException("The main compiled test directory '{$this->compiledPath}' does not exist", $this->item);
 		}
 	}
 	
@@ -172,7 +150,7 @@ class taoDelivery_helpers_Compilator
      * Returns the compilation path of the compilator
      *
      * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
      * @return string
      */	
 	public function getCompiledPath(){
@@ -186,11 +164,12 @@ class taoDelivery_helpers_Compilator
      * It returns an empty string otherwise.
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	 * @param  string url
 	 * @param  string directory
 	 * @param  string affectedObject
      * @return string
+     * @throws taoDelivery_helpers_CompilationException
      */		
 	public function copyFile($url, $directory="", $affectedObject="", $rename=false){
 	
@@ -271,7 +250,7 @@ class taoDelivery_helpers_Compilator
 			}
 			
 			if($fileContent !== null && file_put_contents($directory.$fileName, $fileContent) === false){
-				throw new Exception("the file $directory.$fileName cannot be written");
+				throw new taoDelivery_helpers_CompilationException("The file '$directory.$fileName' cannot be written.", $this->item);
 			}
 			
 			//record in the property "completed" that the file has been successfullly downloaded 
@@ -292,8 +271,9 @@ class taoDelivery_helpers_Compilator
 	/**
 	 * @todo : get the plugins to be copied in thte compiled delivery according to the item type
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
      * @return array
+     * @throws taoDelivery_helpers_CompilationException
 	 */
 	public function getPlugins(){
 		
@@ -302,37 +282,78 @@ class taoDelivery_helpers_Compilator
 		//@todo : get the plugins to be copied in thte compiled delivery according to the item type
 		//@todo : distinguish language dependent and non-dependent resources?
 		$itemModel = taoItems_models_classes_ItemsService::singleton()->getItemModel($this->item);
-		if($itemModel->getUri() == TAO_ITEM_MODEL_QTI){
-			$taoQTIext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQTI');
-			$libs = array(
-				'QtiImg' => array(
-					'path' => $taoQTIext->getConstant('BASE_PATH') . 'views/js/QTI/img/',
-					'relativePath' => '../img/',
-					'files' => '*'
-				),
-				'QtiJqueryUIimg' => array(
-					'path' => TAOVIEW_PATH . 'css/custom-theme/images/',
-					'relativePath' => 'images/',
-					'files' => '*'
-				)
-			);
+		$extManager = common_ext_ExtensionsManager::singleton();
+		$libs = array();
+		
+		if ($itemModel->getUri() == TAO_ITEM_MODEL_QTI){
+			$taoQTIext = $extManager->getExtensionById('taoQTI');
+			
+			if ($taoQTIext !== null){
+				$libs['QtiImg'] 		= 	array('path' => $taoQTIext->getConstant('BASE_PATH') . 'views/js/QTI/img/',
+										 		   'relativePath' => '../img/',
+										 		   'files' => '*');
+				$libs['QtiJqueryUIimg'] = 	array('path' => TAOVIEW_PATH . 'css/custom-theme/images/',
+												   'relativePath' => 'images/',
+												   'files' => '*');
+			}
+		}
+		else if ($itemModel->getUri() == TAO_ITEM_MODEL_XHTML){
+			// I am so sorry for this guys. (JBO)
+			$apis = taoItems_models_classes_XHTML_Service::buildApisArray();
+			
+			try{
+				$dom = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
+				if (!$dom->loadHTML(file_get_contents($this->compiledPath . DIRECTORY_SEPARATOR . 'index.html'))){
+					
+					$itemUri = $this->item->getUri();
+					$msg = "An error occured while loading the XHTML content of item '${itemUri}'.";
+					throw new taoDelivery_helpers_CompilationException($msg, $this->item);
+				}
+				else{
 
-			foreach ($libs as $libConf) {
-				if (isset($libConf['path']) && isset($libConf['relativePath']) && isset($libConf['files'])) {
-					$path = $libConf['path'];
-					$relativePath = $libConf['relativePath'];
-					$files = $libConf['files'];
-					if ($files === '*') {
-						foreach (scandir($path) as $fileName) {
-							if (is_file($path . $fileName)) {
-								$returnValue[$path . $fileName] = $relativePath . $fileName;
+					foreach ($apis as $pattern => $infos){
+						$elements = taoItems_helpers_Xhtml::getScriptElements($dom, '/' . $pattern . '/i');
+						
+						foreach ($elements as $e){
+							
+							if ($e->getAttribute('src') == $infos['src']){
+								$libs['Xhtml_' . $pattern] = array('path' => pathinfo($infos['path'], PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR,
+																	'relativePath' => 'tao-apis/',
+																	'files' => array($pattern . 'min.js'));
+								
+								common_Logger::d("'${pattern}' JavaScript API will be copied in the item.");
 							}
+							break;
 						}
-					} elseif (is_array($files)) {
-						foreach ($files as $fileName) {
-							if (is_file($path . $fileName)) {
-								$returnValue[$path . $fileName] = $relativePath . $fileName;
-							}
+					}
+				}
+			}
+			catch (DOMException $e){
+				$itemUri = $this->item->getUri();
+				$msg = "An error occured while parsing the XHTML content of item '${itemUri}'.";
+				throw new taoDelivery_helpers_CompilationException($msg, $this->item);
+			}
+			catch (taoDelivery_helpers_CompilationException $e){
+				throw $e;
+			}
+		}
+		
+		// Copy plugins.
+		foreach ($libs as $libConf) {
+			if (isset($libConf['path']) && isset($libConf['relativePath']) && isset($libConf['files'])) {
+				$path = $libConf['path'];
+				$relativePath = $libConf['relativePath'];
+				$files = $libConf['files'];
+				if ($files === '*') {
+					foreach (scandir($path) as $fileName) {
+						if (is_file($path . $fileName)) {
+							$returnValue[$path . $fileName] = $relativePath . $fileName;
+						}
+					}
+				} elseif (is_array($files)) {
+					foreach ($files as $fileName) {
+						if (is_file($path . $fileName)) {
+							$returnValue[$path . $fileName] = $relativePath . $fileName;
 						}
 					}
 				}
@@ -347,8 +368,7 @@ class taoDelivery_helpers_Compilator
 	 * Then it calls the copyFile method to accomplish its task
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
      */
 	public function copyPlugins(){
 		foreach ($this->getPlugins() as $absoluePath => $relativePath){
@@ -365,17 +385,18 @@ class taoDelivery_helpers_Compilator
 	 * It also replaces the old link to the media file with the new ones in the ItemContent XML file and returns it as a string.
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	 * @param  string xml
 	 * @param  string directory
 	 * @param  string itemName
 	 * @param  array authorizedMedia
      * @return string
+     * @throws taoDelivery_helpers_CompilationException
      */	
 	public function itemParser($xml, $directory, $itemName, $authorizedMedia=array()){
 		
 		if(!file_exists($directory)){
-			throw new Exception("the specified directory does not exist");
+			throw new taoDelivery_helpers_CompilationException("The specified directory '${directory}' does not exist.", $this->item);
 		}
 		
 		$defaultMedia = array("jpg","jpeg","png","gif","mp3",'swf','wma','wav', 'css', 'js');
@@ -421,31 +442,31 @@ class taoDelivery_helpers_Compilator
 	 * It also manages errors and exceptions of the operation by recording the result in the class attributes "completed" or "failed"
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	 * @param  string content
 	 * @param  string directory
 	 * @param  string fileName
-     * @return void
+	 * @throws taoDelivery_helpers_CompilationException
      */	
 	public function stringToFile($content, $directory, $fileName){
-		if(!is_dir($directory)){
-			$created=mkdir($directory);
-			if($created===false){
+		if (!is_dir($directory)){
+			$created = mkdir($directory);
+			if ($created === false){
 				$this->failed["createdFiles"][$directory]=$fileName;
-				throw new Exception("The folder $directory does not exist and can not be created");
+				throw new taoDelivery_helpers_CompilationException("The folder '${directory}' does not exist and can not be created.", $this->item);
 			}
 		}
-		$handle = fopen($directory.'/'.$fileName,'wb');
-		$content = fwrite($handle,$content);
+		$handle = fopen($directory . '/' . $fileName,'wb');
+		$content = fwrite($handle, $content);
 		fclose($handle);
-		$this->completed["createdFiles"][]=$fileName;
+		$this->completed["createdFiles"][] = $fileName;
 	}
 	
 	/**
 	 * The method result returns the protected attributes "completed" and "failed" 
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
      * @return array
      */	
 	public function result(){
@@ -471,20 +492,22 @@ class taoDelivery_helpers_Compilator
 	 * Prepares the compiled folder
 	 *
 	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     * @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
      * @return boolean
+     * @throws common_exception_Error If the compiled path is not secure.
      */	
 	public function prepareCompileFolder(){
-		$returnValue=false;
+		$returnValue = false;
 		
 		$path = $this->compiledPath;
 		if (!tao_helpers_File::securityCheck($path, true)) {
-			throw new common_exception_Error("forbidden path format");
+			throw new common_exception_Error("Forbidden path format for '${path}'.");
 		}
 		
 		if (file_exists($this->compiledPath)) {
 			helpers_File::remove($this->compiledPath);
 		}
+		
 		mkdir($this->compiledPath);
 		
 		return $returnValue;
@@ -496,8 +519,7 @@ class taoDelivery_helpers_Compilator
 	* @access protected
 	* @param string $name
 	* @param string $language
-	* @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	* @return void
+	* @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	*/
 	public function setUntranslatedItem($name, $language){
 		$this->failed["untranslatedItems"][$language][] = $name;
@@ -507,13 +529,12 @@ class taoDelivery_helpers_Compilator
 	* record an error message in the "errorMsg" array
 	* @access protected
 	* @param string $message
-	* @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	* @return void
+	* @author CRP Henri Tudor - TAO Team - {@link http://www.taotesting.com}
 	*/
 	public function setErrorMsg($message){
 		$this->failed["errorMsg"][] = $message; 
 	}
 	
-} /* end of class taoDelivery_helpers_Compilator */
+}
 
 ?>

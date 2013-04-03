@@ -77,10 +77,6 @@ class taoDelivery_actions_InternalResultServer
     extends taoDelivery_actions_DeliveryApi
         implements taoDelivery_models_classes_ResultServerInterface
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute DELIVERYRESULT_SESSION_SERIAL
@@ -90,7 +86,11 @@ class taoDelivery_actions_InternalResultServer
      */
     const DELIVERYRESULT_SESSION_SERIAL = 'resultserver_dr';
 
-    // --- OPERATIONS ---
+    /**
+     * The Result Service associated to this module.
+     * @var taoResults_models_classes_ResultsService
+     */
+    private $resultService = null;
 
     /**
      * Save the data that is pushed to the server
@@ -112,11 +112,19 @@ class taoDelivery_actions_InternalResultServer
 			//here we save the TAO variables
 			$taoVars = array();
 			$variableService = wfEngine_models_classes_VariableService::singleton();
+			
 			foreach($this->getRequestParameter('taoVars') as $key => $encoded){
+				
 				list ($namespace, $suffix) = explode('#', $key, 2);
 				switch ($suffix) {
 					case 'ENDORSMENT':
 						$variableService->save(array('PREV_ENDORSMENT' => $encoded));
+						break;
+					case 'SCORE':
+						$this->resultService->storeGrade($this->getCurrentDeliveryResult(),
+														 $this->getCurrentActivityExecution(),
+														 $suffix,
+														 $encoded);
 						break;
 					case ANSWERED_VALUES_ID:
 						foreach (json_decode($encoded, true) as $varIdentifier => $varValue) {
