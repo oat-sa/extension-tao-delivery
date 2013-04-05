@@ -1,26 +1,4 @@
 <?php
-/*  
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
- */
-?>
-<?php
 $GLOBALS['__l10n']["A formated text"]="Formatierter Text";
 $GLOBALS['__l10n']["A long text"]="Textfeld";
 $GLOBALS['__l10n']["A multiple choice list"]="Multiple-Choice liste";
@@ -32,10 +10,6 @@ $GLOBALS['__l10n']["Add property"]="Eigenschaft hinzufügen";
 $GLOBALS['__l10n']["Add the source file"]="Quelldatei hinzufügen";
 $GLOBALS['__l10n']["An error occured during user deletion"]="Ein Fehler ist während dem Löschvorgang aufgetreten";
 $GLOBALS['__l10n']["Back"]="Zurück";
-$GLOBALS['__l10n']["Campaign"]="Kampagne";
-$GLOBALS['__l10n']["Campaign Class saved"]="Klasse";
-$GLOBALS['__l10n']["Campaign saved"]="Kampagne gespeichert";
-$GLOBALS['__l10n']["Campaigns library"]="Kampagnen-Bibliotheky";
 $GLOBALS['__l10n']["Class"]="Klasse";
 $GLOBALS['__l10n']["Connect"]="Verbinden";
 $GLOBALS['__l10n']["Create"]="Erstellen";
@@ -53,8 +27,6 @@ $GLOBALS['__l10n']["Delivery Class saved"]="Klasse";
 $GLOBALS['__l10n']["Delivery saved"]="Klasse";
 $GLOBALS['__l10n']["duplicate"]="duplizieren";
 $GLOBALS['__l10n']["edit"]="bearbeiten";
-$GLOBALS['__l10n']["Edit Campaign"]="Kampagne bearbeiten";
-$GLOBALS['__l10n']["Edit campaign class"]="Klasse";
 $GLOBALS['__l10n']["Edit delivery class"]="Klasse";
 $GLOBALS['__l10n']["Edit item comment"]="Item-Kommentar bearbeiten";
 $GLOBALS['__l10n']["Edit ResultServer"]="Ergebnis-Server bearbeiten";
@@ -86,7 +58,6 @@ $GLOBALS['__l10n']["Manage test takers"]="Testpersonen verwalten";
 $GLOBALS['__l10n']["Manage tests"]="Tests verwalten";
 $GLOBALS['__l10n']["Meta Data"]="Meta-Daten";
 $GLOBALS['__l10n']["My settings"]="Meine Einstellungen";
-$GLOBALS['__l10n']["new campaign"]="neue Kampagne";
 $GLOBALS['__l10n']["new class"]="neue Klasse";
 $GLOBALS['__l10n']["new delivery"]="neues Delivery";
 $GLOBALS['__l10n']["New password"]="Neues Passwort";
@@ -117,8 +88,8 @@ $GLOBALS['__l10n']["Revert"]="Rückgängig";
 $GLOBALS['__l10n']["Right click the tree to manage your lists"]="Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum";
 $GLOBALS['__l10n']["Role"]="Rolle";
 $GLOBALS['__l10n']["Save"]="Speichern";
-$GLOBALS['__l10n']["Search"]="Suchen";
 $GLOBALS['__l10n']["search"]="suchen";
+$GLOBALS['__l10n']["Search"]="Suchen";
 $GLOBALS['__l10n']["Search results"]="Ergebnisse suchen";
 $GLOBALS['__l10n']["select"]="Auswählen";
 $GLOBALS['__l10n']["Select a language"]="Sprache auswählen";

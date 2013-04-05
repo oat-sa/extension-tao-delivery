@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.3-beta\n"
-"PO-Revision-Date: 2012-09-21T15:07:29\n"
+"Project-Id-Version: TAO v2.4-beta3\n"
+"PO-Revision-Date: 2013-04-05T18:36:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "(Ctrl-C)"
-msgstr "Ctrl-C"
 
 msgid "(date not available for hardified resource)"
 msgstr ""
@@ -38,12 +35,6 @@ msgstr "Aktiva leveranser"
 msgid "Activity Editor"
 msgstr "Aktivitetsredigerare"
 
-msgid "Add (Ctrl-A)"
-msgstr "Lägg till (Ctrl-A)"
-
-msgid "Add to delivery campaign"
-msgstr "Lägg till till leveranskampanj"
-
 msgid "Add to group"
 msgstr "Lägg till till grupp"
 
@@ -66,23 +57,8 @@ msgstr ""
 msgid "Back"
 msgstr "Bakåt"
 
-msgid "Campaign"
-msgstr "Kampanj"
-
-msgid "Campaign Class saved"
-msgstr "Kampanjklass sparad"
-
-msgid "Campaign saved"
-msgstr "Kampanj sparad"
-
-msgid "Campaigns library"
-msgstr "Kampanjarkiv"
-
 msgid "close"
 msgstr "stäng"
-
-msgid "Close (Esc)"
-msgstr "Stäng (Esc)"
 
 msgid "Compilation"
 msgstr "Sammanställande"
@@ -148,12 +124,6 @@ msgstr ""
 msgid "duplicate"
 msgstr "dublett"
 
-msgid "Edit Campaign"
-msgstr "Redigera kampanj"
-
-msgid "Edit campaign class"
-msgstr "Redigera kampanjklass"
-
 msgid "Edit delivery class"
 msgstr "Redigera leveransklass"
 
@@ -165,9 +135,6 @@ msgstr "Redigera Resultatserverklass"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Att redigera en leverans involverar att fastställa testet genom att arrangera leveransen och dess innehålls ordningsföljd: det maximala antalet verkställande per ämne, leveransperiod, resultatserver."
-
-msgid "Enter remark text here"
-msgstr "Skriv in märkt text här"
 
 msgid "Error in delivery process"
 msgstr "Fel i leveransprocessen"
@@ -181,17 +148,11 @@ msgstr "Utförandehistoria"
 msgid "export"
 msgstr "exportera"
 
-msgid "Export - Debug only (Ctrl-E)"
-msgstr "Exportera - felsök endast (Ctrl-E)"
-
 msgid "failed!"
 msgstr "misslyckades!"
 
 msgid "Finished Test"
 msgstr "Avslutat test"
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr "Exempelvis är detta ett sätt att organisera leveranser med gemensamma mål"
 
 msgid "Formal Parameter"
 msgstr "Formell parameter"
@@ -201,9 +162,6 @@ msgstr "Framåt"
 
 msgid "Generating the delivery process, please wait"
 msgstr "Framställer leveransprocessen, var vänlig vänta"
-
-msgid "Go to"
-msgstr "Gå till"
 
 msgid "History"
 msgstr "Historia"
@@ -229,9 +187,8 @@ msgstr "laddar..."
 msgid "Logout"
 msgstr "Logga ut"
 
-#, tao-public
-msgid "Manage campaigns"
-msgstr "Hantera kampanjer"
+msgid "LTI export"
+msgstr ""
 
 #, tao-public
 msgid "Manage deliveries"
@@ -243,9 +200,6 @@ msgstr "Hantera resultatservrar"
 
 msgid "move"
 msgstr "flytta"
-
-msgid "new campaign"
-msgstr "ny kampanj"
 
 msgid "new class"
 msgstr "ny klass"
@@ -284,7 +238,7 @@ msgid "Please select a valid result server in the delivery editing section then 
 msgstr "Var vänlig välj en giltig resultatserver i leveransredigeringssektionen, försök sedan igen.(Inget giltigt wsdl-kontrakt hittades för den definierade resultatservern)"
 
 #, tao-public
-msgid "Prepare, publish deliveries sessions and campaigns."
+msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
 msgid "Process Property"
@@ -292,9 +246,6 @@ msgstr "Bearbeta egenskaper"
 
 msgid "Process Variables"
 msgstr "Bearbeta variabler"
-
-msgid "Question (Ctrl-Q)"
-msgstr "Fråga (Ctrl-Q)"
 
 msgid "Recompile"
 msgstr "Återsammanställ"
@@ -353,9 +304,6 @@ msgstr "Starta/återuppta testet"
 msgid "Status"
 msgstr "Status"
 
-msgid "Suppress"
-msgstr "Upphäv"
-
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - En öppen, smidig och mångsidig datorbaserad utvärderingsplattform"
 
@@ -367,9 +315,6 @@ msgstr ""
 
 msgid "Tests sequence"
 msgstr "Testordningsföljd"
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr "Kampanjhanteringssektionen låter dig lägga till, redigera samt knyta leveranser till leveranskampanjer"
 
 msgid "The delivery is not compiled yet"
 msgstr "Leveransen är inte sammanställd än"
@@ -424,9 +369,6 @@ msgstr "Denna leveranshanteringssektion låter dig lägga till och ta bort lever
 
 msgid "Time"
 msgstr "Tid"
-
-msgid "Type (Ctrl-T)"
-msgstr "Skriv (Ctrl-T)"
 
 msgid "Unable to load the  delivery"
 msgstr ""

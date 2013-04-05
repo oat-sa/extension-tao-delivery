@@ -1,68 +1,52 @@
 <?php
-/*  
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
- */
-?>
-<?php
+$GLOBALS['__l10n'][" next"]="التالي";
+$GLOBALS['__l10n'][" of the instance "]="من المثال";
+$GLOBALS['__l10n'][" requires a subgrid adapter"]="يحتاج إلى محول subgrid";
+$GLOBALS['__l10n']["(empty)"]="(فارغ)";
 $GLOBALS['__l10n']["A delivery must to be compiled before being executed. The compilation can be done here."]="Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici.";
 $GLOBALS['__l10n']["A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."]="Un serveur de delivery est requise pour chaque livraison, il définit l'endroit où les résultats de cette prestation sera transféré.";
+$GLOBALS['__l10n']["A file"]="ملف";
 $GLOBALS['__l10n']["A formated text"]="نص منسق";
+$GLOBALS['__l10n']["A joint initiative of CRP Henri Tudor and the University of Luxembourg"]="مبادرة ثنائية من CRP هنري تودر و جامعة لوكسمبورج";
+$GLOBALS['__l10n']["A long text"]="نص طويل";
 $GLOBALS['__l10n']["A multiple choice list"]="قائمة الخيارات المتعددة";
 $GLOBALS['__l10n']["A password"]="كلمة المرور";
 $GLOBALS['__l10n']["A recompilation is also required after modification on the tests composing a delivery."]="Une recompilation est également nécessaire après modification sur les tests composant un delivery.";
 $GLOBALS['__l10n']["A short text"]="نص قصير";
+$GLOBALS['__l10n']["A similar resource has already been versioned"]="مصدر مشابه تم تعيين اصداره بالفعل";
 $GLOBALS['__l10n']["A single choice list"]="قائمة خيار واحد";
 $GLOBALS['__l10n']["A single choice long list"]="قائمة خيار واحد طويلة";
 $GLOBALS['__l10n']["Access denied. Please renew your authentication!"]="!تم رفض الوصول. يرجى تجديد المصادقة الخاصة بك";
-$GLOBALS['__l10n']["actions"]="الأعمال";
+$GLOBALS['__l10n']["Action"]="عمل";
 $GLOBALS['__l10n']["Actions"]="الأعمال";
+$GLOBALS['__l10n']["actions"]="الأعمال";
 $GLOBALS['__l10n']["Active Deliveries"]="Deliveries actifs";
 $GLOBALS['__l10n']["Activity Editor"]="محرر نشاط";
 $GLOBALS['__l10n']["Add"]="إضافة";
-$GLOBALS['__l10n']["Add (Ctrl-A)"]="اضافة(Ctrl-A)";
 $GLOBALS['__l10n']["Add / Edit lists"]="إضافة / تعديل القوائم";
-$GLOBALS['__l10n']["Add a user"]="اضافة مستخدم";
+$GLOBALS['__l10n']["Add a user"]="إضافة مستخدم";
 $GLOBALS['__l10n']["Add property"]="إضافة خاصية";
 $GLOBALS['__l10n']["Add the source file"]="إضافة الملف المصدر";
-$GLOBALS['__l10n']["Add to delivery campaign"]="Ajouter à la campagne du delivery";
 $GLOBALS['__l10n']["Add to group"]="أضف الى المجموعة";
 $GLOBALS['__l10n']["Advanced Authoring Tool"]="محرر متقدم";
 $GLOBALS['__l10n']["advanced mode"]="الطريقة المتقدمة";
 $GLOBALS['__l10n']["Advanced Mode"]="طريقة متقدمة";
+$GLOBALS['__l10n']["all"]="كل";
+$GLOBALS['__l10n']["All"]="كل";
 $GLOBALS['__l10n']["All (the complete TAO Module)"]="الكل";
+$GLOBALS['__l10n']["All data are removed regularly!"]="كل البيانات تم حذفها عاديا ";
+$GLOBALS['__l10n']["Allowed files types: "]="أنواع الملفات المسموحة";
 $GLOBALS['__l10n']["An error occured during history deletion"]="حدث خطا اثناء حذف الارشيف";
 $GLOBALS['__l10n']["An error occured during user deletion"]="حدث خطأ أثناء حذف المستخدم";
 $GLOBALS['__l10n']["An error occured while loading the item"]="Une erreur s'est produite lors du chargement de l'item";
 $GLOBALS['__l10n']["Authoring"]="التأليف";
 $GLOBALS['__l10n']["Back"]="رجوع";
 $GLOBALS['__l10n']["Browse"]="تصفح";
-$GLOBALS['__l10n']["Campaign"]="Campagne";
-$GLOBALS['__l10n']["Campaign Class saved"]="Campagne sauvegardée";
-$GLOBALS['__l10n']["Campaign saved"]="Campagne sauvegardée";
-$GLOBALS['__l10n']["Campaigns library"]="Librairie de campagnes";
 $GLOBALS['__l10n']["Cancel"]="الغاء";
 $GLOBALS['__l10n']["Change the password"]="تغيير كلمة المرور";
 $GLOBALS['__l10n']["Class"]="الصنف";
 $GLOBALS['__l10n']["class selected"]="classe sélectionnée";
 $GLOBALS['__l10n']["close"]="اغلاق";
-$GLOBALS['__l10n']["Close (Esc)"]="إغلاق (Esc)";
 $GLOBALS['__l10n']["Column"]="عمود";
 $GLOBALS['__l10n']["Comment"]="تعليق";
 $GLOBALS['__l10n']["Compilation"]="ترجمة";
@@ -102,9 +86,7 @@ $GLOBALS['__l10n']["duplicate"]="تكرار";
 $GLOBALS['__l10n']["Dynamic date picker"]="روزنامة";
 $GLOBALS['__l10n']["edit"]="تحرير";
 $GLOBALS['__l10n']["Edit"]="تحرير";
-$GLOBALS['__l10n']["Edit a user"]="تحرير مستخدم";
-$GLOBALS['__l10n']["Edit Campaign"]="تحرير";
-$GLOBALS['__l10n']["Edit campaign class"]="Editer une classe de campagne";
+$GLOBALS['__l10n']["Edit a user"]="تحرير المستخم";
 $GLOBALS['__l10n']["Edit Comment"]="تحرير تعليق";
 $GLOBALS['__l10n']["Edit delivery class"]="Editer une classe de Delivery";
 $GLOBALS['__l10n']["Edit item comment"]="تحرير تعليق";
@@ -115,7 +97,6 @@ $GLOBALS['__l10n']["Editing a delivery involves setting the tests composing the 
 $GLOBALS['__l10n']["Element"]="العنصر";
 $GLOBALS['__l10n']["element"]="عنصر";
 $GLOBALS['__l10n']["element deleted"]="عنصر محذوف";
-$GLOBALS['__l10n']["Enter remark text here"]="أدخل النص لملاحظة هنا";
 $GLOBALS['__l10n']["Error"]="خطأ";
 $GLOBALS['__l10n']["Error during file import"]="خطأ أثناء استيراد الملف";
 $GLOBALS['__l10n']["Error in delivery process"]="Erreur dans le processus de passation";
@@ -124,7 +105,6 @@ $GLOBALS['__l10n']["Exclusive (OR)"]="Exclusif (OU)";
 $GLOBALS['__l10n']["Execution History"]="تاريخ التنفيذ";
 $GLOBALS['__l10n']["Export"]="تصدير";
 $GLOBALS['__l10n']["export"]="تصدير";
-$GLOBALS['__l10n']["Export - Debug only (Ctrl-E)"]="(Ctrl-E)تصدير - تصحيح فقط";
 $GLOBALS['__l10n']["Export Options"]="خيارات التصدير";
 $GLOBALS['__l10n']["Exported files library"]="مكتبة الملفات المصدرة";
 $GLOBALS['__l10n']["exported successfully"]="تصدير بنجاح";
@@ -136,11 +116,9 @@ $GLOBALS['__l10n']["Filter"]="تصفية";
 $GLOBALS['__l10n']["Filtering mode"]="طريقة التصفية";
 $GLOBALS['__l10n']["Filters"]="Filtres";
 $GLOBALS['__l10n']["Finished Test"]="الاختبار المنتهي";
-$GLOBALS['__l10n']["For instance, it is a way to organize deliveries with a common objectives."]="Par exemple, c'est un moyen d'organiser les deliveries avec un des objectifs communs.";
 $GLOBALS['__l10n']["Formal Parameter"]="اعداد شكلي";
 $GLOBALS['__l10n']["Forward"]="تحويل";
 $GLOBALS['__l10n']["Generating the delivery process, please wait"]="Génération du processus de passation en cours, veuillez patienter";
-$GLOBALS['__l10n']["Go to"]="الذهاب الى";
 $GLOBALS['__l10n']["Groups"]="مجموعات";
 $GLOBALS['__l10n']["History"]="التاريخ";
 $GLOBALS['__l10n']["History deleted successfully"]="تم حذف الارشيف بنجاح";
@@ -148,8 +126,8 @@ $GLOBALS['__l10n']["import"]="استيراد";
 $GLOBALS['__l10n']["Import"]="استيراد";
 $GLOBALS['__l10n']["Inclusive (AND)"]="Inclusif (ET)";
 $GLOBALS['__l10n']["Initialize new test"]="ابدا اختبار جديد";
-$GLOBALS['__l10n']["Interface Language"]="لغة الواجهة";
 $GLOBALS['__l10n']["Interface language"]="لغة الواجهة";
+$GLOBALS['__l10n']["Interface Language"]="لغة الواجهة";
 $GLOBALS['__l10n']["Invalid field length"]="طول الحقل غير صحيح";
 $GLOBALS['__l10n']["Invalid field range"]="Le rang du champ est invalide";
 $GLOBALS['__l10n']["Invalid file size"]="حجم الملف غير صحيح";
@@ -172,12 +150,13 @@ $GLOBALS['__l10n']["Local Data (the local namespace containing only the data ins
 $GLOBALS['__l10n']["Login"]="الدخول";
 $GLOBALS['__l10n']["Login not available"]="الدخول غير متوفر";
 $GLOBALS['__l10n']["Logout"]="خروج";
-$GLOBALS['__l10n']["Manage campaigns"]="إدارة العمليات";
 $GLOBALS['__l10n']["Manage data list"]="إدارة قائمة البيانات";
 $GLOBALS['__l10n']["Manage deliveries"]="Gérer les deliveries";
 $GLOBALS['__l10n']["Manage groups"]="إدارة المجموعات";
 $GLOBALS['__l10n']["Manage items"]="ادارة الاسئلة";
+$GLOBALS['__l10n']["Manage processes"]="إدارة العمليات";
 $GLOBALS['__l10n']["Manage result servers"]="ادارة خوادم النتائج";
+$GLOBALS['__l10n']["Manage roles"]="إدارة الأدوار";
 $GLOBALS['__l10n']["Manage test takers"]="إدارة المتقدمين للاختبار";
 $GLOBALS['__l10n']["Manage tests"]="ادارة الاختبارات";
 $GLOBALS['__l10n']["Manage users"]="إدارة المستخدمين";
@@ -191,7 +170,6 @@ $GLOBALS['__l10n']["My settings"]="الإعدادات";
 $GLOBALS['__l10n']["Name"]="الاسم";
 $GLOBALS['__l10n']["Namespaces"]="مساحة الاسم";
 $GLOBALS['__l10n']["new"]="جديد";
-$GLOBALS['__l10n']["new campaign"]="Nouvelle camapgne";
 $GLOBALS['__l10n']["new class"]="صنف جديد";
 $GLOBALS['__l10n']["new delivery"]="Nouveau Delivery";
 $GLOBALS['__l10n']["New element"]="عنصر جديد";
@@ -222,10 +200,11 @@ $GLOBALS['__l10n']["Please select a valid result server in the delivery editing 
 $GLOBALS['__l10n']["Please select the input data format to import"]="الرجاء حدد نسق بيانات الدخول المراد تصديرها";
 $GLOBALS['__l10n']["Please select the way to export the data"]="الرجاء حدد طريقة لتصدير البيانات\n\nmsgid";
 $GLOBALS['__l10n']["Please upload an RDF file."]=".RDF الرجاء تحميل ملف";
+$GLOBALS['__l10n']["Process authoring"]="Processus de création";
 $GLOBALS['__l10n']["Process Property"]="Propriété du processus";
 $GLOBALS['__l10n']["Process Variables"]="Variables de processus";
+$GLOBALS['__l10n']["Processes"]="Processus";
 $GLOBALS['__l10n']["Property"]="خاصية";
-$GLOBALS['__l10n']["Question (Ctrl-Q)"]="(Ctrl-Q) سؤال";
 $GLOBALS['__l10n']["Recompile"]="اعادة ترجمة";
 $GLOBALS['__l10n']["Recompile the delivery"]="Recompiler le delivery";
 $GLOBALS['__l10n']["Remove"]="إزالة";
@@ -242,8 +221,8 @@ $GLOBALS['__l10n']["Revert"]="الغاء";
 $GLOBALS['__l10n']["Right click the tree to manage your lists"]="استعمل زر النقر اليمين لادارة قوائمك";
 $GLOBALS['__l10n']["Role"]="دور";
 $GLOBALS['__l10n']["Save"]="حفظ";
-$GLOBALS['__l10n']["Search"]="بحث";
 $GLOBALS['__l10n']["search"]="بحث";
+$GLOBALS['__l10n']["Search"]="بحث";
 $GLOBALS['__l10n']["Search results"]="البحث عن النتائج";
 $GLOBALS['__l10n']["Select"]="حدد";
 $GLOBALS['__l10n']["select"]="اختر";
@@ -258,22 +237,20 @@ $GLOBALS['__l10n']["Selected file:"]=":الملف المحدد";
 $GLOBALS['__l10n']["Selection saved successfully"]="تم حفظ التحديد بنجاح";
 $GLOBALS['__l10n']["Sequence saved successfully"]="تم حفظ التسلسل بنجاح";
 $GLOBALS['__l10n']["Service Definition"]="تعريف الخدمة";
-$GLOBALS['__l10n']["simple mode"]="الطريقة البسيطة";
 $GLOBALS['__l10n']["Simple Mode"]="الطريقة البسيطة";
+$GLOBALS['__l10n']["simple mode"]="الطريقة البسيطة";
 $GLOBALS['__l10n']["stand by"]="STAND BY";
 $GLOBALS['__l10n']["Start upload"]="بدء التحميل";
 $GLOBALS['__l10n']["Start/Resume the test"]="Start / Resume le test";
 $GLOBALS['__l10n']["Status"]="الحالة";
 $GLOBALS['__l10n']["Supported export formats"]="صيغ الاستيراد المعتمدة";
 $GLOBALS['__l10n']["Supported formats to import"]="صيغ التصدير المعتمدة";
-$GLOBALS['__l10n']["Suppress"]="حذف";
 $GLOBALS['__l10n']["TAO - An Open and Versatile Computer-Based Assessment Platform"]="TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente";
 $GLOBALS['__l10n']["TAO Back Office"]="TAO: Outils d'administration";
 $GLOBALS['__l10n']["TAO Delivery Server"]="Serveur de delivery TAO";
 $GLOBALS['__l10n']["Test takers"]="المترشحون للااختبار";
 $GLOBALS['__l10n']["Tests"]="الاختبارات";
 $GLOBALS['__l10n']["Tests sequence"]="سلسلة الاختبارات";
-$GLOBALS['__l10n']["The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."]="La Section de la gestion de la campagne permet d'ajouter, modifier et attribuer les livraisons aux campagnes de livraison.";
 $GLOBALS['__l10n']["The delivery is not compiled yet"]="Le delivery n'est pas encore compilé";
 $GLOBALS['__l10n']["The Delivery module allows users to define tests delivery parameters."]="Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries";
 $GLOBALS['__l10n']["The delivery process has isolated connectors"]="Le processus de passation a des connecteurs isolés";
@@ -300,7 +277,6 @@ $GLOBALS['__l10n']["Translate to"]="ترجم الى";
 $GLOBALS['__l10n']["Translation parameters"]="اعدادات الترجمة";
 $GLOBALS['__l10n']["Translation saved"]="حفظ الترجمة";
 $GLOBALS['__l10n']["Type"]="نوع";
-$GLOBALS['__l10n']["Type (Ctrl-T)"]="(Ctrl-T)النوع";
 $GLOBALS['__l10n']["Unable to load the compiled item content"]="Impossible de charger le contenu de l'item compilé";
 $GLOBALS['__l10n']["Upload"]="تحميل";
 $GLOBALS['__l10n']["Upload CSV File"]="CSV تحميل ملف";

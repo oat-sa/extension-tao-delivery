@@ -1,17 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.3-beta\n"
-"PO-Revision-Date: 2012-10-26 18:08+0200\n"
-"Last-Translator: SophieD <sophie.doublet@uni.lu>\n"
-"Language: fr\n"
+"Project-Id-Version: TAO v2.4-beta3\n"
+"PO-Revision-Date: 2013-04-05T18:36:13\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
+"Language: FR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.1.6\n"
-
-msgid "(Ctrl-C)"
-msgstr "(Ctrl-C)"
 
 msgid "(date not available for hardified resource)"
 msgstr "(date non disponible pour les ressources durcies)"
@@ -40,12 +35,6 @@ msgstr "Deliveries actifs"
 msgid "Activity Editor"
 msgstr "Editeur d'activité"
 
-msgid "Add (Ctrl-A)"
-msgstr "Ajouter (Ctrl-A)"
-
-msgid "Add to delivery campaign"
-msgstr "Ajouter à la campagne du delivery"
-
 msgid "Add to group"
 msgstr "Ajouter au groupe"
 
@@ -68,23 +57,8 @@ msgstr "Une erreur est survenue durant le chargement de l'item:"
 msgid "Back"
 msgstr "Retour"
 
-msgid "Campaign"
-msgstr "Campagne"
-
-msgid "Campaign Class saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaign saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaigns library"
-msgstr "Librairie de campagnes"
-
 msgid "close"
 msgstr "fermer"
-
-msgid "Close (Esc)"
-msgstr "Fermer (Esc)"
 
 msgid "Compilation"
 msgstr "Compilation"
@@ -150,12 +124,6 @@ msgstr ""
 msgid "duplicate"
 msgstr "dupliquer"
 
-msgid "Edit Campaign"
-msgstr "Editer une campagne"
-
-msgid "Edit campaign class"
-msgstr "Editer une classe de campagne"
-
 msgid "Edit delivery class"
 msgstr "Editer une classe de Delivery"
 
@@ -167,9 +135,6 @@ msgstr "Editer une classe de serveur de résultats"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Modifier une passation consiste à séquencer les tests qui le composent, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par participant, la période de passation, le serveur de résultat."
-
-msgid "Enter remark text here"
-msgstr "Entrez la remarque"
 
 msgid "Error in delivery process"
 msgstr "Erreur dans le processus de passation"
@@ -183,17 +148,11 @@ msgstr "Historique d'exécution"
 msgid "export"
 msgstr "exporter"
 
-msgid "Export - Debug only (Ctrl-E)"
-msgstr "Exporter - Debug seulement (Ctrl-E)"
-
 msgid "failed!"
 msgstr "a échoué!"
 
 msgid "Finished Test"
 msgstr "Test terminé"
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr "Par exemple, c'est un moyen d'organiser les passations avec des objectifs communs."
 
 msgid "Formal Parameter"
 msgstr "Paramètre formel"
@@ -203,9 +162,6 @@ msgstr "Suivant"
 
 msgid "Generating the delivery process, please wait"
 msgstr "Génération du processus de passation en cours, veuillez patienter"
-
-msgid "Go to"
-msgstr "Allez à"
 
 msgid "History"
 msgstr "Historique"
@@ -231,9 +187,8 @@ msgstr "Chargement..."
 msgid "Logout"
 msgstr "Déconnexion"
 
-#, tao-public
-msgid "Manage campaigns"
-msgstr "Gérer les campagnes"
+msgid "LTI export"
+msgstr ""
 
 #, tao-public
 msgid "Manage deliveries"
@@ -245,9 +200,6 @@ msgstr "Gérer les serveurs de résultats"
 
 msgid "move"
 msgstr "déplacer"
-
-msgid "new campaign"
-msgstr "Nouvelle camapgne"
 
 msgid "new class"
 msgstr "Nouvelle Classe"
@@ -265,10 +217,7 @@ msgid "No user is logged in"
 msgstr "Aucun utilisateur connecté"
 
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr ""
-"Note : veuillez vous assurer que tous les tests constituant la passation "
-"sont bien définis et configurés en tant que \"actif\" dans l'extension de test "
-"avant la compilation."
+msgstr "Note : veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation."
 
 msgid "ok"
 msgstr "ok"
@@ -289,17 +238,14 @@ msgid "Please select a valid result server in the delivery editing section then 
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
 
 #, tao-public
-msgid "Prepare, publish deliveries sessions and campaigns."
-msgstr "Préparer, publier des sessions de passations et des campagnes."
+msgid "Prepare, publish deliveries sessions."
+msgstr ""
 
 msgid "Process Property"
 msgstr "Propriété du processus"
 
 msgid "Process Variables"
 msgstr "Variables de processus"
-
-msgid "Question (Ctrl-Q)"
-msgstr "Question (Ctrl-Q)"
 
 msgid "Recompile"
 msgstr "Recompiler"
@@ -358,9 +304,6 @@ msgstr "Start / Resume le test"
 msgid "Status"
 msgstr "Statut"
 
-msgid "Suppress"
-msgstr "Supprimer"
-
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
 
@@ -372,9 +315,6 @@ msgstr "Participant"
 
 msgid "Tests sequence"
 msgstr "Séquence de tests"
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr "La Section de la gestion de la campagne permet d'ajouter, modifier et attribuer les livraisons aux campagnes de livraison."
 
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
@@ -430,9 +370,6 @@ msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'édit
 msgid "Time"
 msgstr "Temps"
 
-msgid "Type (Ctrl-T)"
-msgstr "Type (Ctrl-T)"
-
 msgid "Unable to load the  delivery"
 msgstr "Impossible de charger la passation"
 
@@ -450,3 +387,4 @@ msgstr "Voir l'Historique"
 
 msgid "Wrong delivery uri"
 msgstr "Mauvais identifiant (URI) de passation"
+

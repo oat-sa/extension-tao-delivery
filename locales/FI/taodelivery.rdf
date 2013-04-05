@@ -230,78 +230,6 @@
     -->
     <rdfs:comment xml:lang="FI"><![CDATA[The process instance related to the current delivery history]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="FI"><![CDATA[Campaign]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Campaign
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="FI"><![CDATA[Campaign]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="FI"><![CDATA[Campaign]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="FI"><![CDATA[Campaign]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignStart">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign Start
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignStart
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="FI"><![CDATA[Campaign Start]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source The start date of the campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignStart
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="FI"><![CDATA[The start date of the campaign]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignEnd">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Campaign End
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignEnd
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="FI"><![CDATA[Campaign End]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source The end date of the campaign
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CampaignEnd
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="FI"><![CDATA[The end date of the campaign]]></rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer">
     <!--
     @sourceLanguage EN
@@ -680,41 +608,23 @@
     -->
     <rdfs:comment xml:lang="FI"><![CDATA[If the response evaluation is made on the client or on the server side]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#LocalResultServer">
     <!--
     @sourceLanguage EN
     @targetLanguage FI
-    @source Local Dual Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
+    @source TAO 2.4 Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#LocalResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FI"><![CDATA[Local Dual Result Server]]></rdfs:label>
+    <rdfs:label xml:lang="FI"><![CDATA[TAO 2.4 Local Result Server]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FI
-    @source Local Dual Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer
+    @source TAO 2.4 Local Result Server
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#LocalResultServer
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FI"><![CDATA[Local Dual Result Server]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Local Legacy Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="FI"><![CDATA[Local Legacy Result Server]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage FI
-    @source Local Legacy Result Server
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="FI"><![CDATA[Local Legacy Result Server]]></rdfs:comment>
+    <rdfs:comment xml:lang="FI"><![CDATA[TAO 2.4 Local Result Server]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">
     <!--

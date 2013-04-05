@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.3-beta\n"
-"PO-Revision-Date: 2012-09-21T15:07:22\n"
+"Project-Id-Version: TAO v2.4-beta3\n"
+"PO-Revision-Date: 2013-04-05T18:36:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "(Ctrl-C)"
-msgstr ""
 
 msgid "(date not available for hardified resource)"
 msgstr ""
@@ -38,12 +35,6 @@ msgstr "Deliveries actifs"
 msgid "Activity Editor"
 msgstr "محرر نشاط"
 
-msgid "Add (Ctrl-A)"
-msgstr "اضافة(Ctrl-A)"
-
-msgid "Add to delivery campaign"
-msgstr "Ajouter à la campagne du delivery"
-
 msgid "Add to group"
 msgstr "أضف الى المجموعة"
 
@@ -66,23 +57,8 @@ msgstr ""
 msgid "Back"
 msgstr "رجوع"
 
-msgid "Campaign"
-msgstr "Campagne"
-
-msgid "Campaign Class saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaign saved"
-msgstr "Campagne sauvegardée"
-
-msgid "Campaigns library"
-msgstr "Librairie de campagnes"
-
 msgid "close"
 msgstr "اغلاق"
-
-msgid "Close (Esc)"
-msgstr "إغلاق (Esc)"
 
 msgid "Compilation"
 msgstr "ترجمة"
@@ -148,12 +124,6 @@ msgstr ""
 msgid "duplicate"
 msgstr "تكرار"
 
-msgid "Edit Campaign"
-msgstr "تحرير"
-
-msgid "Edit campaign class"
-msgstr "Editer une classe de campagne"
-
 msgid "Edit delivery class"
 msgstr "Editer une classe de Delivery"
 
@@ -165,9 +135,6 @@ msgstr "تحرير صنف خادم نتيجة"
 
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Modifier un delivery consiste à mettre les tests qui composent le delivery et leur séquence, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par l'sujet, la période de delivery, le serveur de résultat."
-
-msgid "Enter remark text here"
-msgstr "أدخل النص لملاحظة هنا"
 
 msgid "Error in delivery process"
 msgstr "Erreur dans le processus de passation"
@@ -181,17 +148,11 @@ msgstr "تاريخ التنفيذ"
 msgid "export"
 msgstr "تصدير"
 
-msgid "Export - Debug only (Ctrl-E)"
-msgstr "(Ctrl-E)تصدير - تصحيح فقط"
-
 msgid "failed!"
 msgstr "!فشل"
 
 msgid "Finished Test"
 msgstr "الاختبار المنتهي"
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr "Par exemple, c'est un moyen d'organiser les deliveries avec un des objectifs communs."
 
 msgid "Formal Parameter"
 msgstr "اعداد شكلي"
@@ -201,9 +162,6 @@ msgstr "تحويل"
 
 msgid "Generating the delivery process, please wait"
 msgstr "Génération du processus de passation en cours, veuillez patienter"
-
-msgid "Go to"
-msgstr "الذهاب الى"
 
 msgid "History"
 msgstr "التاريخ"
@@ -229,9 +187,8 @@ msgstr "...تحميل"
 msgid "Logout"
 msgstr "خروج"
 
-#, tao-public
-msgid "Manage campaigns"
-msgstr "إدارة العمليات"
+msgid "LTI export"
+msgstr ""
 
 #, tao-public
 msgid "Manage deliveries"
@@ -243,9 +200,6 @@ msgstr "ادارة خوادم النتائج"
 
 msgid "move"
 msgstr "حرك"
-
-msgid "new campaign"
-msgstr "Nouvelle camapgne"
 
 msgid "new class"
 msgstr "صنف جديد"
@@ -284,7 +238,7 @@ msgid "Please select a valid result server in the delivery editing section then 
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
 
 #, tao-public
-msgid "Prepare, publish deliveries sessions and campaigns."
+msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
 msgid "Process Property"
@@ -292,9 +246,6 @@ msgstr "Propriété du processus"
 
 msgid "Process Variables"
 msgstr "Variables de processus"
-
-msgid "Question (Ctrl-Q)"
-msgstr "(Ctrl-Q) سؤال"
 
 msgid "Recompile"
 msgstr "اعادة ترجمة"
@@ -353,9 +304,6 @@ msgstr "Start / Resume le test"
 msgid "Status"
 msgstr "الحالة"
 
-msgid "Suppress"
-msgstr "حذف"
-
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
 
@@ -367,9 +315,6 @@ msgstr ""
 
 msgid "Tests sequence"
 msgstr "سلسلة الاختبارات"
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr "La Section de la gestion de la campagne permet d'ajouter, modifier et attribuer les livraisons aux campagnes de livraison."
 
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
@@ -424,9 +369,6 @@ msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'édit
 
 msgid "Time"
 msgstr "الوقت"
-
-msgid "Type (Ctrl-T)"
-msgstr "(Ctrl-T)النوع"
 
 msgid "Unable to load the  delivery"
 msgstr ""
