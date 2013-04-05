@@ -252,10 +252,6 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			$this->setData('relatedTests', json_encode($relatedTest));
 		}
 		
-		//get the subjects related to the test(s) of the current delivery!	
-		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($delivery), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-		
 		//compilation state:
 		$isCompiled = $this->service->isCompiled($delivery);
 		$this->setData("isCompiled", $isCompiled);
@@ -269,7 +265,19 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setData('deliveryGroups', json_encode(array_map("tao_helpers_Uri::encode", $this->service->getDeliveryGroups($delivery))));
+		
+		//define the groups related to the current delivery
+		$property = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+		$tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($delivery, $property);
+		$this->setData('groupTree', $tree->render());
+		
+		//define the subjects excluded from the current delivery	
+		$property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
+		$tree = tao_helpers_form_GenerisTreeForm::buildTree($delivery, $property);
+		$tree->setData('id', 'subject'); // used in css
+		$tree->setData('title', __('Select test takers to be <b>excluded</b>'));
+		$this->setData('groupTesttakers', $tree->render());
+		
 		$this->setData('formTitle', __('Delivery properties'));
 		$this->setData('myForm', $myForm->render());
 		$campaignExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoCampaign'); 

@@ -8,8 +8,8 @@
 	<div class="breaker"></div>
 <?endif?>
 
-	<?include('groups.tpl')?>
-	<?include('subjects.tpl')?>
+	<?=get_data('groupTree')?>
+	<?=get_data('groupTesttakers')?>
 	<div class="breaker"></div>
 	<?= has_data('campaign') ? get_data('campaign') : '';?>
 </div>

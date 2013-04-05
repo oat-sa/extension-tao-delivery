@@ -68,20 +68,6 @@ class taoDelivery_actions_SaSResultServer extends taoDelivery_actions_ResultServ
         }
 		return $this->getRootClass();
     }
-	
-	/**
-	 * Render the tree to select the deliveries 
-	 * @return void
-	 */
-	public function selectDeliveries(){
-		$this->setData('uri', $this->getRequestParameter('uri'));
-		$this->setData('classUri', $this->getRequestParameter('classUri'));
-		
-		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('relatedDeliveries', json_encode($relatedDeliveries));
-		
-		$this->setData('index', '1');
-		$this->setView('delivery.tpl');
-	}
+
 }
 ?>
