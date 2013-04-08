@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * SaSDelivery Controller provide process services
  * 
@@ -73,27 +72,13 @@ class taoDelivery_actions_SaSDelivery extends taoDelivery_actions_Delivery {
 	 * @return void
 	 */
 	public function excludeSubjects(){
-		$this->setData('uri', $this->getRequestParameter('uri'));
-		$this->setData('classUri', $this->getRequestParameter('classUri'));
-		
-		$excludedSubjects = tao_helpers_Uri::encodeArray($this->service->getExcludedSubjects($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('excludedSubjects', json_encode($excludedSubjects));
-		
-		$this->setView('subjects.tpl');
+		//define the subjects excluded from the current delivery	
+		$property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
+		$tree = tao_helpers_form_GenerisTreeForm::buildTree($this->getCurrentInstance(), $property);
+		$tree->setData('id', 'subject'); // used in css
+		$tree->setData('title', __('Select test takers to be <b>excluded</b>'));
+		echo $tree->render();
 	}
-		
-	/**
-	 * Render the tree to select the campaign 
-	 * @return void
-	 */
-	public function selectCampaign(){
-		$this->setData('uri', $this->getRequestParameter('uri'));
-		$this->setData('classUri', $this->getRequestParameter('classUri'));
-		
-		$relatedCampaigns = tao_helpers_Uri::encodeArray($this->service->getRelatedCampaigns($this->getCurrentInstance()), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
-		$this->setData('relatedCampaigns', json_encode($relatedCampaigns));
-		
-		$this->setView('delivery_campaign.tpl');
-	}
+
 }
 ?>

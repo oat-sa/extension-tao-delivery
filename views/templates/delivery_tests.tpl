@@ -58,7 +58,7 @@ $(document).ready(function(){
 	}
 
 	require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
-		new GenerisTreeSelectClass('#test-tree', url + 'getAllTests', {
+		new GenerisTreeSelectClass('#test-tree', root_url + 'tao/GenerisTree/getData', {
 			actionId: 'test',
 			saveUrl : url + 'saveTests',
 			saveCallback: function (data){
@@ -74,6 +74,10 @@ $(document).ready(function(){
 					buildTestList("test-sequence", newSequence, labels);
 					if ($('#test-sequence li').length) $('#test-sequence').prev('.elt-info').show();
 				}
+			},
+			serverParameters: {
+				openNodes: <?=json_encode(get_data('testOpenNodes'))?>,
+				rootNode: <?=json_encode(get_data('testRootNode'))?>
 			},
 			checkedNodes : sequence
 		});

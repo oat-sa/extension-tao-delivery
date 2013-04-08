@@ -227,29 +227,33 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		if($authoringMode->uriResource == TAO_DELIVERY_ADVANCEDMODE){
 			$this->setData('authoringMode', 'advanced');
 		}else{
-			//the default option is the simple mode:
+			
+			$testUris = array();
+			$testSequence = array();
+			$i = 1;
+			foreach($this->service->getDeliveryTests($delivery) as $test){
+				$testUris[] = $test->getUri();
+				$testSequence[$i] = array(
+					'uri' 	=> tao_helpers_Uri::encode($test->getUri()),
+					'label' => $test->getLabel()
+				);
+				$i++;
+			}
+			
+			
+			// data for test sequence
 			$allTests = array();
 			foreach($this->service->getAllTests() as $testUri => $testLabel){
 				$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
 			}
 			$this->setData('allTests', json_encode($allTests));
-			
-			$relatedTest = array();
-			$testSequence = array();
-			$i = 1;
-			foreach($this->service->getDeliveryTests($delivery) as $test){
-				$relatedTest[] = tao_helpers_Uri::encode($test->uriResource);
-				if(!$test->isClass()){
-					$testSequence[$i] = array(
-						'uri' 	=> tao_helpers_Uri::encode($test->uriResource),
-						'label' => $test->getLabel()
-					);
-					$i++;
-				}
-			}
 			$this->setData('testSequence', $testSequence);
 			
-			$this->setData('relatedTests', json_encode($relatedTest));
+			// data for generis tree form
+			$this->setData('relatedTests', json_encode(tao_helpers_Uri::encodeArray($testUris)));
+			$openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($testUris, new core_kernel_classes_Class(TAO_TEST_CLASS));
+			$this->setData('testRootNode', TAO_TEST_CLASS);
+			$this->setData('testOpenNodes', $openNodes);
 		}
 		
 		//compilation state:

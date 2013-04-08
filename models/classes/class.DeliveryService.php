@@ -362,7 +362,7 @@ class taoDelivery_models_classes_DeliveryService
 		for($i=0;$i<$totalNumber;$i++){
 			$test = $authoringService->getTestByActivity($currentActivity);
 			if(!is_null($test)){
-				$tests[$i] = $test;
+				$returnValue[$i] = $test;
 			}
 
 			//get its connector (check the type is "sequential) if ok, get the next activity
@@ -387,26 +387,7 @@ class taoDelivery_models_classes_DeliveryService
 				}
 			}
 		}
-
-		if(count($tests) > 0){
-
-			ksort($tests);
-
-			$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-			$testSubClasses = array();
-			foreach($testClass->getSubClasses(true) as $testSubClass){
-				$testSubClasses[] = $testSubClass->uriResource;
-			}
-
-			foreach($tests as $test){
-				$clazz = $this->getClass($test);
-				if($clazz && in_array($clazz->uriResource, $testSubClasses)){
-					$returnValue[] = $clazz;
-				}
-				$returnValue[] = $test;
-			}
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BB end
+		// section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020BB end
 
         return (array) $returnValue;
     }
