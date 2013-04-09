@@ -1209,6 +1209,7 @@ class taoDelivery_models_classes_DeliveryService
 
 				foreach($activities as $activity){
 					$item = $authoringService->getItemByActivity($activity);
+					if (is_null($item)) {throw new common_Exception("An item being referred to into this delivery does not exist anymore");}
 					$returnValue[$item->getUri()] = $item;
 				}
 			}
