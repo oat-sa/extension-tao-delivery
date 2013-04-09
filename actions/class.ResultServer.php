@@ -305,19 +305,6 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 	public function index(){
 		$this->setView('index_resultserver.tpl');
 	}
-		
-	
-	/*
-	 * @TODO implement the following actions
-	 */
-	
-	public function getMetaData(){
-		throw new Exception("Not implemented yet");
-	}
-	
-	public function saveComment(){
-		throw new Exception("Not implemented yet");
-	}
-		
+
 }
 ?>
