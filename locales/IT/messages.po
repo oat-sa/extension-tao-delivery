@@ -319,7 +319,7 @@ msgstr ""
 msgid "The delivery is not compiled yet"
 msgstr ""
 
-msgid "The Delivery module allows users to define tests delivery parameters."
+msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr ""
 
 msgid "The delivery process has isolated connectors"
@@ -364,7 +364,7 @@ msgstr ""
 msgid "There is no initial activity for the test process definition"
 msgstr ""
 
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr ""
 
 msgid "Time"

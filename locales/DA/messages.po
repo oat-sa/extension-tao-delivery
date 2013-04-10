@@ -319,7 +319,7 @@ msgstr "Test rækkefølge"
 msgid "The delivery is not compiled yet"
 msgstr "Leverancen er ikke sammenstat endnu"
 
-msgid "The Delivery module allows users to define tests delivery parameters."
+msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Leverance modulet lader brugere definere testleverance parameter."
 
 msgid "The delivery process has isolated connectors"
@@ -364,7 +364,7 @@ msgstr "der findes ingen indledende aktivitet for leverance proces definitionen"
 msgid "There is no initial activity for the test process definition"
 msgstr "Det findes ingen indledende aktivitet for procesdefinitionen"
 
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr "Denne leverance administrationssektion lader dig tillægge og fjerne leverancer samt redigere deres egenskaber."
 
 msgid "Time"

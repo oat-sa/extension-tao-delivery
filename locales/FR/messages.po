@@ -319,7 +319,7 @@ msgstr "Séquence de tests"
 msgid "The delivery is not compiled yet"
 msgstr "Le delivery n'est pas encore compilé"
 
-msgid "The Delivery module allows users to define tests delivery parameters."
+msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
 
 msgid "The delivery process has isolated connectors"
@@ -364,7 +364,7 @@ msgstr "il n'y a pas d'activité initiale dans la définition du processus de pa
 msgid "There is no initial activity for the test process definition"
 msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
 
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
 
 msgid "Time"

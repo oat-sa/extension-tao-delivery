@@ -319,7 +319,7 @@ msgstr "Testordningsföljd"
 msgid "The delivery is not compiled yet"
 msgstr "Leveransen är inte sammanställd än"
 
-msgid "The Delivery module allows users to define tests delivery parameters."
+msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Leveransmodulen låter alla användare definiera testleveransparametrar"
 
 msgid "The delivery process has isolated connectors"
@@ -364,7 +364,7 @@ msgstr "det finns ingen inledande aktivitet för leveransprocessdefinitionen"
 msgid "There is no initial activity for the test process definition"
 msgstr "Det finns ingen inledande aktivitet för processdefinitionen"
 
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr "Denna leveranshanteringssektion låter dig lägga till och ta bort leveranser samt redigera deras egenskapsvärden."
 
 msgid "Time"

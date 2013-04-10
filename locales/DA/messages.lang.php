@@ -393,7 +393,7 @@ $GLOBALS['__l10n']["Tests"]="Tests";
 $GLOBALS['__l10n']["Tests sequence"]="Test rækkefølge";
 $GLOBALS['__l10n']["The column "]="Kolonnen ";
 $GLOBALS['__l10n']["The delivery is not compiled yet"]="Leverancen er ikke sammenstat endnu";
-$GLOBALS['__l10n']["The Delivery module allows users to define tests delivery parameters."]="Leverance modulet lader brugere definere testleverance parameter.";
+$GLOBALS['__l10n']["The Deliveries module allows users to define tests deliveries parameters."]="Leverance modulet lader brugere definere testleverance parameter.";
 $GLOBALS['__l10n']["The delivery process has isolated connectors"]="Leverance processen har isolerede tilslutninger";
 $GLOBALS['__l10n']["The delivery was last compiled on"]="Leverancen sammensættes senest";
 $GLOBALS['__l10n']["the file was not uploaded successfully"]="filen blev ikke oprettet";
@@ -416,7 +416,7 @@ $GLOBALS['__l10n']["There is no class available for optimization for the current
 $GLOBALS['__l10n']["there is no initial activity for the delivery process definition"]="der findes ingen indledende aktivitet for leverance proces definitionen";
 $GLOBALS['__l10n']["There is no initial activity for the test process definition"]="Det findes ingen indledende aktivitet for procesdefinitionen";
 $GLOBALS['__l10n']["This action will reset the optimization, are you sure?"]="Denne handling vil nulstille optimering, er du sikker?";
-$GLOBALS['__l10n']["This Delivery Management Section allows to add and delete deliveries and to edit their property values."]="Denne leverance administrationssektion lader dig tillægge og fjerne leverancer samt redigere deres egenskaber.";
+$GLOBALS['__l10n']["This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."]="Denne leverance administrationssektion lader dig tillægge og fjerne leverancer samt redigere deres egenskaber.";
 $GLOBALS['__l10n']["This field is required"]="Dette felt er påkrævet";
 $GLOBALS['__l10n']["This field is too long"]="Feltet er for langt";
 $GLOBALS['__l10n']["This field is too short"]="Feltet er for kort";
