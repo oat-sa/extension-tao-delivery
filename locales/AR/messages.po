@@ -210,7 +210,7 @@ msgstr "Nouveau Delivery"
 msgid "new result server"
 msgstr "خادم نتائج جديد"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
 msgid "No user is logged in"

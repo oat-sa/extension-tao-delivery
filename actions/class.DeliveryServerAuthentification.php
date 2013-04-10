@@ -42,7 +42,7 @@ class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Com
 					$this->redirect(_url('index', 'DeliveryServer'));
 				}
 				else{
-					$this->setData('errorMessage', __('No account match the given login / password'));
+					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
 			}
 		}

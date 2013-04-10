@@ -210,7 +210,7 @@ msgstr "neues Delivery"
 msgid "new result server"
 msgstr "neuer Ergebnis-Server"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr ""
 
 msgid "No user is logged in"

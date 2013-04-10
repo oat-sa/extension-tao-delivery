@@ -210,7 +210,7 @@ msgstr "nei Ausliwwerung"
 msgid "new result server"
 msgstr "neie Resultatserver"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr ""
 
 msgid "No user is logged in"

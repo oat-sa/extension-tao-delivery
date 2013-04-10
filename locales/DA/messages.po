@@ -210,7 +210,7 @@ msgstr "ny leverance"
 msgid "new result server"
 msgstr "ny resultatserver"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr "Ingen konto matcher den angivne brugernavn / adgangskode"
 
 msgid "No user is logged in"
