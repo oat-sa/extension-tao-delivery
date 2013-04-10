@@ -49,7 +49,7 @@ class taoDelivery_models_classes_UserService
      * Overrides tao_models_classes_UserService to specify which class to use to instanciate
      * new users.
      */
-    public function getUserClass(){
+    public function getRootClass(){
     	$subjectsExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoSubjects');
     	$const = $subjectsExt->getConstant('TAO_CLASS_SUBJECT');
     	return new core_kernel_classes_Class($const);
