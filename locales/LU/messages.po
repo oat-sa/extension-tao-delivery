@@ -103,7 +103,7 @@ msgstr ""
 msgid "Deliveries library"
 msgstr "Ausliwwerungs Sammlung"
 
-msgid "Delivery"
+msgid "Deliveries"
 msgstr "Ausliwwerung"
 
 msgid "Delivery Class saved"

@@ -103,7 +103,7 @@ msgstr "Leverance"
 msgid "Deliveries library"
 msgstr "Leverance arkiv"
 
-msgid "Delivery"
+msgid "Deliveries"
 msgstr "Leverance"
 
 msgid "Delivery Class saved"

@@ -103,8 +103,8 @@ msgstr ""
 msgid "Deliveries library"
 msgstr "Deliveries-Bibliothek"
 
-msgid "Delivery"
-msgstr "Delivery"
+msgid "Deliveries"
+msgstr "Deliveries"
 
 msgid "Delivery Class saved"
 msgstr "Klasse"

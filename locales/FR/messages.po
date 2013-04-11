@@ -103,7 +103,7 @@ msgstr "Passations"
 msgid "Deliveries library"
 msgstr "Librairie de Passations"
 
-msgid "Delivery"
+msgid "Deliveries"
 msgstr "Passation"
 
 msgid "Delivery Class saved"

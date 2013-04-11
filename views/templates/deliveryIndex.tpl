@@ -39,7 +39,7 @@
 				<thead>
 					<tr>
 						<th><?php echo __("Status"); ?></th>
-						<th><?php echo __("Delivery"); ?></th>
+						<th><?php echo __("Deliveries"); ?></th>
 						<th><?php echo __("Start/Resume the test"); ?></th>
 					</tr>
 				</thead>
