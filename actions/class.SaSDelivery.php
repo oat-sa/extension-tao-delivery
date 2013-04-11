@@ -30,43 +30,10 @@
  */
 class taoDelivery_actions_SaSDelivery extends taoDelivery_actions_Delivery {
     
-    /**
-     * @see Delivery::__construct()
-     */
-    public function __construct() {
-    	tao_helpers_Context::load('STANDALONE_MODE');
-		parent::__construct();
-    }
-    
-	/**
-     * @see TaoModule::setView()
-     */
-    public function setView($identifier, $useMetaExtensionView = false) {
-		if(tao_helpers_Request::isAjax()){
-			return parent::setView($identifier, $useMetaExtensionView);
-		}
-    	if($useMetaExtensionView){
-			$this->setData('includedView', $identifier);
-		}
-		else{
-			$this->setData('includedView', DIR_VIEWS . 'templates/' . $identifier);
-		}
-		return parent::setView('sas.tpl', true);
-    }
+	protected function getClassService() {
+		return taoDelivery_models_classes_DeliveryService::singleton();
+	}
 	
-	/**
-     * overrided to prevent exception: 
-     * if no class is selected, the root class is returned 
-     * @see TaoModule::getCurrentClass()
-     * @return core_kernel_class_Class
-     */
-    protected function getCurrentClass() {
-        if($this->hasRequestParameter('classUri')){
-        	return parent::getCurrentClass();
-        }
-		return $this->getRootClass();
-    }
-
 	/**
 	 * Render the tree to exclude subjects of the delivery 
 	 * @return void

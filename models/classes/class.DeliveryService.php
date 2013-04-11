@@ -28,7 +28,7 @@
  * @subpackage models_classes
  */
 class taoDelivery_models_classes_DeliveryService
-    extends tao_models_classes_GenerisService
+    extends tao_models_classes_ClassService
 {
     // --- ASSOCIATIONS ---
 
@@ -291,30 +291,15 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
-     * Short description of method getDeliveryClass
+     * returns the top delivery class
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  string uri
      * @return core_kernel_classes_Class
      */
-    public function getDeliveryClass($uri = '')
+    public function getRootClass()
     {
-        $returnValue = null;
-
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B9 begin
-		if(empty($uri) && !is_null($this->deliveryClass)){
-			$returnValue = $this->deliveryClass;
-		}
-		else{
-			$clazz = new core_kernel_classes_Class($uri);
-			if($this->isDeliveryClass($clazz)){
-				$returnValue = $clazz;
-			}
-		}
-        // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B9 end
-
-        return $returnValue;
+		return $this->deliveryClass;
     }
 
     /**

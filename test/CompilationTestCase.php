@@ -35,7 +35,7 @@ class CompilationTestCase extends UnitTestCase {
     }
 	
 	public function testCompile(){
-		$itemClass	= taoItems_models_classes_ItemsService::singleton()->getItemClass();
+		$itemClass	= taoItems_models_classes_ItemsService::singleton()->getRootClass();
 		$qtiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'qti.zip';
 		
 		$qtiItems = taoQTI_models_classes_QTI_ImportService::singleton()->importQTIPACKFile($qtiFile, $itemClass, false);

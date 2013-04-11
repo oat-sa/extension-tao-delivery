@@ -31,43 +31,5 @@
  */
 class taoDelivery_actions_SaSResultServer extends taoDelivery_actions_ResultServer {
     
-    /**
-     * @see ResultServer::__construct()
-     */
-    public function __construct() {
-    	tao_helpers_Context::load('STANDALONE_MODE');
-		parent::__construct();
-    }
-    
-		
-	/**
-     * @see TaoModule::setView()
-     */
-    public function setView($identifier, $useMetaExtensionView = false) {
-		if(tao_helpers_Request::isAjax()){
-			return parent::setView($identifier, $useMetaExtensionView);
-		}
-    	if($useMetaExtensionView){
-			$this->setData('includedView', $identifier);
-		}
-		else{
-			$this->setData('includedView', DIR_VIEWS . 'templates/' . $identifier);
-		}
-		return parent::setView('sas.tpl', true);
-    }
-	
-	/**
-     * overrided to prevent exception: 
-     * if no class is selected, the root class is returned 
-     * @see TaoModule::getCurrentClass()
-     * @return core_kernel_class_Class
-     */
-    protected function getCurrentClass() {
-        if($this->hasRequestParameter('classUri')){
-        	return parent::getCurrentClass();
-        }
-		return $this->getRootClass();
-    }
-
 }
 ?>

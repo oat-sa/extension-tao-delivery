@@ -30,7 +30,11 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
+class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
+	
+	public function getClassService() {
+		return taoDelivery_models_classes_ResultServerAuthoringService::singleton();
+	}
 	
 	/**
 	 * constructor: initialize the service and the default data
@@ -41,7 +45,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_TaoModule {
 		parent::__construct();
 		
 		//the service is initialized by default
-		$this->service = new taoDelivery_models_classes_ResultServerAuthoringService();
+		$this->service = taoDelivery_models_classes_ResultServerAuthoringService::singleton();
 		$this->defaultData();
 		
 	}

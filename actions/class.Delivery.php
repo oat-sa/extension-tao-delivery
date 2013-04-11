@@ -30,7 +30,7 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
  
-class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
+class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 	
 	/**
 	 * constructor: initialize the service and the default data
@@ -68,12 +68,8 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 		return parent::getCurrentInstance();
 	}
 	
-	/**
-	 * @see TaoModule::getRootClass
-	 * @return core_kernel_classes_Classes
-	 */
-	protected function getRootClass(){
-		return $this->service->getDeliveryClass();
+	protected function getClassService(){
+		return taoDelivery_models_classes_DeliveryService::singleton();
 	}
 	
 /*
@@ -104,7 +100,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			$options['chunk'] = true;
 		}
 		else{
-			$clazz =  $this->service->getDeliveryClass();
+			$clazz =  $this->service->getRootClass();
 		}
 		
 		echo json_encode( $this->service->toTree($clazz , $options));
@@ -124,7 +120,7 @@ class taoDelivery_actions_Delivery extends tao_actions_TaoModule {
 			$this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
 		}
 		
-		$myForm = $this->editClass($clazz, $this->service->getDeliveryClass());
+		$myForm = $this->editClass($clazz, $this->service->getRootClass());
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				if($clazz instanceof core_kernel_classes_Resource){

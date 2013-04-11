@@ -52,7 +52,7 @@
 		</location>
 	</service>
 	<service>
-		<name>Devlivery class editor</name>
+		<name>Delivery class editor</name>
 		<description>Edit a Delivery (sub)class: add/edit/delete class properties</description>
 		<location url="/taoDelivery/SaSDelivery/editDeliveryClass">
 			<param key="classUri" value="^deliveryClassUri" />
@@ -148,20 +148,9 @@
 		</location>
 	</service>
 	<service>
-		<name>ResultServer related delivery</name>
-		<description>Select result server deliveries</description>
-		<location url="/taoDelivery/SaSResultServer/selectDeliveries">
-			<param key="uri" value="^resultServerUri" />
-			<param key="classUri" value="^resultServerClassUri" />
-		</location>
-		<return>
-			<param key="deliveryUris" />
-		</return>
-	</service>
-	<service>
 		<name>ResultServer removing</name>
 		<description>Delete a ResultServer instance	</description>
-		<location url="/taoDelievry/SaSResultServer/sasDeleteInstance">
+		<location url="/taoDelivery/SaSResultServer/sasDeleteInstance">
 			<param key="uri" value="^resultServerUri" />
 			<param key="classUri" value="^resultServerClassUri" />
 		</location>
