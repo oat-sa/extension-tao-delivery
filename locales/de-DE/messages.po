@@ -1,0 +1,390 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.4-beta3\n"
+"PO-Revision-Date: 2013-04-05T18:36:11\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: de-DE\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "(date not available for hardified resource)"
+msgstr ""
+
+msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgstr ""
+
+msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
+msgstr ""
+
+msgid "A recompilation is also required after modification on the tests composing a delivery."
+msgstr ""
+
+msgid "Access denied. Please renew your authentication!"
+msgstr ""
+
+msgid "Access denied. Please renew your authentication."
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Active Deliveries"
+msgstr ""
+
+msgid "Activity Editor"
+msgstr "Aktivitäten Editor"
+
+msgid "Add to group"
+msgstr ""
+
+#, tao-public
+msgid "Advanced Authoring Tool"
+msgstr ""
+
+msgid "advanced mode"
+msgstr ""
+
+msgid "An error occured during history deletion"
+msgstr ""
+
+msgid "An error occured while loading the item"
+msgstr ""
+
+msgid "An error occured while loading the item: "
+msgstr ""
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "close"
+msgstr ""
+
+msgid "Compilation"
+msgstr ""
+
+msgid "compilation failed"
+msgstr ""
+
+msgid "Compilation of the delivery"
+msgstr ""
+
+msgid "Compile"
+msgstr ""
+
+msgid "compiled with warning"
+msgstr ""
+
+msgid "compiling..."
+msgstr ""
+
+msgid "complete with warning"
+msgstr ""
+
+msgid "complete!"
+msgstr ""
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "Delete"
+msgstr ""
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "Delete History"
+msgstr ""
+
+#, tao-public
+msgid "Deliveries"
+msgstr ""
+
+msgid "Deliveries library"
+msgstr "Deliveries-Bibliothek"
+
+msgid "Deliveries"
+msgstr "Deliveries"
+
+msgid "Delivery Class saved"
+msgstr "Klasse"
+
+msgid "delivery executions"
+msgstr ""
+
+msgid "Delivery properties"
+msgstr ""
+
+msgid "Delivery saved"
+msgstr "Klasse"
+
+msgid "Drag and drop the tests to order them"
+msgstr ""
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "Edit delivery class"
+msgstr "Klasse"
+
+msgid "Edit ResultServer"
+msgstr "Ergebnis-Server bearbeiten"
+
+msgid "Edit resultServer class"
+msgstr "Klasse"
+
+msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgstr ""
+
+msgid "Error in delivery process"
+msgstr ""
+
+msgid "Error in test process"
+msgstr ""
+
+msgid "Execution History"
+msgstr ""
+
+msgid "export"
+msgstr "Export"
+
+msgid "failed!"
+msgstr ""
+
+msgid "Finished Test"
+msgstr ""
+
+msgid "Formal Parameter"
+msgstr "Formale Parameter"
+
+msgid "Forward"
+msgstr ""
+
+msgid "Generating the delivery process, please wait"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "History deleted successfully"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "Initialize new test"
+msgstr ""
+
+msgid "Issue found for the process definiiton of the test"
+msgstr ""
+
+msgid "Loading next item..."
+msgstr ""
+
+msgid "loading..."
+msgstr "Ladevorgang ..."
+
+msgid "Logout"
+msgstr ""
+
+msgid "LTI export"
+msgstr ""
+
+#, tao-public
+msgid "Manage deliveries"
+msgstr "Deliveries verwalten"
+
+#, tao-public
+msgid "Manage result servers"
+msgstr ""
+
+msgid "move"
+msgstr ""
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new delivery"
+msgstr "neues Delivery"
+
+msgid "new result server"
+msgstr "neuer Ergebnis-Server"
+
+msgid "Invalid login or password. Please try again."
+msgstr ""
+
+msgid "No user is logged in"
+msgstr ""
+
+msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgstr ""
+
+msgid "ok"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Please confirm history deletion"
+msgstr ""
+
+msgid "Please login"
+msgstr ""
+
+msgid "Please select a delivery before authoring it!"
+msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
+
+msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgstr ""
+
+#, tao-public
+msgid "Prepare, publish deliveries sessions."
+msgstr ""
+
+msgid "Process Property"
+msgstr "Prozess-Eigenschaft"
+
+msgid "Process Variables"
+msgstr "Prozess Variablen"
+
+msgid "Recompile"
+msgstr ""
+
+msgid "Recompile the delivery"
+msgstr ""
+
+msgid "Result Server"
+msgstr "Ergebnis-Server"
+
+msgid "Result Server class saved"
+msgstr "Klasse"
+
+msgid "Result Server saved"
+msgstr "Ergebnis-Server gespeichert"
+
+msgid "Result Servers library"
+msgstr "Ergebnis-Server-Bibliothek"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "Select a test"
+msgstr ""
+
+msgid "Select delivery"
+msgstr "Delivery auswählen"
+
+msgid "Select delivery tests"
+msgstr ""
+
+msgid "Select test takers to be <b>excluded</b>"
+msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
+
+msgid "Sequence saved successfully"
+msgstr ""
+
+msgid "Service Definition"
+msgstr "Dienst-Definiton"
+
+msgid "simple mode"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "Start/Resume the test"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "Test Taker"
+msgstr ""
+
+msgid "Tests sequence"
+msgstr ""
+
+msgid "The delivery is not compiled yet"
+msgstr ""
+
+msgid "The Deliveries module allows users to define tests deliveries parameters."
+msgstr "Das Delivery-Modul erlaubt Benutzern, die Definition der Test-Delivery-Parameter,"
+
+msgid "The delivery process has isolated connectors"
+msgstr ""
+
+msgid "The delivery was last compiled on"
+msgstr ""
+
+msgid "The following file(s) could not be copied for the test"
+msgstr ""
+
+msgid "The following file(s) could not be created for the test"
+msgstr ""
+
+msgid "The following item do not exist in or have not been translated into"
+msgstr ""
+
+msgid "The following items do not exist or are empty"
+msgstr ""
+
+msgid "the login must not be empty"
+msgstr ""
+
+msgid "the password must not be empty"
+msgstr ""
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
+
+msgid "The test process has isolated connectors"
+msgstr ""
+
+msgid "There are currently"
+msgstr ""
+
+msgid "There is currently no delivery execution."
+msgstr ""
+
+msgid "there is no initial activity for the delivery process definition"
+msgstr ""
+
+msgid "There is no initial activity for the test process definition"
+msgstr ""
+
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
+msgstr "Dieser Bereich der Deliver-Verwaltung ermöglicht das Hinzufügen und Löschen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
+
+msgid "Time"
+msgstr ""
+
+msgid "Unable to load the  delivery"
+msgstr ""
+
+msgid "Unable to load the compiled item content"
+msgstr ""
+
+msgid "unknown label"
+msgstr ""
+
+msgid "User name:"
+msgstr ""
+
+msgid "View History"
+msgstr ""
+
+msgid "Wrong delivery uri"
+msgstr ""
+
