@@ -44,7 +44,8 @@ class taoDelivery_actions_SaSDelivery extends taoDelivery_actions_Delivery {
 		$tree = tao_helpers_form_GenerisTreeForm::buildTree($this->getCurrentInstance(), $property);
 		$tree->setData('id', 'subject'); // used in css
 		$tree->setData('title', __('Select test takers to be <b>excluded</b>'));
-		echo $tree->render();
+		$this->setData('tree', $tree->render());
+		$this->setView('sas'.DIRECTORY_SEPARATOR.'generisTreeSelect.tpl', 'tao');
 	}
 
 }
