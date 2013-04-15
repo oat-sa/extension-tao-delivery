@@ -12,7 +12,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Coding methode]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Méthode d'encodage]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -20,7 +20,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Methodes to code a delivery]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[Méthode d'encodage d'une passation]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated">
     <!--
@@ -30,7 +30,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Automated coding]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Encodage automatique]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -38,7 +38,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[delivery is coded automaticly]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[La passation est encodée automatiquement]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual">
     <!--
@@ -48,7 +48,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Manual coding]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Encodage manuel]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -56,7 +56,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[the delivery is at least partialy coded manualy]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[La passation est encodée manuellement au moins en partie]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode">
     <!--
@@ -66,7 +66,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Coding methode of the delivery]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Méthode d'encodage de la passation]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -74,7 +74,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[how the delivery is coded]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[La manière dont la passation est encodée]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus">
     <!--
@@ -84,7 +84,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Coding status]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Etat de l'encodage]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -92,7 +92,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Status of the coding of a delivery]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[Etat de l'encodage d'une passation]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading">
     <!--
@@ -102,7 +102,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[In grading]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[En cours d'évaluation]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -110,7 +110,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Delivery is being graded]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[La passation est en cours d'évaluation]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation">
     <!--
@@ -120,7 +120,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[In conciliation]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[En réconciliation]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -128,7 +128,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Delivery is being conciliated]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[La passation est en cours de réconciliation]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited">
     <!--
@@ -138,7 +138,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Coding commited]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Encodage terminé]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -146,7 +146,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Coding has been commited]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[L'encodage est terminé]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus">
     <!--
@@ -156,7 +156,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Coding status of the delivery]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Statut de l'encodage de la passation]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -164,7 +164,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[Current status of a deliverys coding]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[Statut actuel de l'encodage de la passation]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#active">
     <!--
@@ -174,7 +174,7 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="fr-FR"><![CDATA[Active]]></rdfs:label>
+    <rdfs:label xml:lang="fr-FR"><![CDATA[Actif]]></rdfs:label>
     <!--
     @sourceLanguage en-US
     @targetLanguage fr-FR
@@ -182,6 +182,6 @@
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="fr-FR"><![CDATA[active / inactive state]]></rdfs:comment>
+    <rdfs:comment xml:lang="fr-FR"><![CDATA[Statut actif/inactif]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
