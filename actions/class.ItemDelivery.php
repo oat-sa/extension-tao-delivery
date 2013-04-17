@@ -100,7 +100,7 @@ class taoDelivery_actions_ItemDelivery extends taoDelivery_actions_DeliveryApi {
 			// We inject the data directly in the item file
 			try{
 				$doc = new DOMDocument();
-				$doc->loadHTMLFile($compiled);
+				(DEBUG_MODE)?@$doc->loadHTMLFile($compiled):$doc->loadHTMLFile($compiled);
 				
 				$initScriptElt = $doc->createElement('script');
 				$initScriptElt->setAttribute('type', 'text/javascript');
