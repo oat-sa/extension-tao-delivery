@@ -93,7 +93,7 @@ class taoDelivery_models_classes_DeliveryService
 			);
 
 			foreach($clazz->getProperties(true) as $property) {
-				if(!in_array($property->uriResource, $noCloningProperties)) {
+				if(!in_array($property->getUri(), $noCloningProperties)) {
 					//allow clone of every property value but the deliverycontent, which is a process:
 					foreach($instance->getPropertyValues($property) as $propertyValue) {
 						$clone->setPropertyValue($property, $propertyValue);
@@ -110,7 +110,7 @@ class taoDelivery_models_classes_DeliveryService
 			if(!is_null($process)){
 				$processCloner = new wfAuthoring_models_classes_ProcessCloner();
 				$processClone = $processCloner->cloneProcess($process);
-				$clone->editPropertyValues($propInstanceContent, $processClone->uriResource);
+				$clone->editPropertyValues($propInstanceContent, $processClone->getUri());
 			}else{
 				throw new Exception("the delivery process cannot be found");
 			}
@@ -185,7 +185,7 @@ class taoDelivery_models_classes_DeliveryService
 		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_ACL_MODE), INSTANCE_ACL_ROLE);
 		$processInstance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_PROCESS_INIT_RESTRICTED_ROLE), INSTANCE_ROLE_DELIVERY);
 
-		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->uriResource);
+		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->getUri());
 		$this->updateProcessLabel($returnValue);
 
 		//set the the default authoring mode to the 'simple mode':
@@ -260,7 +260,7 @@ class taoDelivery_models_classes_DeliveryService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B3 begin
 		if(!is_null($clazz)){
-			if($this->isDeliveryClass($clazz) && $clazz->uriResource != $this->deliveryClass->uriResource){
+			if($this->isDeliveryClass($clazz) && $clazz->getUri() != $this->deliveryClass->getUri()){
 				$returnValue = $clazz->delete();
 			}
 		}
@@ -283,7 +283,7 @@ class taoDelivery_models_classes_DeliveryService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B5 begin
 		$testClazz = new core_kernel_classes_Class(TAO_TEST_CLASS);
 		foreach($testClazz->getInstances(true) as $instance){
-			$returnValue[$instance->uriResource] = $instance->getLabel();
+			$returnValue[$instance->getUri()] = $instance->getLabel();
 		}
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020B5 end
 
@@ -332,7 +332,7 @@ class taoDelivery_models_classes_DeliveryService
 
 			$isIntial = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_ISINITIAL));
 			if(!is_null($isIntial) && $isIntial instanceof core_kernel_classes_Resource){
-				if($isIntial->uriResource == GENERIS_TRUE){
+				if($isIntial->getUri() == GENERIS_TRUE){
 					$currentActivity = $activity;
 					break;
 				}
@@ -390,7 +390,7 @@ class taoDelivery_models_classes_DeliveryService
 
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 begin
 		foreach($this->deliveryClass->getInstances(true) as $delivery){
-        	$returnValue[$delivery->uriResource] =  $this->getRelatedTests($delivery);
+        	$returnValue[$delivery->getUri()] =  $this->getRelatedTests($delivery);
         }
         // section 127-0-1-1-35b227b4:127a93c45f1:-8000:0000000000002346 end
 
@@ -417,13 +417,13 @@ class taoDelivery_models_classes_DeliveryService
 				$subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
 				$subjectSubClasses = array();
 				foreach($subjectClass->getSubClasses(true) as $subjectSubClass){
-					$subjectSubClasses[] = $subjectSubClass->uriResource;
+					$subjectSubClasses[] = $subjectSubClass->getUri();
 				}
 				foreach($subjects as $subjectUri){
 					$clazz = $this->getClass(new core_kernel_classes_Resource($subjectUri));
 					if(!is_null($clazz)){
-						if(in_array($clazz->uriResource, $subjectSubClasses)){
-							$returnValue[] = $clazz->uriResource;
+						if(in_array($clazz->getUri(), $subjectSubClasses)){
+							$returnValue[] = $clazz->getUri();
 						}
 					}
 					$returnValue[] = $subjectUri;
@@ -452,13 +452,13 @@ class taoDelivery_models_classes_DeliveryService
         $historyClass = new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS);
         if(empty($subject)){
                 //select History by delivery only (subject independent listing, i.e. select for all subjects)
-                $returnValue = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource), array('like'=>false, 'recursive' => 0));
+                $returnValue = $historyClass->searchInstances(array(TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->getUri()), array('like'=>false, 'recursive' => 0));
 
         }else{
                 //select history by delivery and subject
                 $returnValue = $historyClass->searchInstances(array(
-                        TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->uriResource,
-                        TAO_DELIVERY_HISTORY_SUBJECT_PROP => $subject->uriResource),
+                        TAO_DELIVERY_HISTORY_DELIVERY_PROP => $delivery->getUri(),
+                        TAO_DELIVERY_HISTORY_SUBJECT_PROP => $subject->getUri()),
                 array('like'=>false, 'recursive' => 0));
         }
 
@@ -541,7 +541,7 @@ class taoDelivery_models_classes_DeliveryService
 						$test = $authoringService->getTestByActivity($activity);
 						if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
                                                         $test->getLabel();//make sure that the label is set
-							$returnValue[$test->uriResource] = $test;
+							$returnValue[$test->getUri()] = $test;
 						}
 					}
 				}
@@ -570,7 +570,7 @@ class taoDelivery_models_classes_DeliveryService
 
 		$value = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP));
 		if($value instanceof core_kernel_classes_Resource ){
-			if ($value->uriResource == GENERIS_TRUE){
+			if ($value->getUri() == GENERIS_TRUE){
 				$returnValue = true;
 			}
 		}
@@ -593,12 +593,12 @@ class taoDelivery_models_classes_DeliveryService
         $returnValue = (bool) false;
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:00000000000020CD begin
-		if($clazz->uriResource == $this->deliveryClass->uriResource){
+		if($clazz->getUri() == $this->deliveryClass->getUri()){
 			$returnValue = true;
 		}
 		else{
 			foreach($this->deliveryClass->getSubClasses(true) as $subclass){
-				if($clazz->uriResource == $subclass->uriResource){
+				if($clazz->getUri() == $subclass->getUri()){
 					$returnValue = true;
 					break;
 				}
@@ -656,7 +656,7 @@ class taoDelivery_models_classes_DeliveryService
 
 			$interactiveService = $authoringService->setTestByActivity($activity, $test);
 			if(is_null($interactiveService)){
-				throw new common_Exception("the interactive test of test {$test->getlabel()}({$test->uriResource})");
+				throw new common_Exception("the interactive test of test {$test->getlabel()}({$test->getUri()})");
 			}
 
 			if($totalNumber == 1){
@@ -675,13 +675,13 @@ class taoDelivery_models_classes_DeliveryService
 				$connector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CONNECTORS_TYPE), INSTANCE_TYPEOFCONNECTORS_SEQUENCE);
 
 				if(!is_null($previousConnector)){
-					$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_STEP_NEXT), $activity->uriResource);
+					$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_STEP_NEXT), $activity->getUri());
 				}
 				$previousConnector = $connector;//set the current connector as "the previous one" for the next loop
 			}
 			else{
 				//if it is the last test of the array, no need to add a connector: just connect the previous connector to the last activity
-				$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_STEP_NEXT), $activity->uriResource);
+				$previousConnector->setPropertyValue(new core_kernel_classes_Property(PROPERTY_STEP_NEXT), $activity->getUri());
 				//every action is performed:
 				$returnValue = true;
 			}
@@ -816,8 +816,8 @@ class taoDelivery_models_classes_DeliveryService
 								$processedLanguages[] = $triple->lg;
 								$compilationLanguage = $triple->lg;
 
-								$itemFolderName = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-								$testFolderName = substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+								$itemFolderName = substr($item->getUri(), strpos($item->getUri(), '#') + 1);
+								$testFolderName = substr($test->getUri(), strpos($test->getUri(), '#') + 1);
 
 								//create the compilation folder for the delivery-test-item:
 								$compiledFolder = $this->getCompiledFolder($delivery);
@@ -887,7 +887,7 @@ class taoDelivery_models_classes_DeliveryService
 					if(!isset($resultArray["failed"]['unexistingItems'])){
 						$resultArray["failed"]['unexistingItems'] = array();
 					}
-					$resultArray["failed"]['unexistingItems'][$item->uriResource] = $item;
+					$resultArray["failed"]['unexistingItems'][$item->getUri()] = $item;
 					continue;
 				}
 				break;
@@ -964,7 +964,7 @@ class taoDelivery_models_classes_DeliveryService
 				$authoringService->deleteProcess($oldDeliveryProcess);
 			}
 			//then save it in TAO_DELIVERY_PROCESS prop:
-			$delivery->editPropertyValues($propDeliveryProcess, $deliveryProcess->uriResource);
+			$delivery->editPropertyValues($propDeliveryProcess, $deliveryProcess->getUri());
 			$returnValue['success'] = true;
 		}else{
 			$returnValue['errors'] = $deliveryProcessGenerator->getErrors();
@@ -995,8 +995,8 @@ class taoDelivery_models_classes_DeliveryService
 
 			foreach($groupClass->getInstances(true) as $instance){
 				foreach($instance->getPropertyValues($deliveriesProperty) as $aDelivery){
-					if($aDelivery == $delivery->uriResource){
-						$groups[] = $instance->uriResource;
+					if($aDelivery == $delivery->getUri()){
+						$groups[] = $instance->getUri();
 						break;
 					}
 				}
@@ -1005,13 +1005,13 @@ class taoDelivery_models_classes_DeliveryService
 			if(count($groups) > 0){
 				$groupSubClasses = array();
 				foreach($groupClass->getSubClasses(true) as $groupSubClass){
-					$groupSubClasses[] = $groupSubClass->uriResource;
+					$groupSubClasses[] = $groupSubClass->getUri();
 				}
 				foreach($groups as $groupUri){
 					$clazz = $this->getClass(new core_kernel_classes_Resource($groupUri));
 					if(!is_null($clazz)){
-						if(in_array($clazz->uriResource, $groupSubClasses)){
-							$returnValue[] = $clazz->uriResource;
+						if(in_array($clazz->getUri(), $groupSubClasses)){
+							$returnValue[] = $clazz->getUri();
 						}
 					}
 					$returnValue[] = $groupUri;
@@ -1082,7 +1082,7 @@ class taoDelivery_models_classes_DeliveryService
 				$newDeliveries = array();
 				$updateIt = false;
 				foreach($instance->getPropertyValues($deliveriesProperty) as $aDelivery){
-					if($aDelivery == $delivery->uriResource){
+					if($aDelivery == $delivery->getUri()){
 						$updateIt = true;
 					}
 					else{
@@ -1095,8 +1095,8 @@ class taoDelivery_models_classes_DeliveryService
 						$instance->setPropertyValue($deliveriesProperty, $newDelivery);
 					}
 				}
-				if(in_array($instance->uriResource, $groups)){
-					if($instance->setPropertyValue($deliveriesProperty, $delivery->uriResource)){
+				if(in_array($instance->getUri(), $groups)){
+					if($instance->setPropertyValue($deliveriesProperty, $delivery->getUri())){
 						$done++;
 					}
 				}
@@ -1263,7 +1263,7 @@ class taoDelivery_models_classes_DeliveryService
 		$processVariables = array();
 		$var_delivery = new core_kernel_classes_Resource(INSTANCE_PROCESSVARIABLE_DELIVERY);
 		if($var_delivery->hasType(new core_kernel_classes_Class(CLASS_PROCESSVARIABLES))){
-			$processVariables[$var_delivery->uriResource] = $delivery->uriResource;//no need to encode here, will be donce in Service::getUrlCall
+			$processVariables[$var_delivery->getUri()] = $delivery->getUri();//no need to encode here, will be donce in Service::getUrlCall
 		}else{
 			throw new common_exception_Error('the required process variable "delivery" is missing in delivery server, tao install need to be fixed');
 		}

@@ -59,7 +59,7 @@ class DeliveryServiceTestCase extends UnitTestCase {
 		$this->assertNotNull($defaultDeliveryServer);
 		
 		if(!is_null($defaultDeliveryServer)){
-			$this->assertEqual($defaultDeliveryServer->uriResource, TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+			$this->assertEqual($defaultDeliveryServer->getUri(), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		}
 		
 		$this->deliveryService->deleteDelivery($delivery);

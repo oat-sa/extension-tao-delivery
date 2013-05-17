@@ -119,7 +119,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				if($clazz instanceof core_kernel_classes_Resource){
-					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->getUri()));
 				}
 				$this->setData('message', __('Result Server class saved'));
 				$this->setData('reload', true);
@@ -153,7 +153,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
 			}
 		}
 		
-		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->uriResource));
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($resultServer->getUri()));
 		
 		//get the deliveries related to this delivery resultServer
 		$relatedDeliveries = tao_helpers_Uri::encodeArray($this->service->getRelatedDeliveries($resultServer), tao_helpers_Uri::ENCODE_ARRAY_VALUES);
@@ -179,7 +179,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
 		if(!is_null($resultServer) && $resultServer instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
 				'label'	=> $resultServer->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($resultServer->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($resultServer->getUri())
 			));
 		}
 	}
@@ -196,7 +196,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
 		if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
 			echo json_encode(array(
 				'label'	=> $clazz->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clazz->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($clazz->getUri())
 			));
 		}
 	}
@@ -244,7 +244,7 @@ class taoDelivery_actions_ResultServer extends tao_actions_SaSModule {
 			$clone->setLabel($resultServer->getLabel()."'");
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($clone->getUri())
 			));
 		}
 	}

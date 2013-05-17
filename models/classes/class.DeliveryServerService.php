@@ -112,10 +112,10 @@ class taoDelivery_models_classes_DeliveryServerService
 		$deliveryHistoryClass = new core_kernel_classes_Class(TAO_DELIVERY_HISTORY_CLASS);
 		$history = $deliveryHistoryClass->createInstance("Execution of the delivery {$delivery->getLabel()} by {$subject->getLabel()} on ". date(DATE_ISO8601), "created by DeliveryServerService on ". date(DATE_ISO8601));
 
-		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subject->uriResource);
-		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $delivery->uriResource);
+		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP), $subject->getUri());
+		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_DELIVERY_PROP), $delivery->getUri());
 		$history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP), time() );
-                $history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_PROCESS_INSTANCE), $processInstance->uriResource);
+                $history->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_PROCESS_INSTANCE), $processInstance->getUri());
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002067 end
     }
 
@@ -266,7 +266,7 @@ class taoDelivery_models_classes_DeliveryServerService
 			// /!\ Check if the $deliveryProcess is not a literal. If not compiled, we get an empty
 			// literal and it produces an error.
 			if($deliveryProcess != null && !$deliveryProcess instanceof core_kernel_classes_Literal) {
-				$returnValue[ $availableDelivery->uriResource ] = (($check) ? $deliveryProcess : $deliveryProcess->uriResource);
+				$returnValue[ $availableDelivery->getUri() ] = (($check) ? $deliveryProcess : $deliveryProcess->getUri());
 			}
 		}
 		
@@ -323,7 +323,7 @@ class taoDelivery_models_classes_DeliveryServerService
 		
 		$excludedSubjectArray = $this->getExcludedSubjects($delivery);
 		foreach($excludedSubjectArray as $excludedSubject){
-			if($excludedSubject == $subject->uriResource){
+			if($excludedSubject == $subject->getUri()){
 				$returnValue = true;
 				break;
 			}
@@ -489,13 +489,13 @@ class taoDelivery_models_classes_DeliveryServerService
         // section 10-13-1-39-2ec7ed43:12e6c7e48bb:-8000:0000000000002C3A begin
 		$propGroupDeliveries = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
 		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->uriResource), array('like'=>false, 'recursive' => 1000));
+		$groups = $groupClass->searchInstances(array(TAO_GROUP_MEMBERS_PROP => $subject->getUri()), array('like'=>false, 'recursive' => 1000));
 		
 		$deliveries = array();
 		foreach ($groups as $group) {
 			$deliveryCollection = $group->getPropertyValuesCollection($propGroupDeliveries);
 			foreach($deliveryCollection->getIterator() as $delivery){
-				$deliveries[$delivery->uriResource] = $delivery;
+				$deliveries[$delivery->getUri()] = $delivery;
 			}
 		}
 		
@@ -546,7 +546,7 @@ class taoDelivery_models_classes_DeliveryServerService
 
         // section 127-0-1-1--62c951b2:130e595e292:-8000:0000000000002F5A begin
 		$activityExecutionClass = new core_kernel_classes_Class(CLASS_ACTIVITY_EXECUTION);
-		$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->uriResource), array('like'=>false));
+		$currentUserActivityExecutions = $activityExecutionClass->searchInstances(array(PROPERTY_ACTIVITY_EXECUTION_CURRENT_USER => $currentUser->getUri()), array('like'=>false));
 		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
 		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
 		
@@ -570,7 +570,7 @@ class taoDelivery_models_classes_DeliveryServerService
 			}
 			
 			if($validExecution){
-				$returnValue[$processExecution->uriResource] = $processExecution;
+				$returnValue[$processExecution->getUri()] = $processExecution;
 			}else{
 				$currentUserActivityExecution->delete();
 			}

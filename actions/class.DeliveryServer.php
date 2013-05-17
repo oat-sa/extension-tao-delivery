@@ -106,16 +106,16 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 					continue;
 				}
 				
-				if(in_array($processDefinition->uriResource, $visibleProcess)){
+				if(in_array($processDefinition->getUri(), $visibleProcess)){
 					
 					$currentActivities = array();
 					
 					// Bypass ACL Check if possible...
-					if ($status->uriResource == INSTANCE_PROCESSSTATUS_FINISHED) {
+					if ($status->getUri() == INSTANCE_PROCESSSTATUS_FINISHED) {
 						$processViewData[] = array(
 							'type' 			=> $processDefinition->getLabel(),
 							'label' 		=> $processExecution->getLabel(),
-							'uri' 			=> $processExecution->uriResource,
+							'uri' 			=> $processExecution->getUri(),
 							'activities'	=> array(array('label' => '', 'uri' => '', 'may_participate' => false, 'finished' => true, 'allowed'=> true)),
 							'status'		=> $status
 						);
@@ -131,8 +131,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 							$currentActivities[] = array(
 								'label'				=> $currentActivity->getLabel(),
 								'uri' 				=> $uri,
-								'may_participate'	=> ($status->uriResource != INSTANCE_PROCESSSTATUS_FINISHED && $isAllowed),
-								'finished'			=> ($status->uriResource == INSTANCE_PROCESSSTATUS_FINISHED),
+								'may_participate'	=> ($status->getUri() != INSTANCE_PROCESSSTATUS_FINISHED && $isAllowed),
+								'finished'			=> ($status->getUri() == INSTANCE_PROCESSSTATUS_FINISHED),
 								'allowed'			=> $isAllowed
 							);
 
@@ -146,7 +146,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 						$processViewData[] = array(
 							'type' 			=> $processDefinition->getLabel(),
 							'label' 		=> $processExecution->getLabel(),
-							'uri' 			=> $processExecution->uriResource,
+							'uri' 			=> $processExecution->getUri(),
 							'activities'	=> $currentActivities,
 							'status'		=> $status
 						);

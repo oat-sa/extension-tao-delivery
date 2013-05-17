@@ -120,7 +120,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				if($clazz instanceof core_kernel_classes_Resource){
-					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->getUri()));
 				}
 				$this->setData('message', __('Delivery Class saved'));
 				$this->setData('reload', true);
@@ -186,7 +186,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 				//check if the authoring mode has changed: if advanced->simple, modify the related process to make it compatible
 				if(array_key_exists(TAO_DELIVERY_AUTHORINGMODE_PROP, $propertyValues)){
 					if($propertyValues[TAO_DELIVERY_AUTHORINGMODE_PROP] == TAO_DELIVERY_SIMPLEMODE){
-						if($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP))->uriResource == TAO_DELIVERY_ADVANCEDMODE){
+						if($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP))->getUri() == TAO_DELIVERY_ADVANCEDMODE){
 							//get all tests from the process, then save them:
 							$this->service->linearizeDeliveryProcess($delivery);
 						}
@@ -204,7 +204,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 				$this->setData('reload', true);
 			}
 		}
-		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->uriResource));
+		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->getUri()));
 		
 		//delivery authoring mode:
 		$this->setData('authoringMode', 'simple');
@@ -216,7 +216,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_DELIVERYCONTENT));
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_PROCESS));
 		
-		if($authoringMode->uriResource == TAO_DELIVERY_ADVANCEDMODE){
+		if($authoringMode->getUri() == TAO_DELIVERY_ADVANCEDMODE){
 			$this->setData('authoringMode', 'advanced');
 		}else{
 			
@@ -259,8 +259,8 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$histories = $this->service->getHistory($delivery);
 		$this->setData("executionNumber", count($histories));
 		
-		$this->setData('uri', tao_helpers_Uri::encode($delivery->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('uri', tao_helpers_Uri::encode($delivery->getUri()));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
 		
 		//define the groups related to the current delivery
 		$property = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
@@ -303,8 +303,8 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$this->service->setAuthoringMode($delivery, $mode);
 		
 		$param = array(
-			'uri' => tao_helpers_Uri::encode($delivery->uriResource),
-			'classUri' => tao_helpers_Uri::encode($clazz->uriResource)
+			'uri' => tao_helpers_Uri::encode($delivery->getUri()),
+			'classUri' => tao_helpers_Uri::encode($clazz->getUri())
 		);
 		
 		//reload the form, thus let the advanced authoring tab be available
@@ -329,7 +329,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			
 			echo json_encode(array(
 				'label'	=> $delivery->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($delivery->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($delivery->getUri())
 			));
 		}
 	}
@@ -349,7 +349,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
 			echo json_encode(array(
 				'label'	=> $clazz->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clazz->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($clazz->getUri())
 			));
 		}
 	}
@@ -393,7 +393,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		if(!is_null($clone)){
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($clone->getUri())
 			));
 		}
 	}
@@ -413,7 +413,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			 $delivery = $this->getCurrentDelivery();
 			 $processDefinition = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
 			// $processDefinition = new core_kernel_classes_Resource("http://127.0.0.1/middleware/demo.rdf#i1265636054002217401");		
-			$this->setData('processUri', tao_helpers_Uri::encode($processDefinition->uriResource));
+			$this->setData('processUri', tao_helpers_Uri::encode($processDefinition->getUri()));
 		}
 		catch(Exception $e){
 			$this->setData('error', true);
@@ -596,7 +596,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			$timestamp = $history->getUniquePropertyValue($propHistoryTimestamp);
 			$returnValue[$i]["time"] = date('d-m-Y G:i:s \(T\)', $timestamp->literal);
 			
-			$returnValue[$i]["uri"] = tao_helpers_Uri::encode($history->uriResource);
+			$returnValue[$i]["uri"] = tao_helpers_Uri::encode($history->getUri());
 			$i++;
 		}
 			
@@ -777,9 +777,9 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 	
 		$delivery = $this->getCurrentDelivery();
 		
-		$this->setData("processUri", tao_helpers_Uri::encode($delivery->uriResource));//currentprocess
+		$this->setData("processUri", tao_helpers_Uri::encode($delivery->getUri()));//currentprocess
 		$this->setData("processLabel", $delivery->getLabel());
-		$this->setData("deliveryClass", tao_helpers_Uri::encode($this->getCurrentClass()->uriResource));
+		$this->setData("deliveryClass", tao_helpers_Uri::encode($this->getCurrentClass()->getUri()));
 		
 		//compilation state:
 		$isCompiled = $this->service->isCompiled($delivery);
@@ -805,7 +805,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		//init the value to be returned	
 		$deliveryData=array();
 		
-		$deliveryData["uri"] = $delivery->uriResource;
+		$deliveryData["uri"] = $delivery->getUri();
 		
 		//check if a wsdl contract is set to upload the result:
 		$resultServer = $this->service->getResultServer($delivery);
@@ -822,7 +822,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			foreach($tests as $test){
 				$deliveryData['tests'][] = array(
 					"label" => $test->getLabel(),
-					"uri" => $test->uriResource
+					"uri" => $test->getUri()
 				);//url encode maybe?
 			}
 		}

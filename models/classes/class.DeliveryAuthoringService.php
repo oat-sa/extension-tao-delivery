@@ -103,7 +103,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002061 begin
 		
 		$deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-		$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_PROCESS => $process->uriResource), array('like'=>false, 'recursive' => 1000));
+		$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_PROCESS => $process->getUri()), array('like'=>false, 'recursive' => 1000));
 		
 		if(!empty($deliveries))
 		{
@@ -138,7 +138,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 					$serviceDefinition = $iService->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
 					if(!is_null($serviceDefinition)){
 					
-						if($serviceDefinition->uriResource == INSTANCE_SERVICEDEFINITION_TESTCONTAINER){
+						if($serviceDefinition->getUri() == INSTANCE_SERVICEDEFINITION_TESTCONTAINER){
 				
 							foreach($iService->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN))->getIterator() as $actualParam){
 								
@@ -258,13 +258,13 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			
 			//create a call of service and associate the service definition to it:
 			$interactiveService = $this->createInteractiveService($activity);
-			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $testContainerServiceDefinition->uriResource);
+			$interactiveService->setPropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $testContainerServiceDefinition->getUri());
 			
 			//get formal param associated to the test definition (defined in the delivery model so undeletable)
 			$testUriParam = new core_kernel_classes_Resource(INSTANCE_FORMALPARAM_TESTURI);
 			
 			//create an actual parameter to the service:
-			$this->setActualParameter($interactiveService, $testUriParam, $test->uriResource, PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN, PROPERTY_ACTUALPARAMETER_CONSTANTVALUE);
+			$this->setActualParameter($interactiveService, $testUriParam, $test->getUri(), PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN, PROPERTY_ACTUALPARAMETER_CONSTANTVALUE);
 			
 			$returnValue = $interactiveService;
 		}
@@ -289,7 +289,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
         // section 127-0-1-1--4d76012c:1374bad4278:-8000:0000000000003A72 begin
         
         $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-        $deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_DELIVERYCONTENT => $process->uriResource), array('like'=>false, 'recursive' => 1000));
+        $deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_DELIVERYCONTENT => $process->getUri()), array('like'=>false, 'recursive' => 1000));
         
         if(!empty($deliveries))
         {

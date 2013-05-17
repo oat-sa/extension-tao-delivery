@@ -49,7 +49,7 @@
 						<td class="status"><img src="<?php echo BASE_WWW;?>/<?php echo wfEngine_helpers_GUIHelper::buildStatusImageURI($procData['status']); ?>"/></td>
 						<td class="label"><?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procData['label']); ?></td>
 						<td class="join">
-							<?php if($procData['status'] instanceof core_kernel_classes_Resource && $procData['status']->uriResource != INSTANCE_PROCESSSTATUS_FINISHED): ?>
+							<?php if($procData['status'] instanceof core_kernel_classes_Resource && $procData['status']->getUri() != INSTANCE_PROCESSSTATUS_FINISHED): ?>
 								<?php foreach ($procData['activities'] as $activity): ?>
 									<?php if ($activity['may_participate']): ?>
 									<a href="<?= _url('index', 'ProcessBrowser', null, array('processUri' => $procData['uri'], 'activityUri' => $activity['uri']));?>"><?php echo $activity['label']; ?></a>

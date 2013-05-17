@@ -178,7 +178,7 @@ class taoDelivery_models_classes_ResultServerAuthoringService
         // section 10-13-1-39-5129ca57:1276133a327:-8000:0000000000002175 begin
         
     	if(!is_null($clazz)){
-			if($this->isResultServerClass($clazz) && $clazz->uriResource != $this->resultServerClass->uriResource){
+			if($this->isResultServerClass($clazz) && $clazz->getUri() != $this->resultServerClass->getUri()){
 				$returnValue = $clazz->delete();
 			}
 		}
@@ -205,10 +205,10 @@ class taoDelivery_models_classes_ResultServerAuthoringService
 		if(!is_null($resultServer)){
 			
 			$deliveryClass =  new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_RESULTSERVER_PROP => $resultServer->uriResource), array('like' => false, 'recursive' => 1000));
+			$deliveries = $deliveryClass->searchInstances(array(TAO_DELIVERY_RESULTSERVER_PROP => $resultServer->getUri()), array('like' => false, 'recursive' => 1000));
 			foreach ($deliveries as $delivery){
 				if($delivery instanceof core_kernel_classes_Resource ){
-					$returnValue[] = $delivery->uriResource;
+					$returnValue[] = $delivery->getUri();
 				}
 			}
 		}
@@ -241,7 +241,7 @@ class taoDelivery_models_classes_ResultServerAuthoringService
 				$newMembers = array();
 				$updateIt = false;
 				foreach($instance->getPropertyValues($resultServerProp) as $member){
-					if($member == $resultServer->uriResource){
+					if($member == $resultServer->getUri()){
 						$updateIt = true;
 					}else{
 						$newMembers[] = $member;
@@ -253,8 +253,8 @@ class taoDelivery_models_classes_ResultServerAuthoringService
 						$instance->setPropertyValue($resultServerProp, $newMember);
 					}
 				}
-				if(in_array($instance->uriResource, $deliveries)){
-					if($instance->setPropertyValue($resultServerProp, $resultServer->uriResource)){
+				if(in_array($instance->getUri(), $deliveries)){
+					if($instance->setPropertyValue($resultServerProp, $resultServer->getUri())){
 						$done++;
 					}
 				}
@@ -283,12 +283,12 @@ class taoDelivery_models_classes_ResultServerAuthoringService
 
         // section 10-13-1-39-5129ca57:1276133a327:-8000:000000000000217D begin
         
-    	if($clazz->uriResource == $this->resultServerClass->uriResource){
+    	if($clazz->getUri() == $this->resultServerClass->getUri()){
 			$returnValue = true;	
 		}
 		else{
 			foreach($this->resultServerClass->getSubClasses(true) as $subclass){
-				if($clazz->uriResource == $subclass->uriResource){
+				if($clazz->getUri() == $subclass->getUri()){
 					$returnValue = true;
 					break;	
 				}
@@ -354,7 +354,7 @@ class taoDelivery_models_classes_ResultServerAuthoringService
         		'save_result_url' 	=> preg_match('/^\//',$resultUrl)? ROOT_URL.$resultUrl : $resultUrl,
         		'save_event_url' 	=> preg_match('/^\//',$eventUrl)? ROOT_URL.$eventUrl : $eventUrl,
         		'matching_url' 		=> preg_match('/^\//',$matchingUrl)? ROOT_URL.$matchingUrl : $matchingUrl,
-        		'matching_server' 	=> ($matchingSide->uriResource == GENERIS_TRUE)
+        		'matching_server' 	=> ($matchingSide->getUri() == GENERIS_TRUE)
         	);
         }
 		

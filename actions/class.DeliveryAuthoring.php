@@ -139,7 +139,7 @@ class taoDelivery_actions_DeliveryAuthoring extends wfAuthoring_actions_ProcessA
 			$test = $this->service->getTestByActivity($activity);
 			
 			if(!is_null($test) && $test instanceof core_kernel_classes_Resource){
-				$tests[$test->uriResource] = $test;
+				$tests[$test->getUri()] = $test;
 			}
 		}
 		
@@ -163,10 +163,10 @@ class taoDelivery_actions_DeliveryAuthoring extends wfAuthoring_actions_ProcessA
 				throw new Exception("no delivery found for the current process");
 			}
 			
-			$this->setData("processUri", urlencode($currentDelivery->uriResource));
+			$this->setData("processUri", urlencode($currentDelivery->getUri()));
 			$this->setData("processLabel", $currentDelivery->getLabel());
 			foreach($currentDelivery->getType() as $deliveryClass){
-				$this->setData("deliveryClass", tao_helpers_Uri::encode($deliveryClass->uriResource));
+				$this->setData("deliveryClass", tao_helpers_Uri::encode($deliveryClass->getUri()));
 				break;
 			}
 			//compilation state:

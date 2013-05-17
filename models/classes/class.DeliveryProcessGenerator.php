@@ -178,10 +178,10 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 					$failed = true;
 					
 					$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-					$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->uriResource), array('like' => false, 'recursive' => 1000));
+					$testArray = $testClass->searchInstances(array(TEST_TESTCONTENT_PROP => $testProcess->getUri()), array('like' => false, 'recursive' => 1000));
 					if(count($testArray)){
 						$test = array_shift($testArray);
-						$this->processError['tests'][$test->uriResource] = array(
+						$this->processError['tests'][$test->getUri()] = array(
 							'resource' => $test,
 							'initialActivity' => (bool) count($processChecker->getInitialActivities()),
 							'isolatedConnectors' => $processChecker->getIsolatedConnectors()
@@ -194,7 +194,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 			}else{
 				$activityClone = $this->cloneActivity($activity);
 				if(is_null($activityClone)){
-					throw new common_Exception("the activity '{$activity->getLabel()}'({$activity->uriResource}) cannot be cloned");
+					throw new common_Exception("the activity '{$activity->getLabel()}'({$activity->getUri()}) cannot be cloned");
 				}else{
 					$this->addClonedActivity($activityClone, $activity);
 				}
@@ -211,7 +211,7 @@ class taoDelivery_models_classes_DeliveryProcessGenerator
 		}else{
 			//add all cloned activities to the cloned delivery process:
 			foreach($this->getClonedActivities() as $activityClone){
-				$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->uriResource);
+				$deliveryProcess->setPropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESS_ACTIVITIES), $activityClone->getUri());
 			}
 			
 			//reloop for connectors this time:
