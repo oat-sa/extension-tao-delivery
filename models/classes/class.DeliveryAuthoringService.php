@@ -189,7 +189,7 @@ class taoDelivery_models_classes_DeliveryAuthoringService
 			));
         		
 			$formal = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]);
-			if ($formal->getUri() == INSTANCE_FORMALPARAM_ITEMURI && isset($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])) {
+			if ($formal->getUri() == INSTANCE_FORMALPARAM_ITEMURI && !empty($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])) {
 				$returnValue = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]);
 				break;
 			}
