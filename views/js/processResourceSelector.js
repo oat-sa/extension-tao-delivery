@@ -51,7 +51,7 @@ function resourceSelector(identifier, resourceType){
 	});
 	$("#"+dialogId).bind('dialogopen', function(event, ui){
 		
-		dataUrl = root_url + "/taoDelivery/DeliveryAuthoring/getTestData";
+		dataUrl = root_url + "taoDelivery/DeliveryAuthoring/getTestData";
 		 
 		//create tree
 		$("#"+treeId).tree({
