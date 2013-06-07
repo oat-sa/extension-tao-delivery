@@ -46,7 +46,7 @@ return array(
 		),
 		'checks' => array(
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/data/compiled', 'rights' => 'rw')),
-			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'r'))
+			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'rw'))
 		)
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
