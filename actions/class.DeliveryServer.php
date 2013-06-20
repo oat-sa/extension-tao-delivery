@@ -89,8 +89,6 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
                 
 		//init variable that save data to be used in the view
 		$processViewData 	= array();
-		$uiLanguages		= tao_helpers_I18n::getAvailableLangs();
-		$this->setData('uiLanguages', $uiLanguages);
 		
 		//get the definition of delivery available for the subject:
 		$visibleProcess = $this->service->getDeliveries($subject,false);
