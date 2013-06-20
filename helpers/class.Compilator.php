@@ -51,14 +51,6 @@ class taoDelivery_helpers_Compilator
 	protected $failed = array();
 	
 	/**
-     * The attribute "pluginPath" define the directory where all required runtime plugins are stored
-     *
-     * @access protected
-     * @var string
-     */
-	protected $pluginPath = '';
-	
-	/**
      * The attribute "compiledPath" define the directory where all compiled files for the test will be stored
      *
      * @access public
@@ -122,15 +114,6 @@ class taoDelivery_helpers_Compilator
 		
 		
 		$deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-		if(!empty($pluginPath)){
-			$this->pluginPath = $pluginPath;
-		}else{
-			$this->pluginPath = $deliveryExtension->getConstant('BASE_PATH')."/lib/";
-		}
-		if(!is_dir($this->pluginPath)){
-			throw new taoDelivery_helpers_CompilationException("The plugin directory '{$this->pluginPath}' does not exist", $this->item);
-		}
-		
 		if(!empty($compiledPath)){
 			$this->compiledPath = $compiledPath;
 		}else{
