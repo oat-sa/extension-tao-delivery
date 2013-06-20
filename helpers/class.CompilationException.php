@@ -28,7 +28,7 @@
  * @subpackage helpers
  *
  */
-class taoDelivery_helpers_CompilationException extends Exception{
+class taoDelivery_helpers_CompilationException extends common_Exception{
 	
 	/**
 	 * The item that caused the compilation error.
