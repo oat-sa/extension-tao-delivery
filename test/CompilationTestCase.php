@@ -43,7 +43,7 @@ class CompilationTestCase extends UnitTestCase {
 		$qtiItem = current($qtiItems);
 
 		$owiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'owi.zip';
-		$owiItem	= taoItems_models_classes_XHTML_ImportService::singleton()->importXhtmlFile($owiFile, $itemClass, false);
+		$owiItem	= taoOpenWebItem_model_import_ImportService::singleton()->importXhtmlFile($owiFile, $itemClass, false);
 		
 		$testsService = taoTests_models_classes_TestsService::singleton();
 		$test = $testsService->createInstance(new core_kernel_classes_Class(TAO_TEST_CLASS), 'UnitTest Test');
