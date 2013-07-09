@@ -762,6 +762,89 @@ class taoDelivery_models_classes_DeliveryService
     }
 
     /**
+     * Compiles a delivery and everything it contains
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @return common_report_Report
+     */
+    public function compileDelivery( core_kernel_classes_Resource $delivery)
+    {
+        $report = new common_report_Report();
+        foreach ($this->getRelatedTests($delivery) as $test) {
+            $resultArray = $this->compileTest($delivery, $test);
+            if ($resultArray["success"] == 1) {
+                $report->add(new common_report_Report(__('Successfully compiled %1', $test->getLabel()), $test));
+            } else {
+                $report->add(new common_report_Report(__('Error while compiling %1', $test->getLabel())));
+            }
+        }
+        $report->add($this->finalizeDeliveryCompilation($delivery));
+    }
+    
+    /**
+     * finalises the compilation of a delivery
+     * assumes that all the tests within are already compiled
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @return common_report_Report
+     */
+    public function finalizeDeliveryCompilation( core_kernel_classes_Resource $delivery)
+    {
+        $generationResult = $this->generateProcess($delivery);
+		
+        // success
+		if($generationResult['success']){
+		    $report = new common_report_Report();
+			$propCompiled = new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP);
+			$delivery->editPropertyValues($propCompiled, GENERIS_TRUE);
+			
+		    if ($this->containsHumanAssistedMeasurements($delivery)) {
+				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_MANUAL);
+				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGSTATUS_PROP), TAO_DELIVERY_CODINGSTATUS_GRADING);
+			} else {
+				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_AUTOMATED);
+			}
+
+			$report->add(new common_report_SuccessElement(''));
+			
+        // failure
+		}else{
+		    $report = new common_report_Report();
+			if(isset($generationResult['errors']['delivery'])){
+				//bad design in delivery:
+			    $error = array(
+					'initialActivity' => $generationResult['errors']['delivery']['initialActivity'],
+					'isolatedConnectors' => array()
+				);
+				foreach($generationResult['errors']['delivery']['isolatedConnectors'] as $connector){
+					$error['isolatedConnectors'][] = $connector->getLabel();
+				}
+				$report->add(new taoDelivery_models_classes_CompilationErrorStructure(
+				    taoDelivery_models_classes_CompilationErrorStructure::DELIVERY_ERROR_TYPE, $error));
+			}elseif(isset($generationResult['errors']['tests'])){
+				foreach($generationResult['errors']['tests'] as $testErrors){
+				    
+					//bad design in some tests:
+					$connectors = array();
+					foreach($testErrors['isolatedConnectors'] as $connector){
+						$connectors[] = $connector->getLabel();
+					}
+					$error = array(
+						'initialActivity' => $testErrors['initialActivity'],
+						'label' => $testErrors['resource']->getLabel(),
+						'isolatedConnectors' => $connectors
+					);
+				    $report->add(new taoDelivery_models_classes_CompilationErrorStructure(
+				        taoDelivery_models_classes_CompilationErrorStructure::TEST_ERROR_TYPE, $error));
+				}
+			} else {
+			    $report->add(new common_report_Report(''));
+			}
+		}
+		return $report;
+    }
+    
+    /**
      * Short description of method compileTest
      *
      * @access public
@@ -1143,18 +1226,15 @@ class taoDelivery_models_classes_DeliveryService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E1 begin
-    		foreach ($this->getDeliveryItems($delivery) as $item) {
-				$measurements	= taoItems_models_classes_ItemsService::singleton()->getItemMeasurements($item);
-		        foreach ($measurements as $measurement) {
-		        	if ($measurement->isHumanAssisted()) {
-		        		$returnValue = true;
-		        		return $returnValue;
-		        	}
-		        }
-			}
-
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E1 end
+		foreach ($this->getDeliveryItems($delivery) as $item) {
+			$measurements	= taoItems_models_classes_ItemsService::singleton()->getItemMeasurements($item);
+	        foreach ($measurements as $measurement) {
+	        	if ($measurement->isHumanAssisted()) {
+	        		$returnValue = true;
+	        		break(2);
+	        	}
+	        }
+		}
 
         return (bool) $returnValue;
     }
@@ -1189,7 +1269,9 @@ class taoDelivery_models_classes_DeliveryService
 
 				foreach($activities as $activity){
 					$item = $authoringService->getItemByActivity($activity);
-					if (is_null($item)) {throw new common_Exception("An item being referred to into this delivery does not exist anymore");}
+					if (is_null($item)) {
+					    throw new common_exception_Error("An item being referred to into this delivery does not exist anymore");
+					}
 					$returnValue[$item->getUri()] = $item;
 				}
 			}

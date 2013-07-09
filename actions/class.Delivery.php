@@ -845,58 +845,31 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$response["result"]=0;
 		
 		//generate the actual delivery process:		
-		
-		$generationResult = $this->service->generateProcess($delivery);
-		
-		if($generationResult['success']){
-			if ($this->service->containsHumanAssistedMeasurements($delivery)) {
-				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_MANUAL);
-				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGSTATUS_PROP), TAO_DELIVERY_CODINGSTATUS_GRADING);
-			} else {
-				$delivery->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_CODINGMETHOD_PROP), TAO_DELIVERY_CODINGMETHOD_AUTOMATED);
-			}
+		$report = $this->service->finalizeDeliveryCompilation($delivery);
+		if ($report->containsError()) {
+		    $response['errors'] = array();
+		    foreach ($report->getErrors() as $error) {
+		        if ($error instanceof taoDelivery_models_classes_CompilationErrorStructure) {
+		            if ($error->getType() == taoDelivery_models_classes_CompilationErrorStructure::DELIVERY_ERROR_TYPE) {
+		                $response['errors']['delivery'] = $error->getStructure();
+		            } elseif ($error->getType() == taoDelivery_models_classes_CompilationErrorStructure::TEST_ERROR_TYPE) {
+		                if (!isset($response['errors']['tests'])) {
+		                    $response['errors']['tests'] = array();
+		                }
+		                $response['errors']['tests'][] = $error->getStructure();
+		            } else {
+		                throw new common_Exception('Unknown Compilation error type '.$error->getType());
+		            }
+		        } else {
+                    throw new common_Exception('Unknown Compilation Error '.get_class($error));		            
+		        }
+		    }
+		} else {
+		    $response = array(
+				'result' => 1,
+				'compiledDate' => $this->service->getCompiledDate($delivery)
+			);
 		}
-		
-		if($generationResult['success']){
-			$propCompiled = new core_kernel_classes_Property(TAO_DELIVERY_COMPILED_PROP);
-			if($delivery->editPropertyValues($propCompiled, GENERIS_TRUE)){
-				$response = array(
-					'result' => 1,
-					'compiledDate' => $this->service->getCompiledDate($delivery)
-				);
-			}
-		}else{
-			$response['errors'] = array();
-			if(isset($generationResult['errors']['delivery'])){
-				$response['errors']['delivery'] = array();
-				//bad design in delivery:
-				$response['errors']['delivery']['initialActivity'] = $generationResult['errors']['delivery']['initialActivity'];
-				$response['errors']['delivery']['isolatedConnectors'] = array();
-				foreach($generationResult['errors']['delivery']['isolatedConnectors'] as $connector){
-					$response['errors']['delivery']['isolatedConnectors'][] = $connector->getLabel();
-				}
-			}else{
-				$i = 0;
-				$response['errors']['tests'] = array();
-				foreach($generationResult['errors']['tests'] as $testErrors){
-					//bad design in some tests:
-					$response['errors']['tests'][$i] = array(
-						'initialActivity' => $testErrors['initialActivity'],
-						'label' => $testErrors['resource']->getLabel(),
-						'isolatedConnectors' => array()
-					);
-					
-					// $response['errors']['tests'][$i]['initialActivity'] = $testErrors['initialActivity'];
-					// $response['errors']['tests'][$i]['label'] = $testErrors['resource']->getLabel();
-					// $response['errors']['tests'][$i]['isolatedConnectors'] = array();
-					foreach($testErrors['isolatedConnectors'] as $connector){
-						$response['errors']['tests'][$i]['isolatedConnectors'][] = $connector->getLabel();
-					}
-					
-					$i++;
-				}
-			}
-		}		
 		
 		echo json_encode($response);
 	}
