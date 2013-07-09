@@ -36,15 +36,20 @@ class CompilationTestCase extends UnitTestCase {
 	
 	public function testCompile(){
 		$itemClass	= taoItems_models_classes_ItemsService::singleton()->getRootClass();
-		$qtiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'qti.zip';
+		$qtiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'qti2_1.zip';
 		
 		$qtiItems = taoQTI_models_classes_QTI_ImportService::singleton()->importQTIPACKFile($qtiFile, $itemClass, false);
 		$this->assertEqual(count($qtiItems), 1);
 		$qtiItem = current($qtiItems);
-
-		$owiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'owi.zip';
-		$owiItem	= taoOpenWebItem_model_import_ImportService::singleton()->importXhtmlFile($owiFile, $itemClass, false);
+		$this->assertIsA($qtiItem, 'core_kernel_classes_Resource');
 		
+		$owiFile	= dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'owi.zip';
+		$importService = new taoOpenWebItem_model_import_ImportService();
+		$report	= $importService->importXhtmlFile($owiFile, $itemClass, false);
+		$success = $report->getSuccesses();
+		$owiItem = current($success)->getData();
+		$this->assertIsA($owiItem, 'core_kernel_classes_Resource');
+				
 		$testsService = taoTests_models_classes_TestsService::singleton();
 		$test = $testsService->createInstance(new core_kernel_classes_Class(TAO_TEST_CLASS), 'UnitTest Test');
 		$this->assertTrue($testsService->setTestItems($test, array($qtiItem, $owiItem)));

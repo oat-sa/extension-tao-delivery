@@ -97,6 +97,50 @@ class DeliveryServiceTestCase extends UnitTestCase {
 		$test1->delete();
 		$test2->delete();
 	}
+	
+	public function testSetGroupTests(){
+	
+		//create 2 tests:
+		$groupClass =taoGroups_models_classes_GroupsService::singleton()->getRootClass();
+		$group1 = $groupClass->createInstance('UnitDelivery Group1');
+		$group2 = $groupClass->createInstance('UnitDelivery Group2');
+		$group3 = $groupClass->createInstance('UnitDelivery Group3');
+        
+		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array($group1, $group2)));
+		
+		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
+		$this->assertEqual(count($groups), 2);
+		$toFind = array($group1->getUri(), $group2->getUri());
+		foreach ($groups as $groupUri) {
+		    $toFind = array_diff($toFind, array($groupUri));
+		}
+		$this->assertEqual(count($toFind), 0);
+		
+		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array($group2, $group3)));
+		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
+		$this->assertEqual(count($groups), 2);
+		$toFind = array($group2->getUri(), $group3->getUri());
+		foreach ($groups as $groupUri) {
+		    $toFind = array_diff($toFind, array($groupUri));
+		}
+		$this->assertEqual(count($toFind), 0);
+
+		foreach (array($group2, $group3) as $group) {
+		    $deliveries = taoGroups_models_classes_GroupsService::singleton()->getRelatedDeliveries($group);
+		    $this->assertEqual(count($deliveries), 1);
+		    $this->assertEqual(current($deliveries), $this->delivery->getUri());
+		}
+	    $deliveries = taoGroups_models_classes_GroupsService::singleton()->getRelatedDeliveries($group1);
+	    $this->assertEqual(count($deliveries), 0);
+		
+		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array()));
+		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
+		$this->assertEqual(count($groups), 0);
+		
+		$group1->delete();
+		$group2->delete();
+		$group3->delete();
+	}
 
 	public function testAuthoringMode() {
 		

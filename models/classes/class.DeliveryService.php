@@ -1070,44 +1070,39 @@ class taoDelivery_models_classes_DeliveryService
      */
     public function setDeliveryGroups( core_kernel_classes_Resource $delivery, $groups)
     {
-        $returnValue = (bool) false;
+		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+		$property = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+		$currentGroups = $groupClass->searchInstances(array(
+		    TAO_GROUP_DELIVERIES_PROP => $delivery
+		), array('recursive' => true, 'like' => false));
 
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002D03 begin
-		if(!is_null($delivery)){
-			$groupClass 		= new core_kernel_classes_Class(TAO_GROUP_CLASS);
-			$deliveriesProperty	= new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
-
-			$done = 0;
-			foreach($groupClass->getInstances(true) as $instance){
-				$newDeliveries = array();
-				$updateIt = false;
-				foreach($instance->getPropertyValues($deliveriesProperty) as $aDelivery){
-					if($aDelivery == $delivery->getUri()){
-						$updateIt = true;
-					}
-					else{
-						$newDeliveries[] = $aDelivery;
-					}
-				}
-				if($updateIt){
-					$instance->removePropertyValues($deliveriesProperty);
-					foreach($newDeliveries as $newDelivery){
-						$instance->setPropertyValue($deliveriesProperty, $newDelivery);
-					}
-				}
-				if(in_array($instance->getUri(), $groups)){
-					if($instance->setPropertyValue($deliveriesProperty, $delivery->getUri())){
-						$done++;
-					}
-				}
-			}
-			if($done == count($groups)){
-				$returnValue = true;
-			}
+		$toAdd = array();
+		$toRemove = array();
+		foreach ($currentGroups as $cGroup) {
+		    $found = false;
+		    foreach ($groups as $nGroup) {
+		        if ($cGroup->equals($nGroup)) {
+		            $found = true;
+		            break;
+		        }
+		    }
+		    if (!$found) {
+		        $cGroup->removePropertyValue($property, $delivery);
+		    }
 		}
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002D03 end
-
-        return (bool) $returnValue;
+		foreach ($groups as $nGroup) {
+		    $found = false;
+		    foreach ($currentGroups as $cGroup) {
+		        if ($cGroup->equals($nGroup)) {
+		            $found = true;
+		            break;
+		        }
+		    }
+		    if (!$found) {
+		        $nGroup->setPropertyValue($property, $delivery);
+		    }
+		}
+        return (bool) true;
     }
 
     /**
