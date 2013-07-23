@@ -537,6 +537,11 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$test = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
 		
 		$destination = $this->service->getCompiledTestFolder($delivery, $test);
+		if(!is_dir($destination)){
+			if (!mkdir($destination, 0770, true)) {
+				common_Logger::w('Could not create test directory \''.$destination.'\'');
+			}
+		}
 		
 		$compiler = taoDelivery_models_classes_CompilationService::singleton();
 		$resultArray = $compiler->compileTest($test, $destination);
