@@ -55,13 +55,15 @@ class taoDelivery_models_classes_CompilationService extends tao_models_classes_S
 				}
 			}
             $resultArray = $this->compileTest($test, $testFolder);
+			$testReport = new common_report_Report();
             if ($resultArray["success"] == 1) {
-                $report->add(new common_report_Report(__('Successfully compiled %1', $test->getLabel()), $test));
+                $testReport->add(new common_report_SuccessElement(__('Successfully compiled %1', $test->getLabel()), $test));
             } else {
-                $report->add(new common_report_Report(__('Error while compiling %1', $test->getLabel())));
+                $testReport->add(new common_report_ErrorElement(__('Error while compiling %1', $test->getLabel())));
             }
+	        $report->add($testReport);
         }
-        $report->add($this->finalizeDeliveryCompilation($delivery));
+		return $report;
     }
 	
 	 public function compileTest(core_kernel_classes_Resource $test, $destination) {

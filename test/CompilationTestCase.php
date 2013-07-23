@@ -58,8 +58,10 @@ class CompilationTestCase extends UnitTestCase {
 		$delivery = $deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTest Delivery');
 		$this->assertTrue($deliveryService->setDeliveryTests($delivery, array($test)));
 		
-		$resultArray = $deliveryService->compileTest($delivery, $test);
-		$this->assertEqual($resultArray, array("success"=> 1,  "failed" => array()));
+		$compilationService = taoDelivery_models_classes_CompilationService::singleton();
+		$report = $compilationService->compileDelivery($delivery);
+		$this->assertTrue($report->containsSuccess());
+		$this->assertFalse($report->containsError());
 		
 		$compiledFolder = $deliveryService->getCompiledFolder($delivery);
 		$this->assertTrue(file_exists($compiledFolder));
@@ -68,7 +70,9 @@ class CompilationTestCase extends UnitTestCase {
 		$this->assertTrue(is_dir($qtiPath));
 		$this->assertTrue(file_exists($qtiPath.'index.html'));
 		$this->assertTrue(file_exists($qtiPath.'smiling.jpg'));
-		$this->verifyLinks($qtiPath.'index.html');
+		
+		$url = taoDelivery_helpers_ItemAccessControl::getAccessUrl($delivery, $test, $qtiItem, DEFAULT_LANG);
+		$this->verifyLinks($url);
 		
 		$owiPath = $deliveryService->getCompiledItemFolder($delivery, $test, $owiItem, array(DEFAULT_LANG));
 		$this->assertTrue(is_dir($owiPath));
@@ -77,7 +81,9 @@ class CompilationTestCase extends UnitTestCase {
 		$this->assertTrue(file_exists($owiPath.'styles/simple.css'));
 		$this->assertTrue(file_exists($owiPath.'scripts/simple.js'));
 		$this->assertTrue(file_exists($owiPath.'media/simple.png'));
-		$this->verifyLinks($owiPath.'index.html');
+		
+		$url = taoDelivery_helpers_ItemAccessControl::getAccessUrl($delivery, $test, $owiItem, DEFAULT_LANG);
+		$this->verifyLinks($url);
 		
 		$deliveryService->deleteDelivery($delivery);
 		
@@ -94,9 +100,9 @@ class CompilationTestCase extends UnitTestCase {
 	/**
 	 * 
 	 */
-	private function verifyLinks($htmlFile) {
+	private function verifyLinks($indexUrl) {
 		$dom = new DOMDocument();
-        $dom->loadHTMLFile($htmlFile);
+        $dom->loadHTMLFile($indexUrl);
         $toCheck = array();
         foreach ($dom->getElementsByTagName('img') as $img) {
         	$toCheck[] = $img->getAttribute('src');
@@ -108,9 +114,12 @@ class CompilationTestCase extends UnitTestCase {
         	$toCheck[] = $img->getAttribute('href');
         };
         foreach ($toCheck as $url) {
+        	$absUrl = parse_url($url, PHP_URL_SCHEME) == '' 
+        		? pathinfo($indexUrl, PATHINFO_DIRNAME).'/'.$url
+        		: $url;
         	if (!empty($url)) {
 				$ch = curl_init();
-				curl_setopt( $ch, CURLOPT_URL, $url);
+				curl_setopt( $ch, CURLOPT_URL, $absUrl);
 				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 				curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 20 );
 				
@@ -121,9 +130,9 @@ class CompilationTestCase extends UnitTestCase {
 				$res    = curl_exec( $ch );
 				$res    = explode( ' ', substr( $res, 0, strpos( $res, "\n" ) ) );
 				if (curl_error($ch)) {
-					$this->fail('curl request failed '. $url);
+					$this->fail('curl request failed '. $absUrl);
 				} else {
-					$this->assertNotEqual($res[1], 404, $url.' not found');
+					$this->assertNotEqual($res[1], 404, $absUrl.' not found');
 				}
         	}
         }
