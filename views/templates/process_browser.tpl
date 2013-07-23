@@ -12,6 +12,17 @@
 		</script>
 		<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+		
+		<script type="text/javascript" src="<?=ROOT_URL?>wfEngine/views/js/wfApi/wfApi.min.js"></script>
+		<script type="text/javascript" src="<?=ROOT_URL?>wfEngine/views/js/serviceApi/ServiceWfImpl.js"></script>
+		<script type="text/javascript">
+			var api = new ServiceWfImpl(
+				<?=json_encode(get_data('activityExecutionUri'))?>,
+				<?=json_encode(get_data('processUri'))?>,
+				<?=json_encode(get_data('activityExecutionNonce'))?>
+			);
+		</script>
+				
 
 		<script type="text/javascript">
 			window.processUri = '<?=urlencode($browserViewData['processUri'])?>';
@@ -61,6 +72,18 @@
 							var height = $(doc).height();
 							$('#tools').height(height + oldHeight);
 						});
+
+						if (jQuery.browser.msie) {
+							this.onreadystatechange = function(){	
+								if(this.readyState == 'complete'){
+									api.connect(this);	
+								}
+							};
+						} else {		
+							this.onload = function(){
+								api.connect(this);	
+							};
+						}
 					});
 
 <?endforeach;?>

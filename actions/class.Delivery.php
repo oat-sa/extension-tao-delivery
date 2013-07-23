@@ -536,13 +536,10 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$delivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
 		$test = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
 		
-		$resultArray = $this->service->compileTest($delivery, $test);
-		if(isset($resultArray["failed"]['unexistingItems'])){
-			foreach($resultArray["failed"]['unexistingItems'] as $itemUri => $item){
-				$itemLabel = $item->getLabel();
-				$resultArray["failed"]['unexistingItems'][$itemUri] = empty($itemLabel)?__('unknown label'):$itemLabel;
-			}
-		}
+		$destination = $this->service->getCompiledTestFolder($delivery, $test);
+		
+		$compiler = taoDelivery_models_classes_CompilationService::singleton();
+		$resultArray = $compiler->compileTest($test, $destination);
 		
 		echo json_encode($resultArray);
 	}
@@ -844,8 +841,9 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		$response = array();
 		$response["result"]=0;
 		
-		//generate the actual delivery process:		
-		$report = $this->service->finalizeDeliveryCompilation($delivery);
+		//generate the actual delivery process:
+		$compilationService = taoDelivery_models_classes_CompilationService::singleton();
+		$report = $compilationService->finalizeDeliveryCompilation($delivery);
 		if ($report->containsError()) {
 		    $response['errors'] = array();
 		    foreach ($report->getErrors() as $error) {
