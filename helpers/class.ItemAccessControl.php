@@ -56,7 +56,9 @@ class taoDelivery_helpers_ItemAccessControl
 	public static function getAccessProvider() {
 		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
 		$className = $ext->getConfig(self::CONFIG_KEY);
-		return new $className();
+		return !is_null($className) && class_exists($className)
+			? new $className()
+			: null;
 	}
 
 }
