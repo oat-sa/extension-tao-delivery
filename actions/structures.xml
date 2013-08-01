@@ -27,15 +27,11 @@
 					<action name="move" js="generisActions.moveNode" url="" context="instance" />
 					<action name="export" url="/tao/Export/index"  context="*" />
 					<action name="import" url="/tao/Import/index"  context="class" />
-					<action name="advanced mode" url="/taoDelivery/Delivery/advancedMode" context="instance" />
-					<action name="simple mode" url="/taoDelivery/Delivery/simpleMode" context="instance" />
 					<action name="LTI export" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
 				</actions>
 			</section>
 
-			<section id="delivery_authoring" name="Advanced Authoring Tool" url="/taoDelivery/Delivery/authoring" />
-
-			<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
+		<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
 				<trees>
 					<tree name="Result Servers library"
 						className="Result Server"
