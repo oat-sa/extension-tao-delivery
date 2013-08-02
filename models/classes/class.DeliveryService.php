@@ -1026,7 +1026,6 @@ class taoDelivery_models_classes_DeliveryService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E4 begin
         if ($inOrder) {
     		foreach ($this->getDeliveryTests($delivery) as $test) {
 				foreach (taoTests_models_classes_TestsService::singleton()->getTestItems($test) as $item) {
@@ -1034,23 +1033,12 @@ class taoDelivery_models_classes_DeliveryService
 				}
 			}
         } else {
-		 	$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
-		 	$process = $delivery->getUniquePropertyValue(
-				new core_kernel_classes_Property(TAO_DELIVERY_PROCESS)
-			);
-			if(!is_null($process)){
-				$activities = $authoringService->getActivitiesByProcess($process);
-
-				foreach($activities as $activity){
-					$item = $authoringService->getItemByActivity($activity);
-					if (is_null($item)) {
-					    throw new common_exception_Error("An item being referred to into this delivery does not exist anymore");
-					}
-					$returnValue[$item->getUri()] = $item;
-				}
-			}
+        	foreach ($this->getDeliveryTests($delivery) as $test) {
+        		foreach (taoTests_models_classes_TestsService::singleton()->getRelatedItems($test) as $item) {
+        			$returnValue[] = $item;
+        		}
+        	}
         }
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038E4 end
 
         return (array) $returnValue;
     }

@@ -168,38 +168,6 @@ class taoDelivery_models_classes_DeliveryAuthoringService
     }
 
     /**
-     * Short description of method getItemByActivity
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource activity
-     * @return core_kernel_classes_Resource
-     */
-    public function getItemByActivity( core_kernel_classes_Resource $activity)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038F1 begin
-    	$service = $activity->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-		foreach ($service->getPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN)) as $parameter) {
-			$parameterRessource = new core_kernel_classes_Resource($parameter);
-			$paramvals = $parameterRessource->getPropertiesValues(array(
-				new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_FORMALPARAMETER),
-				new core_kernel_classes_Property(PROPERTY_ACTUALPARAMETER_CONSTANTVALUE)
-			));
-        		
-			$formal = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]);
-			if ($formal->getUri() == INSTANCE_FORMALPARAM_ITEMURI && !empty($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])) {
-				$returnValue = array_pop($paramvals[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]);
-				break;
-			}
-		}
-        // section 127-0-1-1-74b053b:136828054b1:-8000:00000000000038F1 end
-
-        return $returnValue;
-    }
-
-    /**
      * Short description of method getTestProcessFromActivity
      *
      * @access public
