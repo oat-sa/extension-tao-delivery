@@ -2,19 +2,21 @@
 var itemApi = null;
 var frame = null;
 
-function onServiceApiReady(serviceApi) {
-	var storage = new ItemVariableStorage(serviceApi.getServiceCallId());
-	itemApi = new ItemServiceImpl(serviceApi, storage);
-	console.log('Api ready');
-	bindApi();
-};
-
+// wait for API and frame to be ready
 var bindApi = function() {
 	if (frame != null && itemApi != null) {
 		console.log('Connecting');
 		itemApi.connect(frame);
 	}
 }
+
+function onServiceApiReady(serviceApi) {
+	//var facade = util.generateFacade(ItemVariableStorage);
+	var storage = new ItemVariableStorage(serviceApi.getServiceCallId());
+	itemApi = new ItemServiceImpl(serviceApi, storage);
+	console.log('Api ready');
+	bindApi();
+};
 
 $(document).ready(function() {
 	frame = document.getElementById('item-container');

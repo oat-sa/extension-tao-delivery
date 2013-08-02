@@ -11,7 +11,9 @@ function ItemVariableStorage(storageId) {
 		this.load();
 	}
 }
-
+ItemVariableStorage.prototype.instanciate = function(storageId) {
+}
+	
 ItemVariableStorage.prototype.get = function(key, callback){
 	if (typeof callback == 'function') {
 		callback(this.variables[key]);
@@ -40,6 +42,8 @@ ItemVariableStorage.prototype.load = function(callback) {
 				if (typeof callback == "function") {
 					callback();	
 				}
+			} else {
+				this.variables = {};
 			}
 		}
 	});

@@ -33,11 +33,6 @@ ItemServiceImpl.prototype.traceEvents = function(eventArray) {
 	console.log('Got scores: '.eventArray);
 }
 
-ItemServiceImpl.prototype.beforeFinish = function(callback) {
-	console.log('beforeFinish received by ItemServiceImpl');
-	this.beforeFinishCallbacks.push(callback);
-}
-
 // Scoring
 ItemServiceImpl.prototype.saveScores = function(valueArray) {
 	for (var attrname in valueArray) {
@@ -47,6 +42,11 @@ ItemServiceImpl.prototype.saveScores = function(valueArray) {
 }
 
 // Flow
+ItemServiceImpl.prototype.beforeFinish = function(callback) {
+	console.log('beforeFinish received by ItemServiceImpl');
+	this.beforeFinishCallbacks.push(callback);
+}
+
 ItemServiceImpl.prototype.finish = function() {
 	console.log('Running ' + this.beforeFinishCallbacks.length + ' registered events');
 	for (var i = 0; i < this.beforeFinishCallbacks.length; i++) {

@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<script type='text/javascript' src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
+		<script type='text/javascript' src="<?=TAOBASE_WWW?>js/util.js"></script>
 		<script type='text/javascript' src='<?=BASE_WWW?>js/ItemServiceImpl.js'></script>
 		<script type='text/javascript' src='<?=BASE_WWW?>js/ItemVariableStorage.js'></script>
 		<script type='text/javascript' src='<?=BASE_WWW?>js/item_runner.js'></script>
