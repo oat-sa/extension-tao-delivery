@@ -4,10 +4,8 @@
 		<title><?=__("TAO - An Open and Versatile Computer-Based Assessment Platform")?></title>
 
 		<script type="text/javascript">
-			var root_url = '<?=ROOT_URL?>';
-			var base_url = '<?=BASE_URL?>';
 			var taobase_www = '<?=TAOBASE_WWW?>';
-			var base_www = '<?=BASE_WWW?>';
+			var root_url = '<?=ROOT_URL?>';
 			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
 		</script>
 		<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
@@ -15,88 +13,32 @@
 		
 		<script type="text/javascript" src="<?=ROOT_URL?>wfEngine/views/js/wfApi/wfApi.min.js"></script>
 		<script type="text/javascript" src="<?=ROOT_URL?>wfEngine/views/js/serviceApi/ServiceWfImpl.js"></script>
+		<script type="text/javascript" src="<?=ROOT_URL?>wfEngine/views/js/WfRunner.js"></script>
 		<script type="text/javascript">
-			var api = new ServiceWfImpl(
-				<?=json_encode(get_data('activityExecutionUri'))?>,
-				<?=json_encode(get_data('processUri'))?>,
-				<?=json_encode(get_data('activityExecutionNonce'))?>
-			);
-		</script>
-				
-
-		<script type="text/javascript">
-			window.processUri = '<?=urlencode($browserViewData['processUri'])?>';
-			window.activityUri = '<?=urlencode($activity->getUri())?>';
-			window.activeResources = <?=$browserViewData['active_Resource']?>;
-
-			function goToPage(page_str){
-				$("#loader").css('display', 'block');
-				$("#tools").empty();
-				window.location.href = page_str;
-			}
-
 			require(['require', 'jquery', 'json2'], function(req, $) {
-				$(function(){
-					$("#loader").css('display', 'none');
-					// Back and next function bindings for the ProcessBrowser.
-					$("#back").click(function(){
-						$("#navigation").hide();
-						goToPage('<?=BASE_URL;?>ProcessBrowser/back?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
-						$(this).unbind('click');
-						$("#next").unbind('click');
-					});
-
-					$("#next").click(function(){
-						$("#navigation").hide();
-						goToPage('<?=BASE_URL;?>ProcessBrowser/next?processUri=<?=urlencode($browserViewData['processUri'])?>&activityUri=<?=urlencode($browserViewData['activityExecutionUri'])?>&nc=<?=$browserViewData['activityExecutionNonce']?>');
-						$(this).unbind('click');
-						$("#back").unbind('click');
-					});
-
-<?foreach($services as $service):?>
-					var $aFrame = $('<iframe class="toolframe" frameborder="0" style="<?=$service['style']?>" src="<?=BASE_URL?>ProcessBrowser/loading"></iframe>').appendTo('#tools');
-					$aFrame.unbind('load').load(function(){
-						$(this).attr('src', "<?=$service['callUrl']?>");
-						$(this).unbind('load');
-
-						$(this).load(function() {
-							// Auto adapt tool container regarding iframe heights
-							var frame = this;
-							var doc = frame.contentWindow || frame.contentDocument;
-
-							if (doc.document) {
-								doc = doc.document;
-							}
-
-							var oldHeight = $('#tools').height();
-							var height = $(doc).height();
-							$('#tools').height(height + oldHeight);
-						});
-
-						if (jQuery.browser.msie) {
-							this.onreadystatechange = function(){	
-								if(this.readyState == 'complete'){
-									api.connect(this);	
-								}
-							};
-						} else {		
-							this.onload = function(){
-								api.connect(this);	
-							};
-						}
-					});
-
-<?endforeach;?>
-<?if(get_data('debugWidget')):?>
-
-					$("#debug").click(function(){
-						$("#debugWindow").toggle('slow');
-					});
-<?endif?>
+				$("#debug").click(function(){
+					$("#debugWindow").toggle('slow');
 				});
-			});
+				var wfRunner = new WfRunner(
+					<?=json_encode(get_data('activityExecutionUri'))?>,
+					<?=json_encode(get_data('processUri'))?>,
+					<?=json_encode(get_data('activityExecutionNonce'))?>
+				);
+				<?foreach($services as $service):?>
+					wfRunner.initService(<?=json_encode($service['resource']->getUri())?>,<?=json_encode($service['style'])?>,<?=json_encode($service['callUrl'])?>);
+				<?endforeach;?>
+				
+				$("#back").click(function(){
+					wfRunner.backward();
+				});
+				$("#next").click(function(){
+					wfRunner.forward();
+				});
+				
+				$("#loader").css('display', 'none');
+			});		
 		</script>
-
+		
 		<style media="screen">
 			@import url(<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css);
 			@import url(<?=BASE_WWW?>css/process_browser.css);
