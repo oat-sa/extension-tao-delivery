@@ -43,7 +43,7 @@ class taoDelivery_models_classes_itemAccess_ActionAccessProvider
 		$deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         $compileBaseFolder = $deliveryExtension->getConstant('COMPILE_FOLDER');
 		$relPath = substr($compiledFolder, strlen($compileBaseFolder));
-		return _url('get/'.base64_encode($relPath).'/index.html','ItemDeliveryService');
+		return _url('access/'.base64_encode($relPath).'/index.html','ItemDeliveryService');
 	}
 
 	public function decodeUrl($url) {

@@ -83,7 +83,7 @@ class taoDelivery_actions_ItemDeliveryService extends taoDelivery_actions_Delive
 		}
 	}
 	
-	public function get() {
+	public function access() {
 		$provider = new taoDelivery_models_classes_itemAccess_ActionAccessProvider();
 		$filename = $provider->decodeUrl($_SERVER['REQUEST_URI']);
 		if (file_exists($filename)) {
@@ -104,6 +104,18 @@ class taoDelivery_actions_ItemDeliveryService extends taoDelivery_actions_Delive
             $this->getRequestParameter('data')
         );
 		echo json_encode($success);
+	}
+	
+	public function getVariables() {
+	    $user = new core_kernel_classes_Resource(core_kernel_classes_Session::singleton()->getUserUri());
+        $variables = taoDelivery_models_classes_itemVariables_VariableProxy::singleton()->get(
+            $user,
+            $this->getRequestParameter('id')
+        );
+		echo json_encode(array(
+			'success' => $variables !== null,
+			'data' => $variables
+		));
 	}
 }
 ?>
