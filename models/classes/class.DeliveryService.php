@@ -1034,7 +1034,7 @@ class taoDelivery_models_classes_DeliveryService
 			}
         } else {
         	foreach ($this->getDeliveryTests($delivery) as $test) {
-        		foreach (taoTests_models_classes_TestsService::singleton()->getRelatedItems($test) as $item) {
+        		foreach (taoTests_models_classes_TestsService::singleton()->getTestItems($test) as $item) {
         			$returnValue[] = $item;
         		}
         	}

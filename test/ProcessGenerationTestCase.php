@@ -49,7 +49,7 @@ class ProcessGenerationTestCase extends UnitTestCase {
 		$item4 = $itemClass->createInstance('UnitDelivery Item4', 'Item 4 created for delivery unit test');
 		
 		//create required test authoring:
-		$testsService = taoTests_models_classes_TestsService::singleton();
+		$testsService = taoWfTest_models_classes_WfTestService::singleton();
 		$this->assertIsA($testsService, 'tao_models_classes_GenerisService');
 		$this->assertIsA($testsService, 'taoTests_models_classes_TestsService');
 		

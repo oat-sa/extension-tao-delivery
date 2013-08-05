@@ -76,7 +76,7 @@ class taoDelivery_models_classes_CompilationService extends tao_models_classes_S
 
 		$testService = taoTests_models_classes_TestsService::singleton();
 		$itemService = taoItems_models_classes_ItemsService::singleton();
-		$items = $testService->getRelatedItems($test);
+		$items = $testService->getTestItems($test);
 
         // We will compile the item in any available language.
 

@@ -50,7 +50,7 @@ class CompilationTestCase extends UnitTestCase {
 		$owiItem = current($success)->getData();
 		$this->assertIsA($owiItem, 'core_kernel_classes_Resource');
 				
-		$testsService = taoTests_models_classes_TestsService::singleton();
+		$testsService = taoWfTest_models_classes_WfTestService::singleton();
 		$test = $testsService->createInstance(new core_kernel_classes_Class(TAO_TEST_CLASS), 'UnitTest Test');
 		$this->assertTrue($testsService->setTestItems($test, array($qtiItem, $owiItem)));
 		

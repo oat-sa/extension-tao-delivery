@@ -34,7 +34,7 @@ return array(
 	'description' => 'TAO http://www.tao.lu',
 	'version' => '2.4',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-	'dependencies' => array('taoItems', 'taoTests'),
+	'dependencies' => array('taoTests', 'wfAuthoring', 'taoGroups'),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
 	),
