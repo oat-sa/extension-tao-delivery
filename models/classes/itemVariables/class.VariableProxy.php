@@ -34,7 +34,7 @@ class taoDelivery_models_classes_itemVariables_VariableProxy
 	private $implementation;
 	
 	protected function __construct() {
-		$this->implementation = new taoDelivery_models_classes_itemVariables_RedisPersistence();
+		$this->implementation = new taoDelivery_models_classes_itemVariables_FileSystemPersistence();
 		parent::__construct();
 	}
 	
