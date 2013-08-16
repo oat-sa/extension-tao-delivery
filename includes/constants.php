@@ -26,14 +26,14 @@ $todefine = array(
 	'TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects',
 
 	'TAO_DELIVERY_COMPILED_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Compiled',
+
+    'TAO_DELIVERY_RESULTSERVER_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer',
 	
-	'TAO_DELIVERY_RESULTSERVER_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',	
-	'TAO_DELIVERY_RESULTSERVER_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer',
 	'TAO_DELIVERY_DEFAULT_RESULT_SERVER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#LocalResultServer',
-	
-	'TAO_DELIVERY_RESULTSERVER_RESULT_URL_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#saveResultUrl',
-	'TAO_DELIVERY_RESULTSERVER_EVENT_URL_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#saveEventUrl',
-	'TAO_DELIVERY_RESULTSERVER_MATCHING_URL_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingUrl',
+   
+    
+    /*moved the result server aprt bu todo shall the result server do the matching as well ... */
+    'TAO_DELIVERY_RESULTSERVER_MATCHING_URL_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingUrl',
 	'TAO_DELIVERY_RESULTSERVER_MATCHING_SERVER_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingServerSide',
 
 	'TAO_DELIVERY_HISTORY_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',	

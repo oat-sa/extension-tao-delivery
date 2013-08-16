@@ -31,31 +31,7 @@
 				</actions>
 			</section>
 
-		<section id="manage_resultservers" name="Manage result servers" url="/taoDelivery/ResultServer/index">
-				<trees>
-					<tree name="Result Servers library"
-						className="Result Server"
-						dataUrl="/taoDelivery/ResultServer/getResultServers"
-						editClassUrl="/taoDelivery/ResultServer/editResultServerClass"
-						editInstanceUrl="/taoDelivery/ResultServer/editResultServer"
-						addInstanceUrl="/taoDelivery/ResultServer/addResultServer"
-						addSubClassUrl="/taoDelivery/ResultServer/addResultServerClass"
-						deleteUrl="/taoDelivery/ResultServer/delete"
-						duplicateUrl="/taoDelivery/ResultServer/cloneInstance"
-						moveInstanceUrl="/taoDelivery/ResultServer/moveInstance"
-					/>
-				</trees>
-				<actions>
-					<action name="search" url="/taoDelivery/ResultServer/search" context="*" />
-					<action name="new class" js="generisActions.subClass" url="/taoDelivery/ResultServer/addResultServerClass" context="class" />
-					<action name="new result server" js="generisActions.instanciate" url="/taoDelivery/ResultServer/addResultServer" context="class" />
-					<action name="delete" js="generisActions.removeNode" url="/taoDelivery/ResultServer/delete" context="resource" />
-					<action name="duplicate" js="generisActions.duplicateNode" url="/taoDelivery/ResultServer/cloneInstance" context="instance" />
-					<action name="move" js="generisActions.moveNode" url="" context="instance" />
-					<action name="export" url="/tao/Export/index"  context="*" />
-					<action name="import" url="/tao/Import/index"  context="class" />
-				</actions>
-			</section>
+	
 
 		</sections>
 	</structure>
