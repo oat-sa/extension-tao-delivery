@@ -75,8 +75,8 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
      */
 	public function index(){
 		
-		$login = core_kernel_classes_Session::singleton()->getUserLogin();
-		$this->setData('login',$login);
+		$label = core_kernel_classes_Session::singleton()->getUserLabel();
+		$this->setData('login',$label);
 		
 		//init required services
 		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();

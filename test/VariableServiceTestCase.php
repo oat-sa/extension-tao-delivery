@@ -36,7 +36,7 @@ class VariableServiceTestCase extends UnitTestCase {
 	
 	public function testService() {
 		$service = taoDelivery_models_classes_itemVariables_VariableProxy::singleton();
-		$user = new core_kernel_classes_Resource('http://tao.local/my_tao25.rdf#superUser');
+		$user = new core_kernel_classes_Resource(LOCAL_NAMESPACE.'#inexistentTestUser');
 
 		// is not set		
 		$this->assertFalse($service->has($user, 'testkey'));

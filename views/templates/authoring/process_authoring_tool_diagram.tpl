@@ -51,7 +51,7 @@
 	ActivityDiagramClass.canvas = "#process_diagram_container";
 	ArrowClass.canvas = ActivityDiagramClass.canvas;
 	var processUri = "<?=get_data("processUri")?>";
-	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(core_kernel_classes_Session::singleton()->getNameSpace().'#')?>";
+	ActivityDiagramClass.localNameSpace = "<?=tao_helpers_Uri::encode(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri())?>";
 
 	ModeArrowLink.tempId = "defaultConnectorId";
 
