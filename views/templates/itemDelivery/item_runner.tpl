@@ -8,6 +8,7 @@
 		<script type='text/javascript' src='<?=BASE_WWW?>js/item_runner.js'></script>
 		<script type='text/javascript'>
 			var storageData = <?=tao_helpers_Javascript::buildObject(get_data('storageData'));?>;
+			var itemId = <?=json_encode(get_data('itemId'));?>;
 		</script>
 	</head>
 	<body style="margin: 0px;">

@@ -1,4 +1,11 @@
 function ItemServiceImpl(serviceApi, variableStorage) {
+	
+	// temnporary fix
+	this.itemId = 'undefined';
+	if (typeof itemId !== "undefined") {
+		this.itemId = itemId;
+	}
+	
 	this.serviceApi = serviceApi;
 	this.variableStorage = variableStorage;
 	this.responses = {};

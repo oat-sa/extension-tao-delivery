@@ -76,6 +76,7 @@ class taoDelivery_actions_ItemDeliveryService extends taoDelivery_actions_Delive
 				'data'		=> is_null($variableData) ? array() : $variableData
 			));
 			
+			$this->setData('itemId', $item->getUri());
 			$this->setData('itemPath', taoDelivery_helpers_ItemAccessControl::getAccessUrl($delivery, $test, $item, $lang));
 			
 			$this->setView('itemDelivery/item_runner.tpl');			
