@@ -1,6 +1,8 @@
 // we need both to initialise the api
 var itemApi = null;
 var frame = null;
+//todo use taoDelivery as a proxy
+var resultsStorageEndPoint = '/taoResultServer/ResultServerStateFull/storeItemData';
 
 // wait for API and frame to be ready
 var bindApi = function() {

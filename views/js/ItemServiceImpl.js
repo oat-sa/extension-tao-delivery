@@ -1,7 +1,6 @@
 function ItemServiceImpl(serviceApi, variableStorage) {
 	this.serviceApi = serviceApi;
 	this.variableStorage = variableStorage;
-	
 	this.responses = {};
 	this.scores = {};
 	this.events = {};
@@ -52,12 +51,31 @@ ItemServiceImpl.prototype.finish = function() {
 	for (var i = 0; i < this.beforeFinishCallbacks.length; i++) {
 		this.beforeFinishCallbacks[i]();
 	};
+	var callId = this.serviceApi.getServiceCallId();
 	this.variableStorage.submit(function(itemApi) {
+		
 		return function() {
 			console.log('Responses ', itemApi.responses);	
 			console.log('Scores ', itemApi.scores);	
 			console.log('Events ', itemApi.events);
-			itemApi.serviceApi.finish();
+			//todo add item, call id etc
+			
+			$.ajax({
+				url  		: resultsStorageEndPoint,
+				data 		: {
+					serviceCallId: callId,
+					responseVariables: itemApi.responses,
+					outcomeVariables: itemApi.scores,
+					traceVariables:itemApi.events
+				},
+				type 		: 'post',
+				dataType	: 'json',
+				success		: function(reply) {
+					itemApi.serviceApi.finish();
+				}
+			});
+
+			
 		}
 	}(this));		
 };

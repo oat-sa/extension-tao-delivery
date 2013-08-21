@@ -14,6 +14,8 @@
 		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
 		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
 		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+		<!--//todo use taoDelivery as a proxy-->
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoResultServer_ResultServerStateFull" />
 		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDeliveryService" />
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_RecoveryContext_retrieve" />
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_RecoveryContext_save" />
