@@ -379,7 +379,43 @@ class taoDelivery_models_classes_DeliveryServerService
 
         return (bool) $returnValue;
     }
+    /**
+     * initalize the resultserver for a given execution
+     * @param string $execution uri of the execution
+     */
+    public function initResultServer($processExecution){
 
+        //starts or resume a taoResultServerStateFull session for results submission
+
+        //retrieve the resultServer definition that is related to this delivery to be used
+        $delivery = $this->getDelivery($processExecution);
+        //retrieve the result server definition
+        $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
+
+        //a unique identifier for data collected through this delivery execution
+        $resultIdentifier = $processExecution->getUri();
+        //the dependency to taoResultServer should be re-thinked with respect to a delivery level proxy
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($resultIdentifier);
+
+        //set up the related test taker
+        //a unique identifier for the test taker
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(wfEngine_models_classes_UserService::singleton()->getCurrentUser()->getUri());
+
+         //a unique identifier for the delivery
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($delivery->getUri());
+
+    }
+    public function getDelivery($processExecution){
+        $processDefinition = wfEngine_models_classes_ProcessExecutionService::singleton()->getExecutionOf($processExecution);
+        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+        $deliveries = $deliveryClass->searchInstances(
+        	array(TAO_DELIVERY_PROCESS	=> $processDefinition->getUri()),
+        	array('recursive' => true, 'like' => false)
+         );
+        return current($deliveries);
+    }
     /**
      * Short description of method checkExcludedSubject
      *

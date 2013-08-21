@@ -28,11 +28,11 @@ $todefine = array(
 	'TAO_DELIVERY_COMPILED_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Compiled',
 
     'TAO_DELIVERY_RESULTSERVER_PROP'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServer',
-	
-	'TAO_DELIVERY_DEFAULT_RESULT_SERVER' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#LocalResultServer',
+	//todo ppl avoid dependency
+	'TAO_DELIVERY_DEFAULT_RESULT_SERVER' => 'http://www.tao.lu/Ontologies/TAOResultServer.rdf#taoResultServer',
    
-    
-    /*moved the result server aprt bu todo shall the result server do the matching as well ... */
+    //todo check with joel for the matching part 
+
     'TAO_DELIVERY_RESULTSERVER_MATCHING_URL_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingUrl',
 	'TAO_DELIVERY_RESULTSERVER_MATCHING_SERVER_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingServerSide',
 

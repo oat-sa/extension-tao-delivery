@@ -69,6 +69,11 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
     		$this->setData('allowControl', $this->getRequestParameter('allowControl'));
     	}
     	parent::index();
+        //intialize (start or resume) the result server for the current execution
+        taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution);
+        
     }
+
+
 }
 ?>
