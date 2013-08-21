@@ -55,8 +55,7 @@ return array(
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
 	'optimizableClasses' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes'
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf#History'
 	),
 	'constants' => array(
 		# actions directory

@@ -183,16 +183,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			if($myForm->isValid()){
 				$propertyValues = $myForm->getValues();
 				
-				//check if the authoring mode has changed: if advanced->simple, modify the related process to make it compatible
-				if(array_key_exists(TAO_DELIVERY_AUTHORINGMODE_PROP, $propertyValues)){
-					if($propertyValues[TAO_DELIVERY_AUTHORINGMODE_PROP] == TAO_DELIVERY_SIMPLEMODE){
-						if($delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP))->getUri() == TAO_DELIVERY_ADVANCEDMODE){
-							//get all tests from the process, then save them:
-							$this->service->linearizeDeliveryProcess($delivery);
-						}
-					}
-				}
-				
 				//then save the property values as usual
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($delivery);
 				$delivery = $binder->bind($propertyValues);
@@ -206,47 +196,36 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 		}
 		$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->getUri()));
 		
-		//delivery authoring mode:
-		$this->setData('authoringMode', 'simple');
-		$authoringMode = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP));
-		
-		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_AUTHORINGMODE_PROP));
-		
 		//remove the authoring buttons
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_DELIVERYCONTENT));
 		$myForm->removeElement(tao_helpers_Uri::encode(TAO_DELIVERY_PROCESS));
 		
-		if($authoringMode->getUri() == TAO_DELIVERY_ADVANCEDMODE){
-			$this->setData('authoringMode', 'advanced');
-		}else{
-			
-			$testUris = array();
-			$testSequence = array();
-			$i = 1;
-			foreach($this->service->getDeliveryTests($delivery) as $test){
-				$testUris[] = $test->getUri();
-				$testSequence[$i] = array(
-					'uri' 	=> tao_helpers_Uri::encode($test->getUri()),
-					'label' => $test->getLabel()
-				);
-				$i++;
-			}
-			
-			
-			// data for test sequence
-			$allTests = array();
-			foreach($this->service->getAllTests() as $testUri => $testLabel){
-				$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
-			}
-			$this->setData('allTests', json_encode($allTests));
-			$this->setData('testSequence', $testSequence);
-			
-			// data for generis tree form
-			$this->setData('relatedTests', json_encode(tao_helpers_Uri::encodeArray($testUris)));
-			$openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($testUris, new core_kernel_classes_Class(TAO_TEST_CLASS));
-			$this->setData('testRootNode', TAO_TEST_CLASS);
-			$this->setData('testOpenNodes', $openNodes);
+		$testUris = array();
+		$testSequence = array();
+		$i = 1;
+		foreach($this->service->getDeliveryTests($delivery) as $test){
+			$testUris[] = $test->getUri();
+			$testSequence[$i] = array(
+				'uri' 	=> tao_helpers_Uri::encode($test->getUri()),
+				'label' => $test->getLabel()
+			);
+			$i++;
 		}
+		
+		
+		// data for test sequence
+		$allTests = array();
+		foreach($this->service->getAllTests() as $testUri => $testLabel){
+			$allTests['test_'.tao_helpers_Uri::encode($testUri)] = $testLabel;
+		}
+		$this->setData('allTests', json_encode($allTests));
+		$this->setData('testSequence', $testSequence);
+		
+		// data for generis tree form
+		$this->setData('relatedTests', json_encode(tao_helpers_Uri::encodeArray($testUris)));
+		$openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($testUris, new core_kernel_classes_Class(TAO_TEST_CLASS));
+		$this->setData('testRootNode', TAO_TEST_CLASS);
+		$this->setData('testOpenNodes', $openNodes);
 		
 		//compilation state:
 		$isCompiled = $this->service->isCompiled($delivery);
@@ -281,34 +260,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule {
 			$this->setData('campaign', taoCampaign_helpers_Campaign::renderCampaignTree($delivery));
 		}
 		$this->setView('form_delivery.tpl');
-	}
-	
-	public function advancedMode(){
-		$this->setAuthoringMode('advanced');
-	}
-	
-	public function simpleMode(){
-		$this->setAuthoringMode('simple');
-	}
-	
-	private function setAuthoringMode($mode){
-		$mode = strtolower($mode);
-		if($mode != 'simple' && $mode != 'advanced'){
-			throw new Exception('invalid mode');
-		}
-		
-		$delivery = $this->getCurrentDelivery();
-		$clazz = $this->getCurrentClass();
-		
-		$this->service->setAuthoringMode($delivery, $mode);
-		
-		$param = array(
-			'uri' => tao_helpers_Uri::encode($delivery->getUri()),
-			'classUri' => tao_helpers_Uri::encode($clazz->getUri())
-		);
-		
-		//reload the form, thus let the advanced authoring tab be available
-		$this->redirect(tao_helpers_Uri::url('editDelivery', 'Delivery', null, $param));
 	}
 	
 	/**

@@ -133,29 +133,6 @@
     <rdfs:range rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessDefinitions"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringMode">
-    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Authoring Mode]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Authoring Mode]]></rdfs:comment>
-    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
-    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes"/>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes">
-    <rdfs:label xml:lang="en-US"><![CDATA[Delivery Authoring Modes]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Delivery Authoring Modes]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Simple]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Simple delivery authoring mode]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeAdvanced">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryAuthoringModes"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Advanced]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Advanced delivery authoring mode]]></rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FormalParamItemUri">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Item Uri]]></rdfs:label>

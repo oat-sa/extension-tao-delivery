@@ -142,36 +142,5 @@ class DeliveryServiceTestCase extends UnitTestCase {
 		$group3->delete();
 	}
 
-	public function testAuthoringMode() {
-		
-		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$test1 = $testClass->createInstance('UnitDelivery Test1', 'Test 1 create for delivery unit test');
-		$test2 = $testClass->createInstance('UnitDelivery Test2', 'Test 2 create for delivery unit test');
-		$testKeys = array($test1->getUri(), $test2->getUri());
-		
-		$this->assertTrue($this->deliveryService->setDeliveryTests($this->delivery, array($test1, $test2)));
-		$tests = $this->deliveryService->getDeliveryTests($this->delivery);
-		$this->assertTrue($test1->equals(array_shift($tests)));
-		$this->assertTrue($test2->equals(array_shift($tests)));
-		$this->assertTrue(empty($tests));
-		
-		$this->assertTrue($this->deliveryService->setAuthoringMode($this->delivery, 'advanced'));
-		$tests = $this->deliveryService->getDeliveryTests($this->delivery);
-		$this->assertTrue($test1->equals(array_shift($tests)));
-		$this->assertTrue($test2->equals(array_shift($tests)));
-		$this->assertTrue(empty($tests));
-						
-		$this->assertTrue($this->deliveryService->setAuthoringMode($this->delivery, 'simple'), 'Setting authoring to simple failed');
-		$tests = $this->deliveryService->getDeliveryTests($this->delivery);
-		if (count($tests) == 2) {
-			$this->assertTrue($test1->equals(array_shift($tests)));
-			$this->assertTrue($test2->equals(array_shift($tests)));
-		} else {
-			$this->assertFalse('Wrong amount of tests in linearized delivery: '.count($tests));
-		}
-				
-		$test1->delete();
-		$test2->delete();
-	}
 }
 

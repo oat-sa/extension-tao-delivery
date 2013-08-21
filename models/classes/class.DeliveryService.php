@@ -188,9 +188,6 @@ class taoDelivery_models_classes_DeliveryService
 		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT), $processInstance->getUri());
 		$this->updateProcessLabel($returnValue);
 
-		//set the the default authoring mode to the 'simple mode':
-		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP), TAO_DELIVERY_SIMPLEMODE);
-
 		//set the default delivery server:
 		$returnValue->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 
@@ -879,41 +876,6 @@ class taoDelivery_models_classes_DeliveryService
         // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CF6 end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method setAuthoringMode
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param  Resource delivery
-     * @param  string mode
-     * @return boolean
-     */
-    public function setAuthoringMode( core_kernel_classes_Resource $delivery, $mode)
-    {
-        $returnValue = (bool) false;
-
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CFF begin
-		$property = new core_kernel_classes_Property(TAO_DELIVERY_AUTHORINGMODE_PROP);
-		switch(strtolower($mode)){
-			case 'simple':{
-				$delivery->editPropertyValues($property, TAO_DELIVERY_SIMPLEMODE);
-				//linearization required:
-				$returnValue = $this->linearizeDeliveryProcess($delivery);
-				break;
-			}
-			case 'advanced':{
-				$returnValue = $delivery->editPropertyValues($property, TAO_DELIVERY_ADVANCEDMODE);
-				break;
-			}
-			default:{
-				$returnValue = false;
-			}
-		}
-        // section -64--88-1-32-2901cf54:12cfee72c73:-8000:0000000000002CFF end
-
-        return (bool) $returnValue;
     }
 
     /**
