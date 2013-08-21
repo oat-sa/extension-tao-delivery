@@ -381,7 +381,7 @@ class taoDelivery_models_classes_DeliveryServerService
     }
     /**
      * initalize the resultserver for a given execution
-     * @param string $execution uri of the execution
+     * @param core_kernel_classes_resource processExecution
      */
     public function initResultServer($processExecution){
 
@@ -391,8 +391,9 @@ class taoDelivery_models_classes_DeliveryServerService
         $delivery = $this->getDelivery($processExecution);
         //retrieve the result server definition
         $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
-
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
+        //callOptions are required in the case of a LTI basic storage
+        $callOptions = array();
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri(),$callOptions);
 
         //a unique identifier for data collected through this delivery execution
         $resultIdentifier = $processExecution->getUri();
