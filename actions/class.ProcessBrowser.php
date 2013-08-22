@@ -70,7 +70,8 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
     	}
     	parent::index();
         //intialize (start or resume) the result server for the current execution
-        taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution);
+        $resultServerCallOverrideParameters =  $this->hasRequestParameter('resultServerCallOverrideOptions') ? $this->getRequestParameter('resultServerCallOverrideOptions') : array();
+        taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution, $resultServerCallOverrideParameters);
         
     }
 

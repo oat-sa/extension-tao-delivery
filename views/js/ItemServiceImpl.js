@@ -58,7 +58,9 @@ ItemServiceImpl.prototype.finish = function() {
 	for (var i = 0; i < this.beforeFinishCallbacks.length; i++) {
 		this.beforeFinishCallbacks[i]();
 	};
-	var callId = this.serviceApi.getServiceCallId();
+	var callIdValue = this.serviceApi.getServiceCallId();
+	var itemIdValue = this.itemId;
+
 	this.variableStorage.submit(function(itemApi) {
 		
 		return function() {
@@ -70,7 +72,8 @@ ItemServiceImpl.prototype.finish = function() {
 			$.ajax({
 				url  		: resultsStorageEndPoint,
 				data 		: {
-					serviceCallId: callId,
+					itemId:itemIdValue,
+					serviceCallId: callIdValue,
 					responseVariables: itemApi.responses,
 					outcomeVariables: itemApi.scores,
 					traceVariables:itemApi.events

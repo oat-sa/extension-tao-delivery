@@ -383,7 +383,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * initalize the resultserver for a given execution
      * @param core_kernel_classes_resource processExecution
      */
-    public function initResultServer($processExecution){
+    public function initResultServer($processExecution, $resultServerCallOverrideParameters =array()){
 
         //starts or resume a taoResultServerStateFull session for results submission
 
@@ -392,11 +392,12 @@ class taoDelivery_models_classes_DeliveryServerService
         //retrieve the result server definition
         $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
         //callOptions are required in the case of a LTI basic storage
-        $callOptions = array();
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri(),$callOptions);
+       
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri(), $resultServerCallOverrideParameters);
 
         //a unique identifier for data collected through this delivery execution
-        $resultIdentifier = $processExecution->getUri();
+        //in the case of LTI, we should use the sourceId
+        $resultIdentifier = (isset($resultServerCallOverrideParameters["resultIdentifier"])) ? $resultServerCallOverrideParameters["lis_result_sourcedid"] :$processExecution->getUri();
         //the dependency to taoResultServer should be re-thinked with respect to a delivery level proxy
         taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($resultIdentifier);
 
