@@ -68,10 +68,14 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
     	if ($this->hasRequestParameter('allowControl')) {
     		$this->setData('allowControl', $this->getRequestParameter('allowControl'));
     	}
-    	parent::index();
+        $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
+    	
+        parent::index();
         //intialize (start or resume) the result server for the current execution
-        $resultServerCallOverrideParameters =  $this->hasRequestParameter('resultServerCallOverrideOptions') ? $this->getRequestParameter('resultServerCallOverrideOptions') : array();
-        taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution, $resultServerCallOverrideParameters);
+        
+        if (!($resultServerCallOverride)) {
+            taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution, $resultServerCallOverride);
+        }
         
     }
 
