@@ -383,7 +383,7 @@ class taoDelivery_models_classes_DeliveryServerService
      * initalize the resultserver for a given execution
      * @param core_kernel_classes_resource processExecution
      */
-    public function initResultServer($processExecution, $resultServerCallOverrideParameters =array()){
+    public function initResultServer($processExecution){
 
         //starts or resume a taoResultServerStateFull session for results submission
 
@@ -393,7 +393,7 @@ class taoDelivery_models_classes_DeliveryServerService
         $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
         //callOptions are required in the case of a LTI basic storage
        
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri(), $resultServerCallOverrideParameters);
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
 
         //a unique identifier for data collected through this delivery execution
         //in the case of LTI, we should use the sourceId
