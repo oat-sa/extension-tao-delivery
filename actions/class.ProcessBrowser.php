@@ -74,7 +74,7 @@ class taoDelivery_actions_ProcessBrowser extends wfEngine_actions_ProcessBrowser
         //intialize (start or resume) the result server for the current execution
         
         if (!($resultServerCallOverride)) {
-            taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution, $resultServerCallOverride);
+            taoDelivery_models_classes_DeliveryServerService::singleton()->initResultServer($this->processExecution);
         }
         
     }

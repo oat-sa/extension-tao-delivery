@@ -397,10 +397,10 @@ class taoDelivery_models_classes_DeliveryServerService
 
         //a unique identifier for data collected through this delivery execution
         //in the case of LTI, we should use the sourceId
-        $resultIdentifier = (isset($resultServerCallOverrideParameters["resultIdentifier"])) ? $resultServerCallOverrideParameters["lis_result_sourcedid"] :$processExecution->getUri();
+        
         //the dependency to taoResultServer should be re-thinked with respect to a delivery level proxy
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($resultIdentifier);
-
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($processExecution->getUri());
+         common_Logger::i("Spawning/resuming result identifier related to process execution ".$processExecution->getUri());
         //set up the related test taker
         //a unique identifier for the test taker
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(wfEngine_models_classes_UserService::singleton()->getCurrentUser()->getUri());
