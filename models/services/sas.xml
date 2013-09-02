@@ -80,7 +80,7 @@
 	<service>
 		<name>Delivery compilation</name>
 		<description>Compile all the tests composing the delivery</description>
-		<location url="/taoDelivery/SaSDelivery/compileView">
+		<location url="/taoDelivery/Compilation/index">
 			<param key="uri" value="^deliveryUri" />
 			<param key="classUri" value="^deliveryClassUri" />
 		</location>

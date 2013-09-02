@@ -1,21 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta3\n"
-"PO-Revision-Date: 2013-04-05T18:36:13\n"
+"Project-Id-Version: TAO v2.5-alpha\n"
+"PO-Revision-Date: 2013-09-02T11:40:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "(date not available for hardified resource)"
-msgstr "(date non disponible pour les ressources durcies)"
-
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr "Un serveur de delivery est requise pour chaque livraison, il définit l'endroit où les résultats de cette prestation sera transféré."
 
 msgid "A recompilation is also required after modification on the tests composing a delivery."
 msgstr "Une recompilation est également nécessaire après modification sur les tests composant un delivery."
@@ -23,48 +17,26 @@ msgstr "Une recompilation est également nécessaire après modification sur les
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification!"
 
-msgid "Access denied. Please renew your authentication."
-msgstr "Accès refusé. Veuillez renouveller votre authentification."
-
 msgid "Actions"
 msgstr "Actions"
 
 msgid "Active Deliveries"
 msgstr "Deliveries actifs"
 
-msgid "Activity Editor"
-msgstr "Editeur d'activité"
-
-msgid "Add to group"
-msgstr "Ajouter au groupe"
-
-#, tao-public
-msgid "Advanced Authoring Tool"
-msgstr "Editeur avancé"
-
-msgid "advanced mode"
-msgstr "mode avancé"
-
 msgid "An error occured during history deletion"
 msgstr "Une erreur s'est produite lors de la suppression de l'historique"
 
-msgid "An error occured while loading the item"
-msgstr "Une erreur s'est produite lors du chargement de l'item"
-
-msgid "An error occured while loading the item: "
-msgstr "Une erreur est survenue durant le chargement de l'item:"
+msgid "An undefined error has occured"
+msgstr ""
 
 msgid "Back"
 msgstr "Retour"
 
-msgid "close"
-msgstr "fermer"
+msgid "Change..."
+msgstr ""
 
 msgid "Compilation"
 msgstr "Compilation"
-
-msgid "compilation failed"
-msgstr "la compilation a échoué"
 
 msgid "Compilation of the delivery"
 msgstr "Compilation du delivery"
@@ -72,25 +44,13 @@ msgstr "Compilation du delivery"
 msgid "Compile"
 msgstr "Compilation"
 
-msgid "compiled with warning"
-msgstr "compilé avec des alertes"
-
-msgid "compiling..."
-msgstr "compilation ..."
-
-msgid "complete with warning"
-msgstr "avec avertissement"
-
 msgid "complete!"
 msgstr "complète!"
 
-msgid "create table"
-msgstr "Créer une table"
-
-msgid "Delete"
+msgid "delete"
 msgstr "Supprimer"
 
-msgid "delete"
+msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delete History"
@@ -98,13 +58,10 @@ msgstr "Supprimer l'historique"
 
 #, tao-public
 msgid "Deliveries"
-msgstr "Passations"
+msgstr "Passation"
 
 msgid "Deliveries library"
 msgstr "Librairie de Passations"
-
-msgid "Deliveries"
-msgstr "Passation"
 
 msgid "Delivery Class saved"
 msgstr "Classe de Passation Sauvegardée"
@@ -118,7 +75,7 @@ msgstr "Propriétés de la passation"
 msgid "Delivery saved"
 msgstr "Passations"
 
-msgid "Drag and drop the tests to order them"
+msgid "Delivery Type"
 msgstr ""
 
 msgid "duplicate"
@@ -127,20 +84,8 @@ msgstr "dupliquer"
 msgid "Edit delivery class"
 msgstr "Editer une classe de Delivery"
 
-msgid "Edit ResultServer"
-msgstr "Editer un serveur de résultats"
-
-msgid "Edit resultServer class"
-msgstr "Editer une classe de serveur de résultats"
-
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "Modifier une passation consiste à séquencer les tests qui le composent, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par participant, la période de passation, le serveur de résultat."
-
-msgid "Error in delivery process"
-msgstr "Erreur dans le processus de passation"
-
-msgid "Error in test process"
-msgstr "Erreur dans le processus de test"
 
 msgid "Execution History"
 msgstr "Historique d'exécution"
@@ -148,14 +93,8 @@ msgstr "Historique d'exécution"
 msgid "export"
 msgstr "exporter"
 
-msgid "failed!"
-msgstr "a échoué!"
-
 msgid "Finished Test"
 msgstr "Test terminé"
-
-msgid "Formal Parameter"
-msgstr "Paramètre formel"
 
 msgid "Forward"
 msgstr "Suivant"
@@ -175,14 +114,14 @@ msgstr "importer"
 msgid "Initialize new test"
 msgstr "Initialiser un nouveau test"
 
-msgid "Issue found for the process definiiton of the test"
-msgstr "Un problème a été détecté dans la définition du processus de test"
+msgid "Invalid login or password. Please try again."
+msgstr "Pas de compte correspondant aux identifiants donnés"
 
 msgid "Loading next item..."
 msgstr "Chargement du prochain item..."
 
-msgid "loading..."
-msgstr "Chargement..."
+msgid "Login to the TAO Delivery Server"
+msgstr ""
 
 msgid "Logout"
 msgstr "Déconnexion"
@@ -194,10 +133,6 @@ msgstr ""
 msgid "Manage deliveries"
 msgstr "Gérer les deliveries"
 
-#, tao-public
-msgid "Manage result servers"
-msgstr "Gérer les serveurs de résultats"
-
 msgid "move"
 msgstr "déplacer"
 
@@ -207,32 +142,17 @@ msgstr "Nouvelle Classe"
 msgid "new delivery"
 msgstr "Nouveau Delivery"
 
-msgid "new result server"
-msgstr "Nouveau serveur de résultats"
-
-msgid "Invalid login or password. Please try again."
-msgstr "Pas de compte correspondant aux identifiants donnés"
-
-msgid "No user is logged in"
-msgstr "Aucun utilisateur connecté"
-
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
 msgstr "Note : veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation."
 
-msgid "ok"
-msgstr "ok"
+msgid "Participating groups"
+msgstr ""
 
 msgid "Pause"
 msgstr "Pause"
 
 msgid "Please confirm history deletion"
 msgstr "Veuillez confirmer la suppression de l'historique"
-
-msgid "Please login"
-msgstr "Veuillez vous connecter"
-
-msgid "Please select a delivery before authoring it!"
-msgstr "Veuillez sélectionner un delivery avant de l'éditer."
 
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
@@ -241,35 +161,11 @@ msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'�
 msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
-msgid "Process Property"
-msgstr "Propriété du processus"
-
-msgid "Process Variables"
-msgstr "Variables de processus"
-
 msgid "Recompile"
 msgstr "Recompiler"
 
 msgid "Recompile the delivery"
 msgstr "Recompiler le delivery"
-
-msgid "Result Server"
-msgstr "Serveur de résultats"
-
-msgid "Result Server class saved"
-msgstr "Classe de server de résultats sauvegardée"
-
-msgid "Result Server saved"
-msgstr "Server de résultat sauvegardé"
-
-msgid "Result Servers library"
-msgstr "Librairie de serveurs de résultats"
-
-msgid "Role"
-msgstr "Rôle"
-
-msgid "Save"
-msgstr "Sauvegarder"
 
 msgid "search"
 msgstr "Recherche"
@@ -277,26 +173,8 @@ msgstr "Recherche"
 msgid "Select a test"
 msgstr "Sélectionnez un test"
 
-msgid "Select delivery"
-msgstr "Choisir un delivery"
-
-msgid "Select delivery tests"
-msgstr "Sélectionnez les tests du delivery"
-
 msgid "Select test takers to be <b>excluded</b>"
 msgstr "Sélectionner les participants de tests à <b>exclure</b>"
-
-msgid "Sequence saved successfully"
-msgstr "Séquence enregistré avec succès"
-
-msgid "Service Definition"
-msgstr "Définition du service"
-
-msgid "simple mode"
-msgstr "mode simple"
-
-msgid "stand by"
-msgstr "STAND BY"
 
 msgid "Start/Resume the test"
 msgstr "Start / Resume le test"
@@ -313,32 +191,17 @@ msgstr "Serveur de delivery TAO"
 msgid "Test Taker"
 msgstr "Participant"
 
-msgid "Tests sequence"
-msgstr "Séquence de tests"
-
-msgid "The delivery is not compiled yet"
-msgstr "Le delivery n'est pas encore compilé"
+msgid "Test Takers"
+msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
 
-msgid "The delivery process has isolated connectors"
-msgstr "Le processus de passation a des connecteurs isolés"
+msgid "The delivery is not compiled yet"
+msgstr "Le delivery n'est pas encore compilé"
 
 msgid "The delivery was last compiled on"
 msgstr "Le delivery a été compilé le"
-
-msgid "The following file(s) could not be copied for the test"
-msgstr "Le(s) fichier(s) suivant ne peuvent pas être copié pour le test"
-
-msgid "The following file(s) could not be created for the test"
-msgstr "Le(s) fichier(s) suivant ne peuvent pas être créé pour le test"
-
-msgid "The following item do not exist in or have not been translated into"
-msgstr "L'item suivant n'existe pas ou n'a pas été traduit en"
-
-msgid "The following items do not exist or are empty"
-msgstr "Les items suivant n'existent pas ou sont vides"
 
 msgid "the login must not be empty"
 msgstr "l'identifiant ne doit pas être vide"
@@ -346,23 +209,11 @@ msgstr "l'identifiant ne doit pas être vide"
 msgid "the password must not be empty"
 msgstr "le mot de passe ne doit pas être vide"
 
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
-
-msgid "The test process has isolated connectors"
-msgstr "Le processus de test contient des connecteurs isolés"
-
 msgid "There are currently"
 msgstr "Il y a en ce moment"
 
 msgid "There is currently no delivery execution."
 msgstr "Il n'y aucune passation en cours d'exécution."
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr "il n'y a pas d'activité initiale dans la définition du processus de passation"
-
-msgid "There is no initial activity for the test process definition"
-msgstr "Il n'y a pas d'activité initiale dans la définition du processus de test"
 
 msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
@@ -370,21 +221,9 @@ msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'édit
 msgid "Time"
 msgstr "Temps"
 
-msgid "Unable to load the  delivery"
-msgstr "Impossible de charger la passation"
-
-msgid "Unable to load the compiled item content"
-msgstr "Impossible de charger le contenu de l'item compilé"
-
-msgid "unknown label"
-msgstr "label inconnu"
-
 msgid "User name:"
 msgstr "Nom d'utilisateur:"
 
 msgid "View History"
 msgstr "Voir l'Historique"
-
-msgid "Wrong delivery uri"
-msgstr "Mauvais identifiant (URI) de passation"
 

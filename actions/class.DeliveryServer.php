@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * DeliveryServer Controller
  *
@@ -30,41 +29,20 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
-class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliveryServerModule{
+class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
+{
 
 	/**
 	 * constructor: initialize the service and the default data
 	 * @return DeliveryServer
 	 */
 	public function __construct(){
-
-		parent::__construct();
-		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
+		if(!$this->_isAllowed()){
+	        $this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification', 'taoDelivery', array('errorMessage' => urlencode(__('Access denied. Please renew your authentication!')))));
+		}
+		$this->service = taoDelivery_models_classes_DeliveryExecutionService::singleton();
 	}
 		
-	/**
-     * Instanciate a process instance from a process definition
-	 *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @param processDefinitionUri
-     * @return void
-     */
-	public function initDeliveryExecution($processDefinitionUri){
-		
-		$processDefinitionUri = urldecode($processDefinitionUri);
-		$processDefinition = new core_kernel_classes_Resource($processDefinitionUri);
-		
-		$userService = taoDelivery_models_classes_UserService::singleton();
-		$subject = $userService->getCurrentUser();
-		
-		$newProcessExecution = taoDelivery_models_classes_DeliveryService::singleton()->initDeliveryExecution($processDefinition, $subject);
-
-
-		$param = array('processUri' => $newProcessExecution->getUri());
-		$this->redirect(tao_helpers_Uri::url('index', 'ProcessBrowser', null, $param));
-	}
-	
 	/**
      * Set a view with the list of process instances (both started or finished) and available process definitions
 	 *
@@ -78,6 +56,7 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 		$label = core_kernel_classes_Session::singleton()->getUserLabel();
 		$this->setData('login',$label);
 		
+		/*
 		//init required services
 		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
 		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
@@ -153,21 +132,44 @@ class taoDelivery_actions_DeliveryServer extends taoDelivery_actions_DeliverySer
 				}
 			}
 		}
-		
+		*/
 		//get deliveries for the current user (set in groups extension)
-		$availableProcessDefinitions = $this->service->getDeliveries($subject);
+		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
+		$deliveries = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
 
-		//filter process that can be initialized by the current user (2nd check...)
-		$authorizedProcessDefinitions = array();
-		foreach($availableProcessDefinitions as $processDefinition){
-			if($processDefinitionService->checkAcl($processDefinition, $subject)){
-				$authorizedProcessDefinitions[] = $processDefinition;
-			}
-		}
 		
-		$this->setData('availableProcessDefinition', $authorizedProcessDefinitions);
-		$this->setData('processViewData', $processViewData);
-		$this->setView('deliveryIndex.tpl');
+		$this->setData('availableDeliveries', $deliveries);
+		$this->setData('processViewData', array());
+		$this->setView('runtime/index.tpl');
 	}
+	
+	public function initDeliveryExecution() {
+	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+	    
+		$callUrl = taoDelivery_models_classes_CompilationService::singleton()->getRuntimeCallUrl($compiledDelivery);
+		//$deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery);
+		
+		$this->setData('serviceCallUrl', $callUrl);
+		//$this->setData('serviceCallId', $deliveryExecution->getUri());
+		
+	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+		//$this->setData('compiled', $delivery);
+	    $this->setView('deliveryExecution.tpl');
+	}
+	
+	private function wf() {
+	    
+	    $callUrl = $interactiveServiceService->getCallUrl($interactiveService, $activityExecution);
+	    if (in_array(substr($callUrl, -1), array('?', '&'))) {
+	        $callUrl .= 'standalone=true';
+	    } else {
+	        $callUrl .= (strpos($callUrl, '?') ? '&' : '?').'standalone=true';
+	    }
+	    $services[] = array(
+	        'callUrl'	=> $callUrl,
+	        'style'		=> $interactiveServiceService->getStyle($interactiveService),
+	        'resource'	=> $interactiveService,
+	    );
+	}
+	
 }
-?>

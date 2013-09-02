@@ -70,14 +70,14 @@
 			<?php endif; ?>
 
 			<!-- End of Active Processes -->
-			<?php if(!empty($availableProcessDefinition)) : ?>
+			<?php if(count(get_data('availableDeliveries')) > 0) : ?>
 				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
 				<div id="new_process">
 					<ul>
-						<?php foreach($availableProcessDefinition as $procDef) : ?>
+						<?php foreach($availableDeliveries as $delivery) : ?>
 						<li>
-							<a href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('processDefinitionUri' => $procDef->getUri()))?>">
-							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($procDef->getLabel()); ?></a>
+							<a href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
+							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
 						</li>
 						<?php endforeach;  ?>
 					</ul>

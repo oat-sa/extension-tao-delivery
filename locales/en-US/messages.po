@@ -1,20 +1,14 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta3\n"
-"PO-Revision-Date: 2013-04-05T18:36:12\n"
+"Project-Id-Version: TAO v2.5-alpha\n"
+"PO-Revision-Date: 2013-09-02T11:40:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "(date not available for hardified resource)"
-msgstr ""
-
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
-msgstr ""
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
 msgstr ""
 
 msgid "A recompilation is also required after modification on the tests composing a delivery."
@@ -23,47 +17,25 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
-msgid "Access denied. Please renew your authentication."
-msgstr ""
-
 msgid "Actions"
 msgstr ""
 
 msgid "Active Deliveries"
 msgstr ""
 
-msgid "Activity Editor"
-msgstr ""
-
-msgid "Add to group"
-msgstr ""
-
-#, tao-public
-msgid "Advanced Authoring Tool"
-msgstr ""
-
-msgid "advanced mode"
-msgstr ""
-
 msgid "An error occured during history deletion"
 msgstr ""
 
-msgid "An error occured while loading the item"
-msgstr ""
-
-msgid "An error occured while loading the item: "
+msgid "An undefined error has occured"
 msgstr ""
 
 msgid "Back"
 msgstr ""
 
-msgid "close"
+msgid "Change..."
 msgstr ""
 
 msgid "Compilation"
-msgstr ""
-
-msgid "compilation failed"
 msgstr ""
 
 msgid "Compilation of the delivery"
@@ -72,25 +44,13 @@ msgstr ""
 msgid "Compile"
 msgstr ""
 
-msgid "compiled with warning"
-msgstr ""
-
-msgid "compiling..."
-msgstr ""
-
-msgid "complete with warning"
-msgstr ""
-
 msgid "complete!"
 msgstr ""
 
-msgid "create table"
+msgid "delete"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
-
-msgid "delete"
 msgstr ""
 
 msgid "Delete History"
@@ -101,9 +61,6 @@ msgid "Deliveries"
 msgstr ""
 
 msgid "Deliveries library"
-msgstr ""
-
-msgid "Deliveries"
 msgstr ""
 
 msgid "Delivery Class saved"
@@ -118,7 +75,7 @@ msgstr ""
 msgid "Delivery saved"
 msgstr ""
 
-msgid "Drag and drop the tests to order them"
+msgid "Delivery Type"
 msgstr ""
 
 msgid "duplicate"
@@ -127,19 +84,7 @@ msgstr ""
 msgid "Edit delivery class"
 msgstr ""
 
-msgid "Edit ResultServer"
-msgstr ""
-
-msgid "Edit resultServer class"
-msgstr ""
-
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr ""
-
-msgid "Error in delivery process"
-msgstr ""
-
-msgid "Error in test process"
 msgstr ""
 
 msgid "Execution History"
@@ -148,13 +93,7 @@ msgstr ""
 msgid "export"
 msgstr ""
 
-msgid "failed!"
-msgstr ""
-
 msgid "Finished Test"
-msgstr ""
-
-msgid "Formal Parameter"
 msgstr ""
 
 msgid "Forward"
@@ -175,13 +114,13 @@ msgstr ""
 msgid "Initialize new test"
 msgstr ""
 
-msgid "Issue found for the process definiiton of the test"
+msgid "Invalid login or password. Please try again."
 msgstr ""
 
 msgid "Loading next item..."
 msgstr ""
 
-msgid "loading..."
+msgid "Login to the TAO Delivery Server"
 msgstr ""
 
 msgid "Logout"
@@ -194,10 +133,6 @@ msgstr ""
 msgid "Manage deliveries"
 msgstr ""
 
-#, tao-public
-msgid "Manage result servers"
-msgstr ""
-
 msgid "move"
 msgstr ""
 
@@ -207,31 +142,16 @@ msgstr ""
 msgid "new delivery"
 msgstr ""
 
-msgid "new result server"
-msgstr ""
-
-msgid "Invalid login or password. Please try again."
-msgstr ""
-
-msgid "No user is logged in"
-msgstr ""
-
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
 msgstr ""
 
-msgid "ok"
+msgid "Participating groups"
 msgstr ""
 
 msgid "Pause"
 msgstr ""
 
 msgid "Please confirm history deletion"
-msgstr ""
-
-msgid "Please login"
-msgstr ""
-
-msgid "Please select a delivery before authoring it!"
 msgstr ""
 
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
@@ -241,34 +161,10 @@ msgstr ""
 msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
-msgid "Process Property"
-msgstr ""
-
-msgid "Process Variables"
-msgstr ""
-
 msgid "Recompile"
 msgstr ""
 
 msgid "Recompile the delivery"
-msgstr ""
-
-msgid "Result Server"
-msgstr ""
-
-msgid "Result Server class saved"
-msgstr ""
-
-msgid "Result Server saved"
-msgstr ""
-
-msgid "Result Servers library"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Save"
 msgstr ""
 
 msgid "search"
@@ -277,25 +173,7 @@ msgstr ""
 msgid "Select a test"
 msgstr ""
 
-msgid "Select delivery"
-msgstr ""
-
-msgid "Select delivery tests"
-msgstr ""
-
 msgid "Select test takers to be <b>excluded</b>"
-msgstr ""
-
-msgid "Sequence saved successfully"
-msgstr ""
-
-msgid "Service Definition"
-msgstr ""
-
-msgid "simple mode"
-msgstr ""
-
-msgid "stand by"
 msgstr ""
 
 msgid "Start/Resume the test"
@@ -313,31 +191,16 @@ msgstr ""
 msgid "Test Taker"
 msgstr ""
 
-msgid "Tests sequence"
-msgstr ""
-
-msgid "The delivery is not compiled yet"
+msgid "Test Takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr ""
 
-msgid "The delivery process has isolated connectors"
+msgid "The delivery is not compiled yet"
 msgstr ""
 
 msgid "The delivery was last compiled on"
-msgstr ""
-
-msgid "The following file(s) could not be copied for the test"
-msgstr ""
-
-msgid "The following file(s) could not be created for the test"
-msgstr ""
-
-msgid "The following item do not exist in or have not been translated into"
-msgstr ""
-
-msgid "The following items do not exist or are empty"
 msgstr ""
 
 msgid "the login must not be empty"
@@ -346,22 +209,10 @@ msgstr ""
 msgid "the password must not be empty"
 msgstr ""
 
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
-
-msgid "The test process has isolated connectors"
-msgstr ""
-
 msgid "There are currently"
 msgstr ""
 
 msgid "There is currently no delivery execution."
-msgstr ""
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr ""
-
-msgid "There is no initial activity for the test process definition"
 msgstr ""
 
 msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
@@ -370,21 +221,9 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-msgid "Unable to load the  delivery"
-msgstr ""
-
-msgid "Unable to load the compiled item content"
-msgstr ""
-
-msgid "unknown label"
-msgstr ""
-
 msgid "User name:"
 msgstr ""
 
 msgid "View History"
-msgstr ""
-
-msgid "Wrong delivery uri"
 msgstr ""
 

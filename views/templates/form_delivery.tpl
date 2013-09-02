@@ -3,7 +3,9 @@
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
 
 <div id="delivery-left-container">
-	<?include('delivery_tests.tpl');?>
+	<?if(has_data('authoring')):?>
+    	<?= get_data('authoring')?>
+    <?endif;?>
 	<div class="breaker"></div>
 
 	<?=get_data('groupTree')?>
@@ -35,7 +37,7 @@
 		</p>
 
 		<span>
-			<a id='compileLink' class='nav' href="<?=BASE_URL.'Delivery/CompileView?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
+			<a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
 				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
 				<?if(get_data('isCompiled')):?>
 					<?=__('Recompile')?>

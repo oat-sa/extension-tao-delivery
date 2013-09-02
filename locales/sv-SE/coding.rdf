@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding methode
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode
@@ -14,7 +14,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Coding methode]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Methodes to code a delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethode
@@ -24,7 +24,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Automated coding
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated
@@ -32,7 +32,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Automated coding]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source delivery is coded automaticly
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeAutomated
@@ -42,7 +42,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Manual coding
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual
@@ -50,7 +50,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Manual coding]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source the delivery is at least partialy coded manualy
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingMethodeManual
@@ -60,7 +60,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding methode of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode
@@ -68,7 +68,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Coding methode of the delivery]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source how the delivery is coded
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingMethode
@@ -78,7 +78,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding status
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus
@@ -86,7 +86,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Coding status]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Status of the coding of a delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatus
@@ -96,7 +96,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source In grading
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading
@@ -104,7 +104,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[In grading]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Delivery is being graded
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusGrading
@@ -114,7 +114,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source In conciliation
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation
@@ -122,7 +122,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[In conciliation]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Delivery is being conciliated
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusConciliation
@@ -132,7 +132,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding commited
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited
@@ -140,7 +140,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Coding commited]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding has been commited
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CodingStatusCommited
@@ -150,7 +150,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Coding status of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus
@@ -158,7 +158,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Coding status of the delivery]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Current status of a deliverys coding
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCodingStatus
@@ -168,7 +168,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#active">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source Active
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active
@@ -176,7 +176,7 @@
     -->
     <rdfs:label xml:lang="sv-SE"><![CDATA[Active]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage sv-SE
     @source active / inactive state
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#active

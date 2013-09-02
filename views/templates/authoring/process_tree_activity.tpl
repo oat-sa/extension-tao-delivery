@@ -1,1 +1,0 @@
-<?include(PROCESS_TPL_PATH.'process_tree_activity.tpl');?>

@@ -1,21 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta3\n"
-"PO-Revision-Date: 2013-04-05T18:36:11\n"
+"Project-Id-Version: TAO v2.5-alpha\n"
+"PO-Revision-Date: 2013-09-02T11:40:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "(date not available for hardified resource)"
-msgstr "(dato er ikke tilgængelig for hardified ressourser)"
-
 msgid "A delivery must to be compiled before being executed. The compilation can be done here."
 msgstr "En leverance skal sammensættes før den kan udføres. Sammensætningen kan ske her."
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr "En leverance server kræves til hver leverance, den bestemmer hvor leverancens resultater vil blive uploadet."
 
 msgid "A recompilation is also required after modification on the tests composing a delivery."
 msgstr "En ny sammensætning kræves efter hver ændring af en test leverance."
@@ -23,48 +17,26 @@ msgstr "En ny sammensætning kræves efter hver ændring af en test leverance."
 msgid "Access denied. Please renew your authentication!"
 msgstr "Adgang nægtet. Forny din adgangskode!"
 
-msgid "Access denied. Please renew your authentication."
-msgstr "Adgang nægtet. Forny din adgangskode."
-
 msgid "Actions"
 msgstr "Handlinger"
 
 msgid "Active Deliveries"
 msgstr "Aktive leverancer"
 
-msgid "Activity Editor"
-msgstr "Aktivitets Editor"
-
-msgid "Add to group"
-msgstr "Tilføj gruppe"
-
-#, tao-public
-msgid "Advanced Authoring Tool"
-msgstr "Avanceret forfatterværktøj"
-
-msgid "advanced mode"
-msgstr "avanceret tilstand"
-
 msgid "An error occured during history deletion"
 msgstr "En fejl opstod under sletning af historik"
 
-msgid "An error occured while loading the item"
-msgstr "En fejl opstod under hentning af item"
-
-msgid "An error occured while loading the item: "
-msgstr "Der opstod en fejl ved indlæsning af item: "
+msgid "An undefined error has occured"
+msgstr ""
 
 msgid "Back"
 msgstr "Tilbage"
 
-msgid "close"
-msgstr "luk"
+msgid "Change..."
+msgstr ""
 
 msgid "Compilation"
 msgstr "Sammensætning"
-
-msgid "compilation failed"
-msgstr "sammensætning mislykkedes"
 
 msgid "Compilation of the delivery"
 msgstr "Sammensætning af leverancen"
@@ -72,26 +44,14 @@ msgstr "Sammensætning af leverancen"
 msgid "Compile"
 msgstr "Sammensætte"
 
-msgid "compiled with warning"
-msgstr "sammensat med advarsel"
-
-msgid "compiling..."
-msgstr "sammensætter..."
-
-msgid "complete with warning"
-msgstr "færdig med advarsel"
-
 msgid "complete!"
 msgstr "færdig!"
 
-msgid "create table"
-msgstr "opret tabel"
+msgid "delete"
+msgstr "slet"
 
 msgid "Delete"
 msgstr "Slet"
-
-msgid "delete"
-msgstr "slet"
 
 msgid "Delete History"
 msgstr "Slet historik"
@@ -102,9 +62,6 @@ msgstr "Leverance"
 
 msgid "Deliveries library"
 msgstr "Leverance arkiv"
-
-msgid "Deliveries"
-msgstr "Leverance"
 
 msgid "Delivery Class saved"
 msgstr "Leverance klasse gemt"
@@ -118,8 +75,8 @@ msgstr "Leverance egenskaber"
 msgid "Delivery saved"
 msgstr "Leverance gemt"
 
-msgid "Drag and drop the tests to order them"
-msgstr "Drag and drop item for at ordne dem"
+msgid "Delivery Type"
+msgstr ""
 
 msgid "duplicate"
 msgstr "kopier"
@@ -127,20 +84,8 @@ msgstr "kopier"
 msgid "Edit delivery class"
 msgstr "Redigere leverance klasse"
 
-msgid "Edit ResultServer"
-msgstr "Redigere Resultatserver"
-
-msgid "Edit resultServer class"
-msgstr "Rediger resultatserver klasse"
-
 msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
 msgstr "At redigere en leverance involvere en fastsætte test genem at arrangere leverancen og deres indholds rækkefølge: det maksimale antal igangsættelser pr. emne, leverance periode, resultatserver."
-
-msgid "Error in delivery process"
-msgstr "Fejl i leveranceprocessen"
-
-msgid "Error in test process"
-msgstr "Fejl i testprocessen"
 
 msgid "Execution History"
 msgstr "gennemførelses historik"
@@ -148,14 +93,8 @@ msgstr "gennemførelses historik"
 msgid "export"
 msgstr "eksportere"
 
-msgid "failed!"
-msgstr "mislykkedes!"
-
 msgid "Finished Test"
 msgstr "Afslut test"
-
-msgid "Formal Parameter"
-msgstr "Formel parameter"
 
 msgid "Forward"
 msgstr "Fremad"
@@ -175,14 +114,14 @@ msgstr "importeret"
 msgid "Initialize new test"
 msgstr "Initialisere ny test"
 
-msgid "Issue found for the process definiiton of the test"
-msgstr "Problem fundet ved proces definitionen af testen"
+msgid "Invalid login or password. Please try again."
+msgstr "Ingen konto matcher den angivne brugernavn / adgangskode"
 
 msgid "Loading next item..."
 msgstr "Henter næste item..."
 
-msgid "loading..."
-msgstr "henter..."
+msgid "Login to the TAO Delivery Server"
+msgstr ""
 
 msgid "Logout"
 msgstr "Log ud"
@@ -194,10 +133,6 @@ msgstr ""
 msgid "Manage deliveries"
 msgstr "Administrere leverancer"
 
-#, tao-public
-msgid "Manage result servers"
-msgstr "Administrere resultat server"
-
 msgid "move"
 msgstr "flyt"
 
@@ -207,32 +142,17 @@ msgstr "ny klasse"
 msgid "new delivery"
 msgstr "ny leverance"
 
-msgid "new result server"
-msgstr "ny resultatserver"
-
-msgid "Invalid login or password. Please try again."
-msgstr "Ingen konto matcher den angivne brugernavn / adgangskode"
-
-msgid "No user is logged in"
-msgstr "Ingen bruger er logget ind"
-
 msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
 msgstr "OBS: vær sikker på at alle test der skal leveres er defineret og sat til \"aktiv\" i test udvidelsen, før sammensætningen af leverancen."
 
-msgid "ok"
-msgstr "ok"
+msgid "Participating groups"
+msgstr ""
 
 msgid "Pause"
 msgstr "Pause"
 
 msgid "Please confirm history deletion"
 msgstr "Bekræft sletning af histiorik"
-
-msgid "Please login"
-msgstr "Log ind"
-
-msgid "Please select a delivery before authoring it!"
-msgstr "Vælg en leverance inden den oprettes!"
 
 msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr "Vælg en gyldig resultatserver i leverance redigeringssektionen, forsøg igen.<br>(Intet gyldigt wsdl-kontrakt findes for den definerede resultat server)"
@@ -241,35 +161,11 @@ msgstr "Vælg en gyldig resultatserver i leverance redigeringssektionen, forsøg
 msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
-msgid "Process Property"
-msgstr "proces egenskaber"
-
-msgid "Process Variables"
-msgstr "Proces Variabler"
-
 msgid "Recompile"
 msgstr "Sammensæt igen"
 
 msgid "Recompile the delivery"
 msgstr "Sammensæt leverancen igen"
-
-msgid "Result Server"
-msgstr "Resultatserver"
-
-msgid "Result Server class saved"
-msgstr "Resultatserver klasse gemt"
-
-msgid "Result Server saved"
-msgstr "Resultatserver gemt"
-
-msgid "Result Servers library"
-msgstr "Resultatserver arkiv"
-
-msgid "Role"
-msgstr "Rolle"
-
-msgid "Save"
-msgstr "Gem"
 
 msgid "search"
 msgstr "søg"
@@ -277,26 +173,8 @@ msgstr "søg"
 msgid "Select a test"
 msgstr "Vælg en test"
 
-msgid "Select delivery"
-msgstr "Vælg leverans"
-
-msgid "Select delivery tests"
-msgstr "Vælg leverancetest"
-
 msgid "Select test takers to be <b>excluded</b>"
 msgstr "Vælg test tagere som skal <b>ekskluderes</b>"
-
-msgid "Sequence saved successfully"
-msgstr "Rækkefølge gemt"
-
-msgid "Service Definition"
-msgstr "Service definition"
-
-msgid "simple mode"
-msgstr "enkel metode"
-
-msgid "stand by"
-msgstr "beredskab"
 
 msgid "Start/Resume the test"
 msgstr "Start/genoptag test"
@@ -313,32 +191,17 @@ msgstr "TAO leverance server"
 msgid "Test Taker"
 msgstr "Test Tager"
 
-msgid "Tests sequence"
-msgstr "Test rækkefølge"
-
-msgid "The delivery is not compiled yet"
-msgstr "Leverancen er ikke sammenstat endnu"
+msgid "Test Takers"
+msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Leverance modulet lader brugere definere testleverance parameter."
 
-msgid "The delivery process has isolated connectors"
-msgstr "Leverance processen har isolerede tilslutninger"
+msgid "The delivery is not compiled yet"
+msgstr "Leverancen er ikke sammenstat endnu"
 
 msgid "The delivery was last compiled on"
 msgstr "Leverancen sammensættes senest"
-
-msgid "The following file(s) could not be copied for the test"
-msgstr "Følgende fil(er) kunne ikke kopieres før testen"
-
-msgid "The following file(s) could not be created for the test"
-msgstr "Følgende fil(er) kunne ikke oprettes før testen"
-
-msgid "The following item do not exist in or have not been translated into"
-msgstr "Følgende item eksistere ikke eller er ikke blevet oversat til"
-
-msgid "The following items do not exist or are empty"
-msgstr "Følgende item eksistere ikke eller er tomme"
 
 msgid "the login must not be empty"
 msgstr "brugernavn må ikke være tomt"
@@ -346,23 +209,11 @@ msgstr "brugernavn må ikke være tomt"
 msgid "the password must not be empty"
 msgstr "adgangskode må ikke være tomt"
 
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "Resultats styringsserveren giver dig mulighed for at tilføje, redigere og tilknytte Resultat leverance serveren til Leverancer."
-
-msgid "The test process has isolated connectors"
-msgstr "Testprocessen har isolerede tilslutninger"
-
 msgid "There are currently"
 msgstr "Der er i øjeblikket"
 
 msgid "There is currently no delivery execution."
 msgstr "Der er i øjeblikket ingen leverings udførelse."
-
-msgid "there is no initial activity for the delivery process definition"
-msgstr "der findes ingen indledende aktivitet for leverance proces definitionen"
-
-msgid "There is no initial activity for the test process definition"
-msgstr "Det findes ingen indledende aktivitet for procesdefinitionen"
 
 msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
 msgstr "Denne leverance administrationssektion lader dig tillægge og fjerne leverancer samt redigere deres egenskaber."
@@ -370,21 +221,9 @@ msgstr "Denne leverance administrationssektion lader dig tillægge og fjerne lev
 msgid "Time"
 msgstr "Tid"
 
-msgid "Unable to load the  delivery"
-msgstr "Ikke i stand til at hente   leverancen"
-
-msgid "Unable to load the compiled item content"
-msgstr "Ikke muligt at hente det kompilerede item indhold"
-
-msgid "unknown label"
-msgstr "ukendt etikette"
-
 msgid "User name:"
 msgstr "Bruger navn:"
 
 msgid "View History"
 msgstr "Vis Historik"
-
-msgid "Wrong delivery uri"
-msgstr "Forkert leverings uri"
 
