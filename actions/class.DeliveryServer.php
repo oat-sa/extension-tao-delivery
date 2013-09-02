@@ -56,133 +56,52 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$label = core_kernel_classes_Session::singleton()->getUserLabel();
 		$this->setData('login',$label);
 		
-		/*
-		//init required services
-		$activityExecutionService = wfEngine_models_classes_ActivityExecutionService::singleton();
-		$processExecutionService = wfEngine_models_classes_ProcessExecutionService::singleton();
-		$processDefinitionService = wfEngine_models_classes_ProcessDefinitionService::singleton();
-		$userService = taoDelivery_models_classes_UserService::singleton();
-
-		//get current user:
-		$subject = $userService->getCurrentUser();
-                
-		//init variable that save data to be used in the view
-		$processViewData 	= array();
-		
-		//get the definition of delivery available for the subject:
-		$visibleProcess = $this->service->getDeliveries($subject,false);
-		$processExecutions = $this->service->getStartedProcessExecutions($subject);
-                
-		foreach ($processExecutions as $processExecution){
-			
-			if(!is_null($processExecution) && $processExecution instanceof core_kernel_classes_Resource){
-				
-				$status = $processExecutionService->getStatus($processExecution);
-				$processDefinition = $processExecutionService->getExecutionOf($processExecution);
-				if(is_null($status) || !$status instanceof core_kernel_classes_Resource){
-					continue;
-				}
-				
-				if(in_array($processDefinition->getUri(), $visibleProcess)){
-					
-					$currentActivities = array();
-					
-					// Bypass ACL Check if possible...
-					if ($status->getUri() == INSTANCE_PROCESSSTATUS_FINISHED) {
-						$processViewData[] = array(
-							'type' 			=> $processDefinition->getLabel(),
-							'label' 		=> $processExecution->getLabel(),
-							'uri' 			=> $processExecution->getUri(),
-							'activities'	=> array(array('label' => '', 'uri' => '', 'may_participate' => false, 'finished' => true, 'allowed'=> true)),
-							'status'		=> $status
-						);
-						continue;
-						
-					}else{
-						
-						$isAllowed = false;
-						$currentActivityExecutions = $processExecutionService->getCurrentActivityExecutions($processExecution);
-						foreach ($currentActivityExecutions as $uri => $currentActivityExecution){
-							$isAllowed = $activityExecutionService->checkAcl($currentActivityExecution, $subject, $processExecution);
-							$currentActivity = $activityExecutionService->getExecutionOf($currentActivityExecution);
-							$currentActivities[] = array(
-								'label'				=> $currentActivity->getLabel(),
-								'uri' 				=> $uri,
-								'may_participate'	=> ($status->getUri() != INSTANCE_PROCESSSTATUS_FINISHED && $isAllowed),
-								'finished'			=> ($status->getUri() == INSTANCE_PROCESSSTATUS_FINISHED),
-								'allowed'			=> $isAllowed
-							);
-
-						}
-
-						//ondelivery server, display only user's delivery (finished and paused): ($processExecution->currentActivity is empty or checkACL returns "false")
-						if(!$isAllowed){
-							continue;
-						}
-
-						$processViewData[] = array(
-							'type' 			=> $processDefinition->getLabel(),
-							'label' 		=> $processExecution->getLabel(),
-							'uri' 			=> $processExecution->getUri(),
-							'activities'	=> $currentActivities,
-							'status'		=> $status
-						);
-						
-					}
-				}
-			}
-		}
-		*/
 		//get deliveries for the current user (set in groups extension)
 		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
-		$deliveries = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
+		$started = is_null($userUri) ? array() : $this->service->getStartedDeliveries($userUri);
+		$this->setData('startedDeliveries', $started);
+		
+		$available = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
 
 		
-		$this->setData('availableDeliveries', $deliveries);
+		$this->setData('availableDeliveries', $available);
 		$this->setData('processViewData', array());
 		$this->setView('runtime/index.tpl');
 	}
 	
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	   
-		$callUrl = taoDelivery_models_classes_CompilationService::singleton()->getRuntimeCallUrl($compiledDelivery);
-		//$deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery);
-
-        $this->initResultServer($compiledDelivery, $callUrl);
-
-		$this->setData('serviceCallUrl', $callUrl);
-		//$this->setData('serviceCallId', $deliveryExecution->getUri());
-		
-	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
-		//$this->setData('compiled', $delivery);
-	    $this->setView('deliveryExecution.tpl');
+	    $deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery, common_session_SessionManager::getSession()->getUserUri());
+	    $this->runExecution($deliveryExecution);
 	}
-    /**
-     * intialize the result server using the delivery configuration and for this results session submission
-     * @param compiledDelviery
-     */
 
-    private function initResultServer($compiledDelivery, $executionIdentifier) {
-        $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
-         if (!($resultServerCallOverride)) {
-            taoDelivery_models_classes_DeliveryExecutionService::singleton()->initResultServer($compiledDelivery, $executionIdentifier);
-        }
-    }
-	
-	private function wf() {
+	public function resumeDeliveryExecution() {
+	    $deliveryExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+	    $this->runExecution($deliveryExecution);
+	}
+
+	private function runExecution(core_kernel_classes_Resource $deliveryExecution) {
 	    
-	    $callUrl = $interactiveServiceService->getCallUrl($interactiveService, $activityExecution);
-	    if (in_array(substr($callUrl, -1), array('?', '&'))) {
-	        $callUrl .= 'standalone=true';
-	    } else {
-	        $callUrl .= (strpos($callUrl, '?') ? '&' : '?').'standalone=true';
-	    }
-	    $services[] = array(
-	        'callUrl'	=> $callUrl,
-	        'style'		=> $interactiveServiceService->getStyle($interactiveService),
-	        'resource'	=> $interactiveService,
-	    );
+	    $compiledDelivery = $deliveryExecution->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+	     
+	    $callUrl = taoDelivery_models_classes_CompilationService::singleton()->getRuntimeCallUrl($compiledDelivery);
+	    $this->initResultServer($compiledDelivery, $deliveryExecution->getUri());
+	     
+	    $this->setData('serviceCallId', $deliveryExecution->getUri());
+	    $this->setData('serviceCallUrl', $callUrl);
+	    
+	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+	    $this->setView('runtime/deliveryExecution.tpl');
 	}
 	
+	/**
+	 * intialize the result server using the delivery configuration and for this results session submission
+	 * @param compiledDelviery
+	 */
+	private function initResultServer($compiledDelivery, $executionIdentifier) {
+	    $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
+	    if (!($resultServerCallOverride)) {
+	        taoDelivery_models_classes_DeliveryExecutionService::singleton()->initResultServer($compiledDelivery, $executionIdentifier);
+	    }
+	}
 }

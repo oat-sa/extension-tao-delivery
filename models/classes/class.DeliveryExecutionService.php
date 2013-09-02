@@ -59,9 +59,16 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
         return $compiledDeliveries;
     }
 
-    public function getStartedDeliveries($userResource)
+    public function getStartedDeliveries($userUri)
     {
-        return array();
+        $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
+        $started = $executionClass->searchInstances(array(
+            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+            PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
+        ), array(
+        	'like' => false
+        ));
+        return $started;
     }
 
     /**
@@ -72,11 +79,13 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $execution = $executionClass->createInstanceWithProperties(array(
+            RDFS_LABEL                            => $compiled->getLabel().' '.tao_helpers_Date::displayeDate(time()),
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $compiled,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
             PROPERTY_DELVIERYEXECUTION_START      => time(),
             PROPERTY_DELVIERYEXECUTION_STATUS     => INSTANCE_DELIVERYEXEC_ACTIVE        	
         ));
+        return $execution;
     }
 
 
