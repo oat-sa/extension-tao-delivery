@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -53,9 +54,13 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
         // set to active
         $delivery->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP), GENERIS_TRUE);
         
-        /*
-         * $models = $this->getAllContentClasses(); if (count($models) > 0) { $contentClass = new core_kernel_classes_Class(current($models)); $content = $this->createContent($delivery, $contentClass); $delivery->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELIVERY_CONTENT), $content); }
-         */
+        // set content model if only 1 available
+        $models = $this->getAllContentClasses();
+        if (count($models) == 1) {
+            $contentClass = new core_kernel_classes_Class(current($models));
+            $this->createContent($delivery, $contentClass);
+        }
+        
         
         return $delivery;
     }
