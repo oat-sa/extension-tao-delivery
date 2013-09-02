@@ -145,10 +145,12 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	    
+	   
 		$callUrl = taoDelivery_models_classes_CompilationService::singleton()->getRuntimeCallUrl($compiledDelivery);
 		//$deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery);
-		
+
+        $this->initResultServer($compiledDelivery, $callUrl);
+
 		$this->setData('serviceCallUrl', $callUrl);
 		//$this->setData('serviceCallId', $deliveryExecution->getUri());
 		
@@ -156,6 +158,17 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		//$this->setData('compiled', $delivery);
 	    $this->setView('deliveryExecution.tpl');
 	}
+    /**
+     * intialize the result server using the delivery configuration and for this results session submission
+     * @param compiledDelviery
+     */
+
+    private function initResultServer($compiledDelivery, $executionIdentifier) {
+        $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
+         if (!($resultServerCallOverride)) {
+            taoDelivery_models_classes_DeliveryExecutionService::singleton()->initResultServer($compiledDelivery, $executionIdentifier);
+        }
+    }
 	
 	private function wf() {
 	    
