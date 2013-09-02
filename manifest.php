@@ -48,9 +48,9 @@ return array(
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/data/compiled', 'rights' => 'rw')),
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'rw'))
 		),
-		'php'	=> array(
-			dirname(__FILE__).'/install/script/setDefaultItemAccess.php',
-		)
+	    'php' => array(
+	        dirname(__FILE__).'/install/script/setupRuntimeAccessSource.php'
+        )
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
 	'optimizableClasses' => array(
@@ -100,7 +100,6 @@ return array(
 		'FORCE_NEXT'			=> true,
 
 		'COMPILE_FOLDER'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'compiled'.DIRECTORY_SEPARATOR,
-		'STORAGE_FOLDER'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'variableStorage'.DIRECTORY_SEPARATOR,
 									
 		# Maximum Compilation Time of a Test before Timeout
 		'TEST_COMPILATION_TIME'	=> 300,
