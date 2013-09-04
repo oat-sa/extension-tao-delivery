@@ -59,7 +59,12 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
         return $compiledDeliveries;
     }
 
-    public function getStartedDeliveries($userUri)
+    /**
+     * 
+     * @param unknown $userUri
+     * @return Ambigous <multitype:, array>
+     */
+    public function getActiveDeliveryExecutions($userUri)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $started = $executionClass->searchInstances(array(
@@ -72,7 +77,10 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
     }
 
     /**
+     * Generate a new delivery execution
+     * 
      * @param core_kernel_classes_Resource $compiled
+     * @param string $userUri
      * @return core_kernel_classes_Resource the delivery execution
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri)

@@ -49,7 +49,7 @@ class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Com
 		
 		tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 		$this->setData('form', $myForm->render());
-		$this->setView('login.tpl');
+		$this->setView('runtime/login.tpl');
 	}
 
 

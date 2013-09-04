@@ -15,35 +15,7 @@
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>css/main.css);
 		</style>
-		<script type="text/javascript">
 
-		require(['require', 'jquery', 'json2'], function(req, $) {
-			$(function(){
-				$("#loader").css('display', 'none');
-
-				var $aFrame = $('<iframe class="toolframe" frameborder="0" style="position:absolute;left:0%;top:0%;width:100%;height:100%;"></iframe>').appendTo('#tools');
-				$aFrame.unbind('load').load(function(){
-					$(this).attr('src', "<?=get_data('serviceCallUrl')?>");
-					$(this).unbind('load');
-
-					$(this).load(function() {
-						// Auto adapt tool container regarding iframe heights
-						var frame = this;
-						var doc = frame.contentWindow || frame.contentDocument;
-
-						if (doc.document) {
-							doc = doc.document;
-						}
-
-						var oldHeight = $('#tools').height();
-						var height = $(doc).height();
-						$('#tools').height(height + oldHeight);
-					});
-				});
-
-			});
-		});
-		</script>
 	</head>
 
 	<body>
@@ -61,6 +33,7 @@
 
 		<div id="content" class='ui-corner-bottom'>
                 <div id="tools">
+                <?= get_data('serviceContainer')?>
 				</div>
 		</div>
 		<!-- End of content -->

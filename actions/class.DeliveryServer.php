@@ -58,7 +58,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		//get deliveries for the current user (set in groups extension)
 		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
-		$started = is_null($userUri) ? array() : $this->service->getStartedDeliveries($userUri);
+		$started = is_null($userUri) ? array() : $this->service->getActiveDeliveryExecutions($userUri);
 		$this->setData('startedDeliveries', $started);
 		
 		$available = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
@@ -72,23 +72,18 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery, common_session_SessionManager::getSession()->getUserUri());
-	    $this->runExecution($deliveryExecution);
+	    $this->redirect(_url('resumeDeliveryExecution', null, null, array('uri' => $deliveryExecution->getUri())));
 	}
 
 	public function resumeDeliveryExecution() {
 	    $deliveryExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	    $this->runExecution($deliveryExecution);
-	}
-
-	private function runExecution(core_kernel_classes_Resource $deliveryExecution) {
-	    
 	    $compiledDelivery = $deliveryExecution->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
-	     
-	    $callUrl = taoDelivery_models_classes_CompilationService::singleton()->getRuntimeCallUrl($compiledDelivery);
 	    $this->initResultServer($compiledDelivery, $deliveryExecution->getUri());
 	     
-	    $this->setData('serviceCallId', $deliveryExecution->getUri());
-	    $this->setData('serviceCallUrl', $callUrl);
+	    $runtime = taoDelivery_models_classes_CompilationService::singleton()->getRuntime($compiledDelivery);
+	    
+	    $caller = tao_models_classes_service_ConsumerRenderer::fromResource($runtime, $deliveryExecution->getUri());
+	    $this->setData('serviceContainer', $caller->render());
 	    
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 	    $this->setView('runtime/deliveryExecution.tpl');

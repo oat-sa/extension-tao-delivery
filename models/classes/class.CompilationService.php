@@ -68,9 +68,8 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         return tao_models_classes_service_ServiceCall::fromResource($runtimeResource);
     }
     
-    public function getRuntimeCallUrl( core_kernel_classes_Resource $compiledDelivery, $variables = array()) {
-        $serviceCall = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
-        return tao_models_classes_ServicesService::singleton()->getCallUrl($serviceCall);
+    public function getRuntime( core_kernel_classes_Resource $compiledDelivery, $variables = array()) {
+        return $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
     }
     
     /**
