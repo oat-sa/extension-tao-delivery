@@ -59,7 +59,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 		$isCompiled = !is_null($compiled);
 		$this->setData("isCompiled", $isCompiled);
 		if($isCompiled){
-			$this->setData("compiledDate", $this->service->getCompilationDate($delivery));
+			$this->setData("compiledDate", tao_helpers_Date::displayeDate($this->service->getCompilationDate($compiled)));
 		}
 		
 		$this->setView("delivery_compiling.tpl");

@@ -47,14 +47,14 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         return true;
     }
     
-    public function getCompilationDate( core_kernel_classes_Resource $delivery) {
-        $compiled = $this->getCompiledContent($delivery);
-        if (!is_null($compiled)) {
-            return $compiled->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_TIME));
-        } else {
-            common_Logger::w(__FUNCTION__.' called on non compiled Delivery');
-            return null;
-        }
+    /**
+     * Returns the date of the compilation of a delivery
+     * 
+     * @param core_kernel_classes_Resource $compiledDelivery
+     * @return string
+     */
+    public function getCompilationDate( core_kernel_classes_Resource $compiledDelivery) {
+        return (string)$compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_TIME));
     }
         
     /**
