@@ -38,7 +38,7 @@
             				dataType	: 'json',
             				success     : function(data) {
                 				debugger;
-                				window.url = data.destination;
+                				window.location = data.destination;
             				}
             			});
             		});
