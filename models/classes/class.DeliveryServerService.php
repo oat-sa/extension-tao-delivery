@@ -29,11 +29,16 @@
 class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
 {
 
+    /**
+     * Return all available (assigned and compiled) deliveries for the userUri.
+     * Delivery settings are returned to identify when and how many tokens are left
+     * for this delivery
+     */
     public function getAvailableDeliveries($userUri)
     {
         $deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
         $groups = taoGroups_models_classes_GroupsService::singleton()->getGroups($userUri);
-        
+
         $deliveryCandidates = array();
         foreach ($groups as $group) {
             foreach($deliveryService->getDeliveriesByGroup($group) as $delivery) {
@@ -50,13 +55,117 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
                 continue;
             }
             // status?
-            // resultserver?
             // period?
             // excluded
-            // max executions 
-            $compiledDeliveries[] = $compiled;
+            // max executions
+
+            $deliverySettings = $this->getDeliverySettings($candidate);
+            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($compiled, $userUri);
+            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($compiled, $userUri);
+            $compiledDeliveries[] = array(
+                "compiledDelivery"  =>$compiled,
+                "settingsDelivery"  =>$deliverySettings
+                );
         }
+       
         return $compiledDeliveries;
+    }
+    public function getDeliverySettings(core_kernel_classes_Resource $delivery){
+        $deliveryProps = $delivery->getPropertiesValues(array(
+            new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
+            new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
+            new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
+            //new core_kernel_classes_Property( TAO_DELIVERY_ACTIVE_PROP)
+        ));
+       
+        //check settings
+        if (current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP])->literal == "") {
+            $maxExec = 0;
+        } else {
+            $maxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP])->literal;
+        }
+
+        $settings[TAO_DELIVERY_MAXEXEC_PROP] =$maxExec;
+        $settings[TAO_DELIVERY_START_PROP] = current($deliveryProps[TAO_DELIVERY_START_PROP])->literal;
+        $settings[TAO_DELIVERY_END_PROP] = current($deliveryProps[TAO_DELIVERY_END_PROP])->literal;
+
+        //$settings[TAO_DELIVERY_ACTIVE_PROP] = current($deliveryProps["TAO_DELIVERY_END_PROP"])->getUri();
+        /*
+        if (
+            (!isset($settings[TAO_DELIVERY_MAXEXEC_PROP])) or
+            (is_null($settings[TAO_DELIVERY_MAXEXEC_PROP])) or
+            (count($settings[TAO_DELIVERY_MAXEXEC_PROP])==0)) or{
+         */
+
+        return $settings;
+    }
+
+    public function getDeliveryUsedTokens(core_kernel_classes_Resource $compiled, $userUri){
+        return count($this->getDeliveryExecutions($compiled, $userUri));
+    }
+    public function getDeliveryExecutions(core_kernel_classes_Resource $compiled, $userUri)
+    {   
+        $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
+        $deliveryExecutions = $executionClass->searchInstances(array(
+            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
+        ), array(
+        	'like' => false
+        ));
+
+        return $deliveryExecutions;
+    }
+    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $compiled, $userUri){
+
+        $deliveryClass = taoDelivery_models_classes_DeliveryService::singleton()->getRootClass();
+        $deliveries = $deliveryClass->searchInstances(array(
+            PROPERTY_DELIVERY_COMPILED  => $compiled->getUri()
+        ), array(
+        	'like' => false
+        ));
+        if (count($deliveries)!=1) {
+            common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). "related to 0 or >1 deliveries");
+            return false;
+        }
+        $delivery = current($deliveries);
+        $settings = $this->getDeliverySettings($delivery);
+
+        //check Tokens
+        $usedTokens = $this->getDeliveryUsedTokens($compiled, $userUri);
+        echo $usedTokens;
+        echo $settings[TAO_DELIVERY_MAXEXEC_PROP];
+        if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
+            common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
+            return false;
+        }
+
+        //check time
+        $startDate  =    date_create($settings[TAO_DELIVERY_START_PROP]);
+        $endDate    =    date_create($settings[TAO_DELIVERY_END_PROP]);
+        if(!empty($startDate)){
+				if(!empty($endDate)){
+				    $endDate->add(new DateInterval("P1D"));
+				    $dateCheck = (date_create()>=$startDate and date_create()<=$endDate);
+                }
+				else{
+				    $dateCheck  = (date_create()>=$startDate);
+                }
+			}else{
+				if(!empty($endDate)){
+				    $endDate->add(new DateInterval("P1D"));
+				    $dateCheck  = (date_create()<=$endDate);
+                }
+			}
+
+        if (!($dateCheck )) {
+             common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
+            return false;
+        }
+        return true;
+
+
+        //check time
+
     }
 
     /**
