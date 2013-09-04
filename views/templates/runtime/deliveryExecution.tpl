@@ -11,6 +11,40 @@
 		</script>
 		<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 		<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+		<script src="<?=TAOBASE_WWW?>js/serviceApi/StateStorage.js"></script>
+        <script src="<?=TAOBASE_WWW?>js/serviceApi/ServiceApi.js"></script>
+        <script type="text/javascript">
+            require(['require', 'jquery', 'json2'], function(req, $) {
+            	$(function(){
+            		$("#loader").css('display', 'none');
+            
+            		var serviceApi = <?=get_data('serviceApi')?>;
+            		var $frame = $('#iframeDeliveryExec');
+            		serviceApi.loadInto($frame[0]);
+            
+            		$frame.load(function() {
+                		var doc = this.contentWindow || this.contentDocument;
+                		if (doc.document) {
+                			doc = doc.document;
+                		}
+                		$(this).height($(doc).height());
+            		});
+
+            		serviceApi.onFinish(function() {
+            			$.ajax({
+            				url  		: <?= tao_helpers_Javascript::buildObject(_url('finishDeliveryExecution', 'DeliveryServer'))?>,
+            				data 		: <?= tao_helpers_Javascript::buildObject(array('deliveryExecution' => get_data('deliveryExecution')))?>,
+            				type 		: 'post',
+            				dataType	: 'json',
+            				success     : function(data) {
+                				debugger;
+                				window.url = data.destination;
+            				}
+            			});
+            		});
+            	});
+            });
+        </script>
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
 		<style media="screen">
 			@import url(<?echo BASE_WWW; ?>css/main.css);
@@ -33,7 +67,7 @@
 
 		<div id="content" class='ui-corner-bottom'>
                 <div id="tools">
-                <?= get_data('serviceContainer')?>
+                    <iframe id='iframeDeliveryExec' class="toolframe" frameborder="0" style="width:100%"></iframe>
 				</div>
 		</div>
 		<!-- End of content -->

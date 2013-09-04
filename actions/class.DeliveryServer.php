@@ -31,7 +31,8 @@
 
 class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 {
-
+    private $executionService;
+    
 	/**
 	 * constructor: initialize the service and the default data
 	 * @return DeliveryServer
@@ -40,7 +41,8 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		if(!$this->_isAllowed()){
 	        $this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification', 'taoDelivery', array('errorMessage' => urlencode(__('Access denied. Please renew your authentication!')))));
 		}
-		$this->service = taoDelivery_models_classes_DeliveryExecutionService::singleton();
+		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
+		$this->executionService = taoDelivery_models_classes_DeliveryExecutionService::singleton();
 	}
 		
 	/**
@@ -58,12 +60,13 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		//get deliveries for the current user (set in groups extension)
 		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
-		$started = is_null($userUri) ? array() : $this->service->getActiveDeliveryExecutions($userUri);
+		$started = is_null($userUri) ? array() : $this->executionService->getActiveDeliveryExecutions($userUri);
 		$this->setData('startedDeliveries', $started);
 		
 		$available = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
-
+		$finishedDeliveries = is_null($userUri) ? array() : $this->executionService->getFinishedDeliveryExecutions($userUri);
 		
+		$this->setData('finishedDeliveries', $finishedDeliveries);
 		$this->setData('availableDeliveries', $available);
 		$this->setData('processViewData', array());
 		$this->setView('runtime/index.tpl');
@@ -71,7 +74,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	    $deliveryExecution = $this->service->initDeliveryExecution($compiledDelivery, common_session_SessionManager::getSession()->getUserUri());
+	    $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, common_session_SessionManager::getSession()->getUserUri());
 	    $this->redirect(_url('resumeDeliveryExecution', null, null, array('uri' => $deliveryExecution->getUri())));
 	}
 
@@ -80,13 +83,22 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $compiledDelivery = $deliveryExecution->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
 	    $this->initResultServer($compiledDelivery, $deliveryExecution->getUri());
 	     
-	    $runtime = taoDelivery_models_classes_CompilationService::singleton()->getRuntime($compiledDelivery);
-	    
-	    $caller = tao_models_classes_service_ConsumerRenderer::fromResource($runtime, $deliveryExecution->getUri());
-	    $this->setData('serviceContainer', $caller->render());
-	    
+	    $runtimeRes = taoDelivery_models_classes_CompilationService::singleton()->getRuntime($compiledDelivery);
+	    $runtime = tao_models_classes_service_ServiceCall::fromResource($runtimeRes);
+	    $this->setData('serviceApi', tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getUri()));
+
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+	    $this->setData('deliveryExecution', $deliveryExecution->getUri());
 	    $this->setView('runtime/deliveryExecution.tpl');
+	}
+	
+	public function finishDeliveryExecution() {
+	    $deliveryExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution')));
+	    $succcess = $this->executionService->finishDeliveryExecution($deliveryExecution);
+	    echo json_encode(array(
+	        'success'      => $succcess,
+	    	'destination'  => _url('index')
+	    ));
 	}
 	
 	/**
@@ -96,7 +108,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	private function initResultServer($compiledDelivery, $executionIdentifier) {
 	    $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
 	    if (!($resultServerCallOverride)) {
-	        taoDelivery_models_classes_DeliveryExecutionService::singleton()->initResultServer($compiledDelivery, $executionIdentifier);
+	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
 	    }
 	}
 }
