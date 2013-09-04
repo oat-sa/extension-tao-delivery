@@ -174,10 +174,15 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         $compiled = taoDelivery_models_classes_CompilationService::singleton()->getCompiledContent($delivery);
         if (!is_null($compiled)) {
+            // compilation info
             $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($compiled);
             $this->setData('isCompiled', true);
             $this->setData('compiledDate', tao_helpers_Date::displayeDate($date));
+            
+            // history stats:
+            $this->setData("executionNumber", taoDelivery_models_classes_DeliveryExecutionService::singleton()->getDeliveryExecutionCount($compiled));
         }
+        
         
         $this->setData('formTitle', __('Delivery properties'));
         $this->setData('myForm', $myForm->render());

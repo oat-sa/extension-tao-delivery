@@ -28,7 +28,23 @@
  */
 class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_classes_GenerisService
 {
-
+    /**
+     * Returns the number of delivery executions for a compiled directory
+     * 
+     * @param core_kernel_classes_Resource $compiled
+     * @return number
+     */
+    public function getDeliveryExecutionCount(core_kernel_classes_Resource $compiled)
+    {
+        $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
+        $count = $executionClass->countInstances(array(
+            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
+        ), array(
+            'like' => false
+        ));
+        return $count;
+    }
+    
     /**
      * Returns all activ Delivery Executions of a User 
      * 

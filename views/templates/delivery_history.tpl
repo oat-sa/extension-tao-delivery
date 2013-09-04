@@ -11,13 +11,13 @@
 		<?endif;?>
 		</p>
 
-		<?if(get_data('executionNumber')):?>
+		<?php /*if(get_data('executionNumber')):?>
 		<span>
 			<a id='historyLink' href="#">
 				<img id='historyLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;<?=__('View History')?>
 			</a>
 		</span>
-		<?endif;?>
+		<?endif;*/?>
 	</div>
 	<div>
 		<table id="history-list"></table>
