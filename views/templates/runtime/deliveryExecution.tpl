@@ -37,7 +37,6 @@
             				type 		: 'post',
             				dataType	: 'json',
             				success     : function(data) {
-                				debugger;
                 				window.location = data.destination;
             				}
             			});
