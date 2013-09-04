@@ -41,6 +41,7 @@ div#content{
 	min-height:670px;
 }
 
+
 /* The control area contains a list of various actions/items that are always reachable
    through the graphical user interface, such as change the UI language,
    return to the main page and logoff. It also contains the identifier
@@ -52,17 +53,19 @@ div#content{
 	margin: 0px auto 0px auto;
 	padding: 3px;
 	text-align:right;
-	background: #E5F2FF;
+	background: #f3f3f3;
 	border: solid 1px #ccc;
-	border-top-width: 0px;
-	border-bottom-width: 0px;
+	font-size: 16px;
+	border-bottom: 1px solid;
+	border-bottom-color: #ddd;
 }
 
 .icon
 {
 background-repeat:no-repeat;
 background-position:0 -1px;
-padding-left:18px;
+padding-left:10px;
+padding-right:10px;
 }
 
 .separator
@@ -107,7 +110,7 @@ background-image:url('../img/bug.png');
 }
 #logout
 {
-background-image:url('../img/door_in.png');
+/*background-image:url('../img/door_in.png');*/
 }
 #export
 {
@@ -164,8 +167,8 @@ background-image:url('../img/home.png');
  */
 #control li .action:link, #control li .action:visited
 {
-	color: #000000;
-	text-decoration: none;	
+	color: blue;
+	text-decoration: underline;
 }
 
 /* When an action link of the control area  is flyed over by the mouse or clicked, 
@@ -173,8 +176,9 @@ background-image:url('../img/home.png');
  */
 #control li .action:hover, #control li .action:active
 {
-	color: #000000;
-	text-decoration: underline;	
+	color: #D00239;
+	text-decoration: underline;
+	font-weight:bold;
 }
 
 /* The user's identifier in the control area. */
@@ -182,8 +186,12 @@ background-image:url('../img/home.png');
 {
 	color: #000000;
 	font-weight: bold;
+	font-style: normal;
 }
-
+#control li #connecteduser
+{
+	font-style:italic;
+}
 /* The business area containing the business'
    graphical elements related to a specific template. */
 #business

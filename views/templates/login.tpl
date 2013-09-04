@@ -47,7 +47,7 @@
 				<div class="ui-widget ui-corner-all ui-state-error error-message">
 					<?=urldecode(get_data('errorMessage'))?>
 				</div>
-				<br />
+
 			<?endif?>
 			<div id="login-form" >
 				<?=get_data('form')?>

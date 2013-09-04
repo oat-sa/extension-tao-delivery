@@ -24,65 +24,85 @@
     <div id="process_view"></div>
 
     <ul id="control">
-        <li><span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span
-                id="username"><?php echo $login; ?></span> </span> <span
-            class="separator"></span></li>
-        <li><a class="action icon" id="logout"
+        <li>
+	    <span id="connecteduser" class="icon" ><?php echo __("Logged in as:"); ?>
+		<span
+                id="username"><?php echo $login; ?></span>
+		</span>
+	    <span class="separator"></span>
+	</li>
+        <li><a id="logout" class="icon action"
             href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Logout"); ?></a>
         </li>
     </ul>
-
+    
     <div id="content">
-        <h1 id="welcome_message">
-            <img src="<?=BASE_WWW?>/img/taoDelivery_medium.png"
-                alt='delivery' />&nbsp;<?= __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></h1>
-        <div id="business" class="deliveries">
-			<?php if(count(get_data('startedDeliveries')) > 0) : ?>
-				<h2 class="section_title"><?php echo __("Active tests"); ?></h2>
-        <div id="running_process" class="deliveries">
-				<ul>
-				<?php foreach ($startedDeliveries as $delivery): ?>
-				<li><a
-                    href="<?=_url('resumeDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
-							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
-                </li>
-				<?php endforeach;  ?>
-				</ul>
-				</div>
-			<?php endif; ?>
-				
-			
+        <div class="contentHeader">
+	   <?php echo __("Welcome:"); ?><b> <?php echo $login; ?>!</b>
+	</div>
+        <div id="business" class="deliveries ">
+	    <?php if(count(get_data('startedDeliveries')) > 0) : ?>
+		<h2 class="section_title"><?php echo __("Paused Test"); ?> <span class="counter">(<?php echo count($startedDeliveries); ?>)</span></h2>
+		<div id="running_process" class="deliveries resume">
+		    <ul>
+		    <?php foreach ($startedDeliveries as $delivery): ?>
+			<li>
+			   
+			    <a
+			    href="<?=_url('resumeDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
+				<span class="deliveryLabel">
+			     <?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?>
+				</span>
+				<span class="button">
+				<?php echo __("Resume Test"); ?>
+				 </span>
+			    </a>
+			</li>
+		    <?php endforeach;  ?>
+		    </ul>
+		</div>
+	    <?php endif; ?>
 
-			<!-- End of Active Processes -->
-			<?php if(count(get_data('availableDeliveries')) > 0) : ?>
-				<h2 class="section_title"><?php echo __("Initialize new test"); ?></h2>
-            <div id="new_process" class="deliveries">
-                <ul>
-						<?php foreach($availableDeliveries as $delivery) : ?>
-						<li><a
-                        href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
-							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
-                    </li>
-						<?php endforeach;  ?>
-					</ul>
-            </div>
-			<?php endif; ?>
-			
-			<!-- End of New Processes -->
-			<?php if(count(get_data('finishedDeliveries')) > 0) : ?>
-				<h2 class="section_title"><?php echo __("Finished tests"); ?></h2>
-            <div id="old_process" class="deliveries">
-                <ul>
-						<?php foreach($finishedDeliveries as $delivery) : ?>
-						<li>
-							<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
-                    </li>
-						<?php endforeach;  ?>
-					</ul>
-            </div>
-			<?php endif; ?>
-			
-			</div>
+	    <!-- End of Active Processes -->
+	    <?php if(count(get_data('availableDeliveries')) > 0) : ?>
+		<h2 class="section_title"><?php echo __("Assigned Test"); ?> <span class="counter">(<?php echo count($availableDeliveries); ?>)</span></h2>
+		<div id="new_process" class="deliveries start">
+		    <ul>
+			<?php foreach($availableDeliveries as $delivery) : ?>
+			<li>
+			    <a
+				accesskey=""href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
+				<span class="deliveryLabel">
+				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?>
+				</span>
+				<span class="button">
+				    <?php echo __("Take Test"); ?>
+				</span>
+			    </a>
+			</li>
+			<?php endforeach;  ?>
+		    </ul>
+		</div>
+	    <?php endif; ?>
+
+	    <!-- End of New Processes -->
+
+
+
+	    <?php if(count(get_data('finishedDeliveries')) > 0) : ?>
+		    <h2 class="section_title"><?php echo __("Finished tests"); ?></h2>
+		    <div id="old_process" class="deliveries finished">
+			<ul>
+			<?php foreach($finishedDeliveries as $delivery) : ?>
+			<li>
+				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
+			</li>
+			<?php endforeach;  ?>
+			</ul>
+		    </div>
+	    <?php endif; ?>
+
+	    </div>
 
     </div>
     <!-- End of content -->
