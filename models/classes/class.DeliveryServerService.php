@@ -132,8 +132,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
         //check Tokens
         $usedTokens = $this->getDeliveryUsedTokens($compiled, $userUri);
-        echo $usedTokens;
-        echo $settings[TAO_DELIVERY_MAXEXEC_PROP];
+        
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
             common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
             return false;

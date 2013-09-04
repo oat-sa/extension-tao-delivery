@@ -53,9 +53,11 @@
 				<span class="deliveryLabel">
 			     <?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?>
 				</span>
-				<span class="button">
-				<?php echo __("Resume Test"); ?>
-				 </span>
+				<span class="actionsBox">
+				    <span class="button">
+				    <?php echo __("Resume Test"); ?>
+				     </span>
+				</span>
 			    </a>
 			</li>
 		    <?php endforeach;  ?>
@@ -71,12 +73,22 @@
 			<?php foreach($availableDeliveries as $delivery) : ?>
 			<li>
 			    <a
-				accesskey=""href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
+				accesskey=""href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri()))?>">
 				<span class="deliveryLabel">
-				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?>
+				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery["compiledDelivery"]->getLabel()); ?>
+				    <span class="tokens">
+					<?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?> <?php echo __('attempt(s) of');?> <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]; ?>
+				    </span>
+				    <br />
+				    <span class="validPeriod">
+					Available from <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]; ?> to <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]; ?>
+				    </span>
+
 				</span>
-				<span class="button">
-				    <?php echo __("Take Test"); ?>
+				<span class="actionsBox">
+				    <span class="button">
+					<?php echo __("Take Test"); ?>
+				    </span>
 				</span>
 			    </a>
 			</li>

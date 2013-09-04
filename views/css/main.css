@@ -56,6 +56,11 @@
     color:#aaa;
 }
 
+.tokens {
+    margin-left:20px;
+    color:#aaa;
+}
+
 #active_processes
 {
 	margin-top: 20px;
@@ -175,30 +180,49 @@
 	list-style-image: url(../img/status_paused.png);
 }
 .deliveries ul li{
-	padding-top:20px;
-	padding-bottom:20px;
+	/*line-height: 100px;
+	vertical-align: middle;*/
+
+	
+	padding-top:10px;
+	padding-bottom:14px;
+	
+	/*height:auto;
+	line-height:30px;*/
+	
 	padding-left: 20px;
-
+	
+	
 }
 
-li {
-   vertical-align      : middle;
-
+/*A container for button operations on deliveries*/
+.actionsBox {
+    
+    margin:0px;
+    padding:0px;
+    float:right;
+    vertical-align: middle;
+    width:20%;
+   
+    margin-right:30%;
 }
-
-.button {
+.validPeriod{
+    font-style:italic;
+    color:#aaa;
+}
+.actionsBox .button {
+    margin-top:-6px;
+    float:left;
     background-color:#efefef;
     padding:10px;
-    margin-left:85px;
-    border-width:5px;
+    border: 1px solid black;
+   
     font-weight:normal;
-     -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+   
 }
 .deliveryLabel{
+    margin-top:-5px;
     font-weight:normal;
-    margin-top:0px;
-
 }
 
 .button:hover {

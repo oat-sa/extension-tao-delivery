@@ -178,7 +178,7 @@ background-image:url('../img/home.png');
 {
 	color: #D00239;
 	text-decoration: underline;
-	font-weight:bold;
+	/*font-weight:bold;*/
 }
 
 /* The user's identifier in the control area. */
