@@ -196,7 +196,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
          //a unique identifier for the delivery
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($delivery->getUri());
     }
-    private function getDeliveryFromCompiledDelivery(core_kernel_classes_Resource $compiledDelivery) {
+    public function getDeliveryFromCompiledDelivery(core_kernel_classes_Resource $compiledDelivery) {
         $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
         $deliveries = $deliveryClass->searchInstances(array(PROPERTY_DELIVERY_COMPILED => $compiledDelivery->getUri()));
        

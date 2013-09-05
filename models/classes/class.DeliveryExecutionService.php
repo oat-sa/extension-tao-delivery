@@ -44,36 +44,36 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
         ));
         return $count;
     }
-    
+
     /**
-     * Returns all activ Delivery Executions of a User 
-     * 
-     * @param unknown $userUri
+     * Returns all activ Delivery Executions of a User
+     *
+     * @param unknown $userUri            
      * @return Ambigous <multitype:, array>
      */
     public function getActiveDeliveryExecutions($userUri)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $started = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
             PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
         ), array(
-        	'like' => false
+            'like' => false
         ));
         return $started;
     }
-    
+
     /**
      * Returns all finished Delivery Executions of a User
      *
-     * @param unknown $userUri
+     * @param unknown $userUri            
      * @return Ambigous <multitype:, array>
      */
     public function getFinishedDeliveryExecutions($userUri)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $started = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
             PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_FINISHED
         ), array(
             'like' => false
@@ -90,8 +90,6 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri)
     {
-        if (taoDelivery_models_classes_DeliveryServerService::singleton()->isDeliveryExecutionAllowed($compiled, $userUri)) {
-
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $execution = $executionClass->createInstanceWithProperties(array(
             RDFS_LABEL                            => $compiled->getLabel().' '.tao_helpers_Date::displayeDate(time()),
@@ -101,9 +99,6 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
             PROPERTY_DELVIERYEXECUTION_STATUS     => INSTANCE_DELIVERYEXEC_ACTIVE        	
         ));
         return $execution;
-        } else {
-            throw new common_exception_Error("Forbidden Delviery Intialization (check delviery period and available execution tokens");
-        }
     }
     
    /**
