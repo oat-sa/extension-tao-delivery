@@ -81,7 +81,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $userUri = common_session_SessionManager::getSession()->getUserUri();
-	    if ($this->service->isDeliveryExecutionAllowed($compiled, $userUri)) {
+	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $userUri)) {
 	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $userUri);
 	    } else {
 	        throw new common_exception_Error("Forbidden Delviery Intialization (check delviery period and available execution tokens");
