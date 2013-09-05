@@ -125,6 +125,7 @@ background-image:url('../img/home.png');
 #control li
 {
 	display:inline;
+	font-size:14px;
 }
 
 /* Links of the control area relevant to the language. */
@@ -181,6 +182,7 @@ background-image:url('../img/home.png');
 	/*font-weight:bold;*/
 }
 
+
 /* The user's identifier in the control area. */
 #control li #username
 {
@@ -190,7 +192,8 @@ background-image:url('../img/home.png');
 }
 #control li #connecteduser
 {
-	font-style:italic;
+	font-style:normal;
+	
 }
 /* The business area containing the business'
    graphical elements related to a specific template. */

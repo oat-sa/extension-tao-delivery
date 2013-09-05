@@ -62,7 +62,11 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
         ));
         return $started;
     }
-
+        
+    public function getDeliveryExecutionStartTime($deliveryExecution){
+        $startTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_START);
+        return $deliveryExecution->getUniquePropertyValue($startTime);
+    }
     /**
      * Returns all finished Delivery Executions of a User
      *
@@ -92,7 +96,7 @@ class taoDelivery_models_classes_DeliveryExecutionService extends tao_models_cla
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $execution = $executionClass->createInstanceWithProperties(array(
-            RDFS_LABEL                            => $compiled->getLabel().' '.tao_helpers_Date::displayeDate(time()),
+            RDFS_LABEL                            => $compiled->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $compiled,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
             PROPERTY_DELVIERYEXECUTION_START      => time(),

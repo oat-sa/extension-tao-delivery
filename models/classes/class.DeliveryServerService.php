@@ -77,17 +77,14 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
             //new core_kernel_classes_Property( TAO_DELIVERY_ACTIVE_PROP)
         ));
-       
-        //check settings
-        if (current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP])->literal == "") {
-            $maxExec = 0;
-        } else {
-            $maxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP])->literal;
-        }
 
-        $settings[TAO_DELIVERY_MAXEXEC_PROP] =$maxExec;
-        $settings[TAO_DELIVERY_START_PROP] = current($deliveryProps[TAO_DELIVERY_START_PROP])->literal;
-        $settings[TAO_DELIVERY_END_PROP] = current($deliveryProps[TAO_DELIVERY_END_PROP])->literal;
+        $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
+        $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
+        $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
+
+        $settings[TAO_DELIVERY_MAXEXEC_PROP] = (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal;
+        $settings[TAO_DELIVERY_START_PROP] = (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal;
+        $settings[TAO_DELIVERY_END_PROP] = (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal;
 
         //$settings[TAO_DELIVERY_ACTIVE_PROP] = current($deliveryProps["TAO_DELIVERY_END_PROP"])->getUri();
         /*

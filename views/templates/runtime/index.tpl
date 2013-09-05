@@ -19,6 +19,20 @@
 @import url(<?echo BASE_WWW; ?>css/main.css);
 </style>
 </head>
+    <script type="text/javascript">
+    $( document ).ready(function(){
+	    $('ul li').mouseover(function() {
+		//jQuery("a .actionsBox .button", this).removeClass("button");
+		jQuery("a .actionsBox .button", this).addClass("buttonSelected");
+		
+	    });
+	    $('ul li').mouseleave(function() {
+		jQuery("a .actionsBox .button", this).removeClass("buttonSelected");
+		//jQuery("a .actionsBox .button", this).addClass("button");
+		
+	    });
+	});
+    </script>
 
 <body>
     <div id="process_view"></div>
@@ -32,17 +46,17 @@
 	    <span class="separator"></span>
 	</li>
         <li><a id="logout" class="icon action"
-            href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Logout"); ?></a>
+            href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Log out"); ?></a>
         </li>
     </ul>
     
     <div id="content">
         <div class="contentHeader">
-	   <?php echo __("Welcome:"); ?><b> <?php echo $login; ?>!</b>
+	  <?php echo __("Welcome"); ?> <?php echo $login; ?>!
 	</div>
         <div id="business" class="deliveries ">
 	    <?php if(count(get_data('startedDeliveries')) > 0) : ?>
-		<h2 class="section_title"><?php echo __("Paused Test"); ?> <span class="counter">(<?php echo count($startedDeliveries); ?>)</span></h2>
+		<h2 class="section_title"><?php echo __("Paused Tests"); ?> <span class="counter">(<?php echo count($startedDeliveries); ?>)</span></h2>
 		<div id="running_process" class="deliveries resume">
 		    <ul>
 		    <?php foreach ($startedDeliveries as $delivery): ?>
@@ -57,6 +71,9 @@
 				    <span class="button">
 				    <?php echo __("Resume Test"); ?>
 				     </span>
+				     <span class="validPeriod">
+					 <?php echo __("Started at "); ?><?php echo $delivery->time; ?>
+				    </span>
 				</span>
 			    </a>
 			</li>
@@ -67,7 +84,7 @@
 
 	    <!-- End of Active Processes -->
 	    <?php if(count(get_data('availableDeliveries')) > 0) : ?>
-		<h2 class="section_title"><?php echo __("Assigned Test"); ?> <span class="counter">(<?php echo count($availableDeliveries); ?>)</span></h2>
+		<h2 class="section_title"><?php echo __("Assigned Tests"); ?> <span class="counter">(<?php echo count($availableDeliveries); ?>)</span></h2>
 		<div id="new_process" class="deliveries start">
 		    <ul>
 			<?php foreach($availableDeliveries as $delivery) : ?>
@@ -76,18 +93,26 @@
 				accesskey=""href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri()))?>">
 				<span class="deliveryLabel">
 				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery["compiledDelivery"]->getLabel()); ?>
-				    <span class="tokens">
-					<?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?> <?php echo __('attempt(s) of');?> <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]; ?>
-				    </span>
-				    <br />
-				    <span class="validPeriod">
-					Available from <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]; ?> to <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]; ?>
-				    </span>
+				    
 
 				</span>
+				<span class="tokens">
+					<?php echo __('Attempt(s)');?> [ <?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?> / <?php echo ($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]!=0) ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] : __('Unlimited'); ?> ]
+				    </span>
 				<span class="actionsBox">
+				    <?php if ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) {?>
 				    <span class="button">
 					<?php echo __("Take Test"); ?>
+				    </span>
+				    <?php } ?>
+				      <span class="validPeriod">
+						<?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
+						Available from
+						    <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]; ?>
+						<?php }?>
+						<?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != "") {?>
+						until <?php echo $delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]; ?>
+						<?php }?>
 				    </span>
 				</span>
 			    </a>
@@ -102,7 +127,7 @@
 
 
 	    <?php if(count(get_data('finishedDeliveries')) > 0) : ?>
-		    <h2 class="section_title"><?php echo __("Finished tests"); ?></h2>
+		    <h2 class="section_title"><?php echo __("Completed Tests"); ?> <span class="counter">(<?php echo count($finishedDeliveries); ?>)</span></h2>
 		    <div id="old_process" class="deliveries finished">
 			<ul>
 			<?php foreach($finishedDeliveries as $delivery) : ?>
