@@ -131,7 +131,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $usedTokens = $this->getDeliveryUsedTokens($compiled, $userUri);
         
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
-            common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
+            common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
             return false;
         }
 
@@ -154,7 +154,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 			}
 
         if (!($dateCheck )) {
-             common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
+             common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
             return false;
         }
         return true;
