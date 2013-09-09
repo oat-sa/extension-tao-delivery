@@ -100,11 +100,11 @@
 					<?php echo __('Attempt(s)');?> [ <?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?> / <?php echo ($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]!=0) ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] : __('Unlimited'); ?> ]
 				    </span>
 				<span class="actionsBox">
-				    <?php if ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) {?>
-				    <span class="button">
+				    
+				    <span class="button <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>">
 					<?php echo __("Take Test"); ?>
 				    </span>
-				    <?php } ?>
+				    
 				      <span class="validPeriod">
 						<?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
 						Available from
