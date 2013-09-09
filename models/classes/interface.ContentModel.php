@@ -84,7 +84,8 @@ interface taoDelivery_models_classes_ContentModel
      * @author Joel Bout, <joel@taotesting.com>
      * @param core_kernel_classes_Resource $content
      * @param core_kernel_file_File $directory
+     * @param core_kernel_classes_Resource $resultServer ResultServer.
      * @return tao_models_classes_service_ServiceCall
      */
-    public function compile( core_kernel_classes_Resource $content, core_kernel_file_File $directory);    
+    public function compile( core_kernel_classes_Resource $content, core_kernel_file_File $directory, core_kernel_classes_Resource $resultServer);    
 }

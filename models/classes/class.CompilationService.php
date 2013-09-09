@@ -40,7 +40,9 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         }
         $impl = $this->getImplementationByContent($content);
         $directory = $this->getCompilationDirectory($delivery);
-        $serviceCall = $impl->compile($content, $directory);
+        $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+        $serviceCall = $impl->compile($content, $directory, $resultServer);
+        
         
         $compiled = $this->createCompiledContent($serviceCall, $directory, $delivery->getLabel());
         $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_COMPILED), $compiled);
