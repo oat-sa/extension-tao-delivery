@@ -22,13 +22,10 @@
             		var $frame = $('#iframeDeliveryExec');
             		serviceApi.loadInto($frame[0]);
             
-            		$frame.load(function() {
-                		var doc = this.contentWindow || this.contentDocument;
-                		if (doc.document) {
-                			doc = doc.document;
-                		}
-                		$(this).height($(doc).height());
-            		});
+            		setInterval(function() {
+            			console.dir($frame.contents());
+						$frame.height($frame.contents().height());
+					}, 10);
 
             		serviceApi.onFinish(function() {
             			$.ajax({
@@ -66,7 +63,7 @@
 
 		<div id="content" class='ui-corner-bottom'>
                 <div id="tools">
-                    <iframe id='iframeDeliveryExec' class="toolframe" frameborder="0" style="width:100%"></iframe>
+                    <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow:hidden"></iframe>
 				</div>
 		</div>
 		<!-- End of content -->
