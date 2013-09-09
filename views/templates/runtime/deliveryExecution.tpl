@@ -23,7 +23,6 @@
             		serviceApi.loadInto($frame[0]);
             
             		setInterval(function() {
-            			console.dir($frame.contents());
 						$frame.height($frame.contents().height());
 					}, 10);
 
