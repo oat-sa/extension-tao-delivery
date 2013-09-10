@@ -54,15 +54,32 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         if (is_null($content)) {
             throw new taoDelivery_models_classes_CompilationFailedException('Delivery has no content');
         }
-        $impl = $this->getImplementationByContent($content);
-        $directory = $this->getCompilationDirectory($delivery);
-        $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
-        $serviceCall = $impl->compile($content, $directory, $resultServer);
         
+        $compilationClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+        $compilationInstance = $compilationClass->createInstanceWithProperties(array(
+            RDFS_LABEL                         => $delivery->getLabel(),
+            PROPERTY_COMPILEDDELIVERY_DELIVERY => $delivery,
+        ));        
+        $directory = $this->getCompilationDirectory($compilationInstance);
         
-        $compiled = $this->createCompiledContent($serviceCall, $directory, $delivery);
-        $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compiled);
+        try {
+            $compiler = $this->getCompiler($content);
+            $serviceCall = $compiler->compile($directory);
+            $compilationInstance->setPropertiesValues(array(
+                PROPERTY_COMPILEDDELIVERY_FOLDER   => $directory,
+                PROPERTY_COMPILEDDELIVERY_TIME     => time(),
+                PROPERTY_COMPILEDDELIVERY_RUNTIME  => $serviceCall->serialize()
+            ));
+            $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
+        } catch (common_Exception $e) {
+            throw new taoDelivery_models_classes_CompilationFailedException('Compilation failed: '.$e->getMessage());
+        }
+        
         return true;
+    }
+    
+    public function getCompiler(core_kernel_classes_Resource $deliveryContent) {
+        return $this->getImplementationByContent($deliveryContent)->getCompiler($deliveryContent);
     }
     
     /**
@@ -115,23 +132,5 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         
         return $fs->createFile('', $relPath);
     }
-    
-    /**
-     * Serialise the compiled content
-     * 
-     * @param tao_models_classes_service_ServiceCall $call
-     * @param unknown $folder
-     * @param string $label
-     * @return core_kernel_classes_Resource
-     */
-    protected function createCompiledContent(tao_models_classes_service_ServiceCall $call, core_kernel_file_File $directory, core_kernel_classes_Resource $delivery) {
-        $serviceCallClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
-	    return $serviceCallClass->createInstanceWithProperties(array(
-	        RDFS_LABEL                         => $delivery->getLabel(),
-	        PROPERTY_COMPILEDDELIVERY_DELIVERY => $delivery,
-            PROPERTY_COMPILEDDELIVERY_TIME     => time(),
-            PROPERTY_COMPILEDDELIVERY_RUNTIME  => $call->serialize(),
-	        PROPERTY_COMPILEDDELIVERY_FOLDER   => $directory
-        ));
-    }
+
 }
