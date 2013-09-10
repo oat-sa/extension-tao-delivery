@@ -49,7 +49,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         // check if realy available
         $compiledDeliveries = array();
         foreach ($deliveryCandidates as $candidate) {
-            $compiled = taoDelivery_models_classes_CompilationService::singleton()->getCompiledContent($candidate);
+            $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
             // compiled?
             if (empty($compiled)) {
                 continue;
@@ -60,7 +60,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             // max executions
 
             $deliverySettings = $this->getDeliverySettings($candidate);
-            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($compiled, $userUri);
+            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($candidate, $userUri);
             $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($compiled, $userUri);
             $compiledDeliveries[] = array(
                 "compiledDelivery"  =>$compiled,
@@ -97,38 +97,33 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         return $settings;
     }
 
-    public function getDeliveryUsedTokens(core_kernel_classes_Resource $compiled, $userUri){
-        return count($this->getDeliveryExecutions($compiled, $userUri));
-    }
-    public function getDeliveryExecutions(core_kernel_classes_Resource $compiled, $userUri)
-    {   
+    public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
+        $returnValue = 0;
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $deliveryExecutions = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
-            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
-        ), array(
-        	'like' => false
-        ));
+        $compilations = taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery);
+        foreach ($compilations as $compilation) {
+            $returnValue += $executionClass->countInstances(array(
+                PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+                PROPERTY_DELVIERYEXECUTION_DELIVERY => $compilation->getUri()
+            ), array(
+                'like' => false
+            ));
+        };
 
-        return $deliveryExecutions;
+        return $returnValue;
     }
+    
     public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $compiled, $userUri){
 
-        $deliveryClass = taoDelivery_models_classes_DeliveryService::singleton()->getRootClass();
-        $deliveries = $deliveryClass->searchInstances(array(
-            PROPERTY_DELIVERY_COMPILED  => $compiled->getUri()
-        ), array(
-        	'like' => false
-        ));
-        if (count($deliveries)!=1) {
-            common_Logger::f("Attempt to start the compiled delivery ".$compiled->getUri(). "related to 0 or >1 deliveries");
+        $delivery = self::getDeliveryFromCompiledDelivery($compiled);
+        if (is_null($delivery)) {
+            common_Logger::w("Attempt to start the compiled delivery ".$compiled->getUri(). " related to no delivery");
             return false;
         }
-        $delivery = current($deliveries);
         $settings = $this->getDeliverySettings($delivery);
 
         //check Tokens
-        $usedTokens = $this->getDeliveryUsedTokens($compiled, $userUri);
+        $usedTokens = $this->getDeliveryUsedTokens($delivery, $userUri);
         
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
             common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
@@ -193,13 +188,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
          //a unique identifier for the delivery
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($delivery->getUri());
     }
+    
     public function getDeliveryFromCompiledDelivery(core_kernel_classes_Resource $compiledDelivery) {
-        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-        $deliveries = $deliveryClass->searchInstances(array(PROPERTY_DELIVERY_COMPILED => $compiledDelivery->getUri()));
-       
-        if (count($deliveries)!=1) {
-            throw new common_Exception("0 or more tha one delivery is associated with the compiledDelviery  ".$compiledDelivery->getUri());
-        }
-        return array_shift($deliveries);
-    }
+        return $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_DELIVERY));
+   }
 }

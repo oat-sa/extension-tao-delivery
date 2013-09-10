@@ -172,7 +172,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $tree->setData('title', __('Select test takers to be <b>excluded</b>'));
         $this->setData('groupTesttakers', $tree->render());
         
-        $compiled = taoDelivery_models_classes_CompilationService::singleton()->getCompiledContent($delivery);
+        $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($delivery);
         if (!is_null($compiled)) {
             // compilation info
             $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($compiled);

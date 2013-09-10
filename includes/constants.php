@@ -35,12 +35,13 @@ $todefine = array(
 	'TAO_DELIVERY_END_PROP' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd',
 	
 	'PROPERTY_DELIVERY_CONTENT'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent',
-    'PROPERTY_DELIVERY_COMPILED'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCompiledDelivery',
+    'PROPERTY_DELIVERY_ACTIVE_COMPILATION'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryActiveCompilation',
     
     'CLASS_ABSTRACT_DELIVERYCONTENT'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent',
     'PROPERTY_CONTENTCLASS_IMPLEMENTATION' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation',
      
     'CLASS_COMPILEDDELIVERY'               => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery',
+    'PROPERTY_COMPILEDDELIVERY_DELIVERY'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryDelivery',
     'PROPERTY_COMPILEDDELIVERY_TIME'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime',
     'PROPERTY_COMPILEDDELIVERY_RUNTIME'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryRuntime',
     'PROPERTY_COMPILEDDELIVERY_FOLDER'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationFolder',

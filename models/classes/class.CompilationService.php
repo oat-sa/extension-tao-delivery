@@ -29,8 +29,24 @@
 class taoDelivery_models_classes_CompilationService extends taoDelivery_models_classes_DeliveryService
 {
 
-    public function getCompiledContent(core_kernel_classes_Resource $delivery) {
-        return $delivery->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_DELIVERY_COMPILED));
+    /**
+     * Returns the last compilation of the delivery
+     * Or null if no compilation is found
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @return core_kernel_classes_Resource
+     */
+    public function getActiveCompilation(core_kernel_classes_Resource $delivery) {
+        return $delivery->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION));
+    }
+    
+    public function getAllCompilations(core_kernel_classes_Resource $delivery) {
+        $compilationClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+        return $compilationClass->searchInstances(array(
+            PROPERTY_COMPILEDDELIVERY_DELIVERY => $delivery,
+        ),array(
+        	'like' => 'false'
+        ));
     }
     
     public function compileDelivery(core_kernel_classes_Resource $delivery) {
@@ -44,8 +60,8 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         $serviceCall = $impl->compile($content, $directory, $resultServer);
         
         
-        $compiled = $this->createCompiledContent($serviceCall, $directory, $delivery->getLabel());
-        $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_COMPILED), $compiled);
+        $compiled = $this->createCompiledContent($serviceCall, $directory, $delivery);
+        $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compiled);
         return true;
     }
     
@@ -108,10 +124,11 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
      * @param string $label
      * @return core_kernel_classes_Resource
      */
-    protected function createCompiledContent(tao_models_classes_service_ServiceCall $call, core_kernel_file_File $directory, $label = '') {
+    protected function createCompiledContent(tao_models_classes_service_ServiceCall $call, core_kernel_file_File $directory, core_kernel_classes_Resource $delivery) {
         $serviceCallClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
 	    return $serviceCallClass->createInstanceWithProperties(array(
-	        RDFS_LABEL                         => $label,
+	        RDFS_LABEL                         => $delivery->getLabel(),
+	        PROPERTY_COMPILEDDELIVERY_DELIVERY => $delivery,
             PROPERTY_COMPILEDDELIVERY_TIME     => time(),
             PROPERTY_COMPILEDDELIVERY_RUNTIME  => $call->serialize(),
 	        PROPERTY_COMPILEDDELIVERY_FOLDER   => $directory

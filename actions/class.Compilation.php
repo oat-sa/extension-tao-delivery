@@ -55,7 +55,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 		$this->setData('classUri', $this->getCurrentClass()->getUri());
 		
 		//compilation state:
-		$compiled = $this->service->getCompiledContent($delivery);
+		$compiled = $this->service->getActiveCompilation($delivery);
 		$isCompiled = !is_null($compiled);
 		$this->setData("isCompiled", $isCompiled);
 		if($isCompiled){

@@ -144,12 +144,20 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[A compiled version of the Delivery]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCompiledDelivery">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryActiveCompilation">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Deliveries compilation]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The compilation associated to this delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryDelivery">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Deliveries compilation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The delivery of this compilation]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
     <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime">
