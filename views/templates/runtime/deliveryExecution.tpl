@@ -20,11 +20,25 @@
             
             		var serviceApi = <?=get_data('serviceApi')?>;
             		var $frame = $('#iframeDeliveryExec');
-            		serviceApi.loadInto($frame[0]);
-            
-            		setInterval(function() {
+            		
+            		var autoResize = function autoResize() {
+						$frame = $('#iframeDeliveryExec');
 						$frame.height($frame.contents().height());
-					}, 10);
+					};
+            		
+            		if (jQuery.browser.msie) {
+						$frame[0].onreadystatechange = function(){	
+							if(this.readyState == 'complete'){
+								setInterval(autoResize, 10);
+							}
+						};
+					} else {		
+						$frame[0].onload = function(){
+							setInterval(autoResize, 10);
+						};
+					}
+            		
+            		serviceApi.loadInto($frame[0]);
 
             		serviceApi.onFinish(function() {
             			$.ajax({
