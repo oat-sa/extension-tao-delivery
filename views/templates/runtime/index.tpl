@@ -59,20 +59,20 @@
 		<h2 class="section_title"><?php echo __("Paused Tests"); ?> <span class="counter">(<?php echo count($startedDeliveries); ?>)</span></h2>
 		<div id="running_process" class="deliveries resume">
 		    <ul>
-		    <?php foreach ($startedDeliveries as $delivery): ?>
+		    <?php foreach ($startedDeliveries as $deliveryExecution): ?>
 			<li>
 			   
 			    <a
-			    href="<?=_url('resumeDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery->getUri()))?>">
+			    href="<?=_url('runDeliveryExecution', 'DeliveryServer', null, array('uri' => $deliveryExecution->getUri()))?>">
 				<span class="deliveryLabel">
-			     <?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?>
+			     <?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($deliveryExecution->getLabel()); ?>
 				</span>
 				<span class="actionsBox">
 				    <span class="button">
 				    <?php echo __("Resume Test"); ?>
 				     </span>
 				     <span class="validPeriod">
-					 <?php echo __("Started at "); ?><?php echo $delivery->time; ?>
+					 <?php echo __("Started at "); ?><?php echo $deliveryExecution->time; ?>
 				    </span>
 				</span>
 			    </a>

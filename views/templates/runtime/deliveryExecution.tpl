@@ -39,7 +39,7 @@
         		
         		serviceApi.onFinish(function() {
         			$.ajax({
-        				url  		: <?= tao_helpers_Javascript::buildObject(_url('finishDeliveryExecution', 'DeliveryServer'))?>,
+        				url  		: <?= tao_helpers_Javascript::buildObject(_url('finishDeliveryExecution'))?>,
         				data 		: <?= tao_helpers_Javascript::buildObject(array('deliveryExecution' => get_data('deliveryExecution')))?>,
         				type 		: 'post',
         				dataType	: 'json',
@@ -60,6 +60,7 @@
 	<body>
 		<div id="process_view"></div>
 
+		<?php if (get_data('showControls')) :?>
 		<ul id="control">
         	<li>
         		<span id="connecteduser" class="icon"><?php echo __("User name:"); ?> <span id="username"><?php echo get_data('userLabel'); ?></span> </span>
@@ -69,7 +70,7 @@
          		<a class="action icon" id="logout" href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Logout"); ?></a>
          	</li>
 		</ul>
-
+        <?php endif; ?>
 		<div id="content" class='ui-corner-bottom'>
                 <div id="tools">
                     <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow:hidden"></iframe>

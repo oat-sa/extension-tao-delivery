@@ -86,11 +86,21 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    } else {
 	        throw new common_exception_Error("Forbidden Delviery Intialization (check delviery period and available execution tokens");
 	    }
-	    $this->redirect(_url('resumeDeliveryExecution', null, null, array('uri' => $deliveryExecution->getUri())));
+	    $this->redirect(_url('runDeliveryExecution', null, null, array('uri' => $deliveryExecution->getUri())));
 	}
 
-	public function resumeDeliveryExecution() {
+	public function runDeliveryExecution() {
 	    $deliveryExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+	    $props = $deliveryExecution->getPropertiesValues(array(
+	        PROPERTY_DELVIERYEXECUTION_DELIVERY,
+	        PROPERTY_DELVIERYEXECUTION_STATUS
+	    ));
+	    
+	    $status = current($props[PROPERTY_DELVIERYEXECUTION_STATUS]);
+	    if ($status->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE) {
+	        $this->redirect($this->getReturnUrl());
+	    }
+	    
 	    $compiledDelivery = $deliveryExecution->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
 	    $this->initResultServer($compiledDelivery, $deliveryExecution->getUri());
 	     
@@ -100,7 +110,8 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getUri());
-	    $this->setView('runtime/deliveryExecution.tpl');
+	    $this->setData('showControls', $this->showControls());
+	    $this->setView('runtime/deliveryExecution.tpl', 'taoDelivery');
 	}
 	
 	public function finishDeliveryExecution() {
@@ -108,7 +119,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $succcess = $this->executionService->finishDeliveryExecution($deliveryExecution);
 	    echo json_encode(array(
 	        'success'      => $succcess,
-	    	'destination'  => _url('index')
+	    	'destination'  => $this->getReturnUrl()
 	    ));
 	}
 	
@@ -122,4 +133,14 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
 	    }
 	}
+	
+	protected function showControls() {
+	    return true;
+	}
+	
+	protected function getReturnUrl() {
+	    return _url('index', 'DeliveryServer', 'taoDelivery');
+	}
+	
+	
 }
