@@ -37,8 +37,6 @@
 					};
 				}
         		
-        		serviceApi.loadInto($frame[0]);
-
         		serviceApi.onFinish(function() {
         			$.ajax({
         				url  		: <?= tao_helpers_Javascript::buildObject(_url('finishDeliveryExecution', 'DeliveryServer'))?>,
@@ -50,7 +48,10 @@
         				}
         			});
         		});
-        	});
+        		
+        		serviceApi.loadInto($frame[0]);
+
+	   });
         </script>
         <link rel="stylesheet" type="text/css" href="<?echo BASE_WWW; ?>css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
