@@ -159,7 +159,7 @@ msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'�
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
-msgstr ""
+msgstr "Préparer, publier des sessions de délivrances de test."
 
 msgid "Recompile"
 msgstr "Recompiler"
@@ -184,6 +184,9 @@ msgstr "Statut"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr "TAO - Une Plate-Forme d'Évaluation Assistée par Ordinateur Libre et Modulable"
 
 msgid "TAO Delivery Server"
 msgstr "Serveur de delivery TAO"
@@ -227,3 +230,38 @@ msgstr "Nom d'utilisateur:"
 msgid "View History"
 msgstr "Voir l'Historique"
 
+msgid "Welcome"
+msgstr "Bienvenue"
+
+msgid "Assigned Tests"
+msgstr "Tests assignés"
+
+msgid "Log out"
+msgstr "Se déconnecter"
+
+msgid "Logged in as:"
+msgstr "Connecté en tant que : "
+
+msgid "Delivery"
+msgstr "Délivrance"
+
+msgid "Attempt(s)"
+msgstr "Tentative(s)"
+
+msgid "Unlimited"
+msgstr "Illimité"
+
+msgid "Take Test"
+msgstr "Passer test"
+
+msgid "Delivery %"
+msgstr "Délivrance %s"
+
+msgid "Paused Tests"
+msgstr "Tests mis en pause"
+
+msgid "Resume Test"
+msgstr "Reprendre test"
+
+msgid "Started at %s"
+msgstr "Démarré le %s"
