@@ -158,6 +158,18 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         //check time
 
     }
+    
+    public function getAllActiveCompilations()
+    {
+        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+         
+        $compiledDeliveries = array();
+        foreach ($deliveryClass->getInstances(true) as $candidate) {
+            $compiledDeliveries[] = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
+        }
+        return $compiledDeliveries;
+    }
+    
 
     /**
      * initalize the resultserver for a given execution
