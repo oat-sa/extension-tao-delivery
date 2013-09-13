@@ -24,35 +24,22 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class DeliveryServiceTestCase extends UnitTestCase {
 	
 	protected $deliveryService = null;
-	protected $delivery = null;
 	
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
 		TaoTestRunner::initTest();
-		
 		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
-		
-		// $processDefinitionClass = new core_kernel_classes_Class(CLASS_PROCESS);
-		$this->delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery');
 	}
 	
-	public function tearDown() {
-	   $this->deliveryService->deleteDelivery($this->delivery);
-    }
-	
-	
 	public function testService(){
-		$this->assertIsA($this->delivery, 'core_kernel_classes_Resource');
 		$this->assertIsA($this->deliveryService, 'taoDelivery_models_classes_DeliveryService');
 	}
 	
 	public function testCreateInstance(){
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
-		
-		//check if a process is associated to the delivery content:
-		$process = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
+		$this->assertIsA($delivery, 'core_kernel_classes_resource');
 		
 		//check if the default delivery server exists:
 		$defaultDeliveryServer = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
@@ -62,84 +49,9 @@ class DeliveryServiceTestCase extends UnitTestCase {
 			$this->assertEqual($defaultDeliveryServer->getUri(), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		}
 		
-		$this->deliveryService->deleteDelivery($delivery);
+		$this->deliveryService->deleteInstance($delivery);
+		$this->assertFalse($delivery->exists());
 		$this->assertNull($delivery->getOnePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
-	}
-
-	public function testSetDeliveryTests(){
-	
-		//create 2 tests:
-		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$test1 = $testClass->createInstance('UnitDelivery Test1', 'Test 1 create for delivery unit test');
-		$test2 = $testClass->createInstance('UnitDelivery Test2', 'Test 2 create for delivery unit test');
-		$this->assertIsA($test1, 'core_kernel_classes_Resource');
-		
-		$this->assertTrue($this->deliveryService->setDeliveryTests($this->delivery, array($test1, $test2)));
-		
-		// analyze the content of the process:
-		$process = $this->delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_DELIVERYCONTENT));
-		
-		// count the number of activity:
-		$authoringService = taoDelivery_models_classes_DeliveryAuthoringService::singleton();
-		$activities = $authoringService->getActivitiesByProcess($process);
-		$this->assertEqual(count($activities), 2);
-		
-		foreach($activities as $activity){//check if an interactive is set and that it is the test
-			$service = $activity->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_ACTIVITIES_INTERACTIVESERVICES));
-			$this->assertNotNull($service);
-			if(!is_null($service)){
-				$serviceDefinition = $service->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION));
-				$formalParamCollection = $serviceDefinition->getPropertyValuesCollection(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
-				$this->assertEqual($formalParamCollection->count(), 1);//the testUri param only
-			}
-		}
-		
-		$test1->delete();
-		$test2->delete();
-	}
-	
-	public function testSetGroupTests(){
-	
-		//create 2 tests:
-		$groupClass =taoGroups_models_classes_GroupsService::singleton()->getRootClass();
-		$group1 = $groupClass->createInstance('UnitDelivery Group1');
-		$group2 = $groupClass->createInstance('UnitDelivery Group2');
-		$group3 = $groupClass->createInstance('UnitDelivery Group3');
-        
-		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array($group1, $group2)));
-		
-		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
-		$this->assertEqual(count($groups), 2);
-		$toFind = array($group1->getUri(), $group2->getUri());
-		foreach ($groups as $groupUri) {
-		    $toFind = array_diff($toFind, array($groupUri));
-		}
-		$this->assertEqual(count($toFind), 0);
-		
-		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array($group2, $group3)));
-		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
-		$this->assertEqual(count($groups), 2);
-		$toFind = array($group2->getUri(), $group3->getUri());
-		foreach ($groups as $groupUri) {
-		    $toFind = array_diff($toFind, array($groupUri));
-		}
-		$this->assertEqual(count($toFind), 0);
-
-		foreach (array($group2, $group3) as $group) {
-		    $deliveries = taoGroups_models_classes_GroupsService::singleton()->getRelatedDeliveries($group);
-		    $this->assertEqual(count($deliveries), 1);
-		    $this->assertEqual(current($deliveries), $this->delivery->getUri());
-		}
-	    $deliveries = taoGroups_models_classes_GroupsService::singleton()->getRelatedDeliveries($group1);
-	    $this->assertEqual(count($deliveries), 0);
-		
-		$this->assertTrue($this->deliveryService->setDeliveryGroups($this->delivery, array()));
-		$groups = $this->deliveryService->getDeliveryGroups($this->delivery);
-		$this->assertEqual(count($groups), 0);
-		
-		$group1->delete();
-		$group2->delete();
-		$group3->delete();
 	}
 
 }
