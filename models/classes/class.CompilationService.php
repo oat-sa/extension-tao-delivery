@@ -72,6 +72,8 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
             ));
             $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
         } catch (common_Exception $e) {
+            $directory->delete();
+            $compilationInstance->delete();
             throw new taoDelivery_models_classes_CompilationFailedException('Compilation failed: '.$e->getMessage());
         }
         
