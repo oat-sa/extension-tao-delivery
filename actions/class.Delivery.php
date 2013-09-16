@@ -350,52 +350,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
     }
 
     /**
-     * Compile a test by providing its uri, via POST method.
-     * Its main purpose is to collect every required resource to run the test in a single folder so they become immediately available for the test launch, without any delay.
-     * The resources are test and item runtime plugins and media files.
-     * This action parses the testContent and itemContent and save a copy of these files in the compiled test directory.
-     * The action compiles every available language for a given test at once.
-     * It provides a json string to indicate the success or failure of the test compilation
-     * The recompilation of an already compiled test will erase the previously created compiled files.
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function compile()
-    {
-        
-        // execution time might be long...
-        if (defined('TEST_COMPILATION_TIME')) {
-            set_time_limit(TEST_COMPILATION_TIME);
-        }
-        
-        $resultArray = array();
-        
-        if (! $this->hasRequestParameter('deliveryUri')) {
-            throw new Exception('no delivery uri given in compile action');
-        }
-        if (! $this->hasRequestParameter('testUri')) {
-            throw new Exception('no test uri given in compile action');
-        }
-        
-        $delivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('deliveryUri')));
-        $test = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('testUri')));
-        
-        $destination = $this->service->getCompiledTestFolder($delivery, $test);
-        if (! is_dir($destination)) {
-            if (! mkdir($destination, 0770, true)) {
-                common_Logger::w('Could not create test directory \'' . $destination . '\'');
-            }
-        }
-        
-        $compiler = taoDelivery_models_classes_CompilationService::singleton();
-        $resultArray = $compiler->compileTest($test, $destination);
-        
-        echo json_encode($resultArray);
-    }
-
-    /**
      * create history table
      * 
      * @return void
