@@ -16,24 +16,34 @@
         <script type="text/javascript">
         	$(function(){
         		$("#loader").css('display', 'none');
-        
+        		
         		var serviceApi = <?=get_data('serviceApi')?>;
         		var $frame = $('#iframeDeliveryExec');
+        		var autoResizeId;
         		
         		var autoResize = function autoResize() {
+        			console.log('auto');
 					$frame = $('#iframeDeliveryExec');
 					$frame.height($frame.contents().height());
 				};
         		
         		if (jQuery.browser.msie) {
 					$frame[0].onreadystatechange = function(){	
+						$frame.height(0);
 						if(this.readyState == 'complete'){
-							setInterval(autoResize, 10);
+							if (typeof autoResizeId !== 'undefined') {
+								clearInterval(autoResizeId);
+							}
+							autoResizeId = setInterval(autoResize, 10);
 						}
 					};
 				} else {		
 					$frame[0].onload = function(){
-						setInterval(autoResize, 10);
+						$frame.height(0);
+						if (typeof autoResizeId !== 'undefined') {
+							autoResizeId = clearInterval(autoResizeId);
+						}
+						autoResizeId = setInterval(autoResize, 10);
 					};
 				}
         		
