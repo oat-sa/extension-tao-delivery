@@ -22,7 +22,6 @@
         		var autoResizeId;
         		
         		var autoResize = function autoResize() {
-        			console.log('auto');
 					$frame = $('#iframeDeliveryExec');
 					$frame.height($frame.contents().height());
 				};
@@ -31,23 +30,20 @@
 					$frame[0].onreadystatechange = function(){	
 						$frame.height(0);
 						if(this.readyState == 'complete'){
-							if (typeof autoResizeId !== 'undefined') {
-								clearInterval(autoResizeId);
-							}
 							autoResizeId = setInterval(autoResize, 10);
 						}
 					};
 				} else {		
 					$frame[0].onload = function(){
 						$frame.height(0);
-						if (typeof autoResizeId !== 'undefined') {
-							autoResizeId = clearInterval(autoResizeId);
-						}
 						autoResizeId = setInterval(autoResize, 10);
 					};
 				}
         		
         		serviceApi.onFinish(function() {
+        			// Stop resizing iframe.
+					clearInterval(autoResizeId);
+        		
         			$.ajax({
         				url  		: <?= tao_helpers_Javascript::buildObject(_url('finishDeliveryExecution'))?>,
         				data 		: <?= tao_helpers_Javascript::buildObject(array('deliveryExecution' => get_data('deliveryExecution')))?>,
@@ -83,7 +79,7 @@
         <?php endif; ?>
 		<div id="content" class='ui-corner-bottom'>
                 <div id="tools">
-                    <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow:hidden"></iframe>
+                    <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow:hidden;"></iframe>
 				</div>
 		</div>
 		<!-- End of content -->
