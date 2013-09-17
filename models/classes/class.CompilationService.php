@@ -68,7 +68,7 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
             $compilationInstance->setPropertiesValues(array(
                 PROPERTY_COMPILEDDELIVERY_FOLDER   => $directory,
                 PROPERTY_COMPILEDDELIVERY_TIME     => time(),
-                PROPERTY_COMPILEDDELIVERY_RUNTIME  => $serviceCall->serialize()
+                PROPERTY_COMPILEDDELIVERY_RUNTIME  => $serviceCall->toOntology()
             ));
             $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
         } catch (common_Exception $e) {
