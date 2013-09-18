@@ -23,19 +23,17 @@
         		
         		var autoResize = function autoResize() {
 					$frame = $('#iframeDeliveryExec');
-					$frame.height($frame.contents().height());
+					$frame.height($frame.contents().find('html').height());
 				};
         		
         		if (jQuery.browser.msie) {
 					$frame[0].onreadystatechange = function(){	
-						$frame.height(0);
 						if(this.readyState == 'complete'){
 							autoResizeId = setInterval(autoResize, 10);
 						}
 					};
 				} else {		
 					$frame[0].onload = function(){
-						$frame.height(0);
 						autoResizeId = setInterval(autoResize, 10);
 					};
 				}
