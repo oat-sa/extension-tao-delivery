@@ -1,6 +1,6 @@
 <div class="data-container" >
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Select delivery driver')?>
+		<?=__('Select delivery mode')?>
 	</div>
 	<div class="ui-widget ui-widget-content container-content">
 	   <ul class="contentList">

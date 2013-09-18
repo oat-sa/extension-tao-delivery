@@ -5,9 +5,9 @@
 <div id="delivery-left-container">
    	<?= get_data('contentForm')?>
 	<?=get_data('groupTree')?>
-	<div class="breaker"></div>
 	<?=get_data('groupTesttakers')?>
 	<?= has_data('campaign') ? get_data('campaign') : '';?>
+	<div class="breaker"></div>
 </div>
 
 <div class="main-container medium" id="delivery-main-container">

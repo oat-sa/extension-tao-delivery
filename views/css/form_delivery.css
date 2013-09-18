@@ -46,6 +46,10 @@ div.data-container{
     cursor: pointer;
 }
 
+.contentButton:hover{
+    background: #D0D0D0;
+}
+
 .emptyContentFooter{
     height: 23px;
 }
