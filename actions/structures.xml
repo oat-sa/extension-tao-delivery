@@ -27,7 +27,7 @@
 					<action name="move" js="generisActions.moveNode" url="" context="instance" />
 					<action name="export" url="/tao/Export/index"  context="*" />
 					<action name="import" url="/tao/Import/index"  context="class" />
-					<action name="LTI export" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
+					<action name="LTI link" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
 				</actions>
 			</section>
 
