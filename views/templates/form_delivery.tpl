@@ -3,14 +3,10 @@
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
 
 <div id="delivery-left-container">
-	<?if(has_data('authoring')):?>
-    	<?= get_data('authoring')?>
-    <?endif;?>
-	<div class="breaker"></div>
-
+   	<?= get_data('contentForm')?>
 	<?=get_data('groupTree')?>
-	<?=get_data('groupTesttakers')?>
 	<div class="breaker"></div>
+	<?=get_data('groupTesttakers')?>
 	<?= has_data('campaign') ? get_data('campaign') : '';?>
 </div>
 

@@ -61,19 +61,6 @@ class taoDelivery_actions_form_Delivery
             ));
             $this->form->addElement($resultServerElt);
         }
-        
-        
-        $deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
-        if (is_null($deliveryService->getContent($this->getInstance()))) {
-            $ele = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(CLASS_ABSTRACT_DELIVERYCONTENT),'Radiobox');
-            $ele->setDescription(__('Delivery Type'));
-            $options = array();
-            foreach ($deliveryService->getAllContentClasses() as $class) {
-                $options[$class->getUri()] = $class->getLabel();
-            }
-            $ele->setOptions($options);
-            $this->form->addElement($ele);
-        }
-                
+                        
     }
 }

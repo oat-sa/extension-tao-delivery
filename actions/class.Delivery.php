@@ -123,19 +123,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $propertyValues = $myForm->getValues();
-                if (isset($propertyValues[CLASS_ABSTRACT_DELIVERYCONTENT])) {
-                    if (is_null($this->service->getContent($delivery))) {
-                        $class = $propertyValues[CLASS_ABSTRACT_DELIVERYCONTENT];
-                        if (!empty($class)) {
-                            $content = $this->service->createContent($delivery, new core_kernel_classes_Class($class));
-                        }
-                        // else no class selected, carry on
-                    } else {
-                        common_Logger::w('Content already defined, cannot be replaced');
-                    }
-                    unset($propertyValues[CLASS_ABSTRACT_DELIVERYCONTENT]);
-                }
-                
                 
                 // then save the property values as usual
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($delivery);
@@ -150,11 +137,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->getUri()));
 
-        $content = $this->service->getContent($delivery);
-        if (!is_null($content)) {
-            $modelImpl = $this->service->getImplementationByContent($content);
-            $this->setData('authoring', $modelImpl->getAuthoring($content));
-        }
+        $this->setData('contentForm', $this->getContentForm());
         
         $this->setData('uri', tao_helpers_Uri::encode($delivery->getUri()));
         $this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
@@ -193,6 +176,47 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $this->setView('form_delivery.tpl');
     }
 
+    /**
+     * 
+     */
+    protected function getContentForm()
+    {
+        $delivery = $this->getCurrentInstance();
+        $content = $this->service->getContent($delivery);
+        if (!is_null($content)) {
+            // Author
+            $modelImpl = $this->service->getImplementationByContent($content);
+            return $modelImpl->getAuthoring($content);
+        } else {
+            // select Model
+            $options = array();
+            foreach ($this->service->getAllContentClasses() as $class) {
+                $options[$class->getUri()] = $class->getLabel();
+            }
+            $renderer = new Renderer(DIR_VIEWS.'templates'.DIRECTORY_SEPARATOR.'form_content.tpl');
+            $renderer->setData('models', $options);
+            $renderer->setData('saveUrl', _url('setContentClass', null, null, array('uri' => $delivery->getUri())));
+            return $renderer->render();
+        }
+    }
+
+    public function setContentClass()
+    {
+        $delivery = $this->getCurrentInstance();
+        $contentClass = new core_kernel_classes_Class($this->getRequestParameter('model'));
+        
+        if (is_null($this->service->getContent($delivery))) {
+            $content = $this->service->createContent($delivery, $contentClass);
+            $success = true;
+        } else {
+            common_Logger::w('Content already defined, cannot be replaced');
+            $success = false;
+        }
+        echo json_encode(array(
+            'success' => $success
+        ));
+    }
+    
     /**
      * Add a delivery instance
      *
