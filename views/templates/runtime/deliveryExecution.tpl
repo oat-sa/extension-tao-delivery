@@ -23,7 +23,7 @@
         		
         		var autoResize = function autoResize() {
 					$frame = $('#iframeDeliveryExec');
-					$frame.height($frame.contents().find('#qti-test-runner').height());
+					$frame.height($frame.contents().find('#runner').height());
 				};
         		
         		if (jQuery.browser.msie) {
