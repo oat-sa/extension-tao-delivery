@@ -51,8 +51,6 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
         
         // set the default delivery server:
         $delivery->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
-        // set to active
-        $delivery->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_ACTIVE_PROP), GENERIS_TRUE);
         
         // set content model if only 1 available
         $models = $this->getAllContentClasses();

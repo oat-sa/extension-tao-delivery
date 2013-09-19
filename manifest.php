@@ -41,7 +41,6 @@ return array(
 	'install' => array(
 		'rdf' => array(
 				dirname(__FILE__). '/models/ontology/taodelivery.rdf',
-				dirname(__FILE__). '/models/ontology/coding.rdf',
 				dirname(__FILE__). '/models/ontology/aclrole.rdf'
 		),
 		'checks' => array(

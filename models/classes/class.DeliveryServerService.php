@@ -75,7 +75,6 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
-            //new core_kernel_classes_Property( TAO_DELIVERY_ACTIVE_PROP)
         ));
 
         $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
@@ -85,14 +84,6 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $settings[TAO_DELIVERY_MAXEXEC_PROP] = (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal;
         $settings[TAO_DELIVERY_START_PROP] = (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal;
         $settings[TAO_DELIVERY_END_PROP] = (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal;
-
-        //$settings[TAO_DELIVERY_ACTIVE_PROP] = current($deliveryProps["TAO_DELIVERY_END_PROP"])->getUri();
-        /*
-        if (
-            (!isset($settings[TAO_DELIVERY_MAXEXEC_PROP])) or
-            (is_null($settings[TAO_DELIVERY_MAXEXEC_PROP])) or
-            (count($settings[TAO_DELIVERY_MAXEXEC_PROP])==0)) or{
-         */
 
         return $settings;
     }
