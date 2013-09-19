@@ -21,13 +21,11 @@ ItemVariableStorage.prototype.get = function(key, callback){
 }
 
 ItemVariableStorage.prototype.put = function(key, value){
-	console.log('put key ' + key + ' value ' + value);
 	this.variables[key] = value;
 	this.inSync = false;
 }
 
 ItemVariableStorage.prototype.load = function(callback) {
-	console.log('Loading data from ' + this.deliveryModule + 'getVariables');
 	$.ajax({
 		url  		: this.deliveryModule + 'getVariables',
 		data 		: {
