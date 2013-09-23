@@ -165,6 +165,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
             // history stats:
             $this->setData("executionNumber", taoDelivery_models_classes_DeliveryExecutionService::singleton()->getDeliveryExecutionCount($compiled));
         }
+        $this->setData('deliveryLabel', $delivery->getLabel());
         
         
         $this->setData('formTitle', __('Delivery properties'));

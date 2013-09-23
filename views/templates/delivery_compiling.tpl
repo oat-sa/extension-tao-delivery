@@ -1,38 +1,37 @@
 <?include('header.tpl')?>
 
+<link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/compiling.css" />
+
 <div class="main-container">
     <div class="ext-home-container ui-state-highlight">
         <div>
 
             <h1>
-                <img src="<?=BASE_WWW?>img/compile.png" />&nbsp;&nbsp;<?=__('Compilation of the delivery')?> <?=get_data('processLabel')?></h1>
+                <img src="<?=BASE_WWW?>img/compile.png" />&nbsp;&nbsp;<?=__('Publishing "%s"', get_data('deliveryLabel'))?> <?=get_data('processLabel')?></h1>
 
             <div style="margin: 20px 10px;">
-    		<?=__('A delivery must to be compiled before being executed. The compilation can be done here.')?>
+    		<?=__('To be accessible by test takers on the specified dates, you have to publish your delivery.')?>
     		<br />
-    		<?=__('A recompilation is also required after modification on the tests composing a delivery.')?>
+    		<?=__('Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers.')?>
     	</div>
 
-            <div style="margin: 0px 10px;">
-                <img src="<?=BASE_WWW?>img/dialog-warning.png" />&nbsp;<?=__('Note: please make sure that all tests that make up the delivery are well defined and set to "active" in the test extension before compiling the delivery.')?>
-    	</div>
-    	
-    	<?if(get_data('isCompiled')):?>
-    		<div style="margin: 30px 10px;">
-                <img src="<?=BASE_WWW?>img/info.png" />&nbsp;<?=__('The delivery was last compiled on')?> <span
-                    id="compiledDate"><?=get_data('compiledDate')?></span>.
-            </div>
-    	<?endif;?>
-    	
     	<div style="margin: 30px 10px;">
-                <a href="#" id="initCompilation"
-                    onclick="initCompilation('<?=get_data('uri')?>','<?=get_data('classUri')?>')">
+    	   <div class="buttonSuperArea" id="initCompilation">
+    	   <div class="buttonArea">
+	        <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
+	           <?=_('Cancel')?>
+            </a>
+	
+            <a href="#" class="button"
+                onclick="initCompilation('<?=get_data('uri')?>','<?=get_data('classUri')?>')">
     			<?if(get_data('isCompiled')):?>
-    				<?=__('Recompile')?> 
+    				<?=__('Publish again')?> 
     			<?else:?>
-    				<?=__('Compile')?>
+    				<?=__('Publish')?>
     			<?endif;?>
     		</a>
+    		</div>
+    		</div>
             </div>
 
             <script type="text/javascript"
@@ -47,10 +46,18 @@
                     style="margin-bottom: 10px;">
                     <img
                         style="position: relative; top: 10px; margin-right: 10px;"
-                        src="<?=BASE_WWW?>img/process-ajax-loader.gif" /><?=__('Generating the delivery process, please wait')?></div>
-                <div id="generatingProcess_feedback" />
+                        src="<?=BASE_WWW?>img/process-ajax-loader.gif" /><?=__('Publishing is in progress, please wait...')?></div>
+                <div id="generatingProcess_feedback"></div>
+                
             </div>
-
+        	<div id ="postCompilation" style="margin: 30px 10px;">
+        	    <div class="buttonSuperArea">
+            	    <div class="buttonArea">
+                       <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
+    	                   <?=_('Ok')?>
+                       </a>
+                    </div>
+            </div>	   
         </div>
 
         <script type="text/javascript">

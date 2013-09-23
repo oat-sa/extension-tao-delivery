@@ -23,10 +23,14 @@
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoDelivery
+ * @package taoItems
  * @subpackage models_classes
  */
-class taoDelivery_models_classes_CompilationFailedException
-    extends tao_models_classes_CompilationFailedException
+class taoDelivery_models_classes_EmptyDeliveryException
+    extends taoDelivery_models_classes_CompilationFailedException
+    implements common_exception_UserReadableException
 {
+    public function getUserMessage() {
+        return __('There are no tests associated with the delivery');
+    }
 }

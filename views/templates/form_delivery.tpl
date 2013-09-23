@@ -20,15 +20,16 @@
 	<!-- compile box not available in standalone mode-->
 	<?if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
-		<?=__("Compilation")?>
+		<?=__("Publishing Status")?>
 	</div>
 	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
-		<div class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
+		<div class="ext-home-container <?php if(!get_data('isCompiled')):?>ui-state-highlight <?php endif;?>ui-state-highlight-delivery">
 		<p>
+		<?=get_data('deliveryLabel')?>:
 		<?if(get_data('isCompiled')):?>
-			<?=__('The delivery was last compiled on')?> <?=get_data('compiledDate')?>.
+			<?=__('Published on %s', get_data('compiledDate'))?>.
 		<?else:?>
-			<?=__('The delivery is not compiled yet')?>
+			<?=__('Not yet published')?>
 		<?endif;?>
 		</p>
 
@@ -36,9 +37,9 @@
 			<a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
 				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
 				<?if(get_data('isCompiled')):?>
-					<?=__('Recompile')?>
+					<?=__('Publish again')?>
 				<?else:?>
-					<?=__('Compile')?>
+					<?=__('Publish')?>
 				<?endif;?>
 
 			</a>

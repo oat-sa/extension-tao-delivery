@@ -2,7 +2,7 @@
 	<?=__("History")?>
 </div>
 <div id="form-history" class="ui-widget-content ui-corner-bottom">
-	<div id="history-link-container" class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
+	<div id="history-link-container" class="ext-home-container">
 		<p>
 		<?if(get_data('executionNumber')):?>
 			<?=__('There are currently')?>&nbsp;<?=get_data('executionNumber')?>&nbsp;<?=__('delivery executions')?>.

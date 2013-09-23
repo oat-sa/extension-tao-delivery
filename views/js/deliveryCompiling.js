@@ -25,9 +25,9 @@ var classUri = '';
 
 function initCompilation(uri,clazz){
 	$("#initCompilation").hide();
+	$('#generatingProcess_info').show();
 	
 	$('#generatingProcess_feedback').empty().hide();
-	$('#generatingProcess_info').hide();
 	
 	deliveryUri = uri;
 	classUri = clazz;
@@ -40,11 +40,16 @@ function initCompilation(uri,clazz){
 		dataType: "json",
 		data: {uri : uri, classUri: clazz},
 		success: function(r){
-		
+			$('#generatingProcess_info').hide();
+
 			if(r.success){
 				finalMessage(__('complete!'),'ok.png');
 			}else{
-				var msg = __('Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)');
+				if (typeof r.error != 'undefined') {
+					var msg = r.error;
+				} else {
+					var msg = __('Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)');
+				}
 				finalMessage(msg, 'failed.png');
 			}
 		}
@@ -56,6 +61,7 @@ function finalMessage(msg, imageFile){
 	$("#progressbar").append(msg);
         
 	//reinitiate the values and suggest recompilation
+	$('#postCompilation').show();
 	$("#initCompilation").html( __("Recompile the delivery") );
 }
 

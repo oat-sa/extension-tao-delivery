@@ -74,7 +74,11 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         } catch (common_Exception $e) {
             $directory->delete();
             $compilationInstance->delete();
-            throw new taoDelivery_models_classes_CompilationFailedException('Compilation failed: '.$e->getMessage());
+            if ($e instanceof tao_models_classes_CompilationFailedException) {
+                throw $e;
+            } else {
+                throw new taoDelivery_models_classes_CompilationFailedException('Compilation failed: '.$e->getMessage());
+            }
         }
         
         return true;

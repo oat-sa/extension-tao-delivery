@@ -53,6 +53,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 		$delivery = $this->getCurrentInstance();
 		$this->setData('uri', $delivery->getUri());
 		$this->setData('classUri', $this->getCurrentClass()->getUri());
+		$this->setData("deliveryLabel", $delivery->getLabel());
 		
 		//compilation state:
 		$compiled = $this->service->getActiveCompilation($delivery);
@@ -75,7 +76,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 	    } catch (taoDelivery_models_classes_CompilationFailedException $e) {
 	        echo json_encode(array(
 	            'success' => false,
-	        	'error'   => __('An undefined error has occured')
+	        	'error'   => $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : __('An undefined error has occured')
 	        ));
 	    }
 	}
