@@ -23,7 +23,7 @@
 		<?=__("Publishing Status")?>
 	</div>
 	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
-		<div class="ext-home-container <?php if(!get_data('isCompiled')):?>ui-state-highlight <?php endif;?>ui-state-highlight-delivery">
+		<div class="ext-home-container <?php if(get_data('hasContent') && !get_data('isCompiled')):?>ui-state-highlight <?php endif;?>ui-state-highlight-delivery">
 		<p>
 		<?=get_data('deliveryLabel')?>:
 		<?if(get_data('isCompiled')):?>
@@ -34,15 +34,16 @@
 		</p>
 
 		<span>
-			<a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
-				<img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
-				<?if(get_data('isCompiled')):?>
-					<?=__('Publish again')?>
-				<?else:?>
-					<?=__('Publish')?>
-				<?endif;?>
-
-			</a>
+			<?if(get_data('hasContent')):?>
+	            <a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
+                    <img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
+    				<?if(get_data('isCompiled')):?>
+    					<?=__('Publish again')?>
+    				<?else:?>
+    					<?=__('Publish')?>
+    				<?endif;?>
+                </a>
+			<?endif;?>
 		</span>
 
 		<br/>

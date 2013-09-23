@@ -52,7 +52,7 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
     public function compileDelivery(core_kernel_classes_Resource $delivery) {
         $content = $this->getContent($delivery);
         if (is_null($content)) {
-            throw new taoDelivery_models_classes_CompilationFailedException('Delivery has no content');
+            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery has no content');
         }
         
         $compilationClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);

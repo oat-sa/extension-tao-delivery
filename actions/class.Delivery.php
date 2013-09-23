@@ -156,6 +156,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $this->setData('groupTesttakers', $tree->render());
         
         $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($delivery);
+        $this->setData('hasContent', !is_null($this->service->getContent($delivery)));
         if (!is_null($compiled)) {
             // compilation info
             $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($compiled);

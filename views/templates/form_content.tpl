@@ -2,7 +2,7 @@
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=__('Select delivery mode')?>
 	</div>
-	<div class="ui-widget ui-widget-content container-content">
+	<div class="ui-widget ui-widget-content ui-state-highlight container-content">
 	   <ul class="contentList">
 	       <?php foreach (get_data('models') as $uri => $label) :?>
 	           <li class="contentButton" data-uri="<?=$uri?>"><?=$label?></li>
