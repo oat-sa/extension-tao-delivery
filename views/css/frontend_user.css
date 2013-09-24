@@ -231,10 +231,12 @@ div#debugWindow pre{
 }
 
 #footer{
+	position: fixed;
+	clear: both;
 	font-size:11px;
 	width:100%;
 	text-align:center;
 	bottom:0%;
-	margin:15px auto 0px auto;
+	margin:5px auto 0px auto;
 	color:#333;
 }
