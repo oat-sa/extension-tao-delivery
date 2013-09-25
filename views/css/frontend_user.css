@@ -231,7 +231,6 @@ div#debugWindow pre{
 }
 
 #footer{
-	position: fixed;
 	clear: both;
 	font-size:11px;
 	width:100%;
