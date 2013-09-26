@@ -155,8 +155,6 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $excluded = true;
         if(!is_null($delivery)){
             $excludedUsers = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
-            common_Logger::d($excludedUsers);
-            common_Logger::d($userUri);
             $excluded = in_array($userUri, $excludedUsers);
         } 
         return $excluded;
