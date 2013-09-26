@@ -50,6 +50,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $compiledDeliveries = array();
         foreach ($deliveryCandidates as $candidate) {
             $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
+            
             // compiled?
             if (empty($compiled)) {
                 continue;
@@ -58,6 +59,11 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             // period?
             // excluded
             // max executions
+            
+            //check exclusion
+            if($this->isUserExcluded($candidate, $userUri)){
+                continue;
+            }
 
             $deliverySettings = $this->getDeliverySettings($candidate);
             $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($candidate, $userUri);
@@ -111,6 +117,12 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             common_Logger::w("Attempt to start the compiled delivery ".$compiled->getUri(). " related to no delivery");
             return false;
         }
+        //first check the user is excluded
+        if($this->isUserExcluded($delivery, $userUri)){
+            common_Logger::i("User ".$userUri." attempts to start the compiled delivery ".$compiled->getUri(). " he was excluded from.");
+            return false;
+        }
+        
         $settings = $this->getDeliverySettings($delivery);
 
         //check Tokens
@@ -124,30 +136,54 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         //check time
         $startDate  =    date_create($settings[TAO_DELIVERY_START_PROP]);
         $endDate    =    date_create($settings[TAO_DELIVERY_END_PROP]);
-        if(!empty($startDate)){
-				if(!empty($endDate)){
-				    $endDate->add(new DateInterval("P1D"));
-				    $dateCheck = (date_create()>=$startDate and date_create()<=$endDate);
-                }
-				else{
-				    $dateCheck  = (date_create()>=$startDate);
-                }
-			}else{
-				if(!empty($endDate)){
-				    $endDate->add(new DateInterval("P1D"));
-				    $dateCheck  = (date_create()<=$endDate);
-                }
-			}
-
-        if (!($dateCheck )) {
-             common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
+        if (!$this->areWeInRange($startDate, $endDate)) {
+            common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
             return false;
         }
+        
         return true;
-
-
-        //check time
-
+    }
+    
+    /**
+     * Check if a user is excluded from a delivery
+     * @param core_kernel_classes_Resource $delivery
+     * @param string $userUri the URI of the user to check
+     * @return boolean true if excluded
+     */
+    private function isUserExcluded(core_kernel_classes_Resource $delivery, $userUri){
+        
+        $excluded = true;
+        if(!is_null($delivery)){
+            $excludedUsers = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
+            common_Logger::d($excludedUsers);
+            common_Logger::d($userUri);
+            $excluded = in_array($userUri, $excludedUsers);
+        } 
+        return $excluded;
+    }
+    
+    /**
+     * Check if the date are in range
+     * @param type $startDate
+     * @param type $endDate
+     * @return boolean true if in range
+     */
+    private function areWeInRange($startDate, $endDate){
+        $dateCheck = true;
+        if (!empty($startDate)) {
+            if (!empty($endDate)) {
+                $endDate->add(new DateInterval("P1D"));
+                $dateCheck = (date_create() >= $startDate and date_create() <= $endDate);
+            } else {
+                $dateCheck = (date_create() >= $startDate);
+            }
+        } else {
+            if (!empty($endDate)) {
+                $endDate->add(new DateInterval("P1D"));
+                $dateCheck = (date_create() <= $endDate);
+            }
+        }
+        return $dateCheck;
     }
     
     public function getAllActiveCompilations()

@@ -89,9 +89,11 @@
 		    <ul>
 			<?php foreach($availableDeliveries as $delivery) : ?>
 			<li>
-			    <a
-				accesskey=""href="<?=_url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri()))?>">
-				<span class="deliveryLabel">
+			    
+                            <a accesskey="" 
+                                href="<?=($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri())) : '#'?>" >
+				
+                                <span class="deliveryLabel">
 				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery["compiledDelivery"]->getLabel()); ?>
 				    
 
