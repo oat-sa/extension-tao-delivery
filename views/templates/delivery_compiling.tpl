@@ -19,7 +19,7 @@
     	   <div class="buttonSuperArea" id="initCompilation">
     	   <div class="buttonArea">
 	        <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
-	           <?=_('Cancel')?>
+	           <?=__('Cancel')?>
             </a>
 	
             <a href="#" class="button"
@@ -54,7 +54,7 @@
         	    <div class="buttonSuperArea">
             	    <div class="buttonArea">
                        <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
-    	                   <?=_('Ok')?>
+    	                   <?=__('Ok')?>
                        </a>
                     </div>
             </div>	   
