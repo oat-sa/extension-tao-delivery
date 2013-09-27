@@ -73,7 +73,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 	        echo json_encode(array(
 	            'success' => true
 	        ));
-	    } catch (taoDelivery_models_classes_CompilationFailedException $e) {
+	    } catch (tao_models_classes_CompilationFailedException $e) {
 	        echo json_encode(array(
 	            'success' => false,
 	        	'error'   => $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : __('An undefined error has occured')
