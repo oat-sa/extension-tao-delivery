@@ -248,7 +248,7 @@
 	text-decoration: none;	
 }
 
-.deliveries ul li:hover
+.start>ul>li:hover, .resume>ul>li:hover
 {
 	background-color: #f5f5f5;
 	color:#D00239 !important;
