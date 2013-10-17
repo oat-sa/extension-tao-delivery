@@ -23,7 +23,7 @@
  * Each property will be a field, regarding it's widget.
  *
  * @access public
- * @package taoDelviery
+ * @package taoDelivery
  * @subpackage actions_form
  */
 class taoDelivery_actions_form_Delivery
