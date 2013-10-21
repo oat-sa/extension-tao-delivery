@@ -190,7 +190,10 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
          
         $compiledDeliveries = array();
         foreach ($deliveryClass->getInstances(true) as $candidate) {
-            $compiledDeliveries[] = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
+            $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
+            if (!is_null($compiled)) {
+                $compiledDeliveries[] = $compiled;
+            }
         }
         return $compiledDeliveries;
     }
