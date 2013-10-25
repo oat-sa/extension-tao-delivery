@@ -115,6 +115,13 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[DeliveryExecution end]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Timestamp of the delivery finish]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[DeliveryExecutions Status]]></rdfs:label>
