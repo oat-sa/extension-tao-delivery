@@ -121,7 +121,7 @@ msgid "Loading next item..."
 msgstr "Chargement du prochain item..."
 
 msgid "Login to the TAO Delivery Server"
-msgstr "Connexion au Serveur de Passation TAO"
+msgstr "Connexion au serveur de passation de test de TAO"
 
 msgid "Logout"
 msgstr "Déconnexion"
