@@ -302,3 +302,5 @@ msgstr "État de la publication"
 msgid "Result Server"
 msgstr "Serveur de résultats"
 
+msgid "Beta version"
+msgstr "Version bêta"
