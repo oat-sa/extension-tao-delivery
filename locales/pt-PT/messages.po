@@ -1,229 +1,263 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.5-alpha\n"
-"PO-Revision-Date: 2013-09-02T11:40:22\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"PO-Revision-Date: 2013-11-11 10:06-0000\n"
+"Last-Translator: Paulo Amorim <paulo@amorims.com>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.7\n"
 
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgid ""
+"A delivery must to be compiled before being executed. The compilation can be "
+"done here."
 msgstr ""
+"A distribuição deve ser compilada antes de ser executada. A compilação pode "
+"ser feita aqui."
 
-msgid "A recompilation is also required after modification on the tests composing a delivery."
+msgid ""
+"A recompilation is also required after modification on the tests composing a "
+"delivery."
 msgstr ""
+"A recompilação também é necessária após a modificação dos testes que compõem "
+"a distribuição."
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Acesso negado. Por favor renove a sua autenticação!"
 
 msgid "Actions"
-msgstr ""
+msgstr "Acções"
 
 msgid "Active Deliveries"
-msgstr ""
+msgstr "Distribuições activas"
 
 msgid "An error occured during history deletion"
-msgstr ""
+msgstr "Ocorreu um erro durante a eliminação do histórico"
 
 msgid "An undefined error has occured"
-msgstr ""
+msgstr "Ocorreu um erro indefinido"
 
 msgid "Back"
-msgstr ""
+msgstr "Voltar"
 
 msgid "Change..."
-msgstr ""
+msgstr "Modificar..."
 
 msgid "Compilation"
-msgstr ""
+msgstr "Compilação"
 
 msgid "Compilation of the delivery"
-msgstr ""
+msgstr "Compilação da distribuição"
 
 msgid "Compile"
-msgstr ""
+msgstr "Compilar"
 
 msgid "complete!"
-msgstr ""
+msgstr "completo"
 
 msgid "delete"
-msgstr ""
+msgstr "eliminar"
 
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 msgid "Delete History"
-msgstr ""
+msgstr "Histórico de eliminação"
 
-#, tao-public
 msgid "Deliveries"
-msgstr ""
+msgstr "Distribuição"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Biblioteca de distribuição"
 
 msgid "Delivery Class saved"
-msgstr ""
+msgstr "Distribuição de disciplina guardada"
 
 msgid "delivery executions"
-msgstr ""
+msgstr "Execuções de distribuição"
 
 msgid "Delivery properties"
-msgstr ""
+msgstr "Propriedades da distribuição"
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Distribuição guardada"
 
 msgid "Delivery Type"
-msgstr ""
+msgstr "Tipo de distribuição"
 
 msgid "duplicate"
-msgstr ""
+msgstr "Duplicado"
 
 msgid "Edit delivery class"
-msgstr ""
+msgstr "Editar distribuição de disciplina"
 
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgid ""
+"Editing a delivery involves setting the tests composing the delivery and "
+"their sequence, as well as the delivery executing parameters: the maximum "
+"number of execution per subject, the delivery period, the result server."
 msgstr ""
+"Editar de uma distribuição envolve a configuração dos testes que compõem a "
+"distribuição e a sua sequência, bem como a de execução parâmetros: o número "
+"máximo de execuções por assunto, o período de entrega, o resultado do "
+"servidor."
 
 msgid "Execution History"
-msgstr ""
+msgstr "Histórico de execução"
 
 msgid "export"
-msgstr ""
+msgstr "Exportar"
 
 msgid "Finished Test"
-msgstr ""
+msgstr "Teste concluído"
 
 msgid "Forward"
-msgstr ""
+msgstr "Avançar"
 
 msgid "Generating the delivery process, please wait"
-msgstr ""
+msgstr "A gerar o processo de distribuição, por favor aguarde"
 
 msgid "History"
-msgstr ""
+msgstr "Histórico"
 
 msgid "History deleted successfully"
-msgstr ""
+msgstr "Historico eliminado com sucesso"
 
 msgid "import"
-msgstr ""
+msgstr "Importar"
 
 msgid "Initialize new test"
-msgstr ""
+msgstr "Iniciar novo teste"
 
 msgid "Invalid login or password. Please try again."
-msgstr ""
+msgstr "Nome de utilizador ou palavra-passe invalida, Por favor tente de novo."
 
 msgid "Loading next item..."
-msgstr ""
+msgstr "A carregar item seguinte"
 
 msgid "Login to the TAO Delivery Server"
-msgstr ""
+msgstr "Autenticar no servidor de distribuição TAO"
 
 msgid "Logout"
-msgstr ""
+msgstr "Terminar sessão"
 
 msgid "LTI export"
-msgstr ""
+msgstr "Exportação LTI"
 
-#, tao-public
 msgid "Manage deliveries"
-msgstr ""
+msgstr "Gerir distribuições"
 
 msgid "move"
-msgstr ""
+msgstr "mover"
 
 msgid "new class"
-msgstr ""
+msgstr "nova disciplina"
 
 msgid "new delivery"
-msgstr ""
+msgstr "nova distribuição"
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgid ""
+"Note: please make sure that all tests that make up the delivery are well "
+"defined and set to \"active\" in the test extension before compiling the "
+"delivery."
 msgstr ""
+"Nota: certifique-se de que todos os testes que compõem a distribuição estão "
+"bem definidos e configurados e activos na extensão de teste antes de "
+"compilar o distribuição."
 
 msgid "Participating groups"
-msgstr ""
+msgstr "Grupos participantes"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 msgid "Please confirm history deletion"
-msgstr ""
+msgstr "Por favor confirme eliminação do histórico"
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgid ""
+"Please select a valid result server in the delivery editing section then try "
+"again.<br/>(No valid wsdl contract found for the defined result server)"
 msgstr ""
+"Por favor, selecione um servidor resultados válido na seção de edição de "
+"distribuição, em seguida, tente novamente. <br/> (Não foi encontrado "
+"contrato WSDL válido para o servidor resultados definido)"
 
-#, tao-public
 msgid "Prepare, publish deliveries sessions."
-msgstr ""
+msgstr "Prepare, publique sessões de distribuição."
 
 msgid "Recompile"
-msgstr ""
+msgstr "Recompilar"
 
 msgid "Recompile the delivery"
-msgstr ""
+msgstr "Recompilar distribuição"
 
 msgid "search"
-msgstr ""
+msgstr "Procurar"
 
 msgid "Select a test"
-msgstr ""
+msgstr "Seleccione um teste"
 
 msgid "Select test takers to be <b>excluded</b>"
-msgstr ""
+msgstr "Seleccione Examinados para serem <b>excluídos</b>"
 
 msgid "Start/Resume the test"
-msgstr ""
+msgstr "Inicio/Fim do teste"
 
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
+"TAO - Uma Plataforma de Avaliação baseada em sistemas de informação aberta e "
+"versátil"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "Servidor de distribuição TAO"
 
 msgid "Test Taker"
-msgstr ""
+msgstr "Examinado"
 
 msgid "Test Takers"
-msgstr ""
+msgstr "Examinados"
 
-msgid "The Deliveries module allows users to define tests deliveries parameters."
+msgid ""
+"The Deliveries module allows users to define tests deliveries parameters."
 msgstr ""
+"O modulo de distribuição permite aos utilizadores testarem os parâmetros de "
+"distribuição."
 
 msgid "The delivery is not compiled yet"
-msgstr ""
+msgstr "A distribuição não está compilada ainda"
 
 msgid "The delivery was last compiled on"
-msgstr ""
+msgstr "A distribuição foi compilada pela ultima vez em"
 
 msgid "the login must not be empty"
-msgstr ""
+msgstr "O nome de utilizador tem de ser preenchido"
 
 msgid "the password must not be empty"
-msgstr ""
+msgstr "A palavra-passe tem de ser preenchida"
 
 msgid "There are currently"
-msgstr ""
+msgstr "Actualmente"
 
 msgid "There is currently no delivery execution."
-msgstr ""
+msgstr "Actualmente não existem execuções de distribuições"
 
-msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
+msgid ""
+"This Deliveries Management Section allows to add and delete deliveries and "
+"to edit their properties values."
 msgstr ""
+"Esta Secção de Gestão de distribuições permite adicionar e excluir as "
+"distribuições e para editar os suas propriedades."
 
 msgid "Time"
-msgstr ""
+msgstr "Tempo"
 
 msgid "User name:"
-msgstr ""
+msgstr "Nome de utilizador"
 
 msgid "View History"
-msgstr ""
-
+msgstr "Ver histórico"
