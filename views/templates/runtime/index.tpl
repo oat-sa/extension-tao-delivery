@@ -11,8 +11,7 @@
 			var base_www = '<?=BASE_WWW?>';
 			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
 		</script>
-<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
-<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+<script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
 <link rel="stylesheet" type="text/css"
     href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
 <style media="screen">
