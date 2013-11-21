@@ -40,8 +40,7 @@ return array(
 	),
 	'install' => array(
 		'rdf' => array(
-				dirname(__FILE__). '/models/ontology/taodelivery.rdf',
-				dirname(__FILE__). '/models/ontology/aclrole.rdf'
+				dirname(__FILE__). '/models/ontology/taodelivery.rdf'
 		),
 		'checks' => array(
 			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_compiled', 'location' => 'taoDelivery/data/compiled', 'rights' => 'rw')),
@@ -52,6 +51,11 @@ return array(
         )
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
+    'acl' => array(
+        array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServerAuthentification')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
+    ),
 	'optimizableClasses' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
