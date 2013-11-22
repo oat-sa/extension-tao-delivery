@@ -97,16 +97,7 @@ return array(
 									.'views'.DIRECTORY_SEPARATOR
 									.'templates'.DIRECTORY_SEPARATOR
 									.'authoring'.DIRECTORY_SEPARATOR,
-	
-		# Next/Previous button usable or not.
-		'USE_NEXT'				=> true,
-		'USE_PREVIOUS'			=> true,
-		'FORCE_NEXT'			=> true,
 
-		'COMPILE_FOLDER'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'compiled'.DIRECTORY_SEPARATOR,
-									
-		# Maximum Compilation Time of a Test before Timeout
-		'TEST_COMPILATION_TIME'	=> 300,
 	)
 );
 ?>
