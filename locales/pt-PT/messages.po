@@ -89,7 +89,7 @@ msgid "Delivery Type"
 msgstr "Tipo de distribuição"
 
 msgid "duplicate"
-msgstr "Duplicado"
+msgstr "Duplicar"
 
 msgid "Edit delivery class"
 msgstr "Editar distribuição de disciplina"
