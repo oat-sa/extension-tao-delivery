@@ -18,10 +18,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-require_once dirname(__FILE__) . '/../../tao/test/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/../../tao/test/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class DeliveryServiceTestCase extends UnitTestCase {
+class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	
 	protected $deliveryService = null;
 	
@@ -29,7 +29,7 @@ class DeliveryServiceTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
 		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 	}
 	
@@ -46,7 +46,7 @@ class DeliveryServiceTestCase extends UnitTestCase {
 		$this->assertNotNull($defaultDeliveryServer);
 		
 		if(!is_null($defaultDeliveryServer)){
-			$this->assertEqual($defaultDeliveryServer->getUri(), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+			$this->assertEquals($defaultDeliveryServer->getUri(), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
 		}
 		
 		$this->deliveryService->deleteInstance($delivery);
