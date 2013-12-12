@@ -1,0 +1,241 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-12-12T08:13:59\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ru-RU\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Actions"
+msgstr ""
+
+msgid "An error occured during history deletion"
+msgstr ""
+
+msgid "An undefined error has occured"
+msgstr ""
+
+msgid "Assigned Tests"
+msgstr ""
+
+msgid "Attempt(s)"
+msgstr ""
+
+msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Change..."
+msgstr ""
+
+msgid "complete!"
+msgstr ""
+
+msgid "Completed Tests"
+msgstr ""
+
+msgid "Content driver selected"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete History"
+msgstr ""
+
+#, tao-public
+msgid "Deliveries"
+msgstr ""
+
+msgid "Deliveries library"
+msgstr ""
+
+msgid "Delivery Class saved"
+msgstr ""
+
+msgid "delivery executions"
+msgstr ""
+
+msgid "Delivery properties"
+msgstr ""
+
+msgid "Delivery saved"
+msgstr ""
+
+msgid "duplicate"
+msgstr ""
+
+msgid "Edit delivery class"
+msgstr ""
+
+msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgstr ""
+
+msgid "Execution History"
+msgstr ""
+
+msgid "export"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "History deleted successfully"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "Invalid login or password. Please try again."
+msgstr ""
+
+msgid "Log out"
+msgstr ""
+
+msgid "Logged in as:"
+msgstr ""
+
+msgid "Login to the TAO Delivery Server"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "LTI"
+msgstr ""
+
+#, tao-public
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "move"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "new delivery"
+msgstr ""
+
+msgid "Not yet published"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "Participating groups"
+msgstr ""
+
+msgid "Paused Tests"
+msgstr ""
+
+msgid "Please confirm history deletion"
+msgstr ""
+
+msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgstr ""
+
+#, tao-public
+msgid "Prepare, publish deliveries sessions."
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish again"
+msgstr ""
+
+msgid "Published on %s', get_data('compiledDate"
+msgstr ""
+
+msgid "Publishing \"%s\"', get_data('deliveryLabel"
+msgstr ""
+
+msgid "Publishing is in progress, please wait..."
+msgstr ""
+
+msgid "Publishing Status"
+msgstr ""
+
+msgid "Recompile the delivery"
+msgstr ""
+
+msgid "Resume Test"
+msgstr ""
+
+msgid "search"
+msgstr ""
+
+msgid "Select a test"
+msgstr ""
+
+msgid "Select delivery mode"
+msgstr ""
+
+msgid "Select test takers to be <b>excluded</b>"
+msgstr ""
+
+msgid "Started at "
+msgstr ""
+
+msgid "Take Test"
+msgstr ""
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "Test Taker"
+msgstr ""
+
+msgid "Test Takers"
+msgstr ""
+
+msgid "The Deliveries module allows users to define tests deliveries parameters."
+msgstr ""
+
+msgid "the login must not be empty"
+msgstr ""
+
+msgid "the password must not be empty"
+msgstr ""
+
+msgid "There are currently"
+msgstr ""
+
+msgid "There are no tests associated with the delivery"
+msgstr ""
+
+msgid "There is currently no delivery execution."
+msgstr ""
+
+msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
+msgstr ""
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "User name:"
+msgstr ""
+
+msgid "View History"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
