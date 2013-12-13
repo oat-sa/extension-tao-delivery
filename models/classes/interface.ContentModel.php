@@ -77,14 +77,13 @@ interface taoDelivery_models_classes_ContentModel
     public function cloneContent( core_kernel_classes_Resource $content);
     
     /**
-     * Returns a compiler of the implementation that can
+     * Returns a the class of the delivery compiler implementation that can
      * prepare the content in any way it sees fit and
      * return a service call that can execute the prepared content
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param core_kernel_classes_Resource $content
      * @return tao_models_classes_Compiler
      */
-    public function getCompiler( core_kernel_classes_Resource $content);    
+    public function getCompilerClass();    
 }

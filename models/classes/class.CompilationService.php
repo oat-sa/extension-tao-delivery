@@ -60,19 +60,17 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
             RDFS_LABEL                         => $delivery->getLabel(),
             PROPERTY_COMPILEDDELIVERY_DELIVERY => $delivery,
         ));        
-        $directory = $this->getCompilationDirectory($compilationInstance);
         
         try {
-            $compiler = $this->getCompiler($content);
-            $serviceCall = $compiler->compile($directory);
+            $compiler = taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
+            $serviceCall = $compiler->compile();
             $compilationInstance->setPropertiesValues(array(
-                PROPERTY_COMPILEDDELIVERY_FOLDER   => $directory,
-                PROPERTY_COMPILEDDELIVERY_TIME     => time(),
-                PROPERTY_COMPILEDDELIVERY_RUNTIME  => $serviceCall->toOntology()
+                PROPERTY_COMPILEDDELIVERY_DIRECTORY => $compiler->getSpawnedDirectoryIds(),
+                PROPERTY_COMPILEDDELIVERY_TIME      => time(),
+                PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology()
             ));
             $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
         } catch (common_Exception $e) {
-            $directory->delete();
             $compilationInstance->delete();
             if ($e instanceof tao_models_classes_CompilationFailedException) {
                 throw $e;
@@ -84,8 +82,8 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         return true;
     }
     
-    public function getCompiler(core_kernel_classes_Resource $deliveryContent) {
-        return $this->getImplementationByContent($deliveryContent)->getCompiler($deliveryContent);
+    public function getCompilerClass(core_kernel_classes_Resource $deliveryContent) {
+        return $this->getImplementationByContent($deliveryContent)->getCompilerClass();
     }
     
     /**
@@ -111,32 +109,6 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
     
     public function getRuntime( core_kernel_classes_Resource $compiledDelivery, $variables = array()) {
         return $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
-    }
-    
-    /**
-     * returns the folder to store the compiled delivery
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param  Resource delivery
-     * @return core_kernel_file_File
-     */
-    protected function getCompilationDirectory( core_kernel_classes_Resource $delivery)
-    {
-        $returnValue = (string) '';
-        
-        $fs = taoDelivery_models_classes_RuntimeAccess::getFileSystem();
-        $basePath = $fs->getPath();
-        $relPath = substr($delivery->getUri(), strpos($delivery->getUri(), '#') + 1).DIRECTORY_SEPARATOR;
-        $absPath = $fs->getPath().$relPath;
-        
-        if (! is_dir($absPath)) {
-            if (! mkdir($absPath)) {
-                throw new taoDelivery_models_classes_CompilationFailedException('Could not create delivery directory \'' . $absPath . '\'');
-            }
-        }
-        
-        return $fs->createFile('', $relPath);
     }
 
 }

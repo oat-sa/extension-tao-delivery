@@ -41,7 +41,7 @@ $todefine = array(
     'PROPERTY_COMPILEDDELIVERY_DELIVERY'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryDelivery',
     'PROPERTY_COMPILEDDELIVERY_TIME'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime',
     'PROPERTY_COMPILEDDELIVERY_RUNTIME'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryRuntime',
-    'PROPERTY_COMPILEDDELIVERY_FOLDER'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationFolder',
+    'PROPERTY_COMPILEDDELIVERY_DIRECTORY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationDirectory',
     
     'CLASS_DELVIERYEXECUTION'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
     'PROPERTY_DELVIERYEXECUTION_DELIVERY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery',
