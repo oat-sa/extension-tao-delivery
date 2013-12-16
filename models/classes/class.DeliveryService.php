@@ -69,10 +69,18 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
         return $content;
     }
 
-    public function getAllContentClasses()
+    public function getAllContentClasses($getSystemContents = false)
     {
         $deliveryContentSuperClass = new core_kernel_classes_Class(CLASS_ABSTRACT_DELIVERYCONTENT);
-        return $deliveryContentSuperClass->getSubClasses(true);
+        $subclasses = $deliveryContentSuperClass->getSubClasses(true);
+        if (!$getSystemContents) {
+            foreach (array_keys($subclasses) as $key) {
+                if ($subclasses[$key]->getUri() == CLASS_DELIVERY_CONTENT_ASSEMBLY) {
+                    unset($subclasses[$key]);
+                }
+            }
+        }
+        return $subclasses;
     }
 
     /**
@@ -145,7 +153,7 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
      */
     public function getImplementationByContent(core_kernel_classes_Resource $content)
     {
-        $validContentClasses = $this->getAllContentClasses();
+        $validContentClasses = $this->getAllContentClasses(true);
         foreach ($content->getTypes() as $type) {
             foreach ($validContentClasses as $reference) {
                 if ($type->equals($reference)) {

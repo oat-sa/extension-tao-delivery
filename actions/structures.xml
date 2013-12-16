@@ -26,7 +26,7 @@
 					<action name="duplicate" js="generisActions.duplicateNode" url="/taoDelivery/Delivery/cloneInstance" context="instance" />
 					<action name="move" js="generisActions.moveNode" url="" context="instance" />
 					<action name="export" url="/tao/Export/index"  context="*" />
-					<action name="import" url="/tao/Import/index"  context="class" />
+					<action name="import" url="/taoDelivery/DeliveryImport/index"  context="class" />
 					<action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
 				</actions>
 			</section>

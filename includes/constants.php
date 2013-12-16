@@ -53,7 +53,7 @@ $todefine = array(
     'INSTANCE_DELIVERYEXEC_ACTIVE'         => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive',
     'INSTANCE_DELIVERYEXEC_FINISHED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished',
     
-    
+    'CLASS_DELIVERY_CONTENT_ASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent'
     
     // @todo currently defined in group, should be defined in delivery to mirror the dependencies
 	//'TAO_GROUP_DELIVERIES_PROP'	=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
