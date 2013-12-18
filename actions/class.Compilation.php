@@ -82,4 +82,19 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 	        ));
 	    }
 	}
+	
+	public function export() {
+	    $publishedDelivery = $this->getCurrentInstance();
+	    $path = taoDelivery_models_classes_import_Assembler::exportCompiledDelivery($publishedDelivery);
+	    echo json_encode(array(
+	        'success' => true,
+	        'download'   => _url('downloadExportedFiles', 'Export', 'tao', array('filePath' => tao_helpers_Export::getRelativPath($path)))
+	    ));
+	    /*
+	    echo json_encode(array(
+	        'success' => false,
+	        'error'   => $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : __('An undefined error has occured')
+	    ));
+	    */
+	}
 }

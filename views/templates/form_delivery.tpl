@@ -25,9 +25,12 @@
 	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
 		<div class="ext-home-container <?php if(get_data('hasContent') && !get_data('isCompiled')):?>ui-state-highlight <?php endif;?>ui-state-highlight-delivery">
 		<p>
-		<?=get_data('deliveryLabel')?>:
-		<?if(get_data('isCompiled')):?>
-			<?=__('Published on %s', get_data('compiledDate'))?>.
+		<?if(!empty(get_data('assemblies'))):?>
+    		<ul id="lb" class="listbox">
+    		<?php foreach (get_data('assemblies') as $assembly) : ?>
+    		    <li class="compilationButton" data-uri="<?=$assembly['uri']?>"><?=__('%1s published on %2s',$assembly['label'],$assembly['date'])?></li>
+    		<?php endforeach;?>
+    		</ul>
 		<?else:?>
 			<?=__('Not yet published')?>
 		<?endif;?>
@@ -37,7 +40,7 @@
 			<?if(get_data('hasContent')):?>
 	            <a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
                     <img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
-    				<?if(get_data('isCompiled')):?>
+    				<?if(!empty(get_data('assemblies'))):?>
     					<?=__('Publish again')?>
     				<?else:?>
     					<?=__('Publish')?>
@@ -56,4 +59,24 @@
 
 </div>
 
+<script type="text/javascript">
+$(function(){
+	require(['require', 'jquery'], function(req, $) {
+		$('.compilationButton').click(function(){
+    		$.ajax({
+    			url: "<?=get_data('exportUrl')?>",
+    			type: "POST",
+    			data: {'uri': $(this).data('uri')},
+    			dataType: 'json',
+    			success: function(response) {
+    				if (response.success) {
+    					window.location.href = response.download; 
+    				}
+			    },
+    		});			
+		});
+	});
+		
+});
+</script>
 <?include('footer.tpl');?>

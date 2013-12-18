@@ -85,7 +85,7 @@ class taoDelivery_models_classes_import_Assembler
      */
     public static function exportCompiledDelivery(core_kernel_classes_Resource $compiledDelivery) {
         
-        $fileName = 'assembly_'.substr(md5($compiledDelivery->getUri()), 0, 5).'.zip';
+        $fileName = tao_helpers_Display::textCleaner($compiledDelivery->getLabel()).'.zip';
         $path = tao_helpers_File::concat(array(tao_helpers_Export::getExportPath(), $fileName));
         if(!tao_helpers_File::securityCheck($path, true)){
             throw new Exception('Unauthorized file name');

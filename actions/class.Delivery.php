@@ -155,19 +155,25 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $tree->setData('title', __('Select test takers to be <b>excluded</b>'));
         $this->setData('groupTesttakers', $tree->render());
         
-        $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($delivery);
         $this->setData('hasContent', !is_null($this->service->getContent($delivery)));
-        if (!is_null($compiled)) {
-            // compilation info
-            $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($compiled);
-            $this->setData('isCompiled', true);
-            $this->setData('compiledDate', tao_helpers_Date::displayeDate($date));
-            
-            // history stats:
-            $this->setData("executionNumber", taoDelivery_models_classes_DeliveryExecutionService::singleton()->getDeliveryExecutionCount($compiled));
-        }
-        $this->setData('deliveryLabel', $delivery->getLabel());
         
+        $assemblyData = array();
+        $execCount = 0;
+        foreach (taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery) as $assembly) {
+            $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
+            $executionNr = taoDelivery_models_classes_DeliveryExecutionService::singleton()->getDeliveryExecutionCount($assembly);
+            $assemblyData[] = array(
+            	'uri' => $assembly->getUri(),
+                'label' => $assembly->getLabel(),
+                'date' => tao_helpers_Date::displayeDate($date),
+                'exec' => $executionNr
+            );
+            $execCount += $executionNr;
+        }
+        $this->setData('assemblies', $assemblyData);
+        $this->setData("exportUrl", _url('export', 'Compilation'));
+        
+        $this->setData("executionNumber", $execCount);
         
         $this->setData('formTitle', __('Delivery properties'));
         $this->setData('myForm', $myForm->render());
