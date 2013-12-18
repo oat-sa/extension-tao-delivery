@@ -25,7 +25,8 @@
 	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
 		<div class="ext-home-container <?php if(get_data('hasContent') && !get_data('isCompiled')):?>ui-state-highlight <?php endif;?>ui-state-highlight-delivery">
 		<p>
-		<?if(!empty(get_data('assemblies'))):?>
+		<? $assemblies = get_data('assemblies'); ?>
+		<?if(!empty($assemblies)):?>
     		<ul id="lb" class="listbox">
     		<?php foreach (get_data('assemblies') as $assembly) : ?>
     		    <li class="compilationButton" data-uri="<?=$assembly['uri']?>"><?=__('%1s published on %2s',$assembly['label'],$assembly['date'])?></li>
@@ -40,7 +41,7 @@
 			<?if(get_data('hasContent')):?>
 	            <a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
                     <img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
-    				<?if(!empty(get_data('assemblies'))):?>
+    				<?if(!empty($assemblies)):?>
     					<?=__('Publish again')?>
     				<?else:?>
     					<?=__('Publish')?>
