@@ -20,11 +20,11 @@
 				</trees>
 				<actions>
 					<action name="search" url="/taoDelivery/Delivery/search" context="*" />
-					<action name="new class" js="generisActions.subClass" url="/taoDelivery/Delivery/addDeliveryClass" context="class" />
-					<action name="new delivery" js="generisActions.instanciate" url="/taoDelivery/Delivery/addDelivery" context="class" />
-					<action name="delete" js="generisActions.removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
-					<action name="duplicate" js="generisActions.duplicateNode" url="/taoDelivery/Delivery/cloneInstance" context="instance" />
-					<action name="move" js="generisActions.moveNode" url="" context="instance" />
+					<action name="new class" js="subClass" url="/taoDelivery/Delivery/addDeliveryClass" context="class" />
+					<action name="new delivery" js="instanciate" url="/taoDelivery/Delivery/addDelivery" context="class" />
+					<action name="delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
+					<action name="duplicate" js="duplicateNode" url="/taoDelivery/Delivery/cloneInstance" context="instance" />
+					<action name="move" js="moveNode" url="" context="instance" />
 					<action name="export" url="/tao/Export/index"  context="*" />
 					<action name="import" url="/taoDelivery/DeliveryImport/index"  context="class" />
 					<action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />

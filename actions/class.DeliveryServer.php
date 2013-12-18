@@ -73,6 +73,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$this->setData('finishedDeliveries', $finishedDeliveries);
 		$this->setData('availableDeliveries', $available);
 		$this->setData('processViewData', array());
+                $this->setData('client_config_url', $this->getClientConfigUrl());
 		$this->setView('runtime/index.tpl');
 	}
 	
@@ -110,6 +111,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getUri());
 	    $this->setData('showControls', $this->showControls());
+            $this->setData('client_config_url', $this->getClientConfigUrl());
 	    $this->setView('runtime/deliveryExecution.tpl', 'taoDelivery');
 	}
 	

@@ -1,23 +1,19 @@
 <script type="text/javascript">
-	var ctx_extension 	= "<?=get_data('extension')?>";
-	var ctx_module 		= "<?=get_data('module')?>";
-	var ctx_action 		= "<?=get_data('action')?>";
+require(['jquery', 'uiBootstrap', 'helpers'], function($, uiBootstrap, helpers){
+        uiBootstrap.tabs.bind('tabsshow', function(event, ui) {
+                if(ui.index>0){
+                        $("form[name=form_1]").html('');
+                }
+        });
 
-	$(function(){
-		uiBootstrap.tabs.bind('tabsshow', function(event, ui) {
-			if(ui.index>0){
-				$("form[name=form_1]").html('');
-			}
-		});
+        <?if(get_data('reload')):?>
+                uiBootstrap.initTrees();
+        <?endif;?>
 
-		<?if(get_data('reload')):?>
-			uiBootstrap.initTrees();
-		<?endif;?>
-		
-		<?if(has_data('message')):?>
-			helpers.createMessage(<?=json_encode(get_data('message'))?>);
-		<?endif?>
 
-	});
+        <?if(has_data('message')):?>
+                helpers.createMessage(<?=json_encode(get_data('message'))?>);
+        <?endif?>
 
+});
 </script>

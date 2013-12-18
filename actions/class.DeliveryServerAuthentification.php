@@ -47,9 +47,11 @@ class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Com
 			}
 		}
 		
-		tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 		$this->setData('form', $myForm->render());
-		$this->setView('runtime/login.tpl');
+                $this->setData('title', __("TAO Delivery Server"));
+                $this->setData('login_title', __('Test Takers'));
+                $this->setData('login_desc', __("Login to the TAO Delivery Server"));
+		$this->setView('main/login.tpl', 'tao');
 	}
 
 

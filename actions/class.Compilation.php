@@ -68,6 +68,8 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
     
 	public function compile(){
 	    $delivery = $this->getCurrentInstance();
+            common_Logger::w($delivery);
+            common_Logger::w($delivery->getUri());
 	    try {
 	        taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
 	        echo json_encode(array(

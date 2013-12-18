@@ -15,9 +15,9 @@
 </div>
 <script type="text/javascript">
 $(function(){
-	require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
+	require(['jquery', 'i18n', 'helpers', 'generis.tree.select'], function($, __, helpers) {
 		$('.contentButton').click(function(){
-    		$.ajax({
+                    $.ajax({
     			url: "<?=get_data('saveUrl')?>",
     			type: "POST",
     			data: {'model': $(this).data('uri')},
@@ -27,8 +27,8 @@ $(function(){
     					helpers.createInfoMessage(__('Content driver selected'));
     				}
     				$('.clicked').trigger("click");
-			    },
-    		});			
+			    }
+                    });			
 		});
 	});
 		

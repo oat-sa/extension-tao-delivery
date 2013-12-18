@@ -3,36 +3,16 @@
     xml:lang="<?=tao_helpers_I18n::getLangCode()?>"
     lang="<?=tao_helpers_I18n::getLangCode()?>">
 <head>
-<title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
-<script type="text/javascript">
-			var root_url = '<?=ROOT_URL?>';
-			var base_url = '<?=BASE_URL?>';
-			var taobase_www = '<?=TAOBASE_WWW?>';
-			var base_www = '<?=BASE_WWW?>';
-			var base_lang = '<?=strtolower(tao_helpers_I18n::getLangCode())?>';
-		</script>
-<script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
-<link rel="stylesheet" type="text/css"
-    href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
-<style media="screen">
-@import url(<?echo BASE_WWW; ?>css/main.css);
-</style>
+    <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
+    <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
+    <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/main.css" media="screen" />
+    <script id='amd-loader' 
+                type="text/javascript" 
+                src="<?=TAOBASE_WWW?>js/lib/require.js" 
+                data-main="<?=BASE_WWW?>js/controller/runtime/index"
+                data-config="<?=get_data('client_config_url')?>"></script>
+    
 </head>
-    <script type="text/javascript">
-    $( document ).ready(function(){
-	    $('ul li').mouseover(function() {
-		//jQuery("a .actionsBox .button", this).removeClass("button");
-		jQuery("a .actionsBox .button", this).addClass("buttonSelected");
-		
-	    });
-	    $('ul li').mouseleave(function() {
-		jQuery("a .actionsBox .button", this).removeClass("buttonSelected");
-		//jQuery("a .actionsBox .button", this).addClass("button");
-		
-	    });
-	});
-    </script>
-
 <body>
     <div id="process_view"></div>
 

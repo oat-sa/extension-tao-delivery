@@ -18,12 +18,11 @@
     	<div style="margin: 30px 10px;">
     	   <div class="buttonSuperArea" id="initCompilation">
     	   <div class="buttonArea">
-	        <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
+	        <a href="#" class="button back">
 	           <?=__('Cancel')?>
             </a>
 	
-            <a href="#" class="button"
-                onclick="initCompilation('<?=get_data('uri')?>','<?=get_data('classUri')?>')">
+            <a id='compiler' href="#" class="button">
     			<?if(get_data('isCompiled')):?>
     				<?=__('Publish again')?> 
     			<?else:?>
@@ -33,9 +32,6 @@
     		</div>
     		</div>
             </div>
-
-            <script type="text/javascript"
-                src="<?=BASE_WWW?>js/deliveryCompiling.js"></script>
 
             <div id="progressbar" style="margin: 20px 10px;"></div>
 
@@ -53,18 +49,12 @@
         	<div id ="postCompilation" style="margin: 30px 10px;">
         	    <div class="buttonSuperArea">
             	    <div class="buttonArea">
-                       <a id="back" href="#" onclick="uiBootstrap.initTrees()" class="button">
+                       <a href="#" class="button back">
     	                   <?=__('Ok')?>
                        </a>
                     </div>
             </div>	   
         </div>
-
-        <script type="text/javascript">
-            $(document).ready(function(){
-            	$('#generatingProcess_info').hide();
-            });
-        </script>
     </div>
 </div>
 
