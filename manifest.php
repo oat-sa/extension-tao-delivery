@@ -57,6 +57,16 @@ return array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
 	    'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery'
 	),
+    'entryPoints' => array(
+        array(
+            'ext' => 'taoDelivery',
+            'mod' => 'DeliveryServer',
+            'act' => 'index',
+            'title' => __('Test-Takers'),
+            'desc' => __('Take or continue a test.'),
+            'label' => __('TAO Delivery Server')
+        )
+    ),
 	'constants' => array(
 		# actions directory
 		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,

@@ -57,6 +57,6 @@ class taoDelivery_actions_DeliveryServerAuthentification extends tao_actions_Com
 
 	public function logout(){
 		session_destroy();
-		$this->redirect(tao_helpers_Uri::url('index', 'DeliveryServerAuthentification'));
+		$this->redirect(tao_helpers_Uri::url('login', 'Main', 'tao'));
 	}
 }
