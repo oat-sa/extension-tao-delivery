@@ -62,7 +62,7 @@
 
 <script type="text/javascript">
 $(function(){
-	require(['require', 'jquery'], function(req, $) {
+	require(['jquery'], function($) {
 		$('.compilationButton').click(function(){
     		$.ajax({
     			url: "<?=get_data('exportUrl')?>",
@@ -73,7 +73,7 @@ $(function(){
     				if (response.success) {
     					window.location.href = response.download; 
     				}
-			    },
+			    }
     		});			
 		});
 	});

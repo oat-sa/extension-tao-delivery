@@ -65,9 +65,12 @@ define(['module' ,'jquery', 'i18n', 'context', 'helpers', 'uiBootstrap'], functi
             var conf = module.config();
             
             $('#generatingProcess_info').hide();
-            $('.back').click(function(){
-                uiBootstrap.initTrees();
-                return true;
+            $('.back').click(function(e){
+                e.preventDefault();
+                helpers._load(helpers.getMainContainerSelector(), context.root_url + 'taoDelivery/Delivery/editDelivery/', {
+                    uri: conf.uri,
+                    classUri:  conf.classUri
+                });
             });
             $('#compiler').click(function(e){
                 e.preventDefault();
