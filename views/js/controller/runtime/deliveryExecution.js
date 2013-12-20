@@ -23,7 +23,8 @@ define(['jquery', 'iframeResizer'], function($, iframeResizer){
         start: function(options){
     
             var $frame = $('#iframeDeliveryExec');
-    
+            
+            $('#tools').css('height', 'auto');
             $("#loader").css('display', 'none');
             var serviceApi = options.serviceApi;
 
@@ -40,8 +41,7 @@ define(['jquery', 'iframeResizer'], function($, iframeResizer){
                     }
                 });
             });
-
-            iframeResizer.autoHeight($frame, '#runner');
+            iframeResizer.eventHeight($frame);
             serviceApi.loadInto($frame.get(0));
         }
     };
