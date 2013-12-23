@@ -25,7 +25,7 @@
 	    <span class="separator"></span>
 	</li>
         <li><a id="logout" class="icon action"
-            href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Log out"); ?></a>
+            href="<?=_url('logout', 'DeliveryServer')?>"><?php echo __("Log out"); ?></a>
         </li>
     </ul>
     

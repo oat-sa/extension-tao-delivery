@@ -33,7 +33,7 @@
             <span class="separator"></span>
         </li>
         <li>
-            <a class="action icon" id="logout" href="<?=_url('logout', 'DeliveryServerAuthentification')?>"><?php echo __("Logout"); ?></a>
+            <a class="action icon" id="logout" href="<?=_url('logout', 'DeliveryServer')?>"><?php echo __("Logout"); ?></a>
         </li>
     </ul>
 <?php endif; ?>
