@@ -49,7 +49,6 @@ return array(
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery')),
-        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServerAuthentification')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
     ),
 	'optimizableClasses' => array(
@@ -75,7 +74,7 @@ return array(
 		"DIR_VIEWS"				=> $extpath."views".DIRECTORY_SEPARATOR,
 	
 		# default module name
-		'DEFAULT_MODULE_NAME'	=> 'DeliveryServerAuthentification',
+		'DEFAULT_MODULE_NAME'	=> 'DeliveryServer',
 	
 		#default action name
 		'DEFAULT_ACTION_NAME'	=> 'index',
