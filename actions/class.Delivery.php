@@ -161,7 +161,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $execCount = 0;
         foreach (taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery) as $assembly) {
             $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
-            $executionNr = taoDelivery_models_classes_DeliveryExecutionService::singleton()->getDeliveryExecutionCount($assembly);
+            $executionNr = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($assembly);
             $assemblyData[] = array(
             	'uri' => $assembly->getUri(),
                 'label' => $assembly->getLabel(),

@@ -42,7 +42,7 @@
 			<li>
 			   
 			    <a
-			    href="<?=_url('runDeliveryExecution', 'DeliveryServer', null, array('uri' => $deliveryExecution->getUri()))?>">
+			    href="<?=_url('runDeliveryExecution', 'DeliveryServer', null, array('deliveryExecution' => $deliveryExecution->getIdentifier()))?>">
 				<span class="deliveryLabel">
 			     <?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($deliveryExecution->getLabel()); ?>
 				</span>
@@ -51,7 +51,7 @@
 				    <?php echo __("Resume Test"); ?>
 				     </span>
 				     <span class="validPeriod">
-					 <?php echo __("Started at "); ?><?php echo $deliveryExecution->time; ?>
+					 <?php echo __("Started at "); ?><?php echo tao_helpers_Date::displayeDate($deliveryExecution->getStartTime()); ?>
 				    </span>
 				</span>
 			    </a>
@@ -113,7 +113,7 @@
 			<ul>
 			<?php foreach($finishedDeliveries as $delivery) : ?>
 			<li>
-				<?php echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($delivery->getLabel()); ?></a>
+				<?php echo $delivery->getLabel(); ?>
 			</li>
 			<?php endforeach;  ?>
 			</ul>

@@ -96,15 +96,9 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
     public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
         $returnValue = 0;
-        $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $compilations = taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery);
         foreach ($compilations as $compilation) {
-            $returnValue += $executionClass->countInstances(array(
-                PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
-                PROPERTY_DELVIERYEXECUTION_DELIVERY => $compilation->getUri()
-            ), array(
-                'like' => false
-            ));
+            $returnValue += taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($compilation, $userUri);
         };
 
         return $returnValue;
