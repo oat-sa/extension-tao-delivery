@@ -117,6 +117,27 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
         return $delivery->delete();
     }
 
+    /**
+     * Delete a class of deliveries
+     *
+     * @access public
+     * @author Joel Bout, <joel@taotesting.com>
+     * @param  Class clazz
+     * @return boolean
+     */
+    public function deleteDeliveryClass( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = (bool) false;
+
+        if(!is_null($clazz)){
+            if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
+                $returnValue = $clazz->delete();
+            }
+        }
+    
+        return (bool) $returnValue;
+    }
+    
     public function cloneInstance(core_kernel_classes_Resource $delivery, core_kernel_classes_Class $clazz = null)
     {
         $clone = parent::cloneInstance($delivery, $clazz);
