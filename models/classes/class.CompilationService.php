@@ -70,7 +70,7 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
                 PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology()
             ));
             $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
-        } catch (common_Exception $e) {
+        } catch (Exception $e) {
             $compilationInstance->delete();
             if ($e instanceof tao_models_classes_CompilationFailedException) {
                 throw $e;
