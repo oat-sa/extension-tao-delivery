@@ -24,7 +24,7 @@
         </script>
 </head>
 <body>
-        <div id="process_view"></div>
+   <div id="process_view"></div>
 
 <?php if (get_data('showControls')) :?>
     <ul id="control">
@@ -39,9 +39,11 @@
 <?php endif; ?>
     <div id="content" class='ui-corner-bottom'>
         <div id="tools">
-            <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow:hidden;"></iframe>
+            <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow-x:hidden;overflow-y:auto;"></iframe>
         </div>
     </div>
+    <div id="overlay"></div>
+    <div id="loading"><div></div></div>
         <!-- End of content -->
 <? include TAO_TPL_PATH .'layout_footer.tpl';?>
 </body>
