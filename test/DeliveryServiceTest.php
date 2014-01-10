@@ -23,6 +23,9 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	
+    /**
+     * @var taoDelivery_models_classes_DeliveryService
+     */
 	protected $deliveryService = null;
 	
 	/**
@@ -52,6 +55,25 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 		$this->deliveryService->deleteInstance($delivery);
 		$this->assertFalse($delivery->exists());
 		$this->assertNull($delivery->getOnePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
+	}
+	
+	public function testCreateDeleteClass() {
+	    $deliveryClass = $this->deliveryService->createSubClass(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDeliveryClass');
+	    $this->assertIsA($deliveryClass, 'core_kernel_classes_class');
+		$this->assertTrue($deliveryClass->exists());
+	    
+	    $delivery = $this->deliveryService->createInstance($deliveryClass, 'UnitTestDelivery3');
+		$this->assertIsA($delivery, 'core_kernel_classes_resource');
+		$this->assertTrue($delivery->exists());
+		$this->assertEquals(1, count($delivery->getTypes()));
+		$this->assertTrue($delivery->isInstanceOf($deliveryClass));
+		$this->deliveryService->deleteInstance($delivery);
+		$this->assertFalse($delivery->exists());
+		
+		 
+		$this->deliveryService->deleteDeliveryClass($deliveryClass);
+	    $this->assertFalse($deliveryClass->exists());
+	     
 	}
 
 }
