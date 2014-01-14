@@ -51,7 +51,7 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
                 $(this).remove();
                 $('#overlay').remove();
             });
-        }, 500);
+        }, 300);
     }
     
     
@@ -84,11 +84,18 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
                 .on('loading', function(e, reverse){
                     loading(reverse);
                 })
-                .on('unloading', function(e, reverse){
+                .on('unloading', function(){
                     unloading();
+                })
+                .on('shutdown-com', function(){
+                    //use when we want to stop all exchange between frames
+                    $(document).off('heightchange');
+                    $frame.off('load.eventHeight')
+                           .off('load.cors');
                 });
-            
+       
             iframeResizer.eventHeight($frame);
+  
             serviceApi.loadInto($frame.get(0));
         }
     };

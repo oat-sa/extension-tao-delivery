@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=tao_helpers_I18n::getLangCode()?>" lang="<?=tao_helpers_I18n::getLangCode()?>">
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
-        <link rel="stylesheet" type="text/css" href="<?echo BASE_WWW; ?>css/main.css"/>
+        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/main.css"/>
         <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
         <script src="<?=TAOBASE_WWW?>js/lib/require.js"></script>
         <script type="text/javascript">
