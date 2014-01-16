@@ -9,8 +9,8 @@
         (function(){
             require(['<?=get_data('client_config_url')?>'], function(){
 
-                require(['taoDelivery/controller/runtime/deliveryExecution', 'serviceApi/ServiceApi', 'serviceApi/StateStorage'], 
-                    function(deliveryExecution, ServiceApi, StateStorage){
+                require(['taoDelivery/controller/runtime/deliveryExecution', 'serviceApi/ServiceApi', 'serviceApi/StateStorage', 'serviceApi/UserInfoService',], 
+                    function(deliveryExecution, ServiceApi, StateStorage, UserInfoService){
                     
                     deliveryExecution.start({
                         serviceApi : <?=get_data('serviceApi')?>,
