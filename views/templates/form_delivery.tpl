@@ -29,7 +29,7 @@
 		<?if(!empty($assemblies)):?>
     		<ul id="lb" class="listbox">
     		<?php foreach (get_data('assemblies') as $assembly) : ?>
-    		    <li class="compilationButton" data-uri="<?=$assembly['uri']?>"><?=__('%1s published on %2s',$assembly['label'],$assembly['date'])?></li>
+    		    <li><?=__('%1s published on %2s',$assembly['label'],$assembly['date'])?> <span class="icon-download compilationButton" style="cursor: pointer;" data-uri="<?=$assembly['uri']?>"></span></li>
     		<?php endforeach;?>
     		</ul>
 		<?else:?>
