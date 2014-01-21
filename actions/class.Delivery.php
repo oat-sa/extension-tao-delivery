@@ -63,6 +63,9 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($this->hasRequestParameter('filter')) {
             $options['labelFilter'] = $this->getRequestParameter('filter');
         }
+        if($this->hasRequestParameter("selected")){
+            $options['browse'] = array($this->getRequestParameter("selected"));
+        }
         if ($this->hasRequestParameter('classUri')) {
             $clazz = $this->getCurrentClass();
             $options['chunk'] = true;
