@@ -68,15 +68,15 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
     
 	public function compile(){
 	    $delivery = $this->getCurrentInstance();
-	    try {
-	        taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
-	        echo json_encode(array(
-	            'success' => true
-	        ));
-	    } catch (tao_models_classes_CompilationFailedException $e) {
+	    $report = taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
+	    if ($report->getType() == common_report_Report::TYPE_ERROR) {
 	        echo json_encode(array(
 	            'success' => false,
-	        	'error'   => $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : __('An undefined error has occured')
+	            'error'   => __('An error has occured during compilation')
+	        ));
+	    } else {
+	        echo json_encode(array(
+	            'success' => true
 	        ));
 	    }
 	}

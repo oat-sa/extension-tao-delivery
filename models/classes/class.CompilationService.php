@@ -49,7 +49,15 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         ));
     }
     
+    /**
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @throws taoDelivery_models_classes_EmptyDeliveryException
+     * @return common_report_Report
+     */
     public function compileDelivery(core_kernel_classes_Resource $delivery) {
+        $report = new common_report_Report(common_report_Report::TYPE_INFO);
+        
         $content = $this->getContent($delivery);
         if (is_null($content)) {
             throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$delivery->getUri().' has no content');
@@ -72,14 +80,14 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
             $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
         } catch (Exception $e) {
             $compilationInstance->delete();
-            if ($e instanceof tao_models_classes_CompilationFailedException) {
-                throw $e;
+            $report->setType(common_report_Report::TYPE_ERROR);
+            if ($e instanceof common_exception_UserReadableException) {
+                $report->add($e);
             } else {
-                throw new taoDelivery_models_classes_CompilationFailedException('Compilation failed: '.$e->getMessage());
+                common_Logger::w($e->getMessage());
             }
         }
-        
-        return true;
+        return $report;
     }
     
     public function getCompilerClass(core_kernel_classes_Resource $deliveryContent) {
