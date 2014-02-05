@@ -305,19 +305,20 @@ div#footer .releasestatus strong {
 
 #loading {
     position: absolute;
-    height: 95%;
-    width: 966px;
+    height: 100%;
+    width: 100%;
     top: 25px;
     left: 0;
     right: 0;
     margin:0 auto;
-    border: solid #ccc 1px;
     background-color: #efefef;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
     z-index: 10000;
 }
 #loading > div {
-    position: relative;
-    top: 300px;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+    margin:-150px 0 0 -150px;
 }

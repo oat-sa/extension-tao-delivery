@@ -33,10 +33,7 @@ body
 }
 
 div#content{
-	width: 960px;
 	margin: 0px auto 0px auto;
-	border: solid 1px #ccc;
-	border-top-width: 0px;
 	padding: 3px;
 }
 
@@ -47,7 +44,6 @@ div#content{
    of the current user. */
 #control
 {
-	width: 960px;
 	height:17px;
 	margin: 0px auto 0px auto;
 	padding: 3px;
