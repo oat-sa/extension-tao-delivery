@@ -101,6 +101,11 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	        $this->redirect($this->getReturnUrl());
 	    }
 	    
+	    $userUri = common_session_SessionManager::getSession()->getUserUri();
+	    if ($deliveryExecution->getUserIdentifier() != $userUri) {
+	        throw new common_exception_Error('User '.$userUri.' is not the owner of the execution '.$deliveryExecution->getIdentifier());
+	    }
+	    
 	    $compiledDelivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($compiledDelivery, $deliveryExecution->getIdentifier());
 	     
