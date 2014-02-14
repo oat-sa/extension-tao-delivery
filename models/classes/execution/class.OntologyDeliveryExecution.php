@@ -67,6 +67,6 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getUserIdentifier()
      */
     public function getUserIdentifier() {
-        return (string)$this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT));
+        return $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT))->getUri();
     }
 }
