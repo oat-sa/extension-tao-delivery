@@ -111,7 +111,14 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             common_Logger::w("Attempt to start the compiled delivery ".$compiled->getUri(). " related to no delivery");
             return false;
         }
-        //first check the user is excluded
+        
+        //first check the user is assigned
+        if(!$this->isUserAssigned($delivery, $userUri)){
+            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$compiled->getUri(). " he was to assigned to.");
+            return false;
+        }
+        
+        //check the user is excluded
         if($this->isUserExcluded($delivery, $userUri)){
             common_Logger::i("User ".$userUri." attempts to start the compiled delivery ".$compiled->getUri(). " he was excluded from.");
             return false;
@@ -152,6 +159,26 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             $excluded = in_array($userUri, $excludedUsers);
         } 
         return $excluded;
+    }
+    
+    /**
+     * Check if a user is assigned to a delivery
+     * 
+     * @param core_kernel_classes_Resource $delivery
+     * @param string $userUri the URI of the user to check
+     * @return boolean true if assigned
+     */
+    private function isUserAssigned(core_kernel_classes_Resource $delivery, $userUri){
+
+        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groups = $groupClass->searchInstances(array(
+            TAO_GROUP_MEMBERS_PROP => $userUri,
+            TAO_GROUP_DELIVERIES_PROP => $delivery
+        ), array(
+            'like'=>false,
+            'recursive' => true
+        ));
+        return !empty($groups);
     }
     
     /**
