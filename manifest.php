@@ -19,23 +19,21 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-/*
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- *
- */
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
 return array(
-	'name' => 'taoDelivery',
-	'description' => 'TAO delivery extension',
+    'id' => 'taoDelivery',
+	'name' => 'TAO delivery extension',
+	'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
     'version' => '2.4',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-	'dependencies' => array('taoTests', 'taoGroups', 'taoResultServer'),
+    'requires' => array(
+        'taoTests' => '*',
+        'taoGroups' => '*',
+        'taoResultServer' => '*'
+    ),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
 	),
@@ -60,16 +58,6 @@ return array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
 	    'http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery'
 	),
-    'entryPoints' => array(
-        array(
-            'ext' => 'taoDelivery',
-            'mod' => 'DeliveryServer',
-            'act' => 'index',
-            'title' => __('Test-Takers'),
-            'desc' => __('Take or continue a test.'),
-            'label' => __('TAO Delivery Server')
-        )
-    ),
 	'constants' => array(
 		# actions directory
 		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,
