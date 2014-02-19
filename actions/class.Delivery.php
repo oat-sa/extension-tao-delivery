@@ -571,50 +571,5 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
 		
 		echo json_encode($deliveryData);
 	}
-	
-	/**
-	 * End the compilation of a delivery
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function endCompilation(){
-	
-		$delivery = $this->getCurrentInstance();
-		
-		$response = array();
-		$response["result"]=0;
-		
-		//generate the actual delivery process:
-		$compilationService = taoDelivery_models_classes_CompilationService::singleton();
-		$report = $compilationService->finalizeDeliveryCompilation($delivery);
-		if ($report->containsError()) {
-		    $response['errors'] = array();
-		    foreach ($report->getErrors() as $error) {
-		        if ($error instanceof taoDelivery_models_classes_CompilationErrorStructure) {
-		            if ($error->getType() == taoDelivery_models_classes_CompilationErrorStructure::DELIVERY_ERROR_TYPE) {
-		                $response['errors']['delivery'] = $error->getStructure();
-		            } elseif ($error->getType() == taoDelivery_models_classes_CompilationErrorStructure::TEST_ERROR_TYPE) {
-		                if (!isset($response['errors']['tests'])) {
-		                    $response['errors']['tests'] = array();
-		                }
-		                $response['errors']['tests'][] = $error->getStructure();
-		            } else {
-		                throw new common_Exception('Unknown Compilation error type '.$error->getType());
-		            }
-		        } else {
-                    throw new common_Exception('Unknown Compilation Error '.get_class($error));		            
-		        }
-		    }
-		} else {
-		    $response = array(
-				'result' => 1,
-				'compiledDate' => $this->service->getCompiledDate($delivery)
-			);
-		}
-		
-		echo json_encode($response);
-	}
 }
 ?>
