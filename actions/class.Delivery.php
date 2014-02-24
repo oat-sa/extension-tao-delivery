@@ -163,15 +163,20 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $assemblyData = array();
         $execCount = 0;
         foreach (taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery) as $assembly) {
-            $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
-            $executionNr = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($assembly);
-            $assemblyData[] = array(
-            	'uri' => $assembly->getUri(),
-                'label' => $assembly->getLabel(),
-                'date' => tao_helpers_Date::displayeDate($date),
-                'exec' => $executionNr
-            );
-            $execCount += $executionNr;
+            try {
+                $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
+                $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
+                $executionNr = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($assembly);
+                $assemblyData[] = array(
+                	'uri' => $assembly->getUri(),
+                    'label' => $assembly->getLabel(),
+                    'date' => tao_helpers_Date::displayeDate($date),
+                    'exec' => $executionNr
+                );
+                $execCount += $executionNr;
+            } catch (common_exception_EmptyProperty $e) {
+                common_Logger::w('Assembly '.$assembly->getUri().' is incomplete');
+            }
         }
         $this->setData('assemblies', $assemblyData);
         $this->setData("exportUrl", _url('export', 'Compilation'));
