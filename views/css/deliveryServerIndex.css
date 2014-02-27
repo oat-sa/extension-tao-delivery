@@ -1,0 +1,74 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * 
+ */
+
+/**
+* to be factorized with the control as used by the test driver interface
+*/
+#control
+{
+    height:25px;
+    margin: 0px auto 0px auto;
+    padding: 3px;
+    text-align:right;
+    background: #f3f3f3;
+    border: solid 1px #ccc;
+    border-bottom: 1px solid;
+    border-bottom-color: #ddd;
+}
+#control li
+{
+    display:inline;
+    font-size:14px;
+}
+
+#content{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top:10%;
+    //border: 1px solid #ddd;
+}
+
+
+body {
+    color: #222;
+}
+
+
+.header{    
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    padding-left:10px;
+    background-color: #ddd;
+    //border-bottom: 1px solid #ddd;
+    font-size:14px;
+    margin-bottom: 20px;
+}
+
+button{
+    width:100%;
+}
+
+
+.validPeriod {
+    font-style:italic;
+    color:#aaa
+}
+

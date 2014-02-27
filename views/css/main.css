@@ -229,9 +229,7 @@
     text-align: center;
     font-weight:normal;
 }
-.disabled {
-    visibility:hidden;
-}
+
 .deliveryLabel{
     margin-top:-5px;
     font-weight:normal;
