@@ -40,9 +40,6 @@ return array(
 	'install' => array(
 		'rdf' => array(
 				dirname(__FILE__). '/models/ontology/taodelivery.rdf'
-		),
-		'checks' => array(
-			array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_taoDelivery_includes', 'location' => 'taoDelivery/includes', 'rights' => 'rw'))
 		)
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
