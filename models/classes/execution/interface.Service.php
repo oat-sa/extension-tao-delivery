@@ -29,6 +29,11 @@
 interface taoDelivery_models_classes_execution_Service
 {
     /**
+     * a reminder that services are singletons
+     */
+    public static function singleton();
+    
+    /**
      * Returns the number of delivery executions for a compiled directory
      *
      * @param core_kernel_classes_Resource $compiled

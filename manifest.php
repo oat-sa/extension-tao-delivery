@@ -40,7 +40,10 @@ return array(
 	'install' => array(
 		'rdf' => array(
 				dirname(__FILE__). '/models/ontology/taodelivery.rdf'
-		)
+		),
+	    'php' => array(
+            dirname(__FILE__).DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'postInstall.php'
+        )
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
     'acl' => array(

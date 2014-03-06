@@ -29,6 +29,8 @@
 class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_GenerisService
     implements taoDelivery_models_classes_execution_Service
 {
+    const CONFIG_KEY = 'delivery_execution_id'; 
+    
     /**
      * @var taoDelivery_models_classes_execution_Service
      */
@@ -38,7 +40,32 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * protected constructor for singleton pattern
      */
     protected function __construct() {
-        $this->implementation = taoDelivery_models_classes_execution_OntologyService::singleton();
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+        if ($ext->hasConfig(self::CONFIG_KEY)) {
+            $className = $ext->getConfig(self::CONFIG_KEY);
+            if (class_exists($className)) {
+                $this->implementation = forward_static_call(array($className, 'singleton'));
+            } else {
+                throw new common_exception_Error('Class "'.$className.'" not found');
+            }
+        } else {
+            $this->implementation = taoDelivery_models_classes_execution_OntologyService::singleton();
+        }
+    }
+    
+    public function setImplementation($className) {
+        if (class_exists($className) && method_exists($className,'singleton')) {
+            $implementation = forward_static_call(array($className, 'singleton'));
+            if ($implementation instanceof taoDelivery_models_classes_execution_Service) {
+                $this->implementation = $implementation;
+                $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+                $ext->setConfig(self::CONFIG_KEY, $className);
+            } else {
+                throw new common_exception_Error('Provided class '.$className.' is not a valid delivery execution service');
+            }
+        } else {
+            throw new common_exception_Error('Provided class '.$className.' not found or is not a singleton');
+        }
     }
     
     /**
