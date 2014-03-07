@@ -71,13 +71,18 @@ class taoDelivery_models_classes_CompilationService extends taoDelivery_models_c
         
         try {
             $compiler = taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
-            $serviceCall = $compiler->compile();
-            $compilationInstance->setPropertiesValues(array(
-                PROPERTY_COMPILEDDELIVERY_DIRECTORY => $compiler->getSpawnedDirectoryIds(),
-                PROPERTY_COMPILEDDELIVERY_TIME      => time(),
-                PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology()
-            ));
-            $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
+            $report = $compiler->compile();
+            if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+                $serviceCall = $report->getData();
+                $compilationInstance->setPropertiesValues(array(
+                    PROPERTY_COMPILEDDELIVERY_DIRECTORY => $compiler->getSpawnedDirectoryIds(),
+                    PROPERTY_COMPILEDDELIVERY_TIME      => time(),
+                    PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology()
+                ));
+                $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
+            } else {
+                $compilationInstance->delete();
+            }
         } catch (Exception $e) {
             $compilationInstance->delete();
             $report->setType(common_report_Report::TYPE_ERROR);
