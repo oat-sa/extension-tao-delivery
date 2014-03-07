@@ -46,7 +46,7 @@ abstract class taoDelivery_models_classes_DeliveryCompiler extends tao_models_cl
         return new $compilerClass($resource, $storage);
     }
 
-    protected function getSubCompilerClass($resource) {
+    protected function getSubCompilerClass(core_kernel_classes_Resource $resource) {
         return taoTests_models_classes_TestsService::singleton()->getCompilerClass($resource);
     }
     
