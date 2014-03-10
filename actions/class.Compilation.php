@@ -69,16 +69,9 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 	public function compile(){
 	    $delivery = $this->getCurrentInstance();
 	    $report = taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
-	    if ($report->getType() == common_report_Report::TYPE_ERROR) {
-	        echo json_encode(array(
-	            'success' => false,
-	            'error'   => __('An error has occured during compilation')
-	        ));
-	    } else {
-	        echo json_encode(array(
-	            'success' => true
-	        ));
-	    }
+	    
+	    $this->setData('report', $report);
+	    $this->setView('report.tpl', 'tao');
 	}
 	
 	public function export() {

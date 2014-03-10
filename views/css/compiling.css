@@ -40,3 +40,7 @@
     border-radius: 10px;
     display: inline-block;
 }
+
+#compilationReport > .main-container {
+    margin-top: 10px;
+}

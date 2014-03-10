@@ -22,31 +22,22 @@ define(['module' ,'jquery', 'i18n', 'context', 'helpers', 'uiBootstrap'], functi
     function initCompilation(uri, clazz){
         $("#initCompilation").hide();
         $('#generatingProcess_info').show();
-
         $('#generatingProcess_feedback').empty().hide();
-
-
         $("#progressbar").empty();
-
+        $('.main-container').append('<div id="compilationReport"></div>');
+        
         $.ajax({
-                type: "POST",
-                url: helpers._url('compile', 'Compilation', 'taoDelivery'),
-                dataType: "json",
-                data: {uri : uri, classUri: clazz},
-                success: function(r){
-                        $('#generatingProcess_info').hide();
-
-                        if(r.success){
-                                finalMessage(__('complete!'),'ok.png');
-                        } else{
-                                if (typeof r.error !== 'undefined') {
-                                        var msg = r.error;
-                                } else {
-                                        var msg = __('Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)');
-                                }
-                                finalMessage(msg, 'failed.png');
-                        }
-                }
+	        url: helpers._url('compile', 'Compilation', 'taoDelivery'),
+	        type: "POST",
+	        dataType: "text",
+	        data: {uri : uri, classUri: clazz},
+	        success: function (data, textStatus, jqXHR){
+	            $('#generatingProcess_info').hide();
+	            $('#compilationReport').html(data);
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	        	finalMessage(errorThrown);
+	        }
         });
     }
 
