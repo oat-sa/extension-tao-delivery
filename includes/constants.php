@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 //define specific constants to delivery extension:
 $todefine = array(
 	'TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects',
@@ -53,8 +52,7 @@ $todefine = array(
     'INSTANCE_DELIVERYEXEC_ACTIVE'         => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive',
     'INSTANCE_DELIVERYEXEC_FINISHED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished',
     
-    'CLASS_DELIVERY_CONTENT_ASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent'
+    'CLASS_DELIVERY_CONTENT_ASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent',
     
-    // @todo currently defined in group, should be defined in delivery to mirror the dependencies
-	//'TAO_GROUP_DELIVERIES_PROP'	=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
+    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'
 );
