@@ -48,8 +48,9 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 		$defaultDeliveryServer = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
 		$this->assertNotNull($defaultDeliveryServer);
 		
+		$defaultServer = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
 		if(!is_null($defaultDeliveryServer)){
-			$this->assertEquals($defaultDeliveryServer->getUri(), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+			$this->assertEquals($defaultDeliveryServer->getUri(), $defaultServer->getUri());
 		}
 		
 		$this->deliveryService->deleteInstance($delivery);

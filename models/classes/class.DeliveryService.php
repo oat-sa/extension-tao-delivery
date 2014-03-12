@@ -50,7 +50,8 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
         $delivery = parent::createInstance($clazz, $label);
         
         // set the default delivery server:
-        $delivery->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), TAO_DELIVERY_DEFAULT_RESULT_SERVER);
+        $defaultServer = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
+        $delivery->setPropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP), $defaultServer);
         
         // set content model if only 1 available
         $models = $this->getAllContentClasses();
