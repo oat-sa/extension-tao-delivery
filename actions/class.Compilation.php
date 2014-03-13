@@ -70,6 +70,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 	    $delivery = $this->getCurrentInstance();
 	    $report = taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
 	    
+	    $this->setData('title', __('Publishing Report'));
 	    $this->setData('report', $report);
 	    $this->setView('report.tpl', 'tao');
 	}
