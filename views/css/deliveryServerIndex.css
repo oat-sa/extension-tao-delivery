@@ -18,13 +18,67 @@
  * 
  */
 
+body {
+    color: #222;
+}
+#content{
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top:0%;
+}
+
+.tile{
+    display:block;
+    border: 1px solid #ddd;
+    padding:6px;
+    width:100%;
+    margin-bottom:10px;
+}
+.tileLabel{
+    display:block;
+    margin-bottom:5px;
+    width:100%;
+    font-weight:bold;
+    //background-color:#d4d5d7
+}
+.tileDetail{
+    padding-left: 5px;
+    font-style:italic;
+    color:#aaa;
+    margin-bottom:5px;
+}
+.header{    
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    padding-left:10px;
+    background-color: #ddd;
+    font-size:14px;
+    margin-bottom: 10px;
+    margin-top:25px;
+    font-weight: bold;
+}
+
+.btn-info {
+    width:30%;
+    
+}
+
+h1{
+    margin-top:20px;
+     color: #222;
+}
+.separator{
+    vertical-align: middle;
+    color: #bbb;
+}
 /**
-* to be factorized with the control as used by the test driver interface
+* Control to be factorized with the control as used by the test driver interface
 */
 #control
 {
     height:25px;
-    margin: 0px auto 0px auto;
+    margin: 0px 0px 0px 0px;
     padding: 3px;
     text-align:right;
     background: #f3f3f3;
@@ -35,40 +89,8 @@
 #control li
 {
     display:inline;
+    padding-left:5px;
+    padding-right:5px;
     font-size:14px;
+
 }
-
-#content{
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top:10%;
-    //border: 1px solid #ddd;
-}
-
-
-body {
-    color: #222;
-}
-
-
-.header{    
-    height: 25px;
-    line-height: 25px;
-    vertical-align: middle;
-    padding-left:10px;
-    background-color: #ddd;
-    //border-bottom: 1px solid #ddd;
-    font-size:14px;
-    margin-bottom: 20px;
-}
-
-button{
-    width:100%;
-}
-
-
-.validPeriod {
-    font-style:italic;
-    color:#aaa
-}
-
