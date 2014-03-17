@@ -3,7 +3,7 @@
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
         <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/tao-main-style.css"/>
-        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/main.css"/>
+        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/runtime/deliveryExecution.css"/>
         <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
         <script src="<?=TAOBASE_WWW?>js/lib/require.js"></script>
         <script type="text/javascript">
@@ -24,18 +24,24 @@
         }());
         </script>
 </head>
-<body>
-   <div id="process_view"></div>
-
+<body class="tao-scope">
 <?php if (get_data('showControls')) :?>
-    <ul id="control" class="tao-scope">
-        <li>
-            <span id="connecteduser" class="icon"><span id="username"><span class="icon-test-taker"></span> <?php echo get_data('userLabel'); ?></span></span>
-        </li>
-        <li>
-            <a class="action icon" id="logout" href="<?=_url('logout', 'DeliveryServer')?>"><?php echo __("Logout"); ?></a>
-        </li>
-    </ul>
+     <ul id="control" >
+            <li>
+                <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
+                    <span class="icon-delivery"/>
+                    <?php echo __("My Tests"); ?></a>
+            </li>
+            <li>
+                <span class="icon-test-taker" />
+                <?php echo get_data('userLabel'); ?>
+            </li>            
+            <li>
+                <a id="logout" href="<?=_url('logout', 'DeliveryServer')?>">
+                    <span class="icon-logout"><?php echo __("Logout"); ?>
+                </a>
+            </li>
+        </ul>
 <?php endif; ?>
     <div id="content" class='ui-corner-bottom'>
         <div id="tools">

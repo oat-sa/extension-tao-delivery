@@ -5,7 +5,7 @@
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
         <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/tao-main-style.css"/>
-        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/deliveryServerIndex.css"/>
+        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/runtime/index.css"/>
         <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
         <script src="<?=TAOBASE_WWW?>js/lib/require.js"></script>
         <script id='amd-loader' 
@@ -17,11 +17,10 @@
     </head>
     <body class="tao-scope">
         <ul id="control" >
-
             <li>
-                <a id="hole" href="<?=_url('index', 'DeliveryServer')?>">
-                    <span class="icon-delivery"><?php echo __("My Tests"); ?>
-                </a>
+                <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
+                    <span class="icon-delivery" />
+                    <?php echo __("My Tests"); ?></a>
             </li>
             <li>
                 <span class="icon-test-taker" />
@@ -38,14 +37,9 @@
         <div id="content">
             <h1>
                  <span class="icon-delivery"/>
-                 &nbsp;<?=__("My Tests");?>
+                <?=__("My Tests");?>
             </h1>
-            <!--
-            <div class="contentHeader">
-              <?php echo __("Welcome"); ?> <?php echo $login; ?>!
-            </div>
-            !-->
-            <?php if(count(get_data('startedDeliveries')) > 0) : ?>
+             <?php if(count(get_data('startedDeliveries')) > 0) : ?>
             <div class="header">
                 <?php echo __("Paused Tests"); ?> 
                 <span class="counter">(<?php echo count($startedDeliveries); ?>)</span>
@@ -137,6 +131,6 @@
                            <div id="footer" style="clear: both; height: 30px;">
     </div>
     <!-- End of content -->
-    <!--<? include TAO_TPL_PATH .'layout_footer.tpl';?>!-->
+    <? include TAO_TPL_PATH .'layout_footer.tpl';?>
 </body>
 </html>
