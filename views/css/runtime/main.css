@@ -71,3 +71,20 @@ div#footer .releasestatus a {
 div#footer .releasestatus strong {
 	font-weight: bold;
 }
+
+
+
+/**
+* todo
+**/
+
+#control li.actionControl a{
+    color:#222 !important;
+}
+#control li.actionControl a:hover{
+    opacity: .85 !important;
+    text-decoration: none !important;
+}
+#control li.infoControl {
+
+}

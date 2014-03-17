@@ -27,22 +27,24 @@
 <body class="tao-scope">
 <?php if (get_data('showControls')) :?>
      <ul id="control" >
-            <li>
-                <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
-                    <span class="icon-delivery"/>
-                    <?php echo __("My Tests"); ?></a>
-            </li>
-            <li>
+            
+            <li class="infoControl">
                 <span class="icon-test-taker" />
                 <?php echo get_data('userLabel'); ?>
-            </li>            
-            <li>
-                <a id="logout" href="<?=_url('logout', 'DeliveryServer')?>">
+            </li>   
+            <li class="actionControl">
+                <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
+                    <span class="icon-delivery" />
+                    <?php echo __("My Tests"); ?></a>
+            </li>
+                     
+            <li class="actionControl">
+                <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
                     <span class="icon-logout"/>
                     <?php echo __("Logout"); ?>
                 </a>
             </li>
-        </ul>
+      </ul>
 <?php endif; ?>
     <div id="content" class='ui-corner-bottom'>
         <div id="tools">
