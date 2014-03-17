@@ -28,7 +28,7 @@
             </li>            
             <li>
                 <a id="logout" href="<?=_url('logout', 'DeliveryServer')?>">
-                    <span class="icon-logout"><?php echo __("Logout"); ?>
+                    <span class="icon-logout"/><?php echo __("Logout"); ?>
                 </a>
             </li>
         </ul>
