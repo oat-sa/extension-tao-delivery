@@ -63,7 +63,7 @@
                     </div>
           
                     <a class="btn-info small rgt" href="<?=_url('runDeliveryExecution', 'DeliveryServer', null, array('deliveryExecution' => $deliveryExecution->getIdentifier()))?>">
-                            <?php echo __("Resume"); ?><span class=" icon-right r"></span>
+                            <?php echo __("Resume"); ?><span class="icon-continue r"></span>
                   
                     </a>
                 </div>
@@ -100,7 +100,7 @@
                           
                           <a accesskey="" class="btn-info small rgt <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>"
                                    href="<?=($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri())) : '#'?>" >
-                                   <?php echo __("Start"); ?><span class="icon-right r" />                          
+                                   <?php echo __("Start"); ?><span class="icon-play r" />                          
                           </a>
                      </div>
                  
