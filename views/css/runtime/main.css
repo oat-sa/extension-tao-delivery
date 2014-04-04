@@ -88,3 +88,7 @@ div#footer .releasestatus strong {
 #control li.infoControl {
 
 }
+
+#control li.separator{
+    opacity:0.5;
+}
