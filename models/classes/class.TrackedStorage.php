@@ -24,7 +24,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- * @subpackage models_classes
+ 
  */
  class taoDelivery_models_classes_TrackedStorage extends tao_models_classes_service_FileStorage
 {

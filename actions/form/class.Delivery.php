@@ -24,7 +24,7 @@
  *
  * @access public
  * @package taoDelivery
- * @subpackage actions_form
+ 
  */
 class taoDelivery_actions_form_Delivery
     extends tao_actions_form_Instance

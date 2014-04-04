@@ -24,7 +24,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
- * @subpackage models_classes
+ 
  */
 interface taoDelivery_models_classes_ContentModel
 {

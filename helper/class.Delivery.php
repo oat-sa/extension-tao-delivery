@@ -24,7 +24,7 @@
  * 
  * @author joel bout, <joel@taotesting.com>
  * @package taoDelivery
- * @subpackage helper
+ 
  */
 class taoDelivery_helper_Delivery
 {

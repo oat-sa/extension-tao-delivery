@@ -8,7 +8,7 @@
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
- * @subpackage actions
+ 
  * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_actions_Compilation extends tao_actions_SaSModule

@@ -27,7 +27,7 @@
  * @access public
  * @author @author Somsack Sipasseuth, <sam@taotesting.com>
  * @package taoDelivery
- * @subpackage models_classes
+ 
  */
 class taoDelivery_models_classes_UserService
     extends tao_models_classes_UserService

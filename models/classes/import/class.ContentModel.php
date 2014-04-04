@@ -25,7 +25,7 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package taoDelivery
- * @subpackage models_classes_simple
+ 
  */
 class taoDelivery_models_classes_import_ContentModel implements taoDelivery_models_classes_ContentModel
 {

@@ -25,7 +25,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- * @subpackage models_classes
+ 
  */
 class taoDelivery_models_classes_DeliveryService extends tao_models_classes_ClassService
 {

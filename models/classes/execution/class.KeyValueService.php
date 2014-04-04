@@ -24,7 +24,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- * @subpackage models_classes
+ 
  */
 class taoDelivery_models_classes_execution_KeyValueService extends tao_models_classes_GenerisService
     implements taoDelivery_models_classes_execution_Service
