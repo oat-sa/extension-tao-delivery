@@ -82,7 +82,7 @@ div#footer .releasestatus strong {
     color:#222 !important;
 }
 #control li.actionControl a:hover{
-    opacity: .85 !important;
+    color:#3e7da7 !important;
     text-decoration: none !important;
 }
 #control li.infoControl {
