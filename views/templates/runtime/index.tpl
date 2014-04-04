@@ -18,15 +18,18 @@
     <body class="tao-scope">
         <ul id="control" >
             
-            <li class="infoControl">
-                <span class="icon-test-taker" />
-                <?php echo get_data('login'); ?>
-            </li>   
-            <li class="actionControl">
+            <!--<li class="actionControl">
                 <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
                     <span class="icon-delivery" />
                     <?php echo __("My Tests"); ?></a>
-            </li>
+            </li>!-->
+            
+            <li class="infoControl">
+               
+                <span class="icon-test-taker" />
+                <?php echo get_data('login'); ?>
+            </li>   
+            
                      
             <li class="actionControl">
                 <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
