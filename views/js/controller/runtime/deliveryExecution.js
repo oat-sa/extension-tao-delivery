@@ -91,7 +91,7 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
                            .off('load.cors');
                 });
        
-            iframeResizer.eventHeight($frame);
+            iframeResizer.autoHeight($frame);
   
             serviceApi.loadInto($frame.get(0));
         }
