@@ -27,7 +27,8 @@
  
  */
 class taoDelivery_models_classes_execution_OntologyService extends tao_models_classes_GenerisService
-    implements taoDelivery_models_classes_execution_Service
+    implements taoDelivery_models_classes_execution_Service,
+        taoDelivery_models_classes_execution_Monitoring
 {
     /**
      * (non-PHPdoc)

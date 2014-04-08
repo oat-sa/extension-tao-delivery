@@ -70,15 +70,6 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getTotalExecutionCount()
-     */
-    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
-    {
-        return $this->implementation->getTotalExecutionCount($compiled);
-    }
-    
-    /**
-     * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getUserExecutionCount()
      */
     public function getUserExecutionCount(core_kernel_classes_Resource $assembly, $userUri) {
@@ -128,6 +119,28 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     public function getDeliveryExecution($identifier)
     {
         return $this->implementation->getDeliveryExecution($identifier);
-    }    
+    }
 
+    /**
+     * Whenever or not the current implementation supports monitoring
+     * 
+     * @return boolean
+     */
+    public function hasMonitoring() {
+        return $this->implementation instanceof taoDelivery_models_classes_execution_Monitoring;
+    }
+    
+    /**
+     * Implemented in the monitoring interface
+     * 
+     * @param core_kernel_classes_Resource $compiled
+     * @return int the ammount of executions for a single compilation
+     */
+    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
+    {
+        if (!$this->hasMonitoring()) {
+            throw new common_exception_NoImplementation();
+        }
+        return $this->implementation->getTotalExecutionCount($compiled);
+    }
 }

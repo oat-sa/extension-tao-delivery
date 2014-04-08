@@ -45,17 +45,6 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
         $this->persistance = common_persistence_KeyValuePersistence::getPersistence('deliveryExecution');
     }
     
-    /**
-     * NOT IMPLEMENTED
-     * 
-     * @param core_kernel_classes_Resource $compiled
-     * @return number
-     */
-    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
-    {
-        return 0;
-    }
-    
     public function getUserExecutionCount(core_kernel_classes_Resource $compiled, $userUri)
     {
         $activ = $this->getActiveDeliveryExecutions($userUri);
