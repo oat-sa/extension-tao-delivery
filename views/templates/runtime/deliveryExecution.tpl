@@ -1,4 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<?php
+use oat\tao\helpers\Template;
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=tao_helpers_I18n::getLangCode()?>" lang="<?=tao_helpers_I18n::getLangCode()?>">
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
@@ -57,6 +59,8 @@
     <div id="overlay"></div>
     <div id="loading"><div></div></div>
         <!-- End of content -->
-<? include TAO_TPL_PATH .'layout_footer.tpl';?>
+<?php
+Template::inc('layout_footer.tpl', 'tao')
+?>
 </body>
 </html>

@@ -24,7 +24,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	
     /**
-     * @var taoDelivery_models_classes_DeliveryService
+     * @var taoDelivery_models_classes_DeliveryTemplateService
      */
 	protected $deliveryService = null;
 	
@@ -33,11 +33,11 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	 */
 	public function setUp(){
 		TaoPhpUnitTestRunner::initTest();
-		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
+		$this->deliveryService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
 	}
 	
 	public function testService(){
-		$this->assertIsA($this->deliveryService, 'taoDelivery_models_classes_DeliveryService');
+		$this->assertIsA($this->deliveryService, 'taoDelivery_models_classes_DeliveryTemplateService');
 	}
 	
 	public function testCreateInstance(){
@@ -59,7 +59,7 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	}
 	
 	public function testCreateDeleteClass() {
-	    $deliveryClass = $this->deliveryService->createSubClass(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDeliveryClass');
+	    $deliveryClass = $this->deliveryService->createSubClass($this->deliveryService->getRootClass(), 'UnitTestDeliveryClass');
 	    $this->assertIsA($deliveryClass, 'core_kernel_classes_class');
 		$this->assertTrue($deliveryClass->exists());
 	    
@@ -74,7 +74,6 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 		 
 		$this->deliveryService->deleteDeliveryClass($deliveryClass);
 	    $this->assertFalse($deliveryClass->exists());
-	     
 	}
 
 }

@@ -28,7 +28,6 @@
  
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-
 class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 {
     /**
@@ -109,8 +108,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $compiledDelivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($compiledDelivery, $deliveryExecution->getIdentifier());
 	     
-	    $runtimeRes = taoDelivery_models_classes_CompilationService::singleton()->getRuntime($compiledDelivery);
-	    $runtime = tao_models_classes_service_ServiceCall::fromResource($runtimeRes);
+	    $runtime = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRuntime($compiledDelivery);
 	    $this->setData('serviceApi', tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
 
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());

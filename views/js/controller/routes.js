@@ -23,10 +23,18 @@ define(function(){
     'use strict';
 
     return {
+        'Delivery': {
+            'deps' : 'controller/deliveryAssembly',
+            'actions' : {
+                'getSectionActions' : 'controller/main/actions',
+                'getSectionTrees' : 'controller/main/trees',
+	            'excludeTesttaker' : 'controller/testtaker'
+            }
+        },
         'Compilation' : {
             'actions' : {
                 'index' : 'controller/compilation/compiling'
-            }
+	        }
         }
     };
 });

@@ -1,15 +1,31 @@
 <?php
-/*
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2); 2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER); 2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ *
+ *
  */
 
+use oat\tao\helpers\Template;
+
 /**
- * Delivery Controller provide actions performed from url resolution
+ * Controller to managed assembled deliveries
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
- 
- * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_actions_Delivery extends tao_actions_SaSModule
 {
@@ -26,7 +42,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         parent::__construct();
         
         // the service is initialized by default
-        $this->service = taoDelivery_models_classes_DeliveryService::singleton();
+        $this->service = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
         $this->defaultData();
     }
 
@@ -41,40 +57,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
     
     /*
      * controller actions
-    */
-    /**
-     * Render json data to populate the delivery tree
-     * 'modelType' must be in the request parameters
-     *
-     * @return void
      */
-    public function getDeliveries()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $options = array(
-            'subclasses' => true,
-            'instances' => true,
-            'highlightUri' => '',
-            'labelFilter' => '',
-            'chunk' => false
-        );
-        if ($this->hasRequestParameter('filter')) {
-            $options['labelFilter'] = $this->getRequestParameter('filter');
-        }
-        if($this->hasRequestParameter("selected")){
-            $options['browse'] = array($this->getRequestParameter("selected"));
-        }
-        if ($this->hasRequestParameter('classUri')) {
-            $clazz = $this->getCurrentClass();
-            $options['chunk'] = true;
-        } else {
-            $clazz = $this->service->getRootClass();
-        }
-    
-        echo json_encode($this->service->toTree($clazz, $options));
-    }
     
     /**
      * Edit a delivery class
@@ -131,151 +114,57 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($delivery);
                 $delivery = $binder->bind($propertyValues);
                 
-                // edit process label:
-                $this->service->onChangeLabel($delivery);
-                
                 $this->setData('message', __('Delivery saved'));
                 $this->setData('reload', true);
             }
         }
         $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->getUri()));
-
-        $this->setData('contentForm', $this->getContentForm());
         
-        $this->setData('uri', tao_helpers_Uri::encode($delivery->getUri()));
-        $this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
+        $this->setData('label', $delivery->getLabel());
+        
+        // history
+        $this->setData('date', taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getCompilationDate($delivery));
+        if (taoDelivery_models_classes_execution_ServiceProxy::singleton()->hasMonitoring()) {
+            $this->setData('exec', taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($delivery));
+        }
         
         // define the groups related to the current delivery
-        $property = new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP);
+        $property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYASSEMBLY);
         $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($delivery, $property);
-        $tree->setTitle(__('Participating groups'));
+        $tree->setTitle(__('Assigned to'));
+        $tree->setTemplate(Template::getTemplate('form_groups.tpl'));
         $this->setData('groupTree', $tree->render());
+        
+        // testtaker brick
+        $this->setData('assemblyUri', $delivery->getUri());
+        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groups = $groupClass->searchInstances(array(
+            PROPERTY_GROUP_DELVIERYASSEMBLY => $delivery->getUri()
+        ), array('recursive' => true, 'like' => false));
+        
+        $users = array();
+        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
+        foreach ($groups as $group) {
+            $users = array_merge($users, $group->getPropertyValues($memberProp));
+        }
+        $this->setData('groupcount', count($groups));
         
         // define the subjects excluded from the current delivery
         $property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
-        $tree = tao_helpers_form_GenerisTreeForm::buildTree($delivery, $property);
-        $tree->setData('id', 'subject'); // used in css
-        $tree->setData('title', __('Select test takers to be <b>excluded</b>'));
-        $this->setData('groupTesttakers', $tree->render());
+        $excluded = $delivery->getPropertyValues($property);
+        $this->setData('ttexcluded', count($excluded));
+
+        $assigned = array_diff(array_unique($users), $excluded);
+        $this->setData('ttassigned', count($assigned));
         
-        $this->setData('hasContent', !is_null($this->service->getContent($delivery)));
         
-        $assemblyData = array();
-        $execCount = 0;
-        foreach (taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery) as $assembly) {
-            try {
-                $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
-                $date = taoDelivery_models_classes_CompilationService::singleton()->getCompilationDate($assembly);
-                $executionNr = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($assembly);
-                $assemblyData[] = array(
-                	'uri' => $assembly->getUri(),
-                    'label' => $assembly->getLabel(),
-                    'date' => tao_helpers_Date::displayeDate($date),
-                    'exec' => $executionNr
-                );
-                $execCount += $executionNr;
-            } catch (common_exception_EmptyProperty $e) {
-                common_Logger::w('Assembly '.$assembly->getUri().' is incomplete');
-            }
-        }
-        $this->setData('assemblies', $assemblyData);
-        $this->setData("exportUrl", _url('export', 'Compilation'));
-        
-        $this->setData("executionNumber", $execCount);
-        
-        $this->setData('formTitle', __('Delivery properties'));
+        $this->setData('formTitle', __('Properties'));
         $this->setData('myForm', $myForm->render());
         
         if (common_ext_ExtensionsManager::singleton()->isEnabled('taoCampaign')) {
             $this->setData('campaign', taoCampaign_helpers_Campaign::renderCampaignTree($delivery));
         }
-        $this->setView('form_delivery.tpl');
-    }
-
-    /**
-     * 
-     */
-    protected function getContentForm()
-    {
-        $delivery = $this->getCurrentInstance();
-        $content = $this->service->getContent($delivery);
-        if (!is_null($content)) {
-            // Author
-            $modelImpl = $this->service->getImplementationByContent($content);
-            return $modelImpl->getAuthoring($content);
-        } else {
-            // select Model
-            $options = array();
-            foreach ($this->service->getAllContentClasses() as $class) {
-                $options[$class->getUri()] = $class->getLabel();
-            }
-            $renderer = new Renderer(DIR_VIEWS.'templates'.DIRECTORY_SEPARATOR.'form_content.tpl');
-            $renderer->setData('models', $options);
-            $renderer->setData('saveUrl', _url('setContentClass', null, null, array('uri' => $delivery->getUri())));
-            return $renderer->render();
-        }
-    }
-
-    public function setContentClass()
-    {
-        $delivery = $this->getCurrentInstance();
-        $contentClass = new core_kernel_classes_Class($this->getRequestParameter('model'));
-        
-        if (is_null($this->service->getContent($delivery))) {
-            $content = $this->service->createContent($delivery, $contentClass);
-            $success = true;
-        } else {
-            common_Logger::w('Content already defined, cannot be replaced');
-            $success = false;
-        }
-        echo json_encode(array(
-            'success' => $success
-        ));
-    }
-    
-    /**
-     * Add a delivery instance
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function addDelivery()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $clazz = $this->getCurrentClass();
-        $delivery = $this->service->createInstance($clazz, $this->service->createUniqueLabel($clazz));
-        
-        if (! is_null($delivery) && $delivery instanceof core_kernel_classes_Resource) {
-            
-            echo json_encode(array(
-                'label' => $delivery->getLabel(),
-                'uri' => tao_helpers_Uri::encode($delivery->getUri())
-            ));
-        }
-    }
-
-    /**
-     * Add a delivery subclass
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function addDeliveryClass()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $clazz = $this->service->createSubClass($this->getCurrentClass());
-        if (! is_null($clazz) && $clazz instanceof core_kernel_classes_Class) {
-            echo json_encode(array(
-                'label' => $clazz->getLabel(),
-                'uri' => tao_helpers_Uri::encode($clazz->getUri())
-            ));
-        }
+        $this->setView('form_assembly.tpl');
     }
 
     /**
@@ -295,85 +184,14 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($this->getRequestParameter('uri')) {
             $deleted = $this->service->deleteInstance($this->getCurrentInstance());
         } else {
-            $deleted = $this->service->deleteDeliveryClass($this->getCurrentClass());
+            $deleted = $this->service->deleteClass($this->getCurrentClass());
         }
         
         echo json_encode(array(
             'deleted' => $deleted
         ));
     }
-
-    /**
-     * Get the data to populate the tree of delivery's subjects
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function getSubjects()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $options = array(
-            'chunk' => false
-        );
-        if ($this->hasRequestParameter('classUri')) {
-            $clazz = $this->getCurrentClass();
-            $options['chunk'] = true;
-        } else {
-            $clazz = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-        }
-        if ($this->hasRequestParameter('selected')) {
-            $selected = $this->getRequestParameter('selected');
-            if (! is_array($selected)) {
-                $selected = array(
-                    $selected
-                );
-            }
-            $options['browse'] = $selected;
-        }
-        if ($this->hasRequestParameter('offset')) {
-            $options['offset'] = $this->getRequestParameter('offset');
-        }
-        if ($this->hasRequestParameter('limit')) {
-            $options['limit'] = $this->getRequestParameter('limit');
-        }
-        if ($this->hasRequestParameter('subclasses')) {
-            $options['subclasses'] = $this->getRequestParameter('subclasses');
-        }
-        echo json_encode($this->service->toTree($clazz, $options));
-    }
-
-    /**
-     * Save the delivery excluded subjects
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function saveSubjects()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $saved = false;
-        
-        $subjects = array();
-        foreach ($this->getRequestParameters() as $key => $value) {
-            if (preg_match("/^instance_/", $key)) {
-                array_push($subjects, tao_helpers_Uri::decode($value));
-            }
-        }
-        
-        if ($this->service->setExcludedSubjects($this->getCurrentInstance(), $subjects)) {
-            $saved = true;
-        }
-        echo json_encode(array(
-            'saved' => $saved
-        ));
-    }
-
+    
     /**
      * Main action
      *
@@ -383,198 +201,64 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
      */
     public function index()
     {
-        
         $this->setView('index.tpl');
     }
-
-    /**
-     * create history table
-     * 
-     * @return void
-     */
-    public function viewHistory()
+    
+    public function excludeTesttaker()
     {
-        $_SESSION['instances'] = array();
-        foreach ($this->getRequestParameters() as $key => $value) {
-            if (preg_match("/^uri_[0-9]+$/", $key)) {
-                $_SESSION['instances'][tao_helpers_Uri::decode($value)] = tao_helpers_Uri::decode($value);
-            }
+        $assembly = $this->getCurrentInstance();
+        $this->setData('assemblyUri', $assembly->getUri());
+        
+        // define the subjects excluded from the current delivery
+        $property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
+        $excluded = array(); 
+        foreach ($assembly->getPropertyValues($property) as $uri) {
+            $user = new core_kernel_classes_Resource($uri);
+            $excluded[$uri] = $user->getLabel();
         }
-        $this->setView("create_table.tpl");
+        
+        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groups = $groupClass->searchInstances(array(
+            PROPERTY_GROUP_DELVIERYASSEMBLY => $assembly->getUri()
+        ), array('recursive' => true, 'like' => false));
+        
+        $users = array();
+        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
+        foreach ($groups as $group) {
+            $users = array_merge($users, $group->getPropertyValues($memberProp));
+        }
+        $assigned = array();
+        foreach (array_diff(array_unique($users), array_keys($excluded)) as $uri) {
+            $user = new core_kernel_classes_Resource($uri);
+            $assigned[$uri] = $user->getLabel();
+        }
+        
+        $this->setData('assigned', $assigned);
+        $this->setData('excluded', $excluded);
+        
+        
+        $this->setView('exclude.tpl');
     }
-
-    /**
-     * historyListing returns the execution history related to a given delivery (and subject)
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param
-     *            string deliveryUri
-     * @param
-     *            string subjectUri
-     * @return array
-     */
-    public function getDeliveryHistory($delivery = null, $subject = null)
-    {
-        $returnValue = array();
-        $histories = array();
-        
-        // check deliveryUri validity
-        if (empty($delivery)) {
-            $delivery = $this->getCurrentInstance();
+    
+    public function saveExcluded() {
+        if(!tao_helpers_Request::isAjax()){
+            throw new common_exception_IsAjaxAction(__FUNCTION__);
+        }
+        if(!$this->hasRequestParameter('excluded')){
+            throw new common_exception_MissingParameter('excluded');
         }
         
-        $histories = $this->service->getHistory($delivery, $subject);
-        
-        $propHistorySubject = new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_SUBJECT_PROP);
-        $propHistoryTimestamp = new core_kernel_classes_Property(TAO_DELIVERY_HISTORY_TIMESTAMP_PROP);
-        $i = 0;
-        foreach ($histories as $history) {
-            
-            $returnValue[$i] = array();
-            
-            $subject = $history->getUniquePropertyValue($propHistorySubject);
-            $returnValue[$i]["subject"] = $subject->getLabel(); // or $subject->literal to get the uri
-            
-            $timestamp = $history->getUniquePropertyValue($propHistoryTimestamp);
-            $returnValue[$i]["time"] = date('d-m-Y G:i:s \(T\)', $timestamp->literal);
-            
-            $returnValue[$i]["uri"] = tao_helpers_Uri::encode($history->getUri());
-            $i ++;
+        $jsonArray = json_decode($_POST['excluded']);
+        if(!is_array($jsonArray)){
+            throw new common_Exception('parameter "excluded" should be a json encoded array');
         }
         
-        return $returnValue;
-    }
-
-    /**
-     * provide the user list data via json
-     * 
-     * @return void
-     */
-    public function historyData()
-    {
-        
-        // $page = $this->getRequestParameter('page');
-        // $limit = $this->getRequestParameter('rows');
-        $page = 1;
-        $limit = 500;
-        // $sidx = $this->getRequestParameter('sidx');
-        // $sord = $this->getRequestParameter('sord');
-        $start = $limit * $page - $limit;
-        
-        // if(!$sidx) $sidx =1;
-        
-        // $users = $this->userService->getAllUsers(array(
-        // 'order' => $sidx,
-        // 'orderDir' => $sord,
-        // 'start' => $start,
-        // 'end' => $limit
-        // ));
-        $histories = $this->getDeliveryHistory($this->getCurrentInstance());
-        
-        $count = count($histories);
-        if ($count > 0) {
-            $total_pages = ceil($count / $limit);
-        } else {
-            $total_pages = 0;
-        }
-        if ($page > $total_pages) {
-            $page = $total_pages;
-        }
-        
-        $response = new stdClass();
-        $response->page = $page;
-        $response->total = $total_pages;
-        $response->records = $count;
-        $i = 0;
-        
-        foreach ($histories as $history) {
-            $cellData = array();
-            $cellData[0] = $history['subject'];
-            $cellData[1] = $history['time'];
-            $cellData[2] = '';
-            
-            $response->rows[$i]['id'] = tao_helpers_Uri::encode($history['uri']);
-            $response->rows[$i]['cell'] = $cellData;
-            $i ++;
-        }
-        
-        echo json_encode($response);
-    }
-
-    public function deleteHistory()
-    {
-        $deleted = false;
-        $message = __('An error occured during history deletion');
-        if ($this->hasRequestParameter('historyUri')) {
-            $history = new core_kernel_classes_Resource(tao_helpers_Uri::decode(tao_helpers_Uri::decode($this->getRequestParameter('historyUri'))));
-            if ($this->service->deleteHistory($history)) {
-                $deleted = true;
-                $message = __('History deleted successfully');
-            }
-        }
+        $assembly = $this->getCurrentInstance();
+        $success = $assembly->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP),$jsonArray);
         
         echo json_encode(array(
-            'deleted' => $deleted,
-            'message' => $message
+        	'saved' => $success
         ));
     }
-
-    /**
-     * get all the tests instances in a json response
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function getDeliveriesTests()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        $tests = tao_helpers_Uri::encodeArray($this->service->getDeliveriesTests(), tao_helpers_Uri::ENCODE_ARRAY_KEYS);
-        echo json_encode(array(
-            'data' => $tests
-        ));
-    }
-	
-	/**
-	 * get the compilation view
-	 *
-	 * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @return void
-	 */
-	public function initCompilation(){
-		
-		$delivery = $this->getCurrentInstance();
-		
-		//init the value to be returned	
-		$deliveryData=array();
-		
-		$deliveryData["uri"] = $delivery->getUri();
-		
-		//check if a wsdl contract is set to upload the result:
-		$resultServer = $this->service->getResultServer($delivery);
-		$deliveryData['resultServer'] = $resultServer;
-		
-		$deliveryData['tests'] = array();
-		if(!empty($resultServer)){
-			
-			//get the tests list from the delivery id: likely, by parsing the deliveryContent property value
-			//array of resource, test set
-			$tests = array();
-			$tests = $this->service->getRelatedTests($delivery);
-			
-			foreach($tests as $test){
-				$deliveryData['tests'][] = array(
-					"label" => $test->getLabel(),
-					"uri" => $test->getUri()
-				);//url encode maybe?
-			}
-		}
-		
-		echo json_encode($deliveryData);
-	}
+    
 }
-?>

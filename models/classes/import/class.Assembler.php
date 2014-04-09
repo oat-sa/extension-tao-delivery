@@ -57,7 +57,7 @@ class taoDelivery_models_classes_import_Assembler
             }
             
             $contentClass = new core_kernel_classes_Class(CLASS_DELIVERY_CONTENT_ASSEMBLY);
-            taoDelivery_models_classes_DeliveryService::singleton()->createContent($delivery, $contentClass);
+            taoDelivery_models_classes_DeliveryTemplateService::singleton()->createContent($delivery, $contentClass);
             
             $compilationClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
             $compilationInstance = $compilationClass->createInstanceWithProperties(array(

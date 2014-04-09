@@ -29,6 +29,17 @@
 class taoDelivery_actions_form_Delivery
     extends tao_actions_form_Instance
 {
+    protected function initForm()
+    {
+        parent::initForm();
+        
+        $saveELt = tao_helpers_form_FormFactory::getElement('Save', 'Free');
+        $saveELt->setValue('<button class="btn-info form-submiter small" type="button">'.tao_helpers_Icon::iconSave().__('Save').'</button>');
+        
+		$this->form->setActions(array(), 'top');
+		$this->form->setActions(array($saveELt), 'bottom');
+    }
+    
     protected function initElements()
     {
         parent::initElements();

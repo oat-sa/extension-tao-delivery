@@ -26,7 +26,7 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
         parent::__construct();
         
         // the service is initialized by default
-        $this->service = taoDelivery_models_classes_CompilationService::singleton();
+        $this->service = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
         $this->defaultData();
     }
 
@@ -56,19 +56,15 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 		$this->setData("deliveryLabel", $delivery->getLabel());
 		
 		//compilation state:
-		$compiled = $this->service->getActiveCompilation($delivery);
-		$isCompiled = !is_null($compiled);
-		$this->setData("isCompiled", $isCompiled);
-		if($isCompiled){
-			$this->setData("compiledDate", tao_helpers_Date::displayeDate($this->service->getCompilationDate($compiled)));
-		}
+		$compiled = $this->service->getAssembliesByTemplate($delivery, true);
+		$this->setData("isCompiled", !empty($compiled));
 		
 		$this->setView("delivery_compiling.tpl");
     }
     
 	public function compile(){
 	    $delivery = $this->getCurrentInstance();
-	    $report = taoDelivery_models_classes_CompilationService::singleton()->compileDelivery($delivery);
+	    $report = $this->service->createAssemblyFromTemplate($delivery);
 	    
 	    $this->setData('title', __('Publishing Report'));
 	    $this->setData('report', $report);

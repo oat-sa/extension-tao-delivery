@@ -47,4 +47,3 @@ class taoDelivery_actions_DeliveryImport extends tao_actions_Import {
 		return $returnValue;
 	}
 }
-?>

@@ -36,25 +36,20 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
      */
     public function getAvailableDeliveries($userUri)
     {
-        $deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
+        $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
         $groups = taoGroups_models_classes_GroupsService::singleton()->getGroups($userUri);
 
         $deliveryCandidates = array();
         foreach ($groups as $group) {
-            foreach($deliveryService->getDeliveriesByGroup($group) as $delivery) {
+            foreach($this->getAssembliesByGroup($group) as $delivery) {
                 $deliveryCandidates[$delivery->getUri()] = $delivery;
             }
         }
 
         // check if realy available
-        $compiledDeliveries = array();
+        $assemblyData = array();
         foreach ($deliveryCandidates as $candidate) {
-            $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
-            
-            // compiled?
-            if (empty($compiled)) {
-                continue;
-            }
+
             // status?
             // period?
             // excluded
@@ -67,14 +62,14 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
             $deliverySettings = $this->getDeliverySettings($candidate);
             $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($candidate, $userUri);
-            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($compiled, $userUri);
-            $compiledDeliveries[] = array(
-                "compiledDelivery"  =>$compiled,
+            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
+            $assemblyData[] = array(
+                "compiledDelivery"  =>$candidate,
                 "settingsDelivery"  =>$deliverySettings
-                );
+            );
         }
        
-        return $compiledDeliveries;
+        return $assemblyData;
     }
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
         $deliveryProps = $delivery->getPropertiesValues(array(
@@ -96,7 +91,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
     public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
         $returnValue = 0;
-        $compilations = taoDelivery_models_classes_CompilationService::singleton()->getAllCompilations($delivery);
+        $compilations = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getAssembliesByTemplate($delivery);
         foreach ($compilations as $compilation) {
             $returnValue += taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($compilation, $userUri);
         };
@@ -104,9 +99,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         return $returnValue;
     }
     
-    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $compiled, $userUri){
+    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, $userUri){
 
-        $delivery = self::getDeliveryFromCompiledDelivery($compiled);
         if (is_null($delivery)) {
             common_Logger::w("Attempt to start the compiled delivery ".$compiled->getUri(). " related to no delivery");
             return false;
@@ -173,7 +167,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
         $groups = $groupClass->searchInstances(array(
             TAO_GROUP_MEMBERS_PROP => $userUri,
-            TAO_GROUP_DELIVERIES_PROP => $delivery
+            PROPERTY_GROUP_DELVIERYASSEMBLY => $delivery
         ), array(
             'like'=>false,
             'recursive' => true
@@ -205,21 +199,6 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         return $dateCheck;
     }
     
-    public function getAllActiveCompilations()
-    {
-        $deliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
-         
-        $compiledDeliveries = array();
-        foreach ($deliveryClass->getInstances(true) as $candidate) {
-            $compiled = taoDelivery_models_classes_CompilationService::singleton()->getActiveCompilation($candidate);
-            if (!is_null($compiled)) {
-                $compiledDeliveries[] = $compiled;
-            }
-        }
-        return $compiledDeliveries;
-    }
-    
-
     /**
      * initalize the resultserver for a given execution
      * @param core_kernel_classes_resource processExecution
@@ -228,10 +207,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
         //starts or resume a taoResultServerStateFull session for results submission
 
-        //retrieve the resultServer definition that is related to this delivery to be used
-        $delivery = $this->getDeliveryFromCompiledDelivery($compiledDelivery);
         //retrieve the result server definition
-        $resultServer = $delivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
         //callOptions are required in the case of a LTI basic storage
 
         taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
@@ -247,10 +224,19 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(wfEngine_models_classes_UserService::singleton()->getCurrentUser()->getUri());
 
          //a unique identifier for the delivery
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($delivery->getUri());
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
     }
     
     public function getDeliveryFromCompiledDelivery(core_kernel_classes_Resource $compiledDelivery) {
         return $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_DELIVERY));
    }
+
+    public function getAssembliesByGroup(core_kernel_classes_Resource $group) {
+        $returnValue = array();
+        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYASSEMBLY)) as $groupUri) {
+            $returnValue[] = new core_kernel_classes_Resource($groupUri);
+        }
+        return $returnValue;
+    }
+   
 }

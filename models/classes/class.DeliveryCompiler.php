@@ -35,7 +35,8 @@ abstract class taoDelivery_models_classes_DeliveryCompiler extends tao_models_cl
      */
     public static function createCompiler($resource) {
         $storage = new taoDelivery_models_classes_TrackedStorage();
-        $compilerClass = taoDelivery_models_classes_CompilationService::singleton()->getCompilerClass($resource);
+        $templateService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
+        $compilerClass = $templateService->getImplementationByContent($resource)->getCompilerClass();
         
         if (!class_exists($compilerClass)) {
             throw new common_exception_Error('Class '.$compilerClass.' not found while instanciating Compiler');

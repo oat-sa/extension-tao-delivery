@@ -44,15 +44,41 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /* line 35, /home/bout/code/php/taoTrunk/tao/views/scss/inc/_tao-icon-vars.scss */
 #assignedList li .arrow:before {
   content: "\122"; }
+  
+/* to ADD */
+.filter-div {
+  background: none repeat scroll 0 0 lightgrey;
+  padding: 2px;
+  height: 35px; }
+
+.ttbox {
+  height: 300px;
+  border: 2px solid #D3D3D3; }
 
 /* line 21, ../scss/testtakers.scss */
 .ttlist {
-  min-height: 200px;
-  background: none repeat scroll 0 0 #F9F8F7; }
+  overflow: auto; }
+  
+#assignedList
+{
+    height: 261px;
+}
+
+#excludedList
+{
+    height: 300px;
+}
 
 /* line 27, ../scss/testtakers.scss */
 .ttlist li {
-  cursor: pointer; }
+  cursor: pointer;
+  border-bottom: 1px solid #D3D3D3;
+  padding: 3px;
+  background: none repeat scroll 0 0 #F9F8F7; }
+
+.ttlist li:hover {
+  color: #FFFFFF;
+  background: none repeat scroll 0 0 #266D9C;}
 
 /* line 32, ../scss/testtakers.scss */
 #assignedList li .arrow {

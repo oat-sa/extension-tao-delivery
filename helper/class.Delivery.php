@@ -33,7 +33,7 @@ class taoDelivery_helper_Delivery
 		// ensure constant is known since this helper can be called out of context
 		common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->load();
 		
-		$property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
+		$property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYTEMPLATE);
 		$tree = tao_helpers_form_GenerisTreeForm::buildTree($group, $property);
 		$tree->setData('title', __('Deliveries'));
 		return $tree->render();

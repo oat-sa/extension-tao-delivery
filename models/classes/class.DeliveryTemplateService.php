@@ -25,9 +25,8 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
-class taoDelivery_models_classes_DeliveryService extends tao_models_classes_ClassService
+class taoDelivery_models_classes_DeliveryTemplateService extends tao_models_classes_ClassService
 {
 
     /**
@@ -37,7 +36,7 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
      */
     public function getRootClass()
     {
-        return new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+        return new core_kernel_classes_Class(CLASS_DELIVERY_TEMPLATE);
     }
 
     /**
@@ -93,9 +92,24 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
     public function getDeliveriesByGroup(core_kernel_classes_Resource $group)
     {
         $returnValue = array();
-        foreach ($group->getPropertyValues(new core_kernel_classes_Property(TAO_GROUP_DELIVERIES_PROP)) as $groupUri) {
+        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYTEMPLATE)) as $groupUri) {
             $returnValue[] = new core_kernel_classes_Resource($groupUri);
         }
+        return $returnValue;
+    }
+
+    /**
+     * Returns the groups that are assigned to a delivery template
+     *
+     * @param core_kernel_classes_Resource $deliveryTemplate
+     * @return array
+     */
+    public function getGroupsByTemplate(core_kernel_classes_Resource $deliveryTemplate)
+    {
+        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $returnValue = $groupClass->searchInstances(array(
+            PROPERTY_GROUP_DELVIERYTEMPLATE => $deliveryTemplate
+        ), array('like' => false, 'recursive' => true));
         return $returnValue;
     }
     
@@ -130,10 +144,10 @@ class taoDelivery_models_classes_DeliveryService extends tao_models_classes_Clas
     {
         $returnValue = (bool) false;
 
-        if(!is_null($clazz)){
-            if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
-                $returnValue = $clazz->delete();
-            }
+        if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
+            $returnValue = $clazz->delete();
+        } else {
+            common_Logger::w('Cannot '.__FUNCTION__.' of class '.$clazz->getUri());
         }
     
         return (bool) $returnValue;

@@ -31,6 +31,24 @@ div.data-container{
 	/*margin-left:46%;*/
 }
 
+.ui-state-default .col-4 {
+    margin: 0px;    
+}
+
+.ui-state-default .col-8 {
+    margin: 0px;    
+}
+
+.topbox {
+    margin-bottom: 12px;
+}
+
+.title-action {
+    float: right;
+    margin: 3px;
+    cursor: pointer;
+}
+
 .contentList{
     padding: 0px;
 }
@@ -87,7 +105,15 @@ div.xhtml_form div input, div.xhtml_form div select, div.xhtml_form div textarea
 	color: #D00239;
 }
 
-div#subject-container.data-container div.container-title b{ color:#D00239 }
-div#subject-container.data-container div.container-content{ border-color:#D00239 }
+.toggler {
+    cursor: pointer;
+}
+
+div#subject-container.data-container div.container-title b{
+    color:#D00239;
+}
+#subject-tree .node-instance .checked{
+    text-decoration: line-through;
+}
 
 div.ui-state-highlight-delivery{padding-bottom: 10px;}
