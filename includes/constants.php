@@ -55,8 +55,6 @@ $todefine = array(
     
     'CLASS_DELIVERY_CONTENT_ASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent',
     
-//    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
-    'PROPERTY_GROUP_DELVIERYTEMPLATE'      => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#DeliveryTemplates',
-    'PROPERTY_GROUP_DELVIERYASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#DeliveryAssemblies',
+    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'
     
 );

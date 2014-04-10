@@ -152,19 +152,6 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
         $this->setData('uri', tao_helpers_Uri::encode($delivery->getUri()));
         $this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
         
-        // define the groups related to the current delivery
-        $property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYTEMPLATE);
-        $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($delivery, $property);
-        $tree->setTitle(__('Participating groups'));
-        $this->setData('groupTree', $tree->render());
-        
-        // define the subjects excluded from the current delivery
-        $property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
-        $tree = tao_helpers_form_GenerisTreeForm::buildTree($delivery, $property);
-        $tree->setData('id', 'subject'); // used in css
-        $tree->setData('title', __('Select test takers to be <b>excluded</b>'));
-        $this->setData('groupTesttakers', $tree->render());
-        
         $this->setData('hasContent', !is_null($this->service->getContent($delivery)));
         
         $this->setData('formTitle', __('Delivery properties'));

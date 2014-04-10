@@ -167,7 +167,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
         $groups = $groupClass->searchInstances(array(
             TAO_GROUP_MEMBERS_PROP => $userUri,
-            PROPERTY_GROUP_DELVIERYASSEMBLY => $delivery
+            PROPERTY_GROUP_DELVIERY => $delivery
         ), array(
             'like'=>false,
             'recursive' => true
@@ -233,7 +233,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
     public function getAssembliesByGroup(core_kernel_classes_Resource $group) {
         $returnValue = array();
-        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYASSEMBLY)) as $groupUri) {
+        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $groupUri) {
             $returnValue[] = new core_kernel_classes_Resource($groupUri);
         }
         return $returnValue;

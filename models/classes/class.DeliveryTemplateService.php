@@ -83,36 +83,6 @@ class taoDelivery_models_classes_DeliveryTemplateService extends tao_models_clas
         return $subclasses;
     }
 
-    /**
-     * Returns the deliveries accessible to a specified group
-     * 
-     * @param core_kernel_classes_Resource $group
-     * @return array
-     */
-    public function getDeliveriesByGroup(core_kernel_classes_Resource $group)
-    {
-        $returnValue = array();
-        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYTEMPLATE)) as $groupUri) {
-            $returnValue[] = new core_kernel_classes_Resource($groupUri);
-        }
-        return $returnValue;
-    }
-
-    /**
-     * Returns the groups that are assigned to a delivery template
-     *
-     * @param core_kernel_classes_Resource $deliveryTemplate
-     * @return array
-     */
-    public function getGroupsByTemplate(core_kernel_classes_Resource $deliveryTemplate)
-    {
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $returnValue = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERYTEMPLATE => $deliveryTemplate
-        ), array('like' => false, 'recursive' => true));
-        return $returnValue;
-    }
-    
     public function onChangeLabel(core_kernel_classes_Resource $delivery)
     {
         $content = $this->getContent($delivery);

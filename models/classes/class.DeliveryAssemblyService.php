@@ -68,14 +68,6 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         
         $report = $this->createAssembly($assemblyClass, $content, $props);
         
-        // transfer assigned groups
-        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
-            $newAssembly = $report->getData();
-            foreach (taoDelivery_models_classes_DeliveryTemplateService::singleton()->getGroupsByTemplate($deliveryTemplate) as $group) {
-                $group->setPropertyValue(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYASSEMBLY), $newAssembly);
-            }
-        }
-            
         return $report;
     }
     

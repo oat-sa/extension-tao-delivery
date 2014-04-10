@@ -129,7 +129,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         
         // define the groups related to the current delivery
-        $property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERYASSEMBLY);
+        $property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
         $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($delivery, $property);
         $tree->setTitle(__('Assigned to'));
         $tree->setTemplate(Template::getTemplate('form_groups.tpl'));
@@ -139,7 +139,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $this->setData('assemblyUri', $delivery->getUri());
         $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
         $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERYASSEMBLY => $delivery->getUri()
+            PROPERTY_GROUP_DELVIERY => $delivery->getUri()
         ), array('recursive' => true, 'like' => false));
         
         $users = array();
@@ -219,7 +219,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
         $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERYASSEMBLY => $assembly->getUri()
+            PROPERTY_GROUP_DELVIERY => $assembly->getUri()
         ), array('recursive' => true, 'like' => false));
         
         $users = array();
