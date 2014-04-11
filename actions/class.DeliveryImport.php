@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -37,11 +37,6 @@ class taoDelivery_actions_DeliveryImport extends tao_actions_Import {
      */
 	public function getAvailableImportHandlers() {
 		$returnValue = parent::getAvailableImportHandlers();
-		foreach ($returnValue as $key => $impl) {
-		    if ($impl instanceof tao_models_classes_import_CsvImporter) {
-		        unset($returnValue[$key]);
-		    }
-		}
         $returnValue[] = new taoDelivery_models_classes_import_AssemblyImportHandler();
         		
 		return $returnValue;
