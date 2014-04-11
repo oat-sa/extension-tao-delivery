@@ -1,5 +1,8 @@
-<?include('header.tpl')?>
+<?php
+use oat\tao\helpers\Template;
 
+Template::inc('header.tpl');
+?>
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/compiling.css" />
 
 <div class="main-container">
@@ -57,5 +60,6 @@
         </div>
     </div>
 </div>
-
-<?include('footer.tpl')?>
+<?php
+Template::inc('footer.tpl');
+?>

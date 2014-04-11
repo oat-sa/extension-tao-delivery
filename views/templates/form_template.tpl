@@ -1,5 +1,8 @@
-<?include('header.tpl')?>
+<?php
+use oat\tao\helpers\Template;
 
+Template::inc('header.tpl');
+?>
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
 
 <div id="delivery-left-container">
@@ -60,4 +63,6 @@ $(function(){
 		
 });
 </script>
-<?include('footer.tpl');?>
+<?php
+Template::inc('footer.tpl');
+?>

@@ -1,4 +1,8 @@
-<?include('header.tpl')?>
+<?php
+use oat\tao\helpers\Template;
+
+Template::inc('header.tpl');
+?>
 
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
@@ -6,5 +10,6 @@
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
 </div>
-
-<?include('footer.tpl');?>
+<?php
+Template::inc('footer.tpl');
+?>

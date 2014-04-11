@@ -84,16 +84,5 @@ return array(
 	
 	 	#TAO extension Paths
 		'TAOBASE_WWW'			=> ROOT_URL  . 'tao/views/',
-	
-		#PROCESS BASE WWW the web path of the process authoring tool
-		'PROCESS_BASE_WWW'		=> ROOT_URL. 'wfEngine/views/',
-		'WFAUTHORING_CSS_URL'	=> ROOT_URL. 'wfAuthoring/views/css/',
-		'WFAUTHORING_SCRIPTS_URL'	=> ROOT_URL. 'wfAuthoring/views/js/authoring/',
-		'PROCESS_BASE_PATH'		=> ROOT_PATH.'wfAuthoring'.DIRECTORY_SEPARATOR,
-		'PROCESS_TPL_PATH'		=> ROOT_PATH.'wfAuthoring'.DIRECTORY_SEPARATOR
-									.'views'.DIRECTORY_SEPARATOR
-									.'templates'.DIRECTORY_SEPARATOR
-									.'authoring'.DIRECTORY_SEPARATOR,
-
 	)
 );
