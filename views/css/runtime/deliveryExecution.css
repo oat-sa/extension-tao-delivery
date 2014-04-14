@@ -21,13 +21,12 @@
 
 html, body { height: 100% }
 
-#content .contentHeader{
+#content .contentHeader {
     font-size: 20px;
     padding:20px 10px 20px 25px;
     font-weight:bold;
 }
-.section_title
-{
+.section_title {
 	color: black;
 	font-weight: bold;
 	/*background: url(../img/bullet.png) no-repeat 5px;*/
@@ -47,6 +46,7 @@ html, body { height: 100% }
 .section_title .counter {
     color:#aaa;
 }
+
 #overlay {
     position: fixed;
     top: 0;
@@ -71,6 +71,7 @@ html, body { height: 100% }
     margin:0 auto;
     z-index: 10000;
 }
+
 #loading > div {
     position: absolute;
     width: 150px;
@@ -78,4 +79,9 @@ html, body { height: 100% }
     left: 50%;
     top: 50%;
     margin:-75px 0 0 -75px;
+}
+
+#iframeDeliveryExec {
+    overflow: hidden;
+    width: 100%;
 }

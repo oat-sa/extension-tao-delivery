@@ -53,7 +53,7 @@ use oat\tao\helpers\Template;
 <?php endif; ?>
     <div id="content" class='ui-corner-bottom'>
         <div id="tools">
-            <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" style="width:100%;overflow-x:hidden;overflow-y:auto;"></iframe>
+            <iframe id="iframeDeliveryExec" class="toolframe" frameborder="0" scrolling="no"></iframe>
         </div>
     </div>
     <div id="overlay"></div>
