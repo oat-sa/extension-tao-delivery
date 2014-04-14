@@ -131,7 +131,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	 * intialize the result server using the delivery configuration and for this results session submission
 	 * @param compiledDelviery
 	 */
-	private function initResultServer($compiledDelivery, $executionIdentifier) {
+	protected function initResultServer($compiledDelivery, $executionIdentifier) {
 	    $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
 	    if (!($resultServerCallOverride)) {
 	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
