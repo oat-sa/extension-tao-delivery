@@ -19,6 +19,8 @@
  */
 @import url(main.css);
 
+html, body { height: 100% }
+
 #content .contentHeader{
     font-size: 20px;
     padding:20px 10px 20px 25px;
@@ -52,10 +54,10 @@
     width: 100%;
     height: 100%;
     background-color: #000;
-    filter:alpha(opacity=3);
-    -moz-opacity:0.03;
-    -khtml-opacity: 0.03;
-    opacity: 0.03;
+    filter:alpha(opacity=20);
+    -moz-opacity:0.20;
+    -khtml-opacity: 0.20;
+    opacity: 0.20;
     z-index: 10000;
 }
 
@@ -63,18 +65,17 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    top: 25px;
+    top: 0;
     left: 0;
     right: 0;
     margin:0 auto;
-    background-color: #efefef;
     z-index: 10000;
 }
 #loading > div {
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 150px;
+    height: 150px;
     left: 50%;
     top: 50%;
-    margin:-150px 0 0 -150px;
+    margin:-75px 0 0 -75px;
 }

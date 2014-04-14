@@ -21,7 +21,7 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
     
     function loading(reverse) {
         if($('#overlay').length === 0){
-        	
+            
             $('<div id="overlay"></div>').appendTo(document.body);
             $('<div id="loading"><div></div></div>').appendTo(document.body);
         }
@@ -54,10 +54,14 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
         }, 300);
     }
     
+    function resizeMainFrame() {
+        var $frame = $('#iframeDeliveryExec');
+        $frame.css('height', $(window).height() - $('#control').outerHeight(true) + 'px');
+    }
     
     return {
         start: function(options){
-        	
+            
             var $frame = $('#iframeDeliveryExec');
             $('#tools').css('height', 'auto');
             
@@ -90,11 +94,13 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
                     $frame.off('load.eventHeight')
                            .off('load.cors');
                 });
-       
-            iframeResizer.autoHeight($frame);
-  
+            
+            $(window).bind('resize', function() {
+                resizeMainFrame();
+            });
+            
+            resizeMainFrame();
             serviceApi.loadInto($frame.get(0));
         }
     };
 });
-

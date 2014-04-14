@@ -59,8 +59,5 @@ use oat\tao\helpers\Template;
     <div id="overlay"></div>
     <div id="loading"><div></div></div>
         <!-- End of content -->
-<?php
-Template::inc('layout_footer.tpl', 'tao')
-?>
 </body>
 </html>
