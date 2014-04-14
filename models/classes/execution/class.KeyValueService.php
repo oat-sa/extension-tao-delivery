@@ -106,13 +106,13 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     /**
      * Generate a new delivery execution
      * 
-     * @param core_kernel_classes_Resource $compiled
+     * @param core_kernel_classes_Resource $assembly
      * @param string $userUri
      * @return core_kernel_classes_Resource the delivery execution
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri)
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($userUri, $compiled);
+        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($userUri, $assembly);
         
         $activeExecutions = $this->getActiveDeliveryExecutions($userUri);
         $activeExecutions[$deliveryExecution->getIdentifier()] = $deliveryExecution;

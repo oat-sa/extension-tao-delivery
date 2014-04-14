@@ -105,12 +105,12 @@ class taoDelivery_models_classes_execution_OntologyService extends tao_models_cl
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri)
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $execution = $executionClass->createInstanceWithProperties(array(
-            RDFS_LABEL                            => $compiled->getLabel(),
-            PROPERTY_DELVIERYEXECUTION_DELIVERY   => $compiled,
+            RDFS_LABEL                            => $assembly->getLabel(),
+            PROPERTY_DELVIERYEXECUTION_DELIVERY   => $assembly,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
             PROPERTY_DELVIERYEXECUTION_START      => time(),
             PROPERTY_DELVIERYEXECUTION_STATUS     => INSTANCE_DELIVERYEXEC_ACTIVE        	

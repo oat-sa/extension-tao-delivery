@@ -68,6 +68,11 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
         }
     }
     
+    protected static function getImplementation() {
+        return self::singleton()->implementation;
+    }
+    
+    
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getUserExecutionCount()
@@ -98,9 +103,9 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri)
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        return $this->implementation->initDeliveryExecution($compiled, $userUri);
+        return $this->implementation->initDeliveryExecution($assembly, $userUri);
     }
     
    /**
@@ -126,8 +131,8 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * 
      * @return boolean
      */
-    public function hasMonitoring() {
-        return $this->implementation instanceof taoDelivery_models_classes_execution_Monitoring;
+    public static function implementsMonitoring() {
+        return self::getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
     }
     
     /**
@@ -138,7 +143,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
     {
-        if (!$this->hasMonitoring()) {
+        if (!self::implementsMonitoring()) {
             throw new common_exception_NoImplementation();
         }
         return $this->implementation->getTotalExecutionCount($compiled);

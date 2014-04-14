@@ -60,11 +60,11 @@ interface taoDelivery_models_classes_execution_Service
     /**
      * Generate a new delivery execution
      *
-     * @param core_kernel_classes_Resource $compiled
+     * @param core_kernel_classes_Resource $assembly
      * @param string $userUri
      * @return core_kernel_classes_Resource the delivery execution
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $compiled, $userUri);
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri);
     
     /**
      * Finishes a delivery execution
