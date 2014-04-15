@@ -56,7 +56,8 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
     
     function resizeMainFrame() {
         var $frame = $('#iframeDeliveryExec');
-        $frame.css('height', $(window).height() - $('#control').outerHeight(true) + 'px');
+        var newHeight = $(window).height() - $('#control').outerHeight(true) + 'px';
+        $frame.css('height', newHeight);
     }
     
     return {
@@ -95,12 +96,13 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
                            .off('load.cors');
                 });
             
+            serviceApi.loadInto($frame.get(0));
+            
             $(window).bind('resize', function() {
                 resizeMainFrame();
             });
             
             resizeMainFrame();
-            serviceApi.loadInto($frame.get(0));
         }
     };
 });
