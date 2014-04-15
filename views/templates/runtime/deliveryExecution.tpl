@@ -32,20 +32,20 @@ use oat\tao\helpers\Template;
          
          <li class="actionControl">
                 <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
-                    <span class="icon-delivery" />
+                    <span class="icon-delivery"></span>
                     <?php echo __("My Tests"); ?></a>
          </li>
             
          <li class="separator">|</li>
          <li class="infoControl">
-                <span class="icon-test-taker" />
+                <span class="icon-test-taker"></span>
                 <?php echo get_data('userLabel'); ?>
             </li>   
             
                      
             <li class="actionControl">
                 <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
-                    <span class="icon-logout"/>
+                    <span class="icon-logout"></span>
                     <?php echo __("Logout"); ?>
                 </a>
             </li>
