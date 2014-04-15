@@ -56,8 +56,16 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
     
     function resizeMainFrame() {
         var $frame = $('#iframeDeliveryExec');
-        var newHeight = $(window).height() - $('#control').outerHeight(true) + 'px';
-        $frame.css('height', newHeight);
+        var windowHeight = $(window).height();
+        var controlHeight = 0;
+        var $control = $('#control');
+        
+        if ($control.length === 1) {
+            controlHeight = $control.outerHeight(true);
+        }
+        
+        var newHeight = windowHeight - controlHeight;
+        $frame.css('height', newHeight + 'px');
     }
     
     return {
