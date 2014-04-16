@@ -139,6 +139,14 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     
     public function deleteInstance(core_kernel_classes_Resource $assembly)
     {
+        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $assignationProperty = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
+        $assigned = $groupClass->searchInstances(array(
+            PROPERTY_GROUP_DELVIERY => $assembly
+        ), array('like' => false, 'recursive' => true));
+        foreach ($assigned as $groupInstance) {
+            $groupInstance->removePropertyValue($assignationProperty, $assembly);
+        } 
         // cleanup data
         return $assembly->delete();
     }

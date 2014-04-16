@@ -114,7 +114,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
 	    $this->setData('showControls', $this->showControls());
-            $this->setData('client_config_url', $this->getClientConfigUrl());
+        $this->setData('client_config_url', $this->getClientConfigUrl());
 	    $this->setView('runtime/deliveryExecution.tpl', 'taoDelivery');
 	}
 	
