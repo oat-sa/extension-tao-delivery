@@ -102,19 +102,19 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
     public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, $userUri){
 
         if (is_null($delivery)) {
-            common_Logger::w("Attempt to start the compiled delivery ".$compiled->getUri(). " related to no delivery");
+            common_Logger::w("Attempt to start the compiled delivery ".$delivery->getUri(). " related to no delivery");
             return false;
         }
         
         //first check the user is assigned
         if(!$this->isUserAssigned($delivery, $userUri)){
-            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$compiled->getUri(). " he was to assigned to.");
+            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was to assigned to.");
             return false;
         }
         
         //check the user is excluded
         if($this->isUserExcluded($delivery, $userUri)){
-            common_Logger::i("User ".$userUri." attempts to start the compiled delivery ".$compiled->getUri(). " he was excluded from.");
+            common_Logger::d("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was excluded from.");
             return false;
         }
         
@@ -124,7 +124,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $usedTokens = $this->getDeliveryUsedTokens($delivery, $userUri);
         
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
-            common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). "without tokens");
+            common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). "without tokens");
             return false;
         }
 
@@ -132,7 +132,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $startDate  =    date_create($settings[TAO_DELIVERY_START_PROP]);
         $endDate    =    date_create($settings[TAO_DELIVERY_END_PROP]);
         if (!$this->areWeInRange($startDate, $endDate)) {
-            common_Logger::i("Attempt to start the compiled delivery ".$compiled->getUri(). " at the wrong date");
+            common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). " at the wrong date");
             return false;
         }
         
