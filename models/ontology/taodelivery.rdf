@@ -192,14 +192,6 @@
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
     <tao:TAOGUIOrder><![CDATA[20]]></tao:TAOGUIOrder>
   </rdf:Description>
-  
-  <!-- Import Delivery  model -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent">
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Assembly import]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Delivery content model class for assembly imports]]></rdfs:comment>
-    <delivery:DeliveryContentImplementation><![CDATA[taoDelivery_models_classes_import_ContentModel]]></delivery:DeliveryContentImplementation>
-  </rdf:Description>
     
   <!-- Management Role -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">

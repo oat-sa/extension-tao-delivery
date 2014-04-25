@@ -69,17 +69,15 @@ class taoDelivery_models_classes_DeliveryTemplateService extends tao_models_clas
         return $content;
     }
 
-    public function getAllContentClasses($getSystemContents = false)
+    /**
+     * Returns all the content classes
+     * 
+     * @return array
+     */
+    public function getAllContentClasses()
     {
         $deliveryContentSuperClass = new core_kernel_classes_Class(CLASS_ABSTRACT_DELIVERYCONTENT);
         $subclasses = $deliveryContentSuperClass->getSubClasses(true);
-        if (!$getSystemContents) {
-            foreach (array_keys($subclasses) as $key) {
-                if ($subclasses[$key]->getUri() == CLASS_DELIVERY_CONTENT_ASSEMBLY) {
-                    unset($subclasses[$key]);
-                }
-            }
-        }
         return $subclasses;
     }
 
@@ -159,7 +157,7 @@ class taoDelivery_models_classes_DeliveryTemplateService extends tao_models_clas
      */
     public function getImplementationByContent(core_kernel_classes_Resource $content)
     {
-        $validContentClasses = $this->getAllContentClasses(true);
+        $validContentClasses = $this->getAllContentClasses();
         foreach ($content->getTypes() as $type) {
             foreach ($validContentClasses as $reference) {
                 if ($type->equals($reference)) {

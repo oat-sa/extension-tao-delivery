@@ -21,20 +21,20 @@
  */
 
 /**
- *  Import controller that addes the published delivery importer
+ * Export controller that addes the published delivery exporter
  * 
  * @package taoDelivery
  * 
  */
-class taoDelivery_actions_DeliveryImport extends tao_actions_Import {
+class taoDelivery_actions_DeliveryExport extends tao_actions_Export {
     
     /**
      * (non-PHPdoc)
      * @see tao_actions_Import::getAvailableImportHandlers()
      */
-	public function getAvailableImportHandlers() {
-		$returnValue = parent::getAvailableImportHandlers();
-        $returnValue[] = new taoDelivery_models_classes_import_AssemblyImportHandler();
+	public function getAvailableExportHandlers() {
+		$returnValue = parent::getAvailableExportHandlers();
+        $returnValue[] = new taoDelivery_models_classes_export_AssemblyExporter();
         		
 		return $returnValue;
 	}

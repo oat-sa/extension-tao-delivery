@@ -49,25 +49,20 @@ class taoDelivery_models_classes_import_Assembler
         $label          = $manifest['label'];
         $serviceCall    = tao_models_classes_service_ServiceCall::fromString(base64_decode($manifest['runtime']));
         $dirs           = $manifest['dir'];
+        $resultServer   = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
         
-        $delivery = $deliveryClass->createInstance($label);
         try {
             foreach ($dirs as $id => $relPath) {
                 tao_models_classes_service_FileStorage::singleton()->import($id, $folder.$relPath);
             }
             
-            $contentClass = new core_kernel_classes_Class(CLASS_DELIVERY_CONTENT_ASSEMBLY);
-            taoDelivery_models_classes_DeliveryTemplateService::singleton()->createContent($delivery, $contentClass);
-            
-            $compilationClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
-            $compilationInstance = $compilationClass->createInstanceWithProperties(array(
+            $delivery = $deliveryClass->createInstanceWithProperties(array(
                 RDFS_LABEL                          => $label,
-                PROPERTY_COMPILEDDELIVERY_DELIVERY  => $delivery,
                 PROPERTY_COMPILEDDELIVERY_DIRECTORY => array_keys($dirs),
                 PROPERTY_COMPILEDDELIVERY_TIME      => time(),
-                PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology()
+                PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology(),
+                TAO_DELIVERY_RESULTSERVER_PROP      => $resultServer
             ));
-            $delivery->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_ACTIVE_COMPILATION), $compilationInstance);
             $report = common_report_Report::createSuccess(__('Delivery "%s" successfully imported',$label), $delivery);
         } catch (Exception $e) {
             $delivery->delete();
@@ -96,9 +91,12 @@ class taoDelivery_models_classes_import_Assembler
             throw new Exception('Unable to create archive at '.$path);
         }
         
+        $taoDeliveryVersion = common_ext_ExtensionsManager::singleton()->getInstalledVersion('taoDelivery');
+        
         $data = array(
         	'dir' => array(),
-            'label' => $compiledDelivery->getLabel()
+            'label' => $compiledDelivery->getLabel(),
+            'version' => $taoDeliveryVersion
         );
         $directories = $compiledDelivery->getPropertyValues(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_DIRECTORY));
         foreach ($directories as $id) {
@@ -110,6 +108,14 @@ class taoDelivery_models_classes_import_Assembler
         $runtime = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
         $serviceCall = tao_models_classes_service_ServiceCall::fromResource($runtime);
         $data['runtime'] = base64_encode($serviceCall->serializeToString());
+        
+        $rdfExporter = new tao_models_classes_export_RdfExporter();
+        $rdfdata = $rdfExporter->getRdfString(array($compiledDelivery));
+        if (!$zipArchive->addFromString('delivery.rdf', $rdfdata)) {
+            throw common_Exception('Unable to add metadata to exported delivery assembly');
+        }
+        $data['meta'] = 'delivery.rdf';
+        
         
         $content = json_encode($data);//'<?php return '.common_Utils::toPHPVariableString($data).";";
         if (!$zipArchive->addFromString(self::MANIFEST_FILE, $content)) {

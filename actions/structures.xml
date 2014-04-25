@@ -23,7 +23,7 @@
 					<action name="new delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" />
 					<action name="delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" />
 					<action name="move" js="moveNode" url="" context="instance" />
-					<action name="export" url="/tao/Export/index"  context="resource" />
+					<action name="export" url="/taoDelivery/DeliveryExport/index"  context="resource" />
 					<action name="import" url="/taoDelivery/DeliveryImport/index"  context="class" />
 					<action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
 				</actions>
