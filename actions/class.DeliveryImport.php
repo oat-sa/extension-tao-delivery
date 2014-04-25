@@ -34,7 +34,9 @@ class taoDelivery_actions_DeliveryImport extends tao_actions_Import {
      */
 	public function getAvailableImportHandlers() {
 		$returnValue = parent::getAvailableImportHandlers();
-        $returnValue[] = new taoDelivery_models_classes_import_AssemblyImportHandler();
+		
+		// disabled due to possible security exploit that allows execution of php data in qti test driver
+		// $returnValue[] = new taoDelivery_models_classes_import_AssemblyImportHandler();
         		
 		return $returnValue;
 	}
