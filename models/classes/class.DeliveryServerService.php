@@ -61,7 +61,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             }
 
             $deliverySettings = $this->getDeliverySettings($candidate);
-            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = $this->getDeliveryUsedTokens($candidate, $userUri);
+            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
             $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
             $assemblyData[] = array(
                 "compiledDelivery"  =>$candidate,
@@ -89,14 +89,15 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         return $settings;
     }
 
+    /**
+     * Moved to taoDelivery_models_classes_execution_ServiceProxy
+     * 
+     * @deprecated
+     * @param core_kernel_classes_Resource $delivery
+     * @param string $userUri
+     */
     public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
-        $returnValue = 0;
-        $compilations = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getAssembliesByTemplate($delivery);
-        foreach ($compilations as $compilation) {
-            $returnValue += taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($compilation, $userUri);
-        };
-
-        return $returnValue;
+        return taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
     }
     
     public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, $userUri){
@@ -121,7 +122,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $settings = $this->getDeliverySettings($delivery);
 
         //check Tokens
-        $usedTokens = $this->getDeliveryUsedTokens($delivery, $userUri);
+        $usedTokens = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
         
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
             common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). "without tokens");
