@@ -51,7 +51,7 @@ msgid "Attempts"
 msgstr ""
 
 msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
-msgstr ""
+msgstr "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test-takers."
 
 msgid "Cancel"
 msgstr ""
@@ -262,7 +262,7 @@ msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "Test Taker"
-msgstr ""
+msgstr "Test-Taker"
 
 msgid "Test-takers"
 msgstr ""
@@ -289,7 +289,7 @@ msgid "Time"
 msgstr ""
 
 msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
-msgstr ""
+msgstr "To be accessible by test-takers on the specified dates, you have to publish your delivery."
 
 msgid "Translate"
 msgstr ""
@@ -306,3 +306,5 @@ msgstr ""
 msgid "View History"
 msgstr ""
 
+msgid "Test takers"
+msgstr "Test-takers"
