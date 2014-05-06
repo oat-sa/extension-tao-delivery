@@ -23,16 +23,16 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
 return array(
-    'id' => 'taoDelivery',
-	'name' => 'TAO delivery extension',
+    'name' => 'taoDelivery',
+	'label' => 'Delivery core extension',
 	'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '2.4',
+    'version' => '2.6',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'taoTests' => '*',
-        'taoGroups' => '*',
-        'taoResultServer' => '*'
+        'taoTests' => '2.6',
+        'taoGroups' => '2.6',
+        'taoResultServer' => '2.6'
     ),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
