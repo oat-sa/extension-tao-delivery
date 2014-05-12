@@ -65,6 +65,11 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
         }
         
         var newHeight = windowHeight - controlHeight;
+        
+        if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false == true) {
+            newHeight -= 20;
+        }
+        
         $frame.css('height', newHeight + 'px');
     }
     
