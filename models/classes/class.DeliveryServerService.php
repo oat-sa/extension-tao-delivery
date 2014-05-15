@@ -39,38 +39,34 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
         $groups = taoGroups_models_classes_GroupsService::singleton()->getGroups($userUri);
 
-        $deliveryCandidates = array();
-        foreach ($groups as $group) {
-            foreach($this->getAssembliesByGroup($group) as $delivery) {
-                $deliveryCandidates[$delivery->getUri()] = $delivery;
-            }
-        }
-
         // check if realy available
         $assemblyData = array();
-        foreach ($deliveryCandidates as $candidate) {
-
-            // status?
-            // period?
-            // excluded
-            // max executions
-            
-            //check exclusion
-            if($this->isUserExcluded($candidate, $userUri)){
-                continue;
+        foreach ($groups as $group) {
+            foreach($this->getAssembliesByGroup($group) as $candidate) {
+    
+                // status?
+                // period?
+                // excluded
+                // max executions
+                
+                //check exclusion
+                if($this->isUserExcluded($candidate, $userUri)){
+                    continue;
+                }
+    
+                $deliverySettings = $this->getDeliverySettings($candidate);
+                $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($candidate, $userUri);
+                $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
+                $assemblyData[] = array(
+                    "compiledDelivery"  =>$candidate,
+                    "settingsDelivery"  =>$deliverySettings
+                );
             }
-
-            $deliverySettings = $this->getDeliverySettings($candidate);
-            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
-            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
-            $assemblyData[] = array(
-                "compiledDelivery"  =>$candidate,
-                "settingsDelivery"  =>$deliverySettings
-            );
         }
        
         return $assemblyData;
     }
+    
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
         $deliveryProps = $delivery->getPropertiesValues(array(
             new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
