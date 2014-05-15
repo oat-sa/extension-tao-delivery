@@ -19,7 +19,7 @@
  */
 @import url(main.css);
 
-html, body { height: 100% }
+html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
 
 #content .contentHeader {
     font-size: 20px;
@@ -84,4 +84,5 @@ html, body { height: 100% }
 #iframeDeliveryExec {
     overflow: hidden;
     width: 100%;
+    display: block;
 }

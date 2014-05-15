@@ -19,32 +19,18 @@ use oat\tao\helpers\Template;
     </head>
     <body class="tao-scope">
         <ul id="control" >
-            
-            <!--<li class="actionControl">
-                <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
-                    <span class="icon-delivery" />
-                    <?php echo __("My Tests"); ?></a>
-            </li>!-->
-            
             <li class="infoControl">
-               
-                <span class="icon-test-taker" />
-                <?php echo get_data('login'); ?>
-            </li>   
-            
-                     
+                <span class="icon-test-taker"></span><?php echo get_data('login'); ?>
+            </li>         
             <li class="actionControl">
-                <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
-                    <span class="icon-logout"/>
-                    <?php echo __("Logout"); ?>
-                </a>
+                <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>"><span class="icon-logout"></span><?php echo __("Logout"); ?></a>
             </li>
         </ul>
 
 
         <div id="content">
             <h1>
-                 <span class="icon-delivery"/>
+                 <span class="icon-delivery"></span>
                 <?=__("My Tests");?>
             </h1>
              <?php if(count(get_data('startedDeliveries')) > 0) : ?>
