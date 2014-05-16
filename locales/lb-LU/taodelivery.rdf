@@ -22,6 +22,24 @@
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[Delivery]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source Delivery
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Delivery]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source Delivery
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[Delivery]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart">
     <!--
     @sourceLanguage EN
@@ -256,6 +274,24 @@
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[Timestamp of the delivery execution start]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source DeliveryExecution end
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="lb-LU"><![CDATA[DeliveryExecution end]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source Timestamp of the delivery finish
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[Timestamp of the delivery finish]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution">
     <!--
     @sourceLanguage EN
@@ -296,11 +332,11 @@
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
-    @source Activ
+    @source Active
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="lb-LU"><![CDATA[Activ]]></rdfs:label>
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Active]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
@@ -328,48 +364,30 @@
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[Finished status of a delivery execution]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery">
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
-    @source Compiled Delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery
+    @source Delivery
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="lb-LU"><![CDATA[Compiled Delivery]]></rdfs:label>
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Delivery]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
-    @source A compiled version of the Delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDelivery
+    @source An assembled Delivery
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="lb-LU"><![CDATA[A compiled version of the Delivery]]></rdfs:comment>
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[An assembled Delivery]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCompiledDelivery">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage lb-LU
-    @source Deliveries compilation
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCompiledDelivery
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="lb-LU"><![CDATA[Deliveries compilation]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage lb-LU
-    @source The compilation associated to this delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCompiledDelivery
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="lb-LU"><![CDATA[The compilation associated to this delivery]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime">
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
     @source Compilation Time
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
     <rdfs:label xml:lang="lb-LU"><![CDATA[Compilation Time]]></rdfs:label>
@@ -377,35 +395,35 @@
     @sourceLanguage EN
     @targetLanguage lb-LU
     @source The time of the compilation of the delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationTime
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[The time of the compilation of the delivery]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationFolder">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory">
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
-    @source Compilation Folder
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationFolder
+    @source Compilation Directory
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="lb-LU"><![CDATA[Compilation Folder]]></rdfs:label>
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Compilation Directory]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
-    @source The folder of the compilation of the delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryCompilationFolder
+    @source The directory of the compilation of the delivery
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="lb-LU"><![CDATA[The folder of the compilation of the delivery]]></rdfs:comment>
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[The directory of the compilation of the delivery]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryRuntime">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime">
     <!--
     @sourceLanguage EN
     @targetLanguage lb-LU
     @source Runtime
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryRuntime
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
     <rdfs:label xml:lang="lb-LU"><![CDATA[Runtime]]></rdfs:label>
@@ -413,10 +431,28 @@
     @sourceLanguage EN
     @targetLanguage lb-LU
     @source Service call to run the compiled delivery
-    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#CompiledDeliveryRuntime
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[Service call to run the compiled delivery]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source Deliveries
+    @subject http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Deliveries]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage lb-LU
+    @source Deliveries of the group
+    @subject http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[Deliveries of the group]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">
     <!--
