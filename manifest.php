@@ -57,9 +57,8 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
     ),
 	'optimizableClasses' => array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
-	    'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery'
+	    'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
+		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution'
 	),
 	'constants' => array(
 		# actions directory
