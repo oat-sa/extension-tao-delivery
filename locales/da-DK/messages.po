@@ -1,57 +1,81 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.5-alpha\n"
-"PO-Revision-Date: 2013-09-02T11:40:21\n"
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-30T15:55:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
-msgstr "En leverance skal sammensættes før den kan udføres. Sammensætningen kan ske her."
+msgid "%1s has been published on the %2s', get_data('label"
+msgstr ""
 
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr "En ny sammensætning kræves efter hver ændring af en test leverance."
-
-msgid "Access denied. Please renew your authentication!"
-msgstr "Adgang nægtet. Forny din adgangskode!"
+msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgstr ""
 
 msgid "Actions"
 msgstr "Handlinger"
 
-msgid "Active Deliveries"
-msgstr "Aktive leverancer"
+msgid "Add the source file."
+msgstr ""
 
 msgid "An error occured during history deletion"
 msgstr "En fejl opstod under sletning af historik"
 
+msgid "An error occured during the import"
+msgstr ""
+
 msgid "An undefined error has occured"
 msgstr ""
 
-msgid "Back"
-msgstr "Tilbage"
-
-msgid "Change..."
+msgid "Assembly"
 msgstr ""
 
-msgid "Compilation"
-msgstr "Sammensætning"
+msgid "Assembly import"
+msgstr ""
 
-msgid "Compilation of the delivery"
-msgstr "Sammensætning af leverancen"
+msgid "Assigned test-takers"
+msgstr ""
 
-msgid "Compile"
-msgstr "Sammensætte"
+msgid "Assigned Tests"
+msgstr ""
 
-msgid "complete!"
-msgstr "færdig!"
+msgid "Assigned to"
+msgstr ""
+
+msgid "Attempt(s)"
+msgstr ""
+
+msgid "Attempts"
+msgstr ""
+
+msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Completed Tests"
+msgstr ""
+
+msgid "Configured LTI Link"
+msgstr ""
+
+msgid "Content driver selected"
+msgstr ""
+
+msgid "Create Delivery"
+msgstr ""
 
 msgid "delete"
 msgstr "slet"
 
 msgid "Delete"
 msgstr "Slet"
+
+msgid "Delete delivery"
+msgstr ""
 
 msgid "Delete History"
 msgstr "Slet historik"
@@ -60,14 +84,26 @@ msgstr "Slet historik"
 msgid "Deliveries"
 msgstr "Leverance"
 
+msgid "Deliveries %s', get_data('class"
+msgstr ""
+
 msgid "Deliveries library"
 msgstr "Leverance arkiv"
 
 msgid "Delivery Class saved"
 msgstr "Leverance klasse gemt"
 
+msgid "Delivery could not be published"
+msgstr ""
+
 msgid "delivery executions"
 msgstr "leverance udførelse"
+
+msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
+msgstr ""
+
+msgid "Delivery is not assigned to any test-taker."
+msgstr ""
 
 msgid "Delivery properties"
 msgstr "Leverance egenskaber"
@@ -75,32 +111,29 @@ msgstr "Leverance egenskaber"
 msgid "Delivery saved"
 msgstr "Leverance gemt"
 
-msgid "Delivery Type"
+msgid "Delivery Templates"
 msgstr ""
 
-msgid "duplicate"
-msgstr "kopier"
+msgid "Download delivery"
+msgstr ""
+
+msgid "Edit delivery"
+msgstr ""
 
 msgid "Edit delivery class"
 msgstr "Redigere leverance klasse"
 
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr "At redigere en leverance involvere en fastsætte test genem at arrangere leverancen og deres indholds rækkefølge: det maksimale antal igangsættelser pr. emne, leverance periode, resultatserver."
+msgid "Enables you to export a published delivery"
+msgstr ""
+
+msgid "Excluded test-takers"
+msgstr ""
 
 msgid "Execution History"
 msgstr "gennemførelses historik"
 
-msgid "export"
-msgstr "eksportere"
-
-msgid "Finished Test"
-msgstr "Afslut test"
-
-msgid "Forward"
-msgstr "Fremad"
-
-msgid "Generating the delivery process, please wait"
-msgstr "Opretter leverance processen, vent"
+msgid "Export Options"
+msgstr ""
 
 msgid "History"
 msgstr "Historik"
@@ -108,33 +141,26 @@ msgstr "Historik"
 msgid "History deleted successfully"
 msgstr "Historik slettet"
 
-msgid "import"
-msgstr "importeret"
+msgid "Import"
+msgstr ""
 
-msgid "Initialize new test"
-msgstr "Initialisere ny test"
-
-msgid "Invalid login or password. Please try again."
-msgstr "Ingen konto matcher den angivne brugernavn / adgangskode"
-
-msgid "Loading next item..."
-msgstr "Henter næste item..."
-
-msgid "Login to the TAO Delivery Server"
+msgid "Items"
 msgstr ""
 
 msgid "Logout"
 msgstr "Log ud"
 
-msgid "LTI export"
+msgid "LTI"
 msgstr ""
 
-#, tao-public
-msgid "Manage deliveries"
-msgstr "Administrere leverancer"
+msgid "Manifest not found in assembly"
+msgstr ""
 
 msgid "move"
 msgstr "flyt"
+
+msgid "My Tests"
+msgstr ""
 
 msgid "new class"
 msgstr "ny klasse"
@@ -142,30 +168,63 @@ msgstr "ny klasse"
 msgid "new delivery"
 msgstr "ny leverance"
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr "OBS: vær sikker på at alle test der skal leveres er defineret og sat til \"aktiv\" i test udvidelsen, før sammensætningen af leverancen."
-
-msgid "Participating groups"
+msgid "new template"
 msgstr ""
 
-msgid "Pause"
-msgstr "Pause"
+msgid "No attempt has been started yet."
+msgstr ""
+
+msgid "No informations available"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "Paused Tests"
+msgstr ""
 
 msgid "Please confirm history deletion"
 msgstr "Bekræft sletning af histiorik"
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
-msgstr "Vælg en gyldig resultatserver i leverance redigeringssektionen, forsøg igen.<br>(Intet gyldigt wsdl-kontrakt findes for den definerede resultat server)"
+msgid "Please upload a published delivery assembly ."
+msgstr ""
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
-msgid "Recompile"
-msgstr "Sammensæt igen"
+msgid "Properties"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish again"
+msgstr ""
+
+msgid "Publish New"
+msgstr ""
+
+msgid "Publishing"
+msgstr ""
+
+msgid "Publishing \"%s\"', get_data('deliveryLabel"
+msgstr ""
+
+msgid "Publishing is in progress, please wait..."
+msgstr ""
+
+msgid "Publishing Report"
+msgstr ""
 
 msgid "Recompile the delivery"
 msgstr "Sammensæt leverancen igen"
+
+msgid "Resume"
+msgstr ""
+
+msgid "Save"
+msgstr ""
 
 msgid "search"
 msgstr "søg"
@@ -173,56 +232,70 @@ msgstr "søg"
 msgid "Select a test"
 msgstr "Vælg en test"
 
-msgid "Select test takers to be <b>excluded</b>"
-msgstr "Vælg test tagere som skal <b>ekskluderes</b>"
+msgid "Select delivery mode"
+msgstr ""
 
-msgid "Start/Resume the test"
-msgstr "Start/genoptag test"
+msgid "Selection saved successfully"
+msgstr ""
 
-msgid "Status"
-msgstr "Status"
+msgid "Start"
+msgstr ""
+
+msgid "Started at "
+msgstr ""
+
+#, tao-public
+msgid "Take or continue a test."
+msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - En åben, smidig og mangesidig testplatformplattform"
 
+#, tao-public
 msgid "TAO Delivery Server"
 msgstr "TAO leverance server"
 
 msgid "Test Taker"
 msgstr "Test Tager"
 
-msgid "Test Takers"
+msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Leverance modulet lader brugere definere testleverance parameter."
 
-msgid "The delivery is not compiled yet"
-msgstr "Leverancen er ikke sammenstat endnu"
-
-msgid "The delivery was last compiled on"
-msgstr "Leverancen sammensættes senest"
-
-msgid "the login must not be empty"
-msgstr "brugernavn må ikke være tomt"
-
-msgid "the password must not be empty"
-msgstr "adgangskode må ikke være tomt"
-
 msgid "There are currently"
 msgstr "Der er i øjeblikket"
+
+msgid "There are currently %s attempts', get_data('exec"
+msgstr ""
+
+msgid "There are no tests associated with the delivery"
+msgstr ""
+
+msgid "There is currently 1 attempt"
+msgstr ""
 
 msgid "There is currently no delivery execution."
 msgstr "Der er i øjeblikket ingen leverings udførelse."
 
-msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
-msgstr "Denne leverance administrationssektion lader dig tillægge og fjerne leverancer samt redigere deres egenskaber."
-
 msgid "Time"
 msgstr "Tid"
 
-msgid "User name:"
-msgstr "Bruger navn:"
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Unkown error during impoort"
+msgstr ""
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "Upload an assembly"
+msgstr ""
 
 msgid "View History"
 msgstr "Vis Historik"

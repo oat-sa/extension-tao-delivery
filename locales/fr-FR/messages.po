@@ -1,57 +1,81 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.5-alpha\n"
-"PO-Revision-Date: 2013-09-02T11:40:21\n"
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-30T15:55:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
-msgstr "Une passation doit être compilée avant d'être exécutée. La compilation peut être faite ici."
+msgid "%1s has been published on the %2s', get_data('label"
+msgstr ""
 
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr "Une recompilation est également nécessaire après modification sur les tests composant une passation."
-
-msgid "Access denied. Please renew your authentication!"
-msgstr "Accès refusé. Veuillez renouveler votre authentification !"
+msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgstr ""
 
 msgid "Actions"
 msgstr "Actions"
 
-msgid "Active Deliveries"
-msgstr "Passations actives"
+msgid "Add the source file."
+msgstr ""
 
 msgid "An error occured during history deletion"
 msgstr "Une erreur s'est produite lors de la suppression de l'historique"
 
+msgid "An error occured during the import"
+msgstr ""
+
 msgid "An undefined error has occured"
 msgstr "Une erreur indéfinie s'est produite."
 
-msgid "Back"
-msgstr "Retour"
+msgid "Assembly"
+msgstr ""
 
-msgid "Change..."
-msgstr "Changer..."
+msgid "Assembly import"
+msgstr ""
 
-msgid "Compilation"
-msgstr "Compilation"
+msgid "Assigned test-takers"
+msgstr ""
 
-msgid "Compilation of the delivery"
-msgstr "Compilation de la passation"
+msgid "Assigned Tests"
+msgstr "Tests assignés"
 
-msgid "Compile"
-msgstr "Compilation"
+msgid "Assigned to"
+msgstr ""
 
-msgid "complete!"
-msgstr "complète !"
+msgid "Attempt(s)"
+msgstr "Tentative(s)"
+
+msgid "Attempts"
+msgstr ""
+
+msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Completed Tests"
+msgstr "Tests complétés"
+
+msgid "Configured LTI Link"
+msgstr ""
+
+msgid "Content driver selected"
+msgstr ""
+
+msgid "Create Delivery"
+msgstr ""
 
 msgid "delete"
 msgstr "Supprimer"
 
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "Delete delivery"
+msgstr ""
 
 msgid "Delete History"
 msgstr "Supprimer l'historique"
@@ -60,14 +84,26 @@ msgstr "Supprimer l'historique"
 msgid "Deliveries"
 msgstr "Passations"
 
+msgid "Deliveries %s', get_data('class"
+msgstr ""
+
 msgid "Deliveries library"
 msgstr "Passations"
 
 msgid "Delivery Class saved"
 msgstr "Classe de passation enregistrée"
 
+msgid "Delivery could not be published"
+msgstr ""
+
 msgid "delivery executions"
 msgstr "exécutions de passations"
+
+msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
+msgstr ""
+
+msgid "Delivery is not assigned to any test-taker."
+msgstr ""
 
 msgid "Delivery properties"
 msgstr "Propriétés de la passation"
@@ -75,32 +111,29 @@ msgstr "Propriétés de la passation"
 msgid "Delivery saved"
 msgstr "Passations enregistrées"
 
-msgid "Delivery Type"
-msgstr "Type de passation"
+msgid "Delivery Templates"
+msgstr ""
 
-msgid "duplicate"
-msgstr "Dupliquer"
+msgid "Download delivery"
+msgstr ""
+
+msgid "Edit delivery"
+msgstr ""
 
 msgid "Edit delivery class"
 msgstr "Édition de la classe de passation"
 
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr "Modifier une passation consiste à séquencer les tests qui le composent ainsi que les paramètres d'exécution : le nombre maximal d'exécutions par participant, la période de passation, le serveur de résultat."
+msgid "Enables you to export a published delivery"
+msgstr ""
+
+msgid "Excluded test-takers"
+msgstr ""
 
 msgid "Execution History"
 msgstr "Historique d'exécution"
 
-msgid "export"
-msgstr "Exporter"
-
-msgid "Finished Test"
-msgstr "Test terminé"
-
-msgid "Forward"
-msgstr "Suivant"
-
-msgid "Generating the delivery process, please wait"
-msgstr "Génération du processus de passation en cours, veuillez patienter..."
+msgid "Export Options"
+msgstr ""
 
 msgid "History"
 msgstr "Historique"
@@ -108,33 +141,26 @@ msgstr "Historique"
 msgid "History deleted successfully"
 msgstr "Historique supprimé avec succès"
 
-msgid "import"
-msgstr "Importer"
+msgid "Import"
+msgstr ""
 
-msgid "Initialize new test"
-msgstr "Initialiser un nouveau test"
-
-msgid "Invalid login or password. Please try again."
-msgstr "Pas de compte correspondant aux identifiants donnés"
-
-msgid "Loading next item..."
-msgstr "Chargement du prochain item..."
-
-msgid "Login to the TAO Delivery Server"
-msgstr "Connexion au serveur de passation de test de TAO"
+msgid "Items"
+msgstr ""
 
 msgid "Logout"
 msgstr "Déconnexion"
 
-msgid "LTI export"
-msgstr "Export LTI"
+msgid "LTI"
+msgstr ""
 
-#, tao-public
-msgid "Manage deliveries"
-msgstr "Gestion des passations"
+msgid "Manifest not found in assembly"
+msgstr ""
 
 msgid "move"
 msgstr "Déplacer"
+
+msgid "My Tests"
+msgstr ""
 
 msgid "new class"
 msgstr "Créer classe"
@@ -142,30 +168,63 @@ msgstr "Créer classe"
 msgid "new delivery"
 msgstr "Créer passation"
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
-msgstr "Note : veuillez vous assurer que tous les tests constituant la passation sont bien définis et configurés en tant que \"actif\" dans l'extension de test avant la compilation."
+msgid "new template"
+msgstr ""
 
-msgid "Participating groups"
-msgstr "Groupes participant"
+msgid "No attempt has been started yet."
+msgstr ""
 
-msgid "Pause"
-msgstr "Pause"
+msgid "No informations available"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "Paused Tests"
+msgstr "Tests mis en pause"
 
 msgid "Please confirm history deletion"
 msgstr "Veuillez confirmer la suppression de l'historique"
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
-msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
+msgid "Please upload a published delivery assembly ."
+msgstr ""
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
 msgstr "Préparer et publier des sessions de passations de test."
 
-msgid "Recompile"
-msgstr "Recompiler"
+msgid "Properties"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish again"
+msgstr ""
+
+msgid "Publish New"
+msgstr ""
+
+msgid "Publishing"
+msgstr ""
+
+msgid "Publishing \"%s\"', get_data('deliveryLabel"
+msgstr ""
+
+msgid "Publishing is in progress, please wait..."
+msgstr ""
+
+msgid "Publishing Report"
+msgstr ""
 
 msgid "Recompile the delivery"
 msgstr "Recompiler la passation"
+
+msgid "Resume"
+msgstr ""
+
+msgid "Save"
+msgstr ""
 
 msgid "search"
 msgstr "Rechercher"
@@ -173,134 +232,71 @@ msgstr "Rechercher"
 msgid "Select a test"
 msgstr "Sélectionnez un test"
 
-msgid "Select test takers to be <b>excluded</b>"
-msgstr "Sélection des participants à <b>exclure</b> du test"
+msgid "Select delivery mode"
+msgstr ""
 
-msgid "Start/Resume the test"
-msgstr "Start / Resume le test"
+msgid "Selection saved successfully"
+msgstr ""
 
-msgid "Status"
-msgstr "Statut"
+msgid "Start"
+msgstr ""
 
-msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
+msgid "Started at "
+msgstr ""
+
+#, tao-public
+msgid "Take or continue a test."
+msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une Plate-Forme d'Évaluation Assistée par Ordinateur Libre et Modulable"
 
+#, tao-public
 msgid "TAO Delivery Server"
 msgstr "Serveur de Passation TAO"
 
 msgid "Test Taker"
 msgstr "Participant"
 
-msgid "Test Takers"
-msgstr "Participants"
+msgid "Test-takers"
+msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Le module <i>Passations</i> permet aux utilisateurs de définir les paramètres de passations de tests."
 
-msgid "The delivery is not compiled yet"
-msgstr "La passation n'est pas encore compilée."
-
-msgid "The delivery was last compiled on"
-msgstr "La passation a été compilée le"
-
-msgid "the login must not be empty"
-msgstr "l'identifiant ne doit pas être vide."
-
-msgid "the password must not be empty"
-msgstr "le mot de passe ne doit pas être vide."
-
 msgid "There are currently"
 msgstr "Il y a en ce moment"
+
+msgid "There are currently %s attempts', get_data('exec"
+msgstr ""
+
+msgid "There are no tests associated with the delivery"
+msgstr ""
+
+msgid "There is currently 1 attempt"
+msgstr ""
 
 msgid "There is currently no delivery execution."
 msgstr "Il n'y aucune passation en cours d'exécution."
 
-msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
-msgstr "Cette section permet d'ajouter et de supprimer des passations et d'éditer les valeurs de leurs propriétés."
-
 msgid "Time"
 msgstr "Temps"
 
-msgid "User name:"
-msgstr "Nom d'utilisateur :"
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
+msgstr ""
 
-msgid "View History"
-msgstr "Voir l'Historique"
+msgid "Translate"
+msgstr ""
 
-msgid "Welcome"
-msgstr "Bienvenue"
-
-msgid "Assigned Tests"
-msgstr "Tests assignés"
-
-msgid "Completed Tests"
-msgstr "Tests complétés"
-
-msgid "Log out"
-msgstr "Se déconnecter"
-
-msgid "Logged in as:"
-msgstr "Connecté en tant que : "
-
-msgid "Delivery"
-msgstr "Passation"
-
-msgid "Attempt(s)"
-msgstr "Tentative(s)"
+msgid "Unkown error during impoort"
+msgstr ""
 
 msgid "Unlimited"
 msgstr "Illimité"
 
-msgid "Take Test"
-msgstr "Passer test"
+msgid "Upload an assembly"
+msgstr ""
 
-msgid "Delivery %"
-msgstr "Passation %s"
+msgid "View History"
+msgstr "Voir l'Historique"
 
-msgid "Paused Tests"
-msgstr "Tests mis en pause"
-
-msgid "Resume Test"
-msgstr "Reprendre test"
-
-msgid "Started at %s"
-msgstr "Démarré le %s"
-
-msgid "Logged in as:"
-msgstr "Connecté en tant que : "
-
-msgid "Manage campaigns"
-msgstr "Gérer les campagnes"
-
-msgid "Campaigns library"
-msgstr "Campagnes"
-
-msgid "Campaign"
-msgstr "Campagne"
-
-msgid "Settings"
-msgstr "Réglages"
-
-msgid "User Management"
-msgstr "Gestion des utilisateurs"
-
-msgid "Settings"
-msgstr "Réglages"
-
-msgid "User Management"
-msgstr "Gestion des utilisateurs"
-
-msgid "Select delivery test"
-msgstr "Choix du test à passer"
-
-msgid "Publishing Status"
-msgstr "État de la publication"
-
-msgid "Result Server"
-msgstr "Serveur de résultats"
-
-msgid "Beta version"
-msgstr "Version bêta"

@@ -1,26 +1,53 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-alpha\n"
-"PO-Revision-Date: 2013-12-12T08:13:59\n"
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-30T15:55:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "%1s has been published on the %2s', get_data('label"
+msgstr ""
+
+msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgstr ""
+
 msgid "Actions"
+msgstr ""
+
+msgid "Add the source file."
 msgstr ""
 
 msgid "An error occured during history deletion"
 msgstr ""
 
+msgid "An error occured during the import"
+msgstr ""
+
 msgid "An undefined error has occured"
+msgstr ""
+
+msgid "Assembly"
+msgstr ""
+
+msgid "Assembly import"
+msgstr ""
+
+msgid "Assigned test-takers"
 msgstr ""
 
 msgid "Assigned Tests"
 msgstr ""
 
+msgid "Assigned to"
+msgstr ""
+
 msgid "Attempt(s)"
+msgstr ""
+
+msgid "Attempts"
 msgstr ""
 
 msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
@@ -29,22 +56,25 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Change..."
-msgstr ""
-
-msgid "complete!"
-msgstr ""
-
 msgid "Completed Tests"
 msgstr ""
 
+msgid "Configured LTI Link"
+msgstr ""
+
 msgid "Content driver selected"
+msgstr ""
+
+msgid "Create Delivery"
 msgstr ""
 
 msgid "delete"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+msgid "Delete delivery"
 msgstr ""
 
 msgid "Delete History"
@@ -54,13 +84,25 @@ msgstr ""
 msgid "Deliveries"
 msgstr ""
 
+msgid "Deliveries %s', get_data('class"
+msgstr ""
+
 msgid "Deliveries library"
 msgstr ""
 
 msgid "Delivery Class saved"
 msgstr ""
 
+msgid "Delivery could not be published"
+msgstr ""
+
 msgid "delivery executions"
+msgstr ""
+
+msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
+msgstr ""
+
+msgid "Delivery is not assigned to any test-taker."
 msgstr ""
 
 msgid "Delivery properties"
@@ -69,19 +111,28 @@ msgstr ""
 msgid "Delivery saved"
 msgstr ""
 
-msgid "duplicate"
+msgid "Delivery Templates"
+msgstr ""
+
+msgid "Download delivery"
+msgstr ""
+
+msgid "Edit delivery"
 msgstr ""
 
 msgid "Edit delivery class"
 msgstr ""
 
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
+msgid "Enables you to export a published delivery"
+msgstr ""
+
+msgid "Excluded test-takers"
 msgstr ""
 
 msgid "Execution History"
 msgstr ""
 
-msgid "export"
+msgid "Export Options"
 msgstr ""
 
 msgid "History"
@@ -90,19 +141,10 @@ msgstr ""
 msgid "History deleted successfully"
 msgstr ""
 
-msgid "import"
+msgid "Import"
 msgstr ""
 
-msgid "Invalid login or password. Please try again."
-msgstr ""
-
-msgid "Log out"
-msgstr ""
-
-msgid "Logged in as:"
-msgstr ""
-
-msgid "Login to the TAO Delivery Server"
+msgid "Items"
 msgstr ""
 
 msgid "Logout"
@@ -111,11 +153,13 @@ msgstr ""
 msgid "LTI"
 msgstr ""
 
-#, tao-public
-msgid "Manage deliveries"
+msgid "Manifest not found in assembly"
 msgstr ""
 
 msgid "move"
+msgstr ""
+
+msgid "My Tests"
 msgstr ""
 
 msgid "new class"
@@ -124,13 +168,16 @@ msgstr ""
 msgid "new delivery"
 msgstr ""
 
-msgid "Not yet published"
+msgid "new template"
+msgstr ""
+
+msgid "No attempt has been started yet."
+msgstr ""
+
+msgid "No informations available"
 msgstr ""
 
 msgid "Ok"
-msgstr ""
-
-msgid "Participating groups"
 msgstr ""
 
 msgid "Paused Tests"
@@ -139,11 +186,14 @@ msgstr ""
 msgid "Please confirm history deletion"
 msgstr ""
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgid "Please upload a published delivery assembly ."
 msgstr ""
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
+msgstr ""
+
+msgid "Properties"
 msgstr ""
 
 msgid "Publish"
@@ -152,7 +202,10 @@ msgstr ""
 msgid "Publish again"
 msgstr ""
 
-msgid "Published on %s', get_data('compiledDate"
+msgid "Publish New"
+msgstr ""
+
+msgid "Publishing"
 msgstr ""
 
 msgid "Publishing \"%s\"', get_data('deliveryLabel"
@@ -161,13 +214,16 @@ msgstr ""
 msgid "Publishing is in progress, please wait..."
 msgstr ""
 
-msgid "Publishing Status"
+msgid "Publishing Report"
 msgstr ""
 
 msgid "Recompile the delivery"
 msgstr ""
 
-msgid "Resume Test"
+msgid "Resume"
+msgstr ""
+
+msgid "Save"
 msgstr ""
 
 msgid "search"
@@ -179,46 +235,48 @@ msgstr ""
 msgid "Select delivery mode"
 msgstr ""
 
-msgid "Select test takers to be <b>excluded</b>"
+msgid "Selection saved successfully"
+msgstr ""
+
+msgid "Start"
 msgstr ""
 
 msgid "Started at "
 msgstr ""
 
-msgid "Take Test"
+#, tao-public
+msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
 
+#, tao-public
 msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "Test Taker"
 msgstr ""
 
-msgid "Test Takers"
+msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr ""
 
-msgid "the login must not be empty"
-msgstr ""
-
-msgid "the password must not be empty"
-msgstr ""
-
 msgid "There are currently"
+msgstr ""
+
+msgid "There are currently %s attempts', get_data('exec"
 msgstr ""
 
 msgid "There are no tests associated with the delivery"
 msgstr ""
 
-msgid "There is currently no delivery execution."
+msgid "There is currently 1 attempt"
 msgstr ""
 
-msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
+msgid "There is currently no delivery execution."
 msgstr ""
 
 msgid "Time"
@@ -227,15 +285,18 @@ msgstr ""
 msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
 msgstr ""
 
+msgid "Translate"
+msgstr ""
+
+msgid "Unkown error during impoort"
+msgstr ""
+
 msgid "Unlimited"
 msgstr ""
 
-msgid "User name:"
+msgid "Upload an assembly"
 msgstr ""
 
 msgid "View History"
-msgstr ""
-
-msgid "Welcome"
 msgstr ""
 

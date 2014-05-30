@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery
@@ -14,7 +14,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Passation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery
@@ -24,7 +24,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate
@@ -32,7 +32,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Delivery]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate
@@ -42,7 +42,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Start Date
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
@@ -50,7 +50,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Date de début]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The start date of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
@@ -60,7 +60,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source End Date
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
@@ -68,7 +68,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Date de fin]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The end date of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
@@ -78,7 +78,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Max. number of executions (default: unlimited)
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
@@ -86,7 +86,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Nombre max. d'exécutions (défaut: illimité)]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Maximum Times of Execution per subject
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
@@ -96,7 +96,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Excluded Subjects
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
@@ -104,7 +104,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Participants exclus]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Excluded Subjects
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
@@ -114,7 +114,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
@@ -122,7 +122,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Result Server]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Result Server
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
@@ -132,7 +132,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentSuperClass">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery Content abstraction
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentSuperClass
@@ -140,7 +140,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Delivery Content abstraction]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source An abstract content class
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentSuperClass
@@ -150,7 +150,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery Content abstraction
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
@@ -158,7 +158,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Delivery Content abstraction]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source An abstract content class
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
@@ -168,7 +168,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryContent implementation
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
@@ -176,7 +176,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryContent implementation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Implementation of the delivery content
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
@@ -186,7 +186,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery Content
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
@@ -194,7 +194,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Contenu de passation]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery Content
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
@@ -204,7 +204,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
@@ -212,7 +212,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Delivery execution]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Execution of a delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
@@ -222,7 +222,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Execution's delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
@@ -230,7 +230,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Execution's delivery]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery of this execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
@@ -240,7 +240,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryExecution Subject
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
@@ -248,7 +248,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryExecution Subject]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source test-taker of the delivery execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
@@ -258,7 +258,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryExecution start
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
@@ -266,7 +266,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryExecution start]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Timestamp of the delivery execution start
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
@@ -276,7 +276,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryExecution end
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
@@ -284,7 +284,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryExecution end]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Timestamp of the delivery finish
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
@@ -294,7 +294,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryExecutions Status
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
@@ -302,7 +302,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryExecutions Status]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The current status of the DeliveryExecution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
@@ -312,7 +312,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source DeliveryExecution status
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
@@ -320,7 +320,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[DeliveryExecution status]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Status of a delivery execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
@@ -330,7 +330,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Active
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
@@ -338,7 +338,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Active]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Activ status of a delivery execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
@@ -348,7 +348,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Finished
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished
@@ -356,7 +356,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Finished]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Finished status of a delivery execution
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished
@@ -366,7 +366,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
@@ -374,7 +374,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Delivery]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source An assembled Delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
@@ -384,7 +384,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Compilation Time
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
@@ -392,7 +392,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Compilation Time]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The time of the compilation of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
@@ -402,7 +402,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Compilation Directory
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
@@ -410,7 +410,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Compilation Directory]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The directory of the compilation of the delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
@@ -420,7 +420,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Runtime
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
@@ -428,7 +428,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Runtime]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Service call to run the compiled delivery
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
@@ -438,7 +438,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Deliveries
     @subject http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
@@ -446,7 +446,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Deliveries]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Deliveries of the group
     @subject http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
@@ -456,7 +456,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole">
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source Delivery Manager
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
@@ -464,7 +464,7 @@
     -->
     <rdfs:label xml:lang="fr-FR"><![CDATA[Gestionnaire Passations]]></rdfs:label>
     <!--
-    @sourceLanguage EN
+    @sourceLanguage en-US
     @targetLanguage fr-FR
     @source The Delivery Manager Role
     @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole

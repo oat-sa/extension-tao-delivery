@@ -1,57 +1,81 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.5-alpha\n"
-"PO-Revision-Date: 2013-09-02T11:40:21\n"
+"Project-Id-Version: TAO v2.6-beta2\n"
+"PO-Revision-Date: 2014-05-30T15:55:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
-msgstr "Un delivery doit être compilé avant d'être exécuté. La compilation peut être fait ici."
+msgid "%1s has been published on the %2s', get_data('label"
+msgstr ""
 
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr "Une recompilation est également nécessaire après modification sur les tests composant un delivery."
-
-msgid "Access denied. Please renew your authentication!"
-msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخاصة بك"
+msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgstr ""
 
 msgid "Actions"
 msgstr "الأعمال"
 
-msgid "Active Deliveries"
-msgstr "Deliveries actifs"
+msgid "Add the source file."
+msgstr ""
 
 msgid "An error occured during history deletion"
 msgstr "حدث خطا اثناء حذف الارشيف"
 
+msgid "An error occured during the import"
+msgstr ""
+
 msgid "An undefined error has occured"
 msgstr ""
 
-msgid "Back"
-msgstr "رجوع"
-
-msgid "Change..."
+msgid "Assembly"
 msgstr ""
 
-msgid "Compilation"
-msgstr "ترجمة"
+msgid "Assembly import"
+msgstr ""
 
-msgid "Compilation of the delivery"
-msgstr "Compilation du delivery"
+msgid "Assigned test-takers"
+msgstr ""
 
-msgid "Compile"
-msgstr "ترجمة"
+msgid "Assigned Tests"
+msgstr ""
 
-msgid "complete!"
-msgstr "!كامل"
+msgid "Assigned to"
+msgstr ""
+
+msgid "Attempt(s)"
+msgstr ""
+
+msgid "Attempts"
+msgstr ""
+
+msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Completed Tests"
+msgstr ""
+
+msgid "Configured LTI Link"
+msgstr ""
+
+msgid "Content driver selected"
+msgstr ""
+
+msgid "Create Delivery"
+msgstr ""
 
 msgid "delete"
 msgstr "حذف"
 
 msgid "Delete"
 msgstr "حذف"
+
+msgid "Delete delivery"
+msgstr ""
 
 msgid "Delete History"
 msgstr "حذف"
@@ -60,13 +84,25 @@ msgstr "حذف"
 msgid "Deliveries"
 msgstr "Deliveries"
 
+msgid "Deliveries %s', get_data('class"
+msgstr ""
+
 msgid "Deliveries library"
 msgstr "Librarie de Deliveries"
 
 msgid "Delivery Class saved"
 msgstr "Classe de Delivery Sauvegardée"
 
+msgid "Delivery could not be published"
+msgstr ""
+
 msgid "delivery executions"
+msgstr ""
+
+msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
+msgstr ""
+
+msgid "Delivery is not assigned to any test-taker."
 msgstr ""
 
 msgid "Delivery properties"
@@ -75,32 +111,29 @@ msgstr "Propriétés du delivery"
 msgid "Delivery saved"
 msgstr "Delivery Sauvegardé"
 
-msgid "Delivery Type"
+msgid "Delivery Templates"
 msgstr ""
 
-msgid "duplicate"
-msgstr "تكرار"
+msgid "Download delivery"
+msgstr ""
+
+msgid "Edit delivery"
+msgstr ""
 
 msgid "Edit delivery class"
 msgstr "Editer une classe de Delivery"
 
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr "Modifier un delivery consiste à mettre les tests qui composent le delivery et leur séquence, ainsi que les paramètres d'exécution: le nombre maximal d'exécution par l'sujet, la période de delivery, le serveur de résultat."
+msgid "Enables you to export a published delivery"
+msgstr ""
+
+msgid "Excluded test-takers"
+msgstr ""
 
 msgid "Execution History"
 msgstr "تاريخ التنفيذ"
 
-msgid "export"
-msgstr "تصدير"
-
-msgid "Finished Test"
-msgstr "الاختبار المنتهي"
-
-msgid "Forward"
-msgstr "تحويل"
-
-msgid "Generating the delivery process, please wait"
-msgstr "Génération du processus de passation en cours, veuillez patienter"
+msgid "Export Options"
+msgstr ""
 
 msgid "History"
 msgstr "التاريخ"
@@ -108,33 +141,26 @@ msgstr "التاريخ"
 msgid "History deleted successfully"
 msgstr "تم حذف الارشيف بنجاح"
 
-msgid "import"
-msgstr "استيراد"
+msgid "Import"
+msgstr ""
 
-msgid "Initialize new test"
-msgstr "ابدا اختبار جديد"
-
-msgid "Invalid login or password. Please try again."
-msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
-
-msgid "Loading next item..."
-msgstr "...تحميل السؤال التالي"
-
-msgid "Login to the TAO Delivery Server"
+msgid "Items"
 msgstr ""
 
 msgid "Logout"
 msgstr "خروج"
 
-msgid "LTI export"
+msgid "LTI"
 msgstr ""
 
-#, tao-public
-msgid "Manage deliveries"
-msgstr "Gérer les deliveries"
+msgid "Manifest not found in assembly"
+msgstr ""
 
 msgid "move"
 msgstr "حرك"
+
+msgid "My Tests"
+msgstr ""
 
 msgid "new class"
 msgstr "صنف جديد"
@@ -142,30 +168,63 @@ msgstr "صنف جديد"
 msgid "new delivery"
 msgstr "Nouveau Delivery"
 
-msgid "Note: please make sure that all tests that make up the delivery are well defined and set to \"active\" in the test extension before compiling the delivery."
+msgid "new template"
 msgstr ""
 
-msgid "Participating groups"
+msgid "No attempt has been started yet."
 msgstr ""
 
-msgid "Pause"
-msgstr "وقف"
+msgid "No informations available"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
+
+msgid "Paused Tests"
+msgstr ""
 
 msgid "Please confirm history deletion"
 msgstr "الرجاء تاكيد حذف الارشيف"
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
-msgstr "Veuillez sélectionner un serveur de résultat valide dans le module d'édition des deliveries puis essayez à nouveau. <br/> (Pas de contrat WSDL valide trouvée pour le serveur résultat défini)"
+msgid "Please upload a published delivery assembly ."
+msgstr ""
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
 msgstr ""
 
-msgid "Recompile"
-msgstr "اعادة ترجمة"
+msgid "Properties"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+msgid "Publish again"
+msgstr ""
+
+msgid "Publish New"
+msgstr ""
+
+msgid "Publishing"
+msgstr ""
+
+msgid "Publishing \"%s\"', get_data('deliveryLabel"
+msgstr ""
+
+msgid "Publishing is in progress, please wait..."
+msgstr ""
+
+msgid "Publishing Report"
+msgstr ""
 
 msgid "Recompile the delivery"
 msgstr "Recompiler le delivery"
+
+msgid "Resume"
+msgstr ""
+
+msgid "Save"
+msgstr ""
 
 msgid "search"
 msgstr "بحث"
@@ -173,56 +232,70 @@ msgstr "بحث"
 msgid "Select a test"
 msgstr "تحديد اختبار"
 
-msgid "Select test takers to be <b>excluded</b>"
-msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
+msgid "Select delivery mode"
+msgstr ""
 
-msgid "Start/Resume the test"
-msgstr "Start / Resume le test"
+msgid "Selection saved successfully"
+msgstr ""
 
-msgid "Status"
-msgstr "الحالة"
+msgid "Start"
+msgstr ""
+
+msgid "Started at "
+msgstr ""
+
+#, tao-public
+msgid "Take or continue a test."
+msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - Une plate-forme d'évaluation informatique ouverte et polyvalente"
 
+#, tao-public
 msgid "TAO Delivery Server"
 msgstr "Serveur de delivery TAO"
 
 msgid "Test Taker"
 msgstr ""
 
-msgid "Test Takers"
+msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
 msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
 
-msgid "The delivery is not compiled yet"
-msgstr "Le delivery n'est pas encore compilé"
-
-msgid "The delivery was last compiled on"
-msgstr "Le delivery a été compilé le"
-
-msgid "the login must not be empty"
-msgstr "المعرف لا يجب ان يكون فارغ"
-
-msgid "the password must not be empty"
-msgstr "لا يجب ان تكون كلمة السر خالية"
-
 msgid "There are currently"
+msgstr ""
+
+msgid "There are currently %s attempts', get_data('exec"
+msgstr ""
+
+msgid "There are no tests associated with the delivery"
+msgstr ""
+
+msgid "There is currently 1 attempt"
 msgstr ""
 
 msgid "There is currently no delivery execution."
 msgstr ""
 
-msgid "This Deliveries Management Section allows to add and delete deliveries and to edit their properties values."
-msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
-
 msgid "Time"
 msgstr "الوقت"
 
-msgid "User name:"
-msgstr ":اسم المستخدم"
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Unkown error during impoort"
+msgstr ""
+
+msgid "Unlimited"
+msgstr ""
+
+msgid "Upload an assembly"
+msgstr ""
 
 msgid "View History"
 msgstr ""
