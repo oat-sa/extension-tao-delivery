@@ -65,7 +65,9 @@ class taoDelivery_models_classes_import_Assembler
             ));
             $report = common_report_Report::createSuccess(__('Delivery "%s" successfully imported',$label), $delivery);
         } catch (Exception $e) {
-            $delivery->delete();
+            if (isset($delivery) && $delivery instanceof core_kernel_classes_Resource) {
+                $delivery->delete();
+            }
             $report = common_report_Report::createFailure(__('Unkown error during impoort'));
         }
         return $report;
