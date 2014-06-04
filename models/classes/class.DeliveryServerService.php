@@ -126,8 +126,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         }
 
         //check time
-        $startDate  =    date_create($settings[TAO_DELIVERY_START_PROP]);
-        $endDate    =    date_create($settings[TAO_DELIVERY_END_PROP]);
+        $startDate  =    date_create('@'.$settings[TAO_DELIVERY_START_PROP]);
+        $endDate    =    date_create('@'.$settings[TAO_DELIVERY_END_PROP]);
         if (!$this->areWeInRange($startDate, $endDate)) {
             common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). " at the wrong date");
             return false;
@@ -182,14 +182,12 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $dateCheck = true;
         if (!empty($startDate)) {
             if (!empty($endDate)) {
-                $endDate->add(new DateInterval("P1D"));
                 $dateCheck = (date_create() >= $startDate and date_create() <= $endDate);
             } else {
                 $dateCheck = (date_create() >= $startDate);
             }
         } else {
             if (!empty($endDate)) {
-                $endDate->add(new DateInterval("P1D"));
                 $dateCheck = (date_create() <= $endDate);
             }
         }
