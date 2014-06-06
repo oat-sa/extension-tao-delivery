@@ -115,6 +115,21 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
         $this->setData(PROPERTY_DELVIERYEXECUTION_END, time());
         $this->save();
     }
+    
+    public function setState($state) {
+        $oldState = $this->getStatus()->getUri();
+        if ($oldState == $state) {
+            common_Logger::w('Delivery execution '.$this->getUri().' already in state '.$state);
+            return false;
+        }
+        $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
+        if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
+            $this->setData(PROPERTY_DELVIERYEXECUTION_END, time());
+        }
+        $this->save();
+        taoDelivery_models_classes_execution_KeyValueService::singleton()->updateDeliveryExecutionStatus($this, $oldState, $state);
+        return true;
+    }
 
     private function getPersistence() {
         return common_persistence_KeyValuePersistence::getPersistence('deliveryExecution');

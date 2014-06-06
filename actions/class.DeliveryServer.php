@@ -119,9 +119,9 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-	    $succcess = $this->executionService->finishDeliveryExecution($deliveryExecution);
+	    $success = $deliveryExecution->setState(INSTANCE_DELIVERYEXEC_FINISHED);
 	    echo json_encode(array(
-	        'success'      => $succcess,
+	        'success'      => $success,
 	    	'destination'  => $this->getReturnUrl()
 	    ));
 	}

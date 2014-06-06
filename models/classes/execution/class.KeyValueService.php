@@ -31,10 +31,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
 {
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
     
-    const USER_ACTIVES_EXECUTIONS_PREFIX = 'kve_ae_';
-    
-    const USER_FINISHED_EXECUTIONS_PREFIX = 'kve_fe_';
-    
+    const USER_EXECUTIONS_PREFIX = 'kve_ue_';
+
     /**
      * @var common_persistence_KeyValuePersistence
      */
@@ -45,30 +43,23 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
         $this->persistance = common_persistence_KeyValuePersistence::getPersistence('deliveryExecution');
     }
     
-    public function getUserExecutionCount(core_kernel_classes_Resource $compiled, $userUri)
+    public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $activ = $this->getActiveDeliveryExecutions($userUri);
-        $finished = $this->getFinishedDeliveryExecutions($userUri);
+        $activ = $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
+        $finished = $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_FINISHED);
         
-        $returnValue = 0;
+        $returnValue = array();
         foreach (array_merge($activ, $finished) as $de) {
             if ($compiled->equals($de->getDelivery())) {
-                $returnValue++;
+                $returnValue[] = $de;
             }
         }
         return $returnValue;
     }
-
-    /**
-     * Returns all activ Delivery Executions of a User
-     *
-     * @param unknown $userUri            
-     * @return Ambigous <multitype:, array>
-     */
-    public function getActiveDeliveryExecutions($userUri)
-    {
+    
+    public function getDeliveryExecutionsByStatus($userUri, $status) {
         $returnValue = array();
-        $data = $this->persistance->get(self::USER_ACTIVES_EXECUTIONS_PREFIX.$userUri);
+        $data = $this->persistance->get(self::USER_EXECUTIONS_PREFIX.$userUri.$status);
         $keys = $data !== false ? json_decode($data) : array();
         if (is_array($keys)) {
             foreach ($keys as $key) {
@@ -76,28 +67,6 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
             }
         } else {
             common_Logger::w('Non array "'.gettype($keys).'" received as active Delivery Keys for user '.$userUri);
-        }
-        
-        return $returnValue;
-    }
-        
-    /**
-     * Returns all finished Delivery Executions of a User
-     *
-     * @param unknown $userUri            
-     * @return Ambigous <multitype:, array>
-     */
-    public function getFinishedDeliveryExecutions($userUri)
-    {
-        $returnValue = array();
-        $data = $this->persistance->get(self::USER_FINISHED_EXECUTIONS_PREFIX.$userUri);
-        $keys = $data !== false ? json_decode($data) : array();
-        if (is_array($keys)) {
-            foreach ($keys as $key) {
-                $returnValue[$key] = $this->getDeliveryExecution($key);
-            }
-        } else {
-            common_Logger::w('Non array "'.gettype($keys).'" received as finished Delivery Keys for user '.$userUri);
         }
         
         return $returnValue;
@@ -114,11 +83,39 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     {
         $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($userUri, $assembly);
         
-        $activeExecutions = $this->getActiveDeliveryExecutions($userUri);
-        $activeExecutions[$deliveryExecution->getIdentifier()] = $deliveryExecution;
-        $this->setActiveDeliveryExecutions($userUri, $activeExecutions);
+        $this->updateDeliveryExecutionStatus($deliveryExecution, null, INSTANCE_DELIVERYEXEC_ACTIVE);
         
         return $deliveryExecution;
+    }
+    
+    public function getDeliveryExecution($identifier) {
+        return new taoDelivery_models_classes_execution_KVDeliveryExecution($identifier);
+    }
+    
+    /**
+     * Update the collection of deliveries
+     * 
+     * @param taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution
+     * @param string $old
+     * @param string $new
+     */
+    public function updateDeliveryExecutionStatus(taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution, $old, $new) {
+
+        $userId = $deliveryExecution->getUserIdentifier();
+        if ($old != null) {
+            $oldReferences = $this->getDeliveryExecutionsByStatus($userId, $old);
+            foreach (array_keys($oldReferences) as $key) {
+                if ($oldReferences[$key]->getIdentifier() == $deliveryExecution->getIdentifier()) {
+                    unset($oldReferences[$key]);
+                }
+            }
+            $this->setDeliveryExecutions($userId, $old, $oldReferences);
+        }
+        
+        $newReferences = $this->getDeliveryExecutionsByStatus($userId, $new);
+        $newReferences[] = $deliveryExecution;
+        $this->setDeliveryExecutions($userId, $new, $newReferences);
+        
     }
     
     public function getData($deliveryExecutionId) {
@@ -126,55 +123,13 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
         $data = json_decode($dataString, true);
         return $data;
     }
-    
-   /**
-    * Finishes a delivery execution
-    *
-    * @param core_kernel_classes_Resource $deliveryExecution
-    * @return boolean success
-    */
-    public function finishDeliveryExecution(taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
-    {
-        if (!$deliveryExecution instanceof taoDelivery_models_classes_execution_KVDeliveryExecution) {
-            throw new common_exception_Error('Delviery Execution Implementation mismatch, got '.get_class($deliveryExecution).' in '.__CLASS__);
-        }
-        $currentStatus = $deliveryExecution->getStatus();
-        if ($currentStatus->getUri() == INSTANCE_DELIVERYEXEC_FINISHED) {
-            throw new common_Exception('Delivery execution '.$deliveryExecution->getUri().' has laready been finished');
-        }
-        $userId = $deliveryExecution->getUserIdentifier();
-         
-        $activeExecutions = $this->getActiveDeliveryExecutions($userId);
-        unset($activeExecutions[$deliveryExecution->getIdentifier()]);
-        $this->setActiveDeliveryExecutions($userId, $activeExecutions);
         
-        $finishedExecutions = $this->getFinishedDeliveryExecutions($userId);
-        $finishedExecutions[] = $deliveryExecution;
-        $this->setFinishedDeliveryExecutions($userId, $finishedExecutions);
-        
-        $deliveryExecution->setFinished();
-        return true;
-    }
-        
-    public function getDeliveryExecution($identifier) {
-        return new taoDelivery_models_classes_execution_KVDeliveryExecution($identifier);
-    }
-    
-    private function setActiveDeliveryExecutions($userUri, $executions)
+    private function setDeliveryExecutions($userUri, $status, $executions)
     {
         $keys = array();
         foreach ($executions as $execution) {
             $keys[] = $execution->getIdentifier();
         }
-        return $this->persistance->set(self::USER_ACTIVES_EXECUTIONS_PREFIX.$userUri, json_encode($keys));
-    }
-    
-    private function setFinishedDeliveryExecutions($userUri, $executions)
-    {
-        $keys = array();
-        foreach ($executions as $execution) {
-            $keys[] = $execution->getIdentifier();
-        }
-        return $this->persistance->set(self::USER_FINISHED_EXECUTIONS_PREFIX.$userUri, json_encode($keys));
+        return $this->persistance->set(self::USER_EXECUTIONS_PREFIX.$userUri.$status, json_encode($keys));
     }    
 }

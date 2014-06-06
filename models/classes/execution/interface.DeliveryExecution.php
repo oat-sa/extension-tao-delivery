@@ -71,4 +71,11 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
      */
     public function getUserIdentifier();
     
+    /**
+     * 
+     * @param string $state
+     * @return boolean success
+     */
+    public function setState($state);
+    
 }

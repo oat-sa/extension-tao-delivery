@@ -69,7 +69,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
                 }
     
                 $deliverySettings = $this->getDeliverySettings($candidate);
-                $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($candidate, $userUri);
+                $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($candidate, $userUri));
                 $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
                 $assemblyData[] = array(
                     "compiledDelivery"  =>$candidate,
@@ -107,7 +107,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
      * @param string $userUri
      */
     public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
-        return taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
+        return count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
     }
     
     public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, $userUri){
@@ -132,7 +132,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $settings = $this->getDeliverySettings($delivery);
 
         //check Tokens
-        $usedTokens = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutionCount($delivery, $userUri);
+        $usedTokens = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
         
         if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
             common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). "without tokens");

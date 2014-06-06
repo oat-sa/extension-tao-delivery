@@ -38,24 +38,18 @@ interface taoDelivery_models_classes_execution_Service
      * 
      * @param core_kernel_classes_Resource $compiled
      * @param string $userUri
+     * @return array
      */
-    public function getUserExecutionCount(core_kernel_classes_Resource $assembly, $userUri);
+    public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri);
     
     /**
-     * Returns all activ Delivery Executions of a User
+     * Returns all Delivery Executions of a User with a specific status
      *
-     * @param unknown $userUri
-     * @return Ambigous <multitype:, array>
+     * @param string $userUri
+     * @param string $status
+     * @return array
      */
-    public function getActiveDeliveryExecutions($userUri);
-    
-    /**
-     * Returns all finished Delivery Executions of a User
-     *
-     * @param unknown $userUri
-     * @return Ambigous <multitype:, array>
-     */
-    public function getFinishedDeliveryExecutions($userUri);
+    public function getDeliveryExecutionsByStatus($userUri, $status);
     
     /**
      * Generate a new delivery execution
@@ -65,14 +59,6 @@ interface taoDelivery_models_classes_execution_Service
      * @return core_kernel_classes_Resource the delivery execution
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri);
-    
-    /**
-     * Finishes a delivery execution
-     *
-     * @param core_kernel_classes_Resource $deliveryExecution
-     * @return boolean success
-     */
-    public function finishDeliveryExecution(taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution);
     
     /**
      * Returns the delviery execution instance associated to the implementation 

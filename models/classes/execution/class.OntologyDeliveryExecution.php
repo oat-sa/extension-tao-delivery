@@ -69,4 +69,22 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     public function getUserIdentifier() {
         return $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT))->getUri();
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::setState()
+     */
+    public function setState($state) {
+        $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
+        $currentStatus = $this->getStatus();
+        if ($currentStatus->getUri() == $state) {
+            common_Logger::w('Delivery execution '.$deliveryExecution->getUri().' already in state '.$state);
+            return false;
+        }
+        $this->editPropertyValues($statusProp, $state);
+        if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
+            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), time());
+        }
+        return true;
+    }
 }

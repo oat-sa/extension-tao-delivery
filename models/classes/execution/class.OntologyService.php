@@ -45,32 +45,11 @@ class taoDelivery_models_classes_execution_OntologyService extends tao_models_cl
         return $count;
     }
     
-    /**
-     * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getUserExecutionCount()
-     */
-    public function getUserExecutionCount(core_kernel_classes_Resource $compiled, $userUri)
-    {
-        $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $count = $executionClass->countInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
-            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
-        ), array(
-            'like' => false
-        ));
-        return $count;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getActiveDeliveryExecutions()
-     */
-    public function getActiveDeliveryExecutions($userUri)
-    {
+    public function getDeliveryExecutionsByStatus($userUri, $status) {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
         $started = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
-            PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
+            PROPERTY_DELVIERYEXECUTION_STATUS => $status
         ), array(
             'like' => false
         ));
@@ -80,27 +59,27 @@ class taoDelivery_models_classes_execution_OntologyService extends tao_models_cl
         }
         return $returnValue;
     }
-        
+    
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getFinishedDeliveryExecutions()
+     * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
      */
-    public function getFinishedDeliveryExecutions($userUri)
+    public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $finished = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
-            PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_FINISHED
+        $instances = $executionClass->searchInstances(array(
+            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
+            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
         ), array(
             'like' => false
         ));
-         $returnValue = array();
-        foreach ($finished as $resource) {
-            $returnValue[] = $this->getDeliveryExecution($resource);
+        $deliveryExecutions = array();
+        foreach ($instances as $resource) {
+            $deliveryExecutions[] = new taoDelivery_models_classes_execution_OntologyDeliveryExecution($resource->getUri());
         }
-        return $returnValue;
+        return $deliveryExecutions;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
@@ -118,25 +97,6 @@ class taoDelivery_models_classes_execution_OntologyService extends tao_models_cl
         return $this->getDeliveryExecution($execution);
     }
     
-   /**
-    * (non-PHPdoc)
-    * @see taoDelivery_models_classes_execution_Service::finishDeliveryExecution()
-    */
-    public function finishDeliveryExecution(taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
-    {
-        if (!$deliveryExecution instanceof taoDelivery_models_classes_execution_OntologyDeliveryExecution) {
-            throw new common_exception_Error('Delviery Execution Implementation mismatch, got '.get_class($deliveryExecution).' in '.__CLASS__);
-        }
-        $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
-        $currentStatus = $deliveryExecution->getUniquePropertyValue($statusProp);
-        if ($currentStatus->getUri() == INSTANCE_DELIVERYEXEC_FINISHED) {
-            throw new common_Exception('Delivery execution '.$deliveryExecution->getUri().' has laready been finished');
-        }
-        $deliveryExecution->editPropertyValues($statusProp, INSTANCE_DELIVERYEXEC_FINISHED);
-        $deliveryExecution->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), time());
-        return true;
-    }
-        
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()

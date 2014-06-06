@@ -75,10 +75,18 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getUserExecutionCount()
+     * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
      */
-    public function getUserExecutionCount(core_kernel_classes_Resource $assembly, $userUri) {
-        return $this->implementation->getUserExecutionCount($assembly, $userUri);
+    public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri) {
+        return $this->implementation->getUserExecutions($assembly, $userUri);
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_Service::getDeliveryExecutionsByStatus()
+     */
+    public function getDeliveryExecutionsByStatus($userUri, $status) {
+        return $this->implementation->getDeliveryExecutionsByStatus($userUri, $status);
     }
 
     /**
@@ -87,7 +95,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getActiveDeliveryExecutions($userUri)
     {
-        return $this->implementation->getActiveDeliveryExecutions($userUri);
+        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
     }
         
     /**
@@ -96,7 +104,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getFinishedDeliveryExecutions($userUri)
     {
-        return $this->implementation->getFinishedDeliveryExecutions($userUri);
+        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_FINISHED);
     }
     
     /**
