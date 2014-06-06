@@ -68,8 +68,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		//get deliveries for the current user (set in groups extension)
 		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
 		
-		$started = is_null($userUri) ? array() : $this->executionService->getActiveDeliveryExecutions($userUri);
-        $this->setData('startedDeliveries', $started);
+        $this->setData('startedDeliveries', $this->service->getResumableDeliveries($userUri));
 		
 		$finishedDeliveries = is_null($userUri) ? array() : $this->executionService->getFinishedDeliveryExecutions($userUri);
 		$this->setData('finishedDeliveries', $finishedDeliveries);

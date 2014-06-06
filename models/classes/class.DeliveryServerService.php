@@ -28,7 +28,21 @@
  */
 class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
 {
-
+    public function getResumableDeliveries($userUri)
+    {
+        $started = is_null($userUri)
+            ? array()
+            : taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($userUri);
+        $resumable = array();
+        foreach ($started as $deliveryExecution) {
+            $delivery = $deliveryExecution->getDelivery();
+            if ($delivery->exists()) {
+                $resumable[] = $deliveryExecution;
+            }
+        }
+        return $resumable;
+    }
+    
     /**
      * Return all available (assigned and compiled) deliveries for the userUri.
      * Delivery settings are returned to identify when and how many tokens are left

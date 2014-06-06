@@ -146,7 +146,9 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         ), array('like' => false, 'recursive' => true));
         foreach ($assigned as $groupInstance) {
             $groupInstance->removePropertyValue($assignationProperty, $assembly);
-        } 
+        }
+        $runtimeResource = $assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
+        $runtimeResource->delete();
         // cleanup data
         return $assembly->delete();
     }
