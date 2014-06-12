@@ -141,7 +141,7 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     {
         // stop all executions
         
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($userUri);
+        taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($assembly);
         $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
         $assignationProperty = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
         $assigned = $groupClass->searchInstances(array(
