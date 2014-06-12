@@ -91,7 +91,7 @@ use oat\tao\helpers\Template;
                           
                           <a accesskey="" class="btn-info small rgt <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>"
                                    href="<?=($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url('initDeliveryExecution', 'DeliveryServer', null, array('uri' => $delivery["compiledDelivery"]->getUri())) : '#'?>" >
-                                   <?php echo __("Start"); ?><span class="icon-play r" />                          
+                                   <?php echo __("Start"); ?><span class="icon-play r" ></span> 
                           </a>
                      </div>
                  
