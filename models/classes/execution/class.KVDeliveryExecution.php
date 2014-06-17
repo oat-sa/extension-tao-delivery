@@ -85,9 +85,9 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getStatus()
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
      */
-    public function getStatus() {
+    public function getState() {
         return new core_kernel_classes_Resource($this->getData(PROPERTY_DELVIERYEXECUTION_STATUS));
     }
     
@@ -117,7 +117,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
     }
     
     public function setState($state) {
-        $oldState = $this->getStatus()->getUri();
+        $oldState = $this->getState()->getUri();
         if ($oldState == $state) {
             common_Logger::w('Delivery execution '.$this->getUri().' already in state '.$state);
             return false;

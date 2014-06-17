@@ -95,7 +95,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-	    if ($deliveryExecution->getStatus()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE) {
+	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE) {
 	        $this->redirect($this->getReturnUrl());
 	    }
 	    

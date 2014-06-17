@@ -48,9 +48,9 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getStatus()
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
      */
-    public function getStatus() {
+    public function getState() {
         return $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
     }
     
@@ -76,7 +76,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function setState($state) {
         $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
-        $currentStatus = $this->getStatus();
+        $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state) {
             common_Logger::w('Delivery execution '.$deliveryExecution->getUri().' already in state '.$state);
             return false;

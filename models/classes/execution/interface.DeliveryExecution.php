@@ -51,25 +51,11 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
     public function getStartTime();
 
     /**
-     * Returns the delivery execution status as resource
+     * Returns the delivery execution state as resource
      * 
      * @return core_kernel_classes_Resource 
      */
-    public function getStatus();
-    
-    /**
-     * Returns the delivery execution delivery as resource
-     * 
-     * @return core_kernel_classes_Resource
-     */
-    public function getDelivery();
-    
-    /**
-     * Returns the delivery executions user identifier
-     * 
-     * @return string
-     */
-    public function getUserIdentifier();
+    public function getState();
     
     /**
      * 
@@ -78,4 +64,17 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
      */
     public function setState($state);
     
+    /**
+     * Returns the delivery execution delivery as resource
+     *
+     * @return core_kernel_classes_Resource
+     */
+    public function getDelivery();
+    
+    /**
+     * Returns the delivery executions user identifier
+     *
+     * @return string
+    */
+    public function getUserIdentifier();
 }
