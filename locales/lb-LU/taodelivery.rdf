@@ -364,6 +364,24 @@
     -->
     <rdfs:comment xml:lang="lb-LU"><![CDATA[Finished status of a delivery execution]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned">
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage lb-LU
+    @source Finished
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="lb-LU"><![CDATA[Finished]]></rdfs:label>
+    <!--
+    @sourceLanguage en-US
+    @targetLanguage lb-LU
+    @source Abandoned status of a delivery execution
+    @subject http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="lb-LU"><![CDATA[Abandoned status of a delivery execution]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery">
     <!--
     @sourceLanguage en-US
