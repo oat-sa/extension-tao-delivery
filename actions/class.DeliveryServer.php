@@ -119,7 +119,12 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-	    $success = $deliveryExecution->setState(INSTANCE_DELIVERYEXEC_FINISHED);
+	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
+	        $success = $deliveryExecution->setState(INSTANCE_DELIVERYEXEC_FINISHED);
+	    } else {
+	        common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
+	        $success = false;
+	    }
 	    echo json_encode(array(
 	        'success'      => $success,
 	    	'destination'  => $this->getReturnUrl()
