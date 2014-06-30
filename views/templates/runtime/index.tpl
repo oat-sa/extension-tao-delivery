@@ -18,6 +18,8 @@ use oat\tao\helpers\Template;
 
     </head>
     <body class="tao-scope">
+
+  <div class="content-wrap">
         <ul id="control" >
             <li class="infoControl">
                 <span class="icon-test-taker"></span><?php echo get_data('login'); ?>
@@ -125,6 +127,8 @@ use oat\tao\helpers\Template;
                            <div id="footer" style="clear: both; height: 30px;">
     </div>
     <!-- End of content -->
+    </div>
+<!-- /content-wrap -->
 <?php
 Template::inc('layout_footer.tpl', 'tao')
 ?>
