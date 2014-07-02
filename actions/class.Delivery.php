@@ -125,7 +125,8 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         // history
         $this->setData('date', taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getCompilationDate($delivery));
         if (taoDelivery_models_classes_execution_ServiceProxy::implementsMonitoring()) {
-            $this->setData('exec', taoDelivery_models_classes_execution_ServiceProxy::singleton()->getTotalExecutionCount($delivery));
+            $execs = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getExecutionsByDelivery($delivery);
+            $this->setData('exec', count($execs));
         }
         
         // define the groups related to the current delivery

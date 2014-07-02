@@ -32,17 +32,17 @@ class taoDelivery_models_classes_execution_OntologyService extends tao_models_cl
 {
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getTotalExecutionCount()
+     * @see taoDelivery_models_classes_execution_Service::getExecutionsByDelivery()
      */
-    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
+    public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $count = $executionClass->countInstances(array(
+        $executions = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
         ), array(
             'like' => false
         ));
-        return $count;
+        return $executions;
     }
     
     public function getDeliveryExecutionsByStatus($userUri, $status) {

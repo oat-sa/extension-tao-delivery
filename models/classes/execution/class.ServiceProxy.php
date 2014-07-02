@@ -149,11 +149,11 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * @param core_kernel_classes_Resource $compiled
      * @return int the ammount of executions for a single compilation
      */
-    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled)
+    public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!self::implementsMonitoring()) {
             throw new common_exception_NoImplementation();
         }
-        return $this->implementation->getTotalExecutionCount($compiled);
+        return $this->implementation->getExecutionsByDelivery($compiled);
     }
 }

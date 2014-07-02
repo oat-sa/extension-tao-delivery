@@ -28,10 +28,10 @@
 interface taoDelivery_models_classes_execution_Monitoring extends taoDelivery_models_classes_execution_Service
 {
     /**
-     * Returns the number of delivery executions for a compiled directory
+     * Returns the delivery executions for a compiled directory
      *
      * @param core_kernel_classes_Resource $compiled
      * @return number
      */
-    public function getTotalExecutionCount(core_kernel_classes_Resource $compiled);
+    public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled);
 }
