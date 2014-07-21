@@ -4,10 +4,10 @@
             "type": "composer",
             "url": "http://packages.taocloud.org/"	
       }
-     ],
+      ],
 
-    "name": "oat-sa/extension-tao-delivery",
-        "authors" : [
+     "name": "oat-sa/extension-tao-delivery",
+     "authors" : [
           {
           "name" : "Open Assessment Technologies S.A.",
           "homepage" : "http://www.taotesting.com"
