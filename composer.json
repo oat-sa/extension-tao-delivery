@@ -60,7 +60,7 @@
     	"tao-extension-name" : "taoDelivery"
     },
     "require": {
-        "oat-sa/oatbox/extension-installer": "dev-master"
+        "oat-sa-oatbox/extension-installer": "dev-master"
 
     }
 }
