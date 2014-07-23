@@ -87,7 +87,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $userUri)) {
 	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $userUri);
 	    } else {
-	        common_Logger::i('Testtaker '.$userUri.' not authorised to initialise delivery '.$compiledDelivery->getIdentifier());
+	        common_Logger::i('Testtaker '.$userUri.' not authorised to initialise delivery '.$compiledDelivery->getUri());
 	        return $this->returnError(__('You are no longer allowed to take the test %s', $compiledDelivery->getLabel()), true);
 	    }
 	    $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
