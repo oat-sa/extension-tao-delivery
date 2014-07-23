@@ -29,7 +29,7 @@
 class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_GenerisService
     implements taoDelivery_models_classes_execution_Service
 {
-    const CONFIG_KEY = 'delivery_execution_id'; 
+    const CONFIG_KEY = 'execution_service'; 
     
     /**
      * @var taoDelivery_models_classes_execution_Service
