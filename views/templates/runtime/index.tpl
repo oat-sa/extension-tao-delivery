@@ -47,9 +47,7 @@ use oat\tao\helpers\Template;
                 <div class="tile clearfix">
                     
                     <div class="tileLabel">
-                        <?php 
-                        echo wfEngine_helpers_GUIHelper::sanitizeGenerisString($deliveryExecution->getLabel());
-                        ?>
+                        <?php echo $deliveryExecution->getLabel(); ?>
                     </div>
                     <div class="tileDetail">
                         <?php echo __("Started at "); ?><?php echo tao_helpers_Date::displayeDate($deliveryExecution->getStartTime()); ?>
