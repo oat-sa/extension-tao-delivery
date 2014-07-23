@@ -232,7 +232,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
          common_Logger::i("Spawning/resuming result identifier related to process execution ".$executionIdentifier);
         //set up the related test taker
         //a unique identifier for the test taker
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(wfEngine_models_classes_UserService::singleton()->getCurrentUser()->getUri());
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(common_session_SessionManager::getSession()->getUserUri());
 
          //a unique identifier for the delivery
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
