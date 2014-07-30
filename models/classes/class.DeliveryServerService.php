@@ -54,28 +54,30 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $groups = taoGroups_models_classes_GroupsService::singleton()->getGroups($userUri);
 
         // check if realy available
-        $assemblyData = array();
+        $deliveryUris = array();
         foreach ($groups as $group) {
             foreach($this->getAssembliesByGroup($group) as $candidate) {
-    
-                // status?
-                // period?
-                // excluded
-                // max executions
-                
+
                 //check exclusion
-                if($this->isUserExcluded($candidate, $userUri)){
-                    continue;
+                if(!$this->isUserExcluded($candidate, $userUri)){
+                    $deliveryUris[] = $candidate->getUri(); 
                 }
-    
-                $deliverySettings = $this->getDeliverySettings($candidate);
-                $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($candidate, $userUri));
-                $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($candidate, $userUri);
-                $assemblyData[] = array(
-                    "compiledDelivery"  =>$candidate,
-                    "settingsDelivery"  =>$deliverySettings
-                );
             }
+        }
+        
+        // ensure no delivery is shown twice
+        $deliveryUris = array_unique($deliveryUris);
+        
+        $assemblyData = array();
+        foreach ($deliveryUris as $uri) {
+            $delivery = new core_kernel_classes_Resource($uri);
+            $deliverySettings = $this->getDeliverySettings($delivery);
+            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
+            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($delivery, $userUri);
+            $assemblyData[] = array(
+                "compiledDelivery"  =>$delivery,
+                "settingsDelivery"  =>$deliverySettings
+            );
         }
        
         return $assemblyData;
