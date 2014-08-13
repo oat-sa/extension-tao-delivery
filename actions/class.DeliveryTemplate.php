@@ -312,22 +312,6 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
     }
 
     /**
-     * create history table
-     * 
-     * @return void
-     */
-    public function viewHistory()
-    {
-        $_SESSION['instances'] = array();
-        foreach ($this->getRequestParameters() as $key => $value) {
-            if (preg_match("/^uri_[0-9]+$/", $key)) {
-                $_SESSION['instances'][tao_helpers_Uri::decode($value)] = tao_helpers_Uri::decode($value);
-            }
-        }
-        $this->setView("create_table.tpl");
-    }
-
-    /**
      * historyListing returns the execution history related to a given delivery (and subject)
      *
      * @access public
