@@ -32,18 +32,6 @@
 class taoDelivery_models_classes_UserService
     extends tao_models_classes_UserService
 {
-	
-    /**
-     * Overrides tao_models_classes_UserService to limit authentication
-     * to users that have the 'Test Taker' role.
-     *
-     * @access public
-     * @author Somsack Sipasseuth, <sam@taotesting.com>
-     * @return array An array of core_kernel_classes_Resource
-     */
-    public function getAllowedRoles(){
-		return array(INSTANCE_ROLE_DELIVERY => new core_kernel_classes_Resource(INSTANCE_ROLE_DELIVERY));
-    }
     
     /**
      * Overrides tao_models_classes_UserService to specify which class to use to instanciate
