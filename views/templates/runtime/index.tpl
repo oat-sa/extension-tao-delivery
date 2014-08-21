@@ -6,14 +6,13 @@ use oat\tao\helpers\Template;
       lang="<?=tao_helpers_I18n::getLangCode()?>">
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
-        <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/tao-main-style.css"/>
-        <link rel="stylesheet" type="text/css" href="<?=ROOT_URL?>taoDelivery/views/css/runtime/index.css"/>
-        <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css" />
-        <script src="<?=TAOBASE_WWW?>js/lib/require.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
+        <link rel="stylesheet" type="text/css" href="<?= Template::css('runtime/index.css', 'taoDelivery') ?>"/>
+        <link rel="stylesheet" type="text/css" href="<?= Template::css('custom-theme/jquery-ui-1.8.22.custom.css', 'tao') ?>"/>
         <script id='amd-loader' 
                 type="text/javascript" 
-                src="<?=TAOBASE_WWW?>js/lib/require.js" 
-                data-main="<?=BASE_WWW?>js/controller/runtime/index"
+                src="<?= Template::js('lib/require.js', 'tao')?>" 
+                data-main="<?= Template::js('controller/runtime/index')?>"
         data-config="<?=get_data('client_config_url')?>"></script>
 
     </head>

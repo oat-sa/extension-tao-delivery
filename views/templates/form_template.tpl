@@ -3,7 +3,7 @@ use oat\tao\helpers\Template;
 
 Template::inc('header.tpl');
 ?>
-<link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />
+<link rel="stylesheet" type="text/css" href="<?=Template::css('form_delivery.css')?>" />
 
 <div id="delivery-left-container">
    	<?= get_data('contentForm')?>
@@ -28,8 +28,8 @@ Template::inc('header.tpl');
 
 		<span>
 			<?if(get_data('hasContent')):?>
-	            <a id='compileLink' class='nav' href="<?=BASE_URL.'Compilation/index?uri='.tao_helpers_Uri::encode(get_data('uri')).'&classUri='.tao_helpers_Uri::encode(get_data('classUri'))?>">
-                    <img id='compileLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>
+	            <a id='compileLink' class='nav' href="<?=_url('index', 'Compilation', null, array('uri' => get_data('uri'), 'classUri' => get_data('classUri')))?>">
+                    <img id='compileLinkImg' src="<?=Template::img('compile_small.png')?>"/>
     					<?=__('Create Delivery')?>
                 </a>
 			<?endif;?>

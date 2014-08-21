@@ -1,4 +1,6 @@
-<div id="form-title-history" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
+<?php
+use oat\tao\helpers\Template;
+?><div id="form-title-history" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
 	<?=__("History")?>
 </div>
 <div id="form-history" class="ui-widget-content ui-corner-bottom">
@@ -10,14 +12,6 @@
 			<?=__('There is currently no delivery execution.')?>
 		<?endif;?>
 		</p>
-
-		<?php /*if(get_data('executionNumber')):?>
-		<span>
-			<a id='historyLink' href="#">
-				<img id='historyLinkImg' src="<?=BASE_WWW?>img/compile_small.png"/>&nbsp;<?=__('View History')?>
-			</a>
-		</span>
-		<?endif;*/?>
 	</div>
 	<div>
 		<table id="history-list"></table>
@@ -57,7 +51,7 @@ function buildHistoryGrid(selector) {
 			gridComplete: function(){
 				$.each(historyGrid.getDataIDs(), function(index, elt){
 					historyGrid.setRowData(elt, {
-						actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
+						actions: "<a id='history_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=Template::css('delete.png')?>' alt='<?=__('Delete History')?>' /><?=__('Delete')?></a>"
 					});
 				});
 				$(".user_deletor").click(function(e){
