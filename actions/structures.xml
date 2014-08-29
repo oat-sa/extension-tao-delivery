@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../../tao/doc/structures.dtd">
 <structures>
-	<structure id="delivery" name="Deliveries" level="4" visible="true">
-        <icon id="icon-delivery" src="" />
-		<description>Prepare, publish deliveries sessions.</description>
-		<sections>
+    <structure id="delivery" name="Deliveries" level="4" visible="true">
+        <icon id="icon-delivery" src=""/>
+        <description>Prepare, publish deliveries sessions.</description>
+        <sections>
 
-			<section id="manage_delivery_assembly" name="Deliveries" url="/taoDelivery/Delivery/index">
-				<trees>
-					<tree name="Deliveries library"
-						className="Delivery"
-						dataUrl="/taoDelivery/Delivery/getOntologyData"
-						editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
-						editInstanceUrl="/taoDelivery/Delivery/editDelivery"
-						addSubClassUrl="/taoDelivery/Delivery/addSubClass"
-						deleteUrl="/taoDelivery/Delivery/delete"
-						moveInstanceUrl="/taoDelivery/Delivery/moveInstance"
-					/>
-				</trees>
-				<actions>
-					<action name="Search" url="/taoDelivery/Delivery/search" context="*"  group="filter">
+            <section id="manage_delivery_assembly" name="Deliveries" url="/taoDelivery/Delivery/index">
+                <trees>
+                    <tree name="Deliveries library"
+                          className="Delivery"
+                          dataUrl="/taoDelivery/Delivery/getOntologyData"
+                          editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
+                          editInstanceUrl="/taoDelivery/Delivery/editDelivery"
+                          addSubClassUrl="/taoDelivery/Delivery/addSubClass"
+                          deleteUrl="/taoDelivery/Delivery/delete"
+                          moveInstanceUrl="/taoDelivery/Delivery/moveInstance"
+                            />
+                </trees>
+                <actions>
+                    <action name="Search" url="/taoDelivery/Delivery/search" context="*" group="filter">
                         <icon id="icon-find" src=""/>
                     </action>
-					<action name="New class" js="subClass" url="/taoDelivery/Delivery/addSubClass" context="class" group="content">
+                    <action name="New class" js="subClass" url="/taoDelivery/Delivery/addSubClass" context="class" group="content">
                         <icon id="icon-folder-open"/>
                     </action>
-					<action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="tree">
+                    <action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="tree">
                         <icon id="icon-delivery"/>
                     </action>
-					<action name="Delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" group="tree">
-                        <icon id="icon-eraser"/>
+                    <action name="Delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" group="tree">
+                        <icon id="icon-bin"/>
                     </action>
-					<action name="Move" js="moveNode" url="" context="instance" group="tree">
+                    <action name="Move" js="moveNode" url="" context="instance" group="tree">
                         <icon id="icon-move-item"/>
                     </action>
-					<action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" />
-				</actions>
-			</section>
-			<section id="manage_delivery_templates" name="Delivery Templates" url="/taoDelivery/DeliveryTemplate/index" >
-				<trees>
-					<tree name="Delivery Templates"
-						className="Delivery"
-						dataUrl="/taoDelivery/DeliveryTemplate/getOntologyData"
-						editClassUrl="/taoDelivery/DeliveryTemplate/index"
-						editInstanceUrl="/taoDelivery/DeliveryTemplate/editDelivery"
-						addInstanceUrl="/taoDelivery/DeliveryTemplate/addDelivery"
-						deleteUrl="/taoDelivery/DeliveryTemplate/delete"
-					/>
-				</trees>
-				<actions>
-					<action name="New template" js="instanciate" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" />
-					<action name="Delete" js="removeNode" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree">
-                        <icon id="icon-eraser"/>
+                    <action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" group="tree">
+                        <icon id="icon-link"/>
                     </action>
-				</actions>
-			</section>			
-		</sections>
-	</structure>
+
+
+                </actions>
+            </section>
+            <section id="manage_delivery_templates" name="Delivery Templates" url="/taoDelivery/DeliveryTemplate/index">
+                <trees>
+                    <tree name="Delivery Templates"
+                          className="Delivery"
+                          dataUrl="/taoDelivery/DeliveryTemplate/getOntologyData"
+                          editClassUrl="/taoDelivery/DeliveryTemplate/index"
+                          editInstanceUrl="/taoDelivery/DeliveryTemplate/editDelivery"
+                          addInstanceUrl="/taoDelivery/DeliveryTemplate/addDelivery"
+                          deleteUrl="/taoDelivery/DeliveryTemplate/delete"
+                            />
+                </trees>
+                <actions>
+                    <action name="New template" js="instanciate" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="tree">
+                        <icon id="icon-template"/>
+                    </action>
+
+                    <action name="Delete" js="removeNode" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree">
+                        <icon id="icon-bin"/>
+                    </action>
+                </actions>
+            </section>
+        </sections>
+    </structure>
     <entrypoint id="deliveryServer" title="Test-Takers" label="TAO Delivery Server" url="taoDelivery/DeliveryServer/index">
         <description><![CDATA[Take or continue a test.]]></description>
     </entrypoint>
