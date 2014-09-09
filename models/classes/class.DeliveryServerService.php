@@ -18,7 +18,7 @@
  * 
  */
 
-use oat\taoGroups\model\GroupsService;
+use oat\taoGroups\models\GroupsService;
 
 /**
  * Service to manage the execution of deliveries
