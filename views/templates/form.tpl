@@ -10,6 +10,3 @@ Template::inc('header.tpl');
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
 </div>
-<?php
-Template::inc('footer.tpl');
-?>

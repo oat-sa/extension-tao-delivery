@@ -86,7 +86,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         $this->setData('formTitle', __('Edit delivery class'));
         $this->setData('myForm', $myForm->render());
-        $this->setView('form.tpl');
+        $this->setView('form.tpl', 'tao');
     }
 
     /**
