@@ -45,11 +45,9 @@ return array(
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'Delivery')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'DeliveryAssembly')),
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'DeliveryImport')),
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'DeliveryExport')),
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'DeliveryTemplate')),
-        array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'DeliveryServerAuthentification')),
         array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'Compilation')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
     ),
@@ -78,8 +76,5 @@ return array(
 	
 		#BASE WWW the web resources path
 		'BASE_WWW'				=> ROOT_URL . 'taoDelivery/views/',
-	
-	 	#TAO extension Paths
-		'TAOBASE_WWW'			=> ROOT_URL  . 'tao/views/',
 	)
 );
