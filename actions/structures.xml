@@ -19,19 +19,19 @@
                             />
                 </trees>
                 <actions>
-                    <action name="Search" url="/taoDelivery/Delivery/search" context="*" group="filter">
-                        <icon id="icon-find" src=""/>
-                    </action>
-                    <action name="New class" js="subClass" url="/taoDelivery/Delivery/addSubClass" context="class" group="content">
+                    <action name="Find" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-find"/>
+                    </action>  
+                    <action name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
                         <icon id="icon-folder-open"/>
                     </action>
                     <action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="tree">
                         <icon id="icon-delivery"/>
                     </action>
-                    <action name="Delete" js="removeNode" url="/taoDelivery/Delivery/delete" context="resource" group="tree">
+                    <action name="Delete" url="/taoDelivery/Delivery/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
-                    <action name="Move" js="moveNode" url="" context="instance" group="tree">
+                    <action name="Move" url="" context="instance" group="tree" binding="moveNode">
                         <icon id="icon-move-item"/>
                     </action>
                     <action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" group="tree">
@@ -53,11 +53,11 @@
                             />
                 </trees>
                 <actions>
-                    <action name="New template" js="instanciate" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="tree">
+                    <action name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="tree" binding="instanciate">
                         <icon id="icon-template"/>
                     </action>
 
-                    <action name="Delete" js="removeNode" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree">
+                    <action name="Delete" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
                 </actions>
