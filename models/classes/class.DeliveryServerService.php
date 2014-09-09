@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\taoGroups\model\GroupsService;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -51,7 +53,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
     public function getAvailableDeliveries($userUri)
     {
         $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
-        $groups = taoGroups_models_classes_GroupsService::singleton()->getGroups($userUri);
+        $groups = GroupsService::singleton()->getGroups($userUri);
 
         // check if realy available
         $deliveryUris = array();
