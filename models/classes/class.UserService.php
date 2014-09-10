@@ -38,7 +38,7 @@ class taoDelivery_models_classes_UserService
      * new users.
      */
     public function getRootClass(){
-    	$subjectsExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoSubjects');
+    	$subjectsExt = common_ext_ExtensionsManager::singleton()->getExtensionById('taoTestTaker');
     	$const = $subjectsExt->getConstant('TAO_CLASS_SUBJECT');
     	return new core_kernel_classes_Class($const);
     }
