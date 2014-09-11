@@ -86,11 +86,11 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         $this->setData('formTitle', __('Edit delivery class'));
         $this->setData('myForm', $myForm->render());
-        $this->setView('form.tpl', 'tao');
+        $this->setView('form.tpl');
     }
 
     /**
-     * Edit a delviery instance
+     * Edit a delivery instance
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
