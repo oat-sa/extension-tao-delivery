@@ -32,7 +32,7 @@ Template::inc('header.tpl');
             			<?endif;?>
             		    </p>
         		    <?else:?>
-                        <?=__('No informations available')?>.
+                        <?=__('No information available')?>.
         			<?endif;?>
             	</div>
             	<div>

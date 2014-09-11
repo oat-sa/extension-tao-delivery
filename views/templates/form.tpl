@@ -1,12 +1,20 @@
 <?php
 use oat\tao\helpers\Template;
 
-Template::inc('header.tpl');
+Template::inc('form.tpl', 'tao');
 ?>
 
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-	<?=get_data('formTitle')?>
-</div>
-<div id="form-container" class="ui-widget-content ui-corner-bottom">
-	<?=get_data('myForm')?>
-</div>
+<script>
+    require(['jquery', 'uiBootstrap', 'helpers'], function($, uiBootstrap, helpers){
+        uiBootstrap.tabs.bind('tabsshow', function(event, ui) {
+            if(ui.index>0){
+                $("form[name=form_1]").html('');
+            }
+        });
+
+        <?if(has_data('message')):?>
+        helpers.createMessage(<?=json_encode(get_data('message'))?>);
+        <?endif?>
+
+    });
+</script>

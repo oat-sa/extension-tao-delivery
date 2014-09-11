@@ -46,6 +46,7 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
      * 'modelType' must be in the request parameters
      *
      * @return void
+     * @throws Exception
      */
     public function getDeliveries()
     {
@@ -110,11 +111,11 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
         }
         $this->setData('formTitle', __('Edit delivery class'));
         $this->setData('myForm', $myForm->render());
-        $this->setView('form.tpl', 'tao');
+        $this->setView('form.tpl');
     }
 
     /**
-     * Edit a delviery instance
+     * Edit a delivery instance
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -213,6 +214,7 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return void
+     * @throws Exception
      */
     public function addDelivery()
     {
@@ -237,6 +239,7 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return void
+     * @throws Exception
      */
     public function delete()
     {
@@ -262,6 +265,7 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return void
+     * @throws Exception
      */
     public function getSubjects()
     {
@@ -410,6 +414,9 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
         echo json_encode($response);
     }
 
+    /**
+     *
+     */
     public function deleteHistory()
     {
         $deleted = false;
@@ -434,6 +441,7 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return void
+     * @throws Exception
      */
     public function getDeliveriesTests()
     {
@@ -485,4 +493,3 @@ class taoDelivery_actions_DeliveryTemplate extends tao_actions_SaSModule
 		echo json_encode($deliveryData);
 	}
 }
-?>

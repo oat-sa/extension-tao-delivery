@@ -11,19 +11,15 @@ Template::inc('header.tpl');
 	<div class="breaker"></div>
 </div>
 
-<div class="main-container medium" id="delivery-main-container">
-	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-		<?=get_data('formTitle')?>
-	</div>
-	<div id="form-container" class="ui-widget-content ui-corner-bottom">
-		<?=get_data('myForm')?>
+<div class="main-container">
+	<h2><?=get_data('formTitle')?></h2>
+	<div class="form-content">
+        <?=get_data('myForm')?>
 	</div>
 	<!-- compile box not available in standalone mode-->
 	<?if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
-	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
-		<?=__("Publishing")?>
-	</div>
-	<div id="form-compile" class="ui-widget-content ui-corner-bottom">
+	<h2<?=__("Publishing")?></h2>
+	<div class="form-content">
 		<div class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
 
 		<span>
@@ -43,7 +39,7 @@ Template::inc('header.tpl');
 	
 </div>
 
-<script type="text/javascript">
+<script>
 $(function(){
 	require(['jquery'], function($) {
 		$('.compilationButton').click(function(){
