@@ -19,7 +19,18 @@
                             />
                 </trees>
                 <actions>
-                    <action name="Find" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
+                	
+                	  <action name="Edit class" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action name="Edit delivery"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action> 
+                    
+                    <action name="Filter" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-filter"/>
+                    </action>
+                    <action name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
                         <icon id="icon-find"/>
                     </action>  
                     <action name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
