@@ -27,7 +27,7 @@
                         <icon id="icon-edit"/>
                     </action> 
                     
-                    <action name="Filter" context="*" group="search" binding="launchFinder">
+                    <action name="Filter" context="*" group="search" binding="filter">
                         <icon id="icon-filter"/>
                     </action>
                     <action name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
