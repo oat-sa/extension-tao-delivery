@@ -11,11 +11,10 @@
                     <tree name="Deliveries library"
                           className="Delivery"
                           dataUrl="/taoDelivery/Delivery/getOntologyData"
-                          editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
-                          editInstanceUrl="/taoDelivery/Delivery/editDelivery"
-                          addSubClassUrl="/taoDelivery/Delivery/addSubClass"
-                          deleteUrl="/taoDelivery/Delivery/delete"
-                          moveInstanceUrl="/taoDelivery/Delivery/moveInstance"
+                            selectClass="Edit class"
+                            selectInstance="Edit delivery"
+                            moveInstance="Move"
+                            delete="Delete" 
                             />
                 </trees>
                 <actions>
