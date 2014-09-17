@@ -1,9 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
-?><div id="form-title-history" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
-	<?=__("History")?>
-</div>
-<div id="form-history" class="ui-widget-content ui-corner-bottom">
+?><h2><?=__("History")?></h2>
+<div id="form-history" class="form-content">
 	<div id="history-link-container" class="ext-home-container">
 		<p>
 		<?if(get_data('executionNumber')):?>

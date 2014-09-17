@@ -90,7 +90,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
     }
 
     /**
-     * Edit a delviery instance
+     * Edit a delivery instance
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -174,6 +174,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
      * @return void
+     * @throws Exception
      */
     public function delete()
     {
