@@ -45,11 +45,10 @@ Template::inc('header.tpl');
     
     <div class="grid-row">
         <div class="col-6">
-            <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
+            <h2>
         		<?=get_data('formTitle')?>
-        		<?=tao_helpers_Icon::iconTranslate(array('class' => 'form-translator title-action', 'title' => __('Translate')))?>
-        	</div>
-        	<div id="form-container" class="ui-widget-content ui-corner-bottom">
+        	</h2>
+        	<div class="form-content">
         		<?=get_data('myForm')?>
         	</div>
         </div>
