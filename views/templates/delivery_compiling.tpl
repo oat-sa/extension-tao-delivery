@@ -26,11 +26,11 @@ Template::inc('header.tpl');
             </a>
 	
             <a id='compiler' href="#" class="button">
-    			<?if(get_data('isCompiled')):?>
+    			<?php if(get_data('isCompiled')):?>
     				<?=__('Publish again')?> 
     			<?else:?>
     				<?=__('Publish')?>
-    			<?endif;?>
+    			<?php endif;?>
     		</a>
     		</div>
     		</div>

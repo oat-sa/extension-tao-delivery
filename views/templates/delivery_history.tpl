@@ -4,11 +4,11 @@ use oat\tao\helpers\Template;
 <div id="form-history" class="form-content">
 	<div id="history-link-container" class="ext-home-container">
 		<p>
-		<?if(get_data('executionNumber')):?>
+		<?php if(get_data('executionNumber')):?>
 			<?=__('There are currently')?>&nbsp;<?=get_data('executionNumber')?>&nbsp;<?=__('delivery executions')?>.
 		<?else:?>
 			<?=__('There is currently no delivery execution.')?>
-		<?endif;?>
+		<?php endif;?>
 		</p>
 	</div>
 	<div>
@@ -22,11 +22,11 @@ use oat\tao\helpers\Template;
 	var actionUrl = '';
 
 function buildHistoryGrid(selector) {
-<?if(tao_helpers_Context::check('STANDALONE_MODE')):?>
+<?php if(tao_helpers_Context::check('STANDALONE_MODE')):?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
 <?else:?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
-<?endif;?>
+<?php endif;?>
 	require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
 		historyGrid = $(selector).jqGrid({
 			url: actionUrl,

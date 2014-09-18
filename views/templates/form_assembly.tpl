@@ -21,19 +21,19 @@ Template::inc('header.tpl');
             </div>
             <div id="form-history" class="ui-widget-content ui-corner-bottom">
             	<div id="history-link-container" class="ext-home-container">
-            	    <?if(has_data('exec')):?>
+            	    <?php if(has_data('exec')):?>
                 		<p>
-                		<?if(get_data('exec') == 0):?>
+                		<?php if(get_data('exec') == 0):?>
                 			<?=__('No attempt has been started yet.')?>
                 		<?elseif(get_data('exec') == 1) :?>
                 			<?=__('There is currently 1 attempt')?>.
             			<?else:?>
                             <?=__('There are currently %s attempts', get_data('exec'))?>.
-            			<?endif;?>
+            			<?php endif;?>
             		    </p>
         		    <?else:?>
                         <?=__('No information available')?>.
-        			<?endif;?>
+        			<?php endif;?>
             	</div>
             	<div>
             		<table id="history-list"></table>

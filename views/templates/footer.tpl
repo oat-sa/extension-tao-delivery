@@ -6,9 +6,9 @@ require(['jquery', 'uiBootstrap', 'helpers'], function($, uiBootstrap, helpers){
                 }
         });
 
-        <?if(has_data('message')):?>
+        <?php if(has_data('message')):?>
                 helpers.createMessage(<?=json_encode(get_data('message'))?>);
-        <?endif?>
+        <?php endif?>
 
 });
 </script>

@@ -17,25 +17,25 @@ Template::inc('header.tpl');
         <?=get_data('myForm')?>
 	</div>
 	<!-- compile box not available in standalone mode-->
-	<?if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
+	<?php if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
 	<h2<?=__("Publishing")?></h2>
 	<div class="form-content">
 		<div class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
 
 		<span>
-			<?if(get_data('hasContent')):?>
+			<?php if(get_data('hasContent')):?>
 	            <a id='compileLink' class='nav' href="<?=_url('index', 'Compilation', null, array('uri' => get_data('uri'), 'classUri' => get_data('classUri')))?>">
                     <img id='compileLinkImg' src="<?=Template::img('compile_small.png')?>"/>
     					<?=__('Create Delivery')?>
                 </a>
-			<?endif;?>
+			<?php endif;?>
 		</span>
 
 		<br/>
 
 		</div>
 	</div>
-	<?endif;?>
+	<?php endif;?>
 	
 </div>
 
