@@ -2,8 +2,8 @@
 <!DOCTYPE structures SYSTEM "../../tao/doc/structures.dtd">
 <structures>
     <structure id="delivery" name="Deliveries" level="4" group="main">
-        <icon id="icon-delivery" src=""/>
         <description>Prepare, publish deliveries sessions.</description>
+        <icon id="icon-delivery" src=""/>
         <sections>
 
             <section id="manage_delivery_assembly" name="Deliveries" url="/taoDelivery/Delivery/index">
@@ -44,10 +44,6 @@
                     <action name="Move" url="" context="instance" group="tree" binding="moveNode">
                         <icon id="icon-move-item"/>
                     </action>
-                    <action name="LTI" url="/ltiDeliveryProvider/DeliveryLinks/index" context="instance" group="tree">
-                        <icon id="icon-link"/>
-                    </action>
-
 
                 </actions>
             </section>
