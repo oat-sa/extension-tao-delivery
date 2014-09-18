@@ -11,16 +11,15 @@
                     <tree name="Deliveries library"
                           className="Delivery"
                           dataUrl="/taoDelivery/Delivery/getOntologyData"
-                          editClassUrl="/taoDelivery/Delivery/editDeliveryClass"
-                          editInstanceUrl="/taoDelivery/Delivery/editDelivery"
-                          addSubClassUrl="/taoDelivery/Delivery/addSubClass"
-                          deleteUrl="/taoDelivery/Delivery/delete"
-                          moveInstanceUrl="/taoDelivery/Delivery/moveInstance"
+                            selectClass="Edit class"
+                            selectInstance="Edit delivery"
+                            moveInstance="Move"
+                            delete="Delete" 
                             />
                 </trees>
                 <actions>
                 	
-                	  <action name="Edit class" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
+                	<action name="Edit class" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
                     <action name="Edit delivery"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
@@ -36,7 +35,7 @@
                     <action name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
                         <icon id="icon-folder-open"/>
                     </action>
-                    <action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="tree">
+                    <action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="content">
                         <icon id="icon-delivery"/>
                     </action>
                     <action name="Delete" url="/taoDelivery/Delivery/delete" context="resource" group="tree" binding="removeNode">
