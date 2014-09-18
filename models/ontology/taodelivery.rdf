@@ -15,7 +15,7 @@
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate">
-    <rdfs:label xml:lang="en-US"><![CDATA[Delivery]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Delivery Template]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Delivery]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
   </rdf:Description>
@@ -156,7 +156,7 @@
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus"/>
   </rdf:Description>     
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery">
-    <rdfs:label xml:lang="en-US"><![CDATA[Delivery]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Assembled Delivery ]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[An assembled Delivery]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
   </rdf:Description>
