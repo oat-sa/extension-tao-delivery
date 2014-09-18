@@ -6,7 +6,7 @@ use oat\tao\helpers\Template;
 		<p>
 		<?php if(get_data('executionNumber')):?>
 			<?=__('There are currently')?>&nbsp;<?=get_data('executionNumber')?>&nbsp;<?=__('delivery executions')?>.
-		<?else:?>
+		<?php else:?>
 			<?=__('There is currently no delivery execution.')?>
 		<?php endif;?>
 		</p>
@@ -24,7 +24,7 @@ use oat\tao\helpers\Template;
 function buildHistoryGrid(selector) {
 <?php if(tao_helpers_Context::check('STANDALONE_MODE')):?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery', array('STANDALONE_MODE' => true))?>";
-<?else:?>
+<?php else:?>
 	actionUrl = "<?=_url('historyData', 'Delivery', 'taoDelivery')?>";
 <?php endif;?>
 	require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {

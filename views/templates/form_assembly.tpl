@@ -25,13 +25,13 @@ Template::inc('header.tpl');
                 		<p>
                 		<?php if(get_data('exec') == 0):?>
                 			<?=__('No attempt has been started yet.')?>
-                		<?elseif(get_data('exec') == 1) :?>
+                		<?php elseif(get_data('exec') == 1) :?>
                 			<?=__('There is currently 1 attempt')?>.
-            			<?else:?>
+            			<?php else:?>
                             <?=__('There are currently %s attempts', get_data('exec'))?>.
             			<?php endif;?>
             		    </p>
-        		    <?else:?>
+        		    <?php else:?>
                         <?=__('No information available')?>.
         			<?php endif;?>
             	</div>
