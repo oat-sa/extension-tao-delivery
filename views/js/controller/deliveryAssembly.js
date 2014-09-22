@@ -17,9 +17,9 @@
  *
  *
  */
-define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, helpers, uiBootstrap, module) {
+define(['jquery', 'i18n', 'helpers', 'ui/feedback', 'module'], function ($, __, helpers, feedback, module) {
 
-        var $tabs = uiBootstrap.tabs;
+        var $tabs = $('#tabs');
         var templatesIndex = helpers.getTabIndexByName('manage_delivery_templates');
         
         return {
@@ -29,16 +29,13 @@ define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, 
                 	if (i === templatesIndex) {
                 		$(this).css({border: '3px'});
                 	}
-                })
+                });
                 if(conf.action !== 'authoring'){
                     //$tabs.tabs('remove', templatesIndex);
                 }
                 
-                if(conf.reload){
-                    uiBootstrap.initTrees();
-                }
                 if(conf.message){
-                    helpers.createMessage(conf.message);
+                    feedback().info(conf.message);
                 }
                 
                 $('#saver-status').click(function(e){
@@ -51,11 +48,11 @@ define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, 
             	        data: {uri : uri, status: status},
             	        success: function (data, textStatus, jqXHR){
                         	//$('#active-inactive').modal('close');
-                        	helpers.createMessage("Status saved");
-                        	uiBootstrap.initTrees();
+                        	feedback().success(__("Status saved"));
+                            $('.tree').trigger('refresh.taotree');
             	        },
             	        error: function (jqXHR, textStatus, errorThrown) {
-                        	console.log('Error occured: ' + errorThrown);
+                        	feedback().error('Error occured: ' + errorThrown);
             	        }
                     });
             	});
