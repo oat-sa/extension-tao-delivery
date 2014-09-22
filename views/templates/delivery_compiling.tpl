@@ -28,7 +28,7 @@ Template::inc('header.tpl');
             <a id='compiler' href="#" class="button">
     			<?php if(get_data('isCompiled')):?>
     				<?=__('Publish again')?> 
-    			<?else:?>
+    			<?php else:?>
     				<?=__('Publish')?>
     			<?php endif;?>
     		</a>
