@@ -5,16 +5,22 @@ Template::inc('header.tpl');
 ?>
 <link rel="stylesheet" type="text/css" href="<?= Template::css('form_delivery.css')?>" />
 
-<div class="tao-scope grid-container">
-    <div class="grid-row">
-        <div class="col-12 ui-state-default topbox">
-            <span style="font-style: italic">
-        	   <?=__('%1s has been published on the %2s', get_data('label'), tao_helpers_Date::displayeDate(get_data('date')))?>
-        	</span>
+        
+        <div class="main-container">
+                <div class="i">
+            	   <?=__('%1s has been published on the %2s', get_data('label'), tao_helpers_Date::displayeDate(get_data('date')))?>
+            	</div>
+            	<h2>
+        		<?=get_data('formTitle')?>
+        		</h2>
+        	<div class="form-content">
+        		<?=get_data('myForm')?>
+        	</div>
         </div>
-    </div>
+        
+<div class="tao-scope grid-container">
     
-    <div class="grid-row">
+    <div class="grid-rowxxs">
         <div class="col-12">
     	   <div id="form-title-history" class="ui-widget-header ui-corner-top ui-state-default" style="margin-top:0.5%;">
             	<?=__("Attempts")?>
@@ -45,20 +51,14 @@ Template::inc('header.tpl');
     
     <div class="grid-row">
         <div class="col-6">
-            <h2>
-        		<?=get_data('formTitle')?>
-        	</h2>
-        	<div class="form-content">
-        		<?=get_data('myForm')?>
-        	</div>
-        </div>
-        <div class="col-6">
             <?=get_data('groupTree')?>
             <?php Template::inc('widget_exclude.tpl');?>
             <?= has_data('campaign') ? get_data('campaign') : '';?>
         </div>
     </div>
 </div>
+
+
 <?php
 Template::inc('footer.tpl');
 ?>
