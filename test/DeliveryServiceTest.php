@@ -18,63 +18,171 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-require_once dirname(__FILE__) . '/../../tao/test/TaoPhpUnitTestRunner.php';
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+namespace oat\taoTestTaker\test;
+
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 class DeliveryServiceTest extends TaoPhpUnitTestRunner {
-	
+
     /**
      * @var taoDelivery_models_classes_DeliveryTemplateService
      */
 	protected $deliveryService = null;
-	
+
 	/**
 	 * tests initialization
 	 */
-	public function setUp(){
-		TaoPhpUnitTestRunner::initTest();
+	public function setUp() {
+        TaoPhpUnitTestRunner::initTest();
 		$this->deliveryService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
 	}
-	
-	public function testService(){
+
+    /**
+     * verify delivery class
+     * @return void
+     */
+	public function testService() {
 		$this->assertIsA($this->deliveryService, 'taoDelivery_models_classes_DeliveryTemplateService');
 	}
-	
-	public function testCreateInstance(){
+
+    /**
+     * verify delivery class
+     * @return \core_kernel_classes_Resource
+     */
+	public function testCreateInstance() {
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
 		$this->assertIsA($delivery, 'core_kernel_classes_resource');
-		
-		//check if the default delivery server exists:
-		$defaultDeliveryServer = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
-		$this->assertNotNull($defaultDeliveryServer);
-		
-		$defaultServer = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
-		if(!is_null($defaultDeliveryServer)){
-			$this->assertEquals($defaultDeliveryServer->getUri(), $defaultServer->getUri());
-		}
-		
+
+        return $delivery;
+	}
+
+    /**
+     * Check if the delivery server exists
+     * @depends testCreateInstance
+     * @param $delivery
+     * @return void
+     */
+    public function testDeliveryServer($delivery) {
+		$deliveryServer = $delivery->getOnePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+		$this->assertNotNull($deliveryServer);
+
+        return $deliveryServer;
+    }
+
+    /**
+     * Verify the delivery server is the same as default server
+     * @depends testDeliveryServer
+     * @param $deliveryServer
+     * @return void
+     */
+    public function testVerifyDeliveryServer($deliveryServer) {
+        $defaultDeliveryServer = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
+        $this->assertEquals($defaultDeliveryServer->getUri(), $deliveryServer->getUri());
+    }
+
+    /**
+     * Delete delivery instance
+     * @depends testCreateInstance
+     * @param $delivery
+     */
+    public function testDeleteInstance($delivery) {
 		$this->deliveryService->deleteInstance($delivery);
 		$this->assertFalse($delivery->exists());
+    }
+
+    /**
+     * Verify delivery instance deletion
+     * @depends testCreateInstance
+     * @param $delivery
+     */
+    public function testVerifyInstanceDeletion($delivery) {
 		$this->assertNull($delivery->getOnePropertyValue(new core_kernel_classes_Property(RDF_TYPE)));
-	}
-	
-	public function testCreateDeleteClass() {
+    }
+
+    /**
+     * Create SubClass
+     * @return \core_kernel_classes_Class
+     */
+	public function testCreateClass() {
 	    $deliveryClass = $this->deliveryService->createSubClass($this->deliveryService->getRootClass(), 'UnitTestDeliveryClass');
 	    $this->assertIsA($deliveryClass, 'core_kernel_classes_class');
+
+        return $deliveryClass;
+    }
+
+    /**
+     * Verify that just created delivery class exists
+     * @depends testCreateClass
+     * @param $deliveryClass
+     * @return void
+     */
+	public function testDeliveryClassExists($deliveryClass) {
 		$this->assertTrue($deliveryClass->exists());
-	    
-	    $delivery = $this->deliveryService->createInstance($deliveryClass, 'UnitTestDelivery3');
-		$this->assertIsA($delivery, 'core_kernel_classes_resource');
-		$this->assertTrue($delivery->exists());
-		$this->assertEquals(1, count($delivery->getTypes()));
-		$this->assertTrue($delivery->isInstanceOf($deliveryClass));
-		$this->deliveryService->deleteInstance($delivery);
-		$this->assertFalse($delivery->exists());
-		
-		 
-		$this->deliveryService->deleteDeliveryClass($deliveryClass);
-	    $this->assertFalse($deliveryClass->exists());
-	}
+    }
+
+    /**
+     * Verify that just created delivery class exists
+     * @depends testCreateClass
+     * @param $deliveryClass
+     * @return void
+     */
+	public function testCreateDeliveryInstance($deliveryClass) {
+	    $deliveryInstance = $this->deliveryService->createInstance($deliveryClass, 'UnitTestDelivery3');
+		$this->assertIsA($deliveryInstance, 'core_kernel_classes_resource');
+
+        return $deliveryInstance;
+    }
+
+    /**
+     * Verify that just created delivery instance exists
+     * @depends testCreateDeliveryInstance
+     * @param $deliveryInstance
+     * @return void
+     */
+	public function testDeliveryInstanceExists($deliveryInstance) {
+		$this->assertTrue($deliveryInstance->exists());
+    }
+
+    /**
+     * Verify tye number of types of deliveryInstance
+     * @depends testCreateDeliveryInstance
+     * @param $deliveryInstance
+     * @return void
+     */
+	public function testDeliveryInstanceTypes($deliveryInstance) {
+		$this->assertEquals(1, count($deliveryInstance->getTypes()));
+    }
+
+    /**
+     * Verify deliveryInstance is an instance of deliveryClass
+     * @depends testCreateDeliveryInstance
+     * @depends testCreateClass
+     * @param $deliveryInstance
+     * @param $deliveryClass
+     * @return void
+     */
+	public function testVerifyDeliveryInstance($deliveryInstance, $deliveryClass) {
+        $this->assertTrue($deliveryInstance->isInstanceOf($deliveryClass));
+    }
+
+    /**
+     * Delete delivery instance
+     * @depends testCreateDeliveryInstance
+     * @param $deliveryInstance
+     */
+    public function testDeleteDeliveryInstance($deliveryInstance) {
+        $this->deliveryService->deleteInstance($deliveryInstance);
+        $this->assertFalse($deliveryInstance->exists());
+    }
+
+    /**
+     * Delete delivery class
+     * @depends testCreateClass
+     * @param $deliveryClass
+     */
+    public function testDeleteDeliveryClass($deliveryClass) {
+        $this->deliveryService->deleteDeliveryClass($deliveryClass);
+        $this->assertFalse($deliveryClass->exists());
+    }
 
 }
-
