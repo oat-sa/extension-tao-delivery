@@ -17,7 +17,7 @@
  *
  *
  */
-define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, helpers, uiBootstrap, module) {
+define(['jquery', 'i18n', 'helpers', 'module'], function ($, __, helpers, module) {
 
 	function switchList() {
 		var current = $(this).parent().attr('id');

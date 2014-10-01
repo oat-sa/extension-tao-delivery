@@ -17,7 +17,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-define(['module' ,'jquery', 'i18n', 'context', 'helpers', 'uiBootstrap'], function(module, $, __, context, helpers, uiBootstrap){
+define(['module' ,'jquery', 'i18n', 'context', 'helpers'], function(module, $, __, context, helpers){
 
     function initCompilation(uri, clazz){
         $("#initCompilation").hide();
