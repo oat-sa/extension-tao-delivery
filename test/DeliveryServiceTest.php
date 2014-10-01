@@ -58,8 +58,9 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	public function testCreateInstance() {
 	    
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
-		$this->assertIsA($delivery, 'core_kernel_classes_resource');
-
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $delivery);
+		$delivyType = current($delivery->getTypes());
+		$this->assertEquals(TAO_DELIVERY_CLASS, $delivyType->getUri());
         return $delivery;
 	}
 
@@ -112,8 +113,9 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
      */
 	public function testCreateClass() {
 	    $deliveryClass = $this->deliveryService->createSubClass($this->deliveryService->getRootClass(), 'UnitTestDeliveryClass');
-	    $this->assertIsA($deliveryClass, 'core_kernel_classes_class');
-
+	    $this->assertInstanceOf( 'core_kernel_classes_Class',$deliveryClass);
+	    $subclass = $deliveryClass->getOnePropertyValue(new core_kernel_classes_Property(RDFS_SUBCLASSOF));
+	    $this->assertEquals(CLASS_DELIVERY_TEMPLATE, $subclass->getUri());
         return $deliveryClass;
     }
 
@@ -135,7 +137,7 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
      */
 	public function testCreateDeliveryInstance($deliveryClass) {
 	    $deliveryInstance = $this->deliveryService->createInstance($deliveryClass, 'UnitTestDelivery3');
-		$this->assertIsA($deliveryInstance, 'core_kernel_classes_resource');
+		$this->assertInstanceOf('core_kernel_classes_Resource',$deliveryInstance);
 
         return $deliveryInstance;
     }
