@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -21,6 +21,11 @@
 namespace oat\taoTestTaker\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
+use \taoDelivery_models_classes_DeliveryTemplateService;
+use \core_kernel_classes_Class;
+use \core_kernel_classes_Property;
+use \common_ext_ExtensionsManager;
+use \taoResultServer_models_classes_ResultServerAuthoringService;
 
 class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 
@@ -33,6 +38,7 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	 * tests initialization
 	 */
 	public function setUp() {
+	    common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         TaoPhpUnitTestRunner::initTest();
 		$this->deliveryService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
 	}
@@ -50,6 +56,7 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
      * @return \core_kernel_classes_Resource
      */
 	public function testCreateInstance() {
+	    
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
 		$this->assertIsA($delivery, 'core_kernel_classes_resource');
 
