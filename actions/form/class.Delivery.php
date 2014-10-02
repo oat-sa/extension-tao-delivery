@@ -34,7 +34,7 @@ class taoDelivery_actions_form_Delivery
         parent::initForm();
         
         $saveELt = tao_helpers_form_FormFactory::getElement('Save', 'Free');
-        $saveELt->setValue('<button class="class="form-submitter btn-success small" type="button"><span class="icon-save"></span>'.__('Save').'</button>');
+        $saveELt->setValue('<button class="form-submitter btn-success small" type="button"><span class="icon-save"></span>'.__('Save').'</button>');
 		$this->form->setActions(array(), 'top');
 		$this->form->setActions(array($saveELt), 'bottom');
     }

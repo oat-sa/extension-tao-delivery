@@ -53,7 +53,7 @@ Template::inc('header.tpl');
         	</div>
         </div>
         <div class="col-6">
-            <?=get_data('groupTree')?>
+            <?= get_data('groupTree')?>
             <?php Template::inc('widget_exclude.tpl');?>
             <?= has_data('campaign') ? get_data('campaign') : '';?>
         </div>
