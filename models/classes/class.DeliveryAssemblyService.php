@@ -49,11 +49,11 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
      */
     public function createAssemblyFromTemplate(core_kernel_classes_Resource $deliveryTemplate) {
         
-        $assemblyClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+        $assemblyClass = $this->getRootClass();
         
         $content = taoDelivery_models_classes_DeliveryTemplateService::singleton()->getContent($deliveryTemplate);
         if (is_null($content)) {
-            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$delivery->getUri().' has no content');
+            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$deliveryTemplate->getUri().' has no content');
         }
 
         $props = $deliveryTemplate->getPropertiesValues(array(
