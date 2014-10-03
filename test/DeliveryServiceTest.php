@@ -1,5 +1,5 @@
 <?php
-/**  
+/*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -52,11 +52,10 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
 	}
 
     /**
-     * verify delivery class
+     * create delivery instance
      * @return \core_kernel_classes_Resource
      */
 	public function testCreateInstance() {
-	    
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'UnitTestDelivery2');
 		$this->assertInstanceOf( 'core_kernel_classes_Resource', $delivery);
 		$delivyType = current($delivery->getTypes());
@@ -133,7 +132,7 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
      * Verify that just created delivery class exists
      * @depends testCreateClass
      * @param $deliveryClass
-     * @return void
+     * @return \core_kernel_classes_Resource
      */
 	public function testCreateDeliveryInstance($deliveryClass) {
 	    $deliveryInstance = $this->deliveryService->createInstance($deliveryClass, 'UnitTestDelivery3');
@@ -172,6 +171,17 @@ class DeliveryServiceTest extends TaoPhpUnitTestRunner {
      */
 	public function testVerifyDeliveryInstance($deliveryInstance, $deliveryClass) {
         $this->assertTrue($deliveryInstance->isInstanceOf($deliveryClass));
+    }
+
+    /**
+     * Clone deliveryInstance
+     * @depends testCreateDeliveryInstance
+     * @param $deliveryInstance
+     * @return void
+     */
+    public function testCloneInstance($deliveryInstance) {
+        $clone = $this->deliveryService->cloneInstance($deliveryInstance);
+		$this->assertInstanceOf('core_kernel_classes_Resource', $clone);
     }
 
     /**
