@@ -19,20 +19,9 @@
  */
 define(['jquery', 'i18n', 'helpers', 'ui/feedback', 'module'], function ($, __, helpers, feedback, module) {
 
-        var $tabs = $('#tabs');
-        var templatesIndex = helpers.getTabIndexByName('manage_delivery_templates');
-        
         return {
             start : function(){
                 var conf = module.config();
-                $tabs.each(function(i) {
-                	if (i === templatesIndex) {
-                		$(this).css({border: '3px'});
-                	}
-                });
-                if(conf.action !== 'authoring'){
-                    //$tabs.tabs('remove', templatesIndex);
-                }
                 
                 if(conf.message){
                     feedback().info(conf.message);
@@ -47,7 +36,6 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback', 'module'], function ($, __, 
             	        dataType: "text",
             	        data: {uri : uri, status: status},
             	        success: function (data, textStatus, jqXHR){
-                        	//$('#active-inactive').modal('close');
                         	feedback().success(__("Status saved"));
                             $('.tree').trigger('refresh.taotree');
             	        },
