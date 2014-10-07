@@ -64,12 +64,18 @@
                     <action id="delivery-template-properties" name="Properties"  url="/taoDelivery/DeliveryTemplate/editDelivery" group="content" context="instance">
                         <icon id="icon-edit"/>
                     </action> 
-                    <action id="delivery-template-new" name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="tree" binding="instanciate">
-                        <icon id="icon-template"/>
+                    <action id="delivery-template-new" name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="content" binding="instanciate">
+                        <icon id="icon-add"/>
                     </action>
                     <action id="delivery-template-delete" name="Delete" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
+                    <action id="delivery-template-filter" name="Filter" context="*" group="search" binding="filter">
+                        <icon id="icon-filter"/>
+                    </action>
+                    <action id="delivery-template-search" name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-find"/>
+                    </action>  
                 </actions>
             </section>
         </sections>
