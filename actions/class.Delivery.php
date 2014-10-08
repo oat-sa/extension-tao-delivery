@@ -165,7 +165,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if (common_ext_ExtensionsManager::singleton()->isEnabled('taoCampaign')) {
             $this->setData('campaign', taoCampaign_helpers_Campaign::renderCampaignTree($delivery));
         }
-        $this->setView('form_assembly.tpl');
+        $this->setView('Delivery/editDelivery.tpl');
     }
 
     /**

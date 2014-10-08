@@ -18,7 +18,7 @@ Template::inc('header.tpl');
 	</div>
 	<!-- compile box not available in standalone mode-->
 	<?php if(!tao_helpers_Context::check('STANDALONE_MODE')):?>
-	<h2<?=__("Publishing")?></h2>
+	<h2><?=__("Publishing")?></h2>
 	<div class="form-content">
 		<div class="ext-home-container ui-state-highlight ui-state-highlight-delivery">
 

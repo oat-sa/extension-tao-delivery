@@ -1,13 +1,13 @@
 <script type="text/javascript">
-require(['jquery', 'uiBootstrap', 'helpers'], function($, uiBootstrap, helpers){
-        uiBootstrap.tabs.bind('tabsshow', function(event, ui) {
-                if(ui.index>0){
-                        $("form[name=form_1]").html('');
-                }
+require(['jquery', 'layout/section', 'ui/feedback'], function($, section, feedback){
+        section.on('show', function() {
+            if(section.id === "manage_delivery_assembly"){
+                $("form[name=form_1]").empty();
+            }
         });
 
         <?php if(has_data('message')):?>
-                helpers.createMessage(<?=json_encode(get_data('message'))?>);
+            feedback().info(<?=json_encode(get_data('message'))?>);
         <?php endif?>
 
 });

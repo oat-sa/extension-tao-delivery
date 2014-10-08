@@ -1,9 +1,9 @@
 <?php if (get_data('groupcount') > 0) : ?>
-<div class="data-container">
-	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Test-takers')?>
-	</div>
-	<div class="ui-widget ui-widget-content container-content">
+<section class="new-container">
+	<header>
+		<h1><?=__('Test-takers')?>
+	</header>
+	<div>
 	   <div >
     	   <?php if (get_data('ttassigned') > 0) : ?>
     	       <?=__('Delivery is assigned to %s test-takers.', get_data('ttassigned')); ?>
@@ -21,14 +21,12 @@
     	   </div>
 	   <?php endif; ?>
 	</div>
-	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
+	<footer>
 		<button id="exclude-btn" class="btn-info small" type="button"><?=__('Excluded test-takers')?></button>
-		<!--  data-modal="#excluded-testtaker" -->
-	</div>
-</div>
+	</footer>
+</section>
 <div id="modal-container" class="tao-scope">
-    <div id="testtaker-form" class="modal">
-    </div>	
+    <div id="testtaker-form" class="modal"></div>	
 </div>
 <script type="text/javascript">
 $('#exclude-btn').click(function() {
