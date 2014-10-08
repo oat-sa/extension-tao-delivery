@@ -49,11 +49,11 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
      */
     public function createAssemblyFromTemplate(core_kernel_classes_Resource $deliveryTemplate) {
         
-        $assemblyClass = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+        $assemblyClass = $this->getRootClass();
         
         $content = taoDelivery_models_classes_DeliveryTemplateService::singleton()->getContent($deliveryTemplate);
         if (is_null($content)) {
-            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$delivery->getUri().' has no content');
+            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$deliveryTemplate->getUri().' has no content');
         }
 
         $props = $deliveryTemplate->getPropertiesValues(array(
@@ -71,6 +71,11 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         return $report;
     }
     
+    
+    protected function getCompiler(core_kernel_classes_Resource $content){
+        return taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
+    }
+    
     /**
      * 
      * @param core_kernel_classes_Class $deliveryClass
@@ -83,7 +88,7 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         // report will be replaced unless an exception occures
         $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Delivery could not be published'));
         try {
-            $compiler = taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
+            $compiler = $this->getCompiler($content);
             $report = $compiler->compile();
             if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
                 $serviceCall = $report->getData();
