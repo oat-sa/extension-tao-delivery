@@ -91,7 +91,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
         ));
-
+        
         $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
         $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
         $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
