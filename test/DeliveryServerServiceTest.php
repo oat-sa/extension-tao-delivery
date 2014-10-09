@@ -66,13 +66,13 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
         return array(
             array(
                 '12',
-                mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')),
-                mktime()
+                time(0, 0, 0, date('m'), date('d') - 1, date('Y')),
+                time()
             ),
             array(
                 '2',
-                mktime(),
-                mktime(0, 0, 0, date('m'), date('d') + 2, date('Y'))
+               time(),
+                time(0, 0, 0, date('m'), date('d') + 2, date('Y'))
             )
         );
     }
