@@ -110,28 +110,41 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * create assembly from template
+     * Create Assmebly
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @return \common_report_Report
      */
-    public function testCreateAssembly()
-    {
+    private function getAssembly(){
         $rootClass = $this->assemblyService->getRootClass();
         
         $storage = \tao_models_classes_service_FileStorage::singleton();
         
         $assemblyServiceMock = $this->getMockBuilder('taoDelivery_models_classes_DeliveryAssemblyService')
-            ->setMethods(array(
+        ->setMethods(array(
             'getCompiler'
         ))
-            ->disableOriginalConstructor()
-            ->setMockClassName('taoDelivery_models_classes_DeliveryAssemblyService_Mock')
-            ->getMock();
+        ->disableOriginalConstructor()
+        ->setMockClassName('taoDelivery_models_classes_DeliveryAssemblyService_Mock')
+        ->getMock();
         
         $assemblyServiceMock->expects($this->any())
-            ->method('getCompiler')
-            ->with($this->content)
-            ->will($this->returnValue($this->getCompilerMock($this->content, $storage)));
+        ->method('getCompiler')
+        ->with($this->content)
+        ->will($this->returnValue($this->getCompilerMock($this->content, $storage)));
         
         $report = $assemblyServiceMock->createAssembly($rootClass, $this->content);
+        return $report;
+    }
+    
+    
+    /**
+     * create assembly from template
+     */
+    public function testCreateAssembly()
+    {
+
+        $report = $this->getAssembly();
         
         $this->assertInstanceOf('common_report_Report', $report);
         $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
@@ -147,11 +160,37 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('core_kernel_classes_Literal', current($values[PROPERTY_COMPILEDDELIVERY_DIRECTORY]));
         $this->assertEquals('IdoNotExist', current($values[PROPERTY_COMPILEDDELIVERY_DIRECTORY]));
         $this->assertInstanceOf('core_kernel_classes_Literal', current($values[PROPERTY_COMPILEDDELIVERY_TIME]));
-        $this->assertGreaterThanOrEqual(time(), current($values[PROPERTY_COMPILEDDELIVERY_TIME])->literal);
+        $this->assertGreaterThanOrEqual(time(), intval(current($values[PROPERTY_COMPILEDDELIVERY_TIME])->literal));
         $this->assertInstanceOf('core_kernel_classes_Resource', current($values[PROPERTY_COMPILEDDELIVERY_RUNTIME]));
         $this->assertEquals(GENERIS_TRUE, current($values[PROPERTY_COMPILEDDELIVERY_RUNTIME])->getUri());
         
         $assembly->delete();
+    }
+    
+    /**
+     * Create Assembly from template
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param \core_kernel_classes_Resource $deliveryTemplate
+     * @return common_report_Report
+     */
+    private function getAssemblyFromTemplate($deliveryTemplate){
+        $storage = \tao_models_classes_service_FileStorage::singleton();
+        
+        $assemblyServiceMock = $this->getMockBuilder('taoDelivery_models_classes_DeliveryAssemblyService')
+        ->setMethods(array(
+            'getCompiler'
+        ))
+        ->disableOriginalConstructor()
+        ->setMockClassName('taoDelivery_models_classes_DeliveryAssemblyService_Mock')
+        ->getMock();
+        
+        $assemblyServiceMock->expects($this->any())
+        ->method('getCompiler')
+        ->will($this->returnValue($this->getCompilerMock($this->content, $storage)));
+        
+        $report = $assemblyServiceMock->createAssemblyFromTemplate($deliveryTemplate);
+        return $report;
     }
 
     /**
@@ -167,22 +206,8 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
         $deliveryTemplate->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_CONTENT), $this->content);
         $deliveryTemplate->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP), '3');
         
-        $storage = \tao_models_classes_service_FileStorage::singleton();
-        
-        $assemblyServiceMock = $this->getMockBuilder('taoDelivery_models_classes_DeliveryAssemblyService')
-            ->setMethods(array(
-            'getCompiler'
-        ))
-            ->disableOriginalConstructor()
-            ->setMockClassName('taoDelivery_models_classes_DeliveryAssemblyService_Mock')
-            ->getMock();
-        
-        $assemblyServiceMock->expects($this->any())
-            ->method('getCompiler')
-            ->will($this->returnValue($this->getCompilerMock($this->content, $storage)));
-        
-        $report = $assemblyServiceMock->createAssemblyFromTemplate($deliveryTemplate);
-        
+        $report = $this->getAssemblyFromTemplate($deliveryTemplate);
+       
         $this->assertInstanceOf('common_report_Report', $report);
         $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
         
@@ -211,6 +236,28 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
         $deliveryTemplate->delete();
         $assembly->delete();
     }
+    
+    
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function testGetAssembliesByTemplate(){
+        $templateService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
+        $deliveryTemplate = $templateService->createInstance($templateService->getRootClass(), 'unit test delivery template');
+        $deliveryTemplate->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_CONTENT), $this->content);
+        
+        $report = $this->getAssemblyFromTemplate($deliveryTemplate);
+        $assembly = $report->getData();
+        
+        $res = $this->assemblyService->getAssembliesByTemplate($deliveryTemplate,true);
+        $this->assertInstanceOf('core_kernel_classes_Resource', current($res));       
+        $this->assertEquals($assembly->getUri(),current($res)->getUri());
+        
+        $deliveryTemplate->delete();
+        $assembly->delete();
+    }
+    
 }
 
 ?>
