@@ -1,12 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:27:37\n"
+"Project-Id-Version: TAO v2.7\n"
+"PO-Revision-Date: 2014-10-14T10:43:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
 
 msgid "%1s has been published on the %2s', get_data('label"
 msgstr ""
@@ -51,7 +56,7 @@ msgid "Attempts"
 msgstr ""
 
 msgid "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test takers."
-msgstr "Be careful, later modifications on its content are not  taken into account. You have to publish it again to make your modifications available to test-takers."
+msgstr ""
 
 msgid "Cancel"
 msgstr ""
@@ -66,9 +71,6 @@ msgid "Content driver selected"
 msgstr ""
 
 msgid "Create Delivery"
-msgstr ""
-
-msgid "delete"
 msgstr ""
 
 msgid "Delete"
@@ -135,6 +137,9 @@ msgstr ""
 msgid "Export Options"
 msgstr ""
 
+msgid "Filter"
+msgstr ""
+
 msgid "History"
 msgstr ""
 
@@ -144,37 +149,37 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
+msgid "Index"
+msgstr ""
+
 msgid "Items"
 msgstr ""
 
 msgid "Logout"
 msgstr ""
 
-msgid "LTI"
-msgstr ""
-
 msgid "Manifest not found in assembly"
 msgstr ""
 
-msgid "move"
+msgid "Move"
 msgstr ""
 
 msgid "My Tests"
 msgstr ""
 
-msgid "new class"
+msgid "New class"
 msgstr ""
 
-msgid "new delivery"
+msgid "New delivery"
 msgstr ""
 
-msgid "new template"
+msgid "New template"
 msgstr ""
 
 msgid "No attempt has been started yet."
 msgstr ""
 
-msgid "No informations available"
+msgid "No information available"
 msgstr ""
 
 msgid "Ok"
@@ -226,7 +231,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "search"
+msgid "Search"
 msgstr ""
 
 msgid "Select a test"
@@ -244,6 +249,9 @@ msgstr ""
 msgid "Started at "
 msgstr ""
 
+msgid "Status saved"
+msgstr ""
+
 #, tao-public
 msgid "Take or continue a test."
 msgstr ""
@@ -256,13 +264,13 @@ msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "Test Taker"
-msgstr "Test-Taker"
+msgstr ""
 
 msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
-msgstr "Schedule test deliveries by defining the group (who), the test (what), and the date/time (when).  You can add more detailed specifications such as if test-takers are allowed to retake a test and where to send and store the results data."
+msgstr ""
 
 msgid "There are currently"
 msgstr ""
@@ -283,9 +291,6 @@ msgid "Time"
 msgstr ""
 
 msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
-msgstr "To be accessible by test-takers on the specified dates, you have to publish your delivery."
-
-msgid "Translate"
 msgstr ""
 
 msgid "Unkown error during impoort"
@@ -295,8 +300,5 @@ msgid "Unlimited"
 msgstr ""
 
 msgid "Upload an assembly"
-msgstr ""
-
-msgid "View History"
 msgstr ""
 
