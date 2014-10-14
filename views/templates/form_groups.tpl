@@ -1,4 +1,4 @@
-<section id="<?=get_data('id')?>-container" class="new-container">
+<section id="<?=get_data('id')?>-container">
 	<header>
         <h1><?=get_data('title')?></h1>
 	</header>

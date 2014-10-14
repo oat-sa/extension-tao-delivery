@@ -1,5 +1,5 @@
 <?php if (get_data('groupcount') > 0) : ?>
-<section class="new-container">
+<section>
 	<header>
 		<h1><?=__('Test-takers')?>
 	</header>
