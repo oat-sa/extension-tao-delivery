@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     sass.taodelivery.files[root + 'css/testtakers.css'] = root + 'scss/testtakers.scss';
 
     watch.taodeliverysass = {
-        files : [root + 'views/scss/home.scss'],
+        files : [root + 'views/scss/**/*.scss'],
         tasks : ['sass:taodelivery', 'notify:taodeliverysass'],
         options : {
             debounceDelay : 1000
