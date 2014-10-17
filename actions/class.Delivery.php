@@ -78,7 +78,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
-                    $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->getUri()));
+                    $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
                 }
                 $this->setData('message', __('Delivery Class saved'));
                 $this->setData('reload', true);
@@ -114,11 +114,11 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($delivery);
                 $delivery = $binder->bind($propertyValues);
                 
+                $this->setData("selectNode", tao_helpers_Uri::encode($delivery->getUri()));
                 $this->setData('message', __('Delivery saved'));
                 $this->setData('reload', true);
             }
         }
-        $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($delivery->getUri()));
         
         $this->setData('label', $delivery->getLabel());
         
