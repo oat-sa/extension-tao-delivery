@@ -37,7 +37,9 @@ define(['jquery', 'i18n', 'helpers', 'ui/feedback', 'module'], function ($, __, 
             	        data: {uri : uri, status: status},
             	        success: function (data, textStatus, jqXHR){
                         	feedback().success(__("Status saved"));
-                            $('.tree').trigger('refresh.taotree');
+                            $('.tree').trigger('refresh.taotree', [{
+                                selectNode : uri
+                            }]);
             	        },
             	        error: function (jqXHR, textStatus, errorThrown) {
                         	feedback().error('Error occured: ' + errorThrown);
