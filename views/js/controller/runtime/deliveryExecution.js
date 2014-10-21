@@ -59,6 +59,7 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
         var windowHeight = $(window).height();
         var controlHeight = 0;
         var $control = $('#control');
+        var userAgent = navigator.userAgent;
         
         if ($control.length === 1) {
             controlHeight = $control.outerHeight(true);
@@ -66,7 +67,14 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
         
         var newHeight = windowHeight - controlHeight;
         
-        if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false == true) {
+        if (userAgent.match(/android/i) ? true : false == true) {
+            var version = parseFloat(
+                userAgent.slice(userAgent.toLowerCase().indexOf("android") + 8)
+            );
+            if (version > 4.1 && version < 4.4) {
+                newHeight += 20;
+            }
+        } else if (userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false == true) {
             newHeight -= 20;
         }
         
