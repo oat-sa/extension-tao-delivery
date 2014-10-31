@@ -44,8 +44,11 @@ use oat\tao\helpers\Template;
     </div>
 </div>
  
+<header class="flex-container-full">	
+    <h2><?=get_data('formTitle')?></h2>
+</header>
 <div class="main-container flex-container-main-form">
-	<h2><?=get_data('formTitle')?></h2>
+
 	<div id="form-container">
 		<?=get_data('myForm')?>
 	</div>

@@ -5,8 +5,10 @@ Template::inc('header.tpl');
 ?>
 <!--<link rel="stylesheet" type="text/css" href="<?=Template::css('form_delivery.css')?>" />-->
 
+<header class="flex-container-full">
+    <h2><?=get_data('formTitle')?></h2>
+</header>
 <div class="main-container flex-container-main-form">
-	<h2><?=get_data('formTitle')?></h2>
 	<div id="form-container">
 		<?=get_data('myForm')?>
 	</div>

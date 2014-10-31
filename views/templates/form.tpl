@@ -1,8 +1,10 @@
 <?php
 use oat\tao\helpers\Template;
 ?>
-<div class="main-container flex-container-main-form">
+<header class="flex-container-full">
 	<h2><?=get_data('formTitle')?></h2>
+</header>
+<div class="main-container flex-container-main-form">
 	<div id="form-container">
 		<?=get_data('myForm')?>
 	</div>
