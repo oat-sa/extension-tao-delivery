@@ -14,23 +14,20 @@
 	</div>	
 </div>
 <script type="text/javascript">
-$(function(){
-	require(['jquery', 'i18n', 'helpers', 'generis.tree.select'], function($, __, helpers) {
-		$('.contentButton').click(function(){
-                    $.ajax({
-    			url: "<?=get_data('saveUrl')?>",
-    			type: "POST",
-    			data: {'model': $(this).data('uri')},
-    			dataType: 'json',
-    			success: function(response) {
-    				if (response.success) {
-    					helpers.createInfoMessage(__('Content driver selected'));
-    				}
-    				$('.clicked').trigger("click");
-			    }
-                    });			
-		});
-	});
-		
+require(['jquery', 'i18n', 'ui/feedback', 'generis.tree.select'], function($, __, feedback) {
+    $('.contentButton').click(function(){
+                $.ajax({
+            url: "<?=get_data('saveUrl')?>",
+            type: "POST",
+            data: {'model': $(this).data('uri')},
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    feedback().info(__('Content driver selected'));
+                }
+                $('.clicked').trigger("click");
+            }
+                });			
+    });
 });
 </script>
