@@ -62,27 +62,13 @@ class taoDelivery_actions_Compilation extends tao_actions_SaSModule
 		$this->setView("delivery_compiling.tpl");
     }
     
-	public function compile(){
+	public function compile()
+	{
 	    $delivery = $this->getCurrentInstance();
 	    $report = $this->service->createAssemblyFromTemplate($delivery);
 	    
 	    $this->setData('title', __('Publishing Report'));
 	    $this->setData('report', $report);
 	    $this->setView('report.tpl', 'tao');
-	}
-	
-	public function export() {
-	    $publishedDelivery = $this->getCurrentInstance();
-	    $path = taoDelivery_models_classes_import_Assembler::exportCompiledDelivery($publishedDelivery);
-	    echo json_encode(array(
-	        'success' => true,
-	        'download'   => _url('downloadExportedFiles', 'Export', 'tao', array('filePath' => tao_helpers_Export::getRelativPath($path)))
-	    ));
-	    /*
-	    echo json_encode(array(
-	        'success' => false,
-	        'error'   => $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : __('An undefined error has occured')
-	    ));
-	    */
 	}
 }
