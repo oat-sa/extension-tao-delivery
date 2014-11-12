@@ -18,23 +18,19 @@
  */
 @import "inc/bootstrap";
 
-.ttlist
-{
-    overflow: auto; 
+.ttlist {
+    overflow: auto;
 }
 
-#assignedList
-{
+#assignedList {
     height: 261px;
 }
 
-#excludedList
-{
+#excludedList {
     height: 300px;
 }
 
-.ttlist li
-{
+.ttlist li {
     cursor: pointer;
     border-bottom: 1px solid #D3D3D3;
     padding: 3px;
@@ -42,33 +38,34 @@
 }
 
 .ttlist li:hover {
-  color: #FFFFFF;
-  background: none repeat scroll 0 0 #266D9C;}
+    color: #FFFFFF;
+    background: none repeat scroll 0 0 #266D9C;
+}
 
 .filter-div {
-  background: none repeat scroll 0 0 lightgrey;
-  padding: 2px;
-  height: 35px; }
+    background: none repeat scroll 0 0 lightgrey;
+    padding: 2px;
+    height: 35px;
+}
 
 .ttbox {
-  height: 300px;
-  border: 2px solid #D3D3D3; }
+    height: 300px;
+    @include simple-border();
+}
 
-#assignedList li .arrow
-{
-	&:before {
-	    @include icon('right');
-	}
+#assignedList li .arrow {
+    &:before {
+        @include icon('right');
+    }
     float: right;
     margin-right: 5px;
     line-height: 1.4;
 }
 
-#excludedList li .arrow
-{
-&:before {
-    @include icon('left');
-}
+#excludedList li .arrow {
+    &:before {
+        @include icon(left);
+    }
     float: left;
     margin-left: 5px;
     margin-right: 10px;
