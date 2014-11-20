@@ -119,7 +119,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
     public function setState($state) {
         $oldState = $this->getState()->getUri();
         if ($oldState == $state) {
-            common_Logger::w('Delivery execution '.$this->getUri().' already in state '.$state);
+            common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state);
             return false;
         }
         $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
