@@ -60,5 +60,5 @@ use oat\tao\helpers\Template;
     <?= has_data('campaign') ? get_data('campaign') : '';?>
 </div>
 <?php
-Template::inc('footer.tpl');
+Template::inc('footer.tpl', 'tao');
 ?>
