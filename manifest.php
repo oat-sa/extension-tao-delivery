@@ -30,9 +30,9 @@ return array(
     'version' => '2.6',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'taoTests' => '2.6',
-        'taoGroups' => '2.6',
-        'taoResultServer' => '2.6'
+        'taoTests' => '>=2.6',
+        'taoGroups' => '>=2.6',
+        'taoResultServer' => '>=2.6'
     ),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
