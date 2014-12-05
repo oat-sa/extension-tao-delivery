@@ -26,9 +26,12 @@ define(function(){
         'Delivery': {
             'deps' : 'controller/deliveryAssembly',
             'actions' : {
-                'getSectionActions' : 'controller/main/actions',
-                'getSectionTrees' : 'controller/main/trees',
 	            'excludeTesttaker' : 'controller/testtaker'
+            }
+        },
+        'DeliveryTemplate': {
+            'actions' : {
+                'editDelivery' : 'controller/template/editDelivery'
             }
         },
         'Compilation' : {

@@ -10,8 +10,8 @@ use oat\tao\helpers\Template;
         <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
         <script type="text/javascript">
         (function(){
+            requirejs.config({waitSeconds : <?=get_data('client_timeout')?>});
             require(['<?=get_data('client_config_url')?>'], function(){
-
                 require(['taoDelivery/controller/runtime/deliveryExecution', 'serviceApi/ServiceApi', 'serviceApi/StateStorage', 'serviceApi/UserInfoService',], 
                     function(deliveryExecution, ServiceApi, StateStorage, UserInfoService){
                     

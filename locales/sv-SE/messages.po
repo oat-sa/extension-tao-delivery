@@ -1,12 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:27:37\n"
+"Project-Id-Version: TAO v3.0\n"
+"PO-Revision-Date: 2014-10-21T07:51:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sv-SE\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: sv-SE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
 
 msgid "%1s has been published on the %2s', get_data('label"
 msgstr ""
@@ -15,13 +20,13 @@ msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
 msgstr ""
 
 msgid "Actions"
-msgstr "Handlingar"
+msgstr ""
 
 msgid "Add the source file."
 msgstr ""
 
 msgid "An error occured during history deletion"
-msgstr "Ett fel uppstod under raderandet av historia"
+msgstr ""
 
 msgid "An error occured during the import"
 msgstr ""
@@ -68,30 +73,27 @@ msgstr ""
 msgid "Create Delivery"
 msgstr ""
 
-msgid "delete"
-msgstr "radera"
-
 msgid "Delete"
-msgstr "Radera"
+msgstr ""
 
 msgid "Delete delivery"
 msgstr ""
 
 msgid "Delete History"
-msgstr "Radera historia"
+msgstr ""
 
 #, tao-public
 msgid "Deliveries"
-msgstr "Leverans"
+msgstr ""
 
 msgid "Deliveries %s', get_data('class"
 msgstr ""
 
 msgid "Deliveries library"
-msgstr "Leveransarkiv"
+msgstr ""
 
 msgid "Delivery Class saved"
-msgstr "Leveransklass sparad"
+msgstr ""
 
 msgid "Delivery could not be published"
 msgstr ""
@@ -106,10 +108,10 @@ msgid "Delivery is not assigned to any test-taker."
 msgstr ""
 
 msgid "Delivery properties"
-msgstr "Leveransegenskaper"
+msgstr ""
 
 msgid "Delivery saved"
-msgstr "Leverans sparad"
+msgstr ""
 
 msgid "Delivery Templates"
 msgstr ""
@@ -121,7 +123,7 @@ msgid "Edit delivery"
 msgstr ""
 
 msgid "Edit delivery class"
-msgstr "Redigera leveransklass"
+msgstr ""
 
 msgid "Enables you to export a published delivery"
 msgstr ""
@@ -130,51 +132,54 @@ msgid "Excluded test-takers"
 msgstr ""
 
 msgid "Execution History"
-msgstr "Utförandehistoria"
+msgstr ""
 
 msgid "Export Options"
 msgstr ""
 
+msgid "Filter"
+msgstr ""
+
 msgid "History"
-msgstr "Historia"
+msgstr ""
 
 msgid "History deleted successfully"
-msgstr "Historia framgångsrikt raderad"
+msgstr ""
 
 msgid "Import"
+msgstr ""
+
+msgid "Index"
 msgstr ""
 
 msgid "Items"
 msgstr ""
 
 msgid "Logout"
-msgstr "Logga ut"
-
-msgid "LTI"
 msgstr ""
 
 msgid "Manifest not found in assembly"
 msgstr ""
 
-msgid "move"
-msgstr "flytta"
+msgid "Move"
+msgstr ""
 
 msgid "My Tests"
 msgstr ""
 
-msgid "new class"
-msgstr "ny klass"
+msgid "New class"
+msgstr ""
 
-msgid "new delivery"
-msgstr "ny leverans"
+msgid "New delivery"
+msgstr ""
 
-msgid "new template"
+msgid "New template"
 msgstr ""
 
 msgid "No attempt has been started yet."
 msgstr ""
 
-msgid "No informations available"
+msgid "No information available"
 msgstr ""
 
 msgid "Ok"
@@ -184,7 +189,7 @@ msgid "Paused Tests"
 msgstr ""
 
 msgid "Please confirm history deletion"
-msgstr "Var vänlig bekräfta raderandet av historia"
+msgstr ""
 
 msgid "Please upload a published delivery assembly ."
 msgstr ""
@@ -218,7 +223,7 @@ msgid "Publishing Report"
 msgstr ""
 
 msgid "Recompile the delivery"
-msgstr "Återsammanställ leveransen"
+msgstr ""
 
 msgid "Resume"
 msgstr ""
@@ -226,11 +231,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "search"
-msgstr "sök"
+msgid "Search"
+msgstr ""
 
 msgid "Select a test"
-msgstr "Välj ett test"
+msgstr ""
 
 msgid "Select delivery mode"
 msgstr ""
@@ -244,16 +249,19 @@ msgstr ""
 msgid "Started at "
 msgstr ""
 
+msgid "Status saved"
+msgstr ""
+
 #, tao-public
 msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - En öppen, smidig och mångsidig datorbaserad utvärderingsplattform"
+msgstr ""
 
 #, tao-public
 msgid "TAO Delivery Server"
-msgstr "TAO leversansserver"
+msgstr ""
 
 msgid "Test Taker"
 msgstr ""
@@ -262,7 +270,7 @@ msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
-msgstr "Leveransmodulen låter alla användare definiera testleveransparametrar"
+msgstr ""
 
 msgid "There are currently"
 msgstr ""
@@ -280,12 +288,9 @@ msgid "There is currently no delivery execution."
 msgstr ""
 
 msgid "Time"
-msgstr "Tid"
-
-msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
 msgstr ""
 
-msgid "Translate"
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
 msgstr ""
 
 msgid "Unkown error during impoort"
@@ -295,8 +300,5 @@ msgid "Unlimited"
 msgstr ""
 
 msgid "Upload an assembly"
-msgstr ""
-
-msgid "View History"
 msgstr ""
 

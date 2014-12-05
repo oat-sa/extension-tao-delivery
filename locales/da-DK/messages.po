@@ -1,12 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.6-RC03\n"
-"PO-Revision-Date: 2014-06-20T16:27:37\n"
+"Project-Id-Version: TAO v3.0\n"
+"PO-Revision-Date: 2014-10-21T07:51:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: da-DK\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
 
 msgid "%1s has been published on the %2s', get_data('label"
 msgstr ""
@@ -15,13 +20,13 @@ msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
 msgstr ""
 
 msgid "Actions"
-msgstr "Handlinger"
+msgstr ""
 
 msgid "Add the source file."
 msgstr ""
 
 msgid "An error occured during history deletion"
-msgstr "En fejl opstod under sletning af historik"
+msgstr ""
 
 msgid "An error occured during the import"
 msgstr ""
@@ -68,36 +73,33 @@ msgstr ""
 msgid "Create Delivery"
 msgstr ""
 
-msgid "delete"
-msgstr "slet"
-
 msgid "Delete"
-msgstr "Slet"
+msgstr ""
 
 msgid "Delete delivery"
 msgstr ""
 
 msgid "Delete History"
-msgstr "Slet historik"
+msgstr ""
 
 #, tao-public
 msgid "Deliveries"
-msgstr "Leverance"
+msgstr ""
 
 msgid "Deliveries %s', get_data('class"
 msgstr ""
 
 msgid "Deliveries library"
-msgstr "Leverance arkiv"
+msgstr ""
 
 msgid "Delivery Class saved"
-msgstr "Leverance klasse gemt"
+msgstr ""
 
 msgid "Delivery could not be published"
 msgstr ""
 
 msgid "delivery executions"
-msgstr "leverance udførelse"
+msgstr ""
 
 msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
 msgstr ""
@@ -106,10 +108,10 @@ msgid "Delivery is not assigned to any test-taker."
 msgstr ""
 
 msgid "Delivery properties"
-msgstr "Leverance egenskaber"
+msgstr ""
 
 msgid "Delivery saved"
-msgstr "Leverance gemt"
+msgstr ""
 
 msgid "Delivery Templates"
 msgstr ""
@@ -121,7 +123,7 @@ msgid "Edit delivery"
 msgstr ""
 
 msgid "Edit delivery class"
-msgstr "Redigere leverance klasse"
+msgstr ""
 
 msgid "Enables you to export a published delivery"
 msgstr ""
@@ -130,51 +132,54 @@ msgid "Excluded test-takers"
 msgstr ""
 
 msgid "Execution History"
-msgstr "gennemførelses historik"
+msgstr ""
 
 msgid "Export Options"
 msgstr ""
 
+msgid "Filter"
+msgstr ""
+
 msgid "History"
-msgstr "Historik"
+msgstr ""
 
 msgid "History deleted successfully"
-msgstr "Historik slettet"
+msgstr ""
 
 msgid "Import"
+msgstr ""
+
+msgid "Index"
 msgstr ""
 
 msgid "Items"
 msgstr ""
 
 msgid "Logout"
-msgstr "Log ud"
-
-msgid "LTI"
 msgstr ""
 
 msgid "Manifest not found in assembly"
 msgstr ""
 
-msgid "move"
-msgstr "flyt"
+msgid "Move"
+msgstr ""
 
 msgid "My Tests"
 msgstr ""
 
-msgid "new class"
-msgstr "ny klasse"
+msgid "New class"
+msgstr ""
 
-msgid "new delivery"
-msgstr "ny leverance"
+msgid "New delivery"
+msgstr ""
 
-msgid "new template"
+msgid "New template"
 msgstr ""
 
 msgid "No attempt has been started yet."
 msgstr ""
 
-msgid "No informations available"
+msgid "No information available"
 msgstr ""
 
 msgid "Ok"
@@ -184,7 +189,7 @@ msgid "Paused Tests"
 msgstr ""
 
 msgid "Please confirm history deletion"
-msgstr "Bekræft sletning af histiorik"
+msgstr ""
 
 msgid "Please upload a published delivery assembly ."
 msgstr ""
@@ -218,7 +223,7 @@ msgid "Publishing Report"
 msgstr ""
 
 msgid "Recompile the delivery"
-msgstr "Sammensæt leverancen igen"
+msgstr ""
 
 msgid "Resume"
 msgstr ""
@@ -226,11 +231,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "search"
-msgstr "søg"
+msgid "Search"
+msgstr ""
 
 msgid "Select a test"
-msgstr "Vælg en test"
+msgstr ""
 
 msgid "Select delivery mode"
 msgstr ""
@@ -244,28 +249,31 @@ msgstr ""
 msgid "Started at "
 msgstr ""
 
+msgid "Status saved"
+msgstr ""
+
 #, tao-public
 msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - En åben, smidig og mangesidig testplatformplattform"
+msgstr ""
 
 #, tao-public
 msgid "TAO Delivery Server"
-msgstr "TAO leverance server"
+msgstr ""
 
 msgid "Test Taker"
-msgstr "Test Tager"
+msgstr ""
 
 msgid "Test-takers"
 msgstr ""
 
 msgid "The Deliveries module allows users to define tests deliveries parameters."
-msgstr "Leverance modulet lader brugere definere testleverance parameter."
+msgstr ""
 
 msgid "There are currently"
-msgstr "Der er i øjeblikket"
+msgstr ""
 
 msgid "There are currently %s attempts', get_data('exec"
 msgstr ""
@@ -277,15 +285,12 @@ msgid "There is currently 1 attempt"
 msgstr ""
 
 msgid "There is currently no delivery execution."
-msgstr "Der er i øjeblikket ingen leverings udførelse."
-
-msgid "Time"
-msgstr "Tid"
-
-msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
 msgstr ""
 
-msgid "Translate"
+msgid "Time"
+msgstr ""
+
+msgid "To be accessible by test takers on the specified dates, you have to publish your delivery."
 msgstr ""
 
 msgid "Unkown error during impoort"
@@ -296,7 +301,4 @@ msgstr ""
 
 msgid "Upload an assembly"
 msgstr ""
-
-msgid "View History"
-msgstr "Vis Historik"
 

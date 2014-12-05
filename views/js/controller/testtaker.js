@@ -17,16 +17,19 @@
  *
  *
  */
-define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, helpers, uiBootstrap, module) {
+define(['jquery', 'i18n', 'helpers', 'module', 'layout/section', 'ui/feedback'], 
+function ($, __, helpers, module, section, feedback) {
+    'use strict';
 
 	function switchList() {
 		var current = $(this).parent().attr('id');
+        var target; 
 		if (current == 'excludedList') {
-			var target = $('#assignedList'); 
+			target = $('#assignedList'); 
 		} else if (current == 'assignedList') {
-			var target = $('#excludedList');
+			target = $('#excludedList');
 		}
-		if (typeof target != 'undefined') {
+		if (typeof target !== 'undefined') {
 			target.append(this);
 			this.scrollIntoView();
 		}
@@ -46,13 +49,13 @@ define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, 
     
     var filterList = function(regex, list) {
     	list.children().each(function(index, element) {
-    		if ($(element).text().match(regex) == null) {
+    		if ($(element).text().match(regex) === null) {
     			$(element).hide();
     		} else {
     			$(element).show();
     		}
-    	})
-    }
+    	});
+    };
 	
     return {
         start : function(){
@@ -72,26 +75,18 @@ define(['jquery', 'i18n', 'helpers', 'uiBootstrap', 'module'], function ($, __, 
 					dataType: 'json',
 					success: function(response) {
 						if (response.saved) {
-							helpers.createInfoMessage(__('Selection saved successfully'));
-							helpers._load(
-								helpers.getMainContainerSelector()
-								,helpers._url('editDelivery', 'Delivery', 'taoDelivery')
-								,{uri: assemblyUri}
-							);
+                            feedback().success(__('Selection saved successfully'));
+                            section.loadContentBlock(helpers._url('editDelivery', 'Delivery', 'taoDelivery'), {uri: assemblyUri});
 						}
-					},
-					complete: function() {
-						helpers.loaded();
 					}
 				});
-	        })
+	        });
         	$('#assignedList > li').click(switchList);
         	$('#excludedList > li').click(switchList);
         	
         	$('#close-tt').click(function() {
         		$('#testtaker-form').modal('close');
         	});
-        	
                 
             //trigger the search on keyp and on the magnifer button click
             $search.keyup(liveSearch).siblings('.ctrl').click(liveSearch);

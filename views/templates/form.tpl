@@ -1,13 +1,15 @@
 <?php
 use oat\tao\helpers\Template;
-
-Template::inc('header.tpl');
 ?>
-    <div class="main-container" data-tpl="tao/form.tpl">
-        <h2><?=get_data('formTitle')?></h2>
-        <div class="form-content">
-            <?=get_data('myForm')?>
-        </div>
-    </div>
-    <div class="data-container-wrapper"></div>
+<header class="flex-container-full">
+	<h2><?=get_data('formTitle')?></h2>
+</header>
+<div class="main-container flex-container-main-form">
+	<div id="form-container">
+		<?=get_data('myForm')?>
+	</div>
+</div>
+
+<div class="data-container-wrapper flex-container-remainer"></div>
+
 <?php Template::inc('footer.tpl'); ?>

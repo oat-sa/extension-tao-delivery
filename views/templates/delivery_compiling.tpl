@@ -5,7 +5,7 @@ Template::inc('header.tpl');
 ?>
 <link rel="stylesheet" type="text/css" href="<?=Template::css('compiling.css')?>" />
 
-<div class="main-container">
+<div class="main-container flex-container-full">
     <div class="ext-home-container ui-state-highlight">
         <div>
 

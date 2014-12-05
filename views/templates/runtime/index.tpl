@@ -127,7 +127,7 @@ use oat\tao\helpers\Template;
     </div>
 <!-- /content-wrap -->
 <?php
-Template::inc('layout_footer.tpl', 'tao')
+Template::inc('footer.tpl', 'tao')
 ?>
 </body>
 </html>

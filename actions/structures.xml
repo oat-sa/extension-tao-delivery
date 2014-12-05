@@ -11,37 +11,36 @@
                     <tree name="Deliveries library"
                           className="Delivery"
                           dataUrl="/taoDelivery/Delivery/getOntologyData"
-                            selectClass="Edit class"
-                            selectInstance="Edit delivery"
-                            moveInstance="Move"
-                            delete="Delete" 
-                            />
+                          selectClass="delivery-class-properties"
+                          selectInstance="delivery-properties"
+                          moveInstance="delivery-move"
+                          delete="delivery-delete" 
+                    />
                 </trees>
                 <actions>
                 	
-                	<action name="Edit class" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
+                	<action id="delivery-class-properties" name="Properties" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
-                    <action name="Edit delivery"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
+                    <action id="delivery-properties" name="Properties"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
                         <icon id="icon-edit"/>
                     </action> 
-                    
-                    <action name="Filter" context="*" group="search" binding="filter">
+                    <action id="delivery-filter" name="Filter" context="*" group="search" binding="filter">
                         <icon id="icon-filter"/>
                     </action>
-                    <action name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
+                    <action id="delivery-search" name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
                         <icon id="icon-find"/>
                     </action>  
-                    <action name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
+                    <action id="delivery-class-new" name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
                         <icon id="icon-folder-open"/>
                     </action>
-                    <action name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="content">
+                    <action id="delivery-new" name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="content">
                         <icon id="icon-delivery"/>
                     </action>
-                    <action name="Delete" url="/taoDelivery/Delivery/delete" context="resource" group="tree" binding="removeNode">
+                    <action id="delivery-delete" name="Delete" url="/taoDelivery/Delivery/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
-                    <action name="Move" url="" context="instance" group="tree" binding="moveNode">
+                    <action id="delivery-move" name="Move" url="/taoDelivery/Delivery/moveInstance" context="instance" group="none" binding="moveNode">
                         <icon id="icon-move-item"/>
                     </action>
 
@@ -52,20 +51,31 @@
                     <tree name="Delivery Templates"
                           className="Delivery"
                           dataUrl="/taoDelivery/DeliveryTemplate/getOntologyData"
-                          editClassUrl="/taoDelivery/DeliveryTemplate/index"
-                          editInstanceUrl="/taoDelivery/DeliveryTemplate/editDelivery"
-                          addInstanceUrl="/taoDelivery/DeliveryTemplate/addDelivery"
-                          deleteUrl="/taoDelivery/DeliveryTemplate/delete"
-                            />
+                          selectClass="delivery-template-index"
+                          selectInstance="delivery-template-properties"
+                          delete="delivery-template-delete" 
+                    />
                 </trees>
                 <actions>
-                    <action name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="tree" binding="instanciate">
-                        <icon id="icon-template"/>
-                    </action>
 
-                    <action name="Delete" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree" binding="removeNode">
+                	<action id="delivery-template-index" name="Index" url="/taoDelivery/DeliveryTemplate/index" group="none" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action id="delivery-template-properties" name="Properties"  url="/taoDelivery/DeliveryTemplate/editDelivery" group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action> 
+                    <action id="delivery-template-new" name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="content" binding="instanciate">
+                        <icon id="icon-add"/>
+                    </action>
+                    <action id="delivery-template-delete" name="Delete" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree" binding="removeNode">
                         <icon id="icon-bin"/>
                     </action>
+                    <action id="delivery-template-filter" name="Filter" context="*" group="search" binding="filter">
+                        <icon id="icon-filter"/>
+                    </action>
+                    <action id="delivery-template-search" name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
+                        <icon id="icon-find"/>
+                    </action>  
                 </actions>
             </section>
         </sections>

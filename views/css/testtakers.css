@@ -16,10 +16,6 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-/* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-/**
- * Use icon within sass: @inclue icon('down');
- */
                                   /*
                                  /  \
                                 |    |
@@ -37,39 +33,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-/* line 34, /home/bout/code/php/taoTrunk/tao/views/scss/inc/_tao-icon-vars.scss */
 #excludedList li .arrow:before {
-  content: "\121"; }
+  content: "\e60e"; }
 
-/* line 35, /home/bout/code/php/taoTrunk/tao/views/scss/inc/_tao-icon-vars.scss */
 #assignedList li .arrow:before {
-  content: "\122"; }
-  
-/* to ADD */
-.filter-div {
-  background: none repeat scroll 0 0 lightgrey;
-  padding: 2px;
-  height: 35px; }
+  content: "\e60f"; }
 
-.ttbox {
-  height: 300px;
-  border: 2px solid #D3D3D3; }
-
-/* line 21, ../scss/testtakers.scss */
 .ttlist {
   overflow: auto; }
-  
-#assignedList
-{
-    height: 261px;
-}
 
-#excludedList
-{
-    height: 300px;
-}
+#assignedList {
+  height: 261px; }
 
-/* line 27, ../scss/testtakers.scss */
+#excludedList {
+  height: 300px; }
+
 .ttlist li {
   cursor: pointer;
   border-bottom: 1px solid #D3D3D3;
@@ -78,25 +56,34 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .ttlist li:hover {
   color: #FFFFFF;
-  background: none repeat scroll 0 0 #266D9C;}
+  background: none repeat scroll 0 0 #266D9C; }
 
-/* line 32, ../scss/testtakers.scss */
+.filter-div {
+  background: none repeat scroll 0 0 lightgrey;
+  padding: 2px;
+  height: 35px; }
+
+.ttbox {
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px; }
+
 #assignedList li .arrow {
   float: right;
   margin-right: 5px;
   line-height: 1.4; }
-  /* line 34, ../scss/testtakers.scss */
   #assignedList li .arrow:before {
     font-family: 'tao';
     display: inline-block; }
 
-/* line 42, ../scss/testtakers.scss */
 #excludedList li .arrow {
   float: left;
   margin-left: 5px;
   margin-right: 10px;
   line-height: 1.4; }
-  /* line 44, ../scss/testtakers.scss */
   #excludedList li .arrow:before {
     font-family: 'tao';
     display: inline-block; }
+
+/*# sourceMappingURL=testtakers.css.map */

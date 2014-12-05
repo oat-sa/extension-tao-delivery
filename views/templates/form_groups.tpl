@@ -1,15 +1,14 @@
-<div id="<?=get_data('id')?>-container" class="data-container">
-	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=get_data('title')?>
-	</div>
-	<div class="ui-widget ui-widget-content container-content">
+<section id="<?=get_data('id')?>-container">
+	<header>
+        <h1><?=get_data('title')?></h1>
+	</header>
+	<div>
 		<div id="<?=get_data('id')?>-tree"></div>
-		<div class="breaker"></div>
 	</div>
-	<div class="ui-widget ui-widget-content ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;">
+	<footer>
 		<button id="saver-action-<?=get_data('id')?>" class="btn-info small" type="button" ><?=tao_helpers_Icon::iconSave().__('Save')?></button>
-	</div>
-</div>
+	</footer>
+</section>
 
 <script type="text/javascript">
 require(['jquery', 'generis.tree.select', 'helpers'], function($, GenerisTreeSelectClass, helpers) {
