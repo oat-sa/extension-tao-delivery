@@ -21,6 +21,11 @@ div.data-container{
 	width:49%;
 }
 
+.delivery-headings h3,
+.delivery-headings h2{
+    margin-bottom: 5px;
+}
+
 #delivery-left-container{
 	float:left;
 	/*position:relative;*/
