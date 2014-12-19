@@ -11,7 +11,7 @@
                     <tree name="Deliveries library"
                           className="Delivery"
                           dataUrl="/taoDelivery/Delivery/getOntologyData"
-                          rootNode="http://www.tao.lu/Ontologies/TAOResultServer.rdf#ResultServer"
+                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery"
                           selectClass="delivery-class-properties"
                           selectInstance="delivery-properties"
                           moveInstance="delivery-move"
