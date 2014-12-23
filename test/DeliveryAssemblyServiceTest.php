@@ -227,7 +227,7 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('core_kernel_classes_Literal', current($values[RDFS_LABEL]));
         $this->assertEquals('unit test delivery template', current($values[RDFS_LABEL]));
         $this->assertInstanceOf('core_kernel_classes_Resource', current($values[TAO_DELIVERY_RESULTSERVER_PROP]));
-        $this->assertEquals('http://www.tao.lu/Ontologies/TAOResult.rdf#taoResultServer', current($values[TAO_DELIVERY_RESULTSERVER_PROP])->getUri());
+        $this->assertEquals('http://www.tao.lu/Ontologies/taoOutcomeRds.rdf#RdsResultStorage', current($values[TAO_DELIVERY_RESULTSERVER_PROP])->getUri());
         $this->assertInstanceOf('core_kernel_classes_Literal', current($values[TAO_DELIVERY_MAXEXEC_PROP]));
         $this->assertEquals('3', current($values[TAO_DELIVERY_MAXEXEC_PROP]));
         $this->assertInstanceOf('core_kernel_classes_Resource', current($values[PROPERTY_COMPILEDDELIVERY_RUNTIME]));
