@@ -11,6 +11,7 @@
                     <tree name="Deliveries library"
                           className="Delivery"
                           dataUrl="/taoDelivery/Delivery/getOntologyData"
+                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery"
                           selectClass="delivery-class-properties"
                           selectInstance="delivery-properties"
                           moveInstance="delivery-move"
@@ -19,7 +20,7 @@
                 </trees>
                 <actions>
                 	
-                	<action id="delivery-class-properties" name="Properties" url="/taoDelivery/Delivery/editDeliveryClass" group="content" context="class">
+                	<action id="delivery-class-properties" name="Properties" url="/taoDelivery/Delivery/editClass" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
                     <action id="delivery-properties" name="Properties"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
@@ -51,6 +52,7 @@
                     <tree name="Delivery Templates"
                           className="Delivery"
                           dataUrl="/taoDelivery/DeliveryTemplate/getOntologyData"
+                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate"
                           selectClass="delivery-template-index"
                           selectInstance="delivery-template-properties"
                           delete="delivery-template-delete" 

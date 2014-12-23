@@ -1,6 +1,7 @@
 {
 
      "name": "oat-sa/extension-tao-delivery",
+     "version" : "3.0-beta2",
      "authors" : [
           {
           "name" : "Open Assessment Technologies S.A.",

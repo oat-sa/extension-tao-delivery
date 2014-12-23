@@ -17,7 +17,7 @@
  *
  *
  */
-define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
+define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer, Spinner, context){
     
     function loading(reverse) {
         if($('#overlay').length === 0){
@@ -76,6 +76,10 @@ define(['jquery', 'iframeResizer', 'spin'], function($, iframeResizer, Spinner){
     return {
         start: function(options){
             
+            $(document).on('serviceforbidden', function() {
+                window.location = context.root_url + 'tao/Main/logout';
+            });
+
             var $frame = $('#iframeDeliveryExec');
             $('#tools').css('height', 'auto');
             
