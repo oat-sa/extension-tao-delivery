@@ -20,7 +20,7 @@
                 </trees>
                 <actions>
                 	
-                	<action id="delivery-class-properties" name="Properties" url="/taoDelivery/Delivery/editClass" group="content" context="class">
+                	<action id="delivery-class-properties" name="Properties" url="/taoDelivery/Delivery/editClassProperties" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
                     <action id="delivery-properties" name="Properties"  url="/taoDelivery/Delivery/editDelivery" group="content" context="instance">
