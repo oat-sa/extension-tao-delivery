@@ -62,11 +62,11 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      */
 	public function index(){
 		
-		$label = core_kernel_classes_Session::singleton()->getUserLabel();
+		$label = common_session_SessionManager::getSession()->getUserLabel();
 		$this->setData('login',$label);
 		
 		//get deliveries for the current user (set in groups extension)
-		$userUri = core_kernel_classes_Session::singleton()->getUserUri();
+		$userUri = common_session_SessionManager::getSession()->getUser()->getIdentifier();
 		
         $this->setData('startedDeliveries', $this->service->getResumableDeliveries($userUri));
 		
@@ -110,7 +110,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $runtime = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRuntime($compiledDelivery);
 	    $this->setData('serviceApi', tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
 
-	    $this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
 	    $this->setData('showControls', $this->showControls());
         $this->setData('client_config_url', $this->getClientConfigUrl());
