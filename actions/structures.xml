@@ -47,39 +47,6 @@
 
                 </actions>
             </section>
-            <section id="manage_delivery_templates" name="Delivery Templates" url="/taoDelivery/DeliveryTemplate/index">
-                <trees>
-                    <tree name="Delivery Templates"
-                          className="Delivery"
-                          dataUrl="/taoDelivery/DeliveryTemplate/getOntologyData"
-                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate"
-                          selectClass="delivery-template-index"
-                          selectInstance="delivery-template-properties"
-                          delete="delivery-template-delete" 
-                    />
-                </trees>
-                <actions>
-
-                	<action id="delivery-template-index" name="Index" url="/taoDelivery/DeliveryTemplate/index" group="none" context="class">
-                        <icon id="icon-edit"/>
-                    </action>
-                    <action id="delivery-template-properties" name="Properties"  url="/taoDelivery/DeliveryTemplate/editDelivery" group="content" context="instance">
-                        <icon id="icon-edit"/>
-                    </action> 
-                    <action id="delivery-template-new" name="New template" url="/taoDelivery/DeliveryTemplate/addDelivery" context="class" group="content" binding="instanciate">
-                        <icon id="icon-add"/>
-                    </action>
-                    <action id="delivery-template-delete" name="Delete" url="/taoDelivery/DeliveryTemplate/delete" context="resource" group="tree" binding="removeNode">
-                        <icon id="icon-bin"/>
-                    </action>
-                    <action id="delivery-template-filter" name="Filter" context="*" group="search" binding="filter">
-                        <icon id="icon-filter"/>
-                    </action>
-                    <action id="delivery-template-search" name="Search" url="/taoDelivery/Delivery/search" context="*" group="search" binding="launchFinder">
-                        <icon id="icon-find"/>
-                    </action>  
-                </actions>
-            </section>
         </sections>
     </structure>
     <entrypoint id="deliveryServer" title="Test-Takers" label="TAO Delivery Server" url="taoDelivery/DeliveryServer/index">

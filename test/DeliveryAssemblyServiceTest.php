@@ -194,51 +194,6 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     */
-    public function testCreateAssemblyFromTemplate()
-    {
-        common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        
-        $templateService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
-        $deliveryTemplate = $templateService->createInstance($templateService->getRootClass(), 'unit test delivery template');
-        $deliveryTemplate->editPropertyValues(new core_kernel_classes_Property(PROPERTY_DELIVERY_CONTENT), $this->content);
-        $deliveryTemplate->editPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP), '3');
-        
-        $report = $this->getAssemblyFromTemplate($deliveryTemplate);
-       
-        $this->assertInstanceOf('common_report_Report', $report);
-        $this->assertEquals($report->getType(), common_report_Report::TYPE_SUCCESS);
-        
-        $assembly = $report->getData();
-        $this->assertInstanceOf('core_kernel_classes_Resource', $assembly);
-        
-        $values = $assembly->getPropertiesValues(array(
-            RDFS_LABEL,
-            TAO_DELIVERY_RESULTSERVER_PROP,
-            TAO_DELIVERY_MAXEXEC_PROP,
-            TAO_DELIVERY_START_PROP,
-            TAO_DELIVERY_END_PROP,
-            PROPERTY_COMPILEDDELIVERY_RUNTIME,
-            TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP
-        ));
-        
-        $this->assertInstanceOf('core_kernel_classes_Literal', current($values[RDFS_LABEL]));
-        $this->assertEquals('unit test delivery template', current($values[RDFS_LABEL]));
-        $this->assertInstanceOf('core_kernel_classes_Resource', current($values[TAO_DELIVERY_RESULTSERVER_PROP]));
-        $this->assertEquals('http://www.tao.lu/Ontologies/taoOutcomeRds.rdf#RdsResultStorage', current($values[TAO_DELIVERY_RESULTSERVER_PROP])->getUri());
-        $this->assertInstanceOf('core_kernel_classes_Literal', current($values[TAO_DELIVERY_MAXEXEC_PROP]));
-        $this->assertEquals('3', current($values[TAO_DELIVERY_MAXEXEC_PROP]));
-        $this->assertInstanceOf('core_kernel_classes_Resource', current($values[PROPERTY_COMPILEDDELIVERY_RUNTIME]));
-        $this->assertEquals(GENERIS_TRUE, current($values[PROPERTY_COMPILEDDELIVERY_RUNTIME])->getUri());
-        
-        $deliveryTemplate->delete();
-        $assembly->delete();
-    }
-    
-    
-    /**
      * 
      * @author Lionel Lecaque, lionel@taotesting.com
      */
@@ -259,5 +214,3 @@ class DeliveryAssemblyServiceTest extends TaoPhpUnitTestRunner
     }
     
 }
-
-?>

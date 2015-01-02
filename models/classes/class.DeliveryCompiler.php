@@ -33,10 +33,11 @@ abstract class taoDelivery_models_classes_DeliveryCompiler extends tao_models_cl
      * @throws common_exception_Error
      * @return taoDelivery_models_classes_DeliveryCompiler
      */
-    public static function createCompiler($resource) {
+    public static function createCompiler($deliveryContent) {
+        common_Logger::w('ups');
         $storage = new taoDelivery_models_classes_TrackedStorage();
-        $templateService = taoDelivery_models_classes_DeliveryTemplateService::singleton();
-        $compilerClass = $templateService->getImplementationByContent($resource)->getCompilerClass();
+        $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
+        $compilerClass = $deliveryService->getImplementationByContent($deliveryContent)->getCompilerClass();
         
         if (!class_exists($compilerClass)) {
             throw new common_exception_Error('Class '.$compilerClass.' not found while instanciating Compiler');
@@ -44,7 +45,7 @@ abstract class taoDelivery_models_classes_DeliveryCompiler extends tao_models_cl
         if (!is_subclass_of($compilerClass, __CLASS__)) {
             throw new common_exception_Error('Compiler class '.$compilerClass.' is not a compiler');
         }
-        return new $compilerClass($resource, $storage);
+        return new $compilerClass($deliveryContent, $storage);
     }
 
     protected function getSubCompilerClass(core_kernel_classes_Resource $resource) {
