@@ -34,7 +34,6 @@ abstract class taoDelivery_models_classes_DeliveryCompiler extends tao_models_cl
      * @return taoDelivery_models_classes_DeliveryCompiler
      */
     public static function createCompiler($deliveryContent) {
-        common_Logger::w('ups');
         $storage = new taoDelivery_models_classes_TrackedStorage();
         $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
         $compilerClass = $deliveryService->getImplementationByContent($deliveryContent)->getCompilerClass();
