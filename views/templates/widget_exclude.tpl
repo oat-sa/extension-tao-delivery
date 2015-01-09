@@ -34,6 +34,7 @@ require(['jquery', 'helpers', 'ui/modal'], function($, helpers){
 	    $('#testtaker-form').load(helpers._url('excludeTesttaker', 'Delivery', 'taoDelivery', {'uri' : '<?= get_data('assemblyUri')?>'}), function() {
             $('body').prepend($('#modal-container'));
             $('#testtaker-form').modal();
+        });
 	});
 });
 </script>
