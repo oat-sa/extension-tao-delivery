@@ -39,76 +39,6 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         return new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
     }
     
-    /**
-     * Creates a new assembly from the provided template
-     * and desactivates other assemblies crearted from the same template
-     * 
-     * @param core_kernel_classes_Resource $deliveryTemplate
-     * @throws taoDelivery_models_classes_EmptyDeliveryException
-     * @return common_report_Report
-     */
-    public function createAssemblyFromTemplate(core_kernel_classes_Resource $deliveryTemplate) {
-        
-        $assemblyClass = $this->getRootClass();
-        
-        $content = taoDelivery_models_classes_DeliveryTemplateService::singleton()->getContent($deliveryTemplate);
-        if (is_null($content)) {
-            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$deliveryTemplate->getUri().' has no content');
-        }
-
-        $props = $deliveryTemplate->getPropertiesValues(array(
-            RDFS_LABEL,
-            TAO_DELIVERY_RESULTSERVER_PROP,
-            TAO_DELIVERY_MAXEXEC_PROP,
-            TAO_DELIVERY_START_PROP,
-            TAO_DELIVERY_END_PROP,
-            TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP
-        ));
-        $props[PROPERTY_COMPILEDDELIVERY_DELIVERY] = array($deliveryTemplate);
-        
-        $report = $this->createAssembly($assemblyClass, $content, $props);
-        
-        return $report;
-    }
-    
-    
-    protected function getCompiler(core_kernel_classes_Resource $content){
-        return taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
-    }
-    
-    /**
-     * 
-     * @param core_kernel_classes_Class $deliveryClass
-     * @param core_kernel_classes_Resource $content
-     * @param unknown $properties
-     * @return common_report_Report
-     */
-    public function createAssembly(core_kernel_classes_Class $deliveryClass, core_kernel_classes_Resource $content, $properties = array()) {
-
-        // report will be replaced unless an exception occures
-        $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Delivery could not be published'));
-        try {
-            $compiler = $this->getCompiler($content);
-            $report = $compiler->compile();
-            if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
-                $serviceCall = $report->getData();
-                
-                $properties[PROPERTY_COMPILEDDELIVERY_DIRECTORY] = $compiler->getSpawnedDirectoryIds();
-                
-                $compilationInstance = $this->createAssemblyFromServiceCall($deliveryClass, $serviceCall, $properties);
-                $report->setData($compilationInstance);
-            }
-        } catch (Exception $e) {
-            if ($e instanceof common_exception_UserReadableException) {
-                $report->add($e);
-            } else {
-                common_Logger::w($e->getMessage());
-            }
-        }
-        return $report;
-        
-    }
-    
     public function createAssemblyFromServiceCall(core_kernel_classes_Class $deliveryClass, tao_models_classes_service_ServiceCall $serviceCall, $properties = array()) {
 
         $properties[PROPERTY_COMPILEDDELIVERY_TIME]      = time();
@@ -171,42 +101,5 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     public function getCompilationDate( core_kernel_classes_Resource $assembly) {
         return (string)$assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_TIME));
     }
-    
-    /**
-     * Returns the implementation from the content
-     *
-     * @param core_kernel_classes_Resource $test
-     * @return taoDelivery_models_classes_ContentModel
-     */
-    public function getImplementationByContent(core_kernel_classes_Resource $content)
-    {
-        foreach ($content->getTypes() as $type) {
-            if ($type->isSubClassOf(new core_kernel_classes_Class(CLASS_ABSTRACT_DELIVERYCONTENT))) {
-                return $this->getImplementationByContentClass($type);
-            }
-        }
-        throw new common_exception_NoImplementation('No implementation found for DeliveryContent ' . $content->getUri());
-    }
-    
-    /**
-     * Returns the implementation from the content class
-     *
-     * @param core_kernel_classes_Class $contentClass
-     * @return taoDelivery_models_classes_ContentModel
-     */
-    public function getImplementationByContentClass(core_kernel_classes_Class $contentClass)
-    {
-        if (empty($contentClass)) {
-            throw new common_exception_NoImplementation(__FUNCTION__ . ' called on a NULL contentClass');
-        }
-        $classname = (string) $contentClass->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_CONTENTCLASS_IMPLEMENTATION));
-        if (empty($classname)) {
-            throw new common_exception_NoImplementation('No implementation found for contentClass ' . $contentClass->getUri());
-        }
-        if (! class_exists($classname) || ! in_array('taoDelivery_models_classes_ContentModel', class_implements($classname))) {
-            throw new common_exception_Error('Content implementation '.$classname.' not found, or not compatible for content class '.$contentClass->getUri());
-             
-        }
-        return new $classname();
-    }
+
 }
