@@ -35,7 +35,7 @@
                     <action id="delivery-class-new" name="New class" url="/taoDelivery/Delivery/addSubClass" context="class" group="content" binding="subClass">
                         <icon id="icon-folder-open"/>
                     </action>
-                    <action id="delivery-new" name="New delivery" url="/taoSimpleDelivery/Authoring/wizard" context="class" group="content">
+                    <action id="delivery-new" name="New delivery" url="/taoDelivery/Delivery/wizard" context="class" group="content">
                         <icon id="icon-delivery"/>
                     </action>
                     <action id="delivery-delete" name="Delete" url="/taoDelivery/Delivery/delete" context="resource" group="tree" binding="removeNode">

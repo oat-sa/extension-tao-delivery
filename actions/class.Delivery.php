@@ -232,5 +232,28 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         	'saved' => $success
         ));
     }
+
+    public function wizard()
+    {
+        try {
+            $formContainer = new \taoSimpleDelivery_actions_form_WizardForm(array('class' => $this->getCurrentClass()));
+            $myForm = $formContainer->getForm();
+             
+            if ($myForm->isValid() && $myForm->isSubmited()) {
+                $label = $myForm->getValue('label');
+                $test = new core_kernel_classes_Resource($myForm->getValue('test'));
+                $label = __("Delivery of %s", $test->getLabel());
+                $deliveryClass = new core_kernel_classes_Class($myForm->getValue('classUri'));
+                $report = taoDelivery_models_classes_SimpleDeliveryFactory::create($deliveryClass, $test, $label);
+                $this->returnReport($report);
+            } else {
+                $this->setData('myForm', $myForm->render());
+                $this->setData('formTitle', __('Create a new delivery'));
+                $this->setView('form.tpl', 'tao');
+            }
     
+        } catch (taoSimpleDelivery_actions_form_NoTestsException $e) {
+            $this->setView('Delivery/wizard_error.tpl');
+        }
+    }
 }

@@ -94,14 +94,8 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
                 $serviceCall = $report->getData();
                 
                 $properties[PROPERTY_COMPILEDDELIVERY_DIRECTORY] = $compiler->getSpawnedDirectoryIds();
-                $properties[PROPERTY_COMPILEDDELIVERY_TIME]      = time();
-                $properties[PROPERTY_COMPILEDDELIVERY_RUNTIME]   = $serviceCall->toOntology();
                 
-                if (!isset($properties[TAO_DELIVERY_RESULTSERVER_PROP])) {
-                    $properties[TAO_DELIVERY_RESULTSERVER_PROP] = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
-                }
-        
-                $compilationInstance = $deliveryClass->createInstanceWithProperties($properties);
+                $compilationInstance = $this->createAssemblyFromServiceCall($deliveryClass, $serviceCall, $properties);
                 $report->setData($compilationInstance);
             }
         } catch (Exception $e) {
@@ -113,6 +107,20 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         }
         return $report;
         
+    }
+    
+    public function createAssemblyFromServiceCall(core_kernel_classes_Class $deliveryClass, tao_models_classes_service_ServiceCall $serviceCall, $properties = array()) {
+
+        $properties[PROPERTY_COMPILEDDELIVERY_TIME]      = time();
+        $properties[PROPERTY_COMPILEDDELIVERY_RUNTIME]   = $serviceCall->toOntology();
+        
+        if (!isset($properties[TAO_DELIVERY_RESULTSERVER_PROP])) {
+            $properties[TAO_DELIVERY_RESULTSERVER_PROP] = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
+        }
+        
+        $compilationInstance = $deliveryClass->createInstanceWithProperties($properties);
+        
+        return $compilationInstance;
     }
     
     /**
