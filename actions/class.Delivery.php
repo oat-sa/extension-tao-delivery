@@ -103,7 +103,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $property = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
         $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($delivery, $property);
         $tree->setTitle(__('Assigned to'));
-        $tree->setTemplate(Template::getTemplate('form_groups.tpl'));
+        $tree->setTemplate(Template::getTemplate('widgets/assignGroup.tpl'));
         $this->setData('groupTree', $tree->render());
         
         // testtaker brick
@@ -164,18 +164,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         ));
     }
     
-    /**
-     * Main action
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     */
-    public function index()
-    {
-        $this->setView('index.tpl');
-    }
-    
     public function excludeTesttaker()
     {
         $assembly = $this->getCurrentInstance();
@@ -209,7 +197,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $this->setData('excluded', $excluded);
         
         
-        $this->setView('exclude.tpl');
+        $this->setView('Delivery/excludeTesttaker.tpl');
     }
     
     public function saveExcluded() {
