@@ -29,11 +29,13 @@
     <div id="testtaker-form" class="modal"></div>	
 </div>
 <script type="text/javascript">
-$('#exclude-btn').click(function() {
-	jQuery('#testtaker-form').load('<?=_url('excludeTesttaker', 'Delivery')?>', {'uri' : '<?= get_data('assemblyUri')?>'}, function() {
-		$('body').prepend($('#modal-container'));
-		$('#testtaker-form').modal();
+require(['jquery', 'helpers', 'ui/modal'], function($, helpers){
+    $('#exclude-btn').click(function() {
+	    $('#testtaker-form').load(helpers._url('excludeTesttaker', 'Delivery', 'taoDelivery', {'uri' : '<?= get_data('assemblyUri')?>'}), function() {
+            $('body').prepend($('#modal-container'));
+            $('#testtaker-form').modal();
+        });
 	});
-})
+});
 </script>
 <?php endif; ?>

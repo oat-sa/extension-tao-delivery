@@ -29,14 +29,7 @@ $todefine = array(
 	'TAO_DELIVERY_START_PROP'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart',
 	'TAO_DELIVERY_END_PROP'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd',
 
-    'CLASS_DELIVERY_TEMPLATE'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryTemplate',
-    
-	'PROPERTY_DELIVERY_CONTENT'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent',
-    'PROPERTY_DELIVERY_ACTIVE_COMPILATION'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryActiveCompilation',
-    
-    'CLASS_ABSTRACT_DELIVERYCONTENT'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent',
-    'PROPERTY_CONTENTCLASS_IMPLEMENTATION' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation',
-     
+    //
     'CLASS_COMPILEDDELIVERY'               => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
     'PROPERTY_COMPILEDDELIVERY_DELIVERY'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryDelivery',
     'PROPERTY_COMPILEDDELIVERY_TIME'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime',
@@ -54,9 +47,6 @@ $todefine = array(
     'INSTANCE_DELIVERYEXEC_FINISHED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished',
     'INSTANCE_DELIVERYEXEC_ABANDONED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned',
     
-    
-    'CLASS_DELIVERY_CONTENT_ASSEMBLY'      => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssemblyDeliveryContent',
-    
-    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries'
-    
+    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
+
 );
