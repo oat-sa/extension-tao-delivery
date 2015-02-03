@@ -39,100 +39,20 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         return new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
     }
     
-    /**
-     * Creates a new assembly from the provided template
-     * and desactivates other assemblies crearted from the same template
-     * 
-     * @param core_kernel_classes_Resource $deliveryTemplate
-     * @throws taoDelivery_models_classes_EmptyDeliveryException
-     * @return common_report_Report
-     */
-    public function createAssemblyFromTemplate(core_kernel_classes_Resource $deliveryTemplate) {
+    public function createAssemblyFromServiceCall(core_kernel_classes_Class $deliveryClass, tao_models_classes_service_ServiceCall $serviceCall, $properties = array()) {
+
+        $properties[PROPERTY_COMPILEDDELIVERY_TIME]      = time();
+        $properties[PROPERTY_COMPILEDDELIVERY_RUNTIME]   = $serviceCall->toOntology();
         
-        $assemblyClass = $this->getRootClass();
-        
-        $content = taoDelivery_models_classes_DeliveryTemplateService::singleton()->getContent($deliveryTemplate);
-        if (is_null($content)) {
-            throw new taoDelivery_models_classes_EmptyDeliveryException('Delivery '.$deliveryTemplate->getUri().' has no content');
+        if (!isset($properties[TAO_DELIVERY_RESULTSERVER_PROP])) {
+            $properties[TAO_DELIVERY_RESULTSERVER_PROP] = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
         }
-
-        $props = $deliveryTemplate->getPropertiesValues(array(
-            RDFS_LABEL,
-            TAO_DELIVERY_RESULTSERVER_PROP,
-            TAO_DELIVERY_MAXEXEC_PROP,
-            TAO_DELIVERY_START_PROP,
-            TAO_DELIVERY_END_PROP,
-            TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP
-        ));
-        $props[PROPERTY_COMPILEDDELIVERY_DELIVERY] = array($deliveryTemplate);
         
-        $report = $this->createAssembly($assemblyClass, $content, $props);
+        $compilationInstance = $deliveryClass->createInstanceWithProperties($properties);
         
-        return $report;
+        return $compilationInstance;
     }
     
-    
-    protected function getCompiler(core_kernel_classes_Resource $content){
-        return taoDelivery_models_classes_DeliveryCompiler::createCompiler($content);
-    }
-    
-    /**
-     * 
-     * @param core_kernel_classes_Class $deliveryClass
-     * @param core_kernel_classes_Resource $content
-     * @param unknown $properties
-     * @return common_report_Report
-     */
-    public function createAssembly(core_kernel_classes_Class $deliveryClass, core_kernel_classes_Resource $content, $properties = array()) {
-
-        // report will be replaced unless an exception occures
-        $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Delivery could not be published'));
-        try {
-            $compiler = $this->getCompiler($content);
-            $report = $compiler->compile();
-            if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
-                $serviceCall = $report->getData();
-                
-                $properties[PROPERTY_COMPILEDDELIVERY_DIRECTORY] = $compiler->getSpawnedDirectoryIds();
-                $properties[PROPERTY_COMPILEDDELIVERY_TIME]      = time();
-                $properties[PROPERTY_COMPILEDDELIVERY_RUNTIME]   = $serviceCall->toOntology();
-                
-                if (!isset($properties[TAO_DELIVERY_RESULTSERVER_PROP])) {
-                    $properties[TAO_DELIVERY_RESULTSERVER_PROP] = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
-                }
-        
-                $compilationInstance = $deliveryClass->createInstanceWithProperties($properties);
-                $report->setData($compilationInstance);
-            }
-        } catch (Exception $e) {
-            if ($e instanceof common_exception_UserReadableException) {
-                $report->add($e);
-            } else {
-                common_Logger::w($e->getMessage());
-            }
-        }
-        return $report;
-        
-    }
-    
-    /**
-     * Returns the assemblies derived from the delivery template
-     * 
-     * @param core_kernel_classes_Resource $deliveryTemplate
-     * @param boolean $activeOnly
-     * @return array
-     */
-    public function getAssembliesByTemplate(core_kernel_classes_Resource $deliveryTemplate, $activeOnly = false) {
-        $searchArray = $activeOnly
-            ? array(
-                PROPERTY_COMPILEDDELIVERY_DELIVERY => $deliveryTemplate
-            )
-            : array(
-                PROPERTY_COMPILEDDELIVERY_DELIVERY => $deliveryTemplate,
-            );
-        return $this->getRootClass()->searchInstances($searchArray, array('like' => 'false', 'recursive' => true));
-    }
-
     /**
      * Returns all assemblies marked as active
      * 
@@ -181,4 +101,5 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     public function getCompilationDate( core_kernel_classes_Resource $assembly) {
         return (string)$assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_TIME));
     }
+
 }

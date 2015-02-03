@@ -28,16 +28,6 @@ define(function(){
             'actions' : {
 	            'excludeTesttaker' : 'controller/testtaker'
             }
-        },
-        'DeliveryTemplate': {
-            'actions' : {
-                'editDelivery' : 'controller/template/editDelivery'
-            }
-        },
-        'Compilation' : {
-            'actions' : {
-                'index' : 'controller/compilation/compiling'
-	        }
         }
     };
 });
