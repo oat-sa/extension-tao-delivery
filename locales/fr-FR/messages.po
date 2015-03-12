@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-beta2\n"
-"PO-Revision-Date: 2015-01-26T13:47:17\n"
+"Project-Id-Version: TAO 3.0-RC04\n"
+"PO-Revision-Date: 2015-03-06T15:48:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -59,11 +59,11 @@ msgid "Create a test"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #, tao-public
 msgid "Deliveries"
-msgstr ""
+msgstr "Passations"
 
 msgid "Deliveries library"
 msgstr ""
@@ -108,16 +108,16 @@ msgid "My Tests"
 msgstr ""
 
 msgid "New class"
-msgstr ""
+msgstr "Nouvelle classe"
 
 msgid "New delivery"
-msgstr ""
+msgstr "Nouvelle passation"
 
 msgid "No attempt has been started yet."
 msgstr ""
 
 msgid "No information available"
-msgstr ""
+msgstr "Aucune information disponible"
 
 msgid "Paused Tests"
 msgstr ""
@@ -136,9 +136,6 @@ msgid "Publish"
 msgstr ""
 
 msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
-msgstr ""
-
-msgid "Recompile the delivery"
 msgstr ""
 
 msgid "Resume"

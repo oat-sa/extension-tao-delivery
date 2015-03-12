@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-beta2\n"
-"PO-Revision-Date: 2015-01-26T13:47:16\n"
+"Project-Id-Version: TAO 3.0-RC04\n"
+"PO-Revision-Date: 2015-03-06T15:48:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -136,9 +136,6 @@ msgid "Publish"
 msgstr ""
 
 msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
-msgstr ""
-
-msgid "Recompile the delivery"
 msgstr ""
 
 msgid "Resume"
