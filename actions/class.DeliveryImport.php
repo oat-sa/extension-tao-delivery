@@ -32,7 +32,7 @@ class taoDelivery_actions_DeliveryImport extends tao_actions_Import {
      * (non-PHPdoc)
      * @see tao_actions_Import::getAvailableImportHandlers()
      */
-	public function getAvailableImportHandlers() {
+	protected function getAvailableImportHandlers() {
 		$returnValue = parent::getAvailableImportHandlers();
 		
 		// disabled due to possible security exploit that allows execution of php data in qti test driver
