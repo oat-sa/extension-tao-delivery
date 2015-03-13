@@ -18,15 +18,15 @@
  * 
  */
 
+use oat\oatbox\Configurable;
 /**
  * Service to manage the execution of deliveries
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
-class taoDelivery_models_classes_execution_OntologyService extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_execution_OntologyService extends Configurable
     implements taoDelivery_models_classes_execution_Service,
         taoDelivery_models_classes_execution_Monitoring
 {
