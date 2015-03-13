@@ -1,21 +1,21 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 /**
@@ -24,13 +24,13 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
+
  */
 class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_Service
     implements taoDelivery_models_classes_execution_Service
 {
-    const CONFIG_KEY = 'execution_service'; 
-    
+    const CONFIG_KEY = 'execution_service';
+
     /**
      * @var taoDelivery_models_classes_execution_Service
      */
@@ -41,7 +41,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         $ext->setConfig(self::CONFIG_KEY, $implementation);
     }
-    
+
     protected function getImplementation() {
         if (is_null($this->implementation)) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
@@ -52,7 +52,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
         }
         return $this->implementation;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
@@ -60,7 +60,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri) {
         return $this->getImplementation()->getUserExecutions($assembly, $userUri);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getDeliveryExecutionsByStatus()
@@ -77,7 +77,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     {
         return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
     }
-        
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getFinishedDeliveryExecutions()
@@ -86,7 +86,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     {
         return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_FINISHED);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
@@ -95,15 +95,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     {
         return $this->getImplementation()->initDeliveryExecution($assembly, $userUri);
     }
-    
-   /**
-    * (non-PHPdoc)
-    * @see taoDelivery_models_classes_execution_Service::finishDeliveryExecution()
-    */
-    public function finishDeliveryExecution(taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
-    {
-        return $this->getImplementation()->finishDeliveryExecution($deliveryExecution);
-    }
+
 
     /**
      * (non-PHPdoc)
@@ -113,10 +105,10 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     {
         return $this->getImplementation()->getDeliveryExecution($identifier);
     }
-    
+
     /**
      * Implemented in the monitoring interface
-     * 
+     *
      * @param core_kernel_classes_Resource $compiled
      * @return int the ammount of executions for a single compilation
      */
