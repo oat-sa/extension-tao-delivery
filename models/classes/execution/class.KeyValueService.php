@@ -38,14 +38,14 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     /**
      * @var common_persistence_KeyValuePersistence
      */
-    private $persistance;
+    private $persistence;
     
     protected function getPersistence()
     {
-        if (is_null($this->persistance)) {
-            $this->persistance = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+        if (is_null($this->persistence)) {
+            $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
         }
-        return $this->persistance;
+        return $this->persistence;
     }
     
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
