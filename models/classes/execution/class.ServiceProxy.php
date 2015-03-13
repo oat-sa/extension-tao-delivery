@@ -35,50 +35,34 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * @var taoDelivery_models_classes_execution_Service
      */
     private $implementation;
-    
-    /**
-     * protected constructor for singleton pattern
-     */
-    protected function __construct() {
+
+    public function setImplementation(taoDelivery_models_classes_execution_Service $implementation) {
+        $this->implementation = $implementation;
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        if ($ext->hasConfig(self::CONFIG_KEY)) {
-            $className = $ext->getConfig(self::CONFIG_KEY);
-            if (class_exists($className)) {
-                $this->implementation = forward_static_call(array($className, 'singleton'));
-            } else {
-                throw new common_exception_Error('Class "'.$className.'" not found');
-            }
-        } else {
-            $this->implementation = taoDelivery_models_classes_execution_OntologyService::singleton();
-        }
+        $ext->setConfig(self::CONFIG_KEY, $implementation);
     }
     
-    public function setImplementation($className) {
-        if (class_exists($className) && method_exists($className,'singleton')) {
-            $implementation = forward_static_call(array($className, 'singleton'));
-            if ($implementation instanceof taoDelivery_models_classes_execution_Service) {
+    protected function getImplementation() {
+        if (is_null($this->implementation)) {
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+            $implementation = $ext->getConfig(self::CONFIG_KEY);
+            if (is_object($implementation) && $implementation instanceof taoDelivery_models_classes_execution_Service) {
                 $this->implementation = $implementation;
-                $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-                $ext->setConfig(self::CONFIG_KEY, $className);
+            } elseif (is_string($implementation) && class_exists($implementation)) {
+                $this->implementation = forward_static_call(array($implementation, 'singleton'));
             } else {
-                throw new common_exception_Error('Provided class '.$className.' is not a valid delivery execution service');
+                throw new common_exception_Error('No implementation for '.__CLASS__.' found');
             }
-        } else {
-            throw new common_exception_Error('Provided class '.$className.' not found or is not a singleton');
         }
+        return $this->implementation;
     }
-    
-    protected static function getImplementation() {
-        return self::singleton()->implementation;
-    }
-    
     
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri) {
-        return $this->implementation->getUserExecutions($assembly, $userUri);
+        return $this->getImplementation()->getUserExecutions($assembly, $userUri);
     }
     
     /**
@@ -86,7 +70,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * @see taoDelivery_models_classes_execution_Service::getDeliveryExecutionsByStatus()
      */
     public function getDeliveryExecutionsByStatus($userUri, $status) {
-        return $this->implementation->getDeliveryExecutionsByStatus($userUri, $status);
+        return $this->getImplementation()->getDeliveryExecutionsByStatus($userUri, $status);
     }
 
     /**
@@ -113,7 +97,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        return $this->implementation->initDeliveryExecution($assembly, $userUri);
+        return $this->getImplementation()->initDeliveryExecution($assembly, $userUri);
     }
     
    /**
@@ -122,7 +106,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     */
     public function finishDeliveryExecution(taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
     {
-        return $this->implementation->finishDeliveryExecution($deliveryExecution);
+        return $this->getImplementation()->finishDeliveryExecution($deliveryExecution);
     }
 
     /**
@@ -131,16 +115,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getDeliveryExecution($identifier)
     {
-        return $this->implementation->getDeliveryExecution($identifier);
-    }
-
-    /**
-     * Whenever or not the current implementation supports monitoring
-     * 
-     * @return boolean
-     */
-    public static function implementsMonitoring() {
-        return self::getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
+        return $this->getImplementation()->getDeliveryExecution($identifier);
     }
     
     /**
@@ -151,9 +126,18 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
-        if (!self::implementsMonitoring()) {
+        if (!$this->implementsMonitoring()) {
             throw new common_exception_NoImplementation();
         }
-        return $this->implementation->getExecutionsByDelivery($compiled);
+        return $this->getImplementation()->getExecutionsByDelivery($compiled);
+    }
+
+    /**
+     * Whenever or not the current implementation supports monitoring
+     *
+     * @return boolean
+     */
+    public function implementsMonitoring() {
+        return self::singleton()->getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
     }
 }

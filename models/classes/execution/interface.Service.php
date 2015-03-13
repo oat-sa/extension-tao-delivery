@@ -29,11 +29,6 @@
 interface taoDelivery_models_classes_execution_Service
 {
     /**
-     * a reminder that services are singletons
-     */
-    public static function singleton();
-    
-    /**
      * Returns how many executions the user has of a specified assembly
      * 
      * @param core_kernel_classes_Resource $compiled
