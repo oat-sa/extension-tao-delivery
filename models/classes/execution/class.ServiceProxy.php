@@ -45,12 +45,8 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     protected function getImplementation() {
         if (is_null($this->implementation)) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-            $implementation = $ext->getConfig(self::CONFIG_KEY);
-            if (is_object($implementation) && $implementation instanceof taoDelivery_models_classes_execution_Service) {
-                $this->implementation = $implementation;
-            } elseif (is_string($implementation) && class_exists($implementation)) {
-                $this->implementation = forward_static_call(array($implementation, 'singleton'));
-            } else {
+            $this->implementation = $ext->getConfig(self::CONFIG_KEY);
+            if (!$this->implementation instanceof taoDelivery_models_classes_execution_Service) {
                 throw new common_exception_Error('No implementation for '.__CLASS__.' found');
             }
         }
