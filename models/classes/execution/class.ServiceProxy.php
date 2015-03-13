@@ -26,7 +26,7 @@
  * @package taoDelivery
  
  */
-class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_Service
     implements taoDelivery_models_classes_execution_Service
 {
     const CONFIG_KEY = 'execution_service'; 
@@ -134,6 +134,6 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * @return boolean
      */
     public function implementsMonitoring() {
-        return self::singleton()->getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
+        return $this->getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
     }
 }
