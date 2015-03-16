@@ -20,6 +20,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\taoGroups\models\GroupsService;
 
 /**
  * Controller to managed assembled deliveries
@@ -108,15 +109,14 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         // testtaker brick
         $this->setData('assemblyUri', $delivery->getUri());
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groupClass = GroupsService::singleton()->getRootClass();
         $groups = $groupClass->searchInstances(array(
             PROPERTY_GROUP_DELVIERY => $delivery->getUri()
         ), array('recursive' => true, 'like' => false));
         
         $users = array();
-        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
         foreach ($groups as $group) {
-            $users = array_merge($users, $group->getPropertyValues($memberProp));
+            $users = array_merge($users, GroupsService::singleton()->getUsers($group));
         }
         $this->setData('groupcount', count($groups));
         
@@ -177,15 +177,14 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
             $excluded[$uri] = $user->getLabel();
         }
         
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groupClass = GroupsService::singleton()->getRootClass();
         $groups = $groupClass->searchInstances(array(
             PROPERTY_GROUP_DELVIERY => $assembly->getUri()
         ), array('recursive' => true, 'like' => false));
         
         $users = array();
-        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
         foreach ($groups as $group) {
-            $users = array_merge($users, $group->getPropertyValues($memberProp));
+            $users = array_merge($users, GroupsService::singleton()->getUsers($group));
         }
         $assigned = array();
         foreach (array_diff(array_unique($users), array_keys($excluded)) as $uri) {

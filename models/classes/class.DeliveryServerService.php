@@ -179,9 +179,9 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
      */
     private function isUserAssigned(core_kernel_classes_Resource $delivery, $userUri){
 
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+        $groupClass = GroupsService::singleton()->getRootClass();
         $groups = $groupClass->searchInstances(array(
-            TAO_GROUP_MEMBERS_PROP => $userUri,
+            GroupsService::PROPERTY_MEMBERS_URI => $userUri,
             PROPERTY_GROUP_DELVIERY => $delivery
         ), array(
             'like'=>false,

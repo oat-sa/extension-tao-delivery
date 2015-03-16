@@ -1,5 +1,4 @@
 <?php
-
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +18,7 @@
  * 
  */
 
+use oat\taoGroups\models\GroupsService;
 /**
  * Service to manage the authoring of deliveries
  *
@@ -67,11 +67,13 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
         // stop all executions
         
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($assembly);
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $assignationProperty = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
+        
+        $groupClass = GroupsService::singleton()->getRootClass();
         $assigned = $groupClass->searchInstances(array(
             PROPERTY_GROUP_DELVIERY => $assembly
         ), array('like' => false, 'recursive' => true));
+        
+        $assignationProperty = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
         foreach ($assigned as $groupInstance) {
             $groupInstance->removePropertyValue($assignationProperty, $assembly);
         }
