@@ -197,19 +197,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
      * @return boolean true if in range
      */
     private function areWeInRange($startDate, $endDate){
-        $dateCheck = true;
-        if (!empty($startDate)) {
-            if (!empty($endDate)) {
-                $dateCheck = (date_create() >= $startDate and date_create() <= $endDate);
-            } else {
-                $dateCheck = (date_create() >= $startDate);
-            }
-        } else {
-            if (!empty($endDate)) {
-                $dateCheck = (date_create() <= $endDate);
-            }
-        }
-        return $dateCheck;
+        return (empty($startDate) || date_create() >= $startDate)
+            && (empty($endDate) || date_create() <= $endDate);
     }
     
     /**
