@@ -24,7 +24,6 @@ function ($, helpers) {
 	return {
         start : function(){
             $('#exclude-btn').click(function() {
-            	console.log($(this).data('delivery'));
             	var delivery = $(this).data('delivery');
         	    $('#testtaker-form').load(helpers._url('excludeTesttaker', 'Delivery', 'taoDelivery', {'uri' : delivery}), function() {
                     $('body').prepend($('#modal-container'));
