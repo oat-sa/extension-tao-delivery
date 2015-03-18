@@ -34,8 +34,7 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
     {
         // check if realy available
         $deliveryUris = array();
-        foreach (GroupsService::singleton()->getGroups($user) as $groupUri) {
-            $group = new core_kernel_classes_Resource($groupUri);
+        foreach (GroupsService::singleton()->getGroups($user) as $group) {
             foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $deliveryUri) {
                 $candidate = new core_kernel_classes_Resource($deliveryUri);
                 if (!$this->isUserExcluded($candidate, $user)) {
@@ -74,9 +73,6 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
         ), array(
             'like'=>false, 'recursive' => true
         ));
-        array_walk($deliveryGroups, function(&$item) {
-            $item = $item->getUri();
-        });
         return count(array_intersect($userGroups, $deliveryGroups)) > 0 && !$this->isUserExcluded($delivery, $user);
     }
     

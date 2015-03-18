@@ -31,7 +31,7 @@ return array(
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'taoTests' => '>=2.6',
-        'taoGroups' => '>=2.6',
+        'taoGroups' => '>=2.6.1',
         'taoResultServer' => '>=2.6'
     ),
 	'models' => array(
