@@ -20,12 +20,12 @@
  * 
  */
 
+use oat\oatbox\user\User;
 /**
  * DeliveryServer Controller
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @package taoDelivery
- 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
@@ -66,16 +66,23 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$this->setData('login',$label);
 		
 		//get deliveries for the current user (set in groups extension)
-		$userUri = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+		$user = common_session_SessionManager::getSession()->getUser();
 		
-        $this->setData('startedDeliveries', $this->service->getResumableDeliveries($userUri));
+        $this->setData('startedDeliveries', $this->service->getResumableDeliveries($user));
 		
-		$finishedDeliveries = is_null($userUri) ? array() : $this->executionService->getFinishedDeliveryExecutions($userUri);
+		$finishedDeliveries = is_null($user) ? array() : $this->executionService->getFinishedDeliveryExecutions($user->getIdentifier());
 		$this->setData('finishedDeliveries', $finishedDeliveries);
 		
-		$available = is_null($userUri) ? array() : $this->service->getAvailableDeliveries($userUri);
+		$deliveryData = array();
+		if (!is_null($user)) {
+		    $available = taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
+		    foreach ($available as $uri) {
+		        $delivery = new core_kernel_classes_Resource($uri);
+		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
+		    }
+		}
 		
-		$this->setData('availableDeliveries', $available);
+		$this->setData('availableDeliveries', $deliveryData);
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
 		$this->setView('runtime/index.tpl');
@@ -83,11 +90,11 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	
 	public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	    $userUri = common_session_SessionManager::getSession()->getUserUri();
-	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $userUri)) {
-	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $userUri);
+	    $user = common_session_SessionManager::getSession()->getUser();
+	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user)) {
+	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
 	    } else {
-	        common_Logger::i('Testtaker '.$userUri.' not authorised to initialise delivery '.$compiledDelivery->getUri());
+	        common_Logger::i('Testtaker '.$user->getIdentifier().' not authorised to initialise delivery '.$compiledDelivery->getUri());
 	        return $this->returnError(__('You are no longer allowed to take the test %s', $compiledDelivery->getLabel()), true);
 	    }
 	    $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
@@ -154,6 +161,32 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function logout(){
 	    common_session_SessionManager::endSession();
 	    $this->redirect(ROOT_URL);
+	}
+	
+	protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
+	{
+	    $deliveryProps = $delivery->getPropertiesValues(array(
+	        new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
+	        new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
+	        new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
+	    ));
+	
+	    $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
+	    $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
+	    $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
+	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
+	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
+	
+	    return array(
+            "compiledDelivery"  => $delivery,
+            "settingsDelivery"  => array (
+    	        TAO_DELIVERY_MAXEXEC_PROP  => (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal,
+    	        TAO_DELIVERY_START_PROP    => (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal,
+    	        TAO_DELIVERY_END_PROP      => (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal,
+    	        "TAO_DELIVERY_USED_TOKENS" => count($executions),
+    	        "TAO_DELIVERY_TAKABLE"     => $allowed
+            )
+	    );
 	}
 	
 }

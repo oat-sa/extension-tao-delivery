@@ -20,7 +20,6 @@
  */
 
 use oat\tao\helpers\Template;
-use oat\taoGroups\models\GroupsService;
 
 /**
  * Controller to managed assembled deliveries
@@ -109,25 +108,15 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         // testtaker brick
         $this->setData('assemblyUri', $delivery->getUri());
-        $groupClass = GroupsService::singleton()->getRootClass();
-        $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $delivery->getUri()
-        ), array('recursive' => true, 'like' => false));
-        
-        $users = array();
-        foreach ($groups as $group) {
-            $users = array_merge($users, GroupsService::singleton()->getUsers($group));
-        }
-        $this->setData('groupcount', count($groups));
         
         // define the subjects excluded from the current delivery
         $property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
         $excluded = $delivery->getPropertyValues($property);
         $this->setData('ttexcluded', count($excluded));
 
+        $users = taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($delivery);
         $assigned = array_diff(array_unique($users), $excluded);
         $this->setData('ttassigned', count($assigned));
-        
         
         $this->setData('formTitle', __('Properties'));
         $this->setData('myForm', $myForm->render());
@@ -177,19 +166,12 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
             $excluded[$uri] = $user->getLabel();
         }
         
-        $groupClass = GroupsService::singleton()->getRootClass();
-        $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $assembly->getUri()
-        ), array('recursive' => true, 'like' => false));
-        
-        $users = array();
-        foreach ($groups as $group) {
-            $users = array_merge($users, GroupsService::singleton()->getUsers($group));
-        }
         $assigned = array();
-        foreach (array_diff(array_unique($users), array_keys($excluded)) as $uri) {
-            $user = new core_kernel_classes_Resource($uri);
-            $assigned[$uri] = $user->getLabel();
+        foreach (taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($assembly) as $userId) {
+            if (!in_array($userId, array_keys($excluded))) {
+                $user = new core_kernel_classes_Resource($userId);
+                $assigned[$userId] = $user->getLabel();
+            }
         }
         
         $this->setData('assigned', $assigned);
