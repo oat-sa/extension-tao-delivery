@@ -31,6 +31,11 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
 {
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
     
+    /**
+     * @var common_persistence_KeyValuePersistence
+     */
+    private $persistence;
+    
     private $id;
     
     private $data;
@@ -41,9 +46,9 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
      * @param core_kernel_classes_Resource $assembly
      * @return taoDelivery_models_classes_execution_KVDeliveryExecution
      */
-    public static function spawn($userId, core_kernel_classes_Resource $assembly) {
+    public static function spawn(common_persistence_KeyValuePersistence $persistence, $userId, core_kernel_classes_Resource $assembly) {
         $identifier = self::DELIVERY_EXECUTION_PREFIX.common_Utils::getNewUri();
-        $de = new self($identifier, array(
+        $de = new self($persistence, $identifier, array(
             RDFS_LABEL                            => $assembly->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $assembly->getUri(),
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userId,
@@ -54,9 +59,10 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
         return $de;
     }
     
-    public function __construct($identifier, $data = null) {
+    public function __construct(common_persistence_KeyValuePersistence $persistence, $identifier, $data = null) {
         $this->id = $identifier;
         $this->data = $data;
+        $this->persistence = $persistence;
     }
     
     /**
@@ -132,7 +138,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution
     }
 
     private function getPersistence() {
-        return common_persistence_KeyValuePersistence::getPersistence('deliveryExecution');
+        return $this->persistence;
     }
     
     private function getData($dataKey) {
