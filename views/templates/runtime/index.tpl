@@ -7,6 +7,7 @@ use oat\tao\helpers\Template;
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
         <link rel="stylesheet" type="text/css" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
+        <link rel="stylesheet" type="text/css" href="<?= Template::css('tao-3.css', 'tao')?>"/>
         <link rel="stylesheet" type="text/css" href="<?= Template::css('runtime/index.css', 'taoDelivery') ?>"/>
         <link rel="stylesheet" type="text/css" href="<?= Template::css('custom-theme/jquery-ui-1.8.22.custom.css', 'tao') ?>"/>
         <script id='amd-loader' 
@@ -19,7 +20,7 @@ use oat\tao\helpers\Template;
     <body class="tao-scope">
 
   <div class="content-wrap">
-        <ul id="control" >
+        <ul id="control" class="dark-bar">
             <li class="infoControl">
                 <span class="icon-test-taker"></span><?php echo get_data('login'); ?>
             </li>         

@@ -26,11 +26,9 @@ body {
 {   
     line-height: 22px;
     margin: 0px 0px 0px 0px;
+    padding: 5px 0;
     text-align:right;
-    background: #f3f3f3;
-    border: solid 1px #ccc;
-    border-bottom: 1px solid;
-    border-bottom-color: #ddd;
+    border-bottom: 1px solid #666;
 }
 #control li
 {   
@@ -72,22 +70,6 @@ div#footer .releasestatus strong {
 	font-weight: bold;
 }
 
-
-
-/**
-* todo
-**/
-
-#control li.actionControl a{
-    color:#222 !important;
-}
-#control li.actionControl a:hover{
-    color:#3e7da7 !important;
-    text-decoration: none !important;
-}
-#control li.infoControl {
-
-}
 
 #control li.separator{
     opacity:0.5;
