@@ -151,7 +151,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             $this->setData(PROPERTY_DELVIERYEXECUTION_END, time());
         }
         $this->save();
-        $this->getPersistence()->updateDeliveryExecutionStatus($this, $oldState, $state);
+        taoDelivery_models_classes_execution_KeyValueService::singleton()->updateDeliveryExecutionStatus($this, $oldState, $state);
         return true;
     }
 
