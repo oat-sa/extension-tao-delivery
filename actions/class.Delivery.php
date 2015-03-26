@@ -145,7 +145,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($this->getRequestParameter('uri')) {
             $deleted = $this->service->deleteInstance($this->getCurrentInstance());
         } else {
-            $deleted = $this->service->deleteClass($this->getCurrentClass());
+            return $this->forward('deleteClass', null, null, (array('id' => $this->getRequestParameter('id'))));
         }
         
         echo json_encode(array(
