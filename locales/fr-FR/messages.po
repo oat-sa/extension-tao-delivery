@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-06T15:48:53\n"
+"PO-Revision-Date: 2015-03-24T16:50:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -14,49 +14,49 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "%1s', get_data('label"
-msgstr ""
+msgstr "%1s', get_data('label"
 
 msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
-msgstr ""
+msgstr "%s participants sont exclus.', get_data('ttexcluded"
 
 msgid "Add the source file."
-msgstr ""
+msgstr "Ajouter le fichier source."
 
 msgid "An error occured during the import"
-msgstr ""
+msgstr "Une erreur s'est produite au cours de l'importation."
 
 msgid "Assembly"
-msgstr ""
+msgstr "Assemblée"
 
 msgid "Assembly import"
-msgstr ""
+msgstr "Import de l'assemblée"
 
 msgid "Assigned test-takers"
-msgstr ""
+msgstr "Participants assignés"
 
 msgid "Assigned Tests"
-msgstr ""
+msgstr "Tests assignés"
 
 msgid "Assigned to"
-msgstr ""
+msgstr "Assigné à "
 
 msgid "Attempt(s)"
-msgstr ""
+msgstr "Tentative(s)"
 
 msgid "Attempts"
-msgstr ""
+msgstr "Tentatives"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 msgid "Completed Tests"
-msgstr ""
+msgstr "Tests terminés"
 
 msgid "Create a new delivery"
-msgstr ""
+msgstr "Créer une nouvelle passation"
 
 msgid "Create a test"
-msgstr ""
+msgstr "Créer un test"
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -66,46 +66,46 @@ msgid "Deliveries"
 msgstr "Passations"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Bibliothèque de passations"
 
 msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
-msgstr ""
+msgstr "La livraison est assignée à %s participants.', get_data('ttassigned"
 
 msgid "Delivery is not assigned to any test-taker."
-msgstr ""
+msgstr "La passation n'est pas assignée à un participant."
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Passation enregistrée."
 
 msgid "Enables you to export a published delivery"
-msgstr ""
+msgstr "Vous autorise à exporter une passation publiée"
 
 msgid "Excluded test-takers"
-msgstr ""
+msgstr "Participants exclus"
 
 msgid "Export Options"
-msgstr ""
+msgstr "Exporter les options"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtre"
 
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 msgid "Items"
-msgstr ""
+msgstr "Items"
 
 msgid "Logout"
-msgstr ""
+msgstr "Déconnexion"
 
 msgid "Manifest not found in assembly"
-msgstr ""
+msgstr "Manifeste non trouvé dans l'assemblée"
 
 msgid "Move"
-msgstr ""
+msgstr "Déplacer"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Mes tests"
 
 msgid "New class"
 msgstr "Nouvelle classe"
@@ -114,83 +114,82 @@ msgid "New delivery"
 msgstr "Nouvelle passation"
 
 msgid "No attempt has been started yet."
-msgstr ""
+msgstr "Aucune tentative n'a déjà commencé."
 
 msgid "No information available"
 msgstr "Aucune information disponible"
 
 msgid "Paused Tests"
-msgstr ""
+msgstr "Tests en attente"
 
 msgid "Please upload a published delivery assembly ."
-msgstr ""
+msgstr "Veuillez télécharger une assemblée de passations publiées."
 
 #, tao-public
 msgid "Prepare, publish deliveries sessions."
-msgstr ""
+msgstr "Préparer, publier des sessions de passations."
 
 msgid "Properties"
-msgstr ""
+msgstr "Propriétés"
 
 msgid "Publish"
-msgstr ""
+msgstr "Publier"
 
 msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
-msgstr ""
+msgstr "Publié sur %2s', tao_helpers_Date::displayeDate(get_data('date"
 
 msgid "Resume"
-msgstr ""
+msgstr "Continuer"
 
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 msgid "Select the test you want to publish to the test-takers"
-msgstr ""
+msgstr "Sélectionner le test à publier pour les participants"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Sélection enregistrée avec succès"
 
 msgid "Start"
-msgstr ""
+msgstr "Démarrer"
 
 msgid "Started at "
-msgstr ""
+msgstr "Démarré le "
 
 msgid "Status saved"
-msgstr ""
+msgstr "État enregistré"
 
 #, tao-public
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Commencer ou reprendre un test."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO – Une plate-forme d'évaluation des compétences ouverte et polyvalente"
 
 #, tao-public
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "Serveur de Passations TAO"
 
 msgid "Test-takers"
-msgstr ""
+msgstr "Participants"
 
 msgid "There are currently %s attempts', get_data('exec"
-msgstr ""
+msgstr "Il y a actuellement %s tentatives', get_data('exec"
 
 msgid "There are currently no tests available to publish."
-msgstr ""
+msgstr "Il n'y a actuellement aucun test disponible pour publication."
 
 msgid "There is currently 1 attempt"
-msgstr ""
+msgstr "Il y a actuellement une tentative."
 
 msgid "Unkown error during impoort"
-msgstr ""
+msgstr "Erreur inconnue au cours de l'importation"
 
 msgid "Unlimited"
-msgstr ""
+msgstr "Illimité"
 
 msgid "Upload an assembly"
-msgstr ""
-
+msgstr "Télécharger une assemblée"
