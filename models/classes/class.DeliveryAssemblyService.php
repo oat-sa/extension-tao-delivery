@@ -1,5 +1,4 @@
 <?php
-
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,17 +63,7 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     
     public function deleteInstance(core_kernel_classes_Resource $assembly)
     {
-        // stop all executions
-        
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($assembly);
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $assignationProperty = new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY);
-        $assigned = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $assembly
-        ), array('like' => false, 'recursive' => true));
-        foreach ($assigned as $groupInstance) {
-            $groupInstance->removePropertyValue($assignationProperty, $assembly);
-        }
+        taoDelivery_models_classes_AssignmentService::singleton()->onDelete($assembly);
         $runtimeResource = $assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
         $runtimeResource->delete();
         // cleanup data

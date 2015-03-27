@@ -19,6 +19,7 @@
  */
 
 use oat\taoGroups\models\GroupsService;
+use oat\oatbox\user\User;
 
 /**
  * Service to manage the execution of deliveries
@@ -30,11 +31,11 @@ use oat\taoGroups\models\GroupsService;
  */
 class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
 {
-    public function getResumableDeliveries($userUri)
+    public function getResumableDeliveries(User $user)
     {
-        $started = is_null($userUri)
+        $started = is_null($user)
             ? array()
-            : taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($userUri);
+            : taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($user->getIdentifier());
         $resumable = array();
         foreach ($started as $deliveryExecution) {
             $delivery = $deliveryExecution->getDelivery();
@@ -43,46 +44,6 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             }
         }
         return $resumable;
-    }
-    
-    /**
-     * Return all available (assigned and compiled) deliveries for the userUri.
-     * Delivery settings are returned to identify when and how many tokens are left
-     * for this delivery
-     */
-    public function getAvailableDeliveries($userUri)
-    {
-        $deliveryService = taoDelivery_models_classes_DeliveryAssemblyService::singleton();
-        $groups = GroupsService::singleton()->getGroups($userUri);
-
-        // check if realy available
-        $deliveryUris = array();
-        foreach ($groups as $group) {
-            foreach($this->getAssembliesByGroup($group) as $candidate) {
-
-                //check exclusion
-                if(!$this->isUserExcluded($candidate, $userUri)){
-                    $deliveryUris[] = $candidate->getUri(); 
-                }
-            }
-        }
-        
-        // ensure no delivery is shown twice
-        $deliveryUris = array_unique($deliveryUris);
-        
-        $assemblyData = array();
-        foreach ($deliveryUris as $uri) {
-            $delivery = new core_kernel_classes_Resource($uri);
-            $deliverySettings = $this->getDeliverySettings($delivery);
-            $deliverySettings["TAO_DELIVERY_USED_TOKENS"] = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
-            $deliverySettings["TAO_DELIVERY_TAKABLE"] = $this->isDeliveryExecutionAllowed($delivery, $userUri);
-            $assemblyData[] = array(
-                "compiledDelivery"  =>$delivery,
-                "settingsDelivery"  =>$deliverySettings
-            );
-        }
-       
-        return $assemblyData;
     }
     
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
@@ -103,33 +64,17 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         return $settings;
     }
 
-    /**
-     * Moved to taoDelivery_models_classes_execution_ServiceProxy
-     * 
-     * @deprecated
-     * @param core_kernel_classes_Resource $delivery
-     * @param string $userUri
-     */
-    public function getDeliveryUsedTokens(core_kernel_classes_Resource $delivery, $userUri){
-        return count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
-    }
-    
-    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, $userUri){
+    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, User $user){
 
+        $userUri = $user->getIdentifier();
         if (is_null($delivery)) {
             common_Logger::w("Attempt to start the compiled delivery ".$delivery->getUri(). " related to no delivery");
             return false;
         }
         
         //first check the user is assigned
-        if(!$this->isUserAssigned($delivery, $userUri)){
-            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was to assigned to.");
-            return false;
-        }
-        
-        //check the user is excluded
-        if($this->isUserExcluded($delivery, $userUri)){
-            common_Logger::d("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was excluded from.");
+        if(!taoDelivery_models_classes_AssignmentService::singleton()->isUserAssigned($delivery, $user)){
+            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was not assigned to.");
             return false;
         }
         
@@ -155,61 +100,14 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
     }
     
     /**
-     * Check if a user is excluded from a delivery
-     * @param core_kernel_classes_Resource $delivery
-     * @param string $userUri the URI of the user to check
-     * @return boolean true if excluded
-     */
-    private function isUserExcluded(core_kernel_classes_Resource $delivery, $userUri){
-        
-        $excluded = true;
-        if(!is_null($delivery)){
-            $excludedUsers = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
-            $excluded = in_array($userUri, $excludedUsers);
-        } 
-        return $excluded;
-    }
-    
-    /**
-     * Check if a user is assigned to a delivery
-     * 
-     * @param core_kernel_classes_Resource $delivery
-     * @param string $userUri the URI of the user to check
-     * @return boolean true if assigned
-     */
-    private function isUserAssigned(core_kernel_classes_Resource $delivery, $userUri){
-
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $groups = $groupClass->searchInstances(array(
-            TAO_GROUP_MEMBERS_PROP => $userUri,
-            PROPERTY_GROUP_DELVIERY => $delivery
-        ), array(
-            'like'=>false,
-            'recursive' => true
-        ));
-        return !empty($groups);
-    }
-    
-    /**
      * Check if the date are in range
      * @param type $startDate
      * @param type $endDate
      * @return boolean true if in range
      */
     private function areWeInRange($startDate, $endDate){
-        $dateCheck = true;
-        if (!empty($startDate)) {
-            if (!empty($endDate)) {
-                $dateCheck = (date_create() >= $startDate and date_create() <= $endDate);
-            } else {
-                $dateCheck = (date_create() >= $startDate);
-            }
-        } else {
-            if (!empty($endDate)) {
-                $dateCheck = (date_create() <= $endDate);
-            }
-        }
-        return $dateCheck;
+        return (empty($startDate) || date_create() >= $startDate)
+            && (empty($endDate) || date_create() <= $endDate);
     }
     
     /**

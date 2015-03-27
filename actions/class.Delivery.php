@@ -94,7 +94,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         // history
         $this->setData('date', taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getCompilationDate($delivery));
-        if (taoDelivery_models_classes_execution_ServiceProxy::implementsMonitoring()) {
+        if (taoDelivery_models_classes_execution_ServiceProxy::singleton()->implementsMonitoring()) {
             $execs = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getExecutionsByDelivery($delivery);
             $this->setData('exec', count($execs));
         }
@@ -108,26 +108,15 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         
         // testtaker brick
         $this->setData('assemblyUri', $delivery->getUri());
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $delivery->getUri()
-        ), array('recursive' => true, 'like' => false));
-        
-        $users = array();
-        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
-        foreach ($groups as $group) {
-            $users = array_merge($users, $group->getPropertyValues($memberProp));
-        }
-        $this->setData('groupcount', count($groups));
         
         // define the subjects excluded from the current delivery
         $property = new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP);
         $excluded = $delivery->getPropertyValues($property);
         $this->setData('ttexcluded', count($excluded));
 
+        $users = taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($delivery);
         $assigned = array_diff(array_unique($users), $excluded);
         $this->setData('ttassigned', count($assigned));
-        
         
         $this->setData('formTitle', __('Properties'));
         $this->setData('myForm', $myForm->render());
@@ -156,7 +145,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         if ($this->getRequestParameter('uri')) {
             $deleted = $this->service->deleteInstance($this->getCurrentInstance());
         } else {
-            $deleted = $this->service->deleteClass($this->getCurrentClass());
+            return $this->forward('deleteClass', null, null, (array('id' => $this->getRequestParameter('id'))));
         }
         
         echo json_encode(array(
@@ -177,20 +166,12 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
             $excluded[$uri] = $user->getLabel();
         }
         
-        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        $groups = $groupClass->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $assembly->getUri()
-        ), array('recursive' => true, 'like' => false));
-        
-        $users = array();
-        $memberProp = new core_kernel_classes_Property(TAO_GROUP_MEMBERS_PROP);
-        foreach ($groups as $group) {
-            $users = array_merge($users, $group->getPropertyValues($memberProp));
-        }
         $assigned = array();
-        foreach (array_diff(array_unique($users), array_keys($excluded)) as $uri) {
-            $user = new core_kernel_classes_Resource($uri);
-            $assigned[$uri] = $user->getLabel();
+        foreach (taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($assembly) as $userId) {
+            if (!in_array($userId, array_keys($excluded))) {
+                $user = new core_kernel_classes_Resource($userId);
+                $assigned[$userId] = $user->getLabel();
+            }
         }
         
         $this->setData('assigned', $assigned);

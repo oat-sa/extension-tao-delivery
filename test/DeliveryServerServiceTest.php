@@ -162,6 +162,8 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('core_kernel_classes_Resource', $result);
         $this->assertEquals(GENERIS_TRUE, $result->getUri());
     }
+    
+    
 }
 
 ?>

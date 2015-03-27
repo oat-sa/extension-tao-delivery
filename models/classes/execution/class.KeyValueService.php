@@ -18,17 +18,19 @@
  * 
  */
 
+use oat\oatbox\Configurable;
 /**
  * Service to manage the execution of deliveries
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
-class taoDelivery_models_classes_execution_KeyValueService extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     implements taoDelivery_models_classes_execution_Service
 {
+    const OPTION_PERSISTENCE = 'persistence';
+    
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
     
     const USER_EXECUTIONS_PREFIX = 'kve_ue_';
@@ -36,11 +38,14 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     /**
      * @var common_persistence_KeyValuePersistence
      */
-    private $persistance;
+    private $persistence;
     
-    protected function __construct() {
-        parent::__construct();
-        $this->persistance = common_persistence_KeyValuePersistence::getPersistence('deliveryExecution');
+    protected function getPersistence()
+    {
+        if (is_null($this->persistence)) {
+            $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+        }
+        return $this->persistence;
     }
     
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
@@ -59,7 +64,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     
     public function getDeliveryExecutionsByStatus($userUri, $status) {
         $returnValue = array();
-        $data = $this->persistance->get(self::USER_EXECUTIONS_PREFIX.$userUri.$status);
+        $data = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX.$userUri.$status);
         $keys = $data !== false ? json_decode($data) : array();
         if (is_array($keys)) {
             foreach ($keys as $key) {
@@ -81,7 +86,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($userUri, $assembly);
+        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
         
         $this->updateDeliveryExecutionStatus($deliveryExecution, null, INSTANCE_DELIVERYEXEC_ACTIVE);
         
@@ -89,7 +94,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     }
     
     public function getDeliveryExecution($identifier) {
-        return new taoDelivery_models_classes_execution_KVDeliveryExecution($identifier);
+        return new taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(), $identifier);
     }
     
     /**
@@ -119,7 +124,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
     }
     
     public function getData($deliveryExecutionId) {
-        $dataString = $this->persistance->get($deliveryExecutionId);
+        $dataString = $this->getPersistence()->get($deliveryExecutionId);
         $data = json_decode($dataString, true);
         return $data;
     }
@@ -130,6 +135,6 @@ class taoDelivery_models_classes_execution_KeyValueService extends tao_models_cl
         foreach ($executions as $execution) {
             $keys[] = $execution->getIdentifier();
         }
-        return $this->persistance->set(self::USER_EXECUTIONS_PREFIX.$userUri.$status, json_encode($keys));
+        return $this->getPersistence()->set(self::USER_EXECUTIONS_PREFIX.$userUri.$status, json_encode($keys));
     }    
 }

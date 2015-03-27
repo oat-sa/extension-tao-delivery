@@ -1,7 +1,6 @@
-<?php if (get_data('groupcount') > 0) : ?>
 <section>
 	<header>
-		<h1><?=__('Test-takers')?>
+		<h1><?=__('Test-takers')?></h1>
 	</header>
 	<div>
 	   <div >
@@ -22,20 +21,11 @@
 	   <?php endif; ?>
 	</div>
 	<footer>
-		<button id="exclude-btn" class="btn-info small" type="button"><?=__('Excluded test-takers')?></button>
+        <?php if (get_data('ttassigned') > 0 || get_data('ttexcluded') > 0) : ?>
+            <button id="exclude-btn" class="btn-info small" type="button" data-delivery="<?= get_data('assemblyUri')?>"><?=__('Excluded test-takers')?></button>
+        <?php endif;?>
 	</footer>
 </section>
 <div id="modal-container" class="tao-scope">
     <div id="testtaker-form" class="modal"></div>	
 </div>
-<script type="text/javascript">
-require(['jquery', 'helpers', 'ui/modal'], function($, helpers){
-    $('#exclude-btn').click(function() {
-	    $('#testtaker-form').load(helpers._url('excludeTesttaker', 'Delivery', 'taoDelivery', {'uri' : '<?= get_data('assemblyUri')?>'}), function() {
-            $('body').prepend($('#modal-container'));
-            $('#testtaker-form').modal();
-        });
-	});
-});
-</script>
-<?php endif; ?>

@@ -5,6 +5,7 @@ use oat\tao\helpers\Template;
     <head>
         <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
         <link rel="stylesheet" type="text/css" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
+        <link rel="stylesheet" type="text/css" href="<?= Template::css('tao-3.css', 'tao')?>"/>
         <link rel="stylesheet" type="text/css" href="<?= Template::css('runtime/deliveryExecution.css', 'taoDelivery') ?>"/>
         <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
         <script type="text/javascript">
@@ -27,7 +28,7 @@ use oat\tao\helpers\Template;
 </head>
 <body class="tao-scope">
 <?php if (get_data('showControls')) :?>
-     <ul id="control" >
+     <ul id="control" class="dark-bar">
          
          <li class="actionControl">
                 <a id="home" href="<?=_url('index', 'DeliveryServer')?>">

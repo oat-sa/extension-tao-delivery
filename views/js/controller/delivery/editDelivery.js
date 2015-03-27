@@ -13,21 +13,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
- * 
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
+ *
  */
-
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function(){
-    'use strict';
-
-    return {
-        'Delivery': {
-            'actions' : {
-            	'editDelivery'     : 'controller/delivery/editDelivery',
-	            'excludeTesttaker' : 'controller/delivery/testtaker'
-            }
+define(['jquery', 'helpers', 'ui/modal'],
+function ($, helpers) {
+	'use strict';
+	
+	return {
+        start : function(){
+            $('#exclude-btn').click(function() {
+            	var delivery = $(this).data('delivery');
+        	    $('#testtaker-form').load(helpers._url('excludeTesttaker', 'Delivery', 'taoDelivery', {'uri' : delivery}), function() {
+                    $('body').prepend($('#modal-container'));
+                    $('#testtaker-form').modal();
+                });
+        	});
         }
-    };
+	}
 });
