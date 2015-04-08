@@ -5,7 +5,7 @@ use oat\tao\helpers\Template;
 
 <div class="delivery-headings flex-container-full">
     <header>
-        <h2><?=__('%1s', get_data('label'))?></h2>
+        <h2><?=_dh(get_data('label'))?></h2>
         <p><?=__('Published on %2s', tao_helpers_Date::displayeDate(get_data('date')))?></p>
     </header>
 
