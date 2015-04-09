@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC04\n"
-"PO-Revision-Date: 2015-03-24T16:50:16\n"
+"Project-Id-Version: TAO 3.0-RC05\n"
+"PO-Revision-Date: 2015-04-08T14:45:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -12,9 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-msgid "%1s', get_data('label"
-msgstr "%1s', get_data('label"
 
 msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
 msgstr "%s participants sont exclus.', get_data('ttexcluded"
@@ -193,3 +190,4 @@ msgstr "Illimité"
 
 msgid "Upload an assembly"
 msgstr "Télécharger une assemblée"
+
