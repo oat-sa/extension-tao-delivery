@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-08T14:45:40\n"
+"PO-Revision-Date: 2015-04-09T09:16:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -55,6 +55,7 @@ msgstr "新增一個新的輸送"
 msgid "Create a test"
 msgstr "建立考試"
 
+#, tao-public
 msgid "Delete"
 msgstr "刪除"
 
@@ -62,6 +63,7 @@ msgstr "刪除"
 msgid "Deliveries"
 msgstr "遞送"
 
+#, tao-public
 msgid "Deliveries library"
 msgstr "遞送書庫"
 
@@ -83,6 +85,7 @@ msgstr "被排除的考生"
 msgid "Export Options"
 msgstr "匯出選項"
 
+#, tao-public
 msgid "Filter"
 msgstr "過濾條件"
 
@@ -98,15 +101,18 @@ msgstr "登出"
 msgid "Manifest not found in assembly"
 msgstr "清單中未發現集會"
 
+#, tao-public
 msgid "Move"
 msgstr "移動"
 
 msgid "My Tests"
 msgstr "我的考試"
 
+#, tao-public
 msgid "New class"
 msgstr "新類別"
 
+#, tao-public
 msgid "New delivery"
 msgstr "新的輸送"
 
@@ -126,6 +132,7 @@ msgstr "請上傳一個已出版的遞送集合。"
 msgid "Prepare, publish deliveries sessions."
 msgstr "預備，發布遞送時域。"
 
+#, tao-public
 msgid "Properties"
 msgstr "屬性"
 
@@ -141,6 +148,7 @@ msgstr "繼續"
 msgid "Save"
 msgstr "儲存"
 
+#, tao-public
 msgid "Search"
 msgstr "搜尋"
 
@@ -155,9 +163,6 @@ msgstr "開始"
 
 msgid "Started at "
 msgstr "開始於："
-
-msgid "Status saved"
-msgstr "狀態已儲存"
 
 #, tao-public
 msgid "Take or continue a test."
