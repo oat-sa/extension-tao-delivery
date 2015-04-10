@@ -92,11 +92,11 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
             foreach ($array as $prop) {
                 $valid = true;
                 if ($prop instanceof \core_kernel_classes_Property) {
-                    $valid &= in_array($prop->getUri(), [
+                    $valid &= in_array($prop->getUri(), array(
                         TAO_DELIVERY_MAXEXEC_PROP,
                         TAO_DELIVERY_START_PROP,
                         TAO_DELIVERY_END_PROP
-                    ]);
+                    ));
                 }
             }
             return $valid;
