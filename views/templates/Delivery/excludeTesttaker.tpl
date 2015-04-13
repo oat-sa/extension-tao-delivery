@@ -11,7 +11,7 @@ use oat\tao\helpers\Template;
         <ul id="assignedList" class="none ttlist">
         <?php foreach (get_data('assigned') as $key => $label): ?>
           <li class="clearfix" data-uri="<?=$key?>">
-            <?=$label?><span class="arrow"></span>
+            <?=_dh($label)?><span class="arrow"></span>
           </li>
         <?php endforeach;?>
         </ul>
@@ -25,7 +25,7 @@ use oat\tao\helpers\Template;
         <ul id="excludedList" class="none ttlist">
         <?php foreach (get_data('excluded') as $key => $label): ?>
           <li class="clearfix" data-uri="<?=$key?>">
-            <?=$label?><span class="arrow"></span>
+            <?=_dh($label)?><span class="arrow"></span>
           </li>
         <?php endforeach;?>
         </ul>

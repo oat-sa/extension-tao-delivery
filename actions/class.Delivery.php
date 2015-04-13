@@ -126,32 +126,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         $this->setView('Delivery/editDelivery.tpl');
     }
-
-    /**
-     * Delete a delivery or a delivery class
-     *
-     * @access public
-     * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @return void
-     * @throws Exception
-     */
-    public function delete()
-    {
-        if (! tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
-        }
-        
-        $deleted = false;
-        if ($this->getRequestParameter('uri')) {
-            $deleted = $this->service->deleteInstance($this->getCurrentInstance());
-        } else {
-            return $this->forward('deleteClass', null, null, (array('id' => $this->getRequestParameter('id'))));
-        }
-        
-        echo json_encode(array(
-            'deleted' => $deleted
-        ));
-    }
     
     public function excludeTesttaker()
     {
@@ -205,7 +179,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
     public function wizard()
     {
         try {
-            $formContainer = new \taoSimpleDelivery_actions_form_WizardForm(array('class' => $this->getCurrentClass()));
+            $formContainer = new \taoDelivery_actions_form_WizardForm(array('class' => $this->getCurrentClass()));
             $myForm = $formContainer->getForm();
              
             if ($myForm->isValid() && $myForm->isSubmited()) {
@@ -221,7 +195,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
                 $this->setView('form.tpl', 'tao');
             }
     
-        } catch (taoSimpleDelivery_actions_form_NoTestsException $e) {
+        } catch (taoDelivery_actions_form_NoTestsException $e) {
             $this->setView('Delivery/wizard_error.tpl');
         }
     }

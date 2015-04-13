@@ -47,7 +47,7 @@ use oat\tao\helpers\Template;
                 <div class="tile clearfix">
                     
                     <div class="tileLabel">
-                        <?php echo $deliveryExecution->getLabel(); ?>
+                        <?= _dh($deliveryExecution->getLabel()) ?>
                     </div>
                     <div class="tileDetail">
                         <?php echo __("Started at "); ?><?php echo tao_helpers_Date::displayeDate($deliveryExecution->getStartTime()); ?>
@@ -74,7 +74,7 @@ use oat\tao\helpers\Template;
                 
                     <div class="tile clearfix">
                         <div class="tileLabel">
-                            <?php echo $delivery["compiledDelivery"]->getLabel(); ?>
+                            <?= _dh($delivery["compiledDelivery"]->getLabel()) ?>
                         </div>
                          <div class="tileDetail">
                         <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
@@ -114,7 +114,7 @@ use oat\tao\helpers\Template;
                     <ul>
                     <?php foreach($finishedDeliveries as $delivery) : ?>
                     <li>
-                            <?php echo $delivery->getLabel(); ?>
+                            <?= _dh($delivery->getLabel()) ?>
                     </li>
                     <?php endforeach;  ?>
                     </ul>
