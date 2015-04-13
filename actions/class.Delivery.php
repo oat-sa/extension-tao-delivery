@@ -179,7 +179,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
     public function wizard()
     {
         try {
-            $formContainer = new \taoSimpleDelivery_actions_form_WizardForm(array('class' => $this->getCurrentClass()));
+            $formContainer = new \taoDelivery_actions_form_WizardForm(array('class' => $this->getCurrentClass()));
             $myForm = $formContainer->getForm();
              
             if ($myForm->isValid() && $myForm->isSubmited()) {
@@ -195,7 +195,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
                 $this->setView('form.tpl', 'tao');
             }
     
-        } catch (taoSimpleDelivery_actions_form_NoTestsException $e) {
+        } catch (taoDelivery_actions_form_NoTestsException $e) {
             $this->setView('Delivery/wizard_error.tpl');
         }
     }
