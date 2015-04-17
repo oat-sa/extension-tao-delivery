@@ -37,7 +37,7 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
         foreach (GroupsService::singleton()->getGroups($user) as $group) {
             foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $deliveryUri) {
                 $candidate = new core_kernel_classes_Resource($deliveryUri);
-                if (!$this->isUserExcluded($candidate, $user)) {
+                if (!$this->isUserExcluded($candidate, $user) && $candidate->exists()) {
                     $deliveryUris[] = $candidate->getUri();
                 }
             }
