@@ -76,9 +76,6 @@ use oat\tao\helpers\Template;
                         <div class="tileLabel">
                             <?php echo $delivery["compiledDelivery"]->getLabel(); ?>
                         </div>
-                        <b>
-                            <?= \common_session_SessionManager::getSession()->getTimeZone() ?>
-                        </b>
                          <div class="tileDetail">
                         <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != ""): ?>
                             Available from <?= tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?>
