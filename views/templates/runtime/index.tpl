@@ -76,15 +76,16 @@ use oat\tao\helpers\Template;
                         <div class="tileLabel">
                             <?php echo $delivery["compiledDelivery"]->getLabel(); ?>
                         </div>
+                        <b>
+                            <?= \common_session_SessionManager::getSession()->getTimeZone() ?>
+                        </b>
                          <div class="tileDetail">
-                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
-                            Available from <span class="js-utc-timestamp" data-utc-timestamp="<?= @$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] ?>">
-                            </span>
-                        <?php }?>
-                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != "") {?>
-                            <br/>until <span class="js-utc-timestamp" data-utc-timestamp="<?= @$delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] ?>">
-                            </span>
-                        <?php }?>
+                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != ""): ?>
+                            Available from <?= tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?>
+                        <?php endif; ?>
+                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != ""): ?>
+                            <br/>until <?= tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]); ?>
+                        <?php endif ?>
                           </div>
 
                          <div class="tileDetail">

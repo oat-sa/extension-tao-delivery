@@ -22,21 +22,12 @@
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     require([appConfig], function(){
    
-        require(['jquery', 'moment'], function($, moment){
+        require(['jquery', 'layout/time-zone'], function($){
             $('ul li').mouseover(function() {
                 $("a .actionsBox .button", this).addClass("buttonSelected");
             });
             $('ul li').mouseleave(function() {
                 $("a .actionsBox .button", this).removeClass("buttonSelected");
-            });
-            
-            $('.js-utc-timestamp').each(function () {
-                var timestamp = parseInt($(this).data('utc-timestamp')),
-                    date;
-                if (!isNaN(timestamp)) {
-                    date = moment(timestamp * 1000);
-                    $(this).text(date.format('DD/MM/YYYY HH:mm:ss'));
-                }
             });
         });
     });
