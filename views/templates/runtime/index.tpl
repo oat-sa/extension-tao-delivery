@@ -78,10 +78,10 @@ use oat\tao\helpers\Template;
                         </div>
                          <div class="tileDetail">
                         <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != ""): ?>
-                            Available from <?= tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?>
+                            Available from <?= tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?> (<?= get_data('userTimeZone') ?>)
                         <?php endif; ?>
                         <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != ""): ?>
-                            <br/>until <?= tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]); ?>
+                            <br/>until <?= tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]); ?> (<?= get_data('userTimeZone') ?>)
                         <?php endif ?>
                           </div>
 

@@ -84,7 +84,8 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		$this->setData('availableDeliveries', $deliveryData);
 		$this->setData('processViewData', array());
-        $this->setData('client_config_url', $this->getClientConfigUrl());
+		$this->setData('userTimeZone', common_session_SessionManager::getSession()->getTimeZone());
+                $this->setData('client_config_url', $this->getClientConfigUrl());
 		$this->setView('runtime/index.tpl');
 	}
 	
