@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.0-RC05\n"
-"PO-Revision-Date: 2015-04-13T09:53:44\n"
+"Project-Id-Version: TAO 3.0.0\n"
+"PO-Revision-Date: 2015-04-30T09:16:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -26,7 +26,7 @@ msgid "Assembly"
 msgstr "集會"
 
 msgid "Assembly import"
-msgstr "聚集導入"
+msgstr "聚集匯入"
 
 msgid "Assigned test-takers"
 msgstr "已被分配的考生"
@@ -93,7 +93,7 @@ msgid "Import"
 msgstr "匯入"
 
 msgid "Items"
-msgstr "項目(試題)"
+msgstr "題目"
 
 msgid "Logout"
 msgstr "登出"
@@ -114,7 +114,7 @@ msgstr "新類別"
 
 #, tao-public
 msgid "New delivery"
-msgstr "新的輸送"
+msgstr "新的遞送"
 
 msgid "No attempt has been started yet."
 msgstr "沒有已開始的考試。"
