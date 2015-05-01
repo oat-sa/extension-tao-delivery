@@ -22,7 +22,7 @@
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     require([appConfig], function(){
    
-        require(['jquery'], function($){
+        require(['jquery', 'layout/time-zone'], function($){
             $('ul li').mouseover(function() {
                 $("a .actionsBox .button", this).addClass("buttonSelected");
             });
