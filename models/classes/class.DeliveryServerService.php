@@ -20,6 +20,8 @@
 
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
+use oat\taoDeliverySchedule\model\DeliveryScheduleService;
+use oat\taoDeliverySchedule\model\DeliveryScheduleServices;
 
 /**
  * Service to manage the execution of deliveries
@@ -91,6 +93,26 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         //check time
         $startDate  =    date_create('@'.$settings[TAO_DELIVERY_START_PROP]);
         $endDate    =    date_create('@'.$settings[TAO_DELIVERY_END_PROP]);
+        
+        //check recurring deliveries
+        if (class_exists('oat\\taoDeliverySchedule\\model\\DeliveryScheduleService')) {
+            $rruleProp = new \core_kernel_classes_Property(DeliveryScheduleService::TAO_DELIVERY_RRULE_PROP);
+            $rrule = (string) current($delivery->getPropertyValues($rruleProp));
+            
+            if ($rrule) {
+                $rule = new \Recurr\Rule($rrule);
+                $transformer = new \Recurr\Transformer\ArrayTransformer();
+                $rEvents = $transformer->transform($rule)->startsBefore(date_create(), true);
+                foreach ($rEvents as $rEvent) {
+                    $rEventStartDate = $rEvent->getStart();
+                    $rEventEndDate = $rEvent->getEnd()->setTime($endDate->format('H'), $endDate->format('i'));
+                    if ($this->areWeInRange($rEventStartDate, $rEventEndDate)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
         if (!$this->areWeInRange($startDate, $endDate)) {
             common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). " at the wrong date");
             return false;
