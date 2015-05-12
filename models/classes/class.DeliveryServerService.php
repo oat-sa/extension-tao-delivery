@@ -21,7 +21,6 @@
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
 use oat\taoDeliverySchedule\model\DeliveryScheduleService;
-use oat\taoDeliverySchedule\model\DeliveryScheduleServices;
 
 /**
  * Service to manage the execution of deliveries
