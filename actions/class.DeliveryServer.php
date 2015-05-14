@@ -21,6 +21,7 @@
  */
 
 use oat\oatbox\user\User;
+use oat\taoDeliverySchedule\model\DeliveryScheduleService;
 /**
  * DeliveryServer Controller
  *
@@ -81,7 +82,6 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
-		
 		$this->setData('availableDeliveries', $deliveryData);
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
@@ -176,9 +176,14 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
 	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
 	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
-	
+            
+            if (class_exists('oat\\taoDeliverySchedule\\model\\DeliveryScheduleService')) {
+                $scheduleSettings = DeliveryScheduleService::singleton()->getDeliverySettings($delivery);
+            }
+            
 	    return array(
             "compiledDelivery"  => $delivery,
+            "scheduleSettings"  => $scheduleSettings,
             "settingsDelivery"  => array (
     	        TAO_DELIVERY_MAXEXEC_PROP  => (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal,
     	        TAO_DELIVERY_START_PROP    => (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal,

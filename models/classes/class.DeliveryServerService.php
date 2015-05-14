@@ -92,7 +92,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         //check time
         $startDate  =    date_create('@'.$settings[TAO_DELIVERY_START_PROP]);
         $endDate    =    date_create('@'.$settings[TAO_DELIVERY_END_PROP]);
-        
+        $diff = date_diff($startDate, $endDate);
         //check recurring deliveries
         if (class_exists('oat\\taoDeliverySchedule\\model\\DeliveryScheduleService')) {
             $rruleProp = new \core_kernel_classes_Property(DeliveryScheduleService::TAO_DELIVERY_RRULE_PROP);
@@ -102,9 +102,10 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
                 $rule = new \Recurr\Rule($rrule);
                 $transformer = new \Recurr\Transformer\ArrayTransformer();
                 $rEvents = $transformer->transform($rule)->startsBefore(date_create(), true);
+                
                 foreach ($rEvents as $rEvent) {
                     $rEventStartDate = $rEvent->getStart();
-                    $rEventEndDate = $rEvent->getEnd()->setTime($endDate->format('H'), $endDate->format('i'));
+                    $rEventEndDate = $rEvent->getEnd()->add($diff);
                     if ($this->areWeInRange($rEventStartDate, $rEventEndDate)) {
                         return true;
                     }
