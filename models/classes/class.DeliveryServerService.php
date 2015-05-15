@@ -105,7 +105,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
                 
                 foreach ($rEvents as $rEvent) {
                     $rEventStartDate = $rEvent->getStart();
-                    $rEventEndDate = $rEvent->getEnd()->add($diff);
+                    $rEventEndDate = clone $rEvent->getStart();
+                    $rEventEndDate->add($diff);
                     if ($this->areWeInRange($rEventStartDate, $rEventEndDate)) {
                         return true;
                     }
