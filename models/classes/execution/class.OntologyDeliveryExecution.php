@@ -51,7 +51,11 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
      */
     public function getState() {
-        return $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
+        $state = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
+        if (!$state instanceof core_kernel_classes_Resource) {
+            $state = new core_kernel_classes_Resource((string)$state);
+        }
+        return $state;
     }
     
     /**
@@ -78,7 +82,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
         $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state) {
-            common_Logger::w('Delivery execution '.$deliveryExecution->getUri().' already in state '.$state);
+            common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state);
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
