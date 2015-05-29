@@ -76,7 +76,7 @@ class taoDelivery_actions_form_WizardForm
                     $options[$test->getUri()] = $test->getLabel();
                 }
             } catch (\Exception $e) {
-                common_Logger::w('Unable to load items for test ');
+                common_Logger::w('Unable to load items for test '.$test->getUri());
             }
         } 
         
