@@ -69,12 +69,15 @@ class taoDelivery_actions_form_WizardForm
         $options = array();
         $testService = taoTests_models_classes_TestsService::singleton();
         foreach ($testClass->getInstances(true) as $test) {
-            $testItems = $testService->getTestItems($test);
-            //Filter tests which has no items
-            if (empty($testItems)) { 
-                continue;
+            try {
+                $testItems = $testService->getTestItems($test);
+                //Filter tests which has no items
+                if (!empty($testItems)) { 
+                    $options[$test->getUri()] = $test->getLabel();
+                }
+            } catch (\Exception $e) {
+                common_Logger::w('Unable to load items for test '.$test->getUri());
             }
-            $options[$test->getUri()] = $test->getLabel();
         } 
         
         if (empty($options)) {
