@@ -76,15 +76,30 @@ use oat\tao\helpers\Template;
                         <div class="tileLabel">
                             <?= _dh($delivery["compiledDelivery"]->getLabel()) ?>
                         </div>
-                         <div class="tileDetail">
-                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
-                            Available from <?php echo tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?>
-                        <?php }?>
-                        <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != "") {?>
-                            <br/>until <?php echo tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]); ?>
-                        <?php }?>
-                          </div>
-
+                        <?php if (isset($delivery['scheduleSettings']) && isset($delivery['scheduleSettings']['rruleSummary'])): ?>
+                            <div class="tileDetail">
+                                Available <?= $delivery['scheduleSettings']['rruleSummary'] ?>
+                            </div>
+                            <div class="tileDetail">
+                                From: <?= tao_helpers_Date::displayeDate($delivery['scheduleSettings']['from'], tao_helpers_Date::FORMAT_DATE); ?>
+                                <br/>
+                                Until: <?= tao_helpers_Date::displayeDate($delivery['scheduleSettings']['until'], tao_helpers_Date::FORMAT_DATE); ?>
+                            </div>
+                            <div class="tileDetail">
+                                Start time: <?= tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP], tao_helpers_Date::FORMAT_TIME); ?>
+                                <br/>
+                                End time: <?= tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP], tao_helpers_Date::FORMAT_TIME); ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="tileDetail">
+                            <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") {?>
+                                Available from <?php echo tao_helpers_Date::displayeDate(@$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]); ?>
+                            <?php }?>
+                            <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != "") {?>
+                                <br/>until <?php echo tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]); ?>
+                            <?php }?>
+                            </div>
+                        <?php endif; ?>
                          <div class="tileDetail">
                             <?php echo __('Attempt(s)');?> [ <?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?> / <?php echo ($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]!=0) ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] : __('Unlimited'); ?> ]
                          </div>
