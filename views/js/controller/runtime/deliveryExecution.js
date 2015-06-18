@@ -81,7 +81,7 @@ define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer
             });
 
             var $frame = $('#iframeDeliveryExec');
-            $('#tools').css('height', 'auto');
+            $('#outer-delivery-iframe-container').css('height', 'auto');
             
             var serviceApi = options.serviceApi;
 

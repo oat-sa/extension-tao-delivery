@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGY,8DAAe,CACX,OAAO,CAAE,CAAC,CACV,KAAK,CAAE,KAAK,CACZ,MAAM,CAAE,KAAK,CACb,qEAAO,CACH,KAAK,CAAE,KAAK,CACZ,MAAM,CAAE,KAAK",
+"sources": ["../scss/delivery.scss"],
+"names": [],
+"file": "delivery.css"
+}
