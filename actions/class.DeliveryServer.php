@@ -85,10 +85,10 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$this->setData('availableDeliveries', $deliveryData);
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
-		$this->setView('runtime/index.tpl');
+		$this->setView('DeliveryServer/index.tpl');
 	}
-	
-	public function initDeliveryExecution() {
+
+    public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $user = common_session_SessionManager::getSession()->getUser();
 	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user)) {
@@ -122,7 +122,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $this->setData('showControls', $this->showControls());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());
-	    $this->setView('runtime/deliveryExecution.tpl', 'taoDelivery');
+	    $this->setView('DeliveryServer/deliveryExecution.tpl', 'taoDelivery');
 	}
 	
 	public function finishDeliveryExecution() {
@@ -140,10 +140,12 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	}
 	
 	/**
-	 * intialize the result server using the delivery configuration and for this results session submission
-	 * @param compiledDelviery
-	 */
-	protected function initResultServer($compiledDelivery, $executionIdentifier) {
+	 * Initialize the result server using the delivery configuration and for this results session submission
+     *
+     * @param $compiledDelivery
+     * @param $executionIdentifier
+     */
+    protected function initResultServer($compiledDelivery, $executionIdentifier) {
 	    $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
 	    if (!($resultServerCallOverride)) {
 	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
@@ -157,13 +159,18 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	protected function getReturnUrl() {
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
-	
-	public function logout(){
+
+    public function logout(){
 	    common_session_SessionManager::endSession();
 	    $this->redirect(ROOT_URL);
 	}
-	
-	protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
+
+    /**
+     * @param core_kernel_classes_Resource $delivery
+     * @param User $user
+     * @return array
+     */
+    protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
 	{
 	    $deliveryProps = $delivery->getPropertiesValues(array(
 	        new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
