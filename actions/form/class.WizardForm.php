@@ -67,8 +67,17 @@ class taoDelivery_actions_form_WizardForm
         $formatElt->setDescription(__('Select the test you want to publish to the test-takers'));
         $testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
         $options = array();
+        $testService = taoTests_models_classes_TestsService::singleton();
         foreach ($testClass->getInstances(true) as $test) {
-            $options[$test->getUri()] = $test->getLabel();
+            try {
+                $testItems = $testService->getTestItems($test);
+                //Filter tests which has no items
+                if (!empty($testItems)) { 
+                    $options[$test->getUri()] = $test->getLabel();
+                }
+            } catch (\Exception $e) {
+                common_Logger::w('Unable to load items for test '.$test->getUri());
+            }
         } 
         
         if (empty($options)) {
