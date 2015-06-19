@@ -68,8 +68,8 @@ $releaseMsgData = Layout::getReleaseMsgData();
                             <span class="icon-home"></span>
                         </a>
                     </li>
-                    <li class="infoControl">
-                        <a id="home" href="<?=_url('index', 'DeliveryServer')?>" title="<?php echo __("My Tests"); ?>">
+                    <li class="infoControl sep-before">
+                        <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
                             <span class="icon-test-taker"></span>
                             <span><?= get_data('userLabel'); ?></span>
                         </a>
@@ -83,3 +83,4 @@ $releaseMsgData = Layout::getReleaseMsgData();
             </div>
         </nav>
     </header>
+    <div id="feedback-box"></div>

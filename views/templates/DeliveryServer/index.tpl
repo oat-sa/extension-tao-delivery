@@ -3,83 +3,77 @@ use oat\tao\helpers\Template;
 
 print Template::inc('DeliveryServer/blocks/header.tpl');
 ?>
-    <div id="content">
-        <h1>
-            <span class="icon-delivery"></span>
-            <?= __("My Tests"); ?>
-        </h1>
+    <div class="test-listing">
+        <h1><?= __("My Tests"); ?></h1>
         <?php if (count(get_data('startedDeliveries')) > 0) : ?>
-            <div class="header">
-                <?php echo __("Paused Tests"); ?>
-                <span class="counter">(<?php echo count($startedDeliveries); ?>)</span>
-            </div>
-            <div class="deliveries resume">
-                <?php foreach ($startedDeliveries as $deliveryExecution): ?>
-                    <div class="tile clearfix">
-                        <div class="tileLabel">
-                            <?= _dh($deliveryExecution->getLabel()) ?>
-                        </div>
-                        <div class="tileDetail">
-                            <?php echo __("Started at "); ?><?php echo tao_helpers_Date::displayeDate(
-                                $deliveryExecution->getStartTime()
-                            ); ?>
-                        </div>
-                        <a class="btn-info small rgt" href="<?= _url(
-                            'runDeliveryExecution',
-                            'DeliveryServer',
-                            null,
-                            array('deliveryExecution' => $deliveryExecution->getIdentifier())
-                        ) ?>">
-                            <?php echo __("Resume"); ?><span class="icon-continue r"></span>
+            <h2 class="info">
+                <?= __("In progress") ?>: <?= count($startedDeliveries); ?>
+            </h2>
 
+            <ul class="entry-point-box plain">
+                <?php foreach ($startedDeliveries as $deliveryExecution): ?>
+                    <?php $url = _url('runDeliveryExecution', 'DeliveryServer', null, array('deliveryExecution' => $deliveryExecution->getIdentifier())); ?>
+                    <li>
+                        <a class="block entry-point entry-point-started-deliveries" href="<?= $url ?>">
+                            <h3><?= _dh($deliveryExecution->getLabel()) ?></h3>
+
+                            <p><?php echo __("Started at "); ?><?php echo tao_helpers_Date::displayeDate(
+                                    $deliveryExecution->getStartTime()
+                                ); ?>
+                            </p>
+
+                            <div class="clearfix">
+
+                                <span class="text-link" href="<?= $url ?>"><span class="icon-continue"></span> <?= __("Resume") ?> </span>
+                            </div>
                         </a>
-                    </div>
+                    </li>
                 <?php endforeach; ?>
-            </div>
+            </ul>
         <?php endif; ?>
 
         <?php if (count(get_data('availableDeliveries')) > 0) : ?>
-            <div class="header">
-                <?php echo __("Assigned Tests"); ?> <span class="counter">(<?php echo count($availableDeliveries); ?>
-                    )</span>
-            </div>
-            <div class="deliveries start">
+            <h2>
+                <?= __("Available") ?>: <?= count($availableDeliveries); ?>
+            </h2>
+            <ul class="entry-point-box plain">
                 <?php foreach ($availableDeliveries as $delivery) : ?>
-                    <div class="tile clearfix">
-                        <div class="tileLabel">
-                            <?= _dh($delivery["compiledDelivery"]->getLabel()) ?>
-                        </div>
-                        <div class="tileDetail">
-                            <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP] != "") { ?>
-                                Available from <?php echo tao_helpers_Date::displayeDate(
-                                    @$delivery["settingsDelivery"][TAO_DELIVERY_START_PROP]
-                                ); ?>
-                            <?php } ?>
-                            <?php if ($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP] != "") { ?>
-                                <br/>until <?php echo tao_helpers_Date::displayeDate(
-                                    $delivery["settingsDelivery"][TAO_DELIVERY_END_PROP]
-                                ); ?>
-                            <?php } ?>
-                        </div>
-                        <div class="tileDetail">
-                            <?php echo __('Attempt(s)'); ?>
-                            [ <?php echo $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"]; ?>
-                            / <?php echo ($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] != 0) ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] : __(
-                                'Unlimited'
-                            ); ?> ]
-                        </div>
-                        <a accesskey="" class="btn-info small rgt <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>"
-                           href="<?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url(
-                               'initDeliveryExecution',
-                               'DeliveryServer',
-                               null,
-                               array('uri' => $delivery["compiledDelivery"]->getUri())
-                           ) : '#' ?>">
-                            <?php echo __("Start"); ?><span class="icon-play r"></span>
+                    <?php $url = ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url(
+                        'initDeliveryExecution',
+                        'DeliveryServer',
+                        null,
+                        array('uri' => $delivery["compiledDelivery"]->getUri())
+                    ) : '#'?>
+                    <li>
+                        <a class="block entry-point entry-point-all-deliveries <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>" href="<?= $url ?>">
+                            <h3><?= _dh($delivery["compiledDelivery"]->getLabel()) ?></h3>
+
+                            <p><?php if(!empty($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP])) : ?>
+                                    <?= __('Available from %s', tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP])); ?>
+                                <?php endif; ?>
+
+                                <?php if (!empty($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP])) : ?>
+                                    <?= __('to %s', tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP])); ?>
+                                <?php endif; ?>
+                            </p>
+                            <p><?php if($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] !== ''): ?>
+                                    <?= $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] === 1 ? __('Attempt') : __('Attempts') ?>
+                                    <?=  __('%s of %s', $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP],
+                                        !empty($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP])
+                                            ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]
+                                            : __('unlimited'));
+                                    ?>
+                                <?php endif; ?>
+                            </p>
+
+                            <div class="clearfix">
+
+                                <span class="text-link" href="<?= $url ?>"><span class="icon-play"></span> <?= __('Start') ?> </span>
+                            </div>
                         </a>
-                    </div>
+                    </li>
                 <?php endforeach; ?>
-            </div>
+            </ul>
         <?php endif; ?>
     </div>
 <?= Template::inc('DeliveryServer/blocks/footer.tpl'); ?>
