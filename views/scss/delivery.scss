@@ -4,8 +4,8 @@
         .content-block {
             &.iframe-block {
                 padding: 0;
-                width: 100vw;
-                height: 100vh;
+                height: calc(100vh - 77px);
+                //height: 100vh;
                 iframe {
                     width: 100vw;
                     height: 100vh
@@ -31,4 +31,75 @@
             margin-top: 0
         }
     }
+
+
+    [data-control="move-forward"],
+    [data-control="move-end"],
+    [data-control="move-backward"],
+    [data-control="skip"],
+    [data-control="skip-end"]{
+        display:none;
+    }
+
+    .horizontal-action-bar {
+        .progress-box, .timer-box, .title-box {
+            padding-top: 4px
+        }
+        .progressbar {
+            margin-top: 5px;
+            min-width: 150px;
+            height: 0.65em;
+        }
+        & > .control-box {
+            max-width: 1280px;
+            margin: auto;
+            width: 100%;
+            color: white(.9);
+            text-shadow: 1px 1px 0 blacken($info, .2);
+            .lft, .rgt {
+                padding-left: 20px;
+                &:first-child {
+                    padding-left: 0;
+                }
+                &:last-child {
+                    text-align: right;
+                    ul {
+                        display: inline-block;
+                    }
+                }
+            }
+            [class^="btn-"], [class*=" btn-"] {
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+
+[data-control="comment-area"]{
+    display: none;
+    background-color: #fff;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    width: 300px;
+    text-align: right;
+    padding: 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 1px solid #D6D6D6;
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
+    -moz-box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
+    box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
+    textarea {
+        display: block;
+        height: 80px;
+        resize: none;
+        width: 100%;
+        padding: 2px;
+        margin: 3px  0 10px 0;
+        @include simple-border();
+    }
+
 }

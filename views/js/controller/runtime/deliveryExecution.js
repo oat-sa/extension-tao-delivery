@@ -55,6 +55,7 @@ define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer
     }
     
     function resizeMainFrame() {
+        return
         var $frame = $('#iframeDeliveryExec');
         var windowHeight = $(window).height();
         var controlHeight = 0;
@@ -65,12 +66,8 @@ define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer
         }
         
         var newHeight = windowHeight - controlHeight;
-        
-        if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false == true) {
-            newHeight -= 20;
-        }
-        
-        $frame.css('height', newHeight + 'px');
+
+        //$frame.css('height', newHeight + 'px');
     }
     
     return {
@@ -80,8 +77,8 @@ define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer
                 window.location = context.root_url + 'tao/Main/logout';
             });
 
-            var $frame = $('#iframeDeliveryExec');
-            $('#outer-delivery-iframe-container').css('height', 'auto');
+           var $frame = $('#iframeDeliveryExec');
+           // $('#outer-delivery-iframe-container').css('height', 'auto');
             
             var serviceApi = options.serviceApi;
 
