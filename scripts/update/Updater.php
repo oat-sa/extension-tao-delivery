@@ -69,14 +69,16 @@ class Updater extends \common_ext_ExtensionUpdater {
                 }
             }
         }
-        
         if ($currentVersion == '2.6.2') {
+             $currentVersion = '2.6.3';
+        }
+
+        if ($currentVersion == '2.6.3') {
         
             //data upgrade
             OntologyUpdater::syncModels();
-            $currentVersion = '2.6.3';
+            $currentVersion = '2.7.0';
         }
-        
         return $currentVersion;
     }
 }
