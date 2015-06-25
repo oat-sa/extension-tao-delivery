@@ -28,15 +28,18 @@ $releaseMsgData = Layout::getReleaseMsgData();
                         'taoDelivery/controller/runtime/deliveryExecution',
                         'serviceApi/ServiceApi',
                         'serviceApi/StateStorage',
-                        'serviceApi/UserInfoService'
+                        'serviceApi/UserInfoService',
+                        'ui'
                     ],
-                        function(deliveryExecution, ServiceApi, StateStorage, UserInfoService){
+                        function(deliveryExecution, ServiceApi, StateStorage, UserInfoService, ui){
 
                             deliveryExecution.start({
                                 serviceApi : <?=get_data('serviceApi')?>,
                                 finishDeliveryExecution : '<?=_url('finishDeliveryExecution')?>',
                                 deliveryExecution : '<?=get_data('deliveryExecution')?>'
                             });
+                            ui.startEventComponents();
+                            ui.startDomComponent();
                         });
                 });
             }());
@@ -67,10 +70,10 @@ $releaseMsgData = Layout::getReleaseMsgData();
                         </a>
                     </li>
                     <li class="infoControl sep-before">
-                        <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
+                        <span class="a">
                             <span class="icon-test-taker"></span>
                             <span><?= get_data('userLabel'); ?></span>
-                        </a>
+                        </span>
                     </li>
                     <?php if (!get_data('deliveryExecution')): ?>
                     <li>
