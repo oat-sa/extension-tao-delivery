@@ -14,6 +14,6 @@ use oat\tao\helpers\Layout;
         <?= $val ?>
     <?php endif; ?>
 </footer>
-<!--div class="loading-bar"></div-->
+<div class="loading-bar"></div>
 </body>
 </html>
