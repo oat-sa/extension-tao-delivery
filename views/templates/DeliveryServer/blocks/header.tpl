@@ -28,8 +28,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
                         'taoDelivery/controller/runtime/deliveryExecution',
                         'serviceApi/ServiceApi',
                         'serviceApi/StateStorage',
-                        'serviceApi/UserInfoService',
-                        'ui'
+                        'serviceApi/UserInfoService'
                     ],
                         function(deliveryExecution, ServiceApi, StateStorage, UserInfoService, ui){
 
@@ -38,8 +37,6 @@ $releaseMsgData = Layout::getReleaseMsgData();
                                 finishDeliveryExecution : '<?=_url('finishDeliveryExecution')?>',
                                 deliveryExecution : '<?=get_data('deliveryExecution')?>'
                             });
-                            ui.startEventComponents();
-                            ui.startDomComponent();
                         });
                 });
             }());
