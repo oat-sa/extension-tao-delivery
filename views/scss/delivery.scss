@@ -29,6 +29,10 @@
         }
     }
 
+    #qti-item {
+        width: 100%;
+    }
+
 
     [data-control="move-forward"],
     [data-control="move-end"],
@@ -91,6 +95,7 @@
         }
     }
     #qti-content {
+        overflow: auto;
     }
 
     [data-control="comment-area"]{
