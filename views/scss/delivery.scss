@@ -99,8 +99,13 @@
         overflow: auto;
     }
 
-    [data-control="comment-area"]{
-        display: none;
+    .comment-toggle-box {
+        position: relative;
+        overflow:visible
+    }
+
+    [data-control="qti-comment"]{
+        display: block;
         background-color: #fff;
         position: absolute;
         bottom: 20px;
