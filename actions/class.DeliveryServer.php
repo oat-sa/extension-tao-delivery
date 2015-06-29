@@ -119,6 +119,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
+	    $this->setData('showControls', $this->showControls());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('jsBlock', 'runtime');
@@ -152,6 +153,10 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    }
 	}
 
+	protected function showControls() {
+	    return true;
+	}
+	
 	protected function getReturnUrl() {
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}

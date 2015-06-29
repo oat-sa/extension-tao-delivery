@@ -45,7 +45,8 @@ $releaseMsgData = Layout::getReleaseMsgData();
 </head>
 <body class="delivery-scope">
 <!-- content wrap -->
-<div class="content-wrap">
+<div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
+    <?php if (get_data('showControls')) :?>
     <header class="dark-bar clearfix">
         <a href="<?= $releaseMsgData['link'] ?>" title="<?=$releaseMsgData['msg'] ?>" class="lft" target="_blank">
             <img src="<?= $releaseMsgData['logo']?>" alt="<?= $releaseMsgData['branding']?> Logo" id="tao-main-logo">
@@ -73,22 +74,21 @@ $releaseMsgData = Layout::getReleaseMsgData();
                             <span><?= get_data('userLabel'); ?></span>
                         </span>
                     </li>
-                    <?php if (!get_data('deliveryExecution')): ?>
-                    <li class="infoControl sep-before">
+                    <li class="infoControl sep-before" data-control="logout">
                         <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
                             <span class="icon-logout"></span>
+                            <span class="text"><?= __("Logout"); ?></span>
                         </a>
                     </li>
-                    <?php else: ?>
-                    <li class="infoControl sep-before">
+                    <li class="infoControl sep-before hidden" data-control="exit">
                         <a data-control="exit" href="#">
                             <span class="icon-logout"></span>
                             <span class="text"><?= __("Exit"); ?></span>
                         </a>
                     </li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
     </header>
+    <?php endif ?>
     <div id="feedback-box"></div>

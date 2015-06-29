@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 .delivery-scope {
+    .no-controls {
+        margin-bottom: 0 !important;
+    }
     .section-container {
         .content-block {
             &.iframe-block {

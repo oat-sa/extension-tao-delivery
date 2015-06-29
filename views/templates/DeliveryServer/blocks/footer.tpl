@@ -2,6 +2,8 @@
 use oat\tao\helpers\Layout;
 ?>
 </div>
+
+<?php if (get_data('showControls')) :?>
 <!-- /content wrap -->
 <footer class="dark-bar">
     <?php
@@ -14,6 +16,7 @@ use oat\tao\helpers\Layout;
         <?= $val ?>
     <?php endif; ?>
 </footer>
+<?php endif ?>
 <div class="loading-bar"></div>
 </body>
 </html>
