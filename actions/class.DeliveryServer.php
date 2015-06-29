@@ -83,6 +83,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		}
 		
 		$this->setData('availableDeliveries', $deliveryData);
+        $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
 		$this->setView('DeliveryServer/index.tpl');
