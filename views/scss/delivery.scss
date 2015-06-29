@@ -5,12 +5,19 @@
             &.iframe-block {
                 padding: 0;
                 iframe {
-                   width: 100%;
+                    width: 100%;
                 }
             }
         }
     }
 
+
+    .title-box {
+        @include font-size(16);
+        padding: 22px 40px 0;
+    }
+
+    // entry page
     .test-listing {
         width: 500px;
         margin: auto;
@@ -27,109 +34,6 @@
         .entry-point-box {
             margin-top: 0
         }
-    }
-
-    #qti-item {
-        width: 100%;
-    }
-
-
-    [data-control="move-forward"],
-    [data-control="move-end"],
-    [data-control="move-backward"],
-    [data-control="skip"],
-    [data-control="skip-end"]{
-        display:none;
-    }
-
-    .size-wrapper {
-        max-width: 1280px;
-        overflow:hidden;
-        margin: auto;
-        width: 100%;
-    }
-
-    .test-sidebar {
-        background:$canvas;
-        overflow: auto;
-    }
-
-    .test-sidebar-left {
-        border-right: 1px #ddd solid;
-    }
-
-    .test-sidebar-right {
-        border-left: 1px #ddd solid;
-    }
-
-    .content-panel {
-        height: auto !important;
-    }
-
-    .horizontal-action-bar {
-        .progress-box, .timer-box, .title-box {
-            padding-top: 4px
-        }
-        .progressbar {
-            margin-top: 5px;
-            min-width: 150px;
-            height: 0.65em;
-        }
-        & > .control-box {
-            color: white(.9);
-            text-shadow: 1px 1px 0 blacken($info, .2);
-            .lft, .rgt {
-                padding-left: 20px;
-                &:first-child {
-                    padding-left: 0;
-                }
-                &:last-child {
-                    text-align: right;
-                    ul {
-                        display: inline-block;
-                    }
-                }
-            }
-            [class^="btn-"], [class*=" btn-"] {
-                white-space: nowrap;
-            }
-        }
-    }
-    #qti-content {
-        overflow: auto;
-    }
-
-    .comment-toggle-box {
-        position: relative;
-        overflow:visible
-    }
-
-    [data-control="qti-comment"]{
-        display: block;
-        background-color: #fff;
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        z-index: 9999;
-        width: 300px;
-        text-align: right;
-        padding: 5px;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        border: 1px solid #D6D6D6;
-        -webkit-box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
-        -moz-box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
-        box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.20);
-        textarea {
-            display: block;
-            height: 80px;
-            resize: none;
-            width: 100%;
-            padding: 2px;
-            margin: 3px  0 10px 0;
-            @include simple-border();
-        }
-
     }
 }
 

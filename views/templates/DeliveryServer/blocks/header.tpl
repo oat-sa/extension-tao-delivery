@@ -50,10 +50,11 @@ $releaseMsgData = Layout::getReleaseMsgData();
         <a href="<?= $releaseMsgData['link'] ?>" title="<?=$releaseMsgData['msg'] ?>" class="lft" target="_blank">
             <img src="<?= $releaseMsgData['logo']?>" alt="<?= $releaseMsgData['branding']?> Logo" id="tao-main-logo">
         </a>
-        <nav>
+        <div class="lft title-box"></div>
+        <nav class="rgt">
             <!-- snippet: dark bar left menu -->
 
-            <div class="settings-menu rgt">
+            <div class="settings-menu">
                 <!-- Hamburger -->
                 <span class="reduced-menu-trigger">
                     <span class="icon-mobile-menu"></span>
