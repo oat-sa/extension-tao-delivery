@@ -62,6 +62,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
                 </span>
 
                 <ul class="clearfix plain">
+                    <?php if (!get_data('deliveryExecution')): ?>
                     <li>
                         <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
                             <span class="icon-home"></span>
@@ -73,10 +74,16 @@ $releaseMsgData = Layout::getReleaseMsgData();
                             <span><?= get_data('userLabel'); ?></span>
                         </span>
                     </li>
-                    <?php if (!get_data('deliveryExecution')): ?>
                     <li>
                         <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
                             <span class="icon-logout"></span>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li>
+                        <a data-control="exit" href="#">
+                            <span class="icon-logout"></span>
+                            <span class="text"><?= __("Exit"); ?></span>
                         </a>
                     </li>
                     <?php endif; ?>
