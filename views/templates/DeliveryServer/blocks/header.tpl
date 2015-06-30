@@ -81,7 +81,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
                         </a>
                     </li>
                     <li class="infoControl sep-before hidden" data-control="exit">
-                        <a data-control="exit" href="#">
+                        <a href="#">
                             <span class="icon-logout"></span>
                             <span class="text"><?= __("Exit"); ?></span>
                         </a>
