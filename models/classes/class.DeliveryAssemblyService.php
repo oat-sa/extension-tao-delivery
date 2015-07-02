@@ -27,6 +27,8 @@
  */
 class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_classes_ClassService
 {
+    
+    const PROPERTY_ORIGIN = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin';
 
     /**
      * (non-PHPdoc)
@@ -89,6 +91,10 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
      */
     public function getCompilationDate( core_kernel_classes_Resource $assembly) {
         return (string)$assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_TIME));
+    }
+    
+    public function getOrigin( core_kernel_classes_Resource $assembly) {
+        return (string)$assembly->getUniquePropertyValue(new core_kernel_classes_Property(self::PROPERTY_ORIGIN));
     }
 
 }

@@ -17,72 +17,38 @@
  *
  *
  */
-define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer, Spinner, context){
+define([
+    'jquery',
+    'iframeResizer',
+    'context',
+    'layout/loading-bar'
+], function($, iframeResizer, context, loadingBar){
     
-    function loading(reverse) {
-        if($('#overlay').length === 0){
-            
-            $('<div id="overlay"></div>').appendTo(document.body);
-            $('<div id="loading"><div></div></div>').appendTo(document.body);
-        }
+    'use strict';
+    
+    var $frameContainer,
+        $frame,
+        $headerHeight,
+        $footerHeight;
 
-        var opts = {
-                lines: 11, // The number of lines to draw
-                length: 21, // The length of each line
-                width: 8, // The line thickness
-                radius: 36, // The radius of the inner circle
-                corners: 1, // Corner roundness (0..1)
-                rotate: 0, // The rotation offset
-                direction: (reverse === true) ? -1 : 1, // 1: clockwise, -1: counterclockwise
-                color: '#888', // #rgb or #rrggbb or array of colors
-                speed: 1.5, // Rounds per second
-                trail: 60, // Afterglow percentage
-                shadow: false, // Whether to render a shadow
-                hwaccel: false, // Whether to use hardware acceleration
-                className: 'spinner', // The CSS class to assign to the spinner
-                zIndex: 2e9, // The z-index (defaults to 2000000000)
-        };
-        new Spinner(opts).spin($('#loading > div').get(0));
-    }
-    
-    function unloading() {
-        setTimeout(function(){
-            $('#loading').fadeOut(300, function(){
-                $(this).remove();
-                $('#overlay').remove();
-            });
-        }, 300);
-    }
-    
     function resizeMainFrame() {
-        var $frame = $('#iframeDeliveryExec');
-        var windowHeight = $(window).height();
-        var controlHeight = 0;
-        var $control = $('#control');
-        
-        if ($control.length === 1) {
-            controlHeight = $control.outerHeight(true);
-        }
-        
-        var newHeight = windowHeight - controlHeight;
-        
-        if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false == true) {
-            newHeight -= 20;
-        }
-        
-        $frame.css('height', newHeight + 'px');
+        var height = $(window).outerHeight() - $headerHeight - $footerHeight;
+        $frameContainer.height(height);
+        $frame.height(height);
     }
     
     return {
         start: function(options){
-            
+
+            $frameContainer = $('#outer-delivery-iframe-container');
+            $frame = $frameContainer.find('iframe');
+            $headerHeight = $('body > .content-wrap > header').outerHeight();
+            $footerHeight = $('body > footer').outerHeight();
+
             $(document).on('serviceforbidden', function() {
                 window.location = context.root_url + 'tao/Main/logout';
             });
 
-            var $frame = $('#iframeDeliveryExec');
-            $('#tools').css('height', 'auto');
-            
             var serviceApi = options.serviceApi;
 
             serviceApi.onFinish(function() {
@@ -100,11 +66,13 @@ define(['jquery', 'iframeResizer', 'spin', 'context'], function($, iframeResizer
             });
             
             $(document)
-                .on('loading', function(e, reverse){
-                    loading(reverse);
+                .on('loading', function(e){
+                    loadingBar.start();
                 })
                 .on('unloading', function(){
-                    unloading();
+                    setTimeout(function(){
+                        loadingBar.stop();
+                    }, 300);
                 })
                 .on('shutdown-com', function(){
                     //use when we want to stop all exchange between frames
