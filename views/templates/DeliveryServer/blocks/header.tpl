@@ -63,7 +63,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
                 </span>
 
                 <ul class="clearfix plain">
-                    <li>
+                    <li data-control="home">
                         <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
                             <span class="icon-home"></span>
                         </a>
