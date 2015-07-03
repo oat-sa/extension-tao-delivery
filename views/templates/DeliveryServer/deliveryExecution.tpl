@@ -14,5 +14,4 @@ print Template::inc('DeliveryServer/blocks/header.tpl', 'taoDelivery');
             </section>
         </div>
     </div>
-<script> window.deliveryContextIsTao = true; </script>
 <?= Template::inc('DeliveryServer/blocks/footer.tpl', 'taoDelivery'); ?>
