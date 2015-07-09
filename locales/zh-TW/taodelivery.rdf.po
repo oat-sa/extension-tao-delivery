@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T15:11:43\n"
+"Project-Id-Version: TAO v3.1.0-sprint02\n"
+"PO-Revision-Date: 2015-07-08T17:13:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -194,6 +194,16 @@ msgstr "編譯目錄"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The directory of the compilation of the delivery"
 msgstr "遞送的編譯目錄"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery origin"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The original test/template of the delivery"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

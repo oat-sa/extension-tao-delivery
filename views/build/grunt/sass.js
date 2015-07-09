@@ -8,6 +8,7 @@ module.exports = function(grunt) {
     sass.taodelivery = { };
     sass.taodelivery.files = { };
     sass.taodelivery.files[root + 'css/testtakers.css'] = root + 'scss/testtakers.scss';
+    sass.taodelivery.files[root + 'css/delivery.css'] = root + 'scss/delivery.scss';
 
     watch.taodeliverysass = {
         files : [root + 'views/scss/**/*.scss'],

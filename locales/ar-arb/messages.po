@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1-dev\n"
-"PO-Revision-Date: 2015-06-18T15:11:41\n"
+"Project-Id-Version: TAO v3.1.0-sprint02\n"
+"PO-Revision-Date: 2015-07-08T17:13:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -13,10 +13,16 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgid "%s of %s"
+msgstr ""
+
+msgid "%s test-taker(s) are excluded."
 msgstr ""
 
 msgid "Add the source file."
+msgstr ""
+
+msgid "All rights reserved."
 msgstr ""
 
 msgid "An error occured during the import"
@@ -31,22 +37,22 @@ msgstr ""
 msgid "Assigned test-takers"
 msgstr ""
 
-msgid "Assigned Tests"
-msgstr ""
-
 msgid "Assigned to"
 msgstr ""
 
-msgid "Attempt(s)"
+msgid "Attempt"
 msgstr ""
 
 msgid "Attempts"
 msgstr ""
 
-msgid "Cancel"
+msgid "Available"
 msgstr ""
 
-msgid "Completed Tests"
+msgid "Available from %s"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Create a new delivery"
@@ -67,10 +73,16 @@ msgstr ""
 msgid "Deliveries library"
 msgstr ""
 
-msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
+msgid "Delivery \"%s\" successfully imported"
+msgstr ""
+
+msgid "Delivery is assigned to %s test-takers."
 msgstr ""
 
 msgid "Delivery is not assigned to any test-taker."
+msgstr ""
+
+msgid "Delivery of %s"
 msgstr ""
 
 msgid "Delivery saved"
@@ -80,6 +92,9 @@ msgid "Enables you to export a published delivery"
 msgstr ""
 
 msgid "Excluded test-takers"
+msgstr ""
+
+msgid "Exit"
 msgstr ""
 
 msgid "Export Options"
@@ -92,6 +107,9 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
+msgid "In progress"
+msgstr ""
+
 msgid "Items"
 msgstr ""
 
@@ -99,6 +117,9 @@ msgid "Logout"
 msgstr ""
 
 msgid "Manifest not found in assembly"
+msgstr ""
+
+msgid "More"
 msgstr ""
 
 #, tao-public
@@ -122,9 +143,6 @@ msgstr ""
 msgid "No information available"
 msgstr ""
 
-msgid "Paused Tests"
-msgstr ""
-
 msgid "Please upload a published delivery assembly ."
 msgstr ""
 
@@ -139,7 +157,7 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
+msgid "Published on %2s"
 msgstr ""
 
 msgid "Resume"
@@ -178,7 +196,7 @@ msgstr ""
 msgid "Test-takers"
 msgstr ""
 
-msgid "There are currently %s attempts', get_data('exec"
+msgid "There are currently %s attempts"
 msgstr ""
 
 msgid "There are currently no tests available to publish."
@@ -187,12 +205,18 @@ msgstr ""
 msgid "There is currently 1 attempt"
 msgstr ""
 
+msgid "to %s"
+msgstr ""
+
 msgid "Unkown error during impoort"
 msgstr ""
 
-msgid "Unlimited"
+msgid "unlimited"
 msgstr ""
 
 msgid "Upload an assembly"
+msgstr ""
+
+msgid "You are no longer allowed to take the test %s"
 msgstr ""
 
