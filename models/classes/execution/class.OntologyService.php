@@ -37,12 +37,16 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $executions = $executionClass->searchInstances(array(
+        $resources = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
         ), array(
             'like' => false
         ));
-        return $executions;
+        $returnValue = array();
+        foreach ($resources as $resource) {
+            $returnValue[] = $this->getDeliveryExecution($resource);
+        }
+        return $returnValue;
     }
     
     public function getDeliveryExecutionsByStatus($userUri, $status) {
