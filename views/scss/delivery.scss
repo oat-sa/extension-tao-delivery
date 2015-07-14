@@ -1,8 +1,12 @@
 @import "inc/bootstrap";
 .delivery-scope {
-    .no-controls {
+    .no-controls { // == .content-wrap
         margin-bottom: 0 !important;
+        &:after {
+            height: 0 !important;
+        }
     }
+    
     .section-container {
         .content-block {
             &.iframe-block {
@@ -13,7 +17,6 @@
             }
         }
     }
-
 
     .title-box {
         @include font-size(16);

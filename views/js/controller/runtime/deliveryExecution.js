@@ -27,12 +27,10 @@ define([
     'use strict';
     
     var $frameContainer,
-        $frame,
-        $headerHeight,
-        $footerHeight;
+        $frame;
 
     function resizeMainFrame() {
-        var height = $(window).outerHeight() - $headerHeight - $footerHeight;
+        var height = $(window).outerHeight();
         $frameContainer.height(height);
         $frame.height(height);
     }
@@ -42,8 +40,6 @@ define([
 
             $frameContainer = $('#outer-delivery-iframe-container');
             $frame = $frameContainer.find('iframe');
-            $headerHeight = $('body > .content-wrap > header').outerHeight();
-            $footerHeight = $('body > footer').outerHeight();
 
             $(document).on('serviceforbidden', function() {
                 window.location = context.root_url + 'tao/Main/logout';
