@@ -23,23 +23,27 @@ define([
     'context',
     'layout/loading-bar'
 ], function($, iframeResizer, context, loadingBar){
-    
+
     'use strict';
-    
+
     var $frameContainer,
-        $frame;
+        $frame,
+        $headerHeight,
+        $footerHeight;
 
     function resizeMainFrame() {
-        var height = $(window).outerHeight();
+        var height = $(window).outerHeight() - $headerHeight - $footerHeight;
         $frameContainer.height(height);
         $frame.height(height);
     }
-    
+
     return {
         start: function(options){
 
             $frameContainer = $('#outer-delivery-iframe-container');
             $frame = $frameContainer.find('iframe');
+            $headerHeight = $('body > .content-wrap > header').outerHeight() || 0;
+            $footerHeight = $('body > footer').outerHeight() || 0;
 
             $(document).on('serviceforbidden', function() {
                 window.location = context.root_url + 'tao/Main/logout';
@@ -60,7 +64,7 @@ define([
                     }
                 });
             });
-            
+
             $(document)
                 .on('loading', function(e){
                     loadingBar.start();
@@ -76,13 +80,13 @@ define([
                     $frame.off('load.eventHeight')
                            .off('load.cors');
                 });
-            
+
             serviceApi.loadInto($frame.get(0));
-            
+
             $(window).bind('resize', function() {
                 resizeMainFrame();
             });
-            
+
             resizeMainFrame();
         }
     };
