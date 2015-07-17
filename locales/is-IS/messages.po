@@ -1,17 +1,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T17:22:36\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-06-09 11:39+0000\n"
+"Last-Translator: bjornlevi <bjorn@namsmat.is>\n"
 "Language: is-IS\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: is-IS\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: is-IS\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-POOTLE-MTIME: 1433849981.000000\n"
 
 msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
 msgstr ""
@@ -20,7 +23,7 @@ msgid "Add the source file."
 msgstr ""
 
 msgid "An error occured during the import"
-msgstr ""
+msgstr "Villa kom upp í innsetningu"
 
 msgid "Assembly"
 msgstr ""
@@ -29,22 +32,22 @@ msgid "Assembly import"
 msgstr ""
 
 msgid "Assigned test-takers"
-msgstr ""
+msgstr "Skilgreindir próftakar"
 
 msgid "Assigned Tests"
-msgstr ""
+msgstr "Úthlutuð próf"
 
 msgid "Assigned to"
-msgstr ""
+msgstr "Úthlutað til"
 
 msgid "Attempt(s)"
-msgstr ""
+msgstr "Tilraun(ir)"
 
 msgid "Attempts"
-msgstr ""
+msgstr "Tilraunir"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Hætta við"
 
 msgid "Completed Tests"
 msgstr ""
@@ -57,18 +60,18 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Eyða"
 
 #, tao-public
 msgid "Deliveries"
-msgstr ""
+msgstr "Úthlutanir"
 
-#, tao-public
+#, fuzzy, tao-public
 msgid "Deliveries library"
-msgstr ""
+msgstr "Úthlutanasafn"
 
 msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
-msgstr ""
+msgstr "Úthlutun fyrir %s próftaka.' get_data('ttassigned"
 
 msgid "Delivery is not assigned to any test-taker."
 msgstr ""
@@ -90,40 +93,40 @@ msgid "Filter"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Flytja inn"
 
 msgid "Items"
-msgstr ""
+msgstr "Atriði"
 
 msgid "Logout"
-msgstr ""
+msgstr "Útskrá"
 
 msgid "Manifest not found in assembly"
 msgstr ""
 
 #, tao-public
 msgid "Move"
-msgstr ""
+msgstr "Flytja"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Prófin mín"
 
 #, tao-public
 msgid "New class"
-msgstr ""
+msgstr "Nýr flokkur"
 
 #, tao-public
 msgid "New delivery"
-msgstr ""
+msgstr "Ný úthlutun"
 
 msgid "No attempt has been started yet."
 msgstr ""
 
 msgid "No information available"
-msgstr ""
+msgstr "Upplýsingar ekki fáanlegar"
 
 msgid "Paused Tests"
-msgstr ""
+msgstr "Próf í bið"
 
 msgid "Please upload a published delivery assembly ."
 msgstr ""
@@ -137,7 +140,7 @@ msgid "Properties"
 msgstr ""
 
 msgid "Publish"
-msgstr ""
+msgstr "Birta"
 
 msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
 msgstr ""
@@ -195,4 +198,3 @@ msgstr ""
 
 msgid "Upload an assembly"
 msgstr ""
-

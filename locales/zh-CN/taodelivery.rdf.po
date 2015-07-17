@@ -1,14 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-24T17:22:37\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2015-04-30 17:19+0000\n"
+"Last-Translator: Michael <michael.t@examguardian.com>\n"
 "Language: zh-CN\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: zh-CN\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: zh-CN\n"
+"X-POOTLE-MTIME: 1430414360.000000\n"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -43,7 +46,7 @@ msgstr "递送结束的日期"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Max. number of executions (default: unlimited)"
-msgstr "最多执行次数(预设值：无限)"
+msgstr "最多执行次数(默认值：无限)"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -88,7 +91,7 @@ msgstr "执行的递送"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery of this execution"
-msgstr "此执行的递送"
+msgstr "这个执行的递送"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -224,4 +227,3 @@ msgstr "递送主管"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Delivery Manager Role"
 msgstr "递送主管角色"
-
