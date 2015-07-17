@@ -21,6 +21,7 @@
 namespace oat\taoDelivery\scripts\update;
 
 use oat\tao\scripts\update\OntologyUpdater;
+use oat\tao\model\entryPoint\EntryPointService;
 
 /**
  * 
@@ -79,6 +80,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.0';
         }
+        
+
+        if ($currentVersion == '2.7.0') {
+            EntryPointService::getRegistry()->registerEntryPoint(new \taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
+            $currentVersion = '2.7.1';
+        }
+        
         return $currentVersion;
     }
 }
