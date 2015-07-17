@@ -82,9 +82,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
 
-        if ($currentVersion == '2.6.3') {
+        if ($currentVersion == '2.7.0') {
             EntryPointService::getRegistry()->registerEntryPoint(new \taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
-            $currentVersion = '2.7.0';
+            $currentVersion = '2.7.1';
         }
         
         return $currentVersion;
