@@ -1,20 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-06-09 11:39+0000\n"
-"Last-Translator: bjornlevi <bjorn@namsmat.is>\n"
-"Language: is-IS\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:18:58\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n%10!=1 || n%100==11);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: is-IS\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: is-IS\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1433849981.000000\n"
 
 msgid "%s of %s"
 msgstr ""
@@ -40,20 +37,17 @@ msgstr ""
 msgid "Assigned test-takers"
 msgstr "Skilgreindir próftakar"
 
-msgid "Assigned Tests"
-msgstr "Úthlutuð próf"
-
 msgid "Assigned to"
 msgstr "Úthlutað til"
 
-msgid "Attempt(s)"
-msgstr "Tilraun(ir)"
+msgid "Attempt"
+msgstr ""
 
 msgid "Attempts"
 msgstr "Tilraunir"
 
-msgid "Cancel"
-msgstr "Hætta við"
+msgid "Available"
+msgstr ""
 
 msgid "Available from %s"
 msgstr ""
@@ -75,12 +69,15 @@ msgstr "Eyða"
 msgid "Deliveries"
 msgstr "Úthlutanir"
 
-#, fuzzy, tao-public
+#, tao-public
 msgid "Deliveries library"
 msgstr "Úthlutanasafn"
 
-msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
-msgstr "Úthlutun fyrir %s próftaka.' get_data('ttassigned"
+msgid "Delivery \"%s\" successfully imported"
+msgstr ""
+
+msgid "Delivery is assigned to %s test-takers."
+msgstr ""
 
 msgid "Delivery is not assigned to any test-taker."
 msgstr ""
@@ -146,9 +143,6 @@ msgstr ""
 msgid "No information available"
 msgstr "Upplýsingar ekki fáanlegar"
 
-msgid "Paused Tests"
-msgstr "Próf í bið"
-
 msgid "Please upload a published delivery assembly ."
 msgstr ""
 
@@ -188,15 +182,16 @@ msgstr ""
 msgid "Started at "
 msgstr ""
 
-#, tao-public
 msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
 
-#, tao-public
 msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "Test-Takers"
 msgstr ""
 
 msgid "Test-takers"
@@ -222,3 +217,7 @@ msgstr ""
 
 msgid "Upload an assembly"
 msgstr ""
+
+msgid "You are no longer allowed to take the test %s"
+msgstr ""
+

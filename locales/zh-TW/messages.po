@@ -1,20 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-rc01\n"
-"PO-Revision-Date: 2015-04-30 16:43+0000\n"
-"Last-Translator: Michael <michael.t@examguardian.com>\n"
-"Language: zh-TW\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:19:00\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.5.1-rc1\n"
+"Language: zh-TW\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: zh-TW\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-POOTLE-MTIME: 1430412192.000000\n"
 
 msgid "%s of %s"
 msgstr ""
@@ -185,16 +182,17 @@ msgstr "開始"
 msgid "Started at "
 msgstr "開始於："
 
-#, tao-public
 msgid "Take or continue a test."
 msgstr "開始或繼續參加一個考試。"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO：一個開放和有彈性的電腦考試平台"
 
-#, tao-public
 msgid "TAO Delivery Server"
 msgstr "TAO 遞送服務器"
+
+msgid "Test-Takers"
+msgstr ""
 
 msgid "Test-takers"
 msgstr "考生"
@@ -219,3 +217,7 @@ msgstr ""
 
 msgid "Upload an assembly"
 msgstr "上傳一個集會"
+
+msgid "You are no longer allowed to take the test %s"
+msgstr ""
+
