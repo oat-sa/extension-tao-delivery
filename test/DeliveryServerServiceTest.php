@@ -125,26 +125,6 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
      * @author Lionel Lecaque, lionel@taotesting.com
      * @return boolean
      */
-    public function testGetDeliveryFromCompiledDelivery()
-    {
-        $resourceMock = $this->getResourceMock('fakerDeliveryAssembly');
-        
-        $resourceMock->expects($this->once())
-            ->method('getUniquePropertyValue')
-            ->with($this->callback(function ($prop)
-        {
-            return $prop instanceof \core_kernel_classes_Property && $prop->getUri() == PROPERTY_COMPILEDDELIVERY_DELIVERY;
-        }))
-            ->will($this->returnValue(true));
-        
-        $this->assertTrue($this->service->getDeliveryFromCompiledDelivery($resourceMock));
-    }
-
-    /**
-     *
-     * @author Lionel Lecaque, lionel@taotesting.com
-     * @return boolean
-     */
     public function testGetAssembliesByGroup()
     {
         $resourceMock = $this->getResourceMock('fakerDeliveryAssembly');

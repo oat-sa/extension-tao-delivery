@@ -16,11 +16,17 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-POOTLE-MTIME: 1430412192.000000\n"
 
-msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
-msgstr "%s 個考生被排除.', get_data('ttexcluded"
+msgid "%s of %s"
+msgstr ""
+
+msgid "%s test-taker(s) are excluded."
+msgstr ""
 
 msgid "Add the source file."
 msgstr "添加源文案。"
+
+msgid "All rights reserved."
+msgstr ""
 
 msgid "An error occured during the import"
 msgstr "匯入時發生了錯誤"
@@ -34,23 +40,23 @@ msgstr "聚集匯入"
 msgid "Assigned test-takers"
 msgstr "已被分配的考生"
 
-msgid "Assigned Tests"
-msgstr "已被分配的考試"
-
 msgid "Assigned to"
 msgstr "已分配給"
 
-msgid "Attempt(s)"
-msgstr "考試次數"
+msgid "Attempt"
+msgstr ""
 
 msgid "Attempts"
 msgstr "試的次數"
 
+msgid "Available"
+msgstr ""
+
+msgid "Available from %s"
+msgstr ""
+
 msgid "Cancel"
 msgstr "取消"
-
-msgid "Completed Tests"
-msgstr "已完成的考試"
 
 msgid "Create a new delivery"
 msgstr "建立一個新的輸送"
@@ -70,11 +76,17 @@ msgstr "遞送"
 msgid "Deliveries library"
 msgstr "遞送書庫"
 
-msgid "Delivery is assigned to %s test-takers.', get_data('ttassigned"
-msgstr "遞送已被分配給 %s 個考生', get_data('ttassigned"
+msgid "Delivery \"%s\" successfully imported"
+msgstr ""
+
+msgid "Delivery is assigned to %s test-takers."
+msgstr ""
 
 msgid "Delivery is not assigned to any test-taker."
 msgstr "此輸送沒被分配給任何的考生。"
+
+msgid "Delivery of %s"
+msgstr ""
 
 msgid "Delivery saved"
 msgstr "遞送已儲存"
@@ -84,6 +96,9 @@ msgstr "讓你能導出一個已出版的輸送"
 
 msgid "Excluded test-takers"
 msgstr "被排除的考生"
+
+msgid "Exit"
+msgstr ""
 
 msgid "Export Options"
 msgstr "匯出選項"
@@ -95,6 +110,9 @@ msgstr "過濾條件"
 msgid "Import"
 msgstr "匯入"
 
+msgid "In progress"
+msgstr ""
+
 msgid "Items"
 msgstr "題目"
 
@@ -103,6 +121,9 @@ msgstr "登出"
 
 msgid "Manifest not found in assembly"
 msgstr "清單中未發現集會"
+
+msgid "More"
+msgstr ""
 
 #, tao-public
 msgid "Move"
@@ -125,9 +146,6 @@ msgstr "沒有已開始的考試。"
 msgid "No information available"
 msgstr "沒資訊可提供"
 
-msgid "Paused Tests"
-msgstr "暫停考試"
-
 msgid "Please upload a published delivery assembly ."
 msgstr "請上傳一個已出版的遞送集合。"
 
@@ -142,8 +160,8 @@ msgstr "屬性"
 msgid "Publish"
 msgstr "發布"
 
-msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
-msgstr "發布在 %2s', tao_helpers_Date::displayeDate(get_data('date"
+msgid "Published on %2s"
+msgstr ""
 
 msgid "Resume"
 msgstr "繼續"
@@ -181,8 +199,8 @@ msgstr "TAO 遞送服務器"
 msgid "Test-takers"
 msgstr "考生"
 
-msgid "There are currently %s attempts', get_data('exec"
-msgstr "現在有 %s 個考試次數 ', get_data('exec"
+msgid "There are currently %s attempts"
+msgstr ""
 
 msgid "There are currently no tests available to publish."
 msgstr "現在沒有考試可以發布。"
@@ -190,11 +208,14 @@ msgstr "現在沒有考試可以發布。"
 msgid "There is currently 1 attempt"
 msgstr "考生已試了1次"
 
+msgid "to %s"
+msgstr ""
+
 msgid "Unkown error during impoort"
 msgstr "匯入時發生了不明的錯誤"
 
-msgid "Unlimited"
-msgstr "無限制"
+msgid "unlimited"
+msgstr ""
 
 msgid "Upload an assembly"
 msgstr "上傳一個集會"

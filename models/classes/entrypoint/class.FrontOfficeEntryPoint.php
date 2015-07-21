@@ -1,3 +1,4 @@
+<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,23 +14,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *
  *
  */
-(function(){
-    //the url of the app config is set into the data-config attr of the loader.
-    var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
-    require([appConfig], function(){
-   
-        require(['jquery'], function($){
-            $('ul li').mouseover(function() {
-                $("a .actionsBox .button", this).addClass("buttonSelected");
-            });
-            $('ul li').mouseleave(function() {
-                $("a .actionsBox .button", this).removeClass("buttonSelected");
-            });
-        });
-    });
 
-}());
+use oat\oatbox\Configurable;
+use oat\tao\model\entryPoint\Entrypoint;
+
+class taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint extends Configurable implements Entrypoint
+{
+
+    public function getId() {
+        return 'deliveryServer';
+    }
+    
+    public function getTitle() {
+        return __('Test-Takers');
+    }
+    
+    public function getLabel() {
+        return __('TAO Delivery Server');
+    }
+    
+    public function getDescription() {
+        return __('Take or continue a test.');
+    }
+    
+    public function getUrl() {
+        return _url("index", "DeliveryServer", "taoDelivery");
+    }
+
+}

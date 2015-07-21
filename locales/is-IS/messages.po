@@ -16,10 +16,16 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-POOTLE-MTIME: 1433849981.000000\n"
 
-msgid "%s test-taker(s) are excluded.', get_data('ttexcluded"
+msgid "%s of %s"
+msgstr ""
+
+msgid "%s test-taker(s) are excluded."
 msgstr ""
 
 msgid "Add the source file."
+msgstr ""
+
+msgid "All rights reserved."
 msgstr ""
 
 msgid "An error occured during the import"
@@ -49,7 +55,10 @@ msgstr "Tilraunir"
 msgid "Cancel"
 msgstr "Hætta við"
 
-msgid "Completed Tests"
+msgid "Available from %s"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Create a new delivery"
@@ -76,6 +85,9 @@ msgstr "Úthlutun fyrir %s próftaka.' get_data('ttassigned"
 msgid "Delivery is not assigned to any test-taker."
 msgstr ""
 
+msgid "Delivery of %s"
+msgstr ""
+
 msgid "Delivery saved"
 msgstr ""
 
@@ -83,6 +95,9 @@ msgid "Enables you to export a published delivery"
 msgstr ""
 
 msgid "Excluded test-takers"
+msgstr ""
+
+msgid "Exit"
 msgstr ""
 
 msgid "Export Options"
@@ -95,6 +110,9 @@ msgstr ""
 msgid "Import"
 msgstr "Flytja inn"
 
+msgid "In progress"
+msgstr ""
+
 msgid "Items"
 msgstr "Atriði"
 
@@ -102,6 +120,9 @@ msgid "Logout"
 msgstr "Útskrá"
 
 msgid "Manifest not found in assembly"
+msgstr ""
+
+msgid "More"
 msgstr ""
 
 #, tao-public
@@ -142,7 +163,7 @@ msgstr ""
 msgid "Publish"
 msgstr "Birta"
 
-msgid "Published on %2s', tao_helpers_Date::displayeDate(get_data('date"
+msgid "Published on %2s"
 msgstr ""
 
 msgid "Resume"
@@ -181,7 +202,7 @@ msgstr ""
 msgid "Test-takers"
 msgstr ""
 
-msgid "There are currently %s attempts', get_data('exec"
+msgid "There are currently %s attempts"
 msgstr ""
 
 msgid "There are currently no tests available to publish."
@@ -190,10 +211,13 @@ msgstr ""
 msgid "There is currently 1 attempt"
 msgstr ""
 
+msgid "to %s"
+msgstr ""
+
 msgid "Unkown error during impoort"
 msgstr ""
 
-msgid "Unlimited"
+msgid "unlimited"
 msgstr ""
 
 msgid "Upload an assembly"
