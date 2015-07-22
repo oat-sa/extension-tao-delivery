@@ -27,15 +27,31 @@ use oat\oatbox\user\User;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
 class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
 {
-    public function getResumableDeliveries(User $user)
+    /**
+     * Get resumable (active) deliveries.
+     * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
+     * @return type
+     */
+    public function getResumableDeliveries($user = null)
     {
-        $started = is_null($user)
-            ? array()
-            : taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions($user->getIdentifier());
+        $deliveryExecutionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
+        if ($user === null) {
+            $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
+            $resources = $executionClass->searchInstances(array(
+                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
+            ), array(
+                'like' => false
+            ));
+            $started = array_map(function ($resource) use($deliveryExecutionService) {
+                return $deliveryExecutionService->getDeliveryExecution($resource);
+            }, $resources);
+        } else {
+            $started = $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier());
+        }
+        
         $resumable = array();
         foreach ($started as $deliveryExecution) {
             $delivery = $deliveryExecution->getDelivery();
@@ -144,6 +160,5 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             $returnValue[] = new core_kernel_classes_Resource($groupUri);
         }
         return $returnValue;
-    }
-   
+    }    
 }
