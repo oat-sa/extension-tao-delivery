@@ -21,8 +21,9 @@ define([
     'jquery',
     'iframeResizer',
     'context',
+    'taoDelivery/controller/runtime/fullScreen',
     'layout/loading-bar'
-], function($, iframeResizer, context, loadingBar){
+], function($, iframeResizer, context, fullScreen, loadingBar){
 
     'use strict';
 
@@ -39,6 +40,8 @@ define([
 
     return {
         start: function(options){
+
+            fullScreen.init();
 
             $frameContainer = $('#outer-delivery-iframe-container');
             $frame = $frameContainer.find('iframe');
