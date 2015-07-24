@@ -41,10 +41,10 @@ msgid "Assigned to"
 msgstr ""
 
 msgid "Attempt"
-msgstr ""
+msgstr "Intento"
 
 msgid "Attempts"
-msgstr ""
+msgstr "Intentos"
 
 msgid "Available"
 msgstr ""
@@ -114,7 +114,7 @@ msgid "Items"
 msgstr ""
 
 msgid "Logout"
-msgstr ""
+msgstr "Cierre de sesión"
 
 msgid "Manifest not found in assembly"
 msgstr ""
@@ -127,7 +127,7 @@ msgid "Move"
 msgstr ""
 
 msgid "My Tests"
-msgstr ""
+msgstr "Mis exámenes"
 
 #, tao-public
 msgid "New class"
@@ -177,7 +177,7 @@ msgid "Selection saved successfully"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 msgid "Started at "
 msgstr ""
@@ -213,7 +213,7 @@ msgid "Unkown error during impoort"
 msgstr ""
 
 msgid "unlimited"
-msgstr ""
+msgstr "Ilimitado(s)"
 
 msgid "Upload an assembly"
 msgstr ""
