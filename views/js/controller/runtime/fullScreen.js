@@ -36,6 +36,7 @@ define([
     var shouldBeFullScreen = true;
 
     var isFullScreen = function() {
+        // use .fullscreen HTML5
         return (screen.availHeight || screen.height - 30) <= window.innerHeight;
     };
 
@@ -101,6 +102,7 @@ define([
         }).focus();
     };
 
+//fs-check-required = false
 
     /**
      * Initialize full screen
@@ -111,7 +113,14 @@ define([
         modal($body);
         $body.append(dialogTpl());
         $dialog = $('.full-screen-modal');
-        fsPrompt();
+        fsPrompt();// displays popup
+        setInterval(function(){
+            console.log('check')
+        }, 1000)
+        //popup.onclose set state to fs-check-required = true
+        // set interval to probe fs state
+        // if (fs-state = fullscreen) {
+        // cancel interval
     };
 
     /**
