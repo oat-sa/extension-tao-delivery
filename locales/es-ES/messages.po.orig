@@ -41,7 +41,11 @@ msgid "Assigned to"
 msgstr ""
 
 msgid "Attempt"
+<<<<<<< Updated upstream
 msgstr "Intento"
+=======
+msgstr "Intento(s)"
+>>>>>>> Stashed changes
 
 msgid "Attempts"
 msgstr "Intentos"
