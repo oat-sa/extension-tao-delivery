@@ -35,7 +35,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
 
                             deliveryExecution.start({
                                 serviceApi : <?=get_data('serviceApi')?>,
-                                finishDeliveryExecution : '<?=_url('finishDeliveryExecution', 'DeliveryServer')?>',
+                                finishDeliveryExecution : '<?=get_data('finishUrl')?>',
                                 deliveryExecution : '<?=get_data('deliveryExecution')?>'
                             });
                         });
