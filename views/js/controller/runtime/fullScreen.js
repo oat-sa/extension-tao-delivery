@@ -153,14 +153,17 @@ define([
         });
 
         $body.append($dialog);
+        
+        $dialog.modal({
+            width: 500,
+            disableClosing: true,
+            startClosed: true
+        });
 
         // Note that when a page is on full screen already on load (after F5 normally)
         // fullscreenElement and therefor fs.fullScreen() will report the wrong value!
         if(false === ((screen.availHeight || screen.height - 30) <= window.innerHeight)) {
-            $dialog.modal({
-                width: 500,
-                disableClosing: true
-            });
+            $dialog.modal('open');
         }
     };
 
