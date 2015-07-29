@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T17:13:31\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:18:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -41,10 +41,10 @@ msgid "Assigned to"
 msgstr ""
 
 msgid "Attempt"
-msgstr ""
+msgstr "Intento"
 
 msgid "Attempts"
-msgstr ""
+msgstr "Intentos"
 
 msgid "Available"
 msgstr ""
@@ -53,7 +53,7 @@ msgid "Available from %s"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 msgid "Create a new delivery"
 msgstr ""
@@ -114,7 +114,7 @@ msgid "Items"
 msgstr ""
 
 msgid "Logout"
-msgstr ""
+msgstr "Cierre de sesión"
 
 msgid "Manifest not found in assembly"
 msgstr ""
@@ -127,7 +127,7 @@ msgid "Move"
 msgstr ""
 
 msgid "My Tests"
-msgstr ""
+msgstr "Mis exámenes"
 
 #, tao-public
 msgid "New class"
@@ -177,20 +177,21 @@ msgid "Selection saved successfully"
 msgstr ""
 
 msgid "Start"
-msgstr ""
+msgstr "Inicio"
 
 msgid "Started at "
-msgstr ""
+msgstr "Start a las"
 
-#, tao-public
 msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
 
-#, tao-public
 msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "Test-Takers"
 msgstr ""
 
 msgid "Test-takers"
@@ -212,7 +213,7 @@ msgid "Unkown error during impoort"
 msgstr ""
 
 msgid "unlimited"
-msgstr ""
+msgstr "Ilimitado(s)"
 
 msgid "Upload an assembly"
 msgstr ""

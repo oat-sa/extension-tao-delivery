@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint02\n"
-"PO-Revision-Date: 2015-07-08T17:13:33\n"
+"Project-Id-Version: TAO v3.1.0-sprint03\n"
+"PO-Revision-Date: 2015-07-21T16:19:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -56,7 +56,7 @@ msgid "Cancel"
 msgstr "取消"
 
 msgid "Create a new delivery"
-msgstr "新增一個新的輸送"
+msgstr "建立一個新的輸送"
 
 msgid "Create a test"
 msgstr "建立考試"
@@ -182,16 +182,17 @@ msgstr "開始"
 msgid "Started at "
 msgstr "開始於："
 
-#, tao-public
 msgid "Take or continue a test."
 msgstr "開始或繼續參加一個考試。"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO：一個開放和有彈性的電腦考試平台"
 
-#, tao-public
 msgid "TAO Delivery Server"
 msgstr "TAO 遞送服務器"
+
+msgid "Test-Takers"
+msgstr ""
 
 msgid "Test-takers"
 msgstr "考生"
