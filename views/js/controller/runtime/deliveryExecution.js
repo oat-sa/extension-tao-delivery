@@ -41,7 +41,9 @@ define([
     return {
         start: function(options){
 
-            fullScreen.init();
+            if(!!options.customJsConfig.requireFullScreen){
+                fullScreen.init();
+            }
 
             $frameContainer = $('#outer-delivery-iframe-container');
             $frame = $frameContainer.find('iframe');
