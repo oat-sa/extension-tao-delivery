@@ -136,6 +136,9 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
         $this->setData('jsBlock', 'runtime');
+        
+        $this->setData('finishUrl', _url('finishDeliveryExecution'));
+        
 	    $this->setView('DeliveryServer/deliveryExecution.tpl', 'taoDelivery');
 	}
 	

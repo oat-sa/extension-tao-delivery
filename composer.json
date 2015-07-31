@@ -59,6 +59,5 @@
 	},
     "require": {
         "oat-sa/oatbox-extension-installer": "dev-master"
-
     }
 }
