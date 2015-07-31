@@ -39,7 +39,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
     /**
      * @var array of custom JavaScript values
      */
-    private $customJsConfig = array();
+    private $deliveryServerConfig = array();
 
     
 	/**
@@ -49,7 +49,8 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function __construct(){
 		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
 		$this->executionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
-        $this->customJsConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->getConfig('customJsConfig');
+        $this->deliveryServerConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->getConfig('deliveryServer');
+        \common_Logger::w(print_r($this->deliveryServerConfig, true));
 	}
 	
 	/**
@@ -94,7 +95,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
-        $this->setData('customJsConfig', json_encode($this->customJsConfig));
+        $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
         $this->setView('DeliveryServer/index.tpl');
 	}
 
@@ -133,7 +134,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $this->setData('showControls', $this->showControls());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());
-        $this->setData('customJsConfig', json_encode($this->customJsConfig));
+        $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
         $this->setData('jsBlock', 'runtime');
 	    $this->setView('DeliveryServer/deliveryExecution.tpl', 'taoDelivery');
 	}

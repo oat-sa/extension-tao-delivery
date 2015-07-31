@@ -41,7 +41,7 @@ define([
     return {
         start: function(options){
 
-            if(!!options.customJsConfig.requireFullScreen){
+            if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();
             }
 
