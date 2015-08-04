@@ -50,7 +50,6 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
 		$this->executionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
         $this->deliveryServerConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->getConfig('deliveryServer');
-        \common_Logger::w(print_r($this->deliveryServerConfig, true));
 	}
 	
 	/**
