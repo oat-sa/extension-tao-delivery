@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['__l10n']["\"list saved\""]="\"listi vistaður\"";
 $GLOBALS['__l10n']["%d day"]="%d dagur";
 $GLOBALS['__l10n']["%d days"]="%d dagar";
 $GLOBALS['__l10n']["%h hour"]="%h klukkutími";
