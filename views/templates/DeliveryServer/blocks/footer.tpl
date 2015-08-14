@@ -10,7 +10,7 @@ use oat\tao\helpers\Layout;
     if (!$val = Layout::getCopyrightNotice()):
         ?>
         © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
-        <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
+        Open Assessment Technologies S.A.
         · <?= __('All rights reserved.') ?>
     <?php else: ?>
         <?= $val ?>
