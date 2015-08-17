@@ -30,6 +30,7 @@ if (count($parms) != 1) {
 } else {
 	$file = array_shift($parms);
 	$deliveryClass = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRootClass();
-	$report = taoDelivery_models_classes_import_Assembler::importDelivery($deliveryClass, $file);
-	var_dump($report);
+	$importer = new taoDelivery_models_classes_import_Assembler();
+	$report = $importer->importDelivery($deliveryClass, $file);
+	echo tao_helpers_report_Rendering::renderToCommandline($report);
 }

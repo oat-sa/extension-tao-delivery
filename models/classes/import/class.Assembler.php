@@ -30,47 +30,70 @@ class taoDelivery_models_classes_import_Assembler
 {
     const MANIFEST_FILE = 'manifest.json';
     
-    public static function importDelivery(core_kernel_classes_Class $deliveryClass, $archiveFile) {
+    public function __construct()
+    {
+        
+    }
+    
+    public function importDelivery(core_kernel_classes_Class $deliveryClass, $archiveFile)
+    {
         
         $folder = tao_helpers_File::createTempDir();
         $zip = new ZipArchive();
-        if ($zip->open($archiveFile) === true) {
-            if($zip->extractTo($folder)){
-                $returnValue = $folder;
-            }
-            $zip->close();
+        if ($zip->open($archiveFile) !== true) {
+            return  common_report_Report::createFailure(__('Unable to export Archive'));
         }
+        $zip->extractTo($folder);
+        $zip->close();
+
         $manifestPath = $folder.self::MANIFEST_FILE;
         if (!file_exists($manifestPath)) {
             return common_report_Report::createFailure(__('Manifest not found in assembly'));
         }
         $manifest = json_decode(file_get_contents($manifestPath), true);
 
-        $label          = $manifest['label'];
-        $serviceCall    = tao_models_classes_service_ServiceCall::fromString(base64_decode($manifest['runtime']));
-        $dirs           = $manifest['dir'];
-        $resultServer   = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
-        
         try {
-            foreach ($dirs as $id => $relPath) {
-                tao_models_classes_service_FileStorage::singleton()->import($id, $folder.$relPath);
-            }
             
-            $delivery = $deliveryClass->createInstanceWithProperties(array(
-                RDFS_LABEL                          => $label,
-                PROPERTY_COMPILEDDELIVERY_DIRECTORY => array_keys($dirs),
-                PROPERTY_COMPILEDDELIVERY_TIME      => time(),
-                PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology(),
-                TAO_DELIVERY_RESULTSERVER_PROP      => $resultServer
-            ));
-            $report = common_report_Report::createSuccess(__('Delivery "%s" successfully imported',$label), $delivery);
+            $this->importDeliveryFiles($deliveryClass, $manifest, $folder);
+            
+            $delivery = $this->importDeliveryResource($deliveryClass, $manifest);
+            
+            $report = common_report_Report::createSuccess(__('Delivery "%s" successfully imported',$delivery->getUri()), $delivery);
         } catch (Exception $e) {
+            common_Logger::w($e->getMessage());
             if (isset($delivery) && $delivery instanceof core_kernel_classes_Resource) {
                 $delivery->delete();
             }
             $report = common_report_Report::createFailure(__('Unkown error during impoort'));
         }
         return $report;
+    }
+    
+    protected function importDeliveryResource(core_kernel_classes_Class $deliveryClass, $manifest)
+    {
+        $label          = $manifest['label'];
+        $dirs           = $manifest['dir'];
+        $serviceCall    = tao_models_classes_service_ServiceCall::fromString(base64_decode($manifest['runtime']));
+        $resultServer   = taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
+        
+        $delivery = $deliveryClass->createInstanceWithProperties(array(
+            RDFS_LABEL                          => $label,
+            PROPERTY_COMPILEDDELIVERY_DIRECTORY => array_keys($dirs),
+            PROPERTY_COMPILEDDELIVERY_TIME      => time(),
+            PROPERTY_COMPILEDDELIVERY_RUNTIME   => $serviceCall->toOntology(),
+            TAO_DELIVERY_RESULTSERVER_PROP      => $resultServer
+        ));
+        
+        return $delivery;
+    }
+    
+    protected function importDeliveryFiles(core_kernel_classes_Class $deliveryClass, $manifest, $directory)
+    {
+        $dirs           = $manifest['dir'];
+        foreach ($dirs as $id => $relPath) {
+            tao_models_classes_service_FileStorage::singleton()->import($id, $directory, $relPath);
+        }
+        
     }
     
     /**
