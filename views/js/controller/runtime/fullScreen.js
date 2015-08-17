@@ -32,10 +32,10 @@ define([
 
     var $dialog;
     var $body;
+    var d = document;
+    var dElem = d.documentElement;
 
     var fs = (function() {
-        var d = document,
-            dElem = d.documentElement,
             _fs = {
                 isSupported: (!!d.exitFullscreen ||
                     !!d.msExitFullscreen ||
@@ -108,7 +108,8 @@ define([
         }
 
         // in all other cases either 'enter' has been hit or the enter button has been clicked
-        fs.requestFullscreen.call(document.documentElement);
+        fs.requestFullscreen.call(dElem);
+        dElem.className += ' fullscreen';
         $dialog.modal('close');
     };
 
@@ -123,6 +124,7 @@ define([
         // listen either to the native or the change event created in the observer above
         document.addEventListener(fs.fullscreenchange, function() {
             if(!fs.fullScreen()) {
+                dElem.className = dElem.className.replace(/\bfullscreen\b/', '');
                 $dialog.modal('open');
             }
         });
