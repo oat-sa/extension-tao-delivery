@@ -36,7 +36,7 @@ define([
     var dElem = d.documentElement;
 
     var fs = (function() {
-            _fs = {
+       var _fs = {
                 isSupported: (!!d.exitFullscreen ||
                     !!d.msExitFullscreen ||
                     !!d.mozCancelFullScreen ||
@@ -124,7 +124,7 @@ define([
         // listen either to the native or the change event created in the observer above
         document.addEventListener(fs.fullscreenchange, function() {
             if(!fs.fullScreen()) {
-                dElem.className = dElem.className.replace(/\bfullscreen\b/', '');
+                dElem.className = dElem.className.replace(/\bfullscreen\b/, '');
                 $dialog.modal('open');
             }
         });
