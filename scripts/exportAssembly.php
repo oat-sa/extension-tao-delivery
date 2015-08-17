@@ -35,5 +35,5 @@ if (count($parms) != 2) {
 	
 	$tmpFile = taoDelivery_models_classes_import_Assembler::exportCompiledDelivery($delivery);
 	tao_helpers_File::move($tmpFile, $file);
-	echo "Done";
+	echo "Exported ".$delivery->getLabel()." to ".$file.PHP_EOL;
 }
