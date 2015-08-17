@@ -71,7 +71,8 @@ class taoDelivery_models_classes_import_AssemblyImportHandler implements tao_mod
 			$validate = count($form->getValue('disable_validation')) == 0 ? true : false;
 			
 			try {
-			    $report = taoDelivery_models_classes_import_Assembler::importDelivery($class, $uploadedFile);
+			    $importer = new taoDelivery_models_classes_import_Assembler();
+			    $report = $importer->importDelivery($class, $uploadedFile);
 			} catch (common_Exception $e) {
 			    $report = common_report_Report::createFailure(__('An error occured during the import'));
 			    if ($e instanceof common_exception_UserReadableException) {
