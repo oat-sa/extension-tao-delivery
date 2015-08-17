@@ -1,5 +1,7 @@
 @import "inc/bootstrap";
-
+html {
+    width: 100% !important;
+}
 .delivery-scope {
     .no-controls { // == .content-wrap
         margin-bottom: 0 !important;
@@ -42,6 +44,7 @@
             margin-top: 0
         }
     }
+
 }
 
 

@@ -78,7 +78,7 @@ define([
                 }
             }, 2000);
         };
-
+        
         if(!_fs.isSupported) {
             _fs.awaitFsChange();
         }
