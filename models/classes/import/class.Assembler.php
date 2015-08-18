@@ -91,7 +91,7 @@ class taoDelivery_models_classes_import_Assembler
     {
         $dirs           = $manifest['dir'];
         foreach ($dirs as $id => $relPath) {
-            tao_models_classes_service_FileStorage::singleton()->import($id, $directory, $relPath);
+            tao_models_classes_service_FileStorage::singleton()->import($id, $directory.$relPath);
         }
         
     }
