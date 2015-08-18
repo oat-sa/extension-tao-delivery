@@ -87,8 +87,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.1';
         }
         
-        if ($currentVersion == '2.7.1') {
-            $currentVersion = '2.8';
+        if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
+            $currentVersion = '2.9';
         }
         return $currentVersion;
     }

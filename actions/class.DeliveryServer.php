@@ -34,6 +34,13 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      * @var taoDelivery_models_classes_execution_Service
      */
     private $executionService;
+
+
+    /**
+     * @var array of custom JavaScript values
+     */
+    private $deliveryServerConfig = array();
+
     
 	/**
 	 * constructor: initialize the service and the default data
@@ -42,6 +49,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function __construct(){
 		$this->service = taoDelivery_models_classes_DeliveryServerService::singleton();
 		$this->executionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
+        $this->deliveryServerConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->getConfig('deliveryServer');
 	}
 	
 	/**
@@ -81,13 +89,15 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
-		
+
 		$this->setData('availableDeliveries', $deliveryData);
         $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
-		$this->setView('DeliveryServer/index.tpl');
+        $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
+        $this->setView('DeliveryServer/index.tpl');
 	}
+
 
     public function initDeliveryExecution() {
 	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -123,6 +133,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $this->setData('showControls', $this->showControls());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());
+        $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
         $this->setData('jsBlock', 'runtime');
         
         $this->setData('finishUrl', _url('finishDeliveryExecution'));
