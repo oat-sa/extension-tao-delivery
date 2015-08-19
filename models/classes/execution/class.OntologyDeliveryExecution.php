@@ -96,7 +96,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         }
         $this->editPropertyValues($statusProp, $state);
         if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
-            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), time());
+            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         return true;
     }
