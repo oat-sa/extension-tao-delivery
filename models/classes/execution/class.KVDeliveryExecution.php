@@ -88,6 +88,16 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     {
         return $this->getData(PROPERTY_DELVIERYEXECUTION_START);
     }
+    
+    /**
+     * (non-PHPdoc)
+     *
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
+     */
+    public function getFinishTime()
+    {
+        return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
+    }
 
     /**
      * (non-PHPdoc)
@@ -130,15 +140,9 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     }
 
     /**
-     * Updates the state to finished
+     * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::setState()
      */
-    public function setFinished()
-    {
-        $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, INSTANCE_DELIVERYEXEC_FINISHED);
-        $this->setData(PROPERTY_DELVIERYEXECUTION_END, time());
-        $this->save();
-    }
-
     public function setState($state)
     {
         $oldState = $this->getState()->getUri();

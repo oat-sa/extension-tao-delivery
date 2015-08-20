@@ -48,6 +48,15 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
+     */
+    public function getFinishTime() {
+        $finishTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END);
+        return (string)$this->getUniquePropertyValue($finishTime);
+    }
+    
+    /**
+     * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
      */
     public function getState() {
