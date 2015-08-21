@@ -96,7 +96,11 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
      */
     public function getFinishTime()
     {
-        return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
+        try {
+            return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
+        } catch (common_Exception $missingException) {
+            return null;
+        }
     }
 
     /**

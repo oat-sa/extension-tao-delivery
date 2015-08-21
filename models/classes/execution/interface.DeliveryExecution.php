@@ -52,6 +52,7 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
     
     /**
      * Returns when the delivery execution was finished
+     * or null if not yet finished
      *
      * @param core_kernel_classes_Resource $assembly
      */
