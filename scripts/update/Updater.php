@@ -90,6 +90,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
             $currentVersion = '2.9';
         }
+
+        if( $currentVersion == '2.9'){
+            OntologyUpdater::syncModels();
+
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $loginFormSettings = $ext->getConfig('loginForm');
+            if( empty($loginFormSettings) ){
+                $loginFormSettings = array();
+            }
+
+            $loginFormSettings['elements']['guestAccessLink'] = \taoDelivery_helper_Delivery::getGuestAccessLoginFormElement();
+            $ext->setConfig('loginForm', $loginFormSettings);
+
+            $currentVersion = '2.9.1';
+        }
         return $currentVersion;
     }
 }

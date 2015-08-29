@@ -61,21 +61,59 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         }
         return $resumable;
     }
+
+    /**
+     * Check if current user is guest
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isDeliveryGuestUser(User $user)
+    {
+        return ($user instanceof taoDelivery_models_classes_GuestTestUser);
+    }
+
+    /**
+     * Check if delifery configured for guest access
+     *
+     * @param core_kernel_classes_Resource $delivery
+     * @return bool
+     * @throws common_exception_InvalidArgumentType
+     */
+    public function hasDeliveryGuestAccess(core_kernel_classes_Resource $delivery )
+    {
+        $returnValue = false;
+
+        $properties = $delivery->getPropertiesValues(array(
+            new core_kernel_classes_Property(TAO_DELIVERY_ACCESS_SETTINGS_PROP),
+        ));
+        $propAccessSettings = current($properties[TAO_DELIVERY_ACCESS_SETTINGS_PROP]);
+        $accessSetting = (!(is_object($propAccessSettings)) or ($propAccessSettings=="")) ? null : $propAccessSettings->getUri();
+
+        if( !is_null($accessSetting) ){
+            $returnValue = ($accessSetting === DELIVERY_GUEST_ACCESS);
+        }
+
+        return $returnValue;
+    }
     
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
         $deliveryProps = $delivery->getPropertiesValues(array(
             new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
+            new core_kernel_classes_Property(TAO_DELIVERY_ACCESS_SETTINGS_PROP),
         ));
         
         $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
         $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
         $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
+        $propAccessSettings = current($deliveryProps[TAO_DELIVERY_ACCESS_SETTINGS_PROP]);
 
         $settings[TAO_DELIVERY_MAXEXEC_PROP] = (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal;
         $settings[TAO_DELIVERY_START_PROP] = (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal;
         $settings[TAO_DELIVERY_END_PROP] = (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal;
+        $settings[TAO_DELIVERY_ACCESS_SETTINGS_PROP] = (!(is_object($propAccessSettings)) or ($propAccessSettings=="")) ? null : $propAccessSettings->getUri();
 
         return $settings;
     }
@@ -160,5 +198,19 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             $returnValue[] = new core_kernel_classes_Resource($groupUri);
         }
         return $returnValue;
-    }    
+    }
+
+    /**
+     * Search for deliveries configured for guest access
+     *
+     * @return array
+     */
+    public function getGuestAccessDeliveries()
+    {
+        $class = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+
+        return $class->searchInstances(array(
+            TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
+        ));
+    }
 }

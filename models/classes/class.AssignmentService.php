@@ -65,15 +65,27 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
         }
         return array_unique($users);
     }
-    
+
     public function isUserAssigned(core_kernel_classes_Resource $delivery, User $user){
-        $userGroups = GroupsService::singleton()->getGroups($user);
-        $deliveryGroups = GroupsService::singleton()->getRootClass()->searchInstances(array(
-            PROPERTY_GROUP_DELVIERY => $delivery->getUri()
-        ), array(
-            'like'=>false, 'recursive' => true
-        ));
-        return count(array_intersect($userGroups, $deliveryGroups)) > 0 && !$this->isUserExcluded($delivery, $user);
+        $returnValue = false;
+
+        $isGuestUser = taoDelivery_models_classes_DeliveryServerService::singleton()->isDeliveryGuestUser($user);
+        $isGuestAccessibleDelivery = taoDelivery_models_classes_DeliveryServerService::singleton()->hasDeliveryGuestAccess($delivery);
+
+        //check for guest access mode
+        if( $isGuestUser && $isGuestAccessibleDelivery ){
+            $returnValue = true;
+        } else {
+            $userGroups = GroupsService::singleton()->getGroups($user);
+            $deliveryGroups = GroupsService::singleton()->getRootClass()->searchInstances(array(
+                PROPERTY_GROUP_DELVIERY => $delivery->getUri()
+            ), array(
+                'like'=>false, 'recursive' => true
+            ));
+            $returnValue = count(array_intersect($userGroups, $deliveryGroups)) > 0 && !$this->isUserExcluded($delivery, $user);
+        }
+
+        return $returnValue;
     }
     
     public function onDelete(core_kernel_classes_Resource $delivery)

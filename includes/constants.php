@@ -28,6 +28,7 @@ $todefine = array(
     'TAO_DELIVERY_MAXEXEC_PROP'            => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec',
 	'TAO_DELIVERY_START_PROP'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart',
 	'TAO_DELIVERY_END_PROP'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd',
+	'TAO_DELIVERY_ACCESS_SETTINGS_PROP'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings',
 
     //
     'CLASS_COMPILEDDELIVERY'               => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
@@ -49,4 +50,5 @@ $todefine = array(
     
     'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
 
+    'DELIVERY_GUEST_ACCESS'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess',
 );
