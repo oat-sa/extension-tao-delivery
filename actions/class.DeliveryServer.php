@@ -223,7 +223,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	public function guest()
 	{
 		common_session_SessionManager::endSession();
-		$session = new taoDelivery_models_classes_VirtualTestTakerSession();
+		$session = new taoDelivery_models_classes_GuestTestTakerSession();
 		common_session_SessionManager::startSession($session);
 
 		$this->redirect($this->getReturnUrl());
