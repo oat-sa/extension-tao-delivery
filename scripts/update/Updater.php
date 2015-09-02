@@ -103,6 +103,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $loginFormSettings['elements']['guestAccessLink'] = \taoDelivery_helper_Delivery::getGuestAccessLoginFormElement();
             $ext->setConfig('loginForm', $loginFormSettings);
 
+            //grant access to anonymous user
+            $anonymousRole = new \core_kernel_classes_Resource(INSTANCE_ROLE_ANONYMOUS);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantActionAccess($anonymousRole, 'taoDelivery', 'DeliveryServer', 'guest');
+
             $currentVersion = '2.9.1';
         }
         return $currentVersion;
