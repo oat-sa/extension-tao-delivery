@@ -64,11 +64,29 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
         }
         return $returnValue;
     }
-
+    
+    /**
+     * Get delivery executions by status
+     * 
+     * @param string $userUri If null given all deliveries will be returned
+     * @param string $status
+     * @return core_kernel_classes_Resource[] the delivery executions array
+     */
     public function getDeliveryExecutionsByStatus($userUri, $status) {
         $returnValue = array();
-        $data = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX.$userUri.$status);
-        $keys = $data !== false ? json_decode($data) : array();
+        if ($userUri === null) {
+            $keys = array();
+            $uEkeys = $this->getPersistence()->getDriver()->keys(self::USER_EXECUTIONS_PREFIX . '*' . $status);
+            foreach ($uEkeys as $uEkey) {
+                $deKeys = $this->getPersistence()->get($uEkey);
+                if ($deKeys) {
+                    $keys = array_merge_recursive($keys, json_decode($deKeys));
+                }
+            }
+        } else {
+            $data = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX.$userUri.$status);
+            $keys = $data !== false ? json_decode($data) : array();
+        }
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $returnValue[$key] = $this->getDeliveryExecution($key);

@@ -38,20 +38,10 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
     public function getResumableDeliveries($user = null)
     {
         $deliveryExecutionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
-        if ($user === null) {
-            $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-            $resources = $executionClass->searchInstances(array(
-                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
-            ), array(
-                'like' => false
-            ));
-            $started = array_map(function ($resource) use($deliveryExecutionService) {
-                return $deliveryExecutionService->getDeliveryExecution($resource);
-            }, $resources);
-        } else {
-            $started = $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier());
-        }
+        $userId = $user === null ? null : $user->getIdentifier();
         
+        $started = $deliveryExecutionService->getActiveDeliveryExecutions($userId);
+            
         $resumable = array();
         foreach ($started as $deliveryExecution) {
             $delivery = $deliveryExecution->getDelivery();
