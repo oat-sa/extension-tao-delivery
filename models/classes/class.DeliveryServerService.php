@@ -61,6 +61,30 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         }
         return $resumable;
     }
+
+    /**
+     * Check if delivery configured for guest access
+     *
+     * @param core_kernel_classes_Resource $delivery
+     * @return bool
+     * @throws common_exception_InvalidArgumentType
+     */
+    public function hasDeliveryGuestAccess(core_kernel_classes_Resource $delivery )
+    {
+        $returnValue = false;
+
+        $properties = $delivery->getPropertiesValues(array(
+            new core_kernel_classes_Property(TAO_DELIVERY_ACCESS_SETTINGS_PROP),
+        ));
+        $propAccessSettings = current($properties[TAO_DELIVERY_ACCESS_SETTINGS_PROP]);
+        $accessSetting = (!(is_object($propAccessSettings)) or ($propAccessSettings=="")) ? null : $propAccessSettings->getUri();
+
+        if( !is_null($accessSetting) ){
+            $returnValue = ($accessSetting === DELIVERY_GUEST_ACCESS);
+        }
+
+        return $returnValue;
+    }
     
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
         $deliveryProps = $delivery->getPropertiesValues(array(
@@ -160,5 +184,5 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             $returnValue[] = new core_kernel_classes_Resource($groupUri);
         }
         return $returnValue;
-    }    
+    }
 }

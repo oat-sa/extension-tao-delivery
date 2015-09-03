@@ -90,6 +90,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
             $currentVersion = '2.9';
         }
+
+        if( $currentVersion == '2.9'){
+            OntologyUpdater::syncModels();
+
+            //grant access to anonymous user
+            $anonymousRole = new \core_kernel_classes_Resource(INSTANCE_ROLE_ANONYMOUS);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantActionAccess($anonymousRole, 'taoDelivery', 'DeliveryServer', 'guest');
+
+            $currentVersion = '2.9.1';
+        }
         return $currentVersion;
     }
 }

@@ -44,6 +44,15 @@
     <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
     <tao:TAOGUIOrder><![CDATA[10]]></tao:TAOGUIOrder>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings">
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[Access]]></rdfs:label>
+      <rdfs:comment xml:lang="en-US"><![CDATA[Access]]></rdfs:comment>
+      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
+      <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessModel"/>
+      <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox"/>
+      <tao:TAOGUIOrder><![CDATA[50]]></tao:TAOGUIOrder>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Excluded Subjects]]></rdfs:label>
@@ -180,5 +189,18 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Delivery Manager]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Delivery Manager Role]]></rdfs:comment>
   </rdf:Description>
+
+  <!-- test -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessModel">
+  	<rdfs:label xml:lang="en-US"><![CDATA[Guest Access]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Guest Access]]></rdfs:comment>
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess">
+  	<rdfs:label xml:lang="en-US"><![CDATA[Guest Access]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Guest Access]]></rdfs:comment>
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessModel"/>
+   </rdf:Description>
   
 </rdf:RDF>

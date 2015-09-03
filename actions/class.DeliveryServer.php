@@ -84,6 +84,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		$deliveryData = array();
 		if (!is_null($user)) {
 		    $available = taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
+
 		    foreach ($available as $uri) {
 		        $delivery = new core_kernel_classes_Resource($uri);
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
@@ -211,5 +212,16 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
             )
 	    );
 	}
-	
+
+	/**
+	 * Init guest session and redirect to module index
+	 */
+	public function guest()
+	{
+		common_session_SessionManager::endSession();
+		$session = new taoDelivery_models_classes_GuestTestTakerSession();
+		common_session_SessionManager::startSession($session);
+
+		$this->redirect($this->getReturnUrl());
+	}
 }
