@@ -43,7 +43,6 @@ return array(
 		),
 	    'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
-			__DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'addGuestAccessLink.php',
         )
 	),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',

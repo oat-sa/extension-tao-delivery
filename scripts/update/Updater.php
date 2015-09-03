@@ -94,15 +94,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         if( $currentVersion == '2.9'){
             OntologyUpdater::syncModels();
 
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            $loginFormSettings = $ext->getConfig('loginForm');
-            if( empty($loginFormSettings) ){
-                $loginFormSettings = array();
-            }
-
-            $loginFormSettings['elements']['guestAccessLink'] = \taoDelivery_helper_Delivery::getGuestAccessLoginFormElement();
-            $ext->setConfig('loginForm', $loginFormSettings);
-
             //grant access to anonymous user
             $anonymousRole = new \core_kernel_classes_Resource(INSTANCE_ROLE_ANONYMOUS);
             $accessService = \funcAcl_models_classes_AccessService::singleton();
