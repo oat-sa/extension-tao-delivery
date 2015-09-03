@@ -32,13 +32,18 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
 {
     public function getAvailableDeliveries(User $user)
     {
-        // check if realy available
         $deliveryUris = array();
-        foreach (GroupsService::singleton()->getGroups($user) as $group) {
-            foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $deliveryUri) {
-                $candidate = new core_kernel_classes_Resource($deliveryUri);
-                if (!$this->isUserExcluded($candidate, $user) && $candidate->exists()) {
-                    $deliveryUris[] = $candidate->getUri();
+        //check for guest access
+        if( $this->isDeliveryGuestUser($user) ){
+            $deliveryUris = $this->getGuestAccessDeliveries();
+        } else {
+            // check if realy available
+            foreach (GroupsService::singleton()->getGroups($user) as $group) {
+                foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $deliveryUri) {
+                    $candidate = new core_kernel_classes_Resource($deliveryUri);
+                    if (!$this->isUserExcluded($candidate, $user) && $candidate->exists()) {
+                        $deliveryUris[] = $candidate->getUri();
+                    }
                 }
             }
         }
@@ -69,7 +74,7 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
     public function isUserAssigned(core_kernel_classes_Resource $delivery, User $user){
         $returnValue = false;
 
-        $isGuestUser = taoDelivery_models_classes_DeliveryServerService::singleton()->isDeliveryGuestUser($user);
+        $isGuestUser = $this->isDeliveryGuestUser($user);
         $isGuestAccessibleDelivery = taoDelivery_models_classes_DeliveryServerService::singleton()->hasDeliveryGuestAccess($delivery);
 
         //check for guest access mode
@@ -110,5 +115,30 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
     private function isUserExcluded(core_kernel_classes_Resource $delivery, User $user){
         $excludedUsers = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
         return in_array($user->getIdentifier(), $excludedUsers);
+    }
+
+    /**
+     * Search for deliveries configured for guest access
+     *
+     * @return array
+     */
+    public function getGuestAccessDeliveries()
+    {
+        $class = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
+
+        return $class->searchInstances(array(
+            TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
+        ));
+    }
+
+    /**
+     * Check if current user is guest
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isDeliveryGuestUser(User $user)
+    {
+        return ($user instanceof taoDelivery_models_classes_GuestTestUser);
     }
 }

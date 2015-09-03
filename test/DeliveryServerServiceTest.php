@@ -70,13 +70,11 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
                 '12',
                 time(0, 0, 0, date('m'), date('d') - 1, date('Y')),
                 time(),
-                null
             ),
             array(
                 '2',
                time(),
                 time(0, 0, 0, date('m'), date('d') + 2, date('Y')),
-                DELIVERY_GUEST_ACCESS
             )
         );
     }
@@ -84,7 +82,7 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider getSettingsProvider
      */
-    public function testGetDeliverySettings($maxEx, $start, $end, $access)
+    public function testGetDeliverySettings($maxEx, $start, $end)
     {
         $resourceMock = $this->getResourceMock('fakeDelivery');
         
@@ -100,7 +98,6 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
                         TAO_DELIVERY_MAXEXEC_PROP,
                         TAO_DELIVERY_START_PROP,
                         TAO_DELIVERY_END_PROP,
-                        TAO_DELIVERY_ACCESS_SETTINGS_PROP
                     ));
                 }
             }
@@ -116,9 +113,6 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
             TAO_DELIVERY_END_PROP => array(
                 new core_kernel_classes_Literal($end)
             ),
-            TAO_DELIVERY_ACCESS_SETTINGS_PROP => array(
-                is_null($access) ? null : new \core_kernel_classes_Resource($access)
-            )
         )));
         
         $result = $this->service->getDeliverySettings($resourceMock);
@@ -126,7 +120,6 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals($maxEx, $result[TAO_DELIVERY_MAXEXEC_PROP]);
         $this->assertEquals($start, $result[TAO_DELIVERY_START_PROP]);
         $this->assertEquals($end, $result[TAO_DELIVERY_END_PROP]);
-        $this->assertEquals($access, $result[TAO_DELIVERY_ACCESS_SETTINGS_PROP]);
     }
 
     /**
@@ -183,31 +176,6 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
                     TAO_DELIVERY_ACCESS_SETTINGS_PROP => array()
                 ),
                 false
-            )
-        );
-    }
-
-    /**
-     *
-     * @dataProvider userProvider
-     * @param \oat\oatbox\user\User $user
-     * @param bool $expected
-     */
-    public function testIsDeliveryGuestUser(\oat\oatbox\user\User $user, $expected)
-    {
-        $this->assertEquals($expected, $this->service->isDeliveryGuestUser($user));
-    }
-
-    public function userProvider()
-    {
-        return array(
-            'basicTestUser' => array(
-                new \core_kernel_users_GenerisUser( new \core_kernel_classes_Resource('fakeUser') ),
-                false
-            ),
-            'guestUser' => array(
-                new \taoDelivery_models_classes_GuestTestUser(),
-                true
             )
         );
     }

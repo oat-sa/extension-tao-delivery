@@ -83,11 +83,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		$deliveryData = array();
 		if (!is_null($user)) {
-			$isGuest = $this->service->isDeliveryGuestUser($user);
-
-		    $available = $isGuest
-				? $this->service->getGuestAccessDeliveries()
-				: taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
+		    $available = taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
 
 		    foreach ($available as $uri) {
 		        $delivery = new core_kernel_classes_Resource($uri);
