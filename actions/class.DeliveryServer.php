@@ -69,6 +69,13 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      * @return void
      */
 	public function index(){
+        // load an optional hook class
+        $hook = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->getConfig('hook');
+        if ($hook && isset($hook['index'])) {
+            $hookClass = $hook['index'];
+            $hookInstance = new $hookClass($this);
+            $hookInstance->index();
+        }
 		
 		$label = common_session_SessionManager::getSession()->getUserLabel();
 		$this->setData('login',$label);
