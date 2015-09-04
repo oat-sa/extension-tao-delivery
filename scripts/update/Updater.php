@@ -101,6 +101,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.9.1';
         }
+
+        if( $currentVersion == '2.9.1'){
+            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery')->setConfig('hook', array(
+            ));
+
+            $currentVersion = '2.10.0';
+        }
+        
         return $currentVersion;
     }
 }
