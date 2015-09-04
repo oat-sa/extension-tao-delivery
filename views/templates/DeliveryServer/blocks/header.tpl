@@ -19,7 +19,8 @@ $releaseMsgData = Layout::getReleaseMsgData();
         <link rel="stylesheet" href="<?= $themeUrl ?>" />
     <?php endif; ?>
 
-    <?php if(get_data('jsBlock') === 'runtime') : ?>
+    <?php if (get_data('jsBlock')): ?>
+        <?php if(get_data('jsBlock') === 'runtime') : ?>
         <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
         <script>
             (function(){
@@ -43,6 +44,9 @@ $releaseMsgData = Layout::getReleaseMsgData();
                 });
             }());
         </script>
+        <?php else: ?>
+            <?= Template::inc(get_data('jsBlock'), get_data('jsBlockExtension')); ?>
+        <?php endif; ?>
     <?php endif; ?>
 </head>
 <body class="delivery-scope">
