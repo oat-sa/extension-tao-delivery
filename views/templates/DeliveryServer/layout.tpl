@@ -19,7 +19,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
             <link rel="stylesheet" href="<?= $themeUrl ?>" />
         <?php endif; ?>
 
-        <?php if (($themeUrl = Layout::getSelectedThemingCss('backOffice')) !== null): ?>
+        <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
         <link rel="stylesheet" href="<?= $themeUrl ?>" />
         <?php endif; ?>
 
@@ -64,7 +64,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
         </div>
 
         <?php if (get_data('showControls')){
-            echo Layout::renderThemingTemplate('frontOffice', 'footer');
+            echo Layout::renderThemeTemplate('frontOffice', 'footer');
         }?>
         <div class="loading-bar"></div>
     </body>

@@ -2,7 +2,7 @@
 use oat\tao\helpers\Layout;
 ?>
 <header class="dark-bar clearfix">
-    <?=Layout::renderThemingTemplate('frontOffice', 'header-logo')?>
+    <?=Layout::renderThemeTemplate('frontOffice', 'header-logo')?>
     <div class="lft title-box"></div>
     <nav class="rgt">
         <!-- snippet: dark bar left menu -->
