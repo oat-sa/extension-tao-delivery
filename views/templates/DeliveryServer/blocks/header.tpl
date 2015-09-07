@@ -1,11 +1,8 @@
 <?php
 use oat\tao\helpers\Layout;
-$releaseMsgData = Layout::getReleaseMsgData();
 ?>
 <header class="dark-bar clearfix">
-    <span class="lft">
-        <img src="<?= $releaseMsgData['logo'] ?>" alt="<?= $releaseMsgData['branding'] ?> Logo" id="tao-main-logo">
-    </span>
+    <?=Layout::renderThemingTemplate('frontOffice', 'header-logo')?>
     <div class="lft title-box"></div>
     <nav class="rgt">
         <!-- snippet: dark bar left menu -->

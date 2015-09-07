@@ -64,7 +64,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
         </div>
 
         <?php if (get_data('showControls')){
-            Template::inc('DeliveryServer/blocks/footer.tpl');
+            echo Layout::renderThemingTemplate('frontOffice', 'footer');
         }?>
         <div class="loading-bar"></div>
     </body>
