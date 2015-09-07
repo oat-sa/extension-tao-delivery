@@ -50,68 +50,22 @@ $releaseMsgData = Layout::getReleaseMsgData();
         <?php endif; ?>
     </head>
     <body class="delivery-scope">
-    <!-- content wrap -->
-    <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
-        <?php if (get_data('showControls')) :?>
-        <header class="dark-bar clearfix">
-            <span class="lft">
-                <img src="<?= $releaseMsgData['logo']?>" alt="<?= $releaseMsgData['branding']?> Logo" id="tao-main-logo">
-            </span>
-            <div class="lft title-box"></div>
-            <nav class="rgt">
-                <!-- snippet: dark bar left menu -->
+        
+        <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
+            
+            <?php if (get_data('showControls')){
+                Template::inc('DeliveryServer/blocks/header.tpl');
+            }?>
+            
+            <div id="feedback-box"></div>
 
-                <div class="settings-menu">
+            <?php /* actual content */
+            Template::inc(get_data('content-template')); ?>
+        </div>
 
-                    <ul class="clearfix plain">
-                        <li data-control="home">
-                            <a id="home" href="<?=_url('index', 'DeliveryServer')?>">
-                                <span class="icon-home"></span>
-                            </a>
-                        </li>
-                        <li class="infoControl sep-before">
-                            <span class="a">
-                                <span class="icon-test-taker"></span>
-                                <span><?= get_data('userLabel'); ?></span>
-                            </span>
-                        </li>
-                        <li class="infoControl sep-before" data-control="logout">
-                            <a id="logout" class="" href="<?=_url('logout', 'DeliveryServer')?>">
-                                <span class="icon-logout"></span>
-                                <span class="text"><?= __("Logout"); ?></span>
-                            </a>
-                        </li>
-                        <li class="infoControl sep-before hidden" data-control="exit">
-                            <a href="#">
-                                <span class="icon-logout"></span>
-                                <span class="text"><?= __("Exit"); ?></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <?php endif ?>
-        <div id="feedback-box"></div>
-
-        <?php /* actual content */
-        Template::inc(get_data('content-template')); ?>
-    </div>
-
-    <?php if (get_data('showControls')) :?>
-    <!-- /content wrap -->
-    <footer class="dark-bar">
-        <?php
-        if (!$val = Layout::getCopyrightNotice()):
-            ?>
-            © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
-            Open Assessment Technologies S.A.
-            · <?= __('All rights reserved.') ?>
-        <?php else: ?>
-            <?= $val ?>
-        <?php endif; ?>
-    </footer>
-    <?php endif ?>
-    <div class="loading-bar"></div>
+        <?php if (get_data('showControls')){
+            Template::inc('DeliveryServer/blocks/footer.tpl');
+        }?>
+        <div class="loading-bar"></div>
     </body>
 </html>
