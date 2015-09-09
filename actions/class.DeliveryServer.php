@@ -90,13 +90,15 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
-
 		$this->setData('availableDeliveries', $deliveryData);
         $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
-        $this->setView('DeliveryServer/index.tpl');
+
+        //set template
+        $this->setData('content-template', 'DeliveryServer/index.tpl');
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 
 
@@ -138,8 +140,10 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setData('jsBlock', 'runtime');
         
         $this->setData('finishUrl', _url('finishDeliveryExecution'));
-        
-	    $this->setView('DeliveryServer/deliveryExecution.tpl', 'taoDelivery');
+
+        //set template
+        $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
 	public function finishDeliveryExecution() {
