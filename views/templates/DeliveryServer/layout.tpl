@@ -50,13 +50,13 @@ $releaseMsgData = Layout::getReleaseMsgData();
         <?php endif; ?>
     </head>
     <body class="delivery-scope">
-        
+
         <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
-            
+
             <?php if (get_data('showControls')){
-                Template::inc('DeliveryServer/blocks/header.tpl');
+                Template::inc('DeliveryServer/blocks/header.tpl', 'taoDelivery');
             }?>
-            
+
             <div id="feedback-box"></div>
 
             <?php /* actual content */
