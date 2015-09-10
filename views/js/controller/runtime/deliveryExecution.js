@@ -19,12 +19,10 @@
  */
 define([
     'jquery',
-    'iframeResizer',
-    'context',
+    'helpers',
     'taoDelivery/controller/runtime/fullScreen',
     'layout/loading-bar'
-], function($, iframeResizer, context, fullScreen, loadingBar){
-
+], function($, helpers, fullScreen, loadingBar){
     'use strict';
 
     var $frameContainer,
@@ -51,7 +49,7 @@ define([
             $footerHeight = $('body > footer').outerHeight() || 0;
 
             $(document).on('serviceforbidden', function() {
-                window.location = context.root_url + 'tao/Main/logout';
+                window.location = helpers._url('logout', 'Main', 'tao');
             });
 
             var serviceApi = options.serviceApi;
