@@ -60,7 +60,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
             <div id="feedback-box"></div>
 
             <?php /* actual content */
-            Template::inc(get_data('content-template')); ?>
+            Template::inc(get_data('content-template'), 'taoDelivery'); ?>
         </div>
 
         <?php if (get_data('showControls')){
