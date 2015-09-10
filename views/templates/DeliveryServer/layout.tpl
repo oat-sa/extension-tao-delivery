@@ -1,8 +1,6 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
-
-$releaseMsgData = Layout::getReleaseMsgData();
 ?><!doctype html>
 <html class="no-js no-version-warning" lang="<?=tao_helpers_I18n::getLangCode()?>">
     <head>
