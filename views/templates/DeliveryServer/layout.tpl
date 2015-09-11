@@ -12,15 +12,9 @@ use oat\tao\helpers\Layout;
         <link rel="stylesheet" href="<?= Template::css('tao-3.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('delivery.css', 'taoDelivery') ?>"/>
         <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao')?>"/>
-
-        <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
-            <link rel="stylesheet" href="<?= $themeUrl ?>" />
-        <?php endif; ?>
-
         <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
         <link rel="stylesheet" href="<?= $themeUrl ?>" />
         <?php endif; ?>
-
         <?php if(get_data('jsBlock') === 'runtime') : ?>
             <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
             <script>
