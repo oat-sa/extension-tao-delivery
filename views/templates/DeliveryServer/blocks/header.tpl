@@ -11,7 +11,7 @@ use oat\tao\helpers\Layout;
 
             <ul class="clearfix plain">
                 <li data-control="home">
-                    <a id="home" href="<?= _url('index', 'DeliveryServer') ?>">
+                    <a id="home" href="<?=get_data('returnUrl')?>">
                         <span class="icon-home"></span>
                     </a>
                 </li>

@@ -90,6 +90,8 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
+		$this->setData('returnUrl', $this->getReturnUrl());
+	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 		$this->setData('availableDeliveries', $deliveryData);
         $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
@@ -131,6 +133,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $runtime = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRuntime($compiledDelivery);
 	    $this->setData('serviceApi', tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
 
+		$this->setData('returnUrl', $this->getReturnUrl());
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
 	    $this->setData('showControls', $this->showControls());
