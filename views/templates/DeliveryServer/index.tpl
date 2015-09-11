@@ -57,7 +57,7 @@ $availableDeliveries = get_data('availableDeliveries');
                         </p>
                         <p><?php if($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] !== ''): ?>
                                 <?= $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] === 1 ? __('Attempt') : __('Attempts') ?>
-                                <?=  __('%s of %s', $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP],
+                                <?=  __('%s of %s', $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"],
                                     !empty($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP])
                                         ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]
                                         : __('unlimited'));
