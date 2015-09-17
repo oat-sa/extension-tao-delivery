@@ -101,6 +101,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.9.1';
         }
+        if( $currentVersion == '2.9.1'){
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.9.2';
+        }
+        
         return $currentVersion;
     }
 }
