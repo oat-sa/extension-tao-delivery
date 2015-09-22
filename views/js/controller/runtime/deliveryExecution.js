@@ -19,18 +19,23 @@
  */
 define([
     'jquery',
+    'module',
     'iframeResizer',
     'context',
+    'serviceApi/ServiceApi',
+    'serviceApi/StateStorage',
+    'serviceApi/UserInfoService',
     'taoDelivery/controller/runtime/fullScreen',
     'layout/loading-bar'
-], function($, iframeResizer, context, fullScreen, loadingBar){
+], function($, module, iframeResizer, context, ServiceApi, StateStorage, UserInfoService, fullScreen, loadingBar){
 
     'use strict';
 
     var $frameContainer,
         $frame,
         $headerHeight,
-        $footerHeight;
+        $footerHeight,
+        serviceApi;
 
     function resizeMainFrame() {
         var height = $(window).outerHeight() - $headerHeight - $footerHeight;
@@ -38,61 +43,58 @@ define([
         $frame.height(height);
     }
 
-    return {
-        start: function(options){
+    var config = module.config();
 
-            if(!!options.deliveryServerConfig.requireFullScreen){
-                fullScreen.init();
+    if(!!config.deliveryServerConfig.requireFullScreen){
+        fullScreen.init();
+    }
+
+    $frameContainer = $('#outer-delivery-iframe-container');
+    $frame = $frameContainer.find('iframe');
+    $headerHeight = $('body > .content-wrap > header').outerHeight() || 0;
+    $footerHeight = $('body > footer').outerHeight() || 0;
+
+    $(document).on('serviceforbidden', function() {
+        window.location = context.root_url + 'tao/Main/logout';
+    });
+
+    serviceApi = eval(config.serviceApi);
+
+    serviceApi.onFinish(function() {
+        $.ajax({
+            url : config.finishDeliveryExecution,
+            data : {
+                'deliveryExecution' : config.deliveryExecution
+            },
+            type : 'post',
+            dataType : 'json',
+            success : function(data) {
+                window.location = data.destination;
             }
+        });
+    });
 
-            $frameContainer = $('#outer-delivery-iframe-container');
-            $frame = $frameContainer.find('iframe');
-            $headerHeight = $('body > .content-wrap > header').outerHeight() || 0;
-            $footerHeight = $('body > footer').outerHeight() || 0;
+    $(document)
+        .on('loading', function(e){
+            loadingBar.start();
+        })
+        .on('unloading', function(){
+            setTimeout(function(){
+                loadingBar.stop();
+            }, 300);
+        })
+        .on('shutdown-com', function(){
+            //use when we want to stop all exchange between frames
+            $(document).off('heightchange');
+            $frame.off('load.eventHeight')
+                   .off('load.cors');
+        });
 
-            $(document).on('serviceforbidden', function() {
-                window.location = context.root_url + 'tao/Main/logout';
-            });
+    serviceApi.loadInto($frame.get(0));
 
-            var serviceApi = options.serviceApi;
+    $(window).bind('resize', function() {
+        resizeMainFrame();
+    });
 
-            serviceApi.onFinish(function() {
-                $.ajax({
-                    url : options.finishDeliveryExecution,
-                    data : {
-                        'deliveryExecution' : options.deliveryExecution
-                    },
-                    type : 'post',
-                    dataType : 'json',
-                    success : function(data) {
-                        window.location = data.destination;
-                    }
-                });
-            });
-
-            $(document)
-                .on('loading', function(e){
-                    loadingBar.start();
-                })
-                .on('unloading', function(){
-                    setTimeout(function(){
-                        loadingBar.stop();
-                    }, 300);
-                })
-                .on('shutdown-com', function(){
-                    //use when we want to stop all exchange between frames
-                    $(document).off('heightchange');
-                    $frame.off('load.eventHeight')
-                           .off('load.cors');
-                });
-
-            serviceApi.loadInto($frame.get(0));
-
-            $(window).bind('resize', function() {
-                resizeMainFrame();
-            });
-
-            resizeMainFrame();
-        }
-    };
+    resizeMainFrame();
 });

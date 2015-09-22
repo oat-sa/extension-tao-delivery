@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -13,9 +13,9 @@ module.exports = function(grunt) {
      * Remove bundled and bundling files
      */
     clean.taodeliverybundle = [out];
-    
+
     /**
-     * Compile tao files into a bundle 
+     * Compile tao files into a bundle
      */
     requirejs.taodeliverybundle = {
         options: {
@@ -27,6 +27,10 @@ module.exports = function(grunt) {
                 name: 'taoDelivery/controller/routes',
                 include : ext.getExtensionsControllers(['taoDelivery']),
                 exclude : ['mathJax', 'mediaElement'].concat(libs)
+            }, {
+                name: 'taoDelivery/controller/runtime/deliveryExecution',
+                include: ['lib/require', 'taoDelivery/deliveryExecution'],
+                exclude : ['json!i18ntr/messages.json']
             }]
         }
     };
@@ -37,8 +41,23 @@ module.exports = function(grunt) {
     copy.taodeliverybundle = {
         files: [
             { src: [out + '/taoDelivery/controller/routes.js'],  dest: root + '/taoDelivery/views/js/controllers.min.js' },
-            { src: [out + '/taoDelivery/controller/routes.js.map'],  dest: root + '/taoDelivery/views/js/controllers.min.js.map' }
-        ]
+            { src: [out + '/taoDelivery/controller/routes.js.map'],  dest: root + '/taoDelivery/views/js/controllers.min.js.map' },
+            { src: [out + '/taoDelivery/controller/runtime/deliveryExecution.js'],  dest: root + '/taoDelivery/views/js/deliveryExecution.min.js' },
+            { src: [out + '/taoDelivery/controller/runtime/deliveryExecution.js.map'],  dest: root + '/taoDelivery/views/js/deliveryExecution.min.js.map' },
+        ],
+        options : {
+            process: function (content, srcpath) {
+                //because we change the bundle names during copy
+                if(/routes\.js$/.test(srcpath)){
+                    return content.replace('routes.js.map', 'controllers.min.js.map');
+                }
+                if(/deliveryExecution\.js$/.test(srcpath)){
+                    return content.replace('deliveryExecution.js.map', 'deliveryExecution.min.js.map');
+                }
+
+                return content;
+            }
+        }
     };
 
     grunt.config('clean', clean);
