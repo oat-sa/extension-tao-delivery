@@ -48,12 +48,6 @@ class taoDelivery_helper_Delivery
 	 */
 	public static function getGuestAccessLoginFormElement()
 	{
-		$url = _url('guest', 'DeliveryServer', 'taoDelivery');
-		$label = __('Guest access');
-
-		$guestAccessLink = tao_helpers_form_FormFactory::getElement('guest', 'Free');
-		$guestAccessLink->setValue("<a href='{$url}'>{$label}</a>");
-
-		return $guestAccessLink;
+		return new taoDelivery_models_widgets_GuestAccessLinkWidget();
 	}
 }
