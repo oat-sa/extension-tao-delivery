@@ -126,9 +126,12 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
     {
         $class = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
 
-        return $class->searchInstances(array(
-            TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
-        ));
+        return $class->searchInstances(
+            array(
+                TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
+            ),
+            array('recursive' => true)
+        );
     }
 
     /**
