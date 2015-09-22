@@ -74,8 +74,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $formContainer = new taoDelivery_actions_form_Delivery($clazz, $delivery);
         $myForm = $formContainer->getForm();
         
-        $myForm->evaluate();
-        
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $propertyValues = $myForm->getValues();
