@@ -49,12 +49,22 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
         return $returnValue;
     }
     
+    /**
+     * Get delivery executions by status
+     * 
+     * @param string $userUri If null given all deliveries will be returned
+     * @param string $status
+     * @return core_kernel_classes_Resource[] the delivery executions array
+     */
     public function getDeliveryExecutionsByStatus($userUri, $status) {
         $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-        $started = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
+        $filter = array(
             PROPERTY_DELVIERYEXECUTION_STATUS => $status
-        ), array(
+        );
+        if ($userUri !== null) {            
+            $filter[PROPERTY_DELVIERYEXECUTION_SUBJECT] = $userUri;
+        }
+        $started = $executionClass->searchInstances($filter, array(
             'like' => false
         ));
         $returnValue = array();
