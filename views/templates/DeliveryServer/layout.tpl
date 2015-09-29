@@ -1,8 +1,8 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
 
-$releaseMsgData = Layout::getReleaseMsgData();
 ?><!doctype html>
 <html class="no-js no-version-warning" lang="<?=tao_helpers_I18n::getLangCode()?>">
     <head>
@@ -15,13 +15,8 @@ $releaseMsgData = Layout::getReleaseMsgData();
         <link rel="stylesheet" href="<?= Template::css('delivery.css', 'taoDelivery') ?>"/>
         <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao')?>"/>
 
-        <?php if (($themeUrl = Layout::getThemeUrl()) !== null): ?>
-            <link rel="stylesheet" href="<?= $themeUrl ?>" />
-        <?php endif; ?>
 
-        <?php if (($themeUrl = Layout::getThemeStylesheet('backOffice')) !== null): ?>
-        <link rel="stylesheet" href="<?= $themeUrl ?>" />
-        <?php endif; ?>
+        <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 
         <?php if(get_data('jsBlock') === 'runtime') : ?>
             <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
@@ -64,7 +59,7 @@ $releaseMsgData = Layout::getReleaseMsgData();
         </div>
 
         <?php if (get_data('showControls')){
-            echo Layout::renderThemeTemplate('frontOffice', 'footer');
+            echo Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'footer');
         }?>
         <div class="loading-bar"></div>
     </body>

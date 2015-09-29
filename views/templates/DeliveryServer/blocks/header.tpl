@@ -1,8 +1,9 @@
 <?php
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
 ?>
 <header class="dark-bar clearfix">
-    <?=Layout::renderThemeTemplate('frontOffice', 'header-logo')?>
+    <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
     <div class="lft title-box"></div>
     <nav class="rgt">
         <!-- snippet: dark bar left menu -->
