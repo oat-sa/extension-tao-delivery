@@ -18,11 +18,12 @@
  *
  */
 define([
+    'lodash',
     'jquery',
     'helpers',
     'taoDelivery/controller/runtime/fullScreen',
     'layout/loading-bar'
-], function($, helpers, fullScreen, loadingBar){
+], function(_, $, helpers, fullScreen, loadingBar){
     'use strict';
 
     var $frameContainer,
@@ -86,9 +87,9 @@ define([
 
             serviceApi.loadInto($frame.get(0));
 
-            $(window).bind('resize', function() {
+            $(window).on('resize', _.throttle(function() {
                 resizeMainFrame();
-            });
+            }, 250));
 
             resizeMainFrame();
         }
