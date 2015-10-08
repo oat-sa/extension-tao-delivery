@@ -47,7 +47,8 @@ $todefine = array(
     'INSTANCE_DELIVERYEXEC_ACTIVE'         => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive',
     'INSTANCE_DELIVERYEXEC_FINISHED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished',
     'INSTANCE_DELIVERYEXEC_ABANDONED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned',
-    
+    'INSTANCE_DELIVERYEXEC_PAUSED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused',
+
     'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
 
     'DELIVERY_GUEST_ACCESS'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess',

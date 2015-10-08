@@ -45,6 +45,11 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
             ), array(
                 'like' => false
             ));
+            $resources = $resources + $executionClass->searchInstances(array(
+                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_PAUSED
+            ), array(
+                'like' => false
+            ));
             $started = array_map(function ($resource) use($deliveryExecutionService) {
                 return $deliveryExecutionService->getDeliveryExecution($resource);
             }, $resources);
