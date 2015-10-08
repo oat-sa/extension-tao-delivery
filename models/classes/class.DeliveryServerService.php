@@ -54,7 +54,10 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
                 return $deliveryExecutionService->getDeliveryExecution($resource);
             }, $resources);
         } else {
-            $started = $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier());
+            $started = array_merge(
+                $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier()),
+                $deliveryExecutionService->getPausedDeliveryExecutions($user->getIdentifier())
+            );
         }
         
         $resumable = array();
