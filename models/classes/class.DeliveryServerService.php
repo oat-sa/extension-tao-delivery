@@ -41,12 +41,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         if ($user === null) {
             $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
             $resources = $executionClass->searchInstances(array(
-                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
-            ), array(
-                'like' => false
-            ));
-            $resources = $resources + $executionClass->searchInstances(array(
-                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_PAUSED
+                PROPERTY_DELVIERYEXECUTION_STATUS => array(INSTANCE_DELIVERYEXEC_ACTIVE, INSTANCE_DELIVERYEXEC_PAUSED)
             ), array(
                 'like' => false
             ));

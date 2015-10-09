@@ -105,7 +105,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.9.2';
         }
-        
+        if ($currentVersion === '2.9.2') {
+            // Fixing missing properties.
+            $adapter = new \tao_helpers_data_GenerisAdapterRdf();
+
+            $adapter->import(dirname(__FILE__) . '/DeliveryExecutionStatusPaused.rdf');
+
+            $currentVersion = '2.9.3';
+        }
+
         return $currentVersion;
     }
 }
