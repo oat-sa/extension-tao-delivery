@@ -20,6 +20,7 @@
 
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
+use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
 
 /**
  * Service to manage the execution of deliveries
@@ -41,7 +42,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         if ($user === null) {
             $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
             $resources = $executionClass->searchInstances(array(
-                PROPERTY_DELVIERYEXECUTION_STATUS => array(INSTANCE_DELIVERYEXEC_ACTIVE, INSTANCE_DELIVERYEXEC_PAUSED)
+                PROPERTY_DELVIERYEXECUTION_STATUS => array(DeliveryExecution::STATE_ACTIVE, DeliveryExecution::STATE_PAUSED)
             ), array(
                 'like' => false
             ));

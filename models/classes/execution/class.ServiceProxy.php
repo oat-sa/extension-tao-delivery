@@ -18,6 +18,8 @@
  *
  */
 
+use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -84,7 +86,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getPausedDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_PAUSED);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_PAUSED);
     }
 
     /**
