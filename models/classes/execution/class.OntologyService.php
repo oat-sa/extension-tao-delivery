@@ -95,7 +95,7 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
             RDFS_LABEL                            => $assembly->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $assembly,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
-            PROPERTY_DELVIERYEXECUTION_START      => time(),
+            PROPERTY_DELVIERYEXECUTION_START      => microtime(),
             PROPERTY_DELVIERYEXECUTION_STATUS     => INSTANCE_DELIVERYEXEC_ACTIVE        	
         ));
         return $this->getDeliveryExecution($execution);
