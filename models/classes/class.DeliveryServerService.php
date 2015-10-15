@@ -21,6 +21,7 @@
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
 use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Service to manage the execution of deliveries
@@ -117,7 +118,8 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         }
         
         //first check the user is assigned
-        if(!taoDelivery_models_classes_AssignmentService::singleton()->isUserAssigned($delivery, $user)){
+        $serviceManager = ServiceManager::getServiceManager(); 
+        if(!$serviceManager->get('taoDelivery/assignment')->isUserAssigned($delivery, $user)){
             common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was not assigned to.");
             return false;
         }
