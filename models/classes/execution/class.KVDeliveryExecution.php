@@ -55,7 +55,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             RDFS_LABEL => $assembly->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $assembly->getUri(),
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
-            PROPERTY_DELVIERYEXECUTION_START => time(),
+            PROPERTY_DELVIERYEXECUTION_START => microtime(),
             PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
         ));
         $de->save();
@@ -156,7 +156,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         }
         $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
         if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
-            $this->setData(PROPERTY_DELVIERYEXECUTION_END, time());
+            $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
         }
         $this->save();
         $kvservice = new taoDelivery_models_classes_execution_KeyValueService(array(

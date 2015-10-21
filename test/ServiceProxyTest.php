@@ -22,6 +22,7 @@ namespace oat\taoDelivery\test;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use common_ext_ExtensionsManager;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
 
 class ServiceProxyTest extends TaoPhpUnitTestRunner
 {
@@ -101,13 +102,26 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetActiveDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',INSTANCE_DELIVERYEXEC_ACTIVE)->willReturn(true);
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', INSTANCE_DELIVERYEXEC_ACTIVE)->willReturn(true);
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
 
         $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions('#UserUri');
         $this->assertTrue($return);
+    }
+    /**
+     *
+     * @author Aleh Hutnikau, hutnikau@1pt.com
+     */
+    public function testGetPausedDeliveryExecutions()
+    {
+        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecution::STATE_PAUSED)->willReturn(true);
+        $service = $serviceProphecy->reveal();
+        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
 
+        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getPausedDeliveryExecutions('#UserUri');
+        $this->assertTrue($return);
     }
     /**
      *

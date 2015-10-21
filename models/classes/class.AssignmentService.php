@@ -20,6 +20,8 @@
 
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Service to manage the assignment of users to deliveries
@@ -28,8 +30,13 @@ use oat\oatbox\user\User;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_AssignmentService extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_AssignmentService extends ConfigurableService
 {
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get('taoDelivery/assignment');
+    }
+    
     public function getAvailableDeliveries(User $user)
     {
         $deliveryUris = array();
@@ -126,9 +133,12 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
     {
         $class = new core_kernel_classes_Class(CLASS_COMPILEDDELIVERY);
 
-        return $class->searchInstances(array(
-            TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
-        ));
+        return $class->searchInstances(
+            array(
+                TAO_DELIVERY_ACCESS_SETTINGS_PROP => DELIVERY_GUEST_ACCESS
+            ),
+            array('recursive' => true)
+        );
     }
 
     /**

@@ -21,6 +21,7 @@
  */
 
 use oat\oatbox\user\User;
+use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
 /**
  * DeliveryServer Controller
  *
@@ -83,7 +84,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		$deliveryData = array();
 		if (!is_null($user)) {
-		    $available = taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
+		    $available = $this->getServiceManager()->get('taoDelivery/assignment')->getAvailableDeliveries($user);
 
 		    foreach ($available as $uri) {
 		        $delivery = new core_kernel_classes_Resource($uri);
@@ -100,6 +101,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
         //set template
         $this->setData('content-template', 'DeliveryServer/index.tpl');
+        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 
@@ -118,7 +120,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE) {
+	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE && $deliveryExecution->getState()->getUri() != DeliveryExecution::STATE_PAUSED) {
 	        $this->redirect($this->getReturnUrl());
 	    }
 	    
@@ -146,6 +148,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
         //set template
         $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
+        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	

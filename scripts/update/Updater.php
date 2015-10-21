@@ -101,11 +101,18 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $currentVersion = '2.9.1';
         }
+
         if( $currentVersion == '2.9.1'){
             OntologyUpdater::syncModels();
             $currentVersion = '2.9.2';
         }
-        
+
+        if ($currentVersion == '2.9.2') {
+            $assignmentService = new \taoDelivery_models_classes_AssignmentService();
+            $this->getServiceManager()->register('taoDelivery/assignment', $assignmentService);
+            $currentVersion = '2.9.3';
+        }
+
         return $currentVersion;
     }
 }
