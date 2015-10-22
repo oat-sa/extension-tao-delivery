@@ -31,10 +31,25 @@ define([
         $headerHeight,
         $footerHeight;
 
+    /**
+     * Forces a browser repaint
+     * Solution from http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?answertab=votes#tab-top
+     * @param {jQuery} $target
+     */
+    var forceRepaint = function($target) {
+        var sel = $target[0];
+        if (sel) {
+            sel.style.display = 'none';
+            sel.offsetHeight; // no need to store this anywhere, the reference is enough
+            sel.style.display = '';
+        }
+    };
+
     function resizeMainFrame() {
         var height = $(window).outerHeight() - $headerHeight - $footerHeight;
         $frameContainer.height(height);
         $frame.height(height);
+        forceRepaint($frameContainer);
     }
 
     return {

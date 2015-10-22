@@ -23,11 +23,12 @@
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'ui/feedback',
     'ui/modal',
     'tpl!taoDelivery/tpl/fullscreen-modal-feedback'
-], function ($, __, feedback, modal, dialogTpl) {
+], function ($, _, __, feedback, modal, dialogTpl) {
     'use strict';
 
     var $dialog;
@@ -37,32 +38,33 @@ define([
 
     var fs = {
         changeInterval: null,
+
         isSupported: !!(d.exitFullscreen ||
                         d.msExitFullscreen ||
                         d.mozCancelFullScreen ||
                         d.webkitExitFullscreen),
 
         requestFullscreen: dElem.requestFullscreen ||
-                            dElem.msRequestFullscreen ||
-                            dElem.mozRequestFullScreen ||
-                            function() {
-                                dElem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                            },
+                    dElem.msRequestFullscreen ||
+                    dElem.mozRequestFullScreen ||
+                    function() {
+                        dElem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                    },
 
-        fullscreenchange: (function() {
-            var prefixes = ['', 'ms', 'moz', 'webkit'],
-                i = prefixes.length;
-            while(i--) {
-                if('on' + prefixes[i] + 'fullscreenchange' in dElem) {
-                    return prefixes[i] + 'fullscreenchange';
-                }
-            }
-            return 'myfullscreenchange';
-        }()),
+                fullscreenchange: (function() {
+                    var prefixes = ['', 'ms', 'moz', 'webkit'],
+                        i = prefixes.length;
+                    while(i--) {
+                        if('on' + prefixes[i] + 'fullscreenchange' in dElem) {
+                            return prefixes[i] + 'fullscreenchange';
+                        }
+                    }
+                    return 'myfullscreenchange';
+                }()),
 
         fullScreen: function() {
             return !!(d.fullscreenElement || d.mozFullScreen || d.webkitIsFullScreen ||
-                     (screen.availHeight || screen.height - 30) <= window.innerHeight);
+                        (screen.availHeight || screen.height - 30) <= window.innerHeight);
         },
 
         // on older browsers wait for a full screen change to happen
@@ -105,6 +107,18 @@ define([
         $dialog.modal('close');
     };
 
+    /**
+     * Triggers a resize
+     */
+    var triggerResize = (function() {
+        return _.throttle(function() {
+            var frame = document.getElementById('iframeDeliveryExec');
+            var frameWindow = frame && frame.contentWindow;
+            var frame$ = frameWindow && frameWindow.$;
+            var $win = frame$ && frame$(frameWindow) || $(window);
+            $win.trigger('resize');
+        }, 250);
+    })();
 
     /**
      * Initialize full screen
@@ -118,6 +132,8 @@ define([
             if(!fs.fullScreen()) {
                 dElem.className = dElem.className.replace(/\bfullscreen\b/, '');
                 $dialog.modal('open');
+            } else {
+                triggerResize();
             }
         });
         if (!fs.isSupported) {
@@ -148,11 +164,12 @@ define([
         $dialog.on('closed.modal', function() {
             if (!fs.isSupported) {
                 fs.awaitFsChange();
+                triggerResize();
             }
         });
 
         $body.append($dialog);
-
+        
         $dialog.modal({
             width: 500,
             animate: false,

@@ -101,6 +101,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
         //set template
         $this->setData('content-template', 'DeliveryServer/index.tpl');
+        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 
@@ -147,6 +148,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 
         //set template
         $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
+        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
