@@ -65,7 +65,7 @@ class taoDelivery_models_classes_DeliveryAssemblyService extends tao_models_clas
     
     public function deleteInstance(core_kernel_classes_Resource $assembly)
     {
-        taoDelivery_models_classes_AssignmentService::singleton()->onDelete($assembly);
+        $this->getServiceManager()->get('taoDelivery/assignment')->onDelete($assembly);
         $runtimeResource = $assembly->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_COMPILEDDELIVERY_RUNTIME));
         $runtimeResource->delete();
         // cleanup data

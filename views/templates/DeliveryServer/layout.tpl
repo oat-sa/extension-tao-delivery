@@ -55,7 +55,7 @@ use oat\tao\model\theme\Theme;
             <div id="feedback-box"></div>
 
             <?php /* actual content */
-            Template::inc(get_data('content-template')); ?>
+            Template::inc(get_data('content-template'), get_data('content-extension')); ?>
         </div>
 
         <?php if (get_data('showControls')){

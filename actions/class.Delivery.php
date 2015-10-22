@@ -74,8 +74,6 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $formContainer = new taoDelivery_actions_form_Delivery($clazz, $delivery);
         $myForm = $formContainer->getForm();
         
-        $myForm->evaluate();
-        
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $propertyValues = $myForm->getValues();
@@ -114,7 +112,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         $excluded = $delivery->getPropertyValues($property);
         $this->setData('ttexcluded', count($excluded));
 
-        $users = taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($delivery);
+        $users = $this->getServiceManager()->get('taoDelivery/assignment')->getAssignedUsers($delivery);
         $assigned = array_diff(array_unique($users), $excluded);
         $this->setData('ttassigned', count($assigned));
         
@@ -141,7 +139,7 @@ class taoDelivery_actions_Delivery extends tao_actions_SaSModule
         }
         
         $assigned = array();
-        foreach (taoDelivery_models_classes_AssignmentService::singleton()->getAssignedUsers($assembly) as $userId) {
+        foreach ($this->getServiceManager()->get('taoDelivery/assignment')->getAssignedUsers($assembly) as $userId) {
             if (!in_array($userId, array_keys($excluded))) {
                 $user = new core_kernel_classes_Resource($userId);
                 $assigned[$userId] = $user->getLabel();
