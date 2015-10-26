@@ -19,6 +19,8 @@
  *
  */
 
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -163,6 +165,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => $this->getPersistence()
         ));
         $kvservice->updateDeliveryExecutionStatus($this, $oldState, $state);
+        $this->triggerEvent(__FUNCTION__ , array('deliveryExecution' => $this, 'state' => $state));
         return true;
     }
 
@@ -202,5 +205,19 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         } else {
             common_Logger::w('Tried to save a delivery that was not loaded');
         }
+    }
+
+    /**
+     * @param string $name event name. Will be prefixed by self::EVENT_PREFIX
+     * @param array $params list of parameters
+     */
+    protected function triggerEvent($name, $params)
+    {
+        $eventManager = ServiceManager::getServiceManager()->get(oat\oatbox\event\EventManager::CONFIG_ID);
+        $event = new oat\oatbox\event\GenericEvent(
+            self::EVENT_PREFIX.$name,
+            $params
+        );
+        $eventManager->trigger($event);
     }
 }

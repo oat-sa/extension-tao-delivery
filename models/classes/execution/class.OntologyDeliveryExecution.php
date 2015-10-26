@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -99,6 +101,21 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
             $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
+        $this->triggerEvent(__FUNCTION__,  array('deliveryExecution' => $this, 'state' => $state));
         return true;
+    }
+
+    /**
+     * @param string $name event name. Will be prefixed by self::EVENT_PREFIX
+     * @param array $params list of parameters
+     */
+    protected function triggerEvent($name, $params)
+    {
+        $eventManager = ServiceManager::getServiceManager()->get(oat\oatbox\event\EventManager::CONFIG_ID);
+        $event = new oat\oatbox\event\GenericEvent(
+            self::EVENT_PREFIX.$name,
+            $params
+        );
+        $eventManager->trigger($event);
     }
 }
