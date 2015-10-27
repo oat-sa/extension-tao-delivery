@@ -19,6 +19,8 @@
  */
 
 use oat\oatbox\Configurable;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -34,6 +36,12 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
 
     const USER_EXECUTIONS_PREFIX = 'kve_ue_';
+
+    public function __construct(array $options)
+    {
+        DeliveryExecution::$implementationClass = '\taoDelivery_models_classes_execution_KVDeliveryExecution';
+        parent::__construct($options);
+    }
 
     /**
      * @var common_persistence_KeyValuePersistence
@@ -89,7 +97,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
+        $deliveryExecution = DeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
 
         $this->updateDeliveryExecutionStatus($deliveryExecution, null, INSTANCE_DELIVERYEXEC_ACTIVE);
 
@@ -97,17 +105,17 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     }
 
     public function getDeliveryExecution($identifier) {
-        return new taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(), $identifier);
+        return new DeliveryExecution($this->getPersistence(), $identifier);
     }
 
     /**
      * Update the collection of deliveries
      *
-     * @param taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution
+     * @param DeliveryExecution $deliveryExecution
      * @param string $old
      * @param string $new
      */
-    public function updateDeliveryExecutionStatus(taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution, $old, $new) {
+    public function updateDeliveryExecutionStatus(DeliveryExecution $deliveryExecution, $old, $new) {
 
         $userId = $deliveryExecution->getUserIdentifier();
         if ($old != null) {

@@ -19,7 +19,7 @@
  *
  */
 
-use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 
 /**
  * Service to manage the execution of deliveries
@@ -46,21 +46,26 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
 
     /**
      *
+     * @param common_persistence_KeyValuePersistence $persistence
      * @param unknown $userId
      * @param core_kernel_classes_Resource $assembly
-     * @return taoDelivery_models_classes_execution_KVDeliveryExecution
+     * @return DeliveryExecution
      */
     public static function spawn(common_persistence_KeyValuePersistence $persistence, $userId, core_kernel_classes_Resource $assembly)
     {
         $identifier = self::DELIVERY_EXECUTION_PREFIX . common_Utils::getNewUri();
-        $de = new self($persistence, $identifier, array(
+        $params = array(
             RDFS_LABEL => $assembly->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $assembly->getUri(),
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
             PROPERTY_DELVIERYEXECUTION_START => microtime(),
             PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
-        ));
-        $de->save();
+        );
+        $kvDe = new static($persistence, $identifier, $params);
+        $kvDe->save();
+
+        $de = new DeliveryExecution($persistence, $identifier, $params);
+        $de->setImplementation($kvDe);
         return $de;
     }
 
@@ -90,7 +95,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     {
         return $this->getData(PROPERTY_DELVIERYEXECUTION_START);
     }
-    
+
     /**
      * (non-PHPdoc)
      *
@@ -164,8 +169,9 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         $kvservice = new taoDelivery_models_classes_execution_KeyValueService(array(
             taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => $this->getPersistence()
         ));
-        $kvservice->updateDeliveryExecutionStatus($this, $oldState, $state);
-        $this->triggerEvent(__FUNCTION__ , array('deliveryExecution' => $this, 'state' => $state));
+        $de = new DeliveryExecution($this->persistence, $this->id, $this->data);
+        $de->setImplementation($this);
+        $kvservice->updateDeliveryExecutionStatus($de, $oldState, $state);
         return true;
     }
 
@@ -189,7 +195,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     private function setData($dataKey, $value)
     {
         if (is_null($this->data)) {
-            $dataString = $this->getPersistence()->get($deliveryExecutionId);
+            $dataString = $this->getPersistence()->get($this->getIdentifier());
             $this->data = json_decode($dataString, true);
         }
         $this->data[$dataKey] = $value;
@@ -205,19 +211,5 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         } else {
             common_Logger::w('Tried to save a delivery that was not loaded');
         }
-    }
-
-    /**
-     * @param string $name event name. Will be prefixed by self::EVENT_PREFIX
-     * @param array $params list of parameters
-     */
-    protected function triggerEvent($name, $params)
-    {
-        $eventManager = ServiceManager::getServiceManager()->get(oat\oatbox\event\EventManager::CONFIG_ID);
-        $event = new oat\oatbox\event\GenericEvent(
-            self::EVENT_PREFIX.$name,
-            $params
-        );
-        $eventManager->trigger($event);
     }
 }
