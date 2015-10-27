@@ -64,8 +64,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         $kvDe = new static($persistence, $identifier, $params);
         $kvDe->save();
 
-        $de = new DeliveryExecution($persistence, $identifier, $params);
-        $de->setImplementation($kvDe);
+        $de = new DeliveryExecution($kvDe);
         return $de;
     }
 
@@ -169,8 +168,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         $kvservice = new taoDelivery_models_classes_execution_KeyValueService(array(
             taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => $this->getPersistence()
         ));
-        $de = new DeliveryExecution($this->persistence, $this->id, $this->data);
-        $de->setImplementation($this);
+        $de = new DeliveryExecution($this);
         $kvservice->updateDeliveryExecutionStatus($de, $oldState, $state);
         return true;
     }

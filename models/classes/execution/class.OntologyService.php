@@ -33,12 +33,6 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
         taoDelivery_models_classes_execution_Monitoring
 {
 
-    public function __construct(array $options = array())
-    {
-        DeliveryExecution::$implementationClass = '\taoDelivery_models_classes_execution_OntologyDeliveryExecution';
-        parent::__construct($options);
-    }
-
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getExecutionsByDelivery()
@@ -88,7 +82,9 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
         ));
         $deliveryExecutions = array();
         foreach ($instances as $resource) {
-            $deliveryExecutions[] = new DeliveryExecution($resource->getUri());
+            $deliveryExecutions[] = new DeliveryExecution(
+                new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($resource->getUri())
+            );
         }
         return $deliveryExecutions;
     }
@@ -115,6 +111,8 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
      * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier) {
-        return new DeliveryExecution($identifier);
+        return new DeliveryExecution(
+            new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($identifier)
+        );
     }
 }

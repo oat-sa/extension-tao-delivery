@@ -37,12 +37,6 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
 
     const USER_EXECUTIONS_PREFIX = 'kve_ue_';
 
-    public function __construct(array $options)
-    {
-        DeliveryExecution::$implementationClass = '\taoDelivery_models_classes_execution_KVDeliveryExecution';
-        parent::__construct($options);
-    }
-
     /**
      * @var common_persistence_KeyValuePersistence
      */
@@ -97,7 +91,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $deliveryExecution = DeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
+        $deImplementation = \taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
+        $deliveryExecution = new DeliveryExecution($deImplementation);
 
         $this->updateDeliveryExecutionStatus($deliveryExecution, null, INSTANCE_DELIVERYEXEC_ACTIVE);
 
@@ -105,7 +100,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     }
 
     public function getDeliveryExecution($identifier) {
-        return new DeliveryExecution($this->getPersistence(), $identifier);
+        $deImplementation = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(), $identifier);
+        return new DeliveryExecution($deImplementation);
     }
 
     /**

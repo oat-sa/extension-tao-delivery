@@ -35,15 +35,9 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
      */
     private $implementation;
 
-    public function __construct()
+    public function __construct(\taoDelivery_models_classes_execution_DeliveryExecution $implementation)
     {
-        if (!class_exists(self::$implementationClass)) {
-            throw new \common_exception_Error('No implementation for ' . self::$implementationClass . ' found');
-        }
-
-        $reflect  = new \ReflectionClass(self::$implementationClass);
-        $args = func_get_args();
-        $this->setImplementation($reflect->newInstanceArgs($args));
+        $this->setImplementation($implementation);
     }
 
     public function setImplementation(\taoDelivery_models_classes_execution_DeliveryExecution $implementation) {
@@ -176,7 +170,7 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
      * @param array $parameters method parameters
      * @return mixed the method return value
      */
-    public function __callStatic($name, $parameters)
+    public static function __callStatic($name, $parameters)
     {
         return call_user_func_array(array(self::$implementationClass, $name), $parameters);
     }
