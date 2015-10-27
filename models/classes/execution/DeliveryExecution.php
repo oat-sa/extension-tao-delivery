@@ -28,8 +28,6 @@ use oat\oatbox\event\GenericEvent;
 class DeliveryExecution implements \taoDelivery_models_classes_execution_DeliveryExecution
 {
 
-    public static $implementationClass;
-
     /**
      * @var \taoDelivery_models_classes_execution_DeliveryExecution
      */
@@ -162,17 +160,4 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
     {
         return call_user_func_array(array($this->getImplementation(), $name), $parameters);
     }
-
-    /**
-     * Calls the static named method which is not a class method.
-     * Do not call this method.
-     * @param string $name the method name
-     * @param array $parameters method parameters
-     * @return mixed the method return value
-     */
-    public static function __callStatic($name, $parameters)
-    {
-        return call_user_func_array(array(self::$implementationClass, $name), $parameters);
-    }
-
 }
