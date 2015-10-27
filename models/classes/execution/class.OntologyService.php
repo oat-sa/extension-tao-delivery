@@ -33,7 +33,7 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
         taoDelivery_models_classes_execution_Monitoring
 {
 
-    public function __construct(array $options)
+    public function __construct(array $options = array())
     {
         DeliveryExecution::$implementationClass = '\taoDelivery_models_classes_execution_OntologyDeliveryExecution';
         parent::__construct($options);
