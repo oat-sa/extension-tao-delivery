@@ -29,7 +29,6 @@
 interface taoDelivery_models_classes_execution_DeliveryExecution
 {
 
-    const EVENT_PREFIX = 'taoDelivery_models_classes_execution_DeliveryExecution_';
     /**
      * Returns the identifier of the delivery execution
      * 

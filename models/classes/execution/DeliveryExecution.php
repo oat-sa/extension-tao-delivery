@@ -23,7 +23,8 @@ namespace oat\taoDelivery\models\classes\execution;
 
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\event\GenericEvent;
+use oat\oatbox\event\Event;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
 
 class DeliveryExecution implements \taoDelivery_models_classes_execution_DeliveryExecution
 {
@@ -104,14 +105,10 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
     {
         $result = $this->getImplementation()->setState($state);
         $prevState = $this->getState();
-        $this->triggerEvent(
-            __FUNCTION__,
-            array(
-                'deliveryExecution' => $this,
-                'state' => $state,
-                'previousState' => $prevState,
-            )
-        );
+
+        $event = new DeliveryExecutionState($this, $state, $prevState);
+        $this->triggerEvent($event);
+
         return $result;
     }
 
@@ -136,16 +133,11 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
     }
 
     /**
-     * @param string $name event name. Will be prefixed by self::EVENT_PREFIX
-     * @param array $params list of parameters
+     * @param Event $event event to be triggered.
      */
-    protected function triggerEvent($name, $params)
+    protected function triggerEvent(Event $event)
     {
         $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-        $event = new GenericEvent(
-            self::EVENT_PREFIX.$name,
-            $params
-        );
         $eventManager->trigger($event);
     }
 
