@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the execution of deliveries
  *
