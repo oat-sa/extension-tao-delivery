@@ -25,6 +25,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\event\Event;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
+use \common_Logger;
 
 class DeliveryExecution implements \taoDelivery_models_classes_execution_DeliveryExecution
 {
@@ -108,6 +109,7 @@ class DeliveryExecution implements \taoDelivery_models_classes_execution_Deliver
 
         $event = new DeliveryExecutionState($this, $state, $prevState);
         $this->triggerEvent($event);
+        common_Logger::i("DeliveryExecutionState Event triggered.");
 
         return $result;
     }
