@@ -53,7 +53,7 @@ class taoDelivery_models_classes_SimpleDeliveryFactory
             $properties = array(
                 RDFS_LABEL => $label,
                 PROPERTY_COMPILEDDELIVERY_DIRECTORY => $storage->getSpawnedDirectoryIds(),
-                taoDelivery_models_classes_DeliveryAssemblyService::PROPERTY_ORIGIN => $test
+                PROPERTY_ORIGIN => $test
             );
         
             $compilationInstance = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->createAssemblyFromServiceCall($deliveryClass, $serviceCall, $properties);
