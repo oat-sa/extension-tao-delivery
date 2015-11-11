@@ -22,6 +22,7 @@ use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
 use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Service to manage the execution of deliveries
@@ -30,8 +31,15 @@ use oat\oatbox\service\ServiceManager;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_DeliveryServerService extends ConfigurableService
 {
+    const CONFIG_ID = 'taoDelivery/deliveryServer';
+
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get(self::CONFIG_ID);
+    }
+
     /**
      * Get resumable (active) deliveries.
      * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
@@ -90,14 +98,14 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
 
         return $returnValue;
     }
-    
+
     public function getDeliverySettings(core_kernel_classes_Resource $delivery){
         $deliveryProps = $delivery->getPropertiesValues(array(
             new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
             new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
         ));
-        
+
         $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
         $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
         $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
@@ -105,6 +113,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         $settings[TAO_DELIVERY_MAXEXEC_PROP] = (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal;
         $settings[TAO_DELIVERY_START_PROP] = (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal;
         $settings[TAO_DELIVERY_END_PROP] = (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal;
+        $settings[CLASS_COMPILEDDELIVERY] = $delivery;
 
         return $settings;
     }
