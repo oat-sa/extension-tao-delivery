@@ -20,6 +20,7 @@
  */
 namespace oat\taoDelivery\scripts\update;
 
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 
@@ -114,10 +115,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($currentVersion == '2.9.3') {
-            $currentConfig = $this->getServiceManager()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
-            if (is_array($currentConfig)) {
-                $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService($currentConfig);
-            } else {
+            try{
+                $currentConfig = $this->getServiceManager()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+                if (is_array($currentConfig)) {
+                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService($currentConfig);
+                } else {
+                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
+                }
+            }catch(ServiceNotFoundException $e){
                 $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
             }
             $this->getServiceManager()->register(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID, $deliveryServerService);
