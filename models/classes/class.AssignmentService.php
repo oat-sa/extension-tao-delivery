@@ -119,7 +119,7 @@ class taoDelivery_models_classes_AssignmentService extends ConfigurableService
      * @param string $userUri the URI of the user to check
      * @return boolean true if excluded
      */
-    private function isUserExcluded(core_kernel_classes_Resource $delivery, User $user){
+    protected function isUserExcluded(core_kernel_classes_Resource $delivery, User $user){
         $excludedUsers = $delivery->getPropertyValues(new core_kernel_classes_Property(TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP));
         return in_array($user->getIdentifier(), $excludedUsers);
     }

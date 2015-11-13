@@ -85,21 +85,21 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
     public function testGetDeliverySettings($maxEx, $start, $end)
     {
         $resourceMock = $this->getResourceMock('fakeDelivery');
-        
+
+        $necessaryProperties = array(
+            TAO_DELIVERY_MAXEXEC_PROP,
+            TAO_DELIVERY_START_PROP,
+            TAO_DELIVERY_END_PROP,
+        );
+
         $resourceMock->expects($this->once())
             ->method('getPropertiesValues')
-            ->with($this->callback(function ($array)
+            ->with($this->callback(function ($array) use($necessaryProperties)
         {
-            $valid = false;
-            foreach ($array as $prop) {
-                $valid = true;
-                if ($prop instanceof \core_kernel_classes_Property) {
-                    $valid &= in_array($prop->getUri(), array(
-                        TAO_DELIVERY_MAXEXEC_PROP,
-                        TAO_DELIVERY_START_PROP,
-                        TAO_DELIVERY_END_PROP,
-                    ));
-                }
+            $valid = true;
+            $proertiesUri = array_map(function ($val) {return $val->getUri();}, $array);
+            foreach ($necessaryProperties as $prop) {
+                $valid &= in_array($prop, $proertiesUri);
             }
             return $valid;
         }))
@@ -114,7 +114,8 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
                 new core_kernel_classes_Literal($end)
             ),
         )));
-        
+        $resourceMock->method('getUri')->will($this->returnValue(rand()));
+
         $result = $this->service->getDeliverySettings($resourceMock);
         $this->assertTrue(is_array($result));
         $this->assertEquals($maxEx, $result[TAO_DELIVERY_MAXEXEC_PROP]);

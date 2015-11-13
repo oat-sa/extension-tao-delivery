@@ -37,29 +37,29 @@ $availableDeliveries = get_data('availableDeliveries');
         </h2>
         <ul class="entry-point-box plain">
             <?php foreach ($availableDeliveries as $delivery) : ?>
-                <?php $url = ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? _url(
+                <?php $url = ($delivery["TAO_DELIVERY_TAKABLE"]) ? _url(
                     'initDeliveryExecution',
                     'DeliveryServer',
                     null,
-                    array('uri' => $delivery["compiledDelivery"]->getUri())
+                    array('uri' => $delivery[CLASS_COMPILEDDELIVERY]->getUri())
                 ) : '#'?>
                 <li>
-                    <a class="block entry-point entry-point-all-deliveries <?= ($delivery["settingsDelivery"]["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>" href="<?= $url ?>">
-                        <h3><?= _dh($delivery["compiledDelivery"]->getLabel()) ?></h3>
+                    <a class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>" href="<?= $url ?>">
+                        <h3><?= _dh($delivery[CLASS_COMPILEDDELIVERY]->getLabel()) ?></h3>
 
-                        <p><?php if(!empty($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP])) : ?>
-                                <?= __('Available from %s', tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_START_PROP])); ?>
+                        <p><?php if(!empty($delivery[TAO_DELIVERY_START_PROP])) : ?>
+                                <?= __('Available from %s', tao_helpers_Date::displayeDate($delivery[TAO_DELIVERY_START_PROP])); ?>
                             <?php endif; ?>
 
-                            <?php if (!empty($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP])) : ?>
-                                <?= __('to %s', tao_helpers_Date::displayeDate($delivery["settingsDelivery"][TAO_DELIVERY_END_PROP])); ?>
+                            <?php if (!empty($delivery[TAO_DELIVERY_END_PROP])) : ?>
+                                <?= __('to %s', tao_helpers_Date::displayeDate($delivery[TAO_DELIVERY_END_PROP])); ?>
                             <?php endif; ?>
                         </p>
-                        <p><?php if($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] !== ''): ?>
-                                <?= $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP] === 1 ? __('Attempt') : __('Attempts') ?>
-                                <?=  __('%s of %s', $delivery["settingsDelivery"]["TAO_DELIVERY_USED_TOKENS"],
-                                    !empty($delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP])
-                                        ? $delivery["settingsDelivery"][TAO_DELIVERY_MAXEXEC_PROP]
+                        <p><?php if($delivery[TAO_DELIVERY_MAXEXEC_PROP] !== ''): ?>
+                                <?= $delivery[TAO_DELIVERY_MAXEXEC_PROP] === 1 ? __('Attempt') : __('Attempts') ?>
+                                <?=  __('%s of %s', $delivery["TAO_DELIVERY_USED_TOKENS"],
+                                    !empty($delivery[TAO_DELIVERY_MAXEXEC_PROP])
+                                        ? $delivery[TAO_DELIVERY_MAXEXEC_PROP]
                                         : __('unlimited'));
                                 ?>
                             <?php endif; ?>

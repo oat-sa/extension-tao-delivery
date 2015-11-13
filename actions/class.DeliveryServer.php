@@ -70,7 +70,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      * @return void
      */
 	public function index(){
-		
+
 		$label = common_session_SessionManager::getSession()->getUserLabel();
 		$this->setData('login',$label);
 		
@@ -199,28 +199,14 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      */
     protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
 	{
-	    $deliveryProps = $delivery->getPropertiesValues(array(
-	        new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
-	        new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
-	        new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
-	    ));
-	
-	    $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
-	    $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
-	    $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
+        $settings = $this->service->getDeliverySettings($delivery);
 	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
 	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
-	
-	    return array(
-            "compiledDelivery"  => $delivery,
-            "settingsDelivery"  => array (
-    	        TAO_DELIVERY_MAXEXEC_PROP  => (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal,
-    	        TAO_DELIVERY_START_PROP    => (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal,
-    	        TAO_DELIVERY_END_PROP      => (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal,
-    	        "TAO_DELIVERY_USED_TOKENS" => count($executions),
-    	        "TAO_DELIVERY_TAKABLE"     => $allowed
-            )
-	    );
+
+        $settings['TAO_DELIVERY_USED_TOKENS'] = count($executions);
+        $settings['TAO_DELIVERY_TAKABLE'] = $allowed;
+
+        return $settings;
 	}
 
 	/**
