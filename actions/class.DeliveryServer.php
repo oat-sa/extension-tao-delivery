@@ -91,6 +91,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
+        var_dump($deliveryData); exit();
 		$this->setData('returnUrl', $this->getReturnUrl());
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 		$this->setData('availableDeliveries', $deliveryData);
@@ -199,7 +200,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      */
     protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
 	{
-        $settings = $this->service->getDeliverySettings($delivery);
+        $settings = $this->service->getDeliverySettings($delivery, $user);
 	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
 	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
 
