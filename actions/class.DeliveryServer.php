@@ -91,7 +91,6 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
-        var_dump($deliveryData); exit();
 		$this->setData('returnUrl', $this->getReturnUrl());
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 		$this->setData('availableDeliveries', $deliveryData);
