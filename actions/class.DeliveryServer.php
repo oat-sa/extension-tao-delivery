@@ -104,10 +104,14 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
-
-
-    public function initDeliveryExecution() {
-	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+    
+    /**
+     * Init a delivery execution from the current delivery
+     * 
+     * @return core_kernel_classes_Resource
+     */
+    protected function _initDeliveryExecution() {
+        $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $user = common_session_SessionManager::getSession()->getUser();
 	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user)) {
 	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
@@ -115,9 +119,22 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	        common_Logger::i('Testtaker '.$user->getIdentifier().' not authorised to initialise delivery '.$compiledDelivery->getUri());
 	        return $this->returnError(__('You are no longer allowed to take the test %s', $compiledDelivery->getLabel()), true);
 	    }
+        return $deliveryExecution;
+    }
+    
+    /**
+     * Init the selected delivery execution and forward to the execution screen
+     */
+    public function initDeliveryExecution() {
+	    $deliveryExecution = $this->_initDeliveryExecution();
 	    $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
 	}
-
+    
+    /**
+     * Displays the execution screen
+     * 
+     * @throws common_exception_Error
+     */
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE && $deliveryExecution->getState()->getUri() != DeliveryExecution::STATE_PAUSED) {
@@ -152,6 +169,9 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
+    /**
+     * Finish the delivery execution
+     */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
@@ -178,11 +198,21 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
 	    }
 	}
-
+    
+    /**
+     * Defines if the top and bottom action menu should be displayed or not
+     * 
+     * @return boolean
+     */
 	protected function showControls() {
 	    return true;
 	}
 	
+    /**
+     * Defines the returning URL in the top-right corner action menu
+     * 
+     * @return string
+     */
 	protected function getReturnUrl() {
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
