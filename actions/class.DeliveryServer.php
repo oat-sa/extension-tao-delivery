@@ -56,7 +56,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	/**
 	 * @return taoDelivery_models_classes_execution_DeliveryExecution
 	 */
-	private function getCurrentDeliveryExecution() {
+	protected function getCurrentDeliveryExecution() {
 	    $id = tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
 	    return $this->executionService->getDeliveryExecution($id);
 	}
