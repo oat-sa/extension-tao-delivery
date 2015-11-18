@@ -22,8 +22,9 @@ define([
     'jquery',
     'helpers',
     'taoDelivery/controller/runtime/fullScreen',
-    'layout/loading-bar'
-], function(_, $, helpers, fullScreen, loadingBar){
+    'layout/loading-bar',
+    'ui/dialog'
+], function(_, $, helpers, fullScreen, loadingBar, dialog){
     'use strict';
 
     var $frameContainer,
@@ -92,6 +93,11 @@ define([
                     setTimeout(function(){
                         loadingBar.stop();
                     }, 300);
+                })
+                .on('message', function(e, data) {
+                    if (data) {
+                        dialog.alert(data.message, data.action);
+                    }
                 })
                 .on('shutdown-com', function(){
                     //use when we want to stop all exchange between frames
