@@ -83,6 +83,8 @@ define([
                         window.location = data.destination;
                     }
                 });
+            }).onExit(function() {
+                window.location = options.exitDeliveryExecution;
             });
 
             $(document)
