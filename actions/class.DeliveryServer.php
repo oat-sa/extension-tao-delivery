@@ -199,7 +199,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      */
     protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
 	{
-        $settings = $this->service->getDeliverySettings($delivery);
+        $settings = $this->service->getDeliverySettings($delivery, $user);
 	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
 	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
 
