@@ -23,8 +23,8 @@ define([
     'helpers',
     'taoDelivery/controller/runtime/fullScreen',
     'layout/loading-bar',
-    'ui/dialog'
-], function(_, $, helpers, fullScreen, loadingBar, dialog){
+    'ui/dialog/alert'
+], function(_, $, helpers, fullScreen, loadingBar, dialogAlert){
     'use strict';
 
     var $frameContainer,
@@ -98,7 +98,7 @@ define([
                 })
                 .on('message', function(e, data) {
                     if (data) {
-                        dialog.alert(data.message, data.action);
+                        dialogAlert(data.message, data.action);
                     }
                 })
                 .on('shutdown-com', function(){
