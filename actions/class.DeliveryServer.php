@@ -113,7 +113,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
     protected function _initDeliveryExecution() {
         $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $user = common_session_SessionManager::getSession()->getUser();
-	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user)) {
+	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user, true)) {
 	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
 	    } else {
 	        common_Logger::i('Testtaker '.$user->getIdentifier().' not authorised to initialise delivery '.$compiledDelivery->getUri());
