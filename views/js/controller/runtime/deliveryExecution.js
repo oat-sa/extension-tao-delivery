@@ -96,7 +96,7 @@ define([
                         loadingBar.stop();
                     }, 300);
                 })
-                .on('alertMessage', function(e, data) {
+                .on('messagealert', function(e, data) {
                     if (data) {
                         dialogAlert(data.message, data.action);
                     }
