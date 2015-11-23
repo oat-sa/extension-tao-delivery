@@ -22,8 +22,9 @@ define([
     'jquery',
     'helpers',
     'taoDelivery/controller/runtime/fullScreen',
-    'layout/loading-bar'
-], function(_, $, helpers, fullScreen, loadingBar){
+    'layout/loading-bar',
+    'ui/dialog/alert'
+], function(_, $, helpers, fullScreen, loadingBar, dialogAlert){
     'use strict';
 
     var $frameContainer,
@@ -82,6 +83,8 @@ define([
                         window.location = data.destination;
                     }
                 });
+            }).onExit(function() {
+                window.location = options.exitDeliveryExecution;
             });
 
             $(document)
@@ -92,6 +95,11 @@ define([
                     setTimeout(function(){
                         loadingBar.stop();
                     }, 300);
+                })
+                .on('messagealert', function(e, data) {
+                    if (data) {
+                        dialogAlert(data.message, data.action);
+                    }
                 })
                 .on('shutdown-com', function(){
                     //use when we want to stop all exchange between frames
