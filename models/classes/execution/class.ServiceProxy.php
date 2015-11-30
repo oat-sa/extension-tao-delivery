@@ -18,7 +18,7 @@
  *
  */
 
-use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
 /**
  * Service to manage the execution of deliveries
@@ -77,7 +77,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getActiveDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_ACTIVE);
     }
 
     /**
@@ -95,7 +95,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getFinishedDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_FINISHED);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_FINISHIED);
     }
 
     /**

@@ -22,7 +22,7 @@ namespace oat\taoDelivery\test;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use common_ext_ExtensionsManager;
 use taoDelivery_models_classes_execution_ServiceProxy;
-use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
 class ServiceProxyTest extends TaoPhpUnitTestRunner
 {
@@ -102,7 +102,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetActiveDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', INSTANCE_DELIVERYEXEC_ACTIVE)->willReturn(true);
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecution::STATE_ACTIVE)->willReturn(true);
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
 
@@ -130,7 +130,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetFinishedDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',INSTANCE_DELIVERYEXEC_FINISHED)->willReturn(true);
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',DeliveryExecution::STATE_FINISHIED)->willReturn(true);
 
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
