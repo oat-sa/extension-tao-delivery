@@ -22,7 +22,9 @@ namespace oat\taoDelivery\model;
 
 use oat\oatbox\user\User;
 /**
- * Basic Assignment object
+ * Basic Assignment object that represents the assignment
+ * of a test-taker to a delivery. It is used by the assignment service
+ * to determine which deliveries have been assigned to a test-taker.
  *
  * @author Open Assessment Technologies SA
  * @package taoFrontOffice
