@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint04\n"
-"PO-Revision-Date: 2015-08-13T13:40:12\n"
+"Project-Id-Version: TAO 3.1.0-sprint12\n"
+"PO-Revision-Date: 2015-11-30T10:36:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -49,6 +49,16 @@ msgstr "Nombre max. d'exécutions (défaut: illimité)"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Maximum Times of Execution per subject"
 msgstr "Temps maximum d'exécution par sujet"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Access"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Access"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -234,6 +244,16 @@ msgstr "Gestionnaire Passations"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Delivery Manager Role"
 msgstr "Le rôle du gestionnaire de la livraison"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Guest Access"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Guest Access"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint04\n"
-"PO-Revision-Date: 2015-08-13T13:40:14\n"
+"Project-Id-Version: TAO 3.1.0-sprint12\n"
+"PO-Revision-Date: 2015-11-30T10:36:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,29 +16,11 @@ msgstr ""
 msgid "%s of %s"
 msgstr ""
 
-msgid "%s test-taker(s) are excluded."
+msgid "Access deliveries as a guest"
 msgstr ""
-
-msgid "Add the source file."
-msgstr "添加源文件。"
 
 msgid "All rights reserved."
 msgstr ""
-
-msgid "An error occured during the import"
-msgstr "导入时发生了错误"
-
-msgid "Assembly"
-msgstr "集会"
-
-msgid "Assembly import"
-msgstr "聚集导入"
-
-msgid "Assigned test-takers"
-msgstr "已被分配的考生"
-
-msgid "Assigned to"
-msgstr "已分配给"
 
 msgid "Attempt"
 msgstr ""
@@ -52,135 +34,32 @@ msgstr ""
 msgid "Available from %s"
 msgstr ""
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "Close this prompt"
 msgstr ""
 
-msgid "Create a new delivery"
-msgstr "创建一个新的输送"
-
-msgid "Create a test"
-msgstr "创建考试"
-
-#, tao-public
-msgid "Delete"
-msgstr "删除"
-
-#, tao-public
 msgid "Deliveries"
 msgstr "递送"
-
-#, tao-public
-msgid "Deliveries library"
-msgstr "递送书库"
-
-msgid "Delivery \"%s\" successfully imported"
-msgstr ""
-
-msgid "Delivery is assigned to %s test-takers."
-msgstr ""
-
-msgid "Delivery is not assigned to any test-taker."
-msgstr "此输送没被分配给任何的考生。"
-
-msgid "Delivery of %s"
-msgstr ""
-
-msgid "Delivery saved"
-msgstr "递送已储存"
-
-msgid "Enables you to export a published delivery"
-msgstr "让你能导出一个已出版的输送"
 
 msgid "Enter full screen"
 msgstr ""
 
-msgid "Excluded test-takers"
-msgstr "被排除的考生"
-
 msgid "Exit"
 msgstr ""
 
-msgid "Export Options"
-msgstr "导入选项"
-
-#, tao-public
-msgid "Filter"
-msgstr "过滤条件"
-
-msgid "Import"
-msgstr "导入"
+msgid "Guest access"
+msgstr ""
 
 msgid "In progress"
 msgstr ""
 
-msgid "Items"
-msgstr "题目"
-
 msgid "Logout"
 msgstr "登出"
-
-msgid "Manifest not found in assembly"
-msgstr "清单中未发现集会"
-
-msgid "More"
-msgstr ""
-
-#, tao-public
-msgid "Move"
-msgstr "移动"
 
 msgid "My Tests"
 msgstr "我的考试"
 
-#, tao-public
-msgid "New class"
-msgstr "新类别"
-
-#, tao-public
-msgid "New delivery"
-msgstr "新的递送"
-
-msgid "No attempt has been started yet."
-msgstr "没有已开始的考试。"
-
-msgid "No information available"
-msgstr "没资讯可提供"
-
-msgid "Please upload a published delivery assembly ."
-msgstr "请上传一个已出版的递送集合。"
-
-#, tao-public
-msgid "Prepare, publish deliveries sessions."
-msgstr "预备，发布递送时域。"
-
-#, tao-public
-msgid "Properties"
-msgstr "属性"
-
-msgid "Publish"
-msgstr "发布"
-
-msgid "Published on %2s"
-msgstr ""
-
 msgid "Resume"
 msgstr "继续"
-
-msgid "Save"
-msgstr "储存"
-
-#, tao-public
-msgid "Search"
-msgstr "搜寻"
-
-msgid "Select the test you want to publish to the test-takers"
-msgstr "选择您想发布给考生的考试"
-
-msgid "Selection saved successfully"
-msgstr "所选的已储存成功"
 
 msgid "Start"
 msgstr "开始"
@@ -197,20 +76,14 @@ msgstr "TAO：一个开放和有弹性的电脑考试平台"
 msgid "TAO Delivery Server"
 msgstr "TAO递送服务器"
 
+msgid "TAO Guest"
+msgstr ""
+
+msgid "TAO Guest Access"
+msgstr ""
+
 msgid "Test-Takers"
 msgstr ""
-
-msgid "Test-takers"
-msgstr "考生"
-
-msgid "There are currently %s attempts"
-msgstr ""
-
-msgid "There are currently no tests available to publish."
-msgstr "现在没有考试可以发布。"
-
-msgid "There is currently 1 attempt"
-msgstr "考生已试了1次"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr ""
@@ -218,14 +91,8 @@ msgstr ""
 msgid "to %s"
 msgstr ""
 
-msgid "Unkown error during impoort"
-msgstr "导入时发生了不明的错误"
-
 msgid "unlimited"
 msgstr ""
-
-msgid "Upload an assembly"
-msgstr "上传一个集会"
 
 msgid "You are no longer allowed to take the test %s"
 msgstr ""

@@ -22,7 +22,9 @@ namespace oat\taoDelivery\model;
 
 use oat\oatbox\user\User;
 /**
- * Basic Assignment
+ * Basic Assignment object that represents the assignment
+ * of a test-taker to a delivery. It is used by the assignment service
+ * to determine which deliveries have been assigned to a test-taker.
  *
  * @author Open Assessment Technologies SA
  * @package taoFrontOffice
@@ -41,6 +43,16 @@ class Assignment {
     
     private $launchParams;
     
+    /**
+     * Simple constructor to create a new assigment object
+     * 
+     * @param string $deliveryId
+     * @param string $userId
+     * @param string $label
+     * @param string[] $desc
+     * @param boolean $startable
+     * @param array $launchParams
+     */
     public function __construct($deliveryId, $userId, $label, $desc, $startable, $launchParams)
     {
         $this->deliveryId = $deliveryId;
@@ -51,26 +63,53 @@ class Assignment {
         
     }
     
+    /**
+     * Returns the id of the delivery to run
+     * @return string
+     */
     public function getDeliveryId()
     {
         return $this->deliveryId;
     }
     
+    /**
+     * Returns the label of the asignment, which will often correspond
+     * to the label of the delivery
+     * 
+     * @return string
+     */
     public function getLabel()
     {
         return $this->label;
     }
     
+    /**
+     * An array of description strings to give
+     * enhanced informations about the assignment
+     * and its restrictions
+     * 
+     * @return string[]
+     */
     public function getDescriptionStrings()
     {
         return $this->desc;
     }
     
+    /**
+     * Whenever or not the assigment is statable
+     * 
+     * @return boolean
+     */
     public function isStartable()
     {
         return $this->startable;
     }
     
+    /**
+     * Additional launch parameters, available from the delivery
+     * 
+     * @return array
+     */
     public function getLaunchParameters()
     {
         return $this->launchParams;
