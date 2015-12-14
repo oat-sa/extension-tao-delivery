@@ -19,7 +19,6 @@
  */               
 namespace oat\taoDelivery\helper;
 
-use oat\taoDelivery\model\Delivery as DeliveryInterface;
 use oat\oatbox\user\User;
 /**
  * Helper to render the delivery form on the group page

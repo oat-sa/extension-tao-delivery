@@ -24,7 +24,6 @@ namespace oat\taoDelivery\controller;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
-use oat\taoDelivery\model\Delivery;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use common_session_SessionManager;
