@@ -38,15 +38,6 @@ $availableDeliveries = get_data('availableDeliveries');
         <ul class="entry-point-box plain">
             <?php foreach ($availableDeliveries as $delivery) : ?>
                 <?php Template::inc('DeliveryServer/delivery_entry.tpl', null, ['delivery' => $delivery]); ?>
-                <?php
-                    if (isset($delivery['TAO_DELIVERY_REPETITIONS'])) {
-                        foreach ($delivery['TAO_DELIVERY_REPETITIONS'] as $repeatedDelivery) {
-                            $data = array_merge($delivery, $repeatedDelivery);
-                            unset($data['TAO_DELIVERY_REPETITIONS']);
-                            Template::inc('DeliveryServer/delivery_entry.tpl', null, ['delivery' => $data]);
-                        }
-                    }
-                ?>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
