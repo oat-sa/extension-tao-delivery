@@ -49,8 +49,6 @@ class DeliveryExecutionCreated implements Event
     /**
      * DeliveryExecutionState constructor.
      * @param DeliveryExecution $deliveryExecution
-     * @param string $state
-     * @param string $prevState
      */
     public function __construct(DeliveryExecution $deliveryExecution)
     {
@@ -58,7 +56,7 @@ class DeliveryExecutionCreated implements Event
     }
 
     /**
-     * Returns ewly created delivery execution
+     * Returns newly created delivery execution
      * 
      * @return DeliveryExecution
      */
