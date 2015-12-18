@@ -24,16 +24,17 @@ namespace oat\taoDelivery\models\classes\execution\event;
 use oat\oatbox\event\Event;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 /**
-* Event should be triggered after changing delivery execution state.
-*
-* @author Aleh Hutnikau <hutnikau@1pt.com>
-*/
+ * Event triggered whenever a new delivery execution is initialised
+ * 
+ * @author Joel Bout, <joel@taotesting.com>
+ */
 class DeliveryExecutionCreated implements Event
 {
     const EVENT_NAME = __CLASS__;
     
     /**
-     * @return string
+     * (non-PHPdoc)
+     * @see \oat\oatbox\event\Event::getName()
      */
     public function getName()
     {
@@ -57,6 +58,8 @@ class DeliveryExecutionCreated implements Event
     }
 
     /**
+     * Returns ewly created delivery execution
+     * 
      * @return DeliveryExecution
      */
     public function getDeliveryExecution()
