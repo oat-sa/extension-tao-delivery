@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -44,6 +46,16 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     public function getStartTime() {
         $startTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_START);
         return (string)$this->getUniquePropertyValue($startTime);
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
+     */
+    public function getFinishTime() {
+        $finishProperty = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END);
+        $finishTime = $this->getOnePropertyValue($finishProperty);
+        return is_null($finishTime) ? null : (string)$finishTime;
     }
     
     /**
@@ -87,7 +99,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         }
         $this->editPropertyValues($statusProp, $state);
         if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
-            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), time());
+            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         return true;
     }

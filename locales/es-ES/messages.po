@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint04\n"
-"PO-Revision-Date: 2015-12-22T13:33:17\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-22T14:03:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,29 +16,11 @@ msgstr ""
 msgid "%s of %s"
 msgstr "%s de %s"
 
-msgid "%s test-taker(s) are excluded."
-msgstr "%s participante(s) son excluidos."
-
-msgid "Add the source file."
-msgstr "Añadir la fuente del archivo."
+msgid "Access deliveries as a guest"
+msgstr ""
 
 msgid "All rights reserved."
 msgstr "Todos los derechos reservados."
-
-msgid "An error occured during the import"
-msgstr "Se produjo un error durante la importación"
-
-msgid "Assembly"
-msgstr "Ensamblar"
-
-msgid "Assembly import"
-msgstr "Emsamblar importación"
-
-msgid "Assigned test-takers"
-msgstr "Participantes asiganados"
-
-msgid "Assigned to"
-msgstr "Asignado a"
 
 msgid "Attempt"
 msgstr "Intento"
@@ -52,135 +34,32 @@ msgstr "Disponible"
 msgid "Available from %s"
 msgstr "Disponible de %s"
 
-msgid "Cancel"
-msgstr "Cancelar"
-
 msgid "Close this prompt"
 msgstr ""
 
-msgid "Create a new delivery"
-msgstr "Crear una nueva entrega"
-
-msgid "Create a test"
-msgstr "Crear una prueba"
-
-#, tao-public
-msgid "Delete"
-msgstr "Eliminar"
-
-#, tao-public
 msgid "Deliveries"
 msgstr "Entregas"
 
-#, tao-public
-msgid "Deliveries library"
-msgstr "Biblioteca de entregas"
-
-msgid "Delivery \"%s\" successfully imported"
-msgstr "Entrega \"%s\" importada correctamente"
-
-msgid "Delivery is assigned to %s test-takers."
-msgstr "Entrega asignada a %s paricipantes."
-
-msgid "Delivery is not assigned to any test-taker."
-msgstr "Entrega no asignada a ningún participante."
-
-msgid "Delivery of %s"
-msgstr "Entrega de %s"
-
-msgid "Delivery saved"
-msgstr "Entrega guardada"
-
-msgid "Enables you to export a published delivery"
-msgstr "Le permite exportar una entrega publicada"
-
 msgid "Enter full screen"
-msgstr ""
-
-msgid "Excluded test-takers"
-msgstr "Participantes excluidos"
+msgstr "Ingresar en pantalla completa"
 
 msgid "Exit"
 msgstr "Salir"
 
-msgid "Export Options"
-msgstr "Opciones de Exportación"
-
-#, tao-public
-msgid "Filter"
-msgstr "Filtro"
-
-msgid "Import"
-msgstr "Importar"
+msgid "Guest access"
+msgstr ""
 
 msgid "In progress"
 msgstr "En progreso"
 
-msgid "Items"
-msgstr "Elementos"
-
 msgid "Logout"
 msgstr "Cierre de sesión"
-
-msgid "Manifest not found in assembly"
-msgstr "Manifiesta no encontrar en reunión"
-
-msgid "More"
-msgstr "Más"
-
-#, tao-public
-msgid "Move"
-msgstr "Mover"
 
 msgid "My Tests"
 msgstr "Mis exámenes"
 
-#, tao-public
-msgid "New class"
-msgstr "Nueva clase"
-
-#, tao-public
-msgid "New delivery"
-msgstr "Nueva entrega"
-
-msgid "No attempt has been started yet."
-msgstr "No se ha intentado comenzar todavía."
-
-msgid "No information available"
-msgstr "No existe información disponible"
-
-msgid "Please upload a published delivery assembly ."
-msgstr "Por favor suba una entrega publicada ."
-
-#, tao-public
-msgid "Prepare, publish deliveries sessions."
-msgstr "Preparar, publicar sesiones de entregas."
-
-#, tao-public
-msgid "Properties"
-msgstr "Propiedades"
-
-msgid "Publish"
-msgstr "Publicar"
-
-msgid "Published on %2s"
-msgstr "Publicado en %2s"
-
 msgid "Resume"
 msgstr "Resumen"
-
-msgid "Save"
-msgstr "Guardar"
-
-#, tao-public
-msgid "Search"
-msgstr "Buscar"
-
-msgid "Select the test you want to publish to the test-takers"
-msgstr "Seleccione la prueba que desea publicar a los participantes"
-
-msgid "Selection saved successfully"
-msgstr "Selección guardada correctamente"
 
 msgid "Start"
 msgstr "Inicio"
@@ -197,35 +76,23 @@ msgstr "TAO_ Una Plataforma de Evaluación Abierta y Versátil Basada en Computa
 msgid "TAO Delivery Server"
 msgstr "Servidor de Entreda TAO"
 
+msgid "TAO Guest"
+msgstr ""
+
+msgid "TAO Guest Access"
+msgstr ""
+
 msgid "Test-Takers"
-msgstr "Participantes"
-
-msgid "Test-takers"
-msgstr "Participantes"
-
-msgid "There are currently %s attempts"
-msgstr "Actuamente hay %s intentos"
-
-msgid "There are currently no tests available to publish."
-msgstr "Actualmente no hasy pruebas disponibles o publicadas."
-
-msgid "There is currently 1 attempt"
-msgstr "Actualmente hay 1 intento"
+msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Esta prueba debe tomarse en modo de pantalla completa"
 
 msgid "to %s"
 msgstr "a %s"
 
-msgid "Unkown error during impoort"
-msgstr "Error desconocido durante la importación"
-
 msgid "unlimited"
 msgstr "ilimitado"
-
-msgid "Upload an assembly"
-msgstr "Subir un montaje"
 
 msgid "You are no longer allowed to take the test %s"
 msgstr "No tienes tiempo permitido para hacer la prueba %s"

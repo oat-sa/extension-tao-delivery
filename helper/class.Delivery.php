@@ -38,5 +38,22 @@ class taoDelivery_helper_Delivery
 		$tree->setData('title', __('Deliveries'));
 		return $tree->render();
 
-	}		
+	}
+
+	/**
+	 * Build custom login form element: guest access link
+	 *
+	 * @return tao_helpers_form_FormElement
+	 * @throws common_Exception
+	 */
+	public static function getGuestAccessLoginFormElement()
+	{
+		$url = _url('guest', 'DeliveryServer', 'taoDelivery');
+		$label = __('Guest access');
+
+		$guestAccessLink = tao_helpers_form_FormFactory::getElement('guest', 'Free');
+		$guestAccessLink->setValue("<a href='{$url}'>{$label}</a>");
+
+		return $guestAccessLink;
+	}
 }

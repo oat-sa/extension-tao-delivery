@@ -27,6 +27,7 @@ use \core_kernel_classes_Literal;
 class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
 {
 
+    /** @var  taoDelivery_models_classes_DeliveryServerService */
     private $service;
 
     /**
@@ -43,7 +44,7 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $uri            
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getResourceMock($uri)
     {
@@ -63,16 +64,17 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
      */
     public function getSettingsProvider()
     {
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         return array(
             array(
                 '12',
                 time(0, 0, 0, date('m'), date('d') - 1, date('Y')),
-                time()
+                time(),
             ),
             array(
                 '2',
                time(),
-                time(0, 0, 0, date('m'), date('d') + 2, date('Y'))
+                time(0, 0, 0, date('m'), date('d') + 2, date('Y')),
             )
         );
     }
@@ -83,21 +85,21 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
     public function testGetDeliverySettings($maxEx, $start, $end)
     {
         $resourceMock = $this->getResourceMock('fakeDelivery');
-        
+
+        $necessaryProperties = array(
+            TAO_DELIVERY_MAXEXEC_PROP,
+            TAO_DELIVERY_START_PROP,
+            TAO_DELIVERY_END_PROP,
+        );
+
         $resourceMock->expects($this->once())
             ->method('getPropertiesValues')
-            ->with($this->callback(function ($array)
+            ->with($this->callback(function ($array) use($necessaryProperties)
         {
-            $valid = false;
-            foreach ($array as $prop) {
-                $valid = true;
-                if ($prop instanceof \core_kernel_classes_Property) {
-                    $valid &= in_array($prop->getUri(), array(
-                        TAO_DELIVERY_MAXEXEC_PROP,
-                        TAO_DELIVERY_START_PROP,
-                        TAO_DELIVERY_END_PROP
-                    ));
-                }
+            $valid = true;
+            $proertiesUri = array_map(function ($val) {return $val->getUri();}, $array);
+            foreach ($necessaryProperties as $prop) {
+                $valid &= in_array($prop, $proertiesUri);
             }
             return $valid;
         }))
@@ -110,9 +112,10 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
             ),
             TAO_DELIVERY_END_PROP => array(
                 new core_kernel_classes_Literal($end)
-            )
+            ),
         )));
-        
+        $resourceMock->method('getUri')->will($this->returnValue(rand()));
+
         $result = $this->service->getDeliverySettings($resourceMock);
         $this->assertTrue(is_array($result));
         $this->assertEquals($maxEx, $result[TAO_DELIVERY_MAXEXEC_PROP]);
@@ -142,8 +145,41 @@ class DeliveryServerServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('core_kernel_classes_Resource', $result);
         $this->assertEquals(GENERIS_TRUE, $result->getUri());
     }
-    
-    
+
+    /**
+     * @dataProvider hasDeliveryGuestAccessProvider
+     * @param array $properties
+     * @param bool $expected
+     */
+    public function testHasDeliveryGuestAccess(array $properties, $expected)
+    {
+        $delivery = $this->getResourceMock('fakerDeliveryAssembly');
+        $delivery->method('getPropertiesValues')->willReturn($properties);
+
+        $result = $this->service->hasDeliveryGuestAccess($delivery);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function hasDeliveryGuestAccessProvider()
+    {
+        common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+        return array(
+            'positive' => array(
+                array(
+                    TAO_DELIVERY_ACCESS_SETTINGS_PROP => array(
+                        new \core_kernel_classes_Resource(DELIVERY_GUEST_ACCESS)
+                    )
+                ),
+                true
+            ),
+            'negative' => array(
+                array(
+                    TAO_DELIVERY_ACCESS_SETTINGS_PROP => array()
+                ),
+                false
+            )
+        );
+    }
 }
 
 ?>

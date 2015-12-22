@@ -23,11 +23,5 @@ define(function(){
     'use strict';
 
     return {
-        'Delivery': {
-            'actions' : {
-            	'editDelivery'     : 'controller/delivery/editDelivery',
-	            'excludeTesttaker' : 'controller/delivery/testtaker'
-            }
-        }
     };
 });

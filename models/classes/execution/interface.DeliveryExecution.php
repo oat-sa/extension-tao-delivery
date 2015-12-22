@@ -28,6 +28,7 @@
  */
 interface taoDelivery_models_classes_execution_DeliveryExecution
 {
+
     /**
      * Returns the identifier of the delivery execution
      * 
@@ -49,6 +50,14 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
      * @param core_kernel_classes_Resource $assembly
      */
     public function getStartTime();
+    
+    /**
+     * Returns when the delivery execution was finished
+     * or null if not yet finished
+     *
+     * @param core_kernel_classes_Resource $assembly
+     */
+    public function getFinishTime();
 
     /**
      * Returns the delivery execution state as resource

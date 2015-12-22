@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     sass.taodelivery.files[root + 'css/delivery.css'] = root + 'scss/delivery.scss';
 
     watch.taodeliverysass = {
-        files : [root + 'views/scss/**/*.scss'],
+        files : [root + 'scss/**/*.scss'],
         tasks : ['sass:taodelivery', 'notify:taodeliverysass'],
         options : {
             debounceDelay : 1000
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
     notify.taodeliverysass = {
         options: {
-            title: 'Grunt SASS', 
+            title: 'Grunt SASS',
             message: 'SASS files compiled to CSS'
         }
     };
@@ -28,4 +28,7 @@ module.exports = function(grunt) {
     grunt.config('sass', sass);
     grunt.config('watch', watch);
     grunt.config('notify', notify);
+
+    //register an alias for main build
+    grunt.registerTask('taodeliverysass', ['sass:taodelivery']);
 };

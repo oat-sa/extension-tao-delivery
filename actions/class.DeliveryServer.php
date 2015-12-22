@@ -21,6 +21,7 @@
  */
 
 use oat\oatbox\user\User;
+use oat\taoFrontOffice\model\interfaces\DeliveryExecution;
 /**
  * DeliveryServer Controller
  *
@@ -55,7 +56,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	/**
 	 * @return taoDelivery_models_classes_execution_DeliveryExecution
 	 */
-	private function getCurrentDeliveryExecution() {
+	protected function getCurrentDeliveryExecution() {
 	    $id = tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
 	    return $this->executionService->getDeliveryExecution($id);
 	}
@@ -69,7 +70,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      * @return void
      */
 	public function index(){
-		
+
 		$label = common_session_SessionManager::getSession()->getUserLabel();
 		$this->setData('login',$label);
 		
@@ -83,37 +84,60 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 		
 		$deliveryData = array();
 		if (!is_null($user)) {
-		    $available = taoDelivery_models_classes_AssignmentService::singleton()->getAvailableDeliveries($user);
+		    $available = $this->getServiceManager()->get('taoDelivery/assignment')->getAvailableDeliveries($user);
+
 		    foreach ($available as $uri) {
 		        $delivery = new core_kernel_classes_Resource($uri);
 		        $deliveryData[] = $this->getDeliverySettings($delivery, $user);
 		    }
 		}
-
+		$this->setData('returnUrl', $this->getReturnUrl());
+	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 		$this->setData('availableDeliveries', $deliveryData);
         $this->setData('showControls', $this->showControls());
 		$this->setData('processViewData', array());
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('deliveryServerConfig', json_encode($this->deliveryServerConfig));
-        $this->setView('DeliveryServer/index.tpl');
+
+        //set template
+        $this->setData('content-template', 'DeliveryServer/index.tpl');
+        $this->setData('content-extension', 'taoDelivery');
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
-
-
-    public function initDeliveryExecution() {
-	    $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+    
+    /**
+     * Init a delivery execution from the current delivery
+     * 
+     * @return core_kernel_classes_Resource
+     */
+    protected function _initDeliveryExecution() {
+        $compiledDelivery = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 	    $user = common_session_SessionManager::getSession()->getUser();
-	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user)) {
+	    if ($this->service->isDeliveryExecutionAllowed($compiledDelivery, $user, true)) {
 	       $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
 	    } else {
 	        common_Logger::i('Testtaker '.$user->getIdentifier().' not authorised to initialise delivery '.$compiledDelivery->getUri());
 	        return $this->returnError(__('You are no longer allowed to take the test %s', $compiledDelivery->getLabel()), true);
 	    }
+        return $deliveryExecution;
+    }
+    
+    /**
+     * Init the selected delivery execution and forward to the execution screen
+     */
+    public function initDeliveryExecution() {
+	    $deliveryExecution = $this->_initDeliveryExecution();
 	    $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
 	}
-
+    
+    /**
+     * Displays the execution screen
+     * 
+     * @throws common_exception_Error
+     */
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE) {
+	    if ($deliveryExecution->getState()->getUri() != INSTANCE_DELIVERYEXEC_ACTIVE && $deliveryExecution->getState()->getUri() != DeliveryExecution::STATE_PAUSED) {
 	        $this->redirect($this->getReturnUrl());
 	    }
 	    
@@ -128,6 +152,7 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	    $runtime = taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRuntime($compiledDelivery);
 	    $this->setData('serviceApi', tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
 
+		$this->setData('returnUrl', $this->getReturnUrl());
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
 	    $this->setData('showControls', $this->showControls());
@@ -137,10 +162,16 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
         $this->setData('jsBlock', 'runtime');
         
         $this->setData('finishUrl', _url('finishDeliveryExecution'));
-        
-	    $this->setView('DeliveryServer/deliveryExecution.tpl', 'taoDelivery');
+
+        //set template
+        $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
+        $this->setData('content-extension', 'taoDelivery');
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
+    /**
+     * Finish the delivery execution
+     */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
@@ -167,11 +198,21 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
 	        $this->service->initResultServer($compiledDelivery, $executionIdentifier);
 	    }
 	}
-
+    
+    /**
+     * Defines if the top and bottom action menu should be displayed or not
+     * 
+     * @return boolean
+     */
 	protected function showControls() {
 	    return true;
 	}
 	
+    /**
+     * Defines the returning URL in the top-right corner action menu
+     * 
+     * @return string
+     */
 	protected function getReturnUrl() {
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
@@ -188,28 +229,25 @@ class taoDelivery_actions_DeliveryServer extends tao_actions_CommonModule
      */
     protected function getDeliverySettings(core_kernel_classes_Resource $delivery, User $user)
 	{
-	    $deliveryProps = $delivery->getPropertiesValues(array(
-	        new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
-	        new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
-	        new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
-	    ));
-	
-	    $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
-	    $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
-	    $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
+        $settings = $this->service->getDeliverySettings($delivery, $user);
 	    $executions = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
 	    $allowed = $this->service->isDeliveryExecutionAllowed($delivery, $user);
-	
-	    return array(
-            "compiledDelivery"  => $delivery,
-            "settingsDelivery"  => array (
-    	        TAO_DELIVERY_MAXEXEC_PROP  => (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal,
-    	        TAO_DELIVERY_START_PROP    => (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal,
-    	        TAO_DELIVERY_END_PROP      => (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal,
-    	        "TAO_DELIVERY_USED_TOKENS" => count($executions),
-    	        "TAO_DELIVERY_TAKABLE"     => $allowed
-            )
-	    );
+
+        $settings['TAO_DELIVERY_USED_TOKENS'] = count($executions);
+        $settings['TAO_DELIVERY_TAKABLE'] = $allowed;
+
+        return $settings;
 	}
-	
+
+	/**
+	 * Init guest session and redirect to module index
+	 */
+	public function guest()
+	{
+		common_session_SessionManager::endSession();
+		$session = new taoDelivery_models_classes_GuestTestTakerSession();
+		common_session_SessionManager::startSession($session);
+
+		$this->redirect($this->getReturnUrl());
+	}
 }

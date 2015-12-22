@@ -19,6 +19,8 @@
  */
 
 use oat\oatbox\Configurable;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -89,7 +91,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $deliveryExecution = taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
+        $deImplementation = \taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
+        $deliveryExecution = new DeliveryExecution($deImplementation);
 
         $this->updateDeliveryExecutionStatus($deliveryExecution, null, INSTANCE_DELIVERYEXEC_ACTIVE);
 
@@ -97,17 +100,18 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     }
 
     public function getDeliveryExecution($identifier) {
-        return new taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(), $identifier);
+        $deImplementation = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(), $identifier);
+        return new DeliveryExecution($deImplementation);
     }
 
     /**
      * Update the collection of deliveries
      *
-     * @param taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution
+     * @param DeliveryExecution $deliveryExecution
      * @param string $old
      * @param string $new
      */
-    public function updateDeliveryExecutionStatus(taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution, $old, $new) {
+    public function updateDeliveryExecutionStatus(DeliveryExecution $deliveryExecution, $old, $new) {
 
         $userId = $deliveryExecution->getUserIdentifier();
         if ($old != null) {

@@ -20,6 +20,7 @@
  */
 namespace oat\taoDelivery\scripts\update;
 
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 
@@ -87,9 +88,47 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.7.1';
         }
         
-        if ($currentVersion == '2.7.1') {
-            $currentVersion = '2.8';
+        if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
+            $currentVersion = '2.9';
         }
+
+        if( $currentVersion == '2.9'){
+            OntologyUpdater::syncModels();
+
+            //grant access to anonymous user
+            $anonymousRole = new \core_kernel_classes_Resource(INSTANCE_ROLE_ANONYMOUS);
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantActionAccess($anonymousRole, 'taoDelivery', 'DeliveryServer', 'guest');
+
+            $currentVersion = '2.9.1';
+        }
+
+        if( $currentVersion == '2.9.1'){
+            OntologyUpdater::syncModels();
+            $currentVersion = '2.9.2';
+        }
+
+        if ($currentVersion == '2.9.2') {
+            $assignmentService = new \taoDelivery_models_classes_AssignmentService();
+            $this->getServiceManager()->register('taoDelivery/assignment', $assignmentService);
+            $currentVersion = '2.9.3';
+        }
+
+        if ($currentVersion == '2.9.3') {
+            try{
+                $currentConfig = $this->getServiceManager()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+                if (is_array($currentConfig)) {
+                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService($currentConfig);
+                } else {
+                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
+                }
+            }catch(ServiceNotFoundException $e){
+                $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
+            }
+            $this->getServiceManager()->register(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID, $deliveryServerService);
+            $currentVersion = '2.9.4';
+        }
+
         return $currentVersion;
     }
 }

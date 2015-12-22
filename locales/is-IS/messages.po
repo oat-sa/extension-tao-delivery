@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint04\n"
-"PO-Revision-Date: 2015-12-22T13:33:17\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-22T14:03:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,29 +16,11 @@ msgstr ""
 msgid "%s of %s"
 msgstr ""
 
-msgid "%s test-taker(s) are excluded."
+msgid "Access deliveries as a guest"
 msgstr ""
-
-msgid "Add the source file."
-msgstr "Bæta grunnskránni við."
 
 msgid "All rights reserved."
 msgstr ""
-
-msgid "An error occured during the import"
-msgstr "Villa kom upp í innsetningu"
-
-msgid "Assembly"
-msgstr ""
-
-msgid "Assembly import"
-msgstr ""
-
-msgid "Assigned test-takers"
-msgstr "Skilgreindir próftakar"
-
-msgid "Assigned to"
-msgstr "Úthlutað til"
 
 msgid "Attempt"
 msgstr ""
@@ -52,135 +34,32 @@ msgstr ""
 msgid "Available from %s"
 msgstr ""
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "Close this prompt"
 msgstr ""
 
-msgid "Create a new delivery"
-msgstr ""
-
-msgid "Create a test"
-msgstr "Búa til próf"
-
-#, tao-public
-msgid "Delete"
-msgstr "Eyða"
-
-#, tao-public
 msgid "Deliveries"
 msgstr "Úthlutanir"
-
-#, tao-public
-msgid "Deliveries library"
-msgstr "Úthlutanasafn"
-
-msgid "Delivery \"%s\" successfully imported"
-msgstr ""
-
-msgid "Delivery is assigned to %s test-takers."
-msgstr ""
-
-msgid "Delivery is not assigned to any test-taker."
-msgstr "Úthlutun er ekki skráð á neinn próftaka."
-
-msgid "Delivery of %s"
-msgstr ""
-
-msgid "Delivery saved"
-msgstr "Úthlutun vistuð"
-
-msgid "Enables you to export a published delivery"
-msgstr "Gerir kleift að flytja út útgefna úthlutun"
 
 msgid "Enter full screen"
 msgstr ""
 
-msgid "Excluded test-takers"
-msgstr "Útilokaðir próftakar"
-
 msgid "Exit"
 msgstr ""
 
-msgid "Export Options"
-msgstr "Útflutningskostir"
-
-#, tao-public
-msgid "Filter"
-msgstr "Sía"
-
-msgid "Import"
-msgstr "Flytja inn"
+msgid "Guest access"
+msgstr ""
 
 msgid "In progress"
 msgstr ""
 
-msgid "Items"
-msgstr "Atriði"
-
 msgid "Logout"
 msgstr "Útskrá"
-
-msgid "Manifest not found in assembly"
-msgstr ""
-
-msgid "More"
-msgstr ""
-
-#, tao-public
-msgid "Move"
-msgstr "Flytja"
 
 msgid "My Tests"
 msgstr "Prófin mín"
 
-#, tao-public
-msgid "New class"
-msgstr "Nýr flokkur"
-
-#, tao-public
-msgid "New delivery"
-msgstr "Ný úthlutun"
-
-msgid "No attempt has been started yet."
-msgstr "Engin tilraun hefur hafist."
-
-msgid "No information available"
-msgstr "Upplýsingar ekki fáanlegar"
-
-msgid "Please upload a published delivery assembly ."
-msgstr ""
-
-#, tao-public
-msgid "Prepare, publish deliveries sessions."
-msgstr ""
-
-#, tao-public
-msgid "Properties"
-msgstr ""
-
-msgid "Publish"
-msgstr "Birta"
-
-msgid "Published on %2s"
-msgstr ""
-
 msgid "Resume"
 msgstr "Halda áfram"
-
-msgid "Save"
-msgstr "Vista"
-
-#, tao-public
-msgid "Search"
-msgstr ""
-
-msgid "Select the test you want to publish to the test-takers"
-msgstr "Velja prófið sem ætlað er að gefa út fyrir próftaka"
-
-msgid "Selection saved successfully"
-msgstr "Tókst að vista valkost"
 
 msgid "Start"
 msgstr "Byrja"
@@ -197,19 +76,13 @@ msgstr "TAO - Opinn og Fjölhæfur Grunnur fyrir Tölvustutt Mat"
 msgid "TAO Delivery Server"
 msgstr "TAO Úthlutunarþjónn"
 
+msgid "TAO Guest"
+msgstr ""
+
+msgid "TAO Guest Access"
+msgstr ""
+
 msgid "Test-Takers"
-msgstr ""
-
-msgid "Test-takers"
-msgstr "Próftakar"
-
-msgid "There are currently %s attempts"
-msgstr ""
-
-msgid "There are currently no tests available to publish."
-msgstr "Nú eru engin próf tæk til útgáfu."
-
-msgid "There is currently 1 attempt"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
@@ -218,13 +91,7 @@ msgstr ""
 msgid "to %s"
 msgstr ""
 
-msgid "Unkown error during impoort"
-msgstr "Óþekkt villa varð við innflutning"
-
 msgid "unlimited"
-msgstr ""
-
-msgid "Upload an assembly"
 msgstr ""
 
 msgid "You are no longer allowed to take the test %s"

@@ -19,6 +19,8 @@
  */
 
 use oat\oatbox\Configurable;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -30,6 +32,7 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
     implements taoDelivery_models_classes_execution_Service,
         taoDelivery_models_classes_execution_Monitoring
 {
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::getExecutionsByDelivery()
@@ -79,7 +82,9 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
         ));
         $deliveryExecutions = array();
         foreach ($instances as $resource) {
-            $deliveryExecutions[] = new taoDelivery_models_classes_execution_OntologyDeliveryExecution($resource->getUri());
+            $deliveryExecutions[] = new DeliveryExecution(
+                new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($resource->getUri())
+            );
         }
         return $deliveryExecutions;
     }
@@ -95,7 +100,7 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
             RDFS_LABEL                            => $assembly->getLabel(),
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $assembly,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
-            PROPERTY_DELVIERYEXECUTION_START      => time(),
+            PROPERTY_DELVIERYEXECUTION_START      => microtime(),
             PROPERTY_DELVIERYEXECUTION_STATUS     => INSTANCE_DELIVERYEXEC_ACTIVE        	
         ));
         return $this->getDeliveryExecution($execution);
@@ -106,6 +111,8 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
      * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier) {
-        return new taoDelivery_models_classes_execution_OntologyDeliveryExecution($identifier);
+        return new DeliveryExecution(
+            new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($identifier)
+        );
     }
 }
