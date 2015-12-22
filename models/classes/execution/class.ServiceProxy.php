@@ -80,7 +80,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getActiveDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_ACTIVE);
     }
 
     /**
