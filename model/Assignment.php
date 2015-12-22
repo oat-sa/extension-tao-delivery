@@ -27,7 +27,6 @@ use oat\oatbox\user\User;
  * to determine which deliveries have been assigned to a test-taker.
  *
  * @author Open Assessment Technologies SA
- * @package taoFrontOffice
  * @license GPL-2.0
  *
  */

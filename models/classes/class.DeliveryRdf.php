@@ -32,8 +32,7 @@ use oat\taoDelivery\model\AssignmentService;
 class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resource
 {
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getId()
+     * @deprecated
      */
     public function getId()
     {
@@ -41,8 +40,10 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
     }
     
     /**
-     * (non-PHPdoc)
      * @see core_kernel_classes_Resource::getLabel()
+     */
+    /**
+     * @deprecated
      */
     public function getLabel()
     {
@@ -50,25 +51,22 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getDescription()
+     * @deprecated
      */
-    public function getDescription()
+        public function getDescription()
     {
         return '';
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::isTakeable()
+     * @deprecated
      */
     public function isTakeable(User $testTaker) {
         return $this->getAssignmentService()->isDeliveryExecutionAllowed($this->getId(), $testTaker);
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getRuntime()
+     * @deprecated
      */
     public function getRuntime()
     {
@@ -78,7 +76,7 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
     /**
      * @return AssignmentService
      */
-    public function getAssignmentService()
+    protected function getAssignmentService()
     {
         return ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID);
     }
