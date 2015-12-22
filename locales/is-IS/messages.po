@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-21T16:18:58\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:33:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -20,7 +20,7 @@ msgid "%s test-taker(s) are excluded."
 msgstr ""
 
 msgid "Add the source file."
-msgstr ""
+msgstr "Bæta grunnskránni við."
 
 msgid "All rights reserved."
 msgstr ""
@@ -53,13 +53,16 @@ msgid "Available from %s"
 msgstr ""
 
 msgid "Cancel"
+msgstr "Hætta við"
+
+msgid "Close this prompt"
 msgstr ""
 
 msgid "Create a new delivery"
 msgstr ""
 
 msgid "Create a test"
-msgstr ""
+msgstr "Búa til próf"
 
 #, tao-public
 msgid "Delete"
@@ -80,29 +83,32 @@ msgid "Delivery is assigned to %s test-takers."
 msgstr ""
 
 msgid "Delivery is not assigned to any test-taker."
-msgstr ""
+msgstr "Úthlutun er ekki skráð á neinn próftaka."
 
 msgid "Delivery of %s"
 msgstr ""
 
 msgid "Delivery saved"
-msgstr ""
+msgstr "Úthlutun vistuð"
 
 msgid "Enables you to export a published delivery"
+msgstr "Gerir kleift að flytja út útgefna úthlutun"
+
+msgid "Enter full screen"
 msgstr ""
 
 msgid "Excluded test-takers"
-msgstr ""
+msgstr "Útilokaðir próftakar"
 
 msgid "Exit"
 msgstr ""
 
 msgid "Export Options"
-msgstr ""
+msgstr "Útflutningskostir"
 
 #, tao-public
 msgid "Filter"
-msgstr ""
+msgstr "Sía"
 
 msgid "Import"
 msgstr "Flytja inn"
@@ -138,7 +144,7 @@ msgid "New delivery"
 msgstr "Ný úthlutun"
 
 msgid "No attempt has been started yet."
-msgstr ""
+msgstr "Engin tilraun hefur hafist."
 
 msgid "No information available"
 msgstr "Upplýsingar ekki fáanlegar"
@@ -161,56 +167,59 @@ msgid "Published on %2s"
 msgstr ""
 
 msgid "Resume"
-msgstr ""
+msgstr "Halda áfram"
 
 msgid "Save"
-msgstr ""
+msgstr "Vista"
 
 #, tao-public
 msgid "Search"
 msgstr ""
 
 msgid "Select the test you want to publish to the test-takers"
-msgstr ""
+msgstr "Velja prófið sem ætlað er að gefa út fyrir próftaka"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Tókst að vista valkost"
 
 msgid "Start"
-msgstr ""
+msgstr "Byrja"
 
 msgid "Started at "
-msgstr ""
+msgstr "Byrjaði á"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Taka eða halda áfram með próf."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - Opinn og Fjölhæfur Grunnur fyrir Tölvustutt Mat"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO Úthlutunarþjónn"
 
 msgid "Test-Takers"
 msgstr ""
 
 msgid "Test-takers"
-msgstr ""
+msgstr "Próftakar"
 
 msgid "There are currently %s attempts"
 msgstr ""
 
 msgid "There are currently no tests available to publish."
-msgstr ""
+msgstr "Nú eru engin próf tæk til útgáfu."
 
 msgid "There is currently 1 attempt"
+msgstr ""
+
+msgid "This test needs to be taken in full screen mode"
 msgstr ""
 
 msgid "to %s"
 msgstr ""
 
 msgid "Unkown error during impoort"
-msgstr ""
+msgstr "Óþekkt villa varð við innflutning"
 
 msgid "unlimited"
 msgstr ""
