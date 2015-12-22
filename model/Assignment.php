@@ -27,7 +27,6 @@ use oat\oatbox\user\User;
  * to determine which deliveries have been assigned to a test-taker.
  *
  * @author Open Assessment Technologies SA
- * @package taoFrontOffice
  * @license GPL-2.0
  *
  */
@@ -41,8 +40,6 @@ class Assignment {
     
     private $startable;
     
-    private $launchParams;
-    
     /**
      * Simple constructor to create a new assigment object
      * 
@@ -53,14 +50,12 @@ class Assignment {
      * @param boolean $startable
      * @param array $launchParams
      */
-    public function __construct($deliveryId, $userId, $label, $desc, $startable, $launchParams)
+    public function __construct($deliveryId, $userId, $label, $desc, $startable)
     {
         $this->deliveryId = $deliveryId;
         $this->label = $label;
         $this->desc = $desc;
         $this->startable = $startable;
-        $this->launchParams = $launchParams;
-        
     }
     
     /**
@@ -104,15 +99,4 @@ class Assignment {
     {
         return $this->startable;
     }
-    
-    /**
-     * Additional launch parameters, available from the delivery
-     * 
-     * @return array
-     */
-    public function getLaunchParameters()
-    {
-        return $this->launchParams;
-    }
-    
 }

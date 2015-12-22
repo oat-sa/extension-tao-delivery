@@ -17,22 +17,22 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-use oat\taoFrontOffice\model\Delivery;
 use oat\oatbox\user\User;
+use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\model\AssignmentService;
 
 /**
- * Delivery implementation based on the ontology
+ * Deprecated delivery implementation, replaced by Assigmnet abstraction
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
+ * @deprecated
  */
 class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resource
-    implements Delivery
 {
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getId()
+     * @deprecated
      */
     public function getId()
     {
@@ -40,8 +40,10 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
     }
     
     /**
-     * (non-PHPdoc)
      * @see core_kernel_classes_Resource::getLabel()
+     */
+    /**
+     * @deprecated
      */
     public function getLabel()
     {
@@ -49,29 +51,33 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getDescription()
+     * @deprecated
      */
-    public function getDescription()
+        public function getDescription()
     {
-        // @todo add description
-        return 'Description to follow';
+        return '';
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::isTakeable()
+     * @deprecated
      */
     public function isTakeable(User $testTaker) {
-        return taoDelivery_models_classes_DeliveryServerService::singleton()->isDeliveryExecutionAllowed($this, $testTaker);
+        return $this->getAssignmentService()->isDeliveryExecutionAllowed($this->getId(), $testTaker);
     }
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoFrontOffice\model\Delivery::getRuntime()
+     * @deprecated
      */
     public function getRuntime()
     {
-        return taoDelivery_models_classes_DeliveryAssemblyService::singleton()->getRuntime($this);
+        return $this->getAssignmentService()->getRuntime($this->getId());
+    }
+    
+    /**
+     * @return AssignmentService
+     */
+    protected function getAssignmentService()
+    {
+        return ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID);
     }
 }

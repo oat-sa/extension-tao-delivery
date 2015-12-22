@@ -19,6 +19,7 @@
  */
 
 use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
 /**
  * Service to manage the execution of deliveries
@@ -31,6 +32,18 @@ use oat\oatbox\service\ServiceManager;
 class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends core_kernel_classes_Resource 
     implements taoDelivery_models_classes_execution_DeliveryExecution
 {
+    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution';
+    
+    const PROPERTY_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery';
+    
+    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject';
+    
+    const PROPERTY_TIME_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart';
+    
+    const PROPERTY_TIME_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd';
+    
+    const PROPERTY_STATUS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution';
+    
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getIdentifier()
@@ -98,7 +111,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
-        if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
+        if ($state == DeliveryExecution::STATE_FINISHIED) {
             $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         return true;

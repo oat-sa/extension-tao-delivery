@@ -42,7 +42,7 @@ class taoDelivery_models_classes_entrypoint_GuestAccess extends Configurable imp
     }
     
     public function getUrl() {
-        return _url("guest", "DeliveryServer", "taoDelivery");
+        return _url("guest", "Guest", "taoDeliveryRdf");
     }
 
 }

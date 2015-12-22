@@ -109,8 +109,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($currentVersion == '2.9.2') {
-            $assignmentService = new \taoDelivery_models_classes_AssignmentService();
-            $this->getServiceManager()->register('taoDelivery/assignment', $assignmentService);
+            //$assignmentService = new \taoDelivery_models_classes_AssignmentService();
+            //$this->getServiceManager()->register('taoDelivery/assignment', $assignmentService);
             $currentVersion = '2.9.3';
         }
 
@@ -127,6 +127,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->getServiceManager()->register(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID, $deliveryServerService);
             $currentVersion = '2.9.4';
+        }
+
+        if ($currentVersion == '2.9.4') {
+            OntologyUpdater::syncModels();
+            $this->setVersion('3.0.0');
+            // backward compatibility hack
+            $currentVersion = null;
         }
 
         return $currentVersion;

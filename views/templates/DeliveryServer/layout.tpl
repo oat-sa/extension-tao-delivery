@@ -37,7 +37,7 @@ use oat\tao\model\theme\Theme;
                                     exitDeliveryExecution : '<?=get_data('returnUrl')?>',
                                     finishDeliveryExecution : '<?=get_data('finishUrl')?>',
                                     deliveryExecution : '<?=get_data('deliveryExecution')?>',
-                                    deliveryServerConfig : <?=get_data('deliveryServerConfig')?>
+                                    deliveryServerConfig : <?= json_encode(get_data('deliveryServerConfig')) ?>
                                 });
                             });
                     });

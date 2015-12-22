@@ -20,7 +20,7 @@
  */
 
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
-
+use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
 /**
  * Service to manage the execution of deliveries
  *
@@ -59,7 +59,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $assembly->getUri(),
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
             PROPERTY_DELVIERYEXECUTION_START => microtime(),
-            PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
+            PROPERTY_DELVIERYEXECUTION_STATUS => InterfaceDeliveryExecution::STATE_ACTIVE
         );
         $kvDe = new static($persistence, $identifier, $params);
         $kvDe->save();
@@ -161,7 +161,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             return false;
         }
         $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
-        if ($state == INSTANCE_DELIVERYEXEC_FINISHED) {
+        if ($state == InterfaceDeliveryExecution::STATE_FINISHIED) {
             $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
         }
         $this->save();
