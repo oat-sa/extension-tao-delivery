@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint12\n"
-"PO-Revision-Date: 2015-11-30T10:36:22\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-22T14:03:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -59,22 +59,22 @@ msgid "My Tests"
 msgstr "Prófin mín"
 
 msgid "Resume"
-msgstr ""
+msgstr "Halda áfram"
 
 msgid "Start"
-msgstr ""
+msgstr "Byrja"
 
 msgid "Started at "
-msgstr ""
+msgstr "Byrjaði á"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Taka eða halda áfram með próf."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - Opinn og Fjölhæfur Grunnur fyrir Tölvustutt Mat"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO Úthlutunarþjónn"
 
 msgid "TAO Guest"
 msgstr ""

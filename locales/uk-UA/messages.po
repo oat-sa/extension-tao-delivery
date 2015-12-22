@@ -4,9 +4,9 @@ msgstr ""
 "PO-Revision-Date: 2015-12-22T14:03:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: zh-TW\n"
+"Language: uk-UA\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: zh-TW\n"
+"targetLanguage: uk-UA\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -26,7 +26,7 @@ msgid "Attempt"
 msgstr ""
 
 msgid "Attempts"
-msgstr "試的次數"
+msgstr ""
 
 msgid "Available"
 msgstr ""
@@ -38,7 +38,7 @@ msgid "Close this prompt"
 msgstr ""
 
 msgid "Deliveries"
-msgstr "遞送"
+msgstr ""
 
 msgid "Enter full screen"
 msgstr ""
@@ -53,28 +53,28 @@ msgid "In progress"
 msgstr ""
 
 msgid "Logout"
-msgstr "登出"
+msgstr ""
 
 msgid "My Tests"
-msgstr "我的考試"
+msgstr ""
 
 msgid "Resume"
-msgstr "繼續"
+msgstr ""
 
 msgid "Start"
-msgstr "開始"
+msgstr ""
 
 msgid "Started at "
-msgstr "開始於："
+msgstr ""
 
 msgid "Take or continue a test."
-msgstr "開始或繼續參加一個考試。"
+msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO：一個開放和有彈性的電腦考試平台"
+msgstr ""
 
 msgid "TAO Delivery Server"
-msgstr "TAO 遞送服務器"
+msgstr ""
 
 msgid "TAO Guest"
 msgstr ""
