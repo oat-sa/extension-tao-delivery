@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T14:03:33\n"
+"PO-Revision-Date: 2015-12-23T13:08:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -13,32 +13,17 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid "%s of %s"
-msgstr ""
-
 msgid "Access deliveries as a guest"
 msgstr ""
 
 msgid "All rights reserved."
 msgstr ""
 
-msgid "Attempt"
-msgstr ""
-
-msgid "Attempts"
-msgstr "試的次數"
-
 msgid "Available"
-msgstr ""
-
-msgid "Available from %s"
 msgstr ""
 
 msgid "Close this prompt"
 msgstr ""
-
-msgid "Deliveries"
-msgstr "遞送"
 
 msgid "Enter full screen"
 msgstr ""
@@ -64,8 +49,8 @@ msgstr "繼續"
 msgid "Start"
 msgstr "開始"
 
-msgid "Started at "
-msgstr "開始於："
+msgid "Started at %s"
+msgstr ""
 
 msgid "Take or continue a test."
 msgstr "開始或繼續參加一個考試。"
@@ -76,9 +61,6 @@ msgstr "TAO：一個開放和有彈性的電腦考試平台"
 msgid "TAO Delivery Server"
 msgstr "TAO 遞送服務器"
 
-msgid "TAO Guest"
-msgstr ""
-
 msgid "TAO Guest Access"
 msgstr ""
 
@@ -88,12 +70,6 @@ msgstr ""
 msgid "This test needs to be taken in full screen mode"
 msgstr ""
 
-msgid "to %s"
-msgstr ""
-
-msgid "unlimited"
-msgstr ""
-
-msgid "You are no longer allowed to take the test %s"
+msgid "You are no longer allowed to take this test"
 msgstr ""
 
