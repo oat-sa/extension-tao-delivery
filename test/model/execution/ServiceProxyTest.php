@@ -146,16 +146,19 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testInitDeliveryExecution()
     {
         $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-
+        
+        $deProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\DeliveryExecution');
+        $deliveryExecution = $deProphecy->reveal();
+        
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $res = $resource->reveal();
-        $serviceProphecy->initDeliveryExecution($res,'#UserUri')->willReturn(true);
+        $serviceProphecy->initDeliveryExecution($res,'#UserUri')->willReturn($deliveryExecution);
 
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
 
         $return =  taoDelivery_models_classes_execution_ServiceProxy::singleton()->initDeliveryExecution($res,'#UserUri');
-        $this->assertTrue($return);
+        $this->assertEquals($deliveryExecution, $return);
     }
     /**
      *

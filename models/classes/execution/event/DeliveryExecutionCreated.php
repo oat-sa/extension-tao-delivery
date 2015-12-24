@@ -22,7 +22,7 @@
 namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\oatbox\event\Event;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 /**
  * Event triggered whenever a new delivery execution is initialised
  * 
