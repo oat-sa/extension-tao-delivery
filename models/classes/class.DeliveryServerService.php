@@ -20,6 +20,9 @@
 
 use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Service to manage the execution of deliveries
@@ -28,29 +31,27 @@ use oat\oatbox\user\User;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_DeliveryServerService extends tao_models_classes_GenerisService
+class taoDelivery_models_classes_DeliveryServerService extends ConfigurableService
 {
+    const CONFIG_ID = 'taoDelivery/deliveryServer';
+
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get(self::CONFIG_ID);
+    }
+
     /**
      * Get resumable (active) deliveries.
      * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
      * @return type
      */
-    public function getResumableDeliveries($user = null)
+    public function getResumableDeliveries(User $user)
     {
         $deliveryExecutionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
-        if ($user === null) {
-            $executionClass = new core_kernel_classes_Class(CLASS_DELVIERYEXECUTION);
-            $resources = $executionClass->searchInstances(array(
-                PROPERTY_DELVIERYEXECUTION_STATUS => INSTANCE_DELIVERYEXEC_ACTIVE
-            ), array(
-                'like' => false
-            ));
-            $started = array_map(function ($resource) use($deliveryExecutionService) {
-                return $deliveryExecutionService->getDeliveryExecution($resource);
-            }, $resources);
-        } else {
-            $started = $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier());
-        }
+            $started = array_merge(
+                $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier()),
+                $deliveryExecutionService->getPausedDeliveryExecutions($user->getIdentifier())
+            );
         
         $resumable = array();
         foreach ($started as $deliveryExecution) {
@@ -61,71 +62,7 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
         }
         return $resumable;
     }
-    
-    public function getDeliverySettings(core_kernel_classes_Resource $delivery){
-        $deliveryProps = $delivery->getPropertiesValues(array(
-            new core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP),
-            new core_kernel_classes_Property(TAO_DELIVERY_START_PROP),
-            new core_kernel_classes_Property(TAO_DELIVERY_END_PROP),
-        ));
-        
-        $propMaxExec = current($deliveryProps[TAO_DELIVERY_MAXEXEC_PROP]);
-        $propStartExec = current($deliveryProps[TAO_DELIVERY_START_PROP]);
-        $propEndExec = current($deliveryProps[TAO_DELIVERY_END_PROP]);
 
-        $settings[TAO_DELIVERY_MAXEXEC_PROP] = (!(is_object($propMaxExec)) or ($propMaxExec=="")) ? 0 : $propMaxExec->literal;
-        $settings[TAO_DELIVERY_START_PROP] = (!(is_object($propStartExec)) or ($propStartExec=="")) ? null : $propStartExec->literal;
-        $settings[TAO_DELIVERY_END_PROP] = (!(is_object($propEndExec)) or ($propEndExec=="")) ? null : $propEndExec->literal;
-
-        return $settings;
-    }
-
-    public function isDeliveryExecutionAllowed(core_kernel_classes_Resource $delivery, User $user){
-
-        $userUri = $user->getIdentifier();
-        if (is_null($delivery)) {
-            common_Logger::w("Attempt to start the compiled delivery ".$delivery->getUri(). " related to no delivery");
-            return false;
-        }
-        
-        //first check the user is assigned
-        if(!taoDelivery_models_classes_AssignmentService::singleton()->isUserAssigned($delivery, $user)){
-            common_Logger::w("User ".$userUri." attempts to start the compiled delivery ".$delivery->getUri(). " he was not assigned to.");
-            return false;
-        }
-        
-        $settings = $this->getDeliverySettings($delivery);
-
-        //check Tokens
-        $usedTokens = count(taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $userUri));
-        
-        if (($settings[TAO_DELIVERY_MAXEXEC_PROP] !=0 ) and ($usedTokens >= $settings[TAO_DELIVERY_MAXEXEC_PROP])) {
-            common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). "without tokens");
-            return false;
-        }
-
-        //check time
-        $startDate  =    date_create('@'.$settings[TAO_DELIVERY_START_PROP]);
-        $endDate    =    date_create('@'.$settings[TAO_DELIVERY_END_PROP]);
-        if (!$this->areWeInRange($startDate, $endDate)) {
-            common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). " at the wrong date");
-            return false;
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Check if the date are in range
-     * @param type $startDate
-     * @param type $endDate
-     * @return boolean true if in range
-     */
-    private function areWeInRange($startDate, $endDate){
-        return (empty($startDate) || date_create() >= $startDate)
-            && (empty($endDate) || date_create() <= $endDate);
-    }
-    
     /**
      * initalize the resultserver for a given execution
      * @param core_kernel_classes_resource processExecution
@@ -153,12 +90,11 @@ class taoDelivery_models_classes_DeliveryServerService extends tao_models_classe
          //a unique identifier for the delivery
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
     }
+    
+    public function getJsConfig($compiledDelivery){
+        return array(
+            'requireFullScreen' => $this->getOption('requireFullScreen')
+        );
+    }
 
-    public function getAssembliesByGroup(core_kernel_classes_Resource $group) {
-        $returnValue = array();
-        foreach ($group->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $groupUri) {
-            $returnValue[] = new core_kernel_classes_Resource($groupUri);
-        }
-        return $returnValue;
-    }    
 }

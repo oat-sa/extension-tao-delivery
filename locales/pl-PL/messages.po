@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint04\n"
-"PO-Revision-Date: 2015-08-13T13:40:13\n"
+"Project-Id-Version: TAO 3.1.0-sprint15\n"
+"PO-Revision-Date: 2015-12-23T13:08:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pl-PL\n"
@@ -13,179 +13,43 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid "%s of %s"
-msgstr ""
-
-msgid "%s test-taker(s) are excluded."
-msgstr ""
-
-msgid "Add the source file."
+msgid "Access deliveries as a guest"
 msgstr ""
 
 msgid "All rights reserved."
 msgstr ""
 
-msgid "An error occured during the import"
-msgstr ""
-
-msgid "Assembly"
-msgstr ""
-
-msgid "Assembly import"
-msgstr ""
-
-msgid "Assigned test-takers"
-msgstr ""
-
-msgid "Assigned to"
-msgstr ""
-
-msgid "Attempt"
-msgstr ""
-
-msgid "Attempts"
-msgstr ""
-
 msgid "Available"
-msgstr ""
-
-msgid "Available from %s"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "Close this prompt"
 msgstr ""
 
-msgid "Create a new delivery"
-msgstr ""
-
-msgid "Create a test"
-msgstr ""
-
-#, tao-public
-msgid "Delete"
-msgstr ""
-
-#, tao-public
-msgid "Deliveries"
-msgstr ""
-
-#, tao-public
-msgid "Deliveries library"
-msgstr ""
-
-msgid "Delivery \"%s\" successfully imported"
-msgstr ""
-
-msgid "Delivery is assigned to %s test-takers."
-msgstr ""
-
-msgid "Delivery is not assigned to any test-taker."
-msgstr ""
-
-msgid "Delivery of %s"
-msgstr ""
-
-msgid "Delivery saved"
-msgstr ""
-
-msgid "Enables you to export a published delivery"
-msgstr ""
-
 msgid "Enter full screen"
-msgstr ""
-
-msgid "Excluded test-takers"
 msgstr ""
 
 msgid "Exit"
 msgstr ""
 
-msgid "Export Options"
-msgstr ""
-
-#, tao-public
-msgid "Filter"
-msgstr ""
-
-msgid "Import"
+msgid "Guest access"
 msgstr ""
 
 msgid "In progress"
 msgstr ""
 
-msgid "Items"
-msgstr ""
-
 msgid "Logout"
-msgstr ""
-
-msgid "Manifest not found in assembly"
-msgstr ""
-
-msgid "More"
-msgstr ""
-
-#, tao-public
-msgid "Move"
 msgstr ""
 
 msgid "My Tests"
 msgstr ""
 
-#, tao-public
-msgid "New class"
-msgstr ""
-
-#, tao-public
-msgid "New delivery"
-msgstr ""
-
-msgid "No attempt has been started yet."
-msgstr ""
-
-msgid "No information available"
-msgstr ""
-
-msgid "Please upload a published delivery assembly ."
-msgstr ""
-
-#, tao-public
-msgid "Prepare, publish deliveries sessions."
-msgstr ""
-
-#, tao-public
-msgid "Properties"
-msgstr ""
-
-msgid "Publish"
-msgstr ""
-
-msgid "Published on %2s"
-msgstr ""
-
 msgid "Resume"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-#, tao-public
-msgid "Search"
-msgstr ""
-
-msgid "Select the test you want to publish to the test-takers"
-msgstr ""
-
-msgid "Selection saved successfully"
 msgstr ""
 
 msgid "Start"
 msgstr ""
 
-msgid "Started at "
+msgid "Started at %s"
 msgstr ""
 
 msgid "Take or continue a test."
@@ -197,36 +61,15 @@ msgstr ""
 msgid "TAO Delivery Server"
 msgstr ""
 
+msgid "TAO Guest Access"
+msgstr ""
+
 msgid "Test-Takers"
-msgstr ""
-
-msgid "Test-takers"
-msgstr ""
-
-msgid "There are currently %s attempts"
-msgstr ""
-
-msgid "There are currently no tests available to publish."
-msgstr ""
-
-msgid "There is currently 1 attempt"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
 msgstr ""
 
-msgid "to %s"
-msgstr ""
-
-msgid "Unkown error during impoort"
-msgstr ""
-
-msgid "unlimited"
-msgstr ""
-
-msgid "Upload an assembly"
-msgstr ""
-
-msgid "You are no longer allowed to take the test %s"
+msgid "You are no longer allowed to take this test"
 msgstr ""
 

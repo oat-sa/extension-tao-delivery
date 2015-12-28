@@ -18,6 +18,11 @@
  *
  */
 
+use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\event\EventManager;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -75,7 +80,16 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getActiveDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_ACTIVE);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_ACTIVE);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see taoDelivery_models_classes_execution_Service::getPausedDeliveryExecutions()
+     */
+    public function getPausedDeliveryExecutions($userUri)
+    {
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_PAUSED);
     }
 
     /**
@@ -84,7 +98,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function getFinishedDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, INSTANCE_DELIVERYEXEC_FINISHED);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_FINISHIED);
     }
 
     /**
@@ -93,7 +107,10 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
-        return $this->getImplementation()->initDeliveryExecution($assembly, $userUri);
+        $deliveryExecution = $this->getImplementation()->initDeliveryExecution($assembly, $userUri);
+        $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+        $eventManager->trigger(new DeliveryExecutionCreated($deliveryExecution));
+        return $deliveryExecution;
     }
 
 

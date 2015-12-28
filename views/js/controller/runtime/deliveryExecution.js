@@ -18,13 +18,13 @@
  *
  */
 define([
+    'lodash',
     'jquery',
-    'iframeResizer',
-    'context',
+    'helpers',
     'taoDelivery/controller/runtime/fullScreen',
-    'layout/loading-bar'
-], function($, iframeResizer, context, fullScreen, loadingBar){
-
+    'layout/loading-bar',
+    'ui/dialog/alert'
+], function(_, $, helpers, fullScreen, loadingBar, dialogAlert){
     'use strict';
 
     var $frameContainer,
@@ -32,10 +32,25 @@ define([
         $headerHeight,
         $footerHeight;
 
+    /**
+     * Forces a browser repaint
+     * Solution from http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?answertab=votes#tab-top
+     * @param {jQuery} $target
+     */
+    var forceRepaint = function($target) {
+        var sel = $target[0];
+        if (sel) {
+            sel.style.display = 'none';
+            sel.offsetHeight; // no need to store this anywhere, the reference is enough
+            sel.style.display = '';
+        }
+    };
+
     function resizeMainFrame() {
         var height = $(window).outerHeight() - $headerHeight - $footerHeight;
         $frameContainer.height(height);
         $frame.height(height);
+        forceRepaint($frameContainer);
     }
 
     return {
@@ -51,7 +66,7 @@ define([
             $footerHeight = $('body > footer').outerHeight() || 0;
 
             $(document).on('serviceforbidden', function() {
-                window.location = context.root_url + 'tao/Main/logout';
+                window.location = helpers._url('logout', 'Main', 'tao');
             });
 
             var serviceApi = options.serviceApi;
@@ -68,6 +83,8 @@ define([
                         window.location = data.destination;
                     }
                 });
+            }).onExit(function() {
+                window.location = options.exitDeliveryExecution;
             });
 
             $(document)
@@ -79,6 +96,11 @@ define([
                         loadingBar.stop();
                     }, 300);
                 })
+                .on('messagealert', function(e, data) {
+                    if (data) {
+                        dialogAlert(data.message, data.action);
+                    }
+                })
                 .on('shutdown-com', function(){
                     //use when we want to stop all exchange between frames
                     $(document).off('heightchange');
@@ -88,9 +110,9 @@ define([
 
             serviceApi.loadInto($frame.get(0));
 
-            $(window).bind('resize', function() {
+            $(window).on('resize', _.throttle(function() {
                 resizeMainFrame();
-            });
+            }, 250));
 
             resizeMainFrame();
         }

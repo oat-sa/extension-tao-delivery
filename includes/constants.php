@@ -23,30 +23,9 @@
 //define specific constants to delivery extension:
 $todefine = array(
     
-	'TAO_DELIVERY_EXCLUDEDSUBJECTS_PROP'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects',
-    'TAO_DELIVERY_RESULTSERVER_PROP'	   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',
-    'TAO_DELIVERY_MAXEXEC_PROP'            => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec',
-	'TAO_DELIVERY_START_PROP'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart',
-	'TAO_DELIVERY_END_PROP'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd',
-
-    //
-    'CLASS_COMPILEDDELIVERY'               => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
-    'PROPERTY_COMPILEDDELIVERY_DELIVERY'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryDelivery',
-    'PROPERTY_COMPILEDDELIVERY_TIME'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime',
-    'PROPERTY_COMPILEDDELIVERY_RUNTIME'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime',
-    'PROPERTY_COMPILEDDELIVERY_DIRECTORY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory',
-
-    'CLASS_DELVIERYEXECUTION'              => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution',
     'PROPERTY_DELVIERYEXECUTION_DELIVERY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery',
     'PROPERTY_DELVIERYEXECUTION_SUBJECT'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject',
     'PROPERTY_DELVIERYEXECUTION_START'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart',
     'PROPERTY_DELVIERYEXECUTION_END'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd',
     'PROPERTY_DELVIERYEXECUTION_STATUS'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution',
-    
-    'INSTANCE_DELIVERYEXEC_ACTIVE'         => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive',
-    'INSTANCE_DELIVERYEXEC_FINISHED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished',
-    'INSTANCE_DELIVERYEXEC_ABANDONED'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned',
-    
-    'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
-
 );

@@ -27,34 +27,25 @@ return array(
 	'label' => 'Delivery core extension',
 	'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '2.9',
+    'version' => '3.0.0',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'taoTests' => '>=2.6',
         'taoGroups' => '>=2.6.1',
         'taoResultServer' => '>=2.6'
     ),
-	'models' => array(
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf'
-	),
 	'install' => array(
-		'rdf' => array(
-				dirname(__FILE__). '/models/ontology/taodelivery.rdf'
-		),
 	    'php' => array(
-            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php'
+            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
         )
 	),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
-	'managementRole' => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole',
     'acl' => array(
-        array('grant', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole', array('ext'=>'taoDelivery', 'mod' => 'Delivery')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
     ),
-	'optimizableClasses' => array(
-	    'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
-		'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution'
-	),
+    'routes' => array(
+        '/taoDelivery' => 'oat\\taoDelivery\\controller'
+    ),
 	'constants' => array(
 		# actions directory
 		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,

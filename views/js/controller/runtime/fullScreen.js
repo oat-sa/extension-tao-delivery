@@ -23,11 +23,12 @@
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'ui/feedback',
     'ui/modal',
     'tpl!taoDelivery/tpl/fullscreen-modal-feedback'
-], function ($, __, feedback, modal, dialogTpl) {
+], function ($, _, __, feedback, modal, dialogTpl) {
     'use strict';
 
     var $dialog;
@@ -35,18 +36,21 @@ define([
     var d = document;
     var dElem = d.documentElement;
 
-    var fs = (function() {
-       var _fs = {
-                isSupported: (!!d.exitFullscreen ||
-                    !!d.msExitFullscreen ||
-                    !!d.mozCancelFullScreen ||
-                    !!d.webkitExitFullscreen),
-                requestFullscreen: (dElem.requestFullscreen ||
+    var fs = {
+        changeInterval: null,
+
+        isSupported: !!(d.exitFullscreen ||
+                        d.msExitFullscreen ||
+                        d.mozCancelFullScreen ||
+                        d.webkitExitFullscreen),
+
+        requestFullscreen: dElem.requestFullscreen ||
                     dElem.msRequestFullscreen ||
                     dElem.mozRequestFullScreen ||
-                    (function() {
+                    function() {
                         dElem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                    })),
+                    },
+
                 fullscreenchange: (function() {
                     var prefixes = ['', 'ms', 'moz', 'webkit'],
                         i = prefixes.length;
@@ -57,35 +61,25 @@ define([
                     }
                     return 'myfullscreenchange';
                 }()),
-                fullScreen: function() {
-                    return ((document.fullscreenElement && document.fullscreenElement !== null) ||
-                        document.mozFullScreen ||
-                        document.webkitIsFullScreen ||
-                        (screen.availHeight || screen.height - 30) <= window.innerHeight);
-                }
-            };
 
-        _fs.changeInterval = null;
+        fullScreen: function() {
+            return !!(d.fullscreenElement || d.mozFullScreen || d.webkitIsFullScreen ||
+                        (screen.availHeight || screen.height - 30) <= window.innerHeight);
+        },
 
         // on older browsers wait for a full screen change to happen
         // and fire the change event manually
-        _fs.awaitFsChange = function() {
-            var event = document.createEvent('Event');
-            event.initEvent(_fs.fullscreenchange, true, true);
-            _fs.changeInterval = setInterval(function() {
-                if(!_fs.fullScreen()) {
-                    document.dispatchEvent(event);
+        awaitFsChange : function() {
+            var event = d.createEvent('Event');
+            event.initEvent(fs.fullscreenchange, true, true);
+            clearInterval(fs.changeInterval);
+            fs.changeInterval = setInterval(function() {
+                if(!fs.fullScreen()) {
+                    d.dispatchEvent(event);
                 }
             }, 2000);
-        };
-        
-        if(!_fs.isSupported) {
-            _fs.awaitFsChange();
         }
-
-        return _fs;
-    }());
-
+    };
 
     /**
      * React to user input on the prompt which is either
@@ -113,6 +107,18 @@ define([
         $dialog.modal('close');
     };
 
+    /**
+     * Triggers a resize
+     */
+    var triggerResize = (function() {
+        return _.throttle(function() {
+            var frame = document.getElementById('iframeDeliveryExec');
+            var frameWindow = frame && frame.contentWindow;
+            var frame$ = frameWindow && frameWindow.$;
+            var $win = frame$ && frame$(frameWindow) || $(window);
+            $win.trigger('resize');
+        }, 250);
+    })();
 
     /**
      * Initialize full screen
@@ -126,8 +132,13 @@ define([
             if(!fs.fullScreen()) {
                 dElem.className = dElem.className.replace(/\bfullscreen\b/, '');
                 $dialog.modal('open');
+            } else {
+                triggerResize();
             }
         });
+        if (!fs.isSupported) {
+            fs.awaitFsChange();
+        }
 
         modal($body);
         $dialog = $(dialogTpl({
@@ -151,13 +162,17 @@ define([
         });
 
         $dialog.on('closed.modal', function() {
-            fs.awaitFsChange();
+            if (!fs.isSupported) {
+                fs.awaitFsChange();
+                triggerResize();
+            }
         });
 
         $body.append($dialog);
         
         $dialog.modal({
             width: 500,
+            animate: false,
             disableClosing: true,
             startClosed: true
         });
