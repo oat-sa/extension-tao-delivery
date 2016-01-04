@@ -6,17 +6,10 @@ use oat\tao\helpers\Template;
     (function() {
         requirejs.config({waitSeconds: <?=get_data('client_timeout')?>});
         require(['<?=get_data('client_config_url')?>'], function () {
-            require([
-                'taoDelivery/controller/runtime/legacy/deliveryExecution',
-                'serviceApi/ServiceApi',
-                'serviceApi/StateStorage',
-                'serviceApi/UserInfoService'
-            ],
-            function(deliveryExecution, ServiceApi, StateStorage, UserInfoService, ui) {
+            require(['taoDelivery/controller/runtime/runner/deliveryExecution'], function(deliveryExecution) {
                 deliveryExecution.start({
-                    serviceApi: <?=get_data('serviceApi')?>,
-                    exitDeliveryExecution: '<?=get_data('returnUrl')?>',
-                    finishDeliveryExecution: '<?=get_data('finishUrl')?>',
+                    exitUrl: '<?=get_data('returnUrl')?>',
+                    finishUrl: '<?=get_data('finishUrl')?>',
                     deliveryExecution: '<?=get_data('deliveryExecution')?>',
                     deliveryServerConfig: <?= json_encode(get_data('deliveryServerConfig')) ?>
                 });
