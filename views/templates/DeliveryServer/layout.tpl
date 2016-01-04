@@ -18,32 +18,10 @@ use oat\tao\model\theme\Theme;
 
         <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 
-        <?php if(get_data('jsBlock') === 'runtime') : ?>
-            <script src="<?= Template::js('lib/require.js', 'tao')?>"></script>
-            <script>
-                (function(){
-                    requirejs.config({waitSeconds : <?=get_data('client_timeout')?>});
-                    require(['<?=get_data('client_config_url')?>'], function(){
-                        require([
-                            'taoDelivery/controller/runtime/deliveryExecution',
-                            'serviceApi/ServiceApi',
-                            'serviceApi/StateStorage',
-                            'serviceApi/UserInfoService'
-                        ],
-                            function(deliveryExecution, ServiceApi, StateStorage, UserInfoService, ui){
-
-                                deliveryExecution.start({
-                                    serviceApi : <?=get_data('serviceApi')?>,
-                                    exitDeliveryExecution : '<?=get_data('returnUrl')?>',
-                                    finishDeliveryExecution : '<?=get_data('finishUrl')?>',
-                                    deliveryExecution : '<?=get_data('deliveryExecution')?>',
-                                    deliveryServerConfig : <?= json_encode(get_data('deliveryServerConfig')) ?>
-                                });
-                            });
-                    });
-                }());
-            </script>
-        <?php endif; ?>
+        <?php if (get_data('jsBlock') === 'runtime') {
+            /* test runner adapter content */
+            Template::inc(get_data('content-adapter'), get_data('content-extension'));
+        }?>
     </head>
     <body class="delivery-scope">
 

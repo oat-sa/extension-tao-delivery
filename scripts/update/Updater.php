@@ -135,6 +135,17 @@ class Updater extends \common_ext_ExtensionUpdater {
             // backward compatibility hack
             $currentVersion = null;
         }
+        
+        if ($this->isVersion('3.0.0')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+            $config = $extension->getConfig('deliveryServer');
+            $config->setOption('testRunnerAdapter', 'oat\\taoDelivery\\adapter\\TestRunnerLegacyAdapter');
+            $extension->setConfig('deliveryServer', $config);
+            
+            $this->setVersion('3.1.0');
+            // backward compatibility hack
+            $currentVersion = null;
+        }
 
         return $currentVersion;
     }

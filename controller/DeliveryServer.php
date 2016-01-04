@@ -22,6 +22,7 @@
 namespace oat\taoDelivery\controller;
 
 use oat\oatbox\user\User;
+use oat\taoDelivery\adapter\TestRunnerLegacyAdapter;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use taoDelivery_models_classes_DeliveryServerService;
@@ -165,10 +166,8 @@ class DeliveryServer extends \tao_actions_CommonModule
 	     * @deprecated js parameters
 	     */
         $this->setData('jsBlock', 'runtime');
-        $runtime = $this->getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
-	    $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
 		$this->setData('returnUrl', $this->getReturnUrl());
-		$this->setData('finishUrl', _url('finishDeliveryExecution'));
+		$this->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
 		$this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
 		$this->setData('deliveryServerConfig', $this->service->getJsConfig($delivery));
 		
@@ -177,13 +176,20 @@ class DeliveryServer extends \tao_actions_CommonModule
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
-        
+        $this->setData('content-extension', 'taoDelivery');
+
+        /**
+         * Use test runner adapter
+         */
+        $adapterClass = $this->service->getOption('testRunnerAdapter');
+        $adapter = new $adapterClass();
+        foreach($adapter->run($deliveryExecution) as $key => $value) {
+            $this->setData($key, $value);
+        }
 
         /**
          * Layout template + real template inclusion
          */
-        $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
-        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
@@ -236,6 +242,16 @@ class DeliveryServer extends \tao_actions_CommonModule
 	protected function getReturnUrl()
 	{
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
+	}
+    
+    /**
+     * Defines the URL of the finish delivery execution action
+     * 
+     * @return string
+     */
+	protected function getfinishDeliveryExecutionUrl()
+	{
+	    return _url('finishDeliveryExecution');
 	}
 
     public function logout()
