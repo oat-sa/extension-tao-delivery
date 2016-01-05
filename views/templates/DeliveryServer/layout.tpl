@@ -19,8 +19,8 @@ use oat\tao\model\theme\Theme;
         <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 
         <?php if (get_data('jsBlock') === 'runtime') {
-            /* test runner adapter content */
-            Template::inc(get_data('content-adapter'), get_data('content-extension'));
+            /* delivery content loader */
+            Template::inc(get_data('content-loader'), get_data('content-extension'));
         }?>
     </head>
     <body class="delivery-scope">

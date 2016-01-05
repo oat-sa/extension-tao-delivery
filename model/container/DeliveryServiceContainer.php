@@ -36,7 +36,7 @@ class DeliveryServiceContainer implements DeliveryContainer
 
         return [
             'serviceApi' => \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()),
-            'content-adapter' => 'DeliveryServer/container/service/adapter.tpl',
+            'content-loader' => 'DeliveryServer/container/service/loader.tpl',
             'content-template' => 'DeliveryServer/container/service/template.tpl',
         ];
     }

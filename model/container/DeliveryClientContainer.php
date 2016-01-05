@@ -30,7 +30,7 @@ class DeliveryClientContainer implements DeliveryContainer
     public function run(DeliveryExecution $deliveryExecution)
     {
         return [
-            'content-adapter' => 'DeliveryServer/container/client/adapter.tpl',
+            'content-loader' => 'DeliveryServer/container/client/loader.tpl',
             'content-template' => 'DeliveryServer/container/client/template.tpl',
         ];
     }
