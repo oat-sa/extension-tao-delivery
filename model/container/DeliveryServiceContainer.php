@@ -17,26 +17,27 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoDelivery\adapter;
+namespace oat\taoDelivery\model\container;
 
 use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\AssignmentService;
-use oat\taoDelivery\model\TestRunnerAdapterInterface;
+use oat\taoDelivery\model\DeliveryContainer;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
-class TestRunnerLegacyAdapter implements TestRunnerAdapterInterface
+class DeliveryServiceContainer implements DeliveryContainer
 {
     /**
      * @inheritDoc
      */
-    public function run(\taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
+    public function run(DeliveryExecution $deliveryExecution)
     {
         $delivery = $deliveryExecution->getDelivery();
         $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
 
         return [
             'serviceApi' => \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()),
-            'content-adapter' => 'DeliveryServer/adapter/legacy/adapter.tpl',
-            'content-template' => 'DeliveryServer/adapter/legacy/template.tpl',
+            'content-adapter' => 'DeliveryServer/container/service/adapter.tpl',
+            'content-template' => 'DeliveryServer/container/service/template.tpl',
         ];
     }
 }

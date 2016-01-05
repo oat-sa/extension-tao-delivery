@@ -7,7 +7,7 @@ use oat\tao\helpers\Template;
         requirejs.config({waitSeconds: <?=get_data('client_timeout')?>});
         require(['<?=get_data('client_config_url')?>'], function () {
             require([
-                'taoDelivery/controller/runtime/legacy/deliveryExecution',
+                'taoDelivery/controller/runtime/service/deliveryExecution',
                 'serviceApi/ServiceApi',
                 'serviceApi/StateStorage',
                 'serviceApi/UserInfoService'

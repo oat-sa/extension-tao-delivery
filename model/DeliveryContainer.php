@@ -17,20 +17,16 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoDelivery\adapter;
+namespace oat\taoDelivery\model;
 
-use oat\taoDelivery\model\TestRunnerAdapterInterface;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
-class TestRunnerAdapter implements TestRunnerAdapterInterface
+interface DeliveryContainer
 {
     /**
-     * @inheritDoc
+     * Runs the adapter and gets the data to provide to the template
+     * @param DeliveryExecution $deliveryExecution
+     * @return array
      */
-    public function run(\taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
-    {
-        return [
-            'content-adapter' => 'DeliveryServer/adapter/runner/adapter.tpl',
-            'content-template' => 'DeliveryServer/adapter/runner/template.tpl',
-        ];
-    }
+    public function run(DeliveryExecution $deliveryExecution);
 }

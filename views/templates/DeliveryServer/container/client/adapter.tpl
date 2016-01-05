@@ -6,7 +6,7 @@ use oat\tao\helpers\Template;
     (function() {
         requirejs.config({waitSeconds: <?=get_data('client_timeout')?>});
         require(['<?=get_data('client_config_url')?>'], function () {
-            require(['taoDelivery/controller/runtime/runner/deliveryExecution'], function(deliveryExecution) {
+            require(['taoDelivery/controller/runtime/client/deliveryExecution'], function(deliveryExecution) {
                 deliveryExecution.start({
                     exitUrl: '<?=get_data('returnUrl')?>',
                     finishUrl: '<?=get_data('finishUrl')?>',

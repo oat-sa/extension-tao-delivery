@@ -21,7 +21,7 @@ define([
     'lodash',
     'jquery',
     'helpers',
-    'taoDelivery/controller/runtime/legacy/fullScreen',
+    'taoDelivery/controller/runtime/service/fullScreen',
     'layout/loading-bar',
     'ui/dialog/alert'
 ], function(_, $, helpers, fullScreen, loadingBar, dialogAlert){

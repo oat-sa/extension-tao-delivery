@@ -21,8 +21,6 @@
  */
 namespace oat\taoDelivery\controller;
 
-use oat\oatbox\user\User;
-use oat\taoDelivery\adapter\TestRunnerLegacyAdapter;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use taoDelivery_models_classes_DeliveryServerService;
@@ -179,11 +177,11 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->setData('content-extension', 'taoDelivery');
 
         /**
-         * Use test runner adapter
+         * Use particular delivery container
          */
-        $adapterClass = $this->service->getOption('testRunnerAdapter');
-        $adapter = new $adapterClass();
-        foreach($adapter->run($deliveryExecution) as $key => $value) {
+        $containerClass = $this->service->getOption('deliveryContainer');
+        $container = new $containerClass();
+        foreach($container->run($deliveryExecution) as $key => $value) {
             $this->setData($key, $value);
         }
 

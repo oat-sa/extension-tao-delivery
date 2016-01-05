@@ -7,8 +7,8 @@ return new taoDelivery_models_classes_DeliveryServerService(array(
     'requireFullScreen' => false,
 
     /**
-     * The class name of the Test Runner Adapter
+     * The class name of the Delivery Container
      * @type string
      */
-    'testRunnerAdapter' => 'oat\\taoDelivery\\adapter\\TestRunnerLegacyAdapter',
+    'deliveryContainer' => 'oat\\taoDelivery\\model\\container\\DeliveryServiceContainer',
 ));
