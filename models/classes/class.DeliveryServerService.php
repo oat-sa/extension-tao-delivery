@@ -98,7 +98,7 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
 
     /**
      * @param DeliveryExecution $deliveryExecution
-     * @return \oat\taoDelivery\helper\DeliveryContainer
+     * @return \oat\taoDelivery\model\DeliveryContainer
      * @throws common_Exception
      */
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
@@ -106,8 +106,8 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
         $containerClass = $this->getOption('deliveryContainer');
         $container =  new $containerClass($deliveryExecution);
 
-        if (!($container instanceof \oat\taoDelivery\helper\DeliveryContainer)) {
-            throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\helper\DeliveryContainer');
+        if (!($container instanceof \oat\taoDelivery\model\DeliveryContainer)) {
+            throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\model\DeliveryContainer');
         }
 
         $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
