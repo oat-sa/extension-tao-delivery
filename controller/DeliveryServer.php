@@ -178,13 +178,13 @@ class DeliveryServer extends \tao_actions_CommonModule
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
-        $this->setData('content-template', $container->getContentTemplate());
-        $this->setData('content-extension', $container->getContentTemplateExtension());
-        $this->setData('content-loader', $container);
 
         /**
          * Layout template + real template inclusion
          */
+        $this->setData('content-template', $container->getContentTemplate());
+        $this->setData('content-extension', $container->getContentTemplateExtension());
+        $this->setData('content-loader', $container);
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	
