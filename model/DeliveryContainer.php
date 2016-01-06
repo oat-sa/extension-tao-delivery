@@ -22,11 +22,6 @@ namespace oat\taoDelivery\model;
 interface DeliveryContainer
 {
     /**
-     * @return mixed
-     */
-    public function render();
-    
-    /**
      * adds or replaces the data for a specific key
      * @param  string key
      * @param  mixed value
@@ -34,22 +29,17 @@ interface DeliveryContainer
     public function setData($key, $value);
     
     /**
-     * @return string
+     * Returns a renderer for additional header data, alowing
+     * the container to add custom JS, CSS and meta-data
+     * 
+     * @return \Renderer
      */
-    public function getContentTemplate();
-
+    public function getContainerHeader();
+    
     /**
-     * @return string
+     * Returns a renderer for the actual container body
+     * 
+     * @return \Renderer
      */
-    public function getLoaderTemplate();
-
-    /**
-     * @return string
-     */
-    public function getLoaderTemplateExtension();
-
-    /**
-     * @return string
-     */
-    public function getContentTemplateExtension();
+    public function getContainerBody();
 }

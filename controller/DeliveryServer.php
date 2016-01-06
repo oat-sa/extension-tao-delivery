@@ -165,24 +165,22 @@ class DeliveryServer extends \tao_actions_CommonModule
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
         $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
-	     
-	    /**
-	     * @deprecated js parameters
-	     */
-        $this->setData('jsBlock', 'runtime');
+        
+        $this->setData('additional-header', $container->getContainerHeader());
+        $this->setData('container-body', $container->getContainerBody());
+        
 		
 		/**
 		 * Delivery header & footer info
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
-
+        
         /**
          * Layout template + real template inclusion
          */
-        $this->setData('content-template', $container->getContentTemplate());
-        $this->setData('content-extension', $container->getContentTemplateExtension());
-        $this->setData('content-loader', $container);
+        $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
+        $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
 	

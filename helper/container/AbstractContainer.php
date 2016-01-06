@@ -20,38 +20,19 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 
-namespace oat\taoDelivery\helper;
+namespace oat\taoDelivery\helper\container;
 
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
-
-abstract class DeliveryContainer extends \Renderer implements DeliveryContainerInterface
+/**
+ * Abstract container to simplify the development of
+ * simple containers
+ */
+abstract class AbstractContainer implements DeliveryContainerInterface
 {
-    /**
-     * The path to the loader template
-     * @var string
-     */
-    protected $loaderTemplate;
+    private $data = array();
     
-    /**
-     * The path to the content template
-     * @var string
-     */
-    protected $contentTemplate;
-
-    /**
-     * The name of the extension containing the loader template
-     * @var string
-     */
-    protected $loaderTemplateExtension = 'taoDelivery';
-    
-    /**
-     * The name of the extension containing the content template
-     * @var string
-     */
-    protected $contentTemplateExtension = 'taoDelivery';
-
     /**
      * @var DeliveryExecution
      */
@@ -63,48 +44,57 @@ abstract class DeliveryContainer extends \Renderer implements DeliveryContainerI
      */
     public function __construct(DeliveryExecution $deliveryExecution)
     {
-        $tpl = Template::getTemplate($this->loaderTemplate, $this->loaderTemplateExtension);
-        parent::__construct($tpl);
-        
         $this->deliveryExecution = $deliveryExecution;
         $this->init();
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\model\DeliveryContainer::setData()
+     */
+    public function setData($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
+    
+    /**
+     * @return \Renderer
+     */
+    public function getContainerHeader()
+    {
+        $renderer = new \Renderer($this->getHeaderTemplate());
+        $renderer->setMultipleData($this->data);
+        return $renderer;
+    }
+    
+    /**
+     * @return \Renderer
+    */
+    public function getContainerBody()
+    {
+        $renderer = new \Renderer($this->getBodyTemplate());
+        $renderer->setMultipleData($this->data);
+        return $renderer;
+    }
 
+    /**
+     * Returns the path to the header template
+     * 
+     * @return string
+     */
+    protected abstract function getHeaderTemplate();
+    
+    /**
+     * Returns the path to the body template
+     * 
+     * @return string
+     */
+    protected abstract function getBodyTemplate();
+    
     /**
      * Delegated constructor
      * @return void
      */
     abstract protected function init();
 
-    /**
-     * @return string
-     */
-    public function getContentTemplate()
-    {
-        return $this->contentTemplate;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLoaderTemplate()
-    {
-        return $this->loaderTemplate;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLoaderTemplateExtension()
-    {
-        return $this->loaderTemplateExtension;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContentTemplateExtension()
-    {
-        return $this->contentTemplateExtension;
-    }
 }

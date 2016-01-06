@@ -19,11 +19,11 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\taoDelivery\helper\DeliveryContainer;
 use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\AssignmentService;
+use oat\tao\helpers\Template;
 
-class DeliveryServiceContainer extends DeliveryContainer
+class DeliveryServiceContainer extends AbstractContainer
 {
     /**
      * @inheritDoc
@@ -36,6 +36,12 @@ class DeliveryServiceContainer extends DeliveryContainer
     protected $contentTemplate = 'DeliveryServer/container/service/template.tpl';
 
     /**
+     * The name of the extension containing the loader template
+     * @var string
+     */
+    protected $loaderTemplateExtension = 'taoDelivery';
+    
+    /**
      * @inheritDoc
      */
     protected function init()
@@ -43,5 +49,23 @@ class DeliveryServiceContainer extends DeliveryContainer
         $delivery = $this->deliveryExecution->getDelivery();
         $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
         $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()
+     */
+    protected function getHeaderTemplate()
+    {
+        return Template::getTemplate($this->loaderTemplate, $this->loaderTemplateExtension);
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\helper\container\AbstractContainer::getBodyTemplate()
+     */
+    protected function getBodyTemplate()
+    {
+        return Template::getTemplate($this->contentTemplate, $this->loaderTemplateExtension);        
     }
 }
