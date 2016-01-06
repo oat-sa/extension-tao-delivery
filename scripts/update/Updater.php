@@ -129,11 +129,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.9.4';
         }
 
-        if ($currentVersion == '2.9.4') {
+        $this->setVersion($currentVersion);
+        
+        if ($this->isVersion('2.9.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('3.0.0');
-            // backward compatibility hack
-            $currentVersion = null;
         }
         
         if ($this->isVersion('3.0.0')) {
@@ -141,12 +141,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $config = $extension->getConfig('deliveryServer');
             $config->setOption('deliveryContainer', 'oat\\taoDelivery\\helper\\container\\DeliveryServiceContainer');
             $extension->setConfig('deliveryServer', $config);
-            
             $this->setVersion('3.1.0');
-            // backward compatibility hack
-            $currentVersion = null;
         }
-
-        return $currentVersion;
     }
 }
