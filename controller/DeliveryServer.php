@@ -175,6 +175,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
+        $this->setData('returnUrl', $this->getReturnUrl());
         
         /**
          * Layout template + real template inclusion

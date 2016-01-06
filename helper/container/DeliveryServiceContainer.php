@@ -39,7 +39,7 @@ class DeliveryServiceContainer extends AbstractContainer
      * The name of the extension containing the loader template
      * @var string
      */
-    protected $loaderTemplateExtension = 'taoDelivery';
+    protected $templateExtension = 'taoDelivery';
     
     /**
      * @inheritDoc
@@ -57,7 +57,7 @@ class DeliveryServiceContainer extends AbstractContainer
      */
     protected function getHeaderTemplate()
     {
-        return Template::getTemplate($this->loaderTemplate, $this->loaderTemplateExtension);
+        return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
     }
     
     /**
@@ -66,6 +66,6 @@ class DeliveryServiceContainer extends AbstractContainer
      */
     protected function getBodyTemplate()
     {
-        return Template::getTemplate($this->contentTemplate, $this->loaderTemplateExtension);        
+        return Template::getTemplate($this->contentTemplate, $this->templateExtension);        
     }
 }

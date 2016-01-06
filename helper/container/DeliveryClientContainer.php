@@ -30,18 +30,18 @@ class DeliveryClientContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
-    protected $loaderTemplate = 'DeliveryServer/container/service/loader.tpl';
+    protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
 
     /**
      * @inheritDoc
      */
-    protected $contentTemplate = 'DeliveryServer/container/service/template.tpl';
+    protected $contentTemplate = 'DeliveryServer/container/client/template.tpl';
 
     /**
      * The name of the extension containing the loader template
      * @var string
      */
-    protected $loaderTemplateExtension = 'taoDelivery';
+    protected $templateExtension = 'taoDelivery';
     
     /**
      * @inheritDoc
@@ -57,7 +57,7 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function getHeaderTemplate()
     {
-        return Template::getTemplate($this->loaderTemplate, $this->loaderTemplateExtension);
+        return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
     }
     
     /**
@@ -66,6 +66,6 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function getBodyTemplate()
     {
-        return Template::getTemplate($this->contentTemplate, $this->loaderTemplateExtension);        
+        return Template::getTemplate($this->contentTemplate, $this->templateExtension);        
     }
 }

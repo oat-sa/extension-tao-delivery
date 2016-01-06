@@ -22,9 +22,9 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
+
 /**
  * Abstract container to simplify the development of
  * simple containers
