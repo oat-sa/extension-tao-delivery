@@ -27,6 +27,13 @@ interface DeliveryContainer
     public function render();
     
     /**
+     * adds or replaces the data for a specific key
+     * @param  string key
+     * @param  mixed value
+     */
+    public function setData($key, $value);
+    
+    /**
      * @return string
      */
     public function getContentTemplate();

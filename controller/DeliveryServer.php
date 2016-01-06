@@ -165,8 +165,6 @@ class DeliveryServer extends \tao_actions_CommonModule
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
         $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
-        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
-        $container->setData('deliveryServerConfig', $this->service->getJsConfig($delivery));
 	     
 	    /**
 	     * @deprecated js parameters

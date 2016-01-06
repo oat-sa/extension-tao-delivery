@@ -109,6 +109,9 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
         if (!($container instanceof \oat\taoDelivery\helper\DeliveryContainer)) {
             throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\helper\DeliveryContainer');
         }
+
+        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
+        $container->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
         
         return $container;
     }
