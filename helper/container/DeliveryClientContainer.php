@@ -17,21 +17,31 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoDelivery\model\container;
+namespace oat\taoDelivery\helper\container;
 
-use oat\taoDelivery\model\DeliveryContainer;
-use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\helper\DeliveryContainer;
 
-class DeliveryClientContainer implements DeliveryContainer
+/**
+ * Class DeliveryClientContainer
+ * @package oat\taoDelivery\helper
+ */
+class DeliveryClientContainer extends DeliveryContainer
 {
     /**
      * @inheritDoc
      */
-    public function run(DeliveryExecution $deliveryExecution)
+    protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
+
+    /**
+     * @inheritDoc
+     */
+    protected $contentTemplate = 'DeliveryServer/container/client/template.tpl';
+    
+    /**
+     * @inheritDoc
+     */
+    protected function init()
     {
-        return [
-            'content-loader' => 'DeliveryServer/container/client/loader.tpl',
-            'content-template' => 'DeliveryServer/container/client/template.tpl',
-        ];
+        // TODO: Implement init() method.
     }
 }

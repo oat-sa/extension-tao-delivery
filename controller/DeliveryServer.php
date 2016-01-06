@@ -154,36 +154,33 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $delivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($delivery, $deliveryExecution->getIdentifier());
 
-	    /**
-	     * Require JS config
-	     */
-	    $this->setData('client_config_url', $this->getClientConfigUrl());
-	    $this->setData('client_timeout', $this->getClientTimeout());
+        /**
+         * Use particular delivery container
+         */
+        $container = $this->service->getDeliveryContainer($deliveryExecution);
+
+	    // Require JS config
+        $container->setData('client_config_url', $this->getClientConfigUrl());
+        $container->setData('client_timeout', $this->getClientTimeout());
+        // Delivery params
+        $container->setData('returnUrl', $this->getReturnUrl());
+        $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
+        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
+        $container->setData('deliveryServerConfig', $this->service->getJsConfig($delivery));
 	     
 	    /**
 	     * @deprecated js parameters
 	     */
         $this->setData('jsBlock', 'runtime');
-		$this->setData('returnUrl', $this->getReturnUrl());
-		$this->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
-		$this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
-		$this->setData('deliveryServerConfig', $this->service->getJsConfig($delivery));
 		
 		/**
 		 * Delivery header & footer info
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
-        $this->setData('content-extension', 'taoDelivery');
-
-        /**
-         * Use particular delivery container
-         */
-        $containerClass = $this->service->getOption('deliveryContainer');
-        $container = new $containerClass();
-        foreach($container->run($deliveryExecution) as $key => $value) {
-            $this->setData($key, $value);
-        }
+        $this->setData('content-template', $container->getContentTemplate());
+        $this->setData('content-extension', $container->getContentTemplateExtension());
+        $this->setData('content-loader', $container);
 
         /**
          * Layout template + real template inclusion

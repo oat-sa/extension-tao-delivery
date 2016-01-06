@@ -19,14 +19,30 @@
 
 namespace oat\taoDelivery\model;
 
-use oat\taoDelivery\model\execution\DeliveryExecution;
-
 interface DeliveryContainer
 {
     /**
-     * Runs the adapter and gets the data to provide to the template
-     * @param DeliveryExecution $deliveryExecution
-     * @return array
+     * @return mixed
      */
-    public function run(DeliveryExecution $deliveryExecution);
+    public function render();
+    
+    /**
+     * @return string
+     */
+    public function getContentTemplate();
+
+    /**
+     * @return string
+     */
+    public function getLoaderTemplate();
+
+    /**
+     * @return string
+     */
+    public function getLoaderTemplateExtension();
+
+    /**
+     * @return string
+     */
+    public function getContentTemplateExtension();
 }

@@ -17,27 +17,31 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoDelivery\model\container;
+namespace oat\taoDelivery\helper\container;
 
+use oat\taoDelivery\helper\DeliveryContainer;
 use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\AssignmentService;
-use oat\taoDelivery\model\DeliveryContainer;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 
-class DeliveryServiceContainer implements DeliveryContainer
+class DeliveryServiceContainer extends DeliveryContainer
 {
     /**
      * @inheritDoc
      */
-    public function run(DeliveryExecution $deliveryExecution)
-    {
-        $delivery = $deliveryExecution->getDelivery();
-        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
+    protected $loaderTemplate = 'DeliveryServer/container/service/loader.tpl';
 
-        return [
-            'serviceApi' => \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()),
-            'content-loader' => 'DeliveryServer/container/service/loader.tpl',
-            'content-template' => 'DeliveryServer/container/service/template.tpl',
-        ];
+    /**
+     * @inheritDoc
+     */
+    protected $contentTemplate = 'DeliveryServer/container/service/template.tpl';
+
+    /**
+     * @inheritDoc
+     */
+    protected function init()
+    {
+        $delivery = $this->deliveryExecution->getDelivery();
+        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
+        $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
     }
 }
