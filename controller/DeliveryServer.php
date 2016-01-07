@@ -21,7 +21,6 @@
  */
 namespace oat\taoDelivery\controller;
 
-use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use taoDelivery_models_classes_DeliveryServerService;
@@ -155,34 +154,33 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $delivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($delivery, $deliveryExecution->getIdentifier());
 
-	    /**
-	     * Require JS config
-	     */
-	    $this->setData('client_config_url', $this->getClientConfigUrl());
-	    $this->setData('client_timeout', $this->getClientTimeout());
-	     
-	    /**
-	     * @deprecated js parameters
-	     */
-        $this->setData('jsBlock', 'runtime');
-        $runtime = $this->getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
-	    $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $deliveryExecution->getIdentifier()));
-		$this->setData('returnUrl', $this->getReturnUrl());
-		$this->setData('finishUrl', _url('finishDeliveryExecution'));
-		$this->setData('deliveryExecution', $deliveryExecution->getIdentifier());
-		$this->setData('deliveryServerConfig', $this->service->getJsConfig($delivery));
+        /**
+         * Use particular delivery container
+         */
+        $container = $this->service->getDeliveryContainer($deliveryExecution);
+
+	    // Require JS config
+        $container->setData('client_config_url', $this->getClientConfigUrl());
+        $container->setData('client_timeout', $this->getClientTimeout());
+        // Delivery params
+        $container->setData('returnUrl', $this->getReturnUrl());
+        $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
+        
+        $this->setData('additional-header', $container->getContainerHeader());
+        $this->setData('container-body', $container->getContainerBody());
+        
 		
 		/**
 		 * Delivery header & footer info
 		 */
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
+        $this->setData('returnUrl', $this->getReturnUrl());
         
-
         /**
          * Layout template + real template inclusion
          */
-        $this->setData('content-template', 'DeliveryServer/deliveryExecution.tpl');
+        $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
@@ -236,6 +234,16 @@ class DeliveryServer extends \tao_actions_CommonModule
 	protected function getReturnUrl()
 	{
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
+	}
+    
+    /**
+     * Defines the URL of the finish delivery execution action
+     * 
+     * @return string
+     */
+	protected function getfinishDeliveryExecutionUrl()
+	{
+	    return _url('finishDeliveryExecution');
 	}
 
     public function logout()
