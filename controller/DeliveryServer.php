@@ -193,7 +193,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
-	        $success = $deliveryExecution->setState(DeliveryExecution::STATE_FINISHIED);
+	        $success = $deliveryExecution->setState(DeliveryExecution::STATE_FINISHED);
 	    } else {
 	        common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
 	        $success = false;

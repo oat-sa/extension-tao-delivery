@@ -37,7 +37,11 @@ interface DeliveryExecution extends \taoDelivery_models_classes_execution_Delive
 
     const STATE_ACTIVE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive';
 
-    const STATE_FINISHIED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
+    /**
+     * @deprecated use self::STATE_FINISHED
+     */
+    const STATE_FINISHIED = DeliveryExecution::STATE_FINISHED;
+    const STATE_FINISHED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
 
     const STATE_PAUSED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused';
 

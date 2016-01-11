@@ -161,7 +161,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             return false;
         }
         $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
-        if ($state == InterfaceDeliveryExecution::STATE_FINISHIED) {
+        if ($state == InterfaceDeliveryExecution::STATE_FINISHED) {
             $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
         }
         $this->save();
