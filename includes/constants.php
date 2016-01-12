@@ -51,4 +51,5 @@ $todefine = array(
     'PROPERTY_GROUP_DELVIERY'              => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries',
 
     'DELIVERY_GUEST_ACCESS'                => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess',
+    'DELIVERY_DISPLAY_ORDER_PROP'          => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DisplayOrder'
 );

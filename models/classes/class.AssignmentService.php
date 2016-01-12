@@ -47,7 +47,25 @@ class taoDelivery_models_classes_AssignmentService extends tao_models_classes_Ge
                 }
             }
         }
-        return array_unique($deliveryUris);
+        
+        $deliveryUris = array_unique($deliveryUris);
+        
+        // Brutal implementation of TAO-1811.
+        $prop = new core_kernel_classes_Property(DELIVERY_DISPLAY_ORDER_PROP);
+        usort($deliveryUris, function ($a, $b) use ($prop) {
+            $a = new core_kernel_classes_Resource($a);
+            $b = new core_kernel_classes_Resource($b);
+            
+            $aOrder = $a->getOnePropertyValue($prop);
+            $bOrder = $b->getOnePropertyValue($prop);
+            
+            $aOrder = is_null($aOrder) ? 0 : intval((string)$aOrder);
+            $bOrder = is_null($bOrder) ? 0 : intval((string)$bOrder);
+            
+            return $aOrder - $bOrder;
+        });
+        
+        return $deliveryUris;
     }
 
     /**
