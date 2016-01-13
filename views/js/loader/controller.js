@@ -24,17 +24,11 @@
     var loaderScript = document.getElementById('amd-loader');
     var configUrl = loaderScript.getAttribute('data-config');
 
-    require([configUrl], function () {
-        var controller = loaderScript.getAttribute('data-controller');
-        var params = loaderScript.getAttribute('data-params');
+    require([configUrl], function() {
+        var controllerPath = loaderScript.getAttribute('data-controller');
 
-        try {
-            params = JSON.parse(params);
-        } catch (e) {
-            params = {};
-        }
-
-        require([controller], function(controller) {
+        require(['jquery', controllerPath], function($, controller) {
+            var params = $(loaderScript).data('params') || {};
             controller.start(params);
         });
     });
