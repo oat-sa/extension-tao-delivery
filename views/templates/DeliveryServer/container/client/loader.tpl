@@ -1,7 +1,7 @@
 <?php use oat\tao\helpers\Template; ?>
 <script id="amd-loader"
         src="<?= Template::js('lib/require.js', 'tao') ?>"
-        data-main="<?= Template::js('loader/controller.js', 'taoDelivery'); ?>"
+        data-main="<?= Template::js('loader/bootstrap.js', 'taoDelivery'); ?>"
         data-config="<?= get_data('client_config_url') ?>"
         data-controller="taoDelivery/controller/runtime/client/deliveryExecution"
         data-params="<?= _dh(json_encode([
