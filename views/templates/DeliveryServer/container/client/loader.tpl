@@ -1,19 +1,14 @@
-<?php
-use oat\tao\helpers\Template;
-?>
-<script src="<?= Template::js('lib/require.js', 'tao') ?>"></script>
-<script>
-    (function() {
-        requirejs.config({waitSeconds: <?=get_data('client_timeout')?>});
-        require(['<?=get_data('client_config_url')?>'], function () {
-            require(['taoDelivery/controller/runtime/client/deliveryExecution'], function(deliveryExecution) {
-                deliveryExecution.start({
-                    exitUrl: '<?=get_data('returnUrl')?>',
-                    finishUrl: '<?=get_data('finishUrl')?>',
-                    deliveryExecution: '<?=get_data('deliveryExecution')?>',
-                    deliveryServerConfig: <?= json_encode(get_data('deliveryServerConfig')) ?>
-                });
-            });
-        });
-    }());
-</script>
+<?php use oat\tao\helpers\Template; ?>
+<script id="amd-loader"
+        src="<?= Template::js('lib/require.js', 'tao') ?>"
+        data-main="<?= Template::js('loader/controller.js', 'taoDelivery'); ?>"
+        data-config="<?= get_data('client_config_url') ?>"
+        data-controller="taoDelivery/controller/runtime/client/deliveryExecution"
+        data-params="<?= json_encode([
+            'exitUrl' => get_data('returnUrl'),
+            'testDefinition' => get_data('testDefinition'),
+            'testCompilation' => get_data('testCompilation'),
+            'serviceCallId' => get_data('serviceCallId'),
+            'deliveryServerConfig' => get_data('deliveryServerConfig'),
+            ]); ?>"
+></script>
