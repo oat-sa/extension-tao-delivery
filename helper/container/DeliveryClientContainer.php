@@ -19,7 +19,9 @@
 
 namespace oat\taoDelivery\helper\container;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
+use oat\taoDelivery\model\AssignmentService;
 
 /**
  * Class DeliveryClientContainer
@@ -48,7 +50,13 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function init()
     {
-        // nothing yet
+        $delivery = $this->deliveryExecution->getDelivery();
+        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
+        $inputParameters = \tao_models_classes_service_ServiceCallHelper::getInputValues($runtime, array());
+        
+        $this->setData('testDefinition', $inputParameters['QtiTestDefinition']);
+        $this->setData('testCompilation', $inputParameters['QtiTestCompilation']);
+        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
     }
     
     /**

@@ -18,25 +18,18 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'helpers'
-], function ($, _, helpers) {
+(function(){
     'use strict';
 
-    return {
-        start: function (options) {
-            $('.test-runner').html('<h1>NEW TEST RUNNER</h1>');
+    var loaderScript = document.getElementById('amd-loader');
+    var configUrl = loaderScript.getAttribute('data-config');
 
-            // test runner service check
-            $.ajax({
-                url: helpers._url('init', 'Runner', 'taoQtiTest', {
-                    testDefinition: options.testDefinition,
-                    testCompilation: options.testCompilation,
-                    serviceCallId: options.serviceCallId
-                })
-            });
-        }
-    }
-});
+    require([configUrl], function() {
+        var controllerPath = loaderScript.getAttribute('data-controller');
+
+        require(['jquery', controllerPath], function($, controller) {
+            var params = $(loaderScript).data('params') || {};
+            controller.start(params);
+        });
+    });
+})();
