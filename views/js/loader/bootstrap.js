@@ -25,11 +25,15 @@
     var configUrl = loaderScript.getAttribute('data-config');
 
     require([configUrl], function() {
+        var controllerOptions = {};
         var controllerPath = loaderScript.getAttribute('data-controller');
+        var params = loaderScript.getAttribute('data-params');
+        try{
+            controllerOptions = JSON.parse(params);
+        } catch(e){}
 
-        require(['jquery', controllerPath], function($, controller) {
-            var params = $(loaderScript).data('params') || {};
-            controller.start(params);
+        require([controllerPath], function(controller) {
+            controller.start(controllerOptions);
         });
     });
 })();
