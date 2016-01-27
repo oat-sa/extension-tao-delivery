@@ -23,8 +23,9 @@ define([
     'helpers',
     'taoDelivery/controller/runtime/service/fullScreen',
     'layout/loading-bar',
-    'ui/dialog/alert'
-], function(_, $, helpers, fullScreen, loadingBar, dialogAlert){
+    'ui/dialog/alert',
+    'layout/logout-event'
+], function(_, $, helpers, fullScreen, loadingBar, dialogAlert, logoutEvent){
     'use strict';
 
     var $frameContainer,
@@ -66,7 +67,7 @@ define([
             $footerHeight = $('body > footer').outerHeight() || 0;
 
             $(document).on('serviceforbidden', function() {
-                window.location = helpers._url('logout', 'Main', 'tao');
+                logoutEvent();
             });
 
             var serviceApi = options.serviceApi;
