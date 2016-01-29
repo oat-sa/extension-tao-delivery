@@ -18,7 +18,6 @@
  * 
  */
 
-use oat\taoGroups\models\GroupsService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
@@ -97,4 +96,23 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
         );
     }
 
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @return \oat\taoDelivery\model\DeliveryContainer
+     * @throws common_Exception
+     */
+    public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
+    {
+        $containerClass = $this->getOption('deliveryContainer');
+        $container =  new $containerClass($deliveryExecution);
+
+        if (!($container instanceof \oat\taoDelivery\model\DeliveryContainer)) {
+            throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\model\DeliveryContainer');
+        }
+
+        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
+        $container->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
+        
+        return $container;
+    }
 }
