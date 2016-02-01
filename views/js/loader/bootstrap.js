@@ -23,8 +23,9 @@
 
     var loaderScript = document.getElementById('amd-loader');
     var configUrl = loaderScript.getAttribute('data-config');
+    var bundle  = loaderScript.getAttribute('data-bundle');
 
-    require([configUrl], function() {
+    var loadController = function loadController(){
         var controllerOptions = {};
         var controllerPath = loaderScript.getAttribute('data-controller');
         var params = loaderScript.getAttribute('data-params');
@@ -35,5 +36,12 @@
         require([controllerPath], function(controller) {
             controller.start(controllerOptions);
         });
+    };
+    require([configUrl], function() {
+       if(bundle){
+            require([bundle], loadController);
+        } else {
+            loadController();
+        }
     });
 })();
