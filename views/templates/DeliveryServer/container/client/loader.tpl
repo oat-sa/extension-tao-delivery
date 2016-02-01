@@ -3,7 +3,8 @@
 <script id="amd-loader"
         src="<?= Template::js('loader/bootstrap.min.js', 'taoDelivery') ?>"
         data-config="<?= get_data('client_config_url') ?>"
-        data-controller="taoQtiTest/qtiTestRunner.min"
+        data-bundle="taoQtiTest/qtiTestRunner.min"
+        data-controller="taoQtiTest/controller/runner/runner"
         data-params="<?= _dh(json_encode([
             'exitUrl' => get_data('returnUrl'),
             'testDefinition' => get_data('testDefinition'),
