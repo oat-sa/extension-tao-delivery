@@ -143,5 +143,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $extension->setConfig('deliveryServer', $config);
             $this->setVersion('3.1.0');
         }
+        
+        $this->skip('3.1.0','3.1.1');
+        return null;
     }
 }
