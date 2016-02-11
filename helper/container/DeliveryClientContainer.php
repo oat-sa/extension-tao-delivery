@@ -53,10 +53,21 @@ class DeliveryClientContainer extends AbstractContainer
         $delivery = $this->deliveryExecution->getDelivery();
         $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
         $inputParameters = \tao_models_classes_service_ServiceCallHelper::getInputValues($runtime, array());
-        
+
+        // set the test parameters
         $this->setData('testDefinition', $inputParameters['QtiTestDefinition']);
         $this->setData('testCompilation', $inputParameters['QtiTestCompilation']);
         $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
+
+        // set the test runner config
+        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+        $config = $extension->getConfig('testRunner');
+        if (isset($config['serviceController'])) {
+            $this->setData('serviceController', $config['serviceController']);
+        }
+        if (isset($config['serviceExtension'])) {
+            $this->setData('serviceExtension', $config['serviceExtension']);
+        }
     }
     
     /**

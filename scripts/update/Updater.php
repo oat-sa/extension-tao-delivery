@@ -145,6 +145,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         $this->skip('3.1.0','3.1.1');
+
+        if ($this->isVersion('3.1.1')) {
+            // set the test runner controller
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+            $config = $extension->getConfig('testRunner');
+            $config['serviceController'] = 'Runner';
+            $config['serviceExtension'] = 'taoQtiTest';
+            $extension->setConfig('testRunner', $config);
+
+            $this->setVersion('3.2.0');
+        }
+
         return null;
     }
 }
