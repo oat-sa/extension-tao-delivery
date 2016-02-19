@@ -136,7 +136,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.0.0');
         }
         
-        if ($this->isVersion('3.0.0')) {
+        if ($this->isBetween('3.0.0','3.1.0')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
             $config = $extension->getConfig('deliveryServer');
             $config->setOption('deliveryContainer', 'oat\\taoDelivery\\helper\\container\\DeliveryServiceContainer');
