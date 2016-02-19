@@ -135,6 +135,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             // backward compatibility hack
             $currentVersion = null;
         }
+        
+        if( $this->isVersion('3.0.0')){
+            $this->setVersion('3.0.1');
+        }
 
         return $currentVersion;
     }
