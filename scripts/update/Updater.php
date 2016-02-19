@@ -140,6 +140,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.0.1');
         }
 
-        return $currentVersion;
+        return null;
     }
 }
