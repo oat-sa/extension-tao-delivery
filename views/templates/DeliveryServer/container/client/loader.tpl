@@ -10,6 +10,8 @@
             'testDefinition' => get_data('testDefinition'),
             'testCompilation' => get_data('testCompilation'),
             'serviceCallId' => get_data('serviceCallId'),
+            'serviceController' => get_data('serviceController'),
+            'serviceExtension' => get_data('serviceExtension'),
             'deliveryServerConfig' => get_data('deliveryServerConfig'),
         ])); ?>"
 ></script>
@@ -24,6 +26,8 @@
             'testDefinition' => get_data('testDefinition'),
             'testCompilation' => get_data('testCompilation'),
             'serviceCallId' => get_data('serviceCallId'),
+            'serviceController' => get_data('serviceController'),
+            'serviceExtension' => get_data('serviceExtension'),
             'deliveryServerConfig' => get_data('deliveryServerConfig'),
         ])); ?>"
 ></script>
