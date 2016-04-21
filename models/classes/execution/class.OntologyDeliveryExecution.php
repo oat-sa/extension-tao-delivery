@@ -127,13 +127,14 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function setState($state) {
         $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
+        $state = new core_kernel_classes_Resource($state);
         $currentStatus = $this->getState();
-        if ($currentStatus->getUri() == $state) {
+        if ($currentStatus->getUri() == $state->getUri()) {
             common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state);
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
-        if ($state == DeliveryExecution::STATE_FINISHIED) {
+        if ($state->getUri() == DeliveryExecution::STATE_FINISHIED) {
             $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         $this->state = $state;
