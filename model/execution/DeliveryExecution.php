@@ -20,11 +20,6 @@
  */
 namespace oat\taoDelivery\model\execution;
 
-use oat\oatbox\service\ServiceManager;
-use oat\oatbox\event\EventManager;
-use oat\oatbox\event\Event;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
-use \common_Logger;
 /**
  * New interface for delivery executions
  *
@@ -34,9 +29,21 @@ use \common_Logger;
  */
 interface DeliveryExecution extends \taoDelivery_models_classes_execution_DeliveryExecution
 {
+    const STATE_INIT = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusInit';
+
+    const STATE_AWAITING = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAwaiting';
+
+    const STATE_AUTHORIZED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAuthorized';
+
     const STATE_ACTIVE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive';
 
-    const STATE_FINISHIED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
-    
+    /**
+     * @deprecated use self::STATE_FINISHED
+     */
+    const STATE_FINISHIED = DeliveryExecution::STATE_FINISHED;
+    const STATE_FINISHED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
+
     const STATE_PAUSED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused';
+
+    const STATE_TERMINATED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusTerminated';
 }

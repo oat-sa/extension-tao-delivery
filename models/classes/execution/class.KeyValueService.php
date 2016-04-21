@@ -56,7 +56,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
         $activ = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_ACTIVE);
-        $finished = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_FINISHIED);
+        $finished = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_FINISHED);
 
         $returnValue = array();
         foreach (array_merge($activ, $finished) as $de) {

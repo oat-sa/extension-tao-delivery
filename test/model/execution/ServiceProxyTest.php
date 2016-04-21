@@ -130,7 +130,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetFinishedDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',DeliveryExecution::STATE_FINISHIED)->willReturn(true);
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',DeliveryExecution::STATE_FINISHED)->willReturn(true);
 
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
