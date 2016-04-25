@@ -43,7 +43,13 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     const PROPERTY_TIME_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd';
     
     const PROPERTY_STATUS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution';
-    
+
+    private $startTime;
+    private $finishTime;
+    private $state;
+    private $delivery;
+    private $userIdentifier;
+
     /**
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getIdentifier()
@@ -57,8 +63,11 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getStartTime()
      */
     public function getStartTime() {
-        $startTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_START);
-        return (string)$this->getUniquePropertyValue($startTime);
+        if (!isset($this->startTime)) {
+            $startTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_START);
+            $this->startTime = (string)$this->getUniquePropertyValue($startTime);
+        }
+        return $this->startTime;
     }
     
     /**
@@ -66,9 +75,12 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
      */
     public function getFinishTime() {
-        $finishProperty = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END);
-        $finishTime = $this->getOnePropertyValue($finishProperty);
-        return is_null($finishTime) ? null : (string)$finishTime;
+        if (!isset($this->finishTime)) {
+            $finishProperty = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END);
+            $finishTime = $this->getOnePropertyValue($finishProperty);
+            $this->finishTime = is_null($finishTime) ? null : (string)$finishTime;
+        }
+        return $this->finishTime;
     }
     
     /**
@@ -76,11 +88,14 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
      */
     public function getState() {
-        $state = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
-        if (!$state instanceof core_kernel_classes_Resource) {
-            $state = new core_kernel_classes_Resource((string)$state);
+        if (!isset($this->state)) {
+            $state = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
+            if (!$state instanceof core_kernel_classes_Resource) {
+                $state = new core_kernel_classes_Resource((string)$state);
+            }
+            $this->state = $state;
         }
-        return $state;
+        return $this->state;
     }
     
     /**
@@ -88,7 +103,10 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getDelivery()
      */
     public function getDelivery() {
-        return $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+        if (!isset($this->delivery)) {
+            $this->delivery = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+        }
+        return $this->delivery;
     }
     
     /**
@@ -96,8 +114,11 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::getUserIdentifier()
      */
     public function getUserIdentifier() {
-        $user = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT));
-        return ($user instanceof core_kernel_classes_Resource) ? $user->getUri() : (string)$user;
+        if (!isset($this->userIdentifier)) {
+            $user = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT));
+            $this->userIdentifier =  ($user instanceof core_kernel_classes_Resource) ? $user->getUri() : (string)$user;
+        }
+        return $this->userIdentifier;
     }
     
     /**
@@ -106,15 +127,17 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function setState($state) {
         $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
+        $state = new core_kernel_classes_Resource($state);
         $currentStatus = $this->getState();
-        if ($currentStatus->getUri() == $state) {
+        if ($currentStatus->getUri() == $state->getUri()) {
             common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state);
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
-        if ($state == DeliveryExecution::STATE_FINISHIED) {
+        if ($state->getUri() == DeliveryExecution::STATE_FINISHIED) {
             $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
+        $this->state = $state;
         return true;
     }
 }
