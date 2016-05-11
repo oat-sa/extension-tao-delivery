@@ -29,7 +29,7 @@
 interface taoDelivery_models_classes_execution_Service
 {
     /**
-     * Returns how many executions the user has of a specified assembly
+     * Returns the executions the user has of a specified assembly
      * 
      * @param core_kernel_classes_Resource $compiled
      * @param string $userUri
