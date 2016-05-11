@@ -30,16 +30,6 @@ use oat\taoDelivery\model\AssignmentService;
 class DeliveryClientContainer extends AbstractContainer
 {
     /**
-     * The name of the default controller used as the test runner service
-     */
-    const DEFAULT_SERVICE_CONTROLLER = 'Runner';
-
-    /**
-     * The name of the default extension containing the controller used as the test runner service
-     */
-    const DEFAULT_SERVICE_EXTENSION = 'taoQtiTest';
-    
-    /**
      * @inheritDoc
      */
     protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
@@ -70,14 +60,9 @@ class DeliveryClientContainer extends AbstractContainer
         $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
 
         // set the test runner config
-        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        $config = $extension->getConfig('testRunner');
-        
-        $serviceController = isset($config['serviceController']) ? $config['serviceController'] : self::DEFAULT_SERVICE_CONTROLLER; 
-        $serviceExtension = isset($config['serviceExtension']) ? $config['serviceExtension'] : self::DEFAULT_SERVICE_EXTENSION; 
-        
-        $this->setData('serviceController', $serviceController);
-        $this->setData('serviceExtension', $serviceExtension);
+        $config = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiTest')->getConfig('testRunner');
+        $bootstrap = isset($config['bootstrap']) ? $config['bootstrap'] : [];
+        $this->setData('bootstrap', $bootstrap);
     }
     
     /**
