@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    'use strict';
 
     var sass    = grunt.config('sass') || {};
     var watch   = grunt.config('watch') || {};
@@ -7,7 +8,6 @@ module.exports = function(grunt) {
 
     sass.taodelivery = { };
     sass.taodelivery.files = { };
-    sass.taodelivery.files[root + 'css/testtakers.css'] = root + 'scss/testtakers.scss';
     sass.taodelivery.files[root + 'css/delivery.css'] = root + 'scss/delivery.scss';
 
     watch.taodeliverysass = {
