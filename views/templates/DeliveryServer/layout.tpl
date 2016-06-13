@@ -23,6 +23,7 @@ use oat\tao\model\theme\Theme;
             : '' ?>
     </head>
     <body class="delivery-scope">
+    <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
         <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
 
