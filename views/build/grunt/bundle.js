@@ -4,7 +4,6 @@ module.exports = function(grunt) {
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
     var copy        = grunt.config('copy') || {};
-    var uglify      = grunt.config('uglify') || {};
 
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
@@ -33,15 +32,6 @@ module.exports = function(grunt) {
         }
     };
 
-    uglify.deliveryloader = {
-        options : {
-            force : true
-        },
-        files : [
-            { dest : root + '/taoDelivery/views/js/loader/bootstrap.min.js', src : ['../js/lib/require.js', root + '/taoDelivery/views/js/loader/bootstrap.js'] }
-        ]
-    };
-
     /**
      * copy the bundles to the right place
      */
@@ -54,9 +44,8 @@ module.exports = function(grunt) {
 
     grunt.config('clean', clean);
     grunt.config('requirejs', requirejs);
-    grunt.config('uglify', uglify);
     grunt.config('copy', copy);
 
     // bundle task
-    grunt.registerTask('taodeliverybundle', ['clean:taodeliverybundle', 'requirejs:taodeliverybundle', 'uglify:deliveryloader', 'copy:taodeliverybundle']);
+    grunt.registerTask('taodeliverybundle', ['clean:taodeliverybundle', 'requirejs:taodeliverybundle', 'copy:taodeliverybundle']);
 };
