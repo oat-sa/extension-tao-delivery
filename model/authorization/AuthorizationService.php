@@ -14,16 +14,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
 namespace oat\taoDelivery\model\authorization;
 
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 
-
 /**
- * Manage the Delivery authorization.
+ * Manage the Delivery execution authorization.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -32,10 +31,10 @@ interface AuthorizationService
     const CONFIG_ID = 'taoDelivery/authorization';
 
     /**
-     * Returns the the authorization provider
+     * Returns the the authorization provider for the given delivery execution.
      *
      * @param DeliveryExecution $deliveryExecution the delivery to authorize
-     * @return AuthorizationProviderService
+     * @return AuthorizationProvider
      */
     public function getAuthorizationProvider(DeliveryExecution $deliveryExecution);
 }
