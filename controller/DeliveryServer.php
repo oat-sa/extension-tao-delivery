@@ -25,6 +25,7 @@ namespace oat\taoDelivery\controller;
 use common_exception_Error;
 use common_Logger;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
@@ -118,12 +119,16 @@ class DeliveryServer extends \tao_actions_CommonModule
      * @return core_kernel_classes_Resource
      */
     protected function _initDeliveryExecution() {
-        $compiledDelivery = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-	    $user = common_session_SessionManager::getSession()->getUser();
-	    $assignmentService= $this->getServiceManager()->get(AssignmentService::CONFIG_ID);
-	    if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user)) {
-	        throw new \common_exception_Unauthorized();
-	    }
+        $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $user              = common_session_SessionManager::getSession()->getUser();
+        $assignmentService = $this->getServiceManager()->get(AssignmentService::CONFIG_ID);
+        $deliveryExecution = $this->executionService->getDeliveryExecution($compiledDelivery->getUri());
+
+        if ( ! $assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ||
+             ! $this->getAuthorizationProvider($deliveryExecution)->isAuthorized() ) {
+
+            throw new \common_exception_Unauthorized();
+        }
        return $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
     }
     
@@ -137,7 +142,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         } catch (\common_exception_Unauthorized $e) {
             return $this->returnError(__('You are no longer allowed to take this test'), true);
         }
-	}
+    }
     
     /**
      * Displays the execution screen
@@ -248,11 +253,23 @@ class DeliveryServer extends \tao_actions_CommonModule
 	protected function getfinishDeliveryExecutionUrl()
 	{
 	    return _url('finishDeliveryExecution');
-	}
+        }
+
+
+    /**
+     *
+     * @param DeliveryExecution $deliveryExecution
+     * @return AuthorizationProviderService
+     */
+    protected function getAuthorizationProvider($deliveryExecution)
+    {
+        $authService = $this->getServiceManager()->get(AuthorizationService::CONFIG_ID);
+        return $authService->getAuthorizationProvider($deliveryExecution);
+    }
 
     public function logout()
     {
-	    common_session_SessionManager::endSession();
-	    $this->redirect(ROOT_URL);
-	}
+        common_session_SessionManager::endSession();
+        $this->redirect(ROOT_URL);
+    }
 }

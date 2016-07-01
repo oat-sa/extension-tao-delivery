@@ -24,20 +24,21 @@ $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARA
 
 return array(
     'name' => 'taoDelivery',
-	'label' => 'Delivery core extension',
-	'description' => 'TAO delivery extension manges the administration of the tests',
+    'label' => 'Delivery core extension',
+    'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '3.6.0',
-	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
+    'version' => '3.7.0',
+    'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=4.0.0',
         'taoResultServer' => '>=2.6'
     ),
-	'install' => array(
-	    'php' => array(
+    'install' => array(
+        'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
+            'oat\\taoDelivery\\scripts\\install\\RegisterAuthorizationjService',
         )
-	),
+    ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
