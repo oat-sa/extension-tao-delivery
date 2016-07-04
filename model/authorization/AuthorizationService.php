@@ -20,6 +20,7 @@
 namespace oat\taoDelivery\model\authorization;
 
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\oatbox\user\User;
 
 /**
  * Manage the Delivery execution authorization.
@@ -34,7 +35,8 @@ interface AuthorizationService
      * Returns the the authorization provider for the given delivery execution.
      *
      * @param DeliveryExecution $deliveryExecution the delivery to authorize
+     * @param User $user the current user
      * @return AuthorizationProvider
      */
-    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution);
+    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution, User $user);
 }

@@ -21,6 +21,7 @@ namespace oat\taoDelivery\model\authorization;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\oatbox\user\User;
 
 /**
  * Base implementation of the Authorization service.
@@ -36,7 +37,7 @@ class DeliveryAuthorizationService extends ConfigurableService  implements Autho
      * @param DeliveryExecution $deliveryExecution the delivery to authorize
      * @return AuthorizationProvider 
      */
-    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution)
+    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution, User $user)
     {
         return new DeliveryAuthorizationProvider();
     }
