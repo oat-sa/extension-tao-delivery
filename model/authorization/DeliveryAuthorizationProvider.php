@@ -32,16 +32,28 @@ use oat\taoDelivery\model\authorization\AuthorizationProvider;
 class DeliveryAuthorizationProvider extends ConfigurableService implements AuthorizationProvider
 {
 
+    /**
+     * Always authorize
+     * @return boolean true always
+     */
     public function isAuthorized()
     {
         return true;
     }
 
+    /**
+     * Does nothing
+     * @return boolean false always
+     */
     public function grant()
     {
         return false;
     }
 
+    /**
+     * Does nothing
+     * @return boolean false always
+     */
     public function revoke()
     {
         return false;
