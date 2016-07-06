@@ -17,7 +17,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoProctoring\test\model\authorization;
+namespace oat\taoDelivery\test\model\authorization;
 
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\authorization\DeliveryAuthorizationProvider;
