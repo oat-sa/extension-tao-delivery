@@ -26,6 +26,8 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\DeliveryAuthorizationService;
+use oat\taoDelivery\model\requirements\RequirementsService;
+
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
@@ -168,6 +170,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.7.0');
         }
 
-        $this->skip('3.7.0', '3.8.0');
+        if ($this->isVersion('3.7.0')) {
+            $this->getServiceManager()->register(RequirementsService::CONFIG_ID, new RequirementsService());
+            
+            $this->setVersion('3.8.0');
+        }
     }
 }
