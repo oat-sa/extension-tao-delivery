@@ -25,12 +25,12 @@ namespace oat\taoDelivery\controller;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
-use core_kernel_classes_Resource;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
-use oat\taoDelivery\model\authorization\AuthorizationPrvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\requirements\RequirementsService;
+use oat\taoDelivery\model\requirements\RequirementsServiceInterface;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 
@@ -147,6 +147,10 @@ class DeliveryServer extends \tao_actions_CommonModule
                 throw new \common_exception_Unauthorized();
             }
 
+            if (!$this->isEnvironmentComplies($deliveryExecution)) {
+                $this->redirect(_url('notCompatibleEnvironment'));
+            }
+
             //if authorized we can move to this URL.
             $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
 
@@ -166,7 +170,11 @@ class DeliveryServer extends \tao_actions_CommonModule
                 \common_Logger::w('WRONG STATE');
 	        $this->redirect($this->getReturnUrl());
 	    }
-	    
+
+        if (!$this->isEnvironmentComplies($deliveryExecution)) {
+            $this->redirect(_url('notCompatibleEnvironment'));
+        }
+
 	    $userUri = common_session_SessionManager::getSession()->getUserUri();
 	    if ($deliveryExecution->getUserIdentifier() != $userUri) {
 	        throw new common_exception_Error('User '.$userUri.' is not the owner of the execution '.$deliveryExecution->getIdentifier());
@@ -292,9 +300,36 @@ class DeliveryServer extends \tao_actions_CommonModule
         return $this->getAuthorizationProvider($deliveryExecution)->isAuthorized();
     }
 
+    /**
+     * Check whether user environment met all requirements to run delivery execution
+     * @param DeliveryExecution $deliveryExecution
+     * @return bool
+     */
+    protected function isEnvironmentComplies(DeliveryExecution $deliveryExecution)
+    {
+        /** @var RequirementsServiceInterface $environmentCheckService */
+        $environmentCheckService = $this->getServiceManager()->get(RequirementsService::CONFIG_ID);
+        return $environmentCheckService->isDeliveryComplies($deliveryExecution);
+    }
+
     public function logout()
     {
         common_session_SessionManager::endSession();
         $this->redirect(ROOT_URL);
+    }
+
+    public function notCompatibleEnvironment()
+    {
+
+        $this->setData('client_config_url', $this->getClientConfigUrl());
+
+        $this->setData('showControls', $this->showControls());
+        $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
+
+        $this->setData('content-template', 'DeliveryServer/notCompatibleEnvironment.tpl');
+        $this->setData('content-extension', 'taoDelivery');
+
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
+
     }
 }
