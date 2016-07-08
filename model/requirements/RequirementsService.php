@@ -20,6 +20,7 @@
 namespace oat\taoDelivery\model\requirements;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoAct\model\os\OSService;
 use oat\taoAct\model\webbrowser\WebBrowserService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 
@@ -29,6 +30,9 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
     const PROPERTY_DELIVERY_APPROVED_BROWSER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ApprovedBrowser';
     const PROPERTY_DELIVERY_RESTRICT_BROWSER_USAGE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#RestrictBrowserUsage';
 
+    const PROPERTY_DELIVERY_APPROVED_OS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ApprovedOS';
+    const PROPERTY_DELIVERY_RESTRICT_OS_USAGE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#RestrictOSUsage';
+
     /**
      * Whether client complies delivery
      * @param DeliveryExecution $execution
@@ -36,18 +40,28 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
      */
     public function isDeliveryComplies(DeliveryExecution $execution)
     {
+        \common_Logger::i('Checking execution ' . $execution->getIdentifier() . 'comply.');
 
         $delivery = $execution->getDelivery();
         $isBrowserApproved = true;
+        $isOSApproved = true;
 
-        $isRestricted = $delivery->getUniquePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_RESTRICT_BROWSER_USAGE));
-        if (INSTANCE_BOOLEAN_TRUE == $isRestricted->getUri()) {
+        $isBrowserRestricted = $delivery->getUniquePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_RESTRICT_BROWSER_USAGE));
+        if (INSTANCE_BOOLEAN_TRUE == $isBrowserRestricted->getUri()) {
             //@TODO property caching  - anyway we are operating with complied
             $browsers = $delivery->getPropertyValuesCollection(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_APPROVED_BROWSER));
             $isBrowserApproved = $this->complies($browsers->toArray(), WebBrowserService::class);
         }
 
-        return $isBrowserApproved;
+
+        $isOSRestricted = $delivery->getUniquePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_RESTRICT_OS_USAGE));
+        if (INSTANCE_BOOLEAN_TRUE == $isOSRestricted->getUri()) {
+            //@TODO property caching  - anyway we are operating with complied
+            $OS = $delivery->getPropertyValuesCollection(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_APPROVED_OS));
+            $isOSApproved = $this->complies($OS->toArray(), OSService::class);
+        }
+
+        return $isBrowserApproved && $isOSApproved;
     }
 
     /**
@@ -57,6 +71,7 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
      */
     protected function complies(array $conditions, $conditionService)
     {
+        \common_Logger::i('Detected client: ' . $conditionService::singleton()->getClientName() . '@' . $conditionService::singleton()->getClientVersion());
 
         $result = false;
         /** @var \core_kernel_classes_Property $browser */
