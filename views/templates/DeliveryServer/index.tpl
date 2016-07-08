@@ -6,7 +6,15 @@ $resumableDeliveries = get_data('resumableDeliveries');
 $availableDeliveries = get_data('availableDeliveries');
 ?>
 <div class="test-listing">
+    
     <h1><?= __("My Tests"); ?></h1>
+
+    <?php if (Context::getInstance()->getRequest()->hasParameter('warning') && Context::getInstance()->getRequest()->getParameter('warning') == 'lostFocus') :?>
+        <p class="feedback-danger small">
+            <?= __("Assessment has been paused due to your attempt to another window/tab. Please refer to the proctor to continue testing.") ?>
+        </p>
+    <?endif; ?>
+    
     <?php if (count($resumableDeliveries) > 0) : ?>
         <h2 class="info">
             <?= __("In progress") ?>: <?= count($resumableDeliveries); ?>
