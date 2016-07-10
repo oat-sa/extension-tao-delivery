@@ -20,8 +20,6 @@
 namespace oat\taoDelivery\model\requirements;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoAct\model\requirement\OSService;
-use oat\taoAct\model\requirement\WebBrowserService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 
 class RequirementsService extends ConfigurableService implements RequirementsServiceInterface

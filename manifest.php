@@ -27,7 +27,7 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '3.8.0',
+    'version' => '3.9.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=4.0.0',
@@ -35,6 +35,11 @@ return array(
         'taoClientDiagnostic' => '>=1.8.1',
     ),
     'install' => array(
+        'rdf' => array(
+            dirname(__FILE__) . '/install/ontology/WebBrowsersList.rdf',
+            dirname(__FILE__) . '/install/ontology/OSsList.rdf',
+            dirname(__FILE__) . '/install/ontology/taodelivery.rdf',
+        ),
         'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
             'oat\\taoDelivery\\scripts\\install\\RegisterAuthorizationService',
@@ -69,5 +74,9 @@ return array(
 	
 		#BASE WWW the web resources path
 		'BASE_WWW'				=> ROOT_URL . 'taoDelivery/views/',
-	)
+    ),
+
+    'extra' => array(
+        'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml'
+    )
 );

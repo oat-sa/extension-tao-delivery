@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<rdf:RDF
+        xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+        xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake">
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Browser name]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Browser name]]></rdfs:comment>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebBrowser">
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Authorized web browser]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Authorized web browser]]></rdfs:comment>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserName">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Web Browser name]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Web browser name]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebBrowser"/>
+        <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserVersion">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Minimum version]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Web browser minimum version]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebBrowser"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+        <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    </rdf:Description>
+
+
+    <!--Basic list of the most popular browsers-->
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#IE">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Internet Explorer]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Internet Explorer]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Chrome">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Chrome]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Chrome]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Chromium">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Chromium]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Chromium]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Opera">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Opera]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Opera]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Safari">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Safari]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Safari]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Firefox">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Firefox]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Firefox]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#SeaMonkey">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[SeaMonkey]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[SeaMonkey]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Netscape">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Netscape]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Netscape]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Konqueror">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Konqueror]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Konqueror]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#webOSBrowser">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[webOS Browser]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[webOS Browser]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#SailfishBrowser">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Sailfish Browser]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Sailfish Browser]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#NokiaBrowser">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Nokia Browser]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Nokia Browser]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Midori">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Midori]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Midori]]></tao:BrowserMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxthon">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#BrowserMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Maxthon]]></rdfs:label>
+        <tao:BrowserMake><![CDATA[Maxthon]]></tao:BrowserMake>
+    </rdf:Description>
+
+
+</rdf:RDF>
