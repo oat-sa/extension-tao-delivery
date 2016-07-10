@@ -20,8 +20,8 @@
 namespace oat\taoDelivery\model\requirements;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\taoAct\model\os\OSService;
-use oat\taoAct\model\webbrowser\WebBrowserService;
+use oat\taoAct\model\requirement\OSService;
+use oat\taoAct\model\requirement\WebBrowserService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 
 class RequirementsService extends ConfigurableService implements RequirementsServiceInterface
@@ -83,14 +83,15 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
         $result = false;
         /** @var \core_kernel_classes_Property $browser */
         foreach ($conditions as $condition) {
-            $name = $condition->getOnePropertyValue(new \core_kernel_classes_Property($conditionService::PROPERTY_NAME));
+            /** @var \core_kernel_classes_Resource $requiredName */
+            $requiredName = $condition->getOnePropertyValue(new \core_kernel_classes_Property($conditionService::PROPERTY_NAME));
 
-            if ($conditionService::singleton()->getClientName() != $name) {
+            if (!($conditionService::singleton()->getClientNameResource()->equals($requiredName))) {
                 continue;
             }
 
-            $version = $condition->getOnePropertyValue(new \core_kernel_classes_Property($conditionService::PROPERTY_VERSION));
-            if (-1 !== version_compare($conditionService::singleton()->getClientVersion(), $version)) {
+            $requiredVersion = $condition->getOnePropertyValue(new \core_kernel_classes_Property($conditionService::PROPERTY_VERSION));
+            if (-1 !== version_compare($conditionService::singleton()->getClientVersion(), $requiredVersion)) {
                 $result = true;
             }
         }
