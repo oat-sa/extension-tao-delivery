@@ -181,5 +181,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.9.0');
         }
 
+        if ($this->isVersion('3.9.0')) {
+            $MngrRole = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole');
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantModuleAccess($MngrRole, 'taoDelivery', 'WebBrowsers');
+            $accessService->grantModuleAccess($MngrRole, 'taoDelivery', 'OS');
+            $this->setVersion('3.9.1');
+        }
+
     }
 }
