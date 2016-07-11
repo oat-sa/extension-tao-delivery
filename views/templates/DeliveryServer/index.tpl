@@ -4,14 +4,15 @@ use oat\taoDelivery\helper\Delivery;
 
 $resumableDeliveries = get_data('resumableDeliveries');
 $availableDeliveries = get_data('availableDeliveries');
+$warningMessage = get_data('warningMessage');
 ?>
 <div class="test-listing">
     
     <h1><?= __("My Tests"); ?></h1>
 
-    <?php if (Context::getInstance()->getRequest()->hasParameter('warning') && Context::getInstance()->getRequest()->getParameter('warning') == 'lostFocus') :?>
+    <?php if ($warningMessage) :?>
         <p class="feedback-danger small">
-            <?= __("Assessment has been paused due to your attempt to another window/tab. Please refer to the proctor to continue testing.") ?>
+            <?= $warningMessage ?>
         </p>
     <?endif; ?>
     
