@@ -78,7 +78,9 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
      */
     protected function complies(array $conditions, $conditionService)
     {
-        \common_Logger::i('Detected client: ' . $conditionService::singleton()->getClientName() . '@' . $conditionService::singleton()->getClientVersion());
+        $clientName = $conditionService::singleton()->getClientName();
+        $clientVersion = $conditionService::singleton()->getClientVersion();
+        \common_Logger::i("Detected client: ${clientName} @ ${clientVersion}");
 
         $result = false;
         /** @var \core_kernel_classes_Property $browser */
@@ -87,6 +89,7 @@ class RequirementsService extends ConfigurableService implements RequirementsSer
             $requiredName = $condition->getOnePropertyValue(new \core_kernel_classes_Property($conditionService::PROPERTY_NAME));
 
             if (!($conditionService::singleton()->getClientNameResource()->equals($requiredName))) {
+                \common_Logger::i("Client rejected. Required name is ${requiredName} but current name is ${clientName}");
                 continue;
             }
 

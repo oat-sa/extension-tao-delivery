@@ -38,7 +38,7 @@ class WebBrowserService extends Base
      */
     public function getClientName()
     {
-        return $this->getClientInfo()->os->name;
+        return $this->getClientInfo()->browser->name;
     }
 
     /**
