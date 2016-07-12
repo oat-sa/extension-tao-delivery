@@ -1,3 +1,4 @@
+<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,26 +14,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+namespace oat\taoDelivery\model\requirements;
 
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function () {
-    'use strict';
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
-    return {
+/**
+ * Manage delivery client restrictions
+ *
+ * @author Mikhail Kamarouski <kamarouski@1pt.com>
+ */
+interface RequirementsServiceInterface
+{
+    const CONFIG_ID = 'taoDelivery/requirements';
 
-        'WebBrowsers': {
-            'actions': {
-                'editInstance': 'controller/WebBrowsers/editInstance'
-            }
-        },
-        'OS': {
-            'actions': {
-                'editInstance': 'controller/OS/editInstance'
-            }
-        }
-    };
-});
+    /**
+     * Whether client complies delivery
+     * @param DeliveryExecution $execution
+     * @return bool
+     */
+    public function isDeliveryComplies(DeliveryExecution $execution);
+
+}

@@ -26,6 +26,8 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\DeliveryAuthorizationService;
+use oat\taoDelivery\model\requirements\RequirementsService;
+
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
@@ -167,5 +169,30 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('3.7.0');
         }
+
+        if ($this->isVersion('3.7.0')) {
+            $this->getServiceManager()->register(RequirementsService::CONFIG_ID, new RequirementsService());
+            
+            $this->setVersion('3.8.0');
+        }
+
+        if ($this->isVersion('3.8.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('3.9.0');
+        }
+
+        if ($this->isVersion('3.9.0')) {
+            $MngrRole = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole');
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $accessService->grantModuleAccess($MngrRole, 'taoDelivery', 'WebBrowsers');
+            $accessService->grantModuleAccess($MngrRole, 'taoDelivery', 'OS');
+            $this->setVersion('3.9.1');
+        }
+
+        if ($this->isVersion('3.9.1') || $this->isVersion('3.9.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('3.9.3');
+        }
+
     }
 }

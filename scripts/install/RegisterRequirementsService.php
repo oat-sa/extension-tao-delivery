@@ -1,3 +1,4 @@
+<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -13,26 +14,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-//@see http://forge.taotesting.com/projects/tao/wiki/Front_js
-define(function () {
-    'use strict';
+namespace oat\taoDelivery\scripts\install;
 
-    return {
+use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\model\requirements\RequirementsService;
 
-        'WebBrowsers': {
-            'actions': {
-                'editInstance': 'controller/WebBrowsers/editInstance'
-            }
-        },
-        'OS': {
-            'actions': {
-                'editInstance': 'controller/OS/editInstance'
-            }
-        }
-    };
-});
+
+/**
+ * Installation action that register the requirements service.
+ *
+ * @author Jérôme Bogaerts <jerome@taotesting.com>
+ */
+class RegisterRequirementsService extends \common_ext_action_InstallAction
+{
+    /**
+     * @param $params
+     */
+    public function __invoke($params)
+    {
+        $serviceManager = ServiceManager::getServiceManager();
+        $serviceManager->register(RequirementsService::CONFIG_ID, new RequirementsService());
+    }
+}

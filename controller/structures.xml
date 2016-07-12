@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE structures SYSTEM "../../tao/doc/structures.dtd">
+<structures>
+
+    <structure id="settings" name="Settings" level="12" group="invisible">
+        <description>Web Browsers Lists</description>
+        <sections>
+            <section id="manage_browsers" name="Web Browsers Lists"
+                     url="/taoDelivery/WebBrowsers/index">
+                <trees>
+                    <tree name="Browser Lists"
+                          className="Browser Lists"
+                          dataUrl="/taoDelivery/WebBrowsers/getOntologyData"
+                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#WebBrowser"
+                          selectClass="web-browser-class-properties"
+                          selectInstance="web-browser-properties"
+                          delete="web-browser-delete"
+                    />
+                </trees>
+                <actions>
+                    <action id="web-browser-class-properties" name="Properties"
+                            url="/taoDelivery/WebBrowsers/editClassProperties" group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action id="web-browser-class-new" name="New Class" url="/taoDelivery/WebBrowsers/addSubClass"
+                            context="resource" group="tree" binding="subClass">
+                        <icon id="icon-folder-open"/>
+                    </action>
+                    <action id="web-browser-properties" name="Properties" url="/taoDelivery/WebBrowsers/editInstance"
+                            group="content" context="instance">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action id="web-browser-delete" name="Delete" url="/taoDelivery/WebBrowsers/delete"
+                            context="resource" group="tree" binding="removeNode">
+                        <icon id="icon-bin"/>
+                    </action>
+                    <action id="web-browser-new" name="Add" url="/taoDelivery/WebBrowsers/addInstance"
+                            context="resource"
+                            group="tree" binding="instanciate">
+                        <icon id="icon-add"/>
+                    </action>
+                </actions>
+            </section>
+            <section id="manage_os" name="OS Lists"
+                     url="/taoDelivery/OS/index">
+                <trees>
+                    <tree name="OS Lists"
+                          className="OS Lists"
+                          dataUrl="/taoDelivery/OS/getOntologyData"
+                          rootNode="http://www.tao.lu/Ontologies/TAODelivery.rdf#OS"
+                          selectClass="os-class-properties"
+                          selectInstance="os-properties"
+                          delete="os-delete"
+                    />
+                </trees>
+                <actions>
+                    <action id="os-class-properties" name="Properties" url="/taoDelivery/OS/editClassProperties"
+                            group="content" context="class">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action id="os-class-new" name="New Class" url="/taoDelivery/OS/addSubClass" context="resource"
+                            group="tree" binding="subClass">
+                        <icon id="icon-folder-open"/>
+                    </action>
+                    <action id="os-properties" name="Properties" url="/taoDelivery/OS/editInstance" group="content"
+                            context="instance">
+                        <icon id="icon-edit"/>
+                    </action>
+                    <action id="os-delete" name="Delete" url="/taoDelivery/OS/delete" context="resource"
+                            group="tree" binding="removeNode">
+                        <icon id="icon-bin"/>
+                    </action>
+                    <action id="os-new" name="Add" url="/taoDelivery/OS/addInstance" context="resource" group="tree"
+                            binding="instanciate">
+                        <icon id="icon-add"/>
+                    </action>
+                </actions>
+            </section>
+        </sections>
+    </structure>
+</structures>
