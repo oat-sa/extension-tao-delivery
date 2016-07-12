@@ -19,11 +19,13 @@
  */
 namespace oat\taoDelivery\model\requirements;
 
+use Sinergi\BrowserDetector\Os;
+
 /**
  * Service to manage the authoring of deliveries
  *
  * @access public
- * @author Joel Bout, <joel@taotesting.com>
+ * @author Mikhail Kamarouski, <kamarouski@1pt.com>
  * @package taoDelivery
  */
 class OSService extends Base
@@ -36,18 +38,20 @@ class OSService extends Base
     /**
      * Get Text interpretation of detected OS name
      * @return string
+     * @throws \Sinergi\BrowserDetector\InvalidArgumentException
      */
     public function getClientName()
     {
-        return $this->getClientInfo()->os->name;
+        return (new Os())->getName();
     }
 
     /**
      * @return string
+     * @throws \Sinergi\BrowserDetector\InvalidArgumentException
      */
     public function getClientVersion()
     {
-        return $this->getClientInfo()->os->version->value;
+        return (new Os())->getVersion();
     }
 
 }

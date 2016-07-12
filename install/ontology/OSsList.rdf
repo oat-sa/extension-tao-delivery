@@ -62,10 +62,76 @@
         <tao:OSMake><![CDATA[Android]]></tao:OSMake>
     </rdf:Description>
 
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Nokia">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Nokia]]></rdfs:label>
+        <tao:OSMake><![CDATA[Nokia]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#BlackBerry">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[BlackBerry]]></rdfs:label>
+        <tao:OSMake><![CDATA[BlackBerry]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#FreeBSD">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[FreeBSD]]></rdfs:label>
+        <tao:OSMake><![CDATA[FreeBSD]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#OpenBSD">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[OpenBSD]]></rdfs:label>
+        <tao:OSMake><![CDATA[OpenBSD]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#NetBSD">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[NetBSD]]></rdfs:label>
+        <tao:OSMake><![CDATA[NetBSD]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#OpenSolaris">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[OpenSolaris]]></rdfs:label>
+        <tao:OSMake><![CDATA[OpenSolaris]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#SunOS">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[SunOS]]></rdfs:label>
+        <tao:OSMake><![CDATA[SunOS]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#OS2">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[OS2]]></rdfs:label>
+        <tao:OSMake><![CDATA[OS2]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#BeOS">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[BeOS]]></rdfs:label>
+        <tao:OSMake><![CDATA[BeOS]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#WindowsPhone">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Windows Phone]]></rdfs:label>
+        <tao:OSMake><![CDATA[Windows Phone]]></tao:OSMake>
+    </rdf:Description>
+
     <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#iOS">
         <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
         <rdfs:label xml:lang="en-US"><![CDATA[iOS]]></rdfs:label>
         <tao:OSMake><![CDATA[iOS]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ChromeOS">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Chrome OS]]></rdfs:label>
+        <tao:OSMake><![CDATA[Chrome OS]]></tao:OSMake>
     </rdf:Description>
 
     <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#webOS">
@@ -74,10 +140,16 @@
         <tao:OSMake><![CDATA[webOS]]></tao:OSMake>
     </rdf:Description>
 
-    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#Unix">
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#SymbOS">
         <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
-        <rdfs:label xml:lang="en-US"><![CDATA[Unix]]></rdfs:label>
-        <tao:OSMake><![CDATA[Unix]]></tao:OSMake>
+        <rdfs:label xml:lang="en-US"><![CDATA[SymbOS]]></rdfs:label>
+        <tao:OSMake><![CDATA[SymbOS]]></tao:OSMake>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#UnknownOS">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#OSMake"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[unknown]]></rdfs:label>
+        <tao:OSMake><![CDATA[unknown]]></tao:OSMake>
     </rdf:Description>
 
 </rdf:RDF>

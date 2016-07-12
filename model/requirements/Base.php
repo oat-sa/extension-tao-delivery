@@ -21,8 +21,6 @@ namespace oat\taoDelivery\model\requirements;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\oatbox\service\ServiceManager;
-use oat\taoClientDiagnostic\model\ClientDetectService;
 
 /**
  * Service to manage the authoring of deliveries
@@ -81,16 +79,4 @@ abstract class Base extends \tao_models_classes_ClassService
         return $result;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getClientInfo()
-    {
-
-        if (!$this->detectedClient) {
-            $this->detectedClient = ServiceManager::getServiceManager()->get(ClientDetectService::SERVICE_ID)->getClientInfo();
-        }
-
-        return $this->detectedClient;
-    }
 }

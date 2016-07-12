@@ -189,9 +189,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.9.1');
         }
 
-        if ($this->isVersion('3.9.1')) {
+        if ($this->isVersion('3.9.1') || $this->isVersion('3.9.2')) {
             OntologyUpdater::syncModels();
-            $this->setVersion('3.9.2');
+            $this->setVersion('3.9.3');
         }
 
     }
