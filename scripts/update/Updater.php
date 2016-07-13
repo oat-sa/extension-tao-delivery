@@ -20,10 +20,12 @@
  */
 namespace oat\taoDelivery\scripts\update;
 
+
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
-
+use oat\taoDelivery\model\authorization\AuthorizationService;
+use oat\taoDelivery\model\authorization\DeliveryAuthorizationService;
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
@@ -157,6 +159,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.3.0');
         }
 
-        $this->skip('3.3.0','3.7.0');
+        $this->skip('3.3.0','3.6.0');
+
+        if ($this->isVersion('3.6.0')) {
+
+            $this->getServiceManager()->register(AuthorizationService::CONFIG_ID, new DeliveryAuthorizationService());
+
+            $this->setVersion('3.7.0');
+        }
+
+        $this->skip('3.7.0','3.8.0');
     }
 }
