@@ -29,14 +29,12 @@ use oat\oatbox\user\User;
  */
 interface AuthorizationService
 {
-    const CONFIG_ID = 'taoDelivery/authorization';
+    const SERVICE_ID = 'taoDelivery/authorization';
 
     /**
      * Returns the the authorization provider for the given delivery execution.
      *
-     * @param DeliveryExecution $deliveryExecution the delivery to authorize
-     * @param User $user the current user
      * @return AuthorizationProvider
      */
-    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution, User $user);
+    public function getAuthorizationProvider();
 }

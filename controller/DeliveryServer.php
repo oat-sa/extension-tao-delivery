@@ -33,6 +33,7 @@ use oat\taoDelivery\model\authorization\AuthorizationPrvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\taoDelivery\model\authorization\UnAuthorizedException;
 
 /**
  * DeliveryServer Controller
@@ -126,6 +127,8 @@ class DeliveryServer extends \tao_actions_CommonModule
         $user              = common_session_SessionManager::getSession()->getUser();
         $assignmentService = $this->getServiceManager()->get(AssignmentService::CONFIG_ID);
 
+        $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
+
         //check if the assignment allows the user to start the delivery and the authorization provider
         if ( ! $assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ) {
             throw new \common_exception_Unauthorized();
@@ -142,14 +145,10 @@ class DeliveryServer extends \tao_actions_CommonModule
     public function initDeliveryExecution() {
         try {
             $deliveryExecution = $this->_initDeliveryExecution();
-
-            if( ! $this->isDeliveryExecutionAuthorized($deliveryExecution)) {
-                throw new \common_exception_Unauthorized();
-            }
-
             //if authorized we can move to this URL.
             $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
-
+        } catch (UnAuthorizedException $e) {
+            return $this->redirect($e->getErrorPage());
         } catch (\common_exception_Unauthorized $e) {
             return $this->returnError(__('You are no longer allowed to take this test'), true);
         }
@@ -166,7 +165,13 @@ class DeliveryServer extends \tao_actions_CommonModule
                 \common_Logger::w('WRONG STATE');
 	        $this->redirect($this->getReturnUrl());
 	    }
-	    
+
+        try {
+            $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
+        } catch (UnAuthorizedException $e) {
+            return $this->redirect($e->getErrorPage());
+        }
+
 	    $userUri = common_session_SessionManager::getSession()->getUserUri();
 	    if ($deliveryExecution->getUserIdentifier() != $userUri) {
 	        throw new common_exception_Error('User '.$userUri.' is not the owner of the execution '.$deliveryExecution->getIdentifier());
@@ -274,22 +279,37 @@ class DeliveryServer extends \tao_actions_CommonModule
      * @param DeliveryExecution $deliveryExecution
      * @return AuthorizationProvider
      */
-    protected function getAuthorizationProvider(DeliveryExecution $deliveryExecution)
+    protected function getAuthorizationProvider()
+    {
+        $authService = $this->getServiceManager()->get(AuthorizationService::SERVICE_ID);
+        return $authService->getAuthorizationProvider();
+    }
+    
+    /**
+     * Verify if the start of the delivery is allowed.
+     * Throws an exception if not
+     *
+     * @param string $deliveryId
+     * @throws UnAuthorizedException
+     */
+    protected function verifyDeliveryStartAuthorized($deliveryId)
     {
         $user = \common_session_SessionManager::getSession()->getUser();
-        $authService = $this->getServiceManager()->get(AuthorizationService::CONFIG_ID);
-        return $authService->getAuthorizationProvider($deliveryExecution, $user);
+        $this->getAuthorizationProvider()->verifyStartAuthorization($deliveryId, $user);
     }
-
+    
     /**
      * Check wether the delivery execution is authorized to run
+     * Throws an exception if not
      *
      * @param DeliveryExecution $deliveryExecution
      * @return boolean
+     * @throws UnAuthorizedException
      */
-    protected function isDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution)
+    protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution)
     {
-        return $this->getAuthorizationProvider($deliveryExecution)->isAuthorized();
+        $user = \common_session_SessionManager::getSession()->getUser();
+        $this->getAuthorizationProvider()->verifyResumeAuthorization($deliveryExecution, $user);
     }
 
     public function logout()
