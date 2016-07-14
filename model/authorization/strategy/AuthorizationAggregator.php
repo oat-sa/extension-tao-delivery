@@ -24,8 +24,6 @@ use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
-
-use oat\taoClientRestrict\model\ClientAuthorizationProvider;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
