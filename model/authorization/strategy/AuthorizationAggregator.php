@@ -29,9 +29,8 @@ use oat\taoClientRestrict\model\ClientAuthorizationProvider;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
- * Base implementation of the Authorization service.
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * An Authorization Aggregator, that requires all internal
+ * authorization providers to allow access
  */
 class AuthorizationAggregator extends ConfigurableService  implements AuthorizationService, AuthorizationProvider
 {
@@ -98,6 +97,8 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
     }
     
     /**
+     * Add an additional authorization provider that needs
+     * to be satisfied as well
      * 
      * @param AuthorizationProvider $provider
      */
@@ -105,6 +106,23 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
     {
         $providers = $this->getOption(self::OPTION_PROVIDERS);
         $providers[] = $provider;
+        $this->setOption(self::OPTION_PROVIDERS, $providers);
+    }
+    
+    /**
+     * Remove an existing authorization provider, identified by
+     * exact class
+     * 
+     * @param AuthorizationProvider $provider
+     */
+    public function unregister($providerClass)
+    {
+        $providers = $this->getOption(self::OPTION_PROVIDERS);
+        foreach ($providers as $key => $provider) {
+            if (get_class($provider) == $providerClass) {
+                unset($providers[$key]);
+            }
+        }
         $this->setOption(self::OPTION_PROVIDERS, $providers);
     }
 }

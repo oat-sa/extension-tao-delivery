@@ -161,10 +161,6 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
-            if ($deliveryExecution->getState()->getUri() != DeliveryExecution::STATE_ACTIVE && $deliveryExecution->getState()->getUri() != DeliveryExecution::STATE_PAUSED) {
-                \common_Logger::w('WRONG STATE');
-	        $this->redirect($this->getReturnUrl());
-	    }
 
         try {
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
