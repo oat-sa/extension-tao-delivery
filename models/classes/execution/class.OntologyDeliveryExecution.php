@@ -130,7 +130,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         $state = new core_kernel_classes_Resource($state);
         $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state->getUri()) {
-            common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state);
+            common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state->getUri());
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
