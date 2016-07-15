@@ -26,6 +26,8 @@ use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\DeliveryAuthorizationService;
+use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
+use oat\taoDelivery\model\authorization\strategy\StateValidation;
 /**
  * 
  * @author Joel Bout <joel@taotesting.com>
@@ -159,15 +161,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.3.0');
         }
 
-        $this->skip('3.3.0','3.6.0');
-
-        if ($this->isVersion('3.6.0')) {
-
-            $this->getServiceManager()->register(AuthorizationService::CONFIG_ID, new DeliveryAuthorizationService());
-
-            $this->setVersion('3.7.0');
+        $this->skip('3.3.0', '3.10.0');
+        
+        if ($this->isVersion('3.10.0')) {
+        
+            $service = new AuthorizationAggregator();
+            $service->addProvider(new StateValidation());
+            $this->getServiceManager()->register(AuthorizationService::SERVICE_ID, $service);
+        
+            $this->setVersion('4.0.0');
         }
-
-        $this->skip('3.7.0','3.10.0');
     }
 }
