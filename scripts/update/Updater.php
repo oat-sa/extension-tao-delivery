@@ -161,9 +161,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.3.0');
         }
 
-        $this->skip('3.3.0', '3.8.0');
+        $this->skip('3.3.0', '3.10.0');
         
-        if ($this->isVersion('3.8.0')) {
+        if ($this->isVersion('3.10.0')) {
         
             $service = new AuthorizationAggregator();
             $service->addProvider(new StateValidation());
