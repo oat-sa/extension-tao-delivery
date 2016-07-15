@@ -19,7 +19,7 @@
  */
 namespace oat\taoDelivery\model\authorization;
 
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
 
 /**
