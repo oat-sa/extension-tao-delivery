@@ -19,6 +19,8 @@
  */
 namespace oat\taoDelivery\model\authorization;
 
+use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 /**
  * Provides authorization capabilities.
  * The provider needs to be contextualized, it answer based on it's current state.
@@ -29,24 +31,19 @@ interface AuthorizationProvider
 {
 
     /**
-     * Is the current resource authorized ?
-     *
-     * @return boolean true if authorized.
+     * Verify that a given delivery is allowed to be started
+     * 
+     * @param string $deliveryId
+     * @throws \common_exception_Unauthorized
      */
-    public function isAuthorized();
-
-
+    public function verifyStartAuthorization($deliveryId, User $user);
+    
     /**
-     * Grant the current resource, so it will be then authorized.
-     *
-     * @return boolean true if everything went ok.
+     * Verify that a given delivery execution is allowed to be executed
+     * 
+     * @param DeliveryExecution $deliveryExecution
+     * @param User $user
+     * @throws \common_exception_Unauthorized
      */
-    public function grant();
-
-    /**
-     * Revoke the current resource, so it won't be then authorized.
-     *
-     * @return boolean true if everything went ok.
-     */
-    public function revoke();
+    public function verifyResumeAuthorization(DeliveryExecution $deliveryExecution, User $user);
 }

@@ -19,26 +19,23 @@
  */
 namespace oat\taoDelivery\model\authorization;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\oatbox\user\User;
-
+use oat\taoDelivery\model\execution\DeliveryExecution;
 /**
- * Base implementation of the Authorization service.
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * Exception in case of a failed authorization
  */
-class DeliveryAuthorizationService extends ConfigurableService  implements AuthorizationService
+class UnAuthorizedException extends \common_exception_Unauthorized
 {
-
-    /**
-     * Returns the base authorization provider.
-     *
-     * @param DeliveryExecution $deliveryExecution the delivery to authorize
-     * @return AuthorizationProvider 
-     */
-    public function getAuthorizationProvider(DeliveryExecution $deliveryExecution, User $user)
+    private $errorPage;
+    
+    public function __construct($errorPage, $message = null)
     {
-        return new DeliveryAuthorizationProvider();
+        parent::__construct($message);
+        $this->errorPage = $errorPage;
+    }
+    
+    public function getErrorPage()
+    {
+        return $this->errorPage;
     }
 }
