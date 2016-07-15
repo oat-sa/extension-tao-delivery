@@ -96,6 +96,14 @@ class DeliveryServer extends \tao_actions_CommonModule
 		    $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
 		}
 		$this->setData('availableDeliveries', $deliveryData);
+
+		/**
+		 * Warning messages for test takers
+		 */
+		
+		if ($this->getRequest()->hasParameter('warning') && !empty($this->getRequest()->getParameter('warning'))) {
+			$this->setData('warningMessage', $this->getRequest()->getParameter('warning'));
+		}
 		
 		/**
 		 *  Require JS config
@@ -150,7 +158,10 @@ class DeliveryServer extends \tao_actions_CommonModule
         } catch (UnAuthorizedException $e) {
             return $this->redirect($e->getErrorPage());
         } catch (\common_exception_Unauthorized $e) {
-            return $this->returnError(__('You are no longer allowed to take this test'), true);
+            return $this->returnJson([
+                'success' => false,
+                'message' => __('You are no longer allowed to take this test')
+            ], 403);
         }
     }
 
