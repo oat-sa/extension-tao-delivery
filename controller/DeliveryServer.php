@@ -95,6 +95,14 @@ class DeliveryServer extends \tao_actions_CommonModule
 		    $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
 		}
 		$this->setData('availableDeliveries', $deliveryData);
+
+		/**
+		 * Warning messages for test takers
+		 */
+		
+		if ($this->getRequest()->hasParameter('warning') && !empty($this->getRequest()->getParameter('warning'))) {
+			$this->setData('warningMessage', $this->getRequest()->getParameter('warning'));
+		}
 		
 		/**
 		 *  Require JS config
