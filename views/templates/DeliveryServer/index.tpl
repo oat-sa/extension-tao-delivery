@@ -14,7 +14,7 @@ $warningMessage = get_data('warningMessage');
         <p class="feedback-danger small">
             <?= $warningMessage ?>
         </p>
-    <?endif; ?>
+    <?php endif; ?>
     
     <?php if (count($resumableDeliveries) > 0) : ?>
         <h2 class="info">
