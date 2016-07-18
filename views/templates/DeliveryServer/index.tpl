@@ -7,15 +7,11 @@ $availableDeliveries = get_data('availableDeliveries');
 $warningMessage = get_data('warningMessage');
 ?>
 <div class="test-listing">
-    
+
     <h1><?= __("My Tests"); ?></h1>
 
-    <?php if ($warningMessage) :?>
-        <p class="feedback-danger small">
-            <?= $warningMessage ?>
-        </p>
-    <?php endif; ?>
-    
+    <div class="permanent-feedback"></div>
+
     <?php if (count($resumableDeliveries) > 0) : ?>
         <h2 class="info">
             <?= __("In progress") ?>: <?= count($resumableDeliveries); ?>
