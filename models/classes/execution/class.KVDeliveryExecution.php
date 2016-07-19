@@ -104,7 +104,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     {
         try {
             return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
-        } catch (common_Exception $missingException) {
+        } catch (common_exception_NotFound $missingException) {
             return null;
         }
     }
@@ -185,7 +185,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
             $this->data = json_decode($dataString, true);
         }
         if (! isset($this->data[$dataKey])) {
-            throw new common_Exception('Information ' . $dataKey . ' not found for entry ' . $this->id);
+            throw new common_exception_NotFound('Information ' . $dataKey . ' not found for entry ' . $this->id);
         }
         return $this->data[$dataKey];
     }

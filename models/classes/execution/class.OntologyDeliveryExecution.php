@@ -64,11 +64,11 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getStartTime() {
         if (!isset($this->startTime)) {
-            $startTime = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_START);
-            $this->startTime = (string)$this->getUniquePropertyValue($startTime);
+            $this->startTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_START);
         }
         return $this->startTime;
     }
+
     
     /**
      * (non-PHPdoc)
@@ -76,9 +76,12 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getFinishTime() {
         if (!isset($this->finishTime)) {
-            $finishProperty = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END);
-            $finishTime = $this->getOnePropertyValue($finishProperty);
-            $this->finishTime = is_null($finishTime) ? null : (string)$finishTime;
+            $this->finishTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_END);
+            try {
+                $this->finishTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_END);
+            } catch (common_exception_NotFound $missingException) {
+                $this->finishTime = null;
+            }
         }
         return $this->finishTime;
     }
@@ -89,7 +92,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getState() {
         if (!isset($this->state)) {
-            $state = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS));
+            $state = $this->getData(PROPERTY_DELVIERYEXECUTION_STATUS);
             if (!$state instanceof core_kernel_classes_Resource) {
                 $state = new core_kernel_classes_Resource((string)$state);
             }
@@ -104,7 +107,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getDelivery() {
         if (!isset($this->delivery)) {
-            $this->delivery = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+            $this->delivery = $this->getData(PROPERTY_DELVIERYEXECUTION_DELIVERY);
         }
         return $this->delivery;
     }
@@ -115,7 +118,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getUserIdentifier() {
         if (!isset($this->userIdentifier)) {
-            $user = $this->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_SUBJECT));
+            $user = $this->getData(PROPERTY_DELVIERYEXECUTION_SUBJECT);
             $this->userIdentifier =  ($user instanceof core_kernel_classes_Resource) ? $user->getUri() : (string)$user;
         }
         return $this->userIdentifier;
@@ -139,5 +142,16 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         }
         $this->state = $state;
         return true;
+    }
+
+
+    private function getData($propertyName){
+        $property = new core_kernel_classes_Property($propertyName);
+        $propertyValue = $this->getOnePropertyValue($property);
+        if(is_null($propertyValue)){
+            throw new common_exception_NotFound('Property '.$propertyName.' not found for resource ' . $this->getUri());
+        }
+
+        return $propertyValue;
     }
 }
