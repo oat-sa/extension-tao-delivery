@@ -27,7 +27,11 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'taoDelivery/controller/routes',
                 include : ext.getExtensionsControllers(['taoDelivery']),
-                exclude : ['mathJax'].concat(libs)
+                exclude : ['mathJax', 'taoDelivery/controller/DeliveryServer/index'].concat(libs)
+            }, {
+                name: 'taoDelivery/controller/DeliveryServer/index',
+                include: ['lib/require', 'loader/bootstrap'],
+                exclude : ['json!i18ntr/messages.json']
             }]
         }
     };
@@ -37,8 +41,10 @@ module.exports = function(grunt) {
      */
     copy.taodeliverybundle = {
         files: [
-            { src: [out + '/taoDelivery/controller/routes.js'],  dest: root + '/taoDelivery/views/js/controllers.min.js' },
-            { src: [out + '/taoDelivery/controller/routes.js.map'],  dest: root + '/taoDelivery/views/js/controllers.min.js.map' }
+            { src: [out + '/taoDelivery/controller/routes.js'],      dest: root + '/taoDelivery/views/js/controllers.min.js' },
+            { src: [out + '/taoDelivery/controller/routes.js.map'],  dest: root + '/taoDelivery/views/js/controllers.min.js.map' },
+            { src: [out + '/taoDelivery/controller/DeliveryServer/index.js'],       dest: root + '/taoDelivery/views/js/loader/index.min.js' },
+            { src: [out + '/taoDelivery/controller/DeliveryServer/index.js.map'],   dest: root + '/taoDelivery/views/js/loader/index.min.js.map' }
         ]
     };
 

@@ -34,6 +34,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
+use oat\tao\helpers\Template;
 
 /**
  * DeliveryServer Controller
@@ -96,29 +97,33 @@ class DeliveryServer extends \tao_actions_CommonModule
 		    $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
 		}
 		$this->setData('availableDeliveries', $deliveryData);
+                
+        /**
+         * Header & footer info
+         */
+        $this->setData('showControls', $this->showControls());
+        $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 
-		/**
-		 * Warning messages for test takers
-		 */
-		
-		if ($this->getRequest()->hasParameter('warning') && !empty($this->getRequest()->getParameter('warning'))) {
-			$this->setData('warningMessage', $this->getRequest()->getParameter('warning'));
-		}
-		
-		/**
-		 *  Require JS config
-		 */
-		$this->setData('client_config_url', $this->getClientConfigUrl());
-		
-		/**
-		 * Header & footer info
-		 */
-		$this->setData('showControls', $this->showControls());
-	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
-        
+        // Require JS config
+        $this->setData('client_config_url', $this->getClientConfigUrl());
+        $this->setData('client_timeout', $this->getClientTimeout());
+
+        $loaderRenderer = new \Renderer(Template::getTemplate('DeliveryServer/blocks/loader.tpl', 'taoDelivery'));
+        $loaderRenderer->setData('client_config_url', $this->getClientConfigUrl());
+        $loaderParams = [];
+        if ($this->getRequest()->hasParameter('warning') && !empty($this->getRequest()->getParameter('warning'))) {
+            $loaderParams['message'] = [
+                'level' => 'danger',
+                'content' => $this->getRequest()->getParameter('warning'),
+                'timeout' => -1
+            ];
+        }
+        $loaderRenderer->setData('parameters', $loaderParams);
+
         /**
          * Layout template + real template inclusion
          */
+        $this->setData('additional-header', $loaderRenderer);
         $this->setData('content-template', 'DeliveryServer/index.tpl');
         $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
