@@ -94,7 +94,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         if (!isset($this->state)) {
             $state = $this->getData(PROPERTY_DELVIERYEXECUTION_STATUS);
             if (!$state instanceof core_kernel_classes_Resource) {
-                $state = new core_kernel_classes_Resource((string)$state);
+                $state = $this->getResource((string)$state);
             }
             $this->state = $state;
         }
@@ -129,8 +129,8 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      * @see taoDelivery_models_classes_execution_DeliveryExecution::setState()
      */
     public function setState($state) {
-        $statusProp = new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_STATUS);
-        $state = new core_kernel_classes_Resource($state);
+        $statusProp = $this->getProperty(PROPERTY_DELVIERYEXECUTION_STATUS);
+        $state = $this->getResource($state);
         $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state->getUri()) {
             common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state->getUri());
@@ -138,7 +138,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
         }
         $this->editPropertyValues($statusProp, $state);
         if ($state->getUri() == DeliveryExecution::STATE_FINISHIED) {
-            $this->setPropertyValue(new core_kernel_classes_Property(PROPERTY_DELVIERYEXECUTION_END), microtime());
+            $this->setPropertyValue($this->getProperty(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         $this->state = $state;
         return true;
@@ -146,7 +146,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
 
 
     private function getData($propertyName){
-        $property = new core_kernel_classes_Property($propertyName);
+        $property = $this->getProperty($propertyName);
         $propertyValue = $this->getOnePropertyValue($property);
         if(is_null($propertyValue)){
             throw new common_exception_NotFound('Property '.$propertyName.' not found for resource ' . $this->getUri());
