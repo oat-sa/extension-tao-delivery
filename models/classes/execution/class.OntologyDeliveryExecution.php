@@ -76,7 +76,6 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
      */
     public function getFinishTime() {
         if (!isset($this->finishTime)) {
-            $this->finishTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_END);
             try {
                 $this->finishTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_END);
             } catch (common_exception_NotFound $missingException) {
