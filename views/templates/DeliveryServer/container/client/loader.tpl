@@ -13,5 +13,6 @@ use oat\tao\helpers\Template;
         'serviceCallId'        => get_data('serviceCallId'),
         'deliveryServerConfig' => get_data('deliveryServerConfig'),
         'bootstrap'            => get_data('bootstrap'),
+        'plugins'              => get_data('plugins')
     ]
 ); ?>
