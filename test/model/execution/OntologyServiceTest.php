@@ -22,6 +22,9 @@ namespace oat\taoDelivery\test;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use common_ext_ExtensionsManager;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\generis\model\data\Model;
+use oat\generis\model\data\RdfsInterface;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
 class OntologyServiceTest extends TaoPhpUnitTestRunner
 {
@@ -58,5 +61,13 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
         $this->assertFalse($success);
         
         $deliveryExecution->delete();
+    }
+    
+    public function testFailedStartTime()
+    {
+        $execution = new \taoDelivery_models_classes_execution_OntologyDeliveryExecution('http://uri.com/fake#Execution');
+        $this->setExpectedException(\common_exception_NotFound::class);
+        $execution->getStartTime();
+        
     }
 }
