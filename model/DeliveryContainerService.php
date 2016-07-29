@@ -22,18 +22,40 @@ namespace oat\taoDelivery\model;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 
 /**
+ * This service is used to feed the delivery container with the required data to run a test.
  *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 interface  DeliveryContainerService  {
 
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
 
+    /**
+     * Get the list of plugins for the current execution
+     * @param DeliveryExecution $execution
+     * @return array the list of plugins
+     */
     public function getPlugins(DeliveryExecution $execution);
 
+    /**
+     * Get the container bootstrap
+     * @param DeliveryExecution $execution
+     * @return string the bootstrap
+     */
     public function getBootstrap(DeliveryExecution $execution);
 
+    /**
+     * Get the test definition
+     * @param DeliveryExecution $execution
+     * @return string the test definition
+     */
     public function getTestDefinition(DeliveryExecution $execution);
 
+    /**
+     * Get the test compilation
+     * @param DeliveryExecution $execution
+     * @return string the test compilation
+     */
     public function getTestCompilation(DeliveryExecution $execution);
 
 }
