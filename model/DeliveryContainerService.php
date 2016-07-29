@@ -28,7 +28,6 @@ interface  DeliveryContainerService  {
 
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
 
-
     public function getPlugins(DeliveryExecution $execution);
 
     public function getBootstrap(DeliveryExecution $execution);

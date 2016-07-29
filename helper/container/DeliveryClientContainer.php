@@ -56,8 +56,8 @@ class DeliveryClientContainer extends AbstractContainer
         // set the test parameters
         $this->setData('testDefinition', $containerService->getTestDefinition($this->deliveryExecution));
         $this->setData('testCompilation', $containerService->getTestCompilation($this->deliveryExecution));
-        $this->setData('plugins', $containerService->getTestPlugins($this->deliveryExecution));
-        $this->setData('bootstrap', $containerService->getBoostrap($this->deliveryExecution));
+        $this->setData('plugins', $containerService->getPlugins($this->deliveryExecution));
+        $this->setData('bootstrap', $containerService->getBootstrap($this->deliveryExecution));
         $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
     }
 
