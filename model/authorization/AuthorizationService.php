@@ -14,22 +14,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ *
  */
+namespace oat\taoDelivery\model\authorization;
+
+use oat\oatbox\user\User;
 
 /**
- * Default test runner config
+ * Manage the Delivery execution authorization.
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-return array(
-    /**
-     * The name of the controller used as test runner service
-     * @type string
-     */
-    'serviceController' => 'Runner',
+interface AuthorizationService
+{
+    const SERVICE_ID = 'taoDelivery/authorization';
 
     /**
-     * The extension containing the controller used as test runner service
-     * @type string
+     * Returns the the authorization provider for the given delivery execution.
+     *
+     * @return AuthorizationProvider
      */
-    'serviceExtension' => 'taoQtiTest',
-);
+    public function getAuthorizationProvider();
+}
