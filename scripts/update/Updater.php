@@ -172,6 +172,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('4.0.0');
         }
 
-        $this->skip('4.0.0', '4.4.0');
+        $this->skip('4.0.0', '4.4.1');
+
+        if ($this->isVersion('4.4.0')) {
+            \common_ext_ExtensionsManager::singleton()->isInstalled('taoProctoring');
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+            $i = $ext->getConfig(\taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+            $i->setOption(\taoDelivery_models_classes_execution_KeyValueService::OPTION_EXECUTION_STATE_INTERFACE,
+                '\oat\taoProctoring\model\execution\DeliveryExecution');
+            $ext->setConfig(\taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY, $i);
+            $this->setVersion('4.4.1');
+        }
     }
 }
