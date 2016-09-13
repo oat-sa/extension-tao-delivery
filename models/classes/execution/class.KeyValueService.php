@@ -33,6 +33,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
 {
     const OPTION_PERSISTENCE = 'persistence';
 
+    const OPTION_EXECUTION_STATE_INTERFACE = 'executionStateInterface';
+
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
 
     const USER_EXECUTIONS_PREFIX = 'kve_ue_';
@@ -41,6 +43,11 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
      * @var common_persistence_KeyValuePersistence
      */
     private $persistence;
+
+    /**
+     * @var array
+     */
+    private $executionStates;
 
     protected function getPersistence()
     {
@@ -53,17 +60,41 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
         return $this->persistence;
     }
 
+    /**
+     * @return array
+     */
+    protected function getPossibleExecutionStates()
+    {
+        if (is_null($this->executionStates)) {
+
+            $interfaceOption = $this->getOption(self::OPTION_EXECUTION_STATE_INTERFACE);
+
+            $interface = interface_exists($interfaceOption)
+                ? $interfaceOption
+                : DeliveryExecution::class;
+
+            $oClass = new ReflectionClass($interface);
+            $this->executionStates = array_filter($oClass->getConstants(), function ($const) {
+                return 0 === strpos($const, 'STATE_');
+            }, ARRAY_FILTER_USE_KEY);
+
+        }
+        return $this->executionStates;
+    }
+
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $activ = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_ACTIVE);
-        $finished = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_FINISHIED);
-
         $returnValue = array();
-        foreach (array_merge($activ, $finished) as $de) {
-            if ($compiled->equals($de->getDelivery())) {
-                $returnValue[] = $de;
+
+        foreach ($this->getPossibleExecutionStates() as $state) {
+            $executions = $this->getDeliveryExecutionsByStatus($userUri, $state);
+            foreach ($executions as $de) {
+                if ($compiled->equals($de->getDelivery())) {
+                    $returnValue[] = $de;
+                }
             }
         }
+
         return $returnValue;
     }
 
