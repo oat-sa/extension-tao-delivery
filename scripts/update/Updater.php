@@ -21,28 +21,34 @@
 namespace oat\taoDelivery\scripts\update;
 
 
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
-use oat\taoDelivery\model\authorization\DeliveryAuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoProctoring\model\execution\DeliveryExecution;
+use oat\taoProctoring\model\implementation\TestSessionService;
+use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
+use taoDelivery_models_classes_execution_KVDeliveryExecution;
+use taoDelivery_models_classes_execution_ServiceProxy;
+
 /**
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater {
-    
+
     /**
-     * 
+     *
      * @param string $currentVersion
      * @return string $versionUpdatedTo
      */
     public function update($initialVersion) {
-        
+
         $currentVersion = $initialVersion;
-        
+
         //migrate from 2.6 to 2.6.1
         if ($currentVersion == '2.6') {
 
@@ -50,48 +56,48 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.6.1';
         }
-        
+
         if ($currentVersion == '2.6.1') {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-            $className = $ext->getConfig(\taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+            $className = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
             if (is_string($className)) {
                 $impl = null;
                 switch ($className) {
-                	case 'taoDelivery_models_classes_execution_OntologyService' :
-                	    $impl = new \taoDelivery_models_classes_execution_OntologyService();
-                	    break;
-                	case 'taoDelivery_models_classes_execution_KeyValueService' :
-                	    $impl = new \taoDelivery_models_classes_execution_KeyValueService(array(
-                    	    \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
-                	    ));
-                	    break;
-                	default :
-                	    \common_Logger::w('Unable to migrate custom execution service');
+                    case 'taoDelivery_models_classes_execution_OntologyService' :
+                        $impl = new \taoDelivery_models_classes_execution_OntologyService();
+                        break;
+                    case 'taoDelivery_models_classes_execution_KeyValueService' :
+                        $impl = new \taoDelivery_models_classes_execution_KeyValueService(array(
+                            \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
+                        ));
+                        break;
+                    default :
+                        \common_Logger::w('Unable to migrate custom execution service');
                 }
                 if (!is_null($impl)) {
-                    $proxy = \taoDelivery_models_classes_execution_ServiceProxy::singleton();
+                    $proxy = taoDelivery_models_classes_execution_ServiceProxy::singleton();
                     $proxy->setImplementation($impl);
                     $currentVersion = '2.6.2';
                 }
             }
         }
         if ($currentVersion == '2.6.2') {
-             $currentVersion = '2.6.3';
+            $currentVersion = '2.6.3';
         }
 
         if ($currentVersion == '2.6.3') {
-        
+
             //data upgrade
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.0';
         }
-        
+
 
         if ($currentVersion == '2.7.0') {
             EntryPointService::getRegistry()->registerEntryPoint(new \taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
             $currentVersion = '2.7.1';
         }
-        
+
         if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
             $currentVersion = '2.9';
         }
@@ -134,12 +140,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->setVersion($currentVersion);
-        
+
         if ($this->isVersion('2.9.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('3.0.0');
         }
-        
+
         if ($this->isBetween('3.0.0','3.1.0')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
             $config = $extension->getConfig('deliveryServer');
@@ -147,7 +153,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $extension->setConfig('deliveryServer', $config);
             $this->setVersion('3.1.0');
         }
-        
+
         $this->skip('3.1.0','3.2.0');
 
         if ($this->isVersion('3.2.0')) {
@@ -162,16 +168,55 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('3.3.0', '3.10.0');
-        
+
         if ($this->isVersion('3.10.0')) {
-        
+
             $service = new AuthorizationAggregator();
             $service->addProvider(new StateValidation());
             $this->getServiceManager()->register(AuthorizationService::SERVICE_ID, $service);
-        
+
             $this->setVersion('4.0.0');
         }
 
         $this->skip('4.0.0', '4.4.0');
+
+
+        if ($this->isVersion('4.4.0')) {
+
+            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+
+            $i = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+            if ($i instanceof \taoDelivery_models_classes_execution_KeyValueService) {
+                /** @var DeliveryMonitoringService $deliveryMonitoringService */
+                $deliveryMonitoringService = ServiceManager::getServiceManager()->get(DeliveryMonitoringService::CONFIG_ID);
+                $deliveryExecutionsData = $deliveryMonitoringService->find(
+                    [
+                        ['start_time' => '>0']
+                    ]
+                );
+
+                $persistenceOption = $i->getOption('persistence');
+                $persistence = (is_object($persistenceOption))
+                    ? $persistenceOption
+                    : \common_persistence_KeyValuePersistence::getPersistence($persistenceOption);
+
+                $deImplementation = new taoDelivery_models_classes_execution_KVDeliveryExecution($persistence, '');
+                $method = new \ReflectionMethod('taoDelivery_models_classes_execution_KVDeliveryExecution',
+                    'refreshUserExecutionList');
+                $method->setAccessible(true);
+
+                foreach ($deliveryExecutionsData as $deliveryExecutionData) {
+                    $data = $deliveryExecutionData->get();
+
+                    $method->invoke($deImplementation,
+                        $data[DeliveryMonitoringService::TEST_TAKER],
+                        $data[DeliveryMonitoringService::DELIVERY_ID],
+                        $data[DeliveryMonitoringService::DELIVERY_EXECUTION_ID]);
+
+                }
+            }
+            $this->setVersion('4.0.1');
+
+        }
     }
 }

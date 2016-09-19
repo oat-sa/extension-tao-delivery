@@ -33,6 +33,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
 {
 
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
+    const USER_DELIVERY_PREFIX = 'kve_ud_';
 
     /**
      *
@@ -47,7 +48,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      *
      * @param common_persistence_KeyValuePersistence $persistence
-     * @param unknown $userId
+     * @param string $userId
      * @param core_kernel_classes_Resource $assembly
      * @return DeliveryExecution
      */
@@ -63,6 +64,8 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         );
         $kvDe = new static($persistence, $identifier, $params);
         $kvDe->save();
+
+        $kvDe->refreshUserExecutionList($userId, $assembly->getUri(), $identifier);
 
         $de = new DeliveryExecution($kvDe);
         return $de;
@@ -83,6 +86,22 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     public function getIdentifier()
     {
         return $this->id;
+    }
+
+    /**
+     * @param $userId
+     * @param $assemblyId
+     * @param $executionId
+     */
+    private function refreshUserExecutionList($userId, $assemblyId, $executionId)
+    {
+        $uid = self::USER_DELIVERY_PREFIX . $userId . $assemblyId;
+        $data = json_decode($this->getPersistence()->get($uid));
+        if (!$data) {
+            $data = [];
+        }
+        $data [] = $executionId;
+        $this->getPersistence()->set($uid, json_encode($data));
     }
 
     /**

@@ -37,6 +37,8 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
 
     const USER_EXECUTIONS_PREFIX = 'kve_ue_';
 
+    const USER_DELIVERY_PREFIX = 'kve_ud_';
+
     /**
      * @var common_persistence_KeyValuePersistence
      */
@@ -55,15 +57,17 @@ class taoDelivery_models_classes_execution_KeyValueService extends Configurable
 
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $activ = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_ACTIVE);
-        $finished = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_FINISHIED);
-
         $returnValue = array();
-        foreach (array_merge($activ, $finished) as $de) {
-            if ($compiled->equals($de->getDelivery())) {
-                $returnValue[] = $de;
+        $data = $this->getPersistence()->get(self::USER_DELIVERY_PREFIX . $userUri . $compiled->getUri());
+        $keys = $data !== false ? json_decode($data) : array();
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                $returnValue[$key] = $this->getDeliveryExecution($key);
             }
+        } else {
+            common_Logger::w('Non array "' . gettype($keys) . '" received as active Execution Keys for user ' . $userUri . ' with delivery' . $compiled->getUri());
         }
+
         return $returnValue;
     }
 
