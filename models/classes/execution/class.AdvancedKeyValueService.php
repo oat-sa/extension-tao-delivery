@@ -55,15 +55,22 @@ class taoDelivery_models_classes_execution_AdvancedKeyValueService extends taoDe
      * @param string $userUri
      * @return core_kernel_classes_Resource the delivery execution
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userId)
     {
-        $deImplementation = \taoDelivery_models_classes_execution_AdvancedKVDeliveryExecution::spawn($this->getPersistence(),
-            $userUri, $assembly);
-        $deliveryExecution = new DeliveryExecution($deImplementation);
-
-        $this->updateDeliveryExecutionStatus($deliveryExecution, null, InterfaceDeliveryExecution::STATE_ACTIVE);
-
+        $deliveryExecution = parent::initDeliveryExecution($assembly, $userId);
+        $this->addDeliveryToUserExecutionList($userId, $assembly->getUri(), $deliveryExecution->getIdentifier());
         return $deliveryExecution;
+    }
+
+    private function addDeliveryToUserExecutionList($userId, $assemblyId, $executionId)
+    {
+        $uid = self::USER_DELIVERY_PREFIX . $userId . $assemblyId;
+        $data = json_decode($this->getPersistence()->get($uid));
+        if (!$data) {
+            $data = [];
+        }
+        $data [] = $executionId;
+        $this->getPersistence()->set($uid, json_encode($data));
     }
 
 }
