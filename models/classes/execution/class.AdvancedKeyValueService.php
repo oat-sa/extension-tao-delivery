@@ -52,7 +52,7 @@ class taoDelivery_models_classes_execution_AdvancedKeyValueService extends taoDe
      * Generate a new delivery execution
      *
      * @param core_kernel_classes_Resource $assembly
-     * @param string $userUri
+     * @param string $userId
      * @return core_kernel_classes_Resource the delivery execution
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userId)
