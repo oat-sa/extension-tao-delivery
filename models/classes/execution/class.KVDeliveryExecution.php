@@ -173,7 +173,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
         return true;
     }
 
-    protected function getPersistence()
+    private function getPersistence()
     {
         return $this->persistence;
     }
@@ -202,7 +202,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * Stored the current data
      */
-    protected function save()
+    private function save()
     {
         if (! is_null($this->data)) {
             $this->getPersistence()->set($this->getIdentifier(), json_encode($this->data));
