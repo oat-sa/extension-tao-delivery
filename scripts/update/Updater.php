@@ -21,17 +21,12 @@
 namespace oat\taoDelivery\scripts\update;
 
 
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
-use oat\taoProctoring\model\execution\DeliveryExecution;
-use oat\taoProctoring\model\implementation\TestSessionService;
-use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
-use taoDelivery_models_classes_execution_KVDeliveryExecution;
 use taoDelivery_models_classes_execution_ServiceProxy;
 
 /**
@@ -178,45 +173,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('4.0.0');
         }
 
-        $this->skip('4.0.0', '4.4.0');
-
-
-        if ($this->isVersion('4.4.0')) {
-
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-
-            $i = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
-            if ($i instanceof \taoDelivery_models_classes_execution_KeyValueService) {
-                /** @var DeliveryMonitoringService $deliveryMonitoringService */
-                $deliveryMonitoringService = ServiceManager::getServiceManager()->get(DeliveryMonitoringService::CONFIG_ID);
-                $deliveryExecutionsData = $deliveryMonitoringService->find(
-                    [
-                        ['start_time' => '>0']
-                    ]
-                );
-
-                $persistenceOption = $i->getOption('persistence');
-                $persistence = (is_object($persistenceOption))
-                    ? $persistenceOption
-                    : \common_persistence_KeyValuePersistence::getPersistence($persistenceOption);
-
-                $deImplementation = new taoDelivery_models_classes_execution_KVDeliveryExecution($persistence, '');
-                $method = new \ReflectionMethod('taoDelivery_models_classes_execution_KVDeliveryExecution',
-                    'refreshUserExecutionList');
-                $method->setAccessible(true);
-
-                foreach ($deliveryExecutionsData as $deliveryExecutionData) {
-                    $data = $deliveryExecutionData->get();
-
-                    $method->invoke($deImplementation,
-                        $data[DeliveryMonitoringService::TEST_TAKER],
-                        $data[DeliveryMonitoringService::DELIVERY_ID],
-                        $data[DeliveryMonitoringService::DELIVERY_EXECUTION_ID]);
-
-                }
-            }
-            $this->setVersion('4.0.1');
-
-        }
+        $this->skip('4.0.0', '4.4.1');
     }
 }
