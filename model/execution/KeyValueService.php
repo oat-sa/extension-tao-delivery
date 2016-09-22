@@ -23,9 +23,8 @@ use common_Logger;
 use common_persistence_KeyValuePersistence;
 use core_kernel_classes_Resource;
 use oat\oatbox\Configurable;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use taoDelivery_models_classes_execution_Service;
-use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution as DeliveryExecutionWrapper;
 
 /**
  * Service to manage the execution of deliveries
@@ -95,9 +94,9 @@ class KeyValueService extends Configurable implements taoDelivery_models_classes
     {
         $deImplementation = \taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(),
             $userId, $assembly);
-        $deliveryExecution = new DeliveryExecution($deImplementation);
+        $deliveryExecution = new DeliveryExecutionWrapper($deImplementation);
 
-        $this->updateDeliveryExecutionStatus($deliveryExecution, null, InterfaceDeliveryExecution::STATE_ACTIVE);
+        $this->updateDeliveryExecutionStatus($deliveryExecution, null, DeliveryExecution::STATE_ACTIVE);
 
         $this->addDeliveryToUserExecutionList($userId, $assembly->getUri(), $deliveryExecution->getIdentifier());
         return $deliveryExecution;
@@ -148,7 +147,7 @@ class KeyValueService extends Configurable implements taoDelivery_models_classes
     {
         $deImplementation = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this->getPersistence(),
             $identifier);
-        return new DeliveryExecution($deImplementation);
+        return new DeliveryExecutionWrapper($deImplementation);
     }
 
     /**
