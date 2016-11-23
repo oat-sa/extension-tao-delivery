@@ -184,6 +184,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                             'ext'        => 'taoDelivery',
                             'controller' => 'DeliveryServer',
                             'action'     => 'logout',
+                            'redirect'   => ROOT_URL,
                         ]
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
