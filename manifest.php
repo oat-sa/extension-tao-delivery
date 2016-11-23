@@ -27,7 +27,7 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '4.4.2',
+    'version' => '4.5.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=5.7.0',
@@ -35,7 +35,8 @@ return array(
     ),
     'install' => array(
         'php' => array(
-            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php'
+            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
+             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
