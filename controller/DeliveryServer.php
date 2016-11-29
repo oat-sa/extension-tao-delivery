@@ -119,7 +119,11 @@ class DeliveryServer extends \tao_actions_CommonModule
             ];
         }
         $loaderRenderer->setData('parameters', $loaderParams);
-
+        
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getUrl('logoutDelivery' , []));
+        
         /**
          * Layout template + real template inclusion
          */
@@ -327,6 +331,9 @@ class DeliveryServer extends \tao_actions_CommonModule
     public function logout()
     {
         common_session_SessionManager::endSession();
-        $this->redirect(ROOT_URL);
+        /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+        $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
+        
     }
 }
