@@ -26,10 +26,11 @@ use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
 use core_kernel_classes_Resource;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
-use oat\taoDelivery\model\authorization\AuthorizationPrvider;
+use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
@@ -46,7 +47,7 @@ use oat\tao\helpers\Template;
 class DeliveryServer extends \tao_actions_CommonModule
 {
     /**
-     * @var taoDelivery_models_classes_execution_Service
+     * @var \taoDelivery_models_classes_execution_Service
      */
     private $executionService;
 
@@ -61,7 +62,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	}
 	
 	/**
-	 * @return taoDelivery_models_classes_execution_DeliveryExecution
+	 * @return \taoDelivery_models_classes_execution_DeliveryExecution
 	 */
 	protected function getCurrentDeliveryExecution() {
 	    $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
@@ -121,7 +122,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $loaderRenderer->setData('parameters', $loaderParams);
         
         /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery' , []));
         
         /**
@@ -218,7 +219,11 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 	    $this->setData('showControls', $this->showControls());
         $this->setData('returnUrl', $this->getReturnUrl());
-        
+
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getUrl('logoutDelivery' , []));
+
         /**
          * Layout template + real template inclusion
          */
