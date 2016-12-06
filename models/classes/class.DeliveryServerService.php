@@ -22,6 +22,7 @@ use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\DeliveryContainer;
 
 /**
  * Service to manage the execution of deliveries
@@ -33,7 +34,6 @@ use oat\oatbox\service\ConfigurableService;
 class taoDelivery_models_classes_DeliveryServerService extends ConfigurableService
 {
     const CONFIG_ID = 'taoDelivery/deliveryServer';
-    const PROPERTY_DELIVERY_CONTAINER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainer';
 
     public static function singleton()
     {
@@ -105,10 +105,10 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
     {
         $delivery = $deliveryExecution->getDelivery();
-        $container = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_CONTAINER));
+        $container = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER));
 
         if (!($container instanceof \core_kernel_classes_Literal)) {
-            throw new common_Exception(self::PROPERTY_DELIVERY_CONTAINER . ' property not found');
+            throw new common_Exception(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER . ' property not found');
         }
 
         $containerData = unserialize($container->literal);
