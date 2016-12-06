@@ -108,7 +108,7 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
         $container = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_CONTAINER));
 
         if (!($container instanceof \core_kernel_classes_Literal)) {
-            throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\model\DeliveryContainer');
+            throw new common_Exception(self::PROPERTY_DELIVERY_CONTAINER . ' property not found');
         }
 
         $containerData = unserialize($container->literal);
