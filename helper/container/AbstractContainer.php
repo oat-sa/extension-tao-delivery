@@ -24,12 +24,13 @@ namespace oat\taoDelivery\helper\container;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
+use oat\oatbox\Configurable;
 
 /**
  * Abstract container to simplify the development of
  * simple containers
  */
-abstract class AbstractContainer implements DeliveryContainerInterface
+abstract class AbstractContainer extends Configurable implements DeliveryContainerInterface
 {
     private $data = array();
     
@@ -41,9 +42,11 @@ abstract class AbstractContainer implements DeliveryContainerInterface
     /**
      * DeliveryContainer constructor.
      * @param DeliveryExecution $deliveryExecution
+     * @param array $options
      */
-    public function __construct(DeliveryExecution $deliveryExecution)
+    public function __construct(DeliveryExecution $deliveryExecution, $options = [])
     {
+        $this->setOptions($options);
         $this->deliveryExecution = $deliveryExecution;
         $this->init();
     }

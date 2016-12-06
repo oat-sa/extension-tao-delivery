@@ -33,6 +33,7 @@ use oat\oatbox\service\ConfigurableService;
 class taoDelivery_models_classes_DeliveryServerService extends ConfigurableService
 {
     const CONFIG_ID = 'taoDelivery/deliveryServer';
+    const PROPERTY_DELIVERY_CONTAINER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainer';
 
     public static function singleton()
     {
@@ -103,16 +104,20 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
      */
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
     {
-        $containerClass = $this->getOption('deliveryContainer');
-        $container =  new $containerClass($deliveryExecution);
+        $delivery = $deliveryExecution->getDelivery();
+        $container = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_CONTAINER));
 
-        if (!($container instanceof \oat\taoDelivery\model\DeliveryContainer)) {
+        if (!($container instanceof \core_kernel_classes_Literal)) {
             throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\model\DeliveryContainer');
         }
 
-        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
-        $container->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
+        $containerData = unserialize($container->literal);
+        /** @var \oat\taoDelivery\helper\container\AbstractContainer $deliveryContainer */
+        $deliveryContainer = new $containerData['class']($deliveryExecution, $containerData['options']);
+
+        $deliveryContainer->setData('deliveryExecution', $deliveryExecution->getIdentifier());
+        $deliveryContainer->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
         
-        return $container;
+        return $deliveryContainer;
     }
 }
