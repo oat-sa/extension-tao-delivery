@@ -1,104 +1,107 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-22T14:03:31\n"
-"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
-"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2016-08-01 12:16+0000\n"
+"Last-Translator: eschollmann <erik.schollmann@wbs-it.de>\n"
 "Language: de-DE\n"
-"sourceLanguage: en-US\n"
-"targetLanguage: de-DE\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: de-DE\n"
+"X-POOTLE-MTIME: 1470053794.000000\n"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery"
-msgstr "Delivery"
+msgstr "Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery"
-msgstr "An assembled Delivery"
+msgstr "Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Start Date"
-msgstr "Start Date"
+msgstr "Startdatum"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The start date of the delivery"
-msgstr ""
+msgstr "Anfangsdatum der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "End Date"
-msgstr "End Date"
+msgstr "Enddatum"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The end date of the delivery"
-msgstr ""
+msgstr "Enddatum der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Max. number of executions (default: unlimited)"
-msgstr "Max. number of executions (default: unlimited)"
+msgstr "Max. Anzahl von Ausführungen (Standard: unbegrenzt)"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Maximum Times of Execution per subject"
-msgstr ""
+msgstr "Maximale Anzahl an Ausführungen pro Thema"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Access"
-msgstr ""
+msgstr "Zugang"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Access"
-msgstr ""
+msgstr "Zugang"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Excluded Subjects"
-msgstr "Excluded Subjects"
+msgstr "ausgeschlossene Themen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Excluded Subjects"
-msgstr "Excluded Subjects"
+msgstr "ausgeschlossene Themen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Result Server"
-msgstr "Result Server"
+msgstr "Server für Ergebnisse"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Result Server"
-msgstr "Result Server"
+msgstr "Server für Ergebnisse"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery execution"
-msgstr "Delivery execution"
+msgstr "Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Execution of a delivery"
-msgstr ""
+msgstr "Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Execution's delivery"
-msgstr "Execution's delivery"
+msgstr "Bereitstellung einer Ausführung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery of this execution"
-msgstr ""
+msgstr "Bereitstellung dieser Ausführung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -108,27 +111,27 @@ msgstr "DeliveryExecution Subject"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "test-taker of the delivery execution"
-msgstr ""
+msgstr "Test-Teilnehmer der Bereitstellungsausführung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "DeliveryExecution start"
-msgstr "DeliveryExecution start"
+msgstr "DeliveryExecution Start"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Timestamp of the delivery execution start"
-msgstr ""
+msgstr "Startzeitpunkt für die Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "DeliveryExecution end"
-msgstr "DeliveryExecution end"
+msgstr "DeliveryExecution End"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Timestamp of the delivery finish"
-msgstr ""
+msgstr "Endzeitpunkt für die Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -138,235 +141,234 @@ msgstr "DeliveryExecutions Status"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The current status of the DeliveryExecution"
-msgstr ""
+msgstr "Aktueller Status für die Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "DeliveryExecution status"
-msgstr "DeliveryExecution status"
+msgstr "DeliveryExecution Status"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Status of a delivery execution"
-msgstr ""
+msgstr "Status für die Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Active"
-msgstr "Active"
+msgstr "Aktiv"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Activ status of a delivery execution"
-msgstr ""
+msgstr "Aktiver Status einer Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Finished"
-msgstr "Finished"
+msgstr "Abgeschlossen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Finished status of a delivery execution"
-msgstr ""
+msgstr "Abgeschlossener Status einer Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Abandoned status of a delivery execution"
-msgstr ""
+msgstr "Verwaister Status einer Ausführung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Assembled Delivery "
-msgstr ""
+msgstr "Zusammengesetzte Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "An assembled Delivery"
-msgstr ""
+msgstr "Eine zusammengesetzte Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Compilation Time"
-msgstr "Compilation Time"
+msgstr "Kompilationszeit"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The time of the compilation of the delivery"
-msgstr ""
+msgstr "Zeit der Kompilation der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Compilation Directory"
-msgstr "Compilation Directory"
+msgstr "Kompilationsverzeichnis"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The directory of the compilation of the delivery"
-msgstr ""
+msgstr "Verzeichnis der Kompilation der Abgabe"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery origin"
-msgstr ""
+msgstr "Herkunft der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The original test/template of the delivery"
-msgstr ""
+msgstr "Der ursprüngliche Test/Die ursprüngliche Vorlage der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Runtime"
-msgstr "Runtime"
+msgstr "Laufzeit"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Service call to run the compiled delivery"
-msgstr ""
+msgstr "Serviceanfrage um die kompilierte Bereitstellung zu starten"
 
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Deliveries"
-msgstr "Deliveries"
+msgstr "Bereitstellungen"
 
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Deliveries of the group"
-msgstr ""
+msgstr "Bereitstellungen der Gruppe"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Manager"
-msgstr "Delivery Manager"
+msgstr "Verwaltung der Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Delivery Manager Role"
-msgstr ""
+msgstr "Rolle für die Verwaltung von Bereitstellungen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Guest Access"
-msgstr ""
+msgstr "Gastzugang"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Guest Access"
-msgstr ""
+msgstr "Gastzugang"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Start Date"
-msgstr "The start date of the delivery"
+msgstr "Startdatum"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "End Date"
-msgstr "The end date of the delivery"
+msgstr "Enddatum"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Max. number of executions (default: unlimited)"
-msgstr "Maximum Times of Execution per subject"
+msgstr "Max. Anzahl an Ausführungen (Standard: unbegrenzt)"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Content abstraction"
-msgstr "Delivery Content abstraction"
+msgstr "Abstraktion des Bereitstellungsinhalts"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Content abstraction"
-msgstr "An abstract content class"
+msgstr "Abstraktion des Bereitstellungsinhalts"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "DeliveryContent implementation"
-msgstr "DeliveryContent implementation"
+msgstr "Implementation des Bereitstellungsinhalts"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryContent implementation"
-msgstr "Implementation of the delivery content"
+msgstr "Implementation des Bereitstellungsinhalts"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Content"
-msgstr "Delivery Content"
+msgstr "Bereitstellungsinhalt"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Content"
-msgstr "Delivery Content"
+msgstr "Bereitstellungsinhalt"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery execution"
-msgstr "Execution of a delivery"
+msgstr "Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Execution's delivery"
-msgstr "Delivery of this execution"
+msgstr "Bereitstellung dieser Ausführung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryExecution Subject"
-msgstr "test-taker of the delivery execution"
+msgstr "DeliveryExecution Subject"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryExecution start"
-msgstr "Timestamp of the delivery execution start"
+msgstr "Start der Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryExecution end"
-msgstr "Timestamp of the delivery finish"
+msgstr "Ende der Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryExecutions Status"
-msgstr "The current status of the DeliveryExecution"
+msgstr "Status der Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "DeliveryExecution status"
-msgstr "Status of a delivery execution"
+msgstr "Status der Ausführung einer Bereitstellung"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Active"
-msgstr "Activ status of a delivery execution"
+msgstr "Aktiv"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Finished"
-msgstr "Abandoned status of a delivery execution"
+msgstr "Abgeschlossen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Compilation Time"
-msgstr "The time of the compilation of the delivery"
+msgstr "Kompilationszeit"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Compilation Directory"
-msgstr "The directory of the compilation of the delivery"
+msgstr "Kompilationszeit"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Runtime"
-msgstr "Service call to run the compiled delivery"
+msgstr "Laufzeit"
 
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Deliveries"
-msgstr "Deliveries of the group"
+msgstr "Bereitstellungen"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Manager"
-msgstr "The Delivery Manager Role"
-
+msgstr "Bereitstellungsverwaltung"

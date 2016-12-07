@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:08:44\n"
+"Project-Id-Version: TAO 3.1.0-sprint33\n"
+"PO-Revision-Date: 2016-08-25T14:35:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -13,62 +13,65 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid "Access deliveries as a guest"
+msgid "%s have not implementation for taoDelivery_models_classes_execution_Monitoring"
 msgstr ""
+
+msgid "Access deliveries as a guest"
+msgstr "auf Bereitstellungen als Gast zugreifen"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Alle Rechte vorbehalten."
 
 msgid "Available"
-msgstr ""
+msgstr "Verfügbar"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Diese Abfrage schließen"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Vollbild anzeigen"
 
 msgid "Exit"
-msgstr ""
+msgstr "Beenden"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Gastzugang"
 
 msgid "In progress"
-msgstr ""
+msgstr "In Bearbeitung"
 
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Meine Tests"
 
 msgid "Resume"
-msgstr ""
+msgstr "Fortsetzen"
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "Started at %s"
 msgstr ""
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Einen Test beginnen oder fortsetzen."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - Eine offene und vielseitige computerbasierte Bewertungsplattform"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO Auslieferungs Server"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "TAO Gastzugang"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Testnutzer"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Dieser Test muss im Vollbildmodus durchgeführt werden"
 
 msgid "You are no longer allowed to take this test"
 msgstr ""

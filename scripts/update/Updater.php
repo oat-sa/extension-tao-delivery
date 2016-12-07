@@ -20,25 +20,30 @@
  */
 namespace oat\taoDelivery\scripts\update;
 
+
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\taoDelivery\model\authorization\AuthorizationService;
+use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
+use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use taoDelivery_models_classes_execution_ServiceProxy;
 
 /**
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Updater extends \common_ext_ExtensionUpdater {
-    
+
     /**
-     * 
+     *
      * @param string $currentVersion
      * @return string $versionUpdatedTo
      */
     public function update($initialVersion) {
-        
+
         $currentVersion = $initialVersion;
-        
+
         //migrate from 2.6 to 2.6.1
         if ($currentVersion == '2.6') {
 
@@ -46,48 +51,48 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $currentVersion = '2.6.1';
         }
-        
+
         if ($currentVersion == '2.6.1') {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-            $className = $ext->getConfig(\taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+            $className = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
             if (is_string($className)) {
                 $impl = null;
                 switch ($className) {
-                	case 'taoDelivery_models_classes_execution_OntologyService' :
-                	    $impl = new \taoDelivery_models_classes_execution_OntologyService();
-                	    break;
-                	case 'taoDelivery_models_classes_execution_KeyValueService' :
-                	    $impl = new \taoDelivery_models_classes_execution_KeyValueService(array(
-                    	    \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
-                	    ));
-                	    break;
-                	default :
-                	    \common_Logger::w('Unable to migrate custom execution service');
+                    case 'taoDelivery_models_classes_execution_OntologyService' :
+                        $impl = new \taoDelivery_models_classes_execution_OntologyService();
+                        break;
+                    case 'taoDelivery_models_classes_execution_KeyValueService' :
+                        $impl = new \taoDelivery_models_classes_execution_KeyValueService(array(
+                            \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
+                        ));
+                        break;
+                    default :
+                        \common_Logger::w('Unable to migrate custom execution service');
                 }
                 if (!is_null($impl)) {
-                    $proxy = \taoDelivery_models_classes_execution_ServiceProxy::singleton();
+                    $proxy = taoDelivery_models_classes_execution_ServiceProxy::singleton();
                     $proxy->setImplementation($impl);
                     $currentVersion = '2.6.2';
                 }
             }
         }
         if ($currentVersion == '2.6.2') {
-             $currentVersion = '2.6.3';
+            $currentVersion = '2.6.3';
         }
 
         if ($currentVersion == '2.6.3') {
-        
+
             //data upgrade
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.0';
         }
-        
+
 
         if ($currentVersion == '2.7.0') {
             EntryPointService::getRegistry()->registerEntryPoint(new \taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
             $currentVersion = '2.7.1';
         }
-        
+
         if ($currentVersion == '2.7.1' || $currentVersion == '2.8') {
             $currentVersion = '2.9';
         }
@@ -130,12 +135,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->setVersion($currentVersion);
-        
+
         if ($this->isVersion('2.9.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('3.0.0');
         }
-        
+
         if ($this->isBetween('3.0.0','3.1.0')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
             $config = $extension->getConfig('deliveryServer');
@@ -143,7 +148,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $extension->setConfig('deliveryServer', $config);
             $this->setVersion('3.1.0');
         }
-        
+
         $this->skip('3.1.0','3.2.0');
 
         if ($this->isVersion('3.2.0')) {
@@ -157,6 +162,36 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.3.0');
         }
 
-        $this->skip('3.3.0', '3.3.1');
+        $this->skip('3.3.0', '3.10.0');
+
+        if ($this->isVersion('3.10.0')) {
+
+            $service = new AuthorizationAggregator();
+            $service->addProvider(new StateValidation());
+            $this->getServiceManager()->register(AuthorizationService::SERVICE_ID, $service);
+
+            $this->setVersion('4.0.0');
+        }
+
+        $this->skip('4.0.0', '4.4.2');
+        
+        if ($this->isVersion('4.4.2')) {
+
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setOption('logoutDelivery', 
+                        [
+                            'ext'        => 'taoDelivery',
+                            'controller' => 'DeliveryServer',
+                            'action'     => 'logout',
+                            'redirect'   => ROOT_URL,
+                        ]
+                    );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+
+            $this->setVersion('4.5.0');
+        }
+
+        $this->skip('4.5.0', '4.5.2');
     }
 }

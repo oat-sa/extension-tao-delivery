@@ -31,15 +31,17 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
 
     /**
      * Returns the identifier of the delivery execution
-     * 
+     *
+     * @throws \common_exception_NotFound
      * @return string
      */
     public function getIdentifier();
     
     /**
-     * Retuns a human readable test representation of the delivery execution
+     * Returns a human readable test representation of the delivery execution
      * Should respect the current user's language
-     * 
+     *
+     * @throws \common_exception_NotFound
      * @return string
      */
     public function getLabel();
@@ -47,7 +49,8 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
     /**
      * Returns when the delivery execution was started
      *
-     * @param core_kernel_classes_Resource $assembly
+     * @throws \common_exception_NotFound
+     * @return string
      */
     public function getStartTime();
     
@@ -55,13 +58,15 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
      * Returns when the delivery execution was finished
      * or null if not yet finished
      *
-     * @param core_kernel_classes_Resource $assembly
+     * @throws \common_exception_NotFound
+     * * @return string | null if the execution is not yet finished
      */
     public function getFinishTime();
 
     /**
      * Returns the delivery execution state as resource
-     * 
+     *
+     * @throws \common_exception_NotFound
      * @return core_kernel_classes_Resource 
      */
     public function getState();
@@ -76,6 +81,7 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
     /**
      * Returns the delivery execution delivery as resource
      *
+     * @throws \common_exception_NotFound
      * @return core_kernel_classes_Resource
      */
     public function getDelivery();
@@ -83,6 +89,7 @@ interface taoDelivery_models_classes_execution_DeliveryExecution
     /**
      * Returns the delivery executions user identifier
      *
+     * @throws \common_exception_NotFound
      * @return string
     */
     public function getUserIdentifier();

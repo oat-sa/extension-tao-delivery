@@ -14,22 +14,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016  (original work) Open Assessment Technologies SA;
+ * 
+ * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-/**
- * Default test runner config
- */
-return array(
-    /**
-     * The name of the controller used as test runner service
-     * @type string
-     */
-    'serviceController' => 'Runner',
+namespace oat\taoDelivery\model\AssignmentAggregator;
 
+
+use oat\taoDelivery\model\AssignmentService;
+
+interface UnionAssignmentInterface extends AssignmentService
+{
+    
     /**
-     * The extension containing the controller used as test runner service
-     * @type string
+     * Returns AssignmentServices which was appended for current realisation
+     * 
+     * @return \oat\taoDelivery\model\AssignmentService []
      */
-    'serviceExtension' => 'taoQtiTest',
-);
+    public function getInternalServices();
+}

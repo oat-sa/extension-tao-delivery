@@ -15,7 +15,6 @@ use oat\tao\model\theme\Theme;
         <link rel="stylesheet" href="<?= Template::css('delivery.css', 'taoDelivery') ?>"/>
         <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao')?>"/>
 
-
         <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 
         <?= has_data('additional-header')
@@ -23,6 +22,7 @@ use oat\tao\model\theme\Theme;
             : '' ?>
     </head>
     <body class="delivery-scope">
+    <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
         <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
 

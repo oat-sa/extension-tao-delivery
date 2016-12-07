@@ -20,8 +20,8 @@
 namespace oat\taoDelivery\helper\container;
 
 use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\model\DeliveryContainerService;
 use oat\tao\helpers\Template;
-use oat\taoDelivery\model\AssignmentService;
 
 /**
  * Class DeliveryClientContainer
@@ -29,16 +29,6 @@ use oat\taoDelivery\model\AssignmentService;
  */
 class DeliveryClientContainer extends AbstractContainer
 {
-    /**
-     * The name of the default controller used as the test runner service
-     */
-    const DEFAULT_SERVICE_CONTROLLER = 'Runner';
-
-    /**
-     * The name of the default extension containing the controller used as the test runner service
-     */
-    const DEFAULT_SERVICE_EXTENSION = 'taoQtiTest';
-    
     /**
      * @inheritDoc
      */
@@ -54,32 +44,23 @@ class DeliveryClientContainer extends AbstractContainer
      * @var string
      */
     protected $templateExtension = 'taoDelivery';
-    
+
     /**
      * @inheritDoc
      */
     protected function init()
     {
-        $delivery = $this->deliveryExecution->getDelivery();
-        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
-        $inputParameters = \tao_models_classes_service_ServiceCallHelper::getInputValues($runtime, array());
+
+        $containerService = ServiceManager::getServiceManager()->get(DeliveryContainerService::CONFIG_ID);
 
         // set the test parameters
-        $this->setData('testDefinition', $inputParameters['QtiTestDefinition']);
-        $this->setData('testCompilation', $inputParameters['QtiTestCompilation']);
+        $this->setData('testDefinition', $containerService->getTestDefinition($this->deliveryExecution));
+        $this->setData('testCompilation', $containerService->getTestCompilation($this->deliveryExecution));
+        $this->setData('plugins', $containerService->getPlugins($this->deliveryExecution));
+        $this->setData('bootstrap', $containerService->getBootstrap($this->deliveryExecution));
         $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
-
-        // set the test runner config
-        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        $config = $extension->getConfig('testRunner');
-        
-        $serviceController = isset($config['serviceController']) ? $config['serviceController'] : self::DEFAULT_SERVICE_CONTROLLER; 
-        $serviceExtension = isset($config['serviceExtension']) ? $config['serviceExtension'] : self::DEFAULT_SERVICE_EXTENSION; 
-        
-        $this->setData('serviceController', $serviceController);
-        $this->setData('serviceExtension', $serviceExtension);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()
@@ -88,13 +69,13 @@ class DeliveryClientContainer extends AbstractContainer
     {
         return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\helper\container\AbstractContainer::getBodyTemplate()
      */
     protected function getBodyTemplate()
     {
-        return Template::getTemplate($this->contentTemplate, $this->templateExtension);        
+        return Template::getTemplate($this->contentTemplate, $this->templateExtension);
     }
 }
