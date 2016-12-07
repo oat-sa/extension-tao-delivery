@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:08:45\n"
+"Project-Id-Version: TAO 3.1.0-sprint21\n"
+"PO-Revision-Date: 2016-03-02T13:18:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -14,28 +14,28 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Accès invité pour les passations"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Tous droits réservés"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponible"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Fermer l'invite de commande"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Mode plein écran"
 
 msgid "Exit"
-msgstr ""
+msgstr "Quitter"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Accès invité"
 
 msgid "In progress"
-msgstr ""
+msgstr "En cours"
 
 msgid "Logout"
 msgstr "Déconnexion"
@@ -50,7 +50,7 @@ msgid "Start"
 msgstr "Démarrer"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Commencé à %s"
 
 msgid "Take or continue a test."
 msgstr "Commencer ou reprendre un test."
@@ -62,14 +62,14 @@ msgid "TAO Delivery Server"
 msgstr "Serveur de Passations TAO"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "Accès invité pour TAO"
 
 msgid "Test-Takers"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Ce test a besoin d'être en mode plein écran"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Vous n'êtes plus autorisés à passer ce test"
 
