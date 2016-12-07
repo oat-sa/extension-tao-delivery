@@ -19,9 +19,15 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoDelivery\model\DeliveryContainerService;
 use oat\tao\helpers\Template;
+use common_ext_ExtensionsManager as ExtensionsManager;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoTests\models\runner\plugins\TestPlugin;
+use oat\taoTests\models\runner\plugins\TestPluginService;
+use oat\taoTests\models\runner\features\TestRunnerFeatureService;
+use oat\taoDeliveryRdf\model\TestRunnerFeatures;
+use oat\oatbox\service\ServiceManager;
+
 
 /**
  * Class DeliveryClientContainer
@@ -50,15 +56,11 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function init()
     {
-
-        $containerService = ServiceManager::getServiceManager()->get(DeliveryContainerService::CONFIG_ID);
-
         // set the test parameters
         $this->setData('testDefinition', $this->getOption('testDefinition'));
         $this->setData('testCompilation', $this->getOption('testCompilation'));
-
-        $this->setData('plugins', $containerService->getPlugins($this->deliveryExecution));
-        $this->setData('bootstrap', $containerService->getBootstrap($this->deliveryExecution));
+        $this->setData('plugins', $this->getPlugins($this->deliveryExecution));
+        $this->setData('bootstrap', $this->getBootstrap($this->deliveryExecution));
         $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
     }
 
@@ -78,5 +80,60 @@ class DeliveryClientContainer extends AbstractContainer
     protected function getBodyTemplate()
     {
         return Template::getTemplate($this->contentTemplate, $this->templateExtension);
+    }
+
+    /**
+     * Get the list of active plugins for the current execution
+     * @param DeliveryExecution $deliveryExecution
+     * @return TestPlugin[] the list of plugins
+     */
+    protected function getPlugins(DeliveryExecution $deliveryExecution)
+    {
+        $delivery = $deliveryExecution->getDelivery();
+        $serviceManager = ServiceManager::getServiceManager();
+
+        $pluginService = $serviceManager->get(TestPluginService::CONFIG_ID);
+        $testRunnerFeatureService = $serviceManager->get(TestRunnerFeatureService::SERVICE_ID);
+
+        $allPlugins = $pluginService->getAllPlugins();
+
+        $allTestRunnerFeatures = $testRunnerFeatureService->getAll();
+        $activeTestRunnerFeaturesIds = explode(
+            ',',
+            $delivery->getOnePropertyValue(new \core_kernel_classes_Property(TestRunnerFeatures::TEST_RUNNER_FEATURES_PROPERTY))
+        );
+
+        // If test runner features are defined, we check if we need to disable some plugins accordingly
+        if (count($allTestRunnerFeatures) > 0) {
+            $pluginsToDisable = [];
+            foreach ($allTestRunnerFeatures as $feature) {
+                if (!in_array($feature->getId(), $activeTestRunnerFeaturesIds)) {
+                    $pluginsToDisable = array_merge($pluginsToDisable, $feature->getPluginsIds());
+                }
+            }
+
+            foreach ($allPlugins as $plugin) {
+                if (!is_null($plugin) && in_array($plugin->getId(), $pluginsToDisable)) {
+                    $plugin->setActive(false);
+                }
+            }
+        }
+
+        // return the list of active plugins
+        return array_filter($allPlugins, function ($plugin) {
+            return !is_null($plugin) && $plugin->isActive();
+        });
+    }
+
+    /**
+     * Get the container bootstrap
+     * @param DeliveryExecution $deliveryExecution
+     * @return string the bootstrap
+     */
+    protected function getBootstrap(DeliveryExecution $deliveryExecution)
+    {
+        //FIXME this config is misplaced, this should be a delivery property
+        $config = ExtensionsManager::singleton()->getExtensionById('taoQtiTest')->getConfig('testRunner');
+        return $config['bootstrap'];
     }
 }
