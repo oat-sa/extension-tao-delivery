@@ -105,16 +105,22 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
     {
         $delivery = $deliveryExecution->getDelivery();
-        $container = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER));
+        $containerClassLiteral = $delivery->getOnePropertyValue(
+            new \core_kernel_classes_Property(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER_CLASS)
+        );
+        $containerOptionsLiteral = $delivery->getOnePropertyValue(
+            new \core_kernel_classes_Property(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER_OPTIONS)
+        );
 
-        if (!($container instanceof \core_kernel_classes_Literal)) {
-            throw new common_Exception(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER . ' property not found');
+        if (!($containerClassLiteral instanceof \core_kernel_classes_Literal)) {
+            throw new common_Exception(DeliveryContainer::PROPERTY_DELIVERY_CONTAINER_CLASS . ' property not found');
         }
 
-        $containerData = unserialize($container->literal);
-        /** @var \oat\taoDelivery\helper\container\AbstractContainer $deliveryContainer */
-        $deliveryContainer = new $containerData['class']($deliveryExecution, $containerData['options']);
+        $containerOptions = $containerOptionsLiteral instanceof \core_kernel_classes_Literal ?
+            json_decode($containerOptionsLiteral->literal, true) : [];
 
+        /** @var \oat\taoDelivery\helper\container\AbstractContainer $deliveryContainer */
+        $deliveryContainer = new $containerClassLiteral->literal($deliveryExecution, $containerOptions);
         $deliveryContainer->setData('deliveryExecution', $deliveryExecution->getIdentifier());
         $deliveryContainer->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
         

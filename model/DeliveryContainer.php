@@ -21,7 +21,8 @@ namespace oat\taoDelivery\model;
 
 interface DeliveryContainer
 {
-    const PROPERTY_DELIVERY_CONTAINER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainer';
+    const PROPERTY_DELIVERY_CONTAINER_CLASS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainerClass';
+    const PROPERTY_DELIVERY_CONTAINER_OPTIONS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainerOptions';
 
     /**
      * adds or replaces the data for a specific key
