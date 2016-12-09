@@ -22,7 +22,7 @@ namespace oat\taoDelivery\model\execution;
 use common_Logger;
 use common_persistence_KeyValuePersistence;
 use core_kernel_classes_Resource;
-use oat\oatbox\Configurable;
+use oat\oatbox\service\ConfigurableService;
 use taoDelivery_models_classes_execution_Service;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution as DeliveryExecutionWrapper;
 
@@ -32,7 +32,7 @@ use oat\taoDelivery\models\classes\execution\DeliveryExecution as DeliveryExecut
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends Configurable implements taoDelivery_models_classes_execution_Service
+class KeyValueService extends ConfigurableService implements taoDelivery_models_classes_execution_Service
 {
 
     const OPTION_PERSISTENCE = 'persistence';
