@@ -36,6 +36,20 @@ class DeliveryClientContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
+    public function init()
+    {
+        parent::init();
+        // set the test parameters
+        $this->setData('testDefinition', $this->getOption('testDefinition'));
+        $this->setData('testCompilation', $this->getOption('testCompilation'));
+        $this->setData('plugins', $this->getPlugins($this->deliveryExecution));
+        $this->setData('bootstrap', $this->getBootstrap($this->deliveryExecution));
+        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
 
     /**
@@ -48,19 +62,6 @@ class DeliveryClientContainer extends AbstractContainer
      * @var string
      */
     protected $templateExtension = 'taoDelivery';
-
-    /**
-     * @inheritDoc
-     */
-    protected function init()
-    {
-        // set the test parameters
-        $this->setData('testDefinition', $this->getOption('testDefinition'));
-        $this->setData('testCompilation', $this->getOption('testCompilation'));
-        $this->setData('plugins', $this->getPlugins($this->deliveryExecution));
-        $this->setData('bootstrap', $this->getBootstrap($this->deliveryExecution));
-        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
-    }
 
     /**
      * (non-PHPdoc)

@@ -28,6 +28,17 @@ class DeliveryServiceContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
+    public function init()
+    {
+        parent::init();
+        $delivery = $this->deliveryExecution->getDelivery();
+        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
+        $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected $loaderTemplate = 'DeliveryServer/container/service/loader.tpl';
 
     /**
@@ -40,17 +51,8 @@ class DeliveryServiceContainer extends AbstractContainer
      * @var string
      */
     protected $templateExtension = 'taoDelivery';
-    
-    /**
-     * @inheritDoc
-     */
-    protected function init()
-    {
-        $delivery = $this->deliveryExecution->getDelivery();
-        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
-        $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
-    }
-    
+
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()

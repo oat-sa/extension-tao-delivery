@@ -25,13 +25,17 @@ namespace oat\taoDelivery\helper\container;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
 use oat\oatbox\Configurable;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Abstract container to simplify the development of
  * simple containers
  */
-abstract class AbstractContainer extends Configurable implements DeliveryContainerInterface
+abstract class AbstractContainer extends Configurable implements DeliveryContainerInterface, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     private $data = array();
     
     /**
@@ -48,7 +52,6 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     {
         $this->setOptions($options);
         $this->deliveryExecution = $deliveryExecution;
-        $this->init();
     }
     
     /**
@@ -81,23 +84,28 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     }
 
     /**
-     * Returns the path to the header template
-     * 
-     * @return string
-     */
-    protected abstract function getHeaderTemplate();
-    
-    /**
-     * Returns the path to the body template
-     * 
-     * @return string
-     */
-    protected abstract function getBodyTemplate();
-    
-    /**
      * Delegated constructor
      * @return void
      */
-    abstract protected function init();
+    public function init()
+    {
+        $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+        $this->setData('deliveryExecution', $this->deliveryExecution);
+        $this->setData('deliveryServerConfig', $service->getJsConfig($this->deliveryExecution->getDelivery()));
+    }
+
+    /**
+     * Returns the path to the header template
+     *
+     * @return string
+     */
+    protected abstract function getHeaderTemplate();
+
+    /**
+     * Returns the path to the body template
+     *
+     * @return string
+     */
+    protected abstract function getBodyTemplate();
 
 }
