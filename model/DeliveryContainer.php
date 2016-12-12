@@ -31,6 +31,7 @@ interface DeliveryContainer
 
     /**
      * @param $url
+     * @todo to be removed after finishing of https://oat-sa.atlassian.net/browse/TAO-3011
      */
     public function setFinishUrl($url);
 
