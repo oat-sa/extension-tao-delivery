@@ -207,7 +207,6 @@ class DeliveryServer extends \tao_actions_CommonModule
         $container->setReturnUrl($this->getReturnUrl());
         $container->setFinishUrl($this->getfinishDeliveryExecutionUrl());
 
-        $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
 
