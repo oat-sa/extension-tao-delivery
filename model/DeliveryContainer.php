@@ -25,11 +25,14 @@ interface DeliveryContainer
     const PROPERTY_DELIVERY_CONTAINER_OPTIONS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainerOptions';
 
     /**
-     * Set data to be used to render header and body templates.
-     * @param  string key
-     * @param  mixed value
+     * @param $url
      */
-    public function setData($key, $value);
+    public function setReturnUrl($url);
+
+    /**
+     * @param $url
+     */
+    public function setFinishUrl($url);
 
     /**
      * @param string $url

@@ -107,6 +107,22 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     }
 
     /**
+     * @param string $url
+     */
+    public function setReturnUrl($url)
+    {
+        $this->setData('returnUrl', $url);
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setFinishUrl($url)
+    {
+        $this->setData('finishUrl', $url);
+    }
+
+    /**
      * Get the client timeout value from the config.
      *
      * @return int the timeout value in seconds
