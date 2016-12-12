@@ -36,8 +36,10 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
 {
     use ServiceLocatorAwareTrait;
 
+    protected $initialized = false;
+
     private $data = array();
-    
+
     /**
      * @var DeliveryExecution
      */
@@ -89,8 +91,9 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
      */
     public function init()
     {
+        $this->initialized = true;
         $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
-        $this->setData('deliveryExecution', $this->deliveryExecution);
+        $this->setData('deliveryExecution', $this->deliveryExecution->getIdentifier());
         $this->setData('deliveryServerConfig', $service->getJsConfig($this->deliveryExecution->getDelivery()));
     }
 

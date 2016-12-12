@@ -36,20 +36,6 @@ class DeliveryClientContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
-    public function init()
-    {
-        parent::init();
-        // set the test parameters
-        $this->setData('testDefinition', $this->getOption('testDefinition'));
-        $this->setData('testCompilation', $this->getOption('testCompilation'));
-        $this->setData('plugins', $this->getPlugins($this->deliveryExecution));
-        $this->setData('bootstrap', $this->getBootstrap($this->deliveryExecution));
-        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
 
     /**
@@ -64,11 +50,28 @@ class DeliveryClientContainer extends AbstractContainer
     protected $templateExtension = 'taoDelivery';
 
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        // set the test parameters
+        $this->setData('testDefinition', $this->getOption('testDefinition'));
+        $this->setData('testCompilation', $this->getOption('testCompilation'));
+        $this->setData('plugins', $this->getPlugins($this->deliveryExecution));
+        $this->setData('bootstrap', $this->getBootstrap($this->deliveryExecution));
+        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
+    }
+
+    /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()
      */
     protected function getHeaderTemplate()
     {
+        if ($this->initialized === false) {
+            $this->init();
+        }
         return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
     }
 
@@ -78,6 +81,9 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function getBodyTemplate()
     {
+        if ($this->initialized === false) {
+            $this->init();
+        }
         return Template::getTemplate($this->contentTemplate, $this->templateExtension);
     }
 

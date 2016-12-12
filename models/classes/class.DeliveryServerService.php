@@ -130,8 +130,6 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
             array_merge($containerOptions, $deliveryContainerConfig['options'])
         );
         $deliveryContainer->setServiceLocator($this->getServiceLocator());
-        $deliveryContainer->init();
-
         return $deliveryContainer;
     }
 }

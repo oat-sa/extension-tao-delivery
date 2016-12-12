@@ -25,12 +25,6 @@ interface DeliveryContainer
     const PROPERTY_DELIVERY_CONTAINER_OPTIONS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainerOptions';
 
     /**
-     * Initialize the container
-     * @return mixed
-     */
-    public function init();
-
-    /**
      * Set data to be used to render header and body templates.
      * @param  string key
      * @param  mixed value

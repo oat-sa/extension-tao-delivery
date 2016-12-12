@@ -25,16 +25,6 @@ use oat\tao\helpers\Template;
 
 class DeliveryServiceContainer extends AbstractContainer
 {
-    /**
-     * @inheritDoc
-     */
-    public function init()
-    {
-        parent::init();
-        $delivery = $this->deliveryExecution->getDelivery();
-        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
-        $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
-    }
 
     /**
      * @inheritDoc
@@ -52,6 +42,16 @@ class DeliveryServiceContainer extends AbstractContainer
      */
     protected $templateExtension = 'taoDelivery';
 
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        $delivery = $this->deliveryExecution->getDelivery();
+        $runtime = ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID)->getRuntime($delivery);
+        $this->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi($runtime, $this->deliveryExecution->getIdentifier()));
+    }
 
     /**
      * (non-PHPdoc)
@@ -59,6 +59,9 @@ class DeliveryServiceContainer extends AbstractContainer
      */
     protected function getHeaderTemplate()
     {
+        if ($this->initialized === false) {
+            $this->init();
+        }
         return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
     }
     
@@ -68,6 +71,9 @@ class DeliveryServiceContainer extends AbstractContainer
      */
     protected function getBodyTemplate()
     {
+        if ($this->initialized === false) {
+            $this->init();
+        }
         return Template::getTemplate($this->contentTemplate, $this->templateExtension);        
     }
 }
