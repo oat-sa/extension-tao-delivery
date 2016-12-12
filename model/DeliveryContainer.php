@@ -32,6 +32,11 @@ interface DeliveryContainer
     public function setData($key, $value);
 
     /**
+     * @param string $url
+     */
+    public function setClientConfigUrl($url);
+
+    /**
      * Returns a renderer for additional header data, alowing
      * the container to add custom JS, CSS and meta-data
      *

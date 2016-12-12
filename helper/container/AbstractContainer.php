@@ -95,6 +95,29 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
         $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
         $this->setData('deliveryExecution', $this->deliveryExecution->getIdentifier());
         $this->setData('deliveryServerConfig', $service->getJsConfig($this->deliveryExecution->getDelivery()));
+        $this->setData('client_timeout', $this->getClientTimeout());
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setClientConfigUrl($url)
+    {
+        $this->setData('client_config_url', $url);
+    }
+
+    /**
+     * Get the client timeout value from the config.
+     *
+     * @return int the timeout value in seconds
+     */
+    protected function getClientTimeout(){
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if($config != null && isset($config['timeout'])){
+            return (int)$config['timeout'];
+        }
+        return 30;
     }
 
     /**

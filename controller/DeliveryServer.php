@@ -197,14 +197,13 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $delivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($delivery, $deliveryExecution->getIdentifier());
 
-        /**
-         * Use particular delivery container
-         */
+
+         //Use particular delivery container
+        /** @var \oat\taoDelivery\model\DeliveryContainer $container */
         $container = $this->service->getDeliveryContainer($deliveryExecution);
 
 	    // Require JS config
-        $container->setData('client_config_url', $this->getClientConfigUrl());
-        $container->setData('client_timeout', $this->getClientTimeout());
+        $container->setClientConfigUrl($this->getClientConfigUrl());
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
         $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
