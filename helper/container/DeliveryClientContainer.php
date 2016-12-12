@@ -23,11 +23,6 @@ use oat\tao\helpers\Template;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoTests\models\runner\plugins\TestPlugin;
-use oat\taoTests\models\runner\plugins\TestPluginService;
-use oat\taoTests\models\runner\features\TestRunnerFeatureService;
-use oat\taoDeliveryRdf\model\TestRunnerFeatures;
-use oat\oatbox\service\ServiceManager;
-
 
 /**
  * Class DeliveryClientContainer
@@ -35,6 +30,9 @@ use oat\oatbox\service\ServiceManager;
  */
 class DeliveryClientContainer extends AbstractContainer
 {
+
+    const OPTION_PLUGIN_PROVIDER = 'pluginProvider';
+
     /**
      * @inheritDoc
      */
@@ -89,40 +87,14 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function getPlugins(DeliveryExecution $deliveryExecution)
     {
-        $delivery = $deliveryExecution->getDelivery();
-        $serviceManager = ServiceManager::getServiceManager();
-
-        $pluginService = $serviceManager->get(TestPluginService::CONFIG_ID);
-        $testRunnerFeatureService = $serviceManager->get(TestRunnerFeatureService::SERVICE_ID);
-
-        $allPlugins = $pluginService->getAllPlugins();
-
-        $allTestRunnerFeatures = $testRunnerFeatureService->getAll();
-        $activeTestRunnerFeaturesIds = explode(
-            ',',
-            $delivery->getOnePropertyValue(new \core_kernel_classes_Property(TestRunnerFeatures::TEST_RUNNER_FEATURES_PROPERTY))
-        );
-
-        // If test runner features are defined, we check if we need to disable some plugins accordingly
-        if (count($allTestRunnerFeatures) > 0) {
-            $pluginsToDisable = [];
-            foreach ($allTestRunnerFeatures as $feature) {
-                if (!in_array($feature->getId(), $activeTestRunnerFeaturesIds)) {
-                    $pluginsToDisable = array_merge($pluginsToDisable, $feature->getPluginsIds());
-                }
-            }
-
-            foreach ($allPlugins as $plugin) {
-                if (!is_null($plugin) && in_array($plugin->getId(), $pluginsToDisable)) {
-                    $plugin->setActive(false);
-                }
-            }
+        $result = [];
+        if ($this->hasOption(self::OPTION_PLUGIN_PROVIDER)) {
+            $pluginProviderClass = $this->getOption(self::OPTION_PLUGIN_PROVIDER);
+            /** @var \oat\taoTests\models\runner\plugins\TestPluginProviderInterface $pluginProvider */
+            $pluginProvider = new $pluginProviderClass($deliveryExecution);
+            $result = $pluginProvider->getPlugins();
         }
-
-        // return the list of active plugins
-        return array_filter($allPlugins, function ($plugin) {
-            return !is_null($plugin) && $plugin->isActive();
-        });
+        return $result;
     }
 
     /**

@@ -23,6 +23,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\DeliveryContainer;
+use oat\taoDelivery\model\DeliveryContainerRegistry;
 
 /**
  * Service to manage the execution of deliveries
@@ -118,9 +119,17 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
 
         $containerOptions = $containerOptionsLiteral instanceof \core_kernel_classes_Literal ?
             json_decode($containerOptionsLiteral->literal, true) : [];
+        $containerClass = $containerClassLiteral->literal;
+
+        $deliveryContainerRegistry = DeliveryContainerRegistry::getRegistry();
+        $deliveryContainerConfig = $deliveryContainerRegistry->get($containerClass);
 
         /** @var \oat\taoDelivery\helper\container\AbstractContainer $deliveryContainer */
-        $deliveryContainer = new $containerClassLiteral->literal($deliveryExecution, $containerOptions);
+        $deliveryContainer = new $deliveryContainerConfig['class'](
+            $deliveryExecution,
+            array_merge($containerOptions, $deliveryContainerConfig['options'])
+        );
+
         $deliveryContainer->setData('deliveryExecution', $deliveryExecution->getIdentifier());
         $deliveryContainer->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
         

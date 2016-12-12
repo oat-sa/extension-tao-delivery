@@ -28,6 +28,7 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\taoDelivery\model\DeliveryContainerRegistry;
 
 /**
  *
@@ -193,5 +194,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('4.4.3', '4.6.0');
+
+        if ($this->isVersion('4.6.0')) {
+            $registry = DeliveryContainerRegistry::getRegistry();
+            $registry->register(\oat\taoDelivery\helper\container\DeliveryServiceContainer::class);
+            $registry->register(\oat\taoDelivery\helper\container\DeliveryClientContainer::class);
+            $this->setVersion('4.7.0');
+        }
     }
 }
