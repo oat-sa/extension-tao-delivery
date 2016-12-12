@@ -89,7 +89,7 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
      * Delegated constructor
      * @return void
      */
-    public function init()
+    protected function init()
     {
         $this->initialized = true;
         $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);

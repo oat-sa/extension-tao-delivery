@@ -52,7 +52,7 @@ class DeliveryClientContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
-    public function init()
+    protected function init()
     {
         parent::init();
         // set the test parameters

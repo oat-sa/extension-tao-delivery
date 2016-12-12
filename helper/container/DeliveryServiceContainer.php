@@ -45,7 +45,7 @@ class DeliveryServiceContainer extends AbstractContainer
     /**
      * @inheritDoc
      */
-    public function init()
+    protected function init()
     {
         parent::init();
         $delivery = $this->deliveryExecution->getDelivery();
