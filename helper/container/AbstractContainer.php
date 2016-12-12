@@ -60,7 +60,7 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\DeliveryContainer::setData()
      */
-    public function setData($key, $value)
+    protected function setData($key, $value)
     {
         $this->data[$key] = $value;
     }
