@@ -207,12 +207,10 @@ class DeliveryServer extends \tao_actions_CommonModule
         $container->setData('client_timeout', $this->getClientTimeout());
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
-        $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
-        
+
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
         
-		
 		/**
 		 * Delivery header & footer info
 		 */
@@ -234,6 +232,12 @@ class DeliveryServer extends \tao_actions_CommonModule
 	
     /**
      * Finish the delivery execution
+     *
+     * todo look for all DeliveryServer in the oat and change this finishDeliveryExecution
+     * todo this.testServiceApi.finish(); find all usages and set in queue on the backend to produce (to run) finish delivery execution
+     *
+     * i can add trigger event on finishDE or just call it from there (at all why event? that just method) in each backend which
+     * taoMpArt has big finishDeliveryExecution method
      */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
@@ -243,6 +247,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	        common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
 	        $success = false;
 	    }
+
 	    echo json_encode(array(
 	        'success'      => $success,
 	    	'destination'  => $this->getReturnUrl()
@@ -282,19 +287,8 @@ class DeliveryServer extends \tao_actions_CommonModule
 	{
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
-    
-    /**
-     * Defines the URL of the finish delivery execution action
-     * 
-     * @return string
-     */
-    protected function getfinishDeliveryExecutionUrl()
-    {
-        return _url('finishDeliveryExecution');
-    }
 
-
-    /**
+	/**
      * Gives you the authorization provider for the given execution.
      *
      * @param DeliveryExecution $deliveryExecution
