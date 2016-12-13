@@ -202,9 +202,8 @@ class DeliveryServer extends \tao_actions_CommonModule
         /** @var \oat\taoDelivery\model\DeliveryContainer $container */
         $container = $this->service->getDeliveryContainer($deliveryExecution);
 
-	    // Require JS config
-        $container->setClientConfigUrl($this->getClientConfigUrl());
         $container->setReturnUrl($this->getReturnUrl());
+        //TODO: remove call of this function after finishing of https://oat-sa.atlassian.net/browse/TAO-3011
         $container->setFinishUrl($this->getfinishDeliveryExecutionUrl());
 
         $this->setData('additional-header', $container->getContainerHeader());
