@@ -217,6 +217,10 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $this->setData('showControls', $this->showControls());
         $this->setData('returnUrl', $this->getReturnUrl());
         
+        /* @var $urlRouteService DefaultUrlService */
+         $urlRouteService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery' , []));
+        
         /**
          * Layout template + real template inclusion
          */
