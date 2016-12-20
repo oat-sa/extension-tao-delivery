@@ -23,7 +23,7 @@ msgid "All rights reserved."
 msgstr "All rights reserved."
 
 msgid "Available"
-msgstr "利用可能"
+msgstr "実施対象テスト"
 
 msgid "Close this prompt"
 msgstr "プロンプトを閉じる"
@@ -38,13 +38,13 @@ msgid "Guest access"
 msgstr "ゲストアクセス"
 
 msgid "In progress"
-msgstr "処理中"
+msgstr "実施中テスト"
 
 msgid "Logout"
 msgstr "ログアウト"
 
 msgid "My Tests"
-msgstr "マイ・テスト"
+msgstr "テスト一覧"
 
 msgid "Resume"
 msgstr "再開"
