@@ -25,15 +25,22 @@ namespace oat\taoDelivery\helper\container;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
 use oat\oatbox\Configurable;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\tao\helpers\Template;
 
 /**
  * Abstract container to simplify the development of
  * simple containers
  */
-abstract class AbstractContainer extends Configurable implements DeliveryContainerInterface
+abstract class AbstractContainer extends Configurable implements DeliveryContainerInterface, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
+    protected $initialized = false;
+
     private $data = array();
-    
+
     /**
      * @var DeliveryExecution
      */
@@ -48,14 +55,13 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     {
         $this->setOptions($options);
         $this->deliveryExecution = $deliveryExecution;
-        $this->init();
     }
     
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\DeliveryContainer::setData()
      */
-    public function setData($key, $value)
+    protected function setData($key, $value)
     {
         $this->data[$key] = $value;
     }
@@ -81,23 +87,61 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     }
 
     /**
-     * Returns the path to the header template
-     * 
-     * @return string
-     */
-    protected abstract function getHeaderTemplate();
-    
-    /**
-     * Returns the path to the body template
-     * 
-     * @return string
-     */
-    protected abstract function getBodyTemplate();
-    
-    /**
      * Delegated constructor
      * @return void
      */
-    abstract protected function init();
+    protected function init()
+    {
+        $this->initialized = true;
+        $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+        $this->setData('client_config_url', Template::getClientConfigUrl());
+        $this->setData('deliveryExecution', $this->deliveryExecution->getIdentifier());
+        $this->setData('deliveryServerConfig', $service->getJsConfig($this->deliveryExecution->getDelivery()));
+        $this->setData('client_timeout', $this->getClientTimeout());
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setReturnUrl($url)
+    {
+        $this->setData('returnUrl', $url);
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setFinishUrl($url)
+    {
+        $this->setData('finishUrl', $url);
+    }
+
+    /**
+     * Get the client timeout value from the config.
+     *
+     * @return int the timeout value in seconds
+     */
+    protected function getClientTimeout(){
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if($config != null && isset($config['timeout'])){
+            return (int)$config['timeout'];
+        }
+        return 30;
+    }
+
+    /**
+     * Returns the path to the header template
+     *
+     * @return string
+     */
+    protected abstract function getHeaderTemplate();
+
+    /**
+     * Returns the path to the body template
+     *
+     * @return string
+     */
+    protected abstract function getBodyTemplate();
 
 }

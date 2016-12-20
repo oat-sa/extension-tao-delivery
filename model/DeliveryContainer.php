@@ -25,24 +25,29 @@ interface DeliveryContainer
     const PROPERTY_DELIVERY_CONTAINER_OPTIONS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainerOptions';
 
     /**
-     * adds or replaces the data for a specific key
-     * @param  string key
-     * @param  mixed value
+     * @param $url
      */
-    public function setData($key, $value);
-    
+    public function setReturnUrl($url);
+
+    /**
+     * @param $url
+     * @todo to be removed after finishing of https://oat-sa.atlassian.net/browse/TAO-3011
+     */
+    public function setFinishUrl($url);
+
     /**
      * Returns a renderer for additional header data, alowing
      * the container to add custom JS, CSS and meta-data
-     * 
+     *
      * @return \Renderer
      */
     public function getContainerHeader();
-    
+
     /**
      * Returns a renderer for the actual container body
-     * 
+     *
      * @return \Renderer
      */
     public function getContainerBody();
+
 }
