@@ -36,8 +36,7 @@ return array(
     'install' => array(
         'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
-            \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
-            \oat\taoDelivery\scripts\install\InstallAssignmentServiceRegistry::class,
+            \oat\taoDelivery\scripts\install\installDeliveryLogout::class
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
