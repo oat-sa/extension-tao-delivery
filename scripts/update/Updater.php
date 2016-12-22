@@ -28,6 +28,8 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\taoDelivery\model\AssignmentServiceRegistry;
+use oat\taoDelivery\model\AssignmentService;
 
 /**
  *
@@ -192,6 +194,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('4.4.3');
         }
 
-        $this->skip('4.4.3', '4.6.0');
+        $this->skip('4.4.3', '4.7.0');
+
     }
 }
