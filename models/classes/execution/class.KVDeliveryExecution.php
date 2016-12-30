@@ -29,7 +29,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecut
  * @package taoDelivery
  *
  */
-class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDelivery_models_classes_execution_DeliveryExecution
+class taoDelivery_models_classes_execution_KVDeliveryExecution implements InterfaceDeliveryExecution
 {
 
     const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
@@ -78,7 +78,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getIdentifier()
+     * @see InterfaceDeliveryExecution::getIdentifier()
      */
     public function getIdentifier()
     {
@@ -88,7 +88,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getStartTime()
+     * @see InterfaceDeliveryExecution::getStartTime()
      */
     public function getStartTime()
     {
@@ -98,7 +98,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
+     * @see InterfaceDeliveryExecution::getFinishTime()
      */
     public function getFinishTime()
     {
@@ -112,7 +112,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getLabel()
+     * @see InterfaceDeliveryExecution::getLabel()
      */
     public function getLabel()
     {
@@ -122,7 +122,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
+     * @see InterfaceDeliveryExecution::getState()
      */
     public function getState()
     {
@@ -132,7 +132,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getDelivery()
+     * @see InterfaceDeliveryExecution::getDelivery()
      */
     public function getDelivery()
     {
@@ -142,7 +142,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
     /**
      * (non-PHPdoc)
      *
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getUserIdentifier()
+     * @see InterfaceDeliveryExecution::getUserIdentifier()
      */
     public function getUserIdentifier()
     {
@@ -151,7 +151,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements taoDel
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::setState()
+     * @see InterfaceDeliveryExecution::setState()
      */
     public function setState($state)
     {

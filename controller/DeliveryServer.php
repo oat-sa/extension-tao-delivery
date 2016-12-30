@@ -62,7 +62,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	}
 	
 	/**
-	 * @return \taoDelivery_models_classes_execution_DeliveryExecution
+	 * @return DeliveryExecution
 	 */
 	protected function getCurrentDeliveryExecution() {
 	    $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
@@ -148,9 +148,9 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
 
         //check if the assignment allows the user to start the delivery and the authorization provider
-        if ( ! $assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ) {
+        if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ) {
             throw new \common_exception_Unauthorized();
-       }
+        }
         $deliveryExecution = $this->executionService->initDeliveryExecution($compiledDelivery, $user->getIdentifier());
 
         return $deliveryExecution;

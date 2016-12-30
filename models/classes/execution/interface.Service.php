@@ -59,7 +59,7 @@ interface taoDelivery_models_classes_execution_Service
      * Returns the delviery execution instance associated to the implementation 
      * 
      * @param string $identifier
-     * @return taoDelivery_models_classes_execution_DeliveryExecution
+     * @return DeliveryExecutionInterface
      */
     public function getDeliveryExecution($identifier);    
 }

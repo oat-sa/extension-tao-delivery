@@ -32,21 +32,21 @@ class DeliveryExecution implements DeliveryExecutionInterface
 {
 
     /**
-     * @var \taoDelivery_models_classes_execution_DeliveryExecution
+     * @var \DeliveryExecutionInterface
      */
     private $implementation;
 
-    public function __construct(\taoDelivery_models_classes_execution_DeliveryExecution $implementation)
+    public function __construct(DeliveryExecutionInterface $implementation)
     {
         $this->setImplementation($implementation);
     }
 
-    public function setImplementation(\taoDelivery_models_classes_execution_DeliveryExecution $implementation) {
+    public function setImplementation(DeliveryExecutionInterface $implementation) {
         $this->implementation = $implementation;
     }
 
     /**
-     * @return \taoDelivery_models_classes_execution_DeliveryExecution
+     * @return DeliveryExecutionInterface
      */
     public function getImplementation() {
         return $this->implementation;

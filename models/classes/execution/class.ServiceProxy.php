@@ -132,7 +132,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!$this->implementsMonitoring()) {
-            throw new common_exception_NoImplementation(__('%s have not implementation for taoDelivery_models_classes_execution_Monitoring', get_class($this->getImplementation())));
+            throw new common_exception_NoImplementation(get_class($this->getImplementation()).' does not implement taoDelivery_models_classes_execution_Monitoring');
         }
         return $this->getImplementation()->getExecutionsByDelivery($compiled);
     }
