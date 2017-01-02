@@ -17,6 +17,7 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+use oat\oatbox\user\User;
 
 /**
  * Service to manage the execution of deliveries
@@ -24,7 +25,6 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
 interface taoDelivery_models_classes_execution_Service
 {
@@ -50,10 +50,10 @@ interface taoDelivery_models_classes_execution_Service
      * Generate a new delivery execution
      *
      * @param core_kernel_classes_Resource $assembly
-     * @param string $userUri
+     * @param User $user
      * @return core_kernel_classes_Resource the delivery execution
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri);
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user);
     
     /**
      * Returns the delviery execution instance associated to the implementation 
