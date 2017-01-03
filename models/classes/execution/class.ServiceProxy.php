@@ -105,11 +105,25 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * (non-PHPdoc)
      * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
      */
-    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
+    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user)
     {
-        $deliveryExecution = $this->getImplementation()->initDeliveryExecution($assembly, $userUri);
+        if (is_string($user)) {
+            common_Logger::w('Deprecated use of initDeliveryExecution()');
+            $sessionUser = common_session_SessionManager::getSession()->getUser();
+            if ($user == $sessionUser->getIdentifier()) {
+                $user = $sessionUser;
+            } else {
+                $generisUser = new core_kernel_classes_Resource($user);
+                if ($generisUser->exists()) {
+                    $user = new core_kernel_users_GenerisUser($generisUser);
+                } else {
+                    throw new common_exception_NotFound('Unable to find User "'.$user.'"');
+                }
+            }
+        }
+        $deliveryExecution = $this->getImplementation()->initDeliveryExecution($assembly, $user->getIdentifier());
         $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-        $eventManager->trigger(new DeliveryExecutionCreated($deliveryExecution));
+        $eventManager->trigger(new DeliveryExecutionCreated($deliveryExecution, $user));
         return $deliveryExecution;
     }
 
@@ -132,7 +146,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!$this->implementsMonitoring()) {
-            throw new common_exception_NoImplementation(__('%s have not implementation for taoDelivery_models_classes_execution_Monitoring', get_class($this->getImplementation())));
+            throw new common_exception_NoImplementation(get_class($this->getImplementation()).' does not implement taoDelivery_models_classes_execution_Monitoring');
         }
         return $this->getImplementation()->getExecutionsByDelivery($compiled);
     }
