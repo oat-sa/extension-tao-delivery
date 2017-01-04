@@ -40,7 +40,7 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
      */
     public function getName()
     {
-        return static::EVENT_NAME;
+        return self::EVENT_NAME;
     }
 
     /**
