@@ -23,6 +23,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use common_ext_ExtensionsManager;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\oatbox\user\User;
 
 class ServiceProxyTest extends TaoPhpUnitTestRunner
 {
@@ -150,14 +151,18 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
         $deProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\DeliveryExecution');
         $deliveryExecution = $deProphecy->reveal();
         
-        $resource = $this->prophesize('core_kernel_classes_Resource');
-        $res = $resource->reveal();
-        $serviceProphecy->initDeliveryExecution($res,'#UserUri')->willReturn($deliveryExecution);
+        $deliveryProphecy = $this->prophesize('core_kernel_classes_Resource');
+        $delivery = $deliveryProphecy->reveal();
+        $userProphecy = $this->prophesize(User::class);
+        $userProphecy->getIdentifier()->willReturn('#UserUri');
+        $user = $userProphecy->reveal();
+
+        $serviceProphecy->initDeliveryExecution($delivery,'#UserUri')->willReturn($deliveryExecution);
 
         $service = $serviceProphecy->reveal();
         taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
 
-        $return =  taoDelivery_models_classes_execution_ServiceProxy::singleton()->initDeliveryExecution($res,'#UserUri');
+        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->initDeliveryExecution($delivery,$user);
         $this->assertEquals($deliveryExecution, $return);
     }
     /**

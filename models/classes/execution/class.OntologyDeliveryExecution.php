@@ -30,7 +30,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  
  */
 class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends core_kernel_classes_Resource 
-    implements taoDelivery_models_classes_execution_DeliveryExecution
+    implements DeliveryExecution
 {
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution';
     
@@ -52,7 +52,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getIdentifier()
+     * @see DeliveryExecution::getIdentifier()
      */
     public function getIdentifier() {
         return $this->getUri();
@@ -60,7 +60,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getStartTime()
+     * @see DeliveryExecution::getStartTime()
      */
     public function getStartTime() {
         if (!isset($this->startTime)) {
@@ -72,7 +72,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getFinishTime()
+     * @see DeliveryExecution::getFinishTime()
      */
     public function getFinishTime() {
         if (!isset($this->finishTime)) {
@@ -87,7 +87,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getState()
+     * @see DeliveryExecution::getState()
      */
     public function getState() {
         if (!isset($this->state)) {
@@ -102,7 +102,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getDelivery()
+     * @see DeliveryExecution::getDelivery()
      */
     public function getDelivery() {
         if (!isset($this->delivery)) {
@@ -113,7 +113,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::getUserIdentifier()
+     * @see DeliveryExecution::getUserIdentifier()
      */
     public function getUserIdentifier() {
         if (!isset($this->userIdentifier)) {
@@ -125,7 +125,7 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_DeliveryExecution::setState()
+     * @see DeliveryExecution::setState()
      */
     public function setState($state) {
         $statusProp = $this->getProperty(PROPERTY_DELVIERYEXECUTION_STATUS);
