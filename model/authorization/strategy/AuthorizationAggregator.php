@@ -19,11 +19,13 @@
  */
 namespace oat\taoDelivery\model\authorization\strategy;
 
+use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionVerified;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -71,6 +73,7 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
         foreach ($this->getProviders() as $provider) {
             $provider->verifyResumeAuthorization($deliveryExecution, $user);
         }
+        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new DeliveryExecutionVerified($deliveryExecution));
     }
     
     /**
