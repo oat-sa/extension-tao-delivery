@@ -189,9 +189,9 @@ class Updater extends \common_ext_ExtensionUpdater {
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
 
-            $this->setVersion('4.5.0');
+            $this->setVersion('4.4.3');
         }
 
-        $this->skip('4.4.3', '4.6.0');
+        $this->skip('4.4.3', '4.8.0');
     }
 }
