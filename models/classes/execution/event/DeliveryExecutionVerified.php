@@ -14,23 +14,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
-
 namespace oat\taoDelivery\models\classes\execution\event;
 
-use oat\oatbox\event\Event;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\oatbox\user\User;
+use oat\oatbox\event\Event;
 
-/**
- * Event triggered whenever a new delivery execution is initialised
- *
- * @author Joel Bout, <joel@taotesting.com>
- */
-class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
+class DeliveryExecutionVerified implements Event, DeliveryExecutionAwareInterface
 {
     const EVENT_NAME = __CLASS__;
 
@@ -49,18 +42,12 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
     private $deliveryExecution;
 
     /**
-     * @var User user for whom the execution was created
-     */
-    private $user;
-
-    /**
      * DeliveryExecutionState constructor.
      * @param DeliveryExecution $deliveryExecution
      */
-    public function __construct(DeliveryExecution $deliveryExecution, User $user)
+    public function __construct(DeliveryExecution $deliveryExecution)
     {
         $this->deliveryExecution = $deliveryExecution;
-        $this->user = $user;
     }
 
     /**
@@ -73,12 +60,4 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
         return $this->deliveryExecution;
     }
 
-    /**
-     * Returns the user for whom the delivery execution was created
-     * @return \oat\oatbox\user\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 }
