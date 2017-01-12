@@ -90,7 +90,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 		}
 		$this->setData('resumableDeliveries', $resumableData);
 		
-		$assignmentService= $this->getServiceManager()->get(AssignmentService::CONFIG_ID);
+		$assignmentService= $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
 		
 		$deliveryData = array();
 		foreach ($assignmentService->getAssignments($user) as $delivery)
@@ -143,7 +143,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function _initDeliveryExecution() {
         $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $user              = common_session_SessionManager::getSession()->getUser();
-        $assignmentService = $this->getServiceManager()->get(AssignmentService::CONFIG_ID);
+        $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
 
         $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
 

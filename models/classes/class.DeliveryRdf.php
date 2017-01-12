@@ -78,6 +78,6 @@ class taoDelivery_models_classes_DeliveryRdf extends core_kernel_classes_Resourc
      */
     protected function getAssignmentService()
     {
-        return ServiceManager::getServiceManager()->get(AssignmentService::CONFIG_ID);
+        return $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
     }
 }
