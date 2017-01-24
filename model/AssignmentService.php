@@ -29,6 +29,11 @@ use oat\oatbox\user\User;
  */
 interface AssignmentService
 {
+    const SERVICE_ID = 'taoDelivery/assignment';
+
+    /**
+     * @deprecated please use SERVICE_ID
+     */
     const CONFIG_ID = 'taoDelivery/assignment';
      
     /**

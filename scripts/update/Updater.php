@@ -190,16 +190,16 @@ class Updater extends \common_ext_ExtensionUpdater {
                     );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
 
-            $this->setVersion('4.5.0');
+            $this->setVersion('4.4.3');
         }
 
-        $this->skip('4.4.3', '4.6.0');
+        $this->skip('4.4.3', '4.8.1');
 
-        if ($this->isVersion('4.6.0')) {
+        if ($this->isVersion('4.8.1')) {
             $registry = DeliveryContainerRegistry::getRegistry();
             $registry->register(\oat\taoDelivery\helper\container\DeliveryServiceContainer::class);
             $registry->register(\oat\taoDelivery\helper\container\DeliveryClientContainer::class);
-            $this->setVersion('4.7.0');
+            $this->setVersion('4.9.0');
         }
     }
 }

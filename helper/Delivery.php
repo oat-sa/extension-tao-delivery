@@ -20,6 +20,7 @@
 namespace oat\taoDelivery\helper;
 
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 /**
  * Helper to render the delivery form on the group page
  * 
@@ -51,7 +52,7 @@ class Delivery
         return $data;
     }
     
-    static function buildFromDeliveryExecution(\taoDelivery_models_classes_execution_DeliveryExecution $deliveryExecution)
+    static function buildFromDeliveryExecution(DeliveryExecution $deliveryExecution)
     {
         $data = array();
         $data[self::ID] = $deliveryExecution->getIdentifier();

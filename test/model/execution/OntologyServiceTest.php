@@ -43,7 +43,7 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
         $assembly = new \core_kernel_classes_Resource('fake');
         $deliveryExecution = $service->initDeliveryExecution($assembly, 'fakeUser');
         
-        $this->assertInstanceOf('taoDelivery_models_classes_execution_DeliveryExecution', $deliveryExecution);
+        $this->assertInstanceOf(DeliveryExecution::class, $deliveryExecution);
         
         $success = $deliveryExecution->setState('http://uri.com/fake#State');
         $this->assertTrue($success);
