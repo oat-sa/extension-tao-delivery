@@ -27,7 +27,7 @@ use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
 use oat\oatbox\Configurable;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\tao\helpers\Template;
+use oat\tao\helpers\JavaScript;
 
 /**
  * Abstract container to simplify the development of
@@ -94,7 +94,7 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
     {
         $this->initialized = true;
         $service = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
-        $this->setData('client_config_url', Template::getClientConfigUrl());
+        $this->setData('client_config_url', JavaScript::getClientConfigUrl());
         $this->setData('deliveryExecution', $this->deliveryExecution->getIdentifier());
         $this->setData('deliveryServerConfig', $service->getJsConfig($this->deliveryExecution->getDelivery()));
         $this->setData('client_timeout', $this->getClientTimeout());
