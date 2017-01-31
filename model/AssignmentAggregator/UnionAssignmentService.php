@@ -24,6 +24,7 @@ namespace oat\taoDelivery\model\AssignmentAggregator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class UnionAssignmentService extends ConfigurableService implements UnionAssignmentInterface
 {
@@ -32,7 +33,9 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
     {
         $services = $this->getOption('services');
         foreach ($services as $service) {
-            $service->setServiceManager($this->getServiceManager());
+            if ($service instanceof ServiceLocatorAwareInterface) {
+                $service->setServiceManager($this->getServiceManager());
+            }
         }
         return $services;
     }
