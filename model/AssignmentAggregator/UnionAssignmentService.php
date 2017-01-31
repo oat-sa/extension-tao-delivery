@@ -30,7 +30,13 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
     
     public function getInternalServices()
     {
-        return $this->getOption('services');
+        $services = $this->getOption('services');
+        foreach ($services as $service) {
+            if ($service instanceof ConfigurableService && $service->getServiceManager() === null) {
+                $service->setServiceManager($this->getServiceManager());
+            }
+        }
+        return $services;
     }
     
     /**
@@ -73,7 +79,7 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
                 return true;
             }
         }
-        
+
         return $result;
     }
 
