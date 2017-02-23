@@ -105,8 +105,9 @@ class DeliveryExecution implements DeliveryExecutionInterface
      */
     public function setState($state)
     {
-        $result = $this->getImplementation()->setState($state);
         $prevState = $this->getState();
+        $stateService = ServiceManager::getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        $result = $stateService->setState($this->getImplementation(), $state);
 
         $event = new DeliveryExecutionState($this, $state, $prevState);
         $this->triggerEvent($event);
