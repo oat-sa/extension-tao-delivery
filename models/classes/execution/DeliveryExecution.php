@@ -27,6 +27,7 @@ use oat\oatbox\event\Event;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
 use \common_Logger;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 
 class DeliveryExecution implements DeliveryExecutionInterface
 {

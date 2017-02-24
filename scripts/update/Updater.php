@@ -28,7 +28,7 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use taoDelivery_models_classes_execution_ServiceProxy;
-use oat\taoDelivery\models\classes\execution\StateService;
+use oat\taoDelivery\model\execution\StateService;
 
 /**
  *

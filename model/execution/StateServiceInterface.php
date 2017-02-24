@@ -16,23 +16,22 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
- *
  */
 
-namespace oat\taoDelivery\models\classes\execution;
+namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
-use oat\oatbox\service\ConfigurableService;
+use \oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
 
-class StateService extends ConfigurableService implements StateServiceInterface
+/**
+ * Interface StateServiceInterface
+ *
+ * Service is used to handle changing of delivery execution state.
+ *
+ * @package oat\taoDelivery
+ */
+interface StateServiceInterface
 {
-    /**
-     * @param DeliveryExecutionInterface $deliveryExecution
-     * @param string $state
-     * @return bool
-     */
-    public function setState(DeliveryExecutionInterface $deliveryExecution, $state)
-    {
-        return $deliveryExecution->setState($state);
-    }
+    const SERVICE_ID = 'taoDelivery/stateService';
+
+    public function setState(DeliveryExecutionInterface $deliveryExecution, $state);
 }
