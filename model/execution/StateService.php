@@ -22,6 +22,8 @@ namespace oat\taoDelivery\model\execution;
 
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
+use oat\oatbox\event\EventManager;
 
 /**
  * Class StateService
@@ -37,6 +39,13 @@ class StateService extends ConfigurableService implements StateServiceInterface
      */
     public function setState(DeliveryExecutionInterface $deliveryExecution, $state)
     {
-        return $deliveryExecution->setState($state);
+        $prevState = $deliveryExecution->getState();
+        $result = $deliveryExecution->setState($state);
+
+        $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
+        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
+        \common_Logger::i("DeliveryExecutionState Event triggered.");
+
+        return $result;
     }
 }
