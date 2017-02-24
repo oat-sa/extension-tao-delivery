@@ -110,7 +110,7 @@ class DeliveryExecution implements DeliveryExecutionInterface
         $stateService = ServiceManager::getServiceManager()->get(StateServiceInterface::SERVICE_ID);
         $result = $stateService->setState($this->getImplementation(), $state);
 
-        $event = new DeliveryExecutionState($this, $state, $prevState);
+        $event = new DeliveryExecutionState($this, $state, $prevState->getUri());
         $this->triggerEvent($event);
         common_Logger::i("DeliveryExecutionState Event triggered.");
 

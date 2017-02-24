@@ -193,9 +193,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('4.4.3');
         }
 
-        $this->skip('4.4.3', '4.8.2');
+        $this->skip('4.4.3', '4.8.3');
 
-        if ($this->isVersion('4.8.2')) {
+        if ($this->isVersion('4.8.3')) {
             try {
                 $this->getServiceManager()->get(StateService::SERVICE_ID);
             } catch (ServiceNotFoundException $e) {
