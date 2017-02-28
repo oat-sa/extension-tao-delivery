@@ -102,8 +102,9 @@ class DeliveryExecution implements DeliveryExecutionInterface
      */
     public function setState($state)
     {
+        /** @var \oat\taoDelivery\model\execution\AbstractStateService $stateService */
         $stateService = ServiceManager::getServiceManager()->get(StateServiceInterface::SERVICE_ID);
-        $result = $stateService->setState($this->getImplementation(), $state);
+        $result = $stateService->legacyTransition($this, $state);
         return $result;
     }
 

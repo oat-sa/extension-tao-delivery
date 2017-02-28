@@ -20,8 +20,6 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use \oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
-
 /**
  * Interface StateServiceInterface
  *
@@ -32,6 +30,4 @@ use \oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInter
 interface StateServiceInterface
 {
     const SERVICE_ID = 'taoDelivery/stateService';
-
-    public function setState(DeliveryExecutionInterface $deliveryExecution, $state);
 }

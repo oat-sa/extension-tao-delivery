@@ -20,32 +20,67 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
-use oat\oatbox\event\EventManager;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 
 /**
  * Class StateService
  * @package oat\taoDelivery
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class StateService extends ConfigurableService implements StateServiceInterface
+class StateService extends AbstractStateService
 {
+
     /**
-     * @param DeliveryExecutionInterface $deliveryExecution
+     * @param DeliveryExecution $deliveryExecution
+     * @return bool
+     */
+    public function finish(DeliveryExecution $deliveryExecution)
+    {
+        return $this->setState($deliveryExecution, DeliveryExecution::STATE_FINISHIED);
+    }
+
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @return bool
+     */
+    public function run(DeliveryExecution $deliveryExecution)
+    {
+        return $this->setState($deliveryExecution, DeliveryExecution::STATE_ACTIVE);
+    }
+
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @return bool
+     */
+    public function pause(DeliveryExecution $deliveryExecution)
+    {
+        return $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
+    }
+
+    /**
+     * Legacy function to ensure all calls to setState use
+     * the correct transition instead
+     *
+     * @param DeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
      */
-    public function setState(DeliveryExecutionInterface $deliveryExecution, $state)
+    public function legacyTransition(DeliveryExecution $deliveryExecution, $state)
     {
-        $prevState = $deliveryExecution->getState();
-        $result = $deliveryExecution->setState($state);
-
-        $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
-        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
-        \common_Logger::i("DeliveryExecutionState Event triggered.");
-
+        switch ($state) {
+            case DeliveryExecution::STATE_FINISHIED:
+                $result = $this->finish($deliveryExecution);
+                break;
+            case DeliveryExecution::STATE_ACTIVE:
+                $result = $this->run($deliveryExecution);
+                break;
+            case DeliveryExecution::STATE_PAUSED:
+                $result = $this->pause($deliveryExecution);
+                break;
+            default:
+                $this->logWarning('Unrecognised state '.$state);
+                $result = $this->setState($deliveryExecution, $state);
+        }
         return $result;
     }
 }
