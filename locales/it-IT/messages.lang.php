@@ -454,5 +454,11 @@ $GLOBALS['__l10n']["You don't have sufficient permissions to access"]="Non hai p
 $GLOBALS['__l10n']["You must activate JavaScript in your browser to run this application."]="Devi attivare JavaScript nel tuo browser per utilizzare questa applicazione";
 $GLOBALS['__l10n']["Your mail"]="La tua mail";
 $GLOBALS['__l10n']["Your TAO Password"]="La tua password per TAO";
+$GLOBALS['__l10n']["Available from %1\$s to %2\$s"]="Disponibile dal %1\$s al %2\$s";
+$GLOBALS['__l10n']["Available from %s"]="Disponibile dal %s";
+$GLOBALS['__l10n']["Attempt %1\$s of %2\$s"]="Tentativi %1\$s di %2\$s";
+$GLOBALS['__l10n']["Attempts"]="Tentativi";
+$GLOBALS['__l10n']["Attempts %1\$s of %2\$s"]="Tentativi %1\$s di %2\$s";
+$GLOBALS['__l10n']["unlimited"]="illimitati";
 
 ?>
