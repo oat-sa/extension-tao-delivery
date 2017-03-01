@@ -20,7 +20,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution as BaseDeliveryExecution;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
 use oat\oatbox\event\EventManager;
@@ -39,18 +39,18 @@ abstract class AbstractStateService extends ConfigurableService implements State
      * Legacy function to ensure all calls to setState use
      * the correct transition instead
      *
-     * @param DeliveryExecution $deliveryExecution
+     * @param BaseDeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
      */
-    abstract public function legacyTransition(DeliveryExecution $deliveryExecution, $state);
+    abstract public function legacyTransition(BaseDeliveryExecution $deliveryExecution, $state);
 
     /**
-     * @param DeliveryExecution $deliveryExecution
+     * @param BaseDeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
      */
-    protected function setState(DeliveryExecution $deliveryExecution, $state)
+    protected function setState(BaseDeliveryExecution $deliveryExecution, $state)
     {
         $prevState = $deliveryExecution->getState();
         if ($prevState->getUri() === $state) {
