@@ -175,12 +175,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('4.0.0', '4.4.2');
-        
+
         if ($this->isVersion('4.4.2')) {
 
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setOption('logoutDelivery', 
+            $routeService->setOption('logoutDelivery',
                         [
                             'ext'        => 'taoDelivery',
                             'controller' => 'DeliveryServer',
@@ -205,5 +205,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('4.9.0');
         }
+
+        $this->skip('4.9.0', '4.9.1');
     }
 }

@@ -50,7 +50,7 @@ msgid "Start"
 msgstr "Comincia"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Iniziato il %s"
 
 msgid "Take or continue a test."
 msgstr "Prendi o continua un test."
