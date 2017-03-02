@@ -28,6 +28,7 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use taoDelivery_models_classes_execution_ServiceProxy;
+use oat\taoDelivery\model\execution\StateService;
 
 /**
  *
@@ -193,5 +194,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('4.4.3', '4.8.3');
+
+        if ($this->isVersion('4.8.3')) {
+            try {
+                $this->getServiceManager()->get(StateService::SERVICE_ID);
+            } catch (ServiceNotFoundException $e) {
+                $service = new StateService([]);
+                $service->setServiceManager($this->getServiceManager());
+                $this->getServiceManager()->register(StateService::SERVICE_ID, $service);
+            }
+            $this->setVersion('4.9.0');
+        }
     }
 }

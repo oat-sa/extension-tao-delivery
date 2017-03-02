@@ -22,11 +22,8 @@
 namespace oat\taoDelivery\models\classes\execution;
 
 use oat\oatbox\service\ServiceManager;
-use oat\oatbox\event\EventManager;
-use oat\oatbox\event\Event;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
-use \common_Logger;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 
 class DeliveryExecution implements DeliveryExecutionInterface
 {
@@ -105,13 +102,9 @@ class DeliveryExecution implements DeliveryExecutionInterface
      */
     public function setState($state)
     {
-        $prevState = $this->getState();
-        $result = $this->getImplementation()->setState($state);
-
-        $event = new DeliveryExecutionState($this, $state, $prevState->getUri());
-        $this->triggerEvent($event);
-        common_Logger::i("DeliveryExecutionState Event triggered.");
-
+        /** @var \oat\taoDelivery\model\execution\AbstractStateService $stateService */
+        $stateService = ServiceManager::getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        $result = $stateService->legacyTransition($this, $state);
         return $result;
     }
 
@@ -133,15 +126,6 @@ class DeliveryExecution implements DeliveryExecutionInterface
     public function getUserIdentifier()
     {
         return $this->getImplementation()->getUserIdentifier();
-    }
-
-    /**
-     * @param Event $event event to be triggered.
-     */
-    protected function triggerEvent(Event $event)
-    {
-        $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-        $eventManager->trigger($event);
     }
 
     /**
