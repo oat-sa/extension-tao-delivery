@@ -36,6 +36,7 @@ use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 
 /**
  * DeliveryServer Controller
@@ -238,7 +239,8 @@ class DeliveryServer extends \tao_actions_CommonModule
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
-	        $success = $deliveryExecution->setState(DeliveryExecution::STATE_FINISHIED);
+            $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+	        $success = $stateService->finish($deliveryExecution);
 	    } else {
 	        common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
 	        $success = false;
