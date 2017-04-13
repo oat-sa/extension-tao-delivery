@@ -20,7 +20,8 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\oatbox\user\User;
+use oat\taoDelivery\models\classes\execution\DeliveryExecution as BaseDeliveryExecution;
+
 /**
  * Class StateService
  * @package oat\taoDelivery
@@ -28,20 +29,12 @@ use oat\oatbox\user\User;
  */
 class StateService extends AbstractStateService
 {
-    /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\model\execution\AbstractStateService::getInitialStatus()
-     */
-    public function getInitialStatus($deliveryId, User $user)
-    {
-       return DeliveryExecution::STATE_ACTIVE;
-    }
 
     /**
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function finish(DeliveryExecution $deliveryExecution)
+    public function finish(BaseDeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_FINISHIED);
     }
@@ -50,7 +43,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function run(DeliveryExecution $deliveryExecution)
+    public function run(BaseDeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_ACTIVE);
     }
@@ -59,7 +52,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function pause(DeliveryExecution $deliveryExecution)
+    public function pause(BaseDeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
     }
@@ -72,7 +65,7 @@ class StateService extends AbstractStateService
      * @param string $state
      * @return bool
      */
-    public function legacyTransition(DeliveryExecution $deliveryExecution, $state)
+    public function legacyTransition(BaseDeliveryExecution $deliveryExecution, $state)
     {
         switch ($state) {
             case DeliveryExecution::STATE_FINISHIED:

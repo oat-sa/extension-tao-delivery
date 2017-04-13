@@ -20,7 +20,6 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\oatbox\user\User;
 /**
  * Interface StateServiceInterface
  *
@@ -31,21 +30,4 @@ use oat\oatbox\user\User;
 interface StateServiceInterface
 {
     const SERVICE_ID = 'taoDelivery/stateService';
-
-    const STORAGE_SERVICE_ID = 'taoDelivery/execution_service';
-
-    /**
-     * Spawns a new delivery execution
-     *
-     * @param string $deliveryId
-     * @param User $user
-     * @param $label
-     */
-    public function createDeliveryExecution($deliveryId, User $user, $label);
-
-    public function run(DeliveryExecution $deliveryExecution);
-
-    public function pause(DeliveryExecution $deliveryExecution);
-
-    public function finish(DeliveryExecution $deliveryExecution);
 }

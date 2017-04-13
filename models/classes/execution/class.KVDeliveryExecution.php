@@ -21,8 +21,6 @@
 
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
-use oat\taoDelivery\model\execution\KeyValueService;
-
 /**
  * Service to manage the execution of deliveries
  *
@@ -31,22 +29,50 @@ use oat\taoDelivery\model\execution\KeyValueService;
  * @package taoDelivery
  *
  */
-class taoDelivery_models_classes_execution_KVDeliveryExecution implements InterfaceDeliveryExecution, \JsonSerializable
+class taoDelivery_models_classes_execution_KVDeliveryExecution implements InterfaceDeliveryExecution
 {
+
+    const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
+
     /**
-     * @var KeyValueService
+     *
+     * @var common_persistence_KeyValuePersistence
      */
-    private $service;
+    private $persistence;
 
     private $id;
 
     private $data;
 
-    public function __construct(KeyValueService $service, $identifier, $data = null)
+    /**
+     *
+     * @param common_persistence_KeyValuePersistence $persistence
+     * @param unknown $userId
+     * @param core_kernel_classes_Resource $assembly
+     * @return DeliveryExecution
+     */
+    public static function spawn(common_persistence_KeyValuePersistence $persistence, $userId, core_kernel_classes_Resource $assembly)
     {
-        $this->service = $service;
+        $identifier = self::DELIVERY_EXECUTION_PREFIX . common_Utils::getNewUri();
+        $params = array(
+            RDFS_LABEL => $assembly->getLabel(),
+            PROPERTY_DELVIERYEXECUTION_DELIVERY => $assembly->getUri(),
+            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
+            PROPERTY_DELVIERYEXECUTION_START => microtime(),
+            PROPERTY_DELVIERYEXECUTION_STATUS => InterfaceDeliveryExecution::STATE_ACTIVE
+        );
+        $kvDe = new static($persistence, $identifier, $params);
+        $kvDe->save();
+
+        $de = new DeliveryExecution($kvDe);
+        return $de;
+    }
+
+    public function __construct(common_persistence_KeyValuePersistence $persistence, $identifier, $data = null)
+    {
         $this->id = $identifier;
         $this->data = $data;
+        $this->persistence = $persistence;
     }
 
     /**
@@ -138,13 +164,25 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
         if ($state == InterfaceDeliveryExecution::STATE_FINISHIED) {
             $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
         }
-        return $this->service->updateDeliveryExecutionStatus($this, $oldState, $state);
+        $this->save();
+        $kvservice = new taoDelivery_models_classes_execution_KeyValueService(array(
+            taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => $this->getPersistence()
+        ));
+        $de = new DeliveryExecution($this);
+        $kvservice->updateDeliveryExecutionStatus($de, $oldState, $state);
+        return true;
+    }
+
+    private function getPersistence()
+    {
+        return $this->persistence;
     }
 
     private function getData($dataKey)
     {
         if (is_null($this->data)) {
-            $this->data = $this->service->getData($this->id);
+            $dataString = $this->getPersistence()->get($this->id);
+            $this->data = json_decode($dataString, true);
         }
         if (! isset($this->data[$dataKey])) {
             throw new common_exception_NotFound('Information ' . $dataKey . ' not found for entry ' . $this->id);
@@ -155,21 +193,10 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     private function setData($dataKey, $value)
     {
         if (is_null($this->data)) {
-            $this->data = $this->service->getData($this->id);
+            $dataString = $this->getPersistence()->get($this->getIdentifier());
+            $this->data = json_decode($dataString, true);
         }
         $this->data[$dataKey] = $value;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see JsonSerializable::jsonSerialize()
-     */
-    public function jsonSerialize()
-    {
-        if (is_null($this->data)) {
-            throw new common_exception_Error('Unloaded delivery execution serialized');
-        }
-        return $this->data;
     }
 
     /**
@@ -177,6 +204,10 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
      */
     private function save()
     {
-        $this->service->update($this);
+        if (! is_null($this->data)) {
+            $this->getPersistence()->set($this->getIdentifier(), json_encode($this->data));
+        } else {
+            common_Logger::w('Tried to save a delivery that was not loaded');
+        }
     }
 }
