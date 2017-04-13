@@ -18,7 +18,7 @@
  *
  */
 
-use oat\taoDelivery\model\execution\KeyValueService;
+use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
 /**
@@ -44,22 +44,5 @@ class taoDelivery_models_classes_execution_KeyValueService extends KeyValueServi
             }
         }
         return $returnValue;
-    }
-
-    /**
-     * Generate a new delivery execution
-     *
-     * @param core_kernel_classes_Resource $assembly
-     * @param string $userUri
-     * @return core_kernel_classes_Resource the delivery execution
-     */
-    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
-    {
-        $deImplementation = \taoDelivery_models_classes_execution_KVDeliveryExecution::spawn($this->getPersistence(), $userUri, $assembly);
-        $deliveryExecution = new DeliveryExecution($deImplementation);
-
-        $this->updateDeliveryExecutionStatus($deliveryExecution, null, InterfaceDeliveryExecution::STATE_ACTIVE);
-
-        return $deliveryExecution;
     }
 }

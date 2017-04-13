@@ -95,13 +95,33 @@ class taoDelivery_models_classes_execution_OntologyService extends Configurable
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
+        common_Logger::w('Call to deprecated function '.__FUNCTION__);
+        return $this->spawnDeliveryExecution(
+            $assembly->getLabel(),
+            $assembly->getUri(),
+            $userUri,
+            InterfaceDeliveryExecution::STATE_ACTIVE
+        );
+    }
+
+    /**
+     * Spawn a new Delivery Execution
+     *
+     * @param string $label
+     * @param string $deliveryId
+     * @param string $userId
+     * @param string $status
+     * @return \oat\taoDelivery\models\classes\execution\DeliveryExecution
+     */
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    {
         $executionClass = new core_kernel_classes_Class(taoDelivery_models_classes_execution_OntologyDeliveryExecution::CLASS_URI);
         $execution = $executionClass->createInstanceWithProperties(array(
-            RDFS_LABEL                            => $assembly->getLabel(),
-            PROPERTY_DELVIERYEXECUTION_DELIVERY   => $assembly,
-            PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userUri,
+            RDFS_LABEL                            => $label,
+            PROPERTY_DELVIERYEXECUTION_DELIVERY   => $deliveryId,
+            PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userId,
             PROPERTY_DELVIERYEXECUTION_START      => microtime(),
-            PROPERTY_DELVIERYEXECUTION_STATUS     => InterfaceDeliveryExecution::STATE_ACTIVE        	
+            PROPERTY_DELVIERYEXECUTION_STATUS     => $status
         ));
         return $this->getDeliveryExecution($execution);
     }

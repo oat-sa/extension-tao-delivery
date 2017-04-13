@@ -20,8 +20,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\models\classes\execution\DeliveryExecution as BaseDeliveryExecution;
-
+use oat\oatbox\user\User;
 /**
  * Class StateService
  * @package oat\taoDelivery
@@ -29,12 +28,20 @@ use oat\taoDelivery\models\classes\execution\DeliveryExecution as BaseDeliveryEx
  */
 class StateService extends AbstractStateService
 {
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\model\execution\AbstractStateService::getInitialStatus()
+     */
+    public function getInitialStatus($deliveryId, User $user)
+    {
+       return DeliveryExecution::STATE_ACTIVE;
+    }
 
     /**
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function finish(BaseDeliveryExecution $deliveryExecution)
+    public function finish(DeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_FINISHIED);
     }
@@ -43,7 +50,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function run(BaseDeliveryExecution $deliveryExecution)
+    public function run(DeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_ACTIVE);
     }
@@ -52,7 +59,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @return bool
      */
-    public function pause(BaseDeliveryExecution $deliveryExecution)
+    public function pause(DeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
     }
@@ -65,7 +72,7 @@ class StateService extends AbstractStateService
      * @param string $state
      * @return bool
      */
-    public function legacyTransition(BaseDeliveryExecution $deliveryExecution, $state)
+    public function legacyTransition(DeliveryExecution $deliveryExecution, $state)
     {
         switch ($state) {
             case DeliveryExecution::STATE_FINISHIED:
