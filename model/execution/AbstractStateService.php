@@ -60,10 +60,9 @@ abstract class AbstractStateService extends ConfigurableService implements State
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\execution\StateServiceInterface::createDeliveryExecution()
      */
-    public function createDeliveryExecution($deliveryId, User $user)
+    public function createDeliveryExecution($deliveryId, User $user, $label)
     {
         $status = $this->getInitialStatus($deliveryId, $user);
-        $label = (new \core_kernel_classes_Resource($deliveryId))->getLabel();
         $deliveryExecution = $this->getStorageEngine()->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
         // trigger event
         $event = new DeliveryExecutionCreated($deliveryExecution, $user);

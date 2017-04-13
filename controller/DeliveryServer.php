@@ -153,7 +153,7 @@ class DeliveryServer extends \tao_actions_CommonModule
             throw new \common_exception_Unauthorized();
         }
         $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
-        $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user);
+        $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
 
         return $deliveryExecution;
     }

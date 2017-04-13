@@ -39,8 +39,9 @@ interface StateServiceInterface
      *
      * @param string $deliveryId
      * @param User $user
+     * @param $label
      */
-    public function createDeliveryExecution($deliveryId, User $user);
+    public function createDeliveryExecution($deliveryId, User $user, $label);
 
     public function run(DeliveryExecution $deliveryExecution);
 
