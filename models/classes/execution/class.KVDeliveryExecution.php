@@ -21,7 +21,7 @@
 
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
-use oat\taoDelivery\model\execution\KeyValueService;
+use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 /**
  * Service to manage the execution of deliveries
