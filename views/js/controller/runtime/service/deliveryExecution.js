@@ -71,21 +71,13 @@ define([
 
             var serviceApi = options.serviceApi;
 
-            serviceApi.onFinish(function() {
-                $.ajax({
-                    url : options.finishDeliveryExecution,
-                    data : {
-                        'deliveryExecution' : options.deliveryExecution
-                    },
-                    type : 'post',
-                    dataType : 'json',
-                    success : function(data) {
-                        window.location = data.destination;
-                    }
+            serviceApi
+                .onFinish(function() {
+                    window.location = options.exitDeliveryExecution;
+                })
+                .onExit(function() {
+                    window.location = options.exitDeliveryExecution;
                 });
-            }).onExit(function() {
-                window.location = options.exitDeliveryExecution;
-            });
 
             $(document)
                 .on('loading', function(e){

@@ -16,7 +16,6 @@ use oat\tao\helpers\Template;
                 deliveryExecution.start({
                     serviceApi: <?=get_data('serviceApi')?>,
                     exitDeliveryExecution: '<?=get_data('returnUrl')?>',
-                    finishDeliveryExecution: '<?=get_data('finishUrl')?>',
                     deliveryExecution: '<?=get_data('deliveryExecution')?>',
                     deliveryServerConfig: <?= json_encode(get_data('deliveryServerConfig')) ?>
                 });
