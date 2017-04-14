@@ -25,6 +25,8 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\user\User;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 
 /**
  * Class AbstractStateService
@@ -43,7 +45,30 @@ abstract class AbstractStateService extends ConfigurableService implements State
      * @param string $state
      * @return bool
      */
-    abstract public function legacyTransition(BaseDeliveryExecution $deliveryExecution, $state);
+    abstract public function legacyTransition(DeliveryExecution $deliveryExecution, $state);
+
+    /**
+     * Get the status new delivery executions should be started with
+     *
+     * @param string $deliveryId
+     * @param User $user
+     * @return string
+     */
+    abstract public function getInitialStatus($deliveryId, User $user);
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\model\execution\StateServiceInterface::createDeliveryExecution()
+     */
+    public function createDeliveryExecution($deliveryId, User $user, $label)
+    {
+        $status = $this->getInitialStatus($deliveryId, $user);
+        $deliveryExecution = $this->getStorageEngine()->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
+        // trigger event
+        $event = new DeliveryExecutionCreated($deliveryExecution, $user);
+        $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger($event);
+        return $deliveryExecution;
+    }
 
     /**
      * @param BaseDeliveryExecution $deliveryExecution
@@ -62,8 +87,16 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
         $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
-        $this->logInfo("DeliveryExecutionState from ".$prevState." to ".$state." triggered");
+        $this->logInfo("DeliveryExecutionState from ".$prevState->getUri()." to ".$state." triggered");
 
         return $result;
+    }
+
+    /**
+     * @return \taoDelivery_models_classes_execution_Service
+     */
+    protected function getStorageEngine()
+    {
+        return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
     }
 }
