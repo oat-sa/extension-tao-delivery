@@ -27,10 +27,10 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '5.0.3',
+    'version' => '6.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'tao' => '>=7.31.0',
+        'tao' => '>=9.0.0',
         'taoResultServer' => '>=2.6'
     ),
     'install' => array(
@@ -64,8 +64,5 @@ return array(
 
 		#BASE URL (usually the domain root)
 		'BASE_URL'				=> ROOT_URL . 'taoDelivery/',
-
-		#BASE WWW the web resources path
-		'BASE_WWW'				=> ROOT_URL . 'taoDelivery/views/',
 	)
 );
