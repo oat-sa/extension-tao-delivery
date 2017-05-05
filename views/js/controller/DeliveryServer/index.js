@@ -24,8 +24,9 @@
  */
 define([
     'jquery',
-    'ui/feedback'
-], function($, feedback){
+    'ui/feedback',
+    'layout/loading-bar'
+], function($, feedback, loadingBar){
     'use strict';
 
     /**
@@ -50,12 +51,23 @@ define([
         /**
          * Controller entry point
          * @param {Object} [parameters] - controller's data
-         * @param {Objtec} [parameters.message] - message data to display
+         * @param {Object} [parameters.message] - message data to display
          */
         start: function start(parameters){
             if(parameters && parameters.message){
                 displayPermanentMessage(parameters.message.level, parameters.message.content);
             }
+
+            $('a.entry-point').on('click', function (e) {
+                var $el = $(this);
+                if (!$el.attr('disabled')) {
+                    $el.attr('disabled', true);
+                    loadingBar.start();
+                } else {
+                    e.preventDefault();
+                    return false;
+                }
+            });
         }
     };
 });
