@@ -22,6 +22,9 @@ namespace oat\taoDelivery\scripts\update;
 
 
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
@@ -102,9 +105,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
 
             //grant access to anonymous user
-            $anonymousRole = new \core_kernel_classes_Resource(INSTANCE_ROLE_ANONYMOUS);
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $accessService->grantActionAccess($anonymousRole, 'taoDelivery', 'DeliveryServer', 'guest');
+            AclProxy::applyRule(new AccessRule(
+               AccessRule::GRANT,
+               TaoRoles::ANONYMOUS,
+               ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer', 'act' => 'guest']
+            ));
 
             $currentVersion = '2.9.1';
         }
