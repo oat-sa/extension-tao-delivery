@@ -192,8 +192,7 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
 
         $newReferences = $this->getDeliveryExecutionsByStatus($userId, $new);
         $newReferences[] = $deliveryExecution;
-        $this->setDeliveryExecutions($userId, $new, $newReferences);
-
+        return $this->setDeliveryExecutions($userId, $new, $newReferences);
     }
 
     public function update(\taoDelivery_models_classes_execution_KVDeliveryExecution $de)
