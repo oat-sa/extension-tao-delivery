@@ -199,6 +199,9 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $delivery = $deliveryExecution->getDelivery();
 	    $this->initResultServer($delivery, $deliveryExecution->getIdentifier());
 
+        $deliveryExecutionStateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        $deliveryExecutionStateService->run($deliveryExecution);
+
         /**
          * Use particular delivery container
          */
