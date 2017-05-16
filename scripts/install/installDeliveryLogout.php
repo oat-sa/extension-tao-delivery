@@ -27,7 +27,7 @@ class installDeliveryLogout extends \oat\oatbox\extension\InstallAction
         
         /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
         $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-        $routeService->setOption('logoutDelivery', 
+        $routeService->setRoute('logoutDelivery',
                     [
                         'ext'        => 'taoDelivery',
                         'controller' => 'DeliveryServer',
