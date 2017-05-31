@@ -18,7 +18,7 @@
  * 
  */
 
-use oat\oatbox\Configurable;
+use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
 /**
@@ -28,7 +28,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecut
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_execution_OntologyService extends Configurable
+class taoDelivery_models_classes_execution_OntologyService extends ConfigurableService
     implements taoDelivery_models_classes_execution_Service,
         taoDelivery_models_classes_execution_Monitoring
 {
