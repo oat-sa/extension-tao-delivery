@@ -164,6 +164,8 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
      */
     public function getDeliveryExecution($identifier)
     {
+        $identifier = ($identifier instanceof core_kernel_classes_Resource) ? $identifier->getUri() : (string) $identifier;
+
         $deImplementation = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this,
             $identifier);
         return new DeliveryExecutionWrapper($deImplementation);

@@ -24,9 +24,10 @@
  */
 define([
     'jquery',
+    'lodash',
     'ui/feedback',
     'layout/loading-bar'
-], function($, feedback, loadingBar){
+], function($, _, feedback, loadingBar){
     'use strict';
 
     /**
@@ -54,18 +55,32 @@ define([
          * @param {Object} [parameters.message] - message data to display
          */
         start: function start(parameters){
+            var deliveryStarted = false;
+
+            /**
+             * Run/open the given delivery
+             * @param {String} url - the delivery URL
+             */
+            var runDelivery = function runDelivery (url) {
+                if(_.isString(url) && !_.isEmpty(url)){
+                    deliveryStarted = true;
+                    loadingBar.start();
+                    window.location.href = url;
+                }
+            };
+
             if(parameters && parameters.message){
                 displayPermanentMessage(parameters.message.level, parameters.message.content);
             }
 
             $('a.entry-point').on('click', function (e) {
-                var $el = $(this);
-                if (!$el.attr('disabled')) {
-                    $el.attr('disabled', true);
-                    loadingBar.start();
-                } else {
-                    e.preventDefault();
-                    return false;
+                var $elt = $(this);
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                if(!deliveryStarted){
+                    runDelivery($elt.attr('href'));
                 }
             });
         }
