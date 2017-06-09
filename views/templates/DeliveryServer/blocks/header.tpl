@@ -1,7 +1,9 @@
 <?php
 use oat\tao\helpers\Layout;
+use oat\tao\helpers\Template;
 use oat\tao\model\theme\Theme;
 ?>
+<?php Template::inc('blocks/careers.tpl', 'tao'); ?>
 <header class="dark-bar clearfix">
     <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
     <div class="lft title-box"></div>
