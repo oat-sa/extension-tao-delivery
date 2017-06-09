@@ -19,6 +19,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+
+use oat\tao\model\user\TaoRoles;
+
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
 
@@ -27,7 +30,7 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '6.1.1',
+    'version' => '6.1.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=10.18.0',
@@ -42,6 +45,7 @@ return array(
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
+        array('grant', TaoRoles::ANONYMOUS, array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer', 'action'=>'logout')),
     ),
     'routes' => array(
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
