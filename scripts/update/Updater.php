@@ -211,12 +211,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('4.9.0');
         }
 
+        $this->skip('4.9.0', '6.1.1');
 
-        $this->skip('4.9.0', '6.1.0');
-
-        if ($this->isVersion('6.1.0')) {
+        if ($this->isVersion('6.1.1')) {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer', 'action'=>'logout')));
-            $this->setVersion('6.1.1');
+            $this->setVersion('6.1.2');
         }
     }
 }
