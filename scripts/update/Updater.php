@@ -212,5 +212,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('4.9.0', '6.0.7');
+
+        if ($this->isVersion('6.0.7')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer', 'action'=>'logout')));
+            $this->setVersion('6.0.8');
+        }
     }
 }
