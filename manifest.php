@@ -21,6 +21,7 @@
  */
 
 use oat\tao\model\user\TaoRoles;
+use oat\taoDelivery\controller\DeliveryServer;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -45,7 +46,7 @@ return array(
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
-        array('grant', TaoRoles::ANONYMOUS, array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer', 'action'=>'logout')),
+        array('grant', TaoRoles::ANONYMOUS, DeliveryServer::class.'@logout'),
     ),
     'routes' => array(
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
