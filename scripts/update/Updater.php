@@ -220,7 +220,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.1.3');
         }
 
-        if ($this->isVersion('6.1.2')) {
+        if ($this->isVersion('6.1.3')) {
 
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
@@ -242,7 +242,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
 
-            $this->setVersion('6.1.3');
+            $this->setVersion('6.1.4');
         }
     }
 }
