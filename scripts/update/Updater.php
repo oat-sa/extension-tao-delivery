@@ -219,5 +219,30 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, DeliveryServer::class.'@logout'));
             $this->setVersion('6.1.3');
         }
+
+        if ($this->isVersion('6.1.3')) {
+
+            /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
+            $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+            $routeService->setRoute('logoutDelivery',
+                [
+                    'ext'        => 'taoDelivery',
+                    'controller' => 'DeliveryServer',
+                    'action'     => 'logout',
+                    'redirect'   =>
+                        [
+                            'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                            'options' => [
+                                'action' => 'entry',
+                                'controller' => 'Main',
+                                'ext' => 'tao'
+                            ]
+                        ],
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+
+            $this->setVersion('6.1.4');
+        }
     }
 }
