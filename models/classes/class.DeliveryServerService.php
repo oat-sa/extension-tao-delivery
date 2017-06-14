@@ -63,31 +63,14 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
     }
 
     /**
-     * initalize the resultserver for a given execution
-     * @param core_kernel_classes_resource processExecution
+     * Initialize the result server for a given execution
+     *
+     * @param $compiledDelivery
+     * @param string $executionIdentifier
      */
-    public function initResultServer($compiledDelivery, $executionIdentifier){
-
-        //starts or resume a taoResultServerStateFull session for results submission
-
-        //retrieve the result server definition
-        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
-        //callOptions are required in the case of a LTI basic storage
-
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
-
-        //a unique identifier for data collected through this delivery execution
-        //in the case of LTI, we should use the sourceId
-
-
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($executionIdentifier, $executionIdentifier);
-         common_Logger::i("Spawning/resuming result identifier related to process execution ".$executionIdentifier);
-        //set up the related test taker
-        //a unique identifier for the test taker
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(common_session_SessionManager::getSession()->getUserUri());
-
-         //a unique identifier for the delivery
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
+    public function initResultServer($compiledDelivery, $executionIdentifier) {
+        $this->getServiceManager()->get(\oat\taoResultServer\models\classes\ResultServerService::SERVICE_ID)
+            ->initResultServer($compiledDelivery, $executionIdentifier);
     }
     
     public function getJsConfig($compiledDelivery){
