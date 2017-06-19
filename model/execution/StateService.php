@@ -28,6 +28,19 @@ use oat\oatbox\user\User;
  */
 class StateService extends AbstractStateService
 {
+
+    /**
+     * @return array
+     */
+    public function getDeliveriesStates()
+    {
+        return [
+            DeliveryExecution::STATE_FINISHIED,
+            DeliveryExecution::STATE_ACTIVE,
+            DeliveryExecution::STATE_PAUSED
+        ];
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\execution\AbstractStateService::getInitialStatus()
