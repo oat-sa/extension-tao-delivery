@@ -19,8 +19,10 @@
  */
 
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
+use oat\taoDelivery\model\execution\StateService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -31,14 +33,19 @@ use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecut
  */
 class taoDelivery_models_classes_execution_KeyValueService extends KeyValueService
 {
-
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $activ = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_ACTIVE);
-        $finished = $this->getDeliveryExecutionsByStatus($userUri, InterfaceDeliveryExecution::STATE_FINISHIED);
+        /** @var StateService $statesService */
+        $statesService = ServiceManager::getServiceManager()->get(StateService::SERVICE_ID);
+
+        $deliveries = [];
+        $states = $statesService->getDeliveriesStates();
+        foreach ($states as $state) {
+            $deliveries = array_merge($deliveries, $this->getDeliveryExecutionsByStatus($userUri, $state));
+        }
 
         $returnValue = array();
-        foreach (array_merge($activ, $finished) as $de) {
+        foreach ($deliveries as $de) {
             if ($compiled->equals($de->getDelivery())) {
                 $returnValue[] = $de;
             }
