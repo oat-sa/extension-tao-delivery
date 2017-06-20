@@ -36,7 +36,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends KeyValueServi
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
         /** @var StateService $statesService */
-        $statesService = ServiceManager::getServiceManager()->get(StateService::SERVICE_ID);
+        $statesService = $compiled->getServiceManager()->get(StateService::SERVICE_ID);
 
         $deliveries = [];
         $states = $statesService->getDeliveriesStates();
