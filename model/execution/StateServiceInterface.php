@@ -48,4 +48,6 @@ interface StateServiceInterface
     public function pause(DeliveryExecution $deliveryExecution);
 
     public function finish(DeliveryExecution $deliveryExecution);
+
+    public function getDeliveriesStates();
 }
