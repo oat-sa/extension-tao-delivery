@@ -17,9 +17,7 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
 use oat\taoDelivery\model\execution\StateService;
 use oat\oatbox\service\ServiceManager;
 /**
@@ -32,26 +30,21 @@ use oat\oatbox\service\ServiceManager;
  */
 class taoDelivery_models_classes_execution_KeyValueService extends KeyValueService
 {
-
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
         /** @var StateService $statesService */
-        $statesService = ServiceManager::getServiceManager()->get(StateService::SERVICE_ID);
-
+        $statesService = $this->getServiceManager()->get(StateService::SERVICE_ID);
         $deliveries = [];
         $states = $statesService->getDeliveriesStates();
         foreach ($states as $state) {
             $deliveries = array_merge($deliveries, $this->getDeliveryExecutionsByStatus($userUri, $state));
         }
-
         $returnValue = array();
         foreach ($deliveries as $de) {
             if ($compiled->equals($de->getDelivery())) {
                 $returnValue[] = $de;
             }
         }
-
         return $returnValue;
     }
-
 }

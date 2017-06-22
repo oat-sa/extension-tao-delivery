@@ -35,6 +35,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
     implements taoDelivery_models_classes_execution_Service
 {
     const CONFIG_KEY = 'execution_service';
+    const SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
      * @var taoDelivery_models_classes_execution_Service
@@ -49,8 +50,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
 
     protected function getImplementation() {
         if (is_null($this->implementation)) {
-            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-            $this->implementation = $ext->getConfig(self::CONFIG_KEY);
+            $this->implementation = $this->getServiceLocator()->get(self::SERVICE_ID);
             if (!$this->implementation instanceof taoDelivery_models_classes_execution_Service) {
                 throw new common_exception_Error('No implementation for '.__CLASS__.' found');
             }
