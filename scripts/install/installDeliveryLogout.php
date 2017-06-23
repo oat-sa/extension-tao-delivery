@@ -32,7 +32,15 @@ class installDeliveryLogout extends \oat\oatbox\extension\InstallAction
                         'ext'        => 'taoDelivery',
                         'controller' => 'DeliveryServer',
                         'action'     => 'logout',
-                        'redirect'   => ROOT_URL,
+                        'redirect'   =>
+                            [
+                                'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                                'options' => [
+                                    'action' => 'entry',
+                                    'controller' => 'Main',
+                                    'ext' => 'tao'
+                                ]
+                            ],
                     ]
                 );
         $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
