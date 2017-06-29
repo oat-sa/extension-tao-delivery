@@ -30,6 +30,7 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\models\classes\ReturnUrlService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
@@ -246,5 +247,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.4', '6.1.5');
+
+        if ($this->isVersion('6.1.5')) {
+            if(!$this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)){
+                $service = new ReturnUrlService();
+                $this->getServiceManager()->propagate($service);
+                $this->getServiceManager()->register(ReturnUrlService::SERVICE_ID, $service);
+            }
+            $this->setVersion('6.2.0');
+        }
     }
 }
