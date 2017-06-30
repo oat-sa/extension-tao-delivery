@@ -32,6 +32,7 @@ use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\models\classes\ReturnUrlService;
 use taoDelivery_models_classes_DeliveryServerService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
@@ -286,6 +287,10 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
 	protected function getReturnUrl()
 	{
+	    if($this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)){
+            $deliveryExecution = $this->getCurrentDeliveryExecution();
+	        return $this->getServiceManager()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
+        }
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
     
