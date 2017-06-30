@@ -26,7 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 class ReturnUrlService extends ConfigurableService
 {
 
-    const SERVICE_ID = 'taoDelivery/retrunUrl';
+    const SERVICE_ID = 'taoDelivery/returnUrl';
 
     const EXTENSION_OPTION = 'extension';
     const CONTROLLER_OPTION = 'controller';
