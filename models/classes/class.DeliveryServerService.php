@@ -23,6 +23,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\container\ExecutionContainer;
 
 /**
  * Service to manage the execution of deliveries
@@ -92,8 +93,10 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
     }
 
     /**
+     * Returns the container for the delivery execution
+     *
      * @param DeliveryExecution $deliveryExecution
-     * @return \oat\taoDelivery\model\DeliveryContainer
+     * @return ExecutionContainer
      * @throws common_Exception
      */
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
