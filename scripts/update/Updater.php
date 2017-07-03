@@ -33,6 +33,8 @@ use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
+use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\container\LegacyRuntime;
 
 /**
  *
@@ -246,5 +248,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.1.4', '6.1.5');
+
+        // added runtime service
+        if ($this->isVersion('6.1.5')) {
+            $this->getServiceManager()->register(RuntimeService::SERVICE_ID, new LegacyRuntime());
+            $this->setVersion('6.2.0');
+        }
     }
 }
