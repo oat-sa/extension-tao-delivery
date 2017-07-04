@@ -30,6 +30,7 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
@@ -253,6 +254,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('6.1.5')) {
             $this->getServiceManager()->register(RuntimeService::SERVICE_ID, new LegacyRuntime());
             $this->setVersion('6.2.0');
+        }
+
+        // Added Delivery Fields Service
+        if ($this->isVersion('6.2.0')) {
+            $service = new DeliveryFieldsService([
+                DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
+                    INSTANCE_ROLE_DELIVERY
+                ]
+            ]);
+            $service->setServiceManager($this->getServiceManager());
+            $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
+            $this->setVersion('6.3.0');
         }
     }
 }
