@@ -15,39 +15,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\container;
 
-use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+
 /**
- * Interface StateServiceInterface
- *
- * Service is used to handle changing of delivery execution state.
- *
- * @package oat\taoDelivery
+ * DeliveryContainer represents the container for a given delivery
+ * and acts as a factory for individual DeliveryExecution Containers
  */
-interface StateServiceInterface
+interface DeliveryContainer
 {
-    const SERVICE_ID = 'taoDelivery/stateService';
-
-    const STORAGE_SERVICE_ID = 'taoDelivery/execution_service';
-
     /**
-     * Spawns a new delivery execution
+     * Returns a container for the given delivery execution
      *
-     * @param string $deliveryId
-     * @param User $user
-     * @param $label
+     * @param DeliveryExecution $execution
+     * @return ExecutionContainer
      */
-    public function createDeliveryExecution($deliveryId, User $user, $label);
-
-    public function run(DeliveryExecution $deliveryExecution);
-
-    public function pause(DeliveryExecution $deliveryExecution);
-
-    public function finish(DeliveryExecution $deliveryExecution);
-
-    public function getDeliveriesStates();
+    public function getExecutionContainer(DeliveryExecution $execution);
 }

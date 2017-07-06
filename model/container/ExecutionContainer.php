@@ -15,39 +15,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\container;
 
-use oat\oatbox\user\User;
 /**
- * Interface StateServiceInterface
- *
- * Service is used to handle changing of delivery execution state.
- *
- * @package oat\taoDelivery
+ * Represents the Container used to render the actual Delivery
+ * of a Delivery Execution
  */
-interface StateServiceInterface
+interface ExecutionContainer
 {
-    const SERVICE_ID = 'taoDelivery/stateService';
-
-    const STORAGE_SERVICE_ID = 'taoDelivery/execution_service';
-
     /**
-     * Spawns a new delivery execution
-     *
-     * @param string $deliveryId
-     * @param User $user
-     * @param $label
+     * adds or replaces the data for a specific key
+     * @param  string key
+     * @param  mixed value
      */
-    public function createDeliveryExecution($deliveryId, User $user, $label);
-
-    public function run(DeliveryExecution $deliveryExecution);
-
-    public function pause(DeliveryExecution $deliveryExecution);
-
-    public function finish(DeliveryExecution $deliveryExecution);
-
-    public function getDeliveriesStates();
+    public function setData($key, $value);
+    
+    /**
+     * Returns a renderer for additional header data, alowing
+     * the container to add custom JS, CSS and meta-data
+     *
+     * @return \Renderer
+    */
+    public function getContainerHeader();
+    
+    /**
+     * Returns a renderer for the actual container body
+     *
+     * @return \Renderer
+    */
+    public function getContainerBody();
 }

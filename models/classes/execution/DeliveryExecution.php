@@ -24,6 +24,7 @@ namespace oat\taoDelivery\models\classes\execution;
 use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\StateServiceInterface;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryExecution implements DeliveryExecutionInterface
 {
@@ -67,7 +68,13 @@ class DeliveryExecution implements DeliveryExecutionInterface
      */
     public function getLabel()
     {
-        return $this->getImplementation()->getLabel();
+        /** @var DeliveryFieldsService $deliveryFieldsService */
+        $deliveryFieldsService = ServiceManager::getServiceManager()->get(DeliveryFieldsService::SERVICE_ID);
+        $label = $deliveryFieldsService->getLabel(
+            $this->getImplementation()->getDelivery(),
+            $this->getImplementation()->getLabel()
+        );
+        return $label;
     }
 
     /**
