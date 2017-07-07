@@ -22,6 +22,8 @@ use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\container\ExecutionContainer;
 
 /**
  * Service to manage the execution of deliveries
@@ -89,30 +91,18 @@ class taoDelivery_models_classes_DeliveryServerService extends ConfigurableServi
          //a unique identifier for the delivery
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
     }
-    
-    public function getJsConfig($compiledDelivery){
-        return array(
-            'requireFullScreen' => $this->getOption('requireFullScreen')
-        );
-    }
 
     /**
+     * Returns the container for the delivery execution
+     *
      * @param DeliveryExecution $deliveryExecution
-     * @return \oat\taoDelivery\model\DeliveryContainer
+     * @return ExecutionContainer
      * @throws common_Exception
      */
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
     {
-        $containerClass = $this->getOption('deliveryContainer');
-        $container =  new $containerClass($deliveryExecution);
-
-        if (!($container instanceof \oat\taoDelivery\model\DeliveryContainer)) {
-            throw new common_Exception('A delivery container must be an instance of oat\taoDelivery\model\DeliveryContainer');
-        }
-
-        $container->setData('deliveryExecution', $deliveryExecution->getIdentifier());
-        $container->setData('deliveryServerConfig', $this->getJsConfig($deliveryExecution->getDelivery()));
-        
-        return $container;
+        $runtimeService = $this->getServiceLocator()->get(RuntimeService::SERVICE_ID);
+        $deliveryContainer = $runtimeService->getDeliveryContainer($deliveryExecution->getDelivery()->getUri());
+        return $deliveryContainer->getExecutionContainer($deliveryExecution);
     }
 }
