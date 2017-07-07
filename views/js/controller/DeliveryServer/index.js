@@ -73,7 +73,7 @@ define([
                 displayPermanentMessage(parameters.message.level, parameters.message.content);
             }
 
-            $('a.entry-point').on('click', function (e) {
+            $('a.entry-point:not(.disabled)').on('click', function (e) {
                 var $elt = $(this);
 
                 e.preventDefault();
