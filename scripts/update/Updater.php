@@ -267,5 +267,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
             $this->setVersion('6.3.0');
         }
+
+        $this->skip('6.3.0', '6.3.1');
     }
 }
