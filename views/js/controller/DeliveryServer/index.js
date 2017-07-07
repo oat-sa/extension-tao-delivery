@@ -73,13 +73,13 @@ define([
                 displayPermanentMessage(parameters.message.level, parameters.message.content);
             }
 
-            $('a.entry-point:not(.disabled)').on('click', function (e) {
+            $('a.entry-point').on('click', function (e) {
                 var $elt = $(this);
 
                 e.preventDefault();
                 e.stopPropagation();
 
-                if(!deliveryStarted){
+                if(!deliveryStarted && !$elt.hasClass('disabled')){
                     runDelivery($elt.attr('href'));
                 }
             });
