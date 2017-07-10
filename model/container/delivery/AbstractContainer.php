@@ -19,15 +19,27 @@
 
 namespace oat\taoDelivery\model\container\delivery;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\helper\container\DeliveryServiceContainer as ServiceExecution;
+use oat\taoDelivery\helper\container\DeliveryClientContainer as ClientExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\container\DeliveryContainer;
+use oat\oatbox\Configurable;
+use oat\oatbox\service\ServiceManager;
+use oat\taoDelivery\model\DeliveryContainerService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class DeliveryServiceContainer extends ConfigurableService implements DeliveryContainer
+abstract class AbstractContainer extends Configurable implements DeliveryContainer, ServiceLocatorAwareInterface, \JsonSerializable
 {
+    use ServiceLocatorAwareTrait;
+    
+    private $containerId;
     
     private $params;
+    
+    public function setId($containerId)
+    {
+        $this->containerId = $containerId;
+    }
     
     public function setRuntimeParams($params)
     {
@@ -39,11 +51,13 @@ class DeliveryServiceContainer extends ConfigurableService implements DeliveryCo
         return $this->params;
     }
     
-    public function getExecutionContainer(DeliveryExecution $execution)
+    public function jsonSerialize()
     {
-        $container = new ServiceExecution($execution);
-        $container->setData('deliveryExecution', $execution->getIdentifier());
-        $container->setData('deliveryServerConfig', []);
-        return $container;
+        return array(
+            'container' => $this->containerId,
+            'params' => $this->params
+        );
     }
+    
+    public abstract function getExecutionContainer(DeliveryExecution $execution);
 }
