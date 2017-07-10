@@ -20,28 +20,42 @@
 namespace oat\taoDelivery\model\container\delivery;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\taoDelivery\model\DeliveryContainerService;
+use oat\taoDelivery\helper\container\DeliveryClientContainer as ClientExecution;
 /**
  * Legacy Client Container, requires to do its own data retrieval
  */
-class LegacyClientContainer extends DeliveryClientContainer 
+class LegacyClientContainer extends AbstractContainer
 {
     private $serviceCallParam = [];
     
+    /**
+     * Return the URI of the test for the delivery
+     * @param DeliveryExecution $execution
+     * @return string
+     */
     public function getSourceTest(DeliveryExecution $execution)
     {
         $containerService = $this->getServiceLocator()->get(DeliveryContainerService::CONFIG_ID);
         return $containerService->getTestDefinition($execution);
     }
     
+    /**
+     * Return the id of the storage directory for the public content
+     * @param DeliveryExecution $execution
+     * @return string
+     */
     public function getPublicDirId(DeliveryExecution $execution)
     {
         list($private, $public) = explode('|', $this->getServiceCallParam($execution));
         return $public;
     }
     
+    /**
+     * Return the id of the storage directory for the private content
+     * @param DeliveryExecution $execution
+     * @return string
+     */
     public function getPrivateDirId(DeliveryExecution $execution)
     {
         list($private, $public) = explode('|', $this->getServiceCallParam($execution));
@@ -55,5 +69,25 @@ class LegacyClientContainer extends DeliveryClientContainer
             $this->serviceCallParam[$execution->getIdentifier()] = $containerService->getTestCompilation($execution);
         }
         return $this->serviceCallParam[$execution->getIdentifier()];
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\model\container\delivery\DeliveryClientContainer::getExecutionContainer()
+     */
+    public function getExecutionContainer(DeliveryExecution $execution)
+    {
+        $container = new ClientExecution($execution);
+        $containerService = $this->getServiceLocator()->get(DeliveryContainerService::CONFIG_ID);
+
+        // set the test parameters
+        $container->setData('testDefinition', $this->getSourceTest($execution));
+        $container->setData('testCompilation', $this->getPrivateDirId($execution).'|'.$this->getPublicDirId($execution));
+        $container->setData('plugins', $containerService->getPlugins($execution));
+        $container->setData('bootstrap', $containerService->getBootstrap($execution));
+        $container->setData('serviceCallId', $execution->getIdentifier());
+        $container->setData('deliveryExecution', $execution->getIdentifier());
+        $container->setData('deliveryServerConfig', []);
+        return $container;
     }
 }

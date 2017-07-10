@@ -21,12 +21,33 @@ namespace oat\taoDelivery\model\container\delivery;
 
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\helper\container\DeliveryServiceContainer as ServiceExecution;
 
-class LegacyServiceContainer extends DeliveryServiceContainer
+class LegacyServiceContainer extends AbstractContainer
 {
+    /**
+     * Return the service call to run the delivery
+     * @param DeliveryExecution $execution
+     * @return \tao_models_classes_service_ServiceCall
+     */
     public function getRuntime(DeliveryExecution $execution)
     {
         $delivery = $execution->getDelivery();
         return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($delivery->getUri());
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\taoDelivery\model\container\delivery\AbstractContainer::getExecutionContainer()
+     */
+    public function getExecutionContainer(DeliveryExecution $execution)
+    {
+        $container = new ServiceExecution($execution);
+        $container->setData('deliveryExecution', $execution->getIdentifier());
+        $container->setData('deliveryServerConfig', []);
+        $container->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi(
+            $this->getRuntime($execution), $execution->getIdentifier()
+        ));
+        return $container;
     }
 }
