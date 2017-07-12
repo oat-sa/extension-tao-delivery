@@ -63,14 +63,22 @@ class DeliveryServer extends \tao_actions_CommonModule
 		$this->executionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
 	}
 	
-	/**
-	 * @return DeliveryExecution
-	 */
-	protected function getCurrentDeliveryExecution() {
-	    $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
-	    return $this->executionService->getDeliveryExecution($id);
-	}
-		
+    /**
+    * @return DeliveryExecution
+    */
+    protected function getCurrentDeliveryExecution()
+    {
+        $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
+
+        if ($id) {
+            return $this->executionService->getDeliveryExecution($id);
+        }
+
+        else {
+            return null;
+        }
+    }
+
 	/**
      * Set a view with the list of process instances (both started or finished) and available process definitions
 	 *
@@ -282,18 +290,22 @@ class DeliveryServer extends \tao_actions_CommonModule
 	
     /**
      * Defines the returning URL in the top-right corner action menu
-     * 
+     *
      * @return string
      */
-	protected function getReturnUrl()
-	{
-	    if($this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)){
-            $deliveryExecution = $this->getCurrentDeliveryExecution();
-	        return $this->getServiceManager()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
+     protected function getReturnUrl()
+     {
+        $deliveryExecution = $this->getCurrentDeliveryExecution();
+        $serviceManager = $this->getServiceManager();
+
+        if ( ! is_null($deliveryExecution) && $serviceManager->has(ReturnUrlService::SERVICE_ID) ) {
+            $returnUrlService = $serviceManager->get(ReturnUrlService::SERVICE_ID);
+            return $returnUrlService->getReturnUrl($deliveryExecution->getIdentifier());
         }
-	    return _url('index', 'DeliveryServer', 'taoDelivery');
-	}
-    
+
+        return _url('index', 'DeliveryServer', 'taoDelivery');
+     }
+
     /**
      * Defines the URL of the finish delivery execution action
      * 
