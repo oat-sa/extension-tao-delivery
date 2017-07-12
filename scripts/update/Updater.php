@@ -36,6 +36,8 @@ use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\LegacyRuntime;
+use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
+use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
 
 /**
  *
@@ -269,5 +271,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('6.3.0', '6.4.0');
+
+        if ($this->isVersion('6.4.0')) {
+            $registry = DeliveryContainerRegistry::getRegistry();
+            $registry->setServiceLocator($this->getServiceManager());
+            $registry->registerContainerType(
+                DeliveryServiceContainer::DEFAULT_ID, new DeliveryServiceContainer());
+            $this->setVersion('6.5.0');
+        }
     }
 }
