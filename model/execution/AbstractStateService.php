@@ -79,7 +79,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
     {
         $prevState = $deliveryExecution->getState();
         if ($prevState->getUri() === $state) {
-            $this->logWarning('Delivery execution '.$deliveryExecution->getIdentifier().' already in state '.$state);
+            $this->logDebug('Delivery execution '.$deliveryExecution->getIdentifier().' already in state '.$state);
             return false;
         }
 
