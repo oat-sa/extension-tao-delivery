@@ -20,7 +20,11 @@
  */
 namespace oat\taoDelivery\model;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Basic Assignment object that represents the assignment
  * of a test-taker to a delivery. It is used by the assignment service
@@ -31,7 +35,9 @@ use oat\oatbox\user\User;
  *
  */
 class Assignment {
-    
+
+    use OntologyAwareTrait;
+
     private $deliveryId;
     
     private $label;
@@ -75,7 +81,14 @@ class Assignment {
      */
     public function getLabel()
     {
-        return $this->label;
+        /** @var DeliveryFieldsService $deliveryFieldsService */
+        $deliveryFieldsService = ServiceManager::getServiceManager()->get(DeliveryFieldsService::SERVICE_ID);
+        $delivery = $this->getResource($this->getDeliveryId());
+        $label = $deliveryFieldsService->getLabel(
+            $delivery,
+            $this->label
+        );
+        return $label;
     }
     
     /**

@@ -79,7 +79,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                if(!deliveryStarted){
+                if(!deliveryStarted && !$elt.hasClass('disabled')){
                     runDelivery($elt.attr('href'));
                 }
             });
