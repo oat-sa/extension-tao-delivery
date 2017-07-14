@@ -22,6 +22,7 @@
 
 use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
+use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -40,8 +41,9 @@ return array(
     'install' => array(
         'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
-             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
-             \oat\taoDelivery\scripts\install\installDeliveryFields::class,
+            \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
+            \oat\taoDelivery\scripts\install\installDeliveryFields::class,
+            RegisterServiceContainer::class
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
