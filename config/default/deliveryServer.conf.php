@@ -1,5 +1,5 @@
 <?php
-return new taoDelivery_models_classes_DeliveryServerService(array(
+return new \oat\taoDelivery\model\execution\DeliveryServerService(array(
     /**
      * The class name of the Delivery Container
      * @type string

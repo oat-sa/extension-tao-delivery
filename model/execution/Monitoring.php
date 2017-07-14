@@ -35,7 +35,7 @@ interface Monitoring extends Service
      * Returns the delivery executions for a compiled directory
      *
      * @param core_kernel_classes_Resource $compiled
-     * @return number
+     * @return DeliveryExecution[]
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled);
 }

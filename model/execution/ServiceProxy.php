@@ -57,6 +57,10 @@ class ServiceProxy extends tao_models_classes_Service implements Service
         $ext->setConfig(self::CONFIG_KEY, $implementation);
     }
 
+    /**
+     * @return Service
+     * @throws common_exception_Error
+     */
     protected function getImplementation() {
         if (is_null($this->implementation)) {
             $this->implementation = $this->getServiceLocator()->get(self::SERVICE_ID);
@@ -152,7 +156,8 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * Implemented in the monitoring interface
      *
      * @param core_kernel_classes_Resource $compiled
-     * @return int the amount of executions for a single compilation
+     * @return DeliveryExecution[] executions for a single compilation
+     * @throws \common_exception_Error
      * @throws common_exception_NoImplementation
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
@@ -167,6 +172,7 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * Whenever or not the current implementation supports monitoring
      *
      * @return boolean
+     * @throws \common_exception_Error
      */
     public function implementsMonitoring() {
         return $this->getImplementation() instanceof Monitoring;

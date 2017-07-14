@@ -39,6 +39,8 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     /**
      * (non-PHPdoc)
      * @see Service::getExecutionsByDelivery()
+     * @param core_kernel_classes_Resource $compiled
+     * @return DeliveryExecution[]
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
