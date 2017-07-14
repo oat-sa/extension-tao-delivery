@@ -18,31 +18,32 @@
  *
  *
  */
+namespace oat\taoDelivery\model\entrypoint;
 
 use oat\oatbox\Configurable;
 use oat\tao\model\entryPoint\Entrypoint;
 
-class taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint extends Configurable implements Entrypoint
+class GuestAccess extends Configurable implements Entrypoint
 {
 
     public function getId() {
-        return 'deliveryServer';
+        return 'guestaccess';
     }
     
     public function getTitle() {
-        return __('Test-Takers');
+        return __('Guest access');
     }
     
     public function getLabel() {
-        return __('TAO Delivery Server');
+        return __('TAO Guest Access');
     }
     
     public function getDescription() {
-        return __('Take or continue a test.');
+        return __('Access deliveries as a guest');
     }
     
     public function getUrl() {
-        return _url("index", "DeliveryServer", "taoDelivery");
+        return _url("guest", "Guest", "taoDeliveryRdf");
     }
 
 }

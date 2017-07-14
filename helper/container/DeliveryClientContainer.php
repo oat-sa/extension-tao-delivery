@@ -19,8 +19,6 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoDelivery\model\DeliveryContainerService;
 use oat\tao\helpers\Template;
 
 /**

@@ -28,7 +28,10 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  */
 interface  DeliveryContainerService  {
 
+    /** @deprecated */
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
+
+    const SERVICE_ID = 'taoDelivery/deliveryContainer';
 
     /**
      * Get the list of plugins for the current execution

@@ -14,35 +14,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-use oat\oatbox\Configurable;
-use oat\tao\model\entryPoint\Entrypoint;
+namespace oat\taoDelivery\model\execution;
 
-class taoDelivery_models_classes_entrypoint_GuestAccess extends Configurable implements Entrypoint
+use core_kernel_classes_Resource;
+
+/**
+ * Service to manage the execution of deliveries
+ *
+ * @access public
+ * @author Joel Bout, <joel@taotesting.com>
+ * @package taoDelivery
+ */
+interface Monitoring extends Service
 {
-
-    public function getId() {
-        return 'guestaccess';
-    }
-    
-    public function getTitle() {
-        return __('Guest access');
-    }
-    
-    public function getLabel() {
-        return __('TAO Guest Access');
-    }
-    
-    public function getDescription() {
-        return __('Access deliveries as a guest');
-    }
-    
-    public function getUrl() {
-        return _url("guest", "Guest", "taoDeliveryRdf");
-    }
-
+    /**
+     * Returns the delivery executions for a compiled directory
+     *
+     * @param core_kernel_classes_Resource $compiled
+     * @return number
+     */
+    public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled);
 }

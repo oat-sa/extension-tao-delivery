@@ -47,7 +47,7 @@ interface AssignmentService
     /**
      * Returns the ids of users assigned to a delivery
      * 
-     * @param unknown $deliveryId
+     * @param string $deliveryId
      * @return string[] ids of users
      */
     public function getAssignedUsers($deliveryId);
