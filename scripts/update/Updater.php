@@ -313,7 +313,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $entryPointService);
 
-           $this->setVersion('7.0.0');
+           $this->setVersion('6.7.0');
        }
     }
 }
