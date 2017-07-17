@@ -74,7 +74,7 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
+     * @see Service::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
@@ -134,7 +134,7 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()
+     * @see Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier) {
         return new DeliveryExecution(

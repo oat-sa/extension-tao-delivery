@@ -50,7 +50,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
     /**
      *
-     * @param string $currentVersion
+     * @param $initialVersion
      * @return string $versionUpdatedTo
      */
     public function update($initialVersion) {
@@ -294,26 +294,26 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
       
        if ($this->isVersion('6.6.0')) {
-            /** @var EntryPointService $entryPointService */
-            $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);
+           /** @var EntryPointService $entryPointService */
+           $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);
 
-            foreach ([EntryPointService::OPTION_POSTLOGIN, EntryPointService::OPTION_PRELOGIN] as $type) {
-                $entryPoints = $entryPointService->getEntryPoints($type);
-                foreach ($entryPoints as $k => $v) {
+           foreach ([EntryPointService::OPTION_POSTLOGIN, EntryPointService::OPTION_PRELOGIN] as $type) {
+               $entryPoints = $entryPointService->getEntryPoints($type);
+               foreach ($entryPoints as $k => $v) {
 
-                    if (is_a($v, 'taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint')) {
-                        $entryPointService->overrideEntryPoint($k, new FrontOfficeEntryPoint());
-                    }
+                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint')) {
+                       $entryPointService->overrideEntryPoint($k, new FrontOfficeEntryPoint());
+                   }
 
-                    if (is_a($v, 'taoDelivery_models_classes_entrypoint_GuestAccess')) {
-                        $entryPointService->overrideEntryPoint($k, new GuestAccess());
-                    }
-                }
-            }
+                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_GuestAccess')) {
+                       $entryPointService->overrideEntryPoint($k, new GuestAccess());
+                   }
+               }
+           }
 
-            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $entryPointService);
+           $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $entryPointService);
 
-            $this->setVersion('7.0.0');
-      
+           $this->setVersion('7.0.0');
+       }
     }
 }
