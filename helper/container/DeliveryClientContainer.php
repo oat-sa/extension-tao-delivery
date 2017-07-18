@@ -50,15 +50,6 @@ class DeliveryClientContainer extends AbstractContainer
      */
     protected function init()
     {
-
-        $containerService = ServiceManager::getServiceManager()->get(DeliveryContainerService::CONFIG_ID);
-
-        // set the test parameters
-        $this->setData('testDefinition', $containerService->getTestDefinition($this->deliveryExecution));
-        $this->setData('testCompilation', $containerService->getTestCompilation($this->deliveryExecution));
-        $this->setData('plugins', $containerService->getPlugins($this->deliveryExecution));
-        $this->setData('bootstrap', $containerService->getBootstrap($this->deliveryExecution));
-        $this->setData('serviceCallId', $this->deliveryExecution->getIdentifier());
     }
 
     /**

@@ -19,29 +19,19 @@
 
 namespace oat\taoDelivery\model\container\delivery;
 
-use oat\oatbox\Configurable;
-use oat\taoDelivery\helper\container\DeliveryServiceContainer as ServiceExecution;
-use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\taoDelivery\model\container\DeliveryContainer;
 use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
-class DeliveryServiceContainer extends AbstractContainer
+class LegacyServiceContainer extends DeliveryServiceContainer
 {
-    const DEFAULT_ID = 'service';
-
+    /**
+     * Return the service call to run the delivery
+     * @param DeliveryExecution $execution
+     * @return \tao_models_classes_service_ServiceCall
+     */
     public function getRuntime(DeliveryExecution $execution)
     {
-        return \tao_models_classes_service_ServiceCall::fromJSON($this->getRuntimeParams());
-    }
-
-    public function getExecutionContainer(DeliveryExecution $execution)
-    {
-        $container = new ServiceExecution($execution);
-        $container->setData('deliveryExecution', $execution->getIdentifier());
-        $container->setData('deliveryServerConfig', []);
-        $container->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi(
-            $this->getRuntime($execution), $execution->getIdentifier()
-        ));
-        return $container;
+        $delivery = $execution->getDelivery();
+        return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($delivery->getUri());
     }
 }
