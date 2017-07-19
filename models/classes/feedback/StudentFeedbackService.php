@@ -23,6 +23,8 @@
 namespace oat\taoDelivery\models\classes\feedback;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoQtiTest\models\TestSessionService;
+use qtism\runtime\tests\AssessmentTestSession;
 
 abstract class StudentFeedbackService extends ConfigurableService
 {
@@ -32,6 +34,12 @@ abstract class StudentFeedbackService extends ConfigurableService
     /** @var \core_kernel_classes_Resource  */
     protected $delivery = null;
 
+    /** @var AssessmentTestSession  */
+    protected $session = null;
+
+    /** @var array */
+    protected $categories = [];
+
     public function getFeedbackData($deliveryExecutionUri)
     {
 
@@ -40,15 +48,21 @@ abstract class StudentFeedbackService extends ConfigurableService
 
         $deliveryExecution = $deliveryExecutionService->getDeliveryExecution($deliveryExecutionUri);
 
+        /** @var TestSessionService $testSessionService */
+        $testSessionService = $this->getServiceManager()->get(TestSessionService::SERVICE_ID);
+        $this->session = $testSessionService->getTestSession($deliveryExecution);
+
+
         $this->delivery = $deliveryExecution->getDelivery();
 
         $title = $this->getTitle();
         $description = $this->getDescription();
+        $score = $this->getScore();
         $categories = $this->getCategories();
         $thresholds = $this->getThresholds();
-        $score = $this->getScore();
+        $range = $this->getRange();
 
-        return new StudentFeedbackPayload($title, $description, $categories, $thresholds, $score);
+        return new StudentFeedbackPayload($title, $description, $categories, $thresholds, $range, $score);
     }
 
     /**
@@ -75,6 +89,12 @@ abstract class StudentFeedbackService extends ConfigurableService
      * @return array ["Good knowledge" => 30]
      */
     abstract protected function getThresholds();
+
+    /**
+     * return the range to construct the feedback graph
+     * @return array [0,100]
+     */
+    abstract protected function getRange();
 
     /**
      * return the score of a student

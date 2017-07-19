@@ -33,22 +33,27 @@ class StudentFeedbackPayload implements \JsonSerializable
 
     private $thresholds;
 
+    private $range;
+
     private $data;
+
 
     /**
      * StudentFeedbackPayload constructor.
      * @param string $title
-     * @param string $descritpion
+     * @param string $description
      * @param array $categories
      * @param array $thresholds
+     * @param array $range
      * @param array $data
      */
-    public function __construct($title = '', $descritpion = '', $categories = [], $thresholds = [], $data = [])
+    public function __construct($title = '', $description = '', $categories = [], $thresholds = [], $range = [], $data = [])
     {
         $this->setTitle($title);
-        $this->setDescritpion($descritpion);
+        $this->setDescritpion($description);
         $this->setCategories($categories);
         $this->setThresholds($thresholds);
+        $this->setRange($range);
         $this->setData($data);
     }
 
@@ -102,7 +107,7 @@ class StudentFeedbackPayload implements \JsonSerializable
     {
         $formattedCategories = [];
         foreach ($categories as $key => $value){
-            $formattedCatgeories[] = ["label" => $value, "key" => $key];
+            $formattedCategories[] = ["label" => $value, "key" => $key];
         }
         $this->categories = $formattedCategories;
     }
@@ -125,6 +130,22 @@ class StudentFeedbackPayload implements \JsonSerializable
             $formattedThresholds[] = ["label" => $key, "value" => $value];
         }
         $this->thresholds = $formattedThresholds;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRange()
+    {
+        return $this->range;
+    }
+
+    /**
+     * @param mixed $range
+     */
+    public function setRange($range)
+    {
+        $this->range = $range;
     }
 
     /**
@@ -151,11 +172,15 @@ class StudentFeedbackPayload implements \JsonSerializable
     {
 
         return [
-            'title' => $this->getTitle(),
-            'categories' => $this->getCategories(),
-            'thresholds' => $this->getThresholds(),
-            'data' => $this->getData(),
-            'success' => true
+            'success' => true,
+            'data' => [
+                'title' => $this->getTitle(),
+                'description' => $this->getDescritpion(),
+                'categories' => $this->getCategories(),
+                'thresholds' => $this->getThresholds(),
+                'range' => $this->getRange(),
+                'points' => $this->getData(),
+            ]
         ];
     }
 
