@@ -323,5 +323,17 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('6.7.0', '7.0.0');
 
+
+        if ($this->isVersion('7.0.0')) {
+            /** @var ServiceProxy $executionService */
+            $executionService = $this->safeLoadService(ServiceProxy::SERVICE_ID);
+
+            if (is_a($executionService, 'taoDelivery_models_classes_execution_OntologyService')) {
+                $this->getServiceManager()->register(ServiceProxy::SERVICE_ID, new OntologyService());
+            }
+
+            $this->setVersion('7.0.1');
+        }
+
     }
 }
