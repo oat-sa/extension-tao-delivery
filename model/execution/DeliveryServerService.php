@@ -54,7 +54,7 @@ class DeliveryServerService extends ConfigurableService
     /**
      * Get resumable (active) deliveries.
      * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
-     * @return \oat\taoDelivery\models\classes\execution\DeliveryExecution []
+     * @return \oat\taoDelivery\model\execution\DeliveryExecution []
      */
     public function getResumableDeliveries(User $user)
     {
