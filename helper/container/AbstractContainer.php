@@ -23,13 +23,13 @@
 namespace oat\taoDelivery\helper\container;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use \oat\taoDelivery\model\DeliveryContainer as DeliveryContainerInterface;
+use oat\taoDelivery\model\container\ExecutionContainer;
 
 /**
  * Abstract container to simplify the development of
  * simple containers
  */
-abstract class AbstractContainer implements DeliveryContainerInterface
+abstract class AbstractContainer implements ExecutionContainer
 {
     private $data = array();
     
