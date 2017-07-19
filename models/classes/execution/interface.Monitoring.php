@@ -20,18 +20,12 @@
 
 /**
  * Service to manage the execution of deliveries
- *
+ * @deprecated
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-interface taoDelivery_models_classes_execution_Monitoring extends taoDelivery_models_classes_execution_Service
+interface taoDelivery_models_classes_execution_Monitoring extends \oat\taoDelivery\model\execution\Monitoring
 {
-    /**
-     * Returns the delivery executions for a compiled directory
-     *
-     * @param core_kernel_classes_Resource $compiled
-     * @return number
-     */
-    public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled);
+
 }

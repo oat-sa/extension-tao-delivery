@@ -19,7 +19,6 @@
  */
 namespace oat\taoDelivery\model;
 
-use oat\oatbox\user\User;
 use oat\taoDelivery\model\container\DeliveryContainer;
 /**
  * Service to manage the assignment of users to deliveries

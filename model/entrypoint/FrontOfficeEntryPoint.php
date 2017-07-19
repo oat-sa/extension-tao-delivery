@@ -14,26 +14,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
  *
  */
-namespace oat\taoDelivery\model\authorization;
 
-/**
- * Exception in case of a failed authorization
- */
-class UnAuthorizedException extends \common_exception_Unauthorized
+namespace oat\taoDelivery\model\entrypoint;
+
+use oat\oatbox\Configurable;
+use oat\tao\model\entryPoint\Entrypoint;
+
+class FrontOfficeEntryPoint extends Configurable implements Entrypoint
 {
-    private $errorPage;
-    
-    public function __construct($errorPage, $message = null)
-    {
-        parent::__construct($message);
-        $this->errorPage = $errorPage;
+
+    public function getId() {
+        return 'deliveryServer';
     }
     
-    public function getErrorPage()
-    {
-        return $this->errorPage;
+    public function getTitle() {
+        return __('Test-Takers');
     }
+    
+    public function getLabel() {
+        return __('TAO Delivery Server');
+    }
+    
+    public function getDescription() {
+        return __('Take or continue a test.');
+    }
+    
+    public function getUrl() {
+        return _url("index", "DeliveryServer", "taoDelivery");
+    }
+
 }

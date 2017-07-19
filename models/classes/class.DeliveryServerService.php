@@ -27,82 +27,12 @@ use oat\taoDelivery\model\container\ExecutionContainer;
 
 /**
  * Service to manage the execution of deliveries
- *
+ * @deprecated in favor of psr-4 \oat\taoDelivery\model\execution\DeliveryServerService
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_DeliveryServerService extends ConfigurableService
+class taoDelivery_models_classes_DeliveryServerService extends \oat\taoDelivery\model\execution\DeliveryServerService
 {
-    const CONFIG_ID = 'taoDelivery/deliveryServer';
 
-    public static function singleton()
-    {
-        return ServiceManager::getServiceManager()->get(self::CONFIG_ID);
-    }
-
-    /**
-     * Get resumable (active) deliveries.
-     * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
-     * @return type
-     */
-    public function getResumableDeliveries(User $user)
-    {
-        $deliveryExecutionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
-            $started = array_merge(
-                $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier()),
-                $deliveryExecutionService->getPausedDeliveryExecutions($user->getIdentifier())
-            );
-        
-        $resumable = array();
-        foreach ($started as $deliveryExecution) {
-            $delivery = $deliveryExecution->getDelivery();
-            if ($delivery->exists()) {
-                $resumable[] = $deliveryExecution;
-            }
-        }
-        return $resumable;
-    }
-
-    /**
-     * initalize the resultserver for a given execution
-     * @param core_kernel_classes_resource processExecution
-     */
-    public function initResultServer($compiledDelivery, $executionIdentifier){
-
-        //starts or resume a taoResultServerStateFull session for results submission
-
-        //retrieve the result server definition
-        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
-        //callOptions are required in the case of a LTI basic storage
-
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
-
-        //a unique identifier for data collected through this delivery execution
-        //in the case of LTI, we should use the sourceId
-
-
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->spawnResult($executionIdentifier, $executionIdentifier);
-         common_Logger::i("Spawning/resuming result identifier related to process execution ".$executionIdentifier);
-        //set up the related test taker
-        //a unique identifier for the test taker
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(common_session_SessionManager::getSession()->getUserUri());
-
-         //a unique identifier for the delivery
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
-    }
-
-    /**
-     * Returns the container for the delivery execution
-     *
-     * @param DeliveryExecution $deliveryExecution
-     * @return ExecutionContainer
-     * @throws common_Exception
-     */
-    public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
-    {
-        $runtimeService = $this->getServiceLocator()->get(RuntimeService::SERVICE_ID);
-        $deliveryContainer = $runtimeService->getDeliveryContainer($deliveryExecution->getDelivery()->getUri());
-        return $deliveryContainer->getExecutionContainer($deliveryExecution);
-    }
 }

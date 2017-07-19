@@ -19,6 +19,7 @@
 namespace oat\taoDelivery\model\container;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\container\delivery\LegacyServiceContainer;
@@ -32,10 +33,11 @@ class LegacyRuntime extends ConfigurableService implements RuntimeService
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\RuntimeService::getDeliveryContainer()
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     public function getDeliveryContainer($deliveryId)
     {
-        $dService = $this->getServiceLocator()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+        $dService = $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
         $containerClass = $dService->getOption('deliveryContainer');
         switch ($containerClass) {
             case 'oat\\taoDelivery\\helper\\container\\DeliveryServiceContainer':
