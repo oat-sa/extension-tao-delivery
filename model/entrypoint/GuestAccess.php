@@ -18,11 +18,12 @@
  *
  *
  */
+namespace oat\taoDelivery\model\entrypoint;
 
 use oat\oatbox\Configurable;
 use oat\tao\model\entryPoint\Entrypoint;
 
-class taoDelivery_models_classes_entrypoint_GuestAccess extends Configurable implements Entrypoint
+class GuestAccess extends Configurable implements Entrypoint
 {
 
     public function getId() {

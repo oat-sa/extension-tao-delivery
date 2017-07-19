@@ -22,8 +22,8 @@
 namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\oatbox\event\Event;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * Event triggered whenever a new delivery execution is initialised
@@ -44,7 +44,7 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
     }
 
     /**
-     * @var DeliveryExecution delivery execution instance
+     * @var DeliveryExecutionInterface delivery execution instance
      */
     private $deliveryExecution;
 
@@ -55,9 +55,9 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
 
     /**
      * DeliveryExecutionState constructor.
-     * @param DeliveryExecution $deliveryExecution
+     * @param DeliveryExecutionInterface $deliveryExecution
      */
-    public function __construct(DeliveryExecution $deliveryExecution, User $user)
+    public function __construct(DeliveryExecutionInterface $deliveryExecution, User $user)
     {
         $this->deliveryExecution = $deliveryExecution;
         $this->user = $user;
@@ -66,7 +66,7 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
     /**
      * Returns newly created delivery execution
      *
-     * @return DeliveryExecution
+     * @return DeliveryExecutionInterface
      */
     public function getDeliveryExecution()
     {

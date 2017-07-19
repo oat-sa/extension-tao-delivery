@@ -20,77 +20,12 @@
 
 /**
  * Service to manage the execution of deliveries
- *
+ * @deprecated
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
-interface taoDelivery_models_classes_execution_DeliveryExecution
+interface taoDelivery_models_classes_execution_DeliveryExecution extends \oat\taoDelivery\model\execution\DeliveryExecutionInterface
 {
 
-    /**
-     * Returns the identifier of the delivery execution
-     *
-     * @throws \common_exception_NotFound
-     * @return string
-     */
-    public function getIdentifier();
-    
-    /**
-     * Returns a human readable test representation of the delivery execution
-     * Should respect the current user's language
-     *
-     * @throws \common_exception_NotFound
-     * @return string
-     */
-    public function getLabel();
-    
-    /**
-     * Returns when the delivery execution was started
-     *
-     * @throws \common_exception_NotFound
-     * @return string
-     */
-    public function getStartTime();
-    
-    /**
-     * Returns when the delivery execution was finished
-     * or null if not yet finished
-     *
-     * @throws \common_exception_NotFound
-     * * @return string | null if the execution is not yet finished
-     */
-    public function getFinishTime();
-
-    /**
-     * Returns the delivery execution state as resource
-     *
-     * @throws \common_exception_NotFound
-     * @return core_kernel_classes_Resource 
-     */
-    public function getState();
-    
-    /**
-     * 
-     * @param string $state
-     * @return boolean success
-     */
-    public function setState($state);
-    
-    /**
-     * Returns the delivery execution delivery as resource
-     *
-     * @throws \common_exception_NotFound
-     * @return core_kernel_classes_Resource
-     */
-    public function getDelivery();
-    
-    /**
-     * Returns the delivery executions user identifier
-     *
-     * @throws \common_exception_NotFound
-     * @return string
-    */
-    public function getUserIdentifier();
 }

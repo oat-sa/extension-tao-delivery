@@ -23,8 +23,9 @@ use common_Logger;
 use common_persistence_KeyValuePersistence;
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
-use taoDelivery_models_classes_execution_Service;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution as DeliveryExecutionWrapper;
+use oat\taoDelivery\model\execution\KVDeliveryExecution;
+use oat\taoDelivery\model\execution\Service;
+use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 
 /**
  * Service to manage the execution of deliveries
@@ -32,7 +33,7 @@ use oat\taoDelivery\models\classes\execution\DeliveryExecution as DeliveryExecut
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements taoDelivery_models_classes_execution_Service
+class KeyValueService extends ConfigurableService implements Service
 {
 
     const OPTION_PERSISTENCE = 'persistence';
@@ -102,7 +103,7 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
             PROPERTY_DELVIERYEXECUTION_START => microtime(),
             PROPERTY_DELVIERYEXECUTION_STATUS => $status
         );
-        $kvDe = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this, $identifier, $data);
+        $kvDe = new KVDeliveryExecution($this, $identifier, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
         return new DeliveryExecutionWrapper($kvDe);
@@ -110,7 +111,7 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
 
     /**
      * Generate a new delivery execution
-     *
+     * @deprecated
      * @param core_kernel_classes_Resource $assembly
      * @param string $userId
      * @return core_kernel_classes_Resource the delivery execution
@@ -160,25 +161,26 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
 
     /**
      * @param string $identifier
-     * @return DeliveryExecution
+     * @return DeliveryExecutionWrapper
      */
     public function getDeliveryExecution($identifier)
     {
         $identifier = ($identifier instanceof core_kernel_classes_Resource) ? $identifier->getUri() : (string) $identifier;
 
-        $deImplementation = new \taoDelivery_models_classes_execution_KVDeliveryExecution($this,
-            $identifier);
+        $deImplementation = new KVDeliveryExecution($this, $identifier);
+
         return new DeliveryExecutionWrapper($deImplementation);
     }
 
     /**
      * Update the collection of deliveries
      *
-     * @param DeliveryExecution $deliveryExecution
+     * @param KVDeliveryExecution $deliveryExecution
      * @param string $old
      * @param string $new
+     * @return mixed
      */
-    public function updateDeliveryExecutionStatus(\taoDelivery_models_classes_execution_KVDeliveryExecution $deliveryExecution, $old, $new)
+    public function updateDeliveryExecutionStatus(KVDeliveryExecution $deliveryExecution, $old, $new)
     {
         $this->update($deliveryExecution);
         $userId = $deliveryExecution->getUserIdentifier();
@@ -197,7 +199,7 @@ class KeyValueService extends ConfigurableService implements taoDelivery_models_
         return $this->setDeliveryExecutions($userId, $new, $newReferences);
     }
 
-    public function update(\taoDelivery_models_classes_execution_KVDeliveryExecution $de)
+    public function update(KVDeliveryExecution $de)
     {
         $this->getPersistence()->set($de->getIdentifier(), json_encode($de));
     }

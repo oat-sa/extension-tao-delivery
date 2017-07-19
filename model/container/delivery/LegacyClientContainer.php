@@ -36,7 +36,7 @@ class LegacyClientContainer extends AbstractContainer
      */
     public function getSourceTest(DeliveryExecution $execution)
     {
-        $containerService = $this->getServiceLocator()->get(DeliveryContainerService::CONFIG_ID);
+        $containerService = $this->getServiceLocator()->get(DeliveryContainerService::SERVICE_ID);
         return $containerService->getTestDefinition($execution);
     }
     
@@ -65,7 +65,7 @@ class LegacyClientContainer extends AbstractContainer
     private function getServiceCallParam(DeliveryExecution $execution)
     {
         if (!isset($this->serviceCallParam[$execution->getIdentifier()])) {
-            $containerService = $this->getServiceLocator()->get(DeliveryContainerService::CONFIG_ID);
+            $containerService = $this->getServiceLocator()->get(DeliveryContainerService::SERVICE_ID);
             $this->serviceCallParam[$execution->getIdentifier()] = $containerService->getTestCompilation($execution);
         }
         return $this->serviceCallParam[$execution->getIdentifier()];
@@ -78,7 +78,7 @@ class LegacyClientContainer extends AbstractContainer
     public function getExecutionContainer(DeliveryExecution $execution)
     {
         $container = new ClientExecution($execution);
-        $containerService = $this->getServiceLocator()->get(DeliveryContainerService::CONFIG_ID);
+        $containerService = $this->getServiceLocator()->get(DeliveryContainerService::SERVICE_ID);
 
         // set the test parameters
         $container->setData('testDefinition', $this->getSourceTest($execution));
