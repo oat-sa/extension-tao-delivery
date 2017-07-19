@@ -34,6 +34,7 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryServerService;
+use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
@@ -50,7 +51,7 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
 class DeliveryServer extends \tao_actions_CommonModule
 {
     /**
-     * @var \taoDelivery_models_classes_execution_Service
+     * @var Service
      */
     private $executionService;
 

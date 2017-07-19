@@ -94,7 +94,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
     }
 
     /**
-     * @return \taoDelivery_models_classes_execution_Service
+     * @return Service
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     protected function getStorageEngine()
