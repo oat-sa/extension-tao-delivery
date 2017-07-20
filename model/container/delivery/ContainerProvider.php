@@ -14,32 +14,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
+namespace oat\taoDelivery\model\container\delivery;
 
-namespace oat\taoDelivery\model;
-
-interface DeliveryContainer
+interface ContainerProvider
 {
     /**
-     * adds or replaces the data for a specific key
-     * @param  string key
-     * @param  mixed value
+     * Implemented by Compilers that can provide a container at the end of the compilation
+     *
+     * @return AbstractContainer
      */
-    public function setData($key, $value);
-    
-    /**
-     * Returns a renderer for additional header data, alowing
-     * the container to add custom JS, CSS and meta-data
-     * 
-     * @return \Renderer
-     */
-    public function getContainerHeader();
-    
-    /**
-     * Returns a renderer for the actual container body
-     * 
-     * @return \Renderer
-     */
-    public function getContainerBody();
+    public function getContainer();
 }

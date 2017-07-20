@@ -14,26 +14,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\taoDelivery\model\authorization;
 
-/**
- * Exception in case of a failed authorization
- */
-class UnAuthorizedException extends \common_exception_Unauthorized
+namespace oat\taoDelivery\scripts\install;
+
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
+
+class installDeliveryFields extends \oat\oatbox\extension\InstallAction
 {
-    private $errorPage;
     
-    public function __construct($errorPage, $message = null)
-    {
-        parent::__construct($message);
-        $this->errorPage = $errorPage;
+    public function __invoke($params) {
+
+        $service = new DeliveryFieldsService([
+            DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
+                INSTANCE_ROLE_DELIVERY
+            ]
+        ]);
+        $service->setServiceManager($this->getServiceManager());
+        $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
     }
     
-    public function getErrorPage()
-    {
-        return $this->errorPage;
-    }
 }

@@ -22,6 +22,7 @@
 
 use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
+use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -31,16 +32,18 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '6.1.6',
+    'version' => '7.0.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=10.20.0',
-        'taoResultServer' => '>=2.6'
+        'taoResultServer' => '>=3.3.1'
     ),
     'install' => array(
         'php' => array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
-             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
+            \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
+            \oat\taoDelivery\scripts\install\installDeliveryFields::class,
+            RegisterServiceContainer::class
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',

@@ -19,9 +19,7 @@
  */
 
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
 use oat\taoDelivery\model\execution\StateService;
-use oat\oatbox\service\ServiceManager;
 
 /**
  * Service to manage the execution of deliveries

@@ -23,6 +23,8 @@ namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\oatbox\event\Event;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+
 /**
 * Event should be triggered after changing delivery execution state.
 *
@@ -31,7 +33,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 class DeliveryExecutionState implements Event
 {
     /**
-     * @var DeliveryExecution delivery execution instance
+     * @var DeliveryExecutionInterface delivery execution instance
      */
     private $deliveryExecution;
     /**
@@ -45,11 +47,11 @@ class DeliveryExecutionState implements Event
 
     /**
      * DeliveryExecutionState constructor.
-     * @param DeliveryExecution $deliveryExecution
+     * @param DeliveryExecutionInterface $deliveryExecution
      * @param string $state
      * @param string $prevState
      */
-    public function __construct(DeliveryExecution $deliveryExecution, $state, $prevState = null)
+    public function __construct(DeliveryExecutionInterface $deliveryExecution, $state, $prevState = null)
     {
         $this->deliveryExecution = $deliveryExecution;
         $this->state = $state;
@@ -57,7 +59,7 @@ class DeliveryExecutionState implements Event
     }
 
     /**
-     * @return DeliveryExecution
+     * @return DeliveryExecutionInterface
      */
     public function getDeliveryExecution()
     {

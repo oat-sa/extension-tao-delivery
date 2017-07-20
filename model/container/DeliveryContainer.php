@@ -14,26 +14,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
-namespace oat\taoDelivery\model\authorization;
+
+namespace oat\taoDelivery\model\container;
+
+use oat\taoDelivery\model\execution\DeliveryExecution;
 
 /**
- * Exception in case of a failed authorization
+ * DeliveryContainer represents the container for a given delivery
+ * and acts as a factory for individual DeliveryExecution Containers
  */
-class UnAuthorizedException extends \common_exception_Unauthorized
+interface DeliveryContainer
 {
-    private $errorPage;
-    
-    public function __construct($errorPage, $message = null)
-    {
-        parent::__construct($message);
-        $this->errorPage = $errorPage;
-    }
-    
-    public function getErrorPage()
-    {
-        return $this->errorPage;
-    }
+    /**
+     * Returns a container for the given delivery execution
+     *
+     * @param DeliveryExecution $execution
+     * @return ExecutionContainer
+     */
+    public function getExecutionContainer(DeliveryExecution $execution);
 }
