@@ -44,10 +44,10 @@ msgid "My Tests"
 msgstr "Mis exámenes"
 
 msgid "Resume"
-msgstr "Empezar"
+msgstr "Reanudar"
 
 msgid "Start"
-msgstr "Inicio"
+msgstr "Empezar"
 
 msgid "Started at %s"
 msgstr "Comenzó a las %s"
