@@ -22,19 +22,21 @@
 namespace oat\taoDelivery\controller;
 
 
+use common_exception_NotFound;
+use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
-use core_kernel_classes_Resource;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryServerService;
+use oat\taoDelivery\model\execution\Service;
+use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\models\classes\ReturnUrlService;
-use taoDelivery_models_classes_DeliveryServerService;
-use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
@@ -49,18 +51,18 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
 class DeliveryServer extends \tao_actions_CommonModule
 {
     /**
-     * @var \taoDelivery_models_classes_execution_Service
+     * @var Service
      */
     private $executionService;
 
-	/**
+    /**
 	 * constructor: initialize the service and the default data
 	 * @return DeliveryServer
 	 */
 	public function __construct()
 	{
-		$this->service = $this->getServiceManager()->get(taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
-		$this->executionService = taoDelivery_models_classes_execution_ServiceProxy::singleton();
+		$this->service = $this->getServiceManager()->get(DeliveryServerService::SERVICE_ID);
+		$this->executionService = ServiceProxy::singleton();
 	}
 	
 	/**
@@ -70,14 +72,15 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
 	    return $this->executionService->getDeliveryExecution($id);
 	}
-		
-	/**
+
+    /**
      * Set a view with the list of process instances (both started or finished) and available process definitions
-	 *
+     *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-	 * @param processDefinitionUri
+     * @param processDefinitionUri
      * @return void
+     * @throws \common_exception_Error
      */
 	public function index(){
 
@@ -139,8 +142,9 @@ class DeliveryServer extends \tao_actions_CommonModule
     /**
      * Init a delivery execution from the current delivery.
      *
-     * @throws \common_exception_Unauthorized
+     * @throws common_exception_Unauthorized
      * @return DeliveryExecution the selected execution
+     * @throws \common_exception_Error
      */
     protected function _initDeliveryExecution() {
         $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -151,7 +155,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         //check if the assignment allows the user to start the delivery and the authorization provider
         if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ) {
-            throw new \common_exception_Unauthorized();
+            throw new common_exception_Unauthorized();
         }
         $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
@@ -170,7 +174,7 @@ class DeliveryServer extends \tao_actions_CommonModule
             $this->redirect(_url('runDeliveryExecution', null, null, array('deliveryExecution' => $deliveryExecution->getIdentifier())));
         } catch (UnAuthorizedException $e) {
             return $this->redirect($e->getErrorPage());
-        } catch (\common_exception_Unauthorized $e) {
+        } catch (common_exception_Unauthorized $e) {
             return $this->returnJson([
                 'success' => false,
                 'message' => __('You are no longer allowed to take this test')
@@ -237,9 +241,10 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->setData('content-extension', 'taoDelivery');
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
 	}
-	
+
     /**
      * Finish the delivery execution
+     * @throws \common_exception_Error
      */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
@@ -279,11 +284,12 @@ class DeliveryServer extends \tao_actions_CommonModule
 	{
 	    return true;
 	}
-	
+
     /**
      * Defines the returning URL in the top-right corner action menu
-     * 
+     *
      * @return string
+     * @throws common_exception_NotFound
      */
 	protected function getReturnUrl()
 	{
@@ -308,7 +314,6 @@ class DeliveryServer extends \tao_actions_CommonModule
     /**
      * Gives you the authorization provider for the given execution.
      *
-     * @param DeliveryExecution $deliveryExecution
      * @return AuthorizationProvider
      */
     protected function getAuthorizationProvider()
@@ -316,31 +321,35 @@ class DeliveryServer extends \tao_actions_CommonModule
         $authService = $this->getServiceManager()->get(AuthorizationService::SERVICE_ID);
         return $authService->getAuthorizationProvider();
     }
-    
+
     /**
      * Verify if the start of the delivery is allowed.
      * Throws an exception if not
      *
      * @param string $deliveryId
      * @throws UnAuthorizedException
+     * @throws \common_exception_Error
+     * @throws \common_exception_Unauthorized
      */
     protected function verifyDeliveryStartAuthorized($deliveryId)
     {
-        $user = \common_session_SessionManager::getSession()->getUser();
+        $user = common_session_SessionManager::getSession()->getUser();
         $this->getAuthorizationProvider()->verifyStartAuthorization($deliveryId, $user);
     }
-    
+
     /**
      * Check wether the delivery execution is authorized to run
      * Throws an exception if not
      *
      * @param DeliveryExecution $deliveryExecution
      * @return boolean
+     * @throws \common_exception_Unauthorized
+     * @throws \common_exception_Error
      * @throws UnAuthorizedException
      */
     protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution)
     {
-        $user = \common_session_SessionManager::getSession()->getUser();
+        $user = common_session_SessionManager::getSession()->getUser();
         $this->getAuthorizationProvider()->verifyResumeAuthorization($deliveryExecution, $user);
     }
 

@@ -18,10 +18,20 @@
  *
  */
 
-use oat\taoDelivery\model\execution\DeliveryExecution;
+namespace oat\taoDelivery\model\execution;
+
+use common_exception_Error;
+use common_exception_NoImplementation;
+use common_exception_NotFound;
+use common_ext_ExtensionsManager;
+use common_Logger;
+use common_session_SessionManager;
+use core_kernel_classes_Resource;
+use core_kernel_users_GenerisUser;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
+use tao_models_classes_Service;
 
 /**
  * Service to manage the execution of deliveries
@@ -31,27 +41,30 @@ use oat\oatbox\event\EventManager;
  * @package taoDelivery
 
  */
-class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_classes_Service
-    implements taoDelivery_models_classes_execution_Service
+class ServiceProxy extends tao_models_classes_Service implements Service
 {
     const CONFIG_KEY = 'execution_service';
     const SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
-     * @var taoDelivery_models_classes_execution_Service
+     * @var Service
      */
     private $implementation;
 
-    public function setImplementation(taoDelivery_models_classes_execution_Service $implementation) {
+    public function setImplementation(Service $implementation) {
         $this->implementation = $implementation;
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
+        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('taoDelivery');
         $ext->setConfig(self::CONFIG_KEY, $implementation);
     }
 
+    /**
+     * @return Service
+     * @throws common_exception_Error
+     */
     protected function getImplementation() {
         if (is_null($this->implementation)) {
             $this->implementation = $this->getServiceLocator()->get(self::SERVICE_ID);
-            if (!$this->implementation instanceof taoDelivery_models_classes_execution_Service) {
+            if (!$this->implementation instanceof Service) {
                 throw new common_exception_Error('No implementation for '.__CLASS__.' found');
             }
         }
@@ -60,7 +73,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
+     * @see Service::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri) {
         return $this->getImplementation()->getUserExecutions($assembly, $userUri);
@@ -68,7 +81,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getDeliveryExecutionsByStatus()
+     * @see Service::getDeliveryExecutionsByStatus()
      */
     public function getDeliveryExecutionsByStatus($userUri, $status) {
         return $this->getImplementation()->getDeliveryExecutionsByStatus($userUri, $status);
@@ -76,34 +89,36 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getActiveDeliveryExecutions()
+     * @see Service::getActiveDeliveryExecutions()
      */
     public function getActiveDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_ACTIVE);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_ACTIVE);
     }
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getPausedDeliveryExecutions()
+     * @see Service::getPausedDeliveryExecutions()
      */
     public function getPausedDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_PAUSED);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_PAUSED);
     }
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getFinishedDeliveryExecutions()
+     * @see Service::getFinishedDeliveryExecutions()
      */
     public function getFinishedDeliveryExecutions($userUri)
     {
-        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecution::STATE_FINISHIED);
+        return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_FINISHIED);
     }
 
     /**
+     * @deprecated
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
+     * @see Service::initDeliveryExecution()
+     * @throws \common_exception_Error
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user)
     {
@@ -122,7 +137,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
             }
         }
         $deliveryExecution = $this->getImplementation()->initDeliveryExecution($assembly, $user->getIdentifier());
-        $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+        $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new DeliveryExecutionCreated($deliveryExecution, $user));
         return $deliveryExecution;
     }
@@ -130,7 +145,7 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()
+     * @see Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier)
     {
@@ -141,12 +156,14 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * Implemented in the monitoring interface
      *
      * @param core_kernel_classes_Resource $compiled
-     * @return int the ammount of executions for a single compilation
+     * @return DeliveryExecution[] executions for a single compilation
+     * @throws \common_exception_Error
+     * @throws common_exception_NoImplementation
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!$this->implementsMonitoring()) {
-            throw new common_exception_NoImplementation(get_class($this->getImplementation()).' does not implement taoDelivery_models_classes_execution_Monitoring');
+            throw new common_exception_NoImplementation(get_class($this->getImplementation()).' does not implement \oat\taoDelivery\model\execution\Monitoring');
         }
         return $this->getImplementation()->getExecutionsByDelivery($compiled);
     }
@@ -155,8 +172,9 @@ class taoDelivery_models_classes_execution_ServiceProxy extends tao_models_class
      * Whenever or not the current implementation supports monitoring
      *
      * @return boolean
+     * @throws \common_exception_Error
      */
     public function implementsMonitoring() {
-        return $this->getImplementation() instanceof taoDelivery_models_classes_execution_Monitoring;
+        return $this->getImplementation() instanceof Monitoring;
     }
 }

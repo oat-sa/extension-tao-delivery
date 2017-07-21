@@ -23,6 +23,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * Verifies that the current state of a delivery execution allows resuming
@@ -41,11 +42,11 @@ class StateValidation extends ConfigurableService  implements AuthorizationProvi
     /**
      * Verify that a given delivery execution is allowed to be executed
      *
-     * @param DeliveryExecution $deliveryExecution
+     * @param DeliveryExecutionInterface $deliveryExecution
      * @param User $user
      * @throws \common_exception_Unauthorized
     */
-    public function verifyResumeAuthorization(DeliveryExecution $deliveryExecution, User $user)
+    public function verifyResumeAuthorization(DeliveryExecutionInterface $deliveryExecution, User $user)
     {
         $stateId = $deliveryExecution->getState()->getUri();
         if (!in_array($stateId, $this->getResumableStates())) {

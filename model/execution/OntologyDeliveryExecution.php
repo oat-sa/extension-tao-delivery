@@ -14,12 +14,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\taoDelivery\model\execution;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoDelivery\model\execution\DeliveryExecution;
+use common_exception_NotFound;
+use common_Logger;
+use core_kernel_classes_Resource;
+
 
 /**
  * Service to manage the execution of deliveries
@@ -29,8 +32,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  * @package taoDelivery
  
  */
-class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends core_kernel_classes_Resource 
-    implements DeliveryExecution
+class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
 {
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution';
     
@@ -57,10 +59,11 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
     public function getIdentifier() {
         return $this->getUri();
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getStartTime()
+     * @throws \common_exception_NotFound
      */
     public function getStartTime() {
         if (!isset($this->startTime)) {
@@ -136,14 +139,18 @@ class taoDelivery_models_classes_execution_OntologyDeliveryExecution extends cor
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
-        if ($state->getUri() == DeliveryExecution::STATE_FINISHIED) {
+        if ($state->getUri() == DeliveryExecutionInterface::STATE_FINISHIED) {
             $this->setPropertyValue($this->getProperty(PROPERTY_DELVIERYEXECUTION_END), microtime());
         }
         $this->state = $state;
         return true;
     }
 
-
+    /**
+     * @param $propertyName
+     * @return \core_kernel_classes_Container
+     * @throws common_exception_NotFound
+     */
     private function getData($propertyName){
         $property = $this->getProperty($propertyName);
         $propertyValue = $this->getOnePropertyValue($property);

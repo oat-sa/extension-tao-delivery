@@ -19,12 +19,9 @@
 
 namespace oat\taoDelivery\model\container\delivery;
 
-use oat\taoDelivery\helper\container\DeliveryClientContainer as ClientExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\container\DeliveryContainer;
 use oat\oatbox\Configurable;
-use oat\oatbox\service\ServiceManager;
-use oat\taoDelivery\model\DeliveryContainerService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -59,5 +56,5 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
         );
     }
     
-    public abstract function getExecutionContainer(DeliveryExecution $execution);
+    abstract public function getExecutionContainer(DeliveryExecution $execution);
 }

@@ -20,11 +20,9 @@
 namespace oat\taoDelivery\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
-use common_ext_ExtensionsManager;
-use taoDelivery_models_classes_execution_ServiceProxy;
-use oat\generis\model\data\Model;
-use oat\generis\model\data\RdfsInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
+use oat\taoDelivery\model\execution\OntologyService;
 
 class OntologyServiceTest extends TaoPhpUnitTestRunner
 {
@@ -37,8 +35,8 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
     
     public function testSetState()
     {
-        $service = new \taoDelivery_models_classes_execution_OntologyService();
-        $this->assertInstanceOf('taoDelivery_models_classes_execution_Service', $service);
+        $service = new OntologyService();
+        $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
         
         $assembly = new \core_kernel_classes_Resource('fake');
         $deliveryExecution = $service->initDeliveryExecution($assembly, 'fakeUser');
@@ -65,7 +63,7 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
     
     public function testFailedStartTime()
     {
-        $execution = new \taoDelivery_models_classes_execution_OntologyDeliveryExecution('http://uri.com/fake#Execution');
+        $execution = new OntologyDeliveryExecution('http://uri.com/fake#Execution');
         $this->setExpectedException(\common_exception_NotFound::class);
         $execution->getStartTime();
         

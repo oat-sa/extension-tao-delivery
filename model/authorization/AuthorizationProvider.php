@@ -20,7 +20,8 @@
 namespace oat\taoDelivery\model\authorization;
 
 use oat\oatbox\user\User;
-use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+
 /**
  * Provides authorization capabilities.
  * The provider needs to be contextualized, it answer based on it's current state.
@@ -41,9 +42,9 @@ interface AuthorizationProvider
     /**
      * Verify that a given delivery execution is allowed to be executed
      * 
-     * @param DeliveryExecution $deliveryExecution
+     * @param DeliveryExecutionInterface $deliveryExecution
      * @param User $user
      * @throws \common_exception_Unauthorized
      */
-    public function verifyResumeAuthorization(DeliveryExecution $deliveryExecution, User $user);
+    public function verifyResumeAuthorization(DeliveryExecutionInterface $deliveryExecution, User $user);
 }

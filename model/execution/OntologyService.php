@@ -18,9 +18,14 @@
  * 
  */
 
+namespace oat\taoDelivery\model\execution;
+
+use common_Logger;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
-use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
+
+
 /**
  * Service to manage the execution of deliveries
  *
@@ -28,18 +33,18 @@ use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecut
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class taoDelivery_models_classes_execution_OntologyService extends ConfigurableService
-    implements taoDelivery_models_classes_execution_Service,
-        taoDelivery_models_classes_execution_Monitoring
+class OntologyService extends ConfigurableService implements Service, Monitoring
 {
 
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getExecutionsByDelivery()
+     * @see Service::getExecutionsByDelivery()
+     * @param core_kernel_classes_Resource $compiled
+     * @return DeliveryExecution[]
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
-        $executionClass = new core_kernel_classes_Class(taoDelivery_models_classes_execution_OntologyDeliveryExecution::CLASS_URI);
+        $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $resources = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
         ), array(
@@ -53,7 +58,7 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
     }
     
     public function getDeliveryExecutionsByStatus($userUri, $status) {
-        $executionClass = new core_kernel_classes_Class(taoDelivery_models_classes_execution_OntologyDeliveryExecution::CLASS_URI);
+        $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $started = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
             PROPERTY_DELVIERYEXECUTION_STATUS => $status
@@ -69,11 +74,11 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getUserExecutions()
+     * @see Service::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $executionClass = new core_kernel_classes_Class(taoDelivery_models_classes_execution_OntologyDeliveryExecution::CLASS_URI);
+        $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $instances = $executionClass->searchInstances(array(
             PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
@@ -83,15 +88,16 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
         $deliveryExecutions = array();
         foreach ($instances as $resource) {
             $deliveryExecutions[] = new DeliveryExecution(
-                new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($resource->getUri())
+                new OntologyDeliveryExecution($resource->getUri())
             );
         }
         return $deliveryExecutions;
     }
 
     /**
+     * @deprecated
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::initDeliveryExecution()
+     * @see Service::initDeliveryExecution()
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
@@ -100,7 +106,7 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
             $assembly->getLabel(),
             $assembly->getUri(),
             $userUri,
-            InterfaceDeliveryExecution::STATE_ACTIVE
+            DeliveryExecution::STATE_ACTIVE
         );
     }
 
@@ -111,11 +117,11 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
      * @param string $deliveryId
      * @param string $userId
      * @param string $status
-     * @return \oat\taoDelivery\models\classes\execution\DeliveryExecution
+     * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
     {
-        $executionClass = new core_kernel_classes_Class(taoDelivery_models_classes_execution_OntologyDeliveryExecution::CLASS_URI);
+        $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $execution = $executionClass->createInstanceWithProperties(array(
             RDFS_LABEL                            => $label,
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $deliveryId,
@@ -128,11 +134,11 @@ class taoDelivery_models_classes_execution_OntologyService extends ConfigurableS
     
     /**
      * (non-PHPdoc)
-     * @see taoDelivery_models_classes_execution_Service::getDeliveryExecution()
+     * @see Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier) {
         return new DeliveryExecution(
-            new \taoDelivery_models_classes_execution_OntologyDeliveryExecution($identifier)
+            new OntologyDeliveryExecution($identifier)
         );
     }
 }

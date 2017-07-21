@@ -20,7 +20,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\models\classes\execution\DeliveryExecution as BaseDeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution as BaseDeliveryExecution;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
 use oat\oatbox\event\EventManager;
@@ -66,7 +66,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $deliveryExecution = $this->getStorageEngine()->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
         // trigger event
         $event = new DeliveryExecutionCreated($deliveryExecution, $user);
-        $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger($event);
+        $this->getServiceLocator()->get(EventManager::SERVICE_ID)->trigger($event);
         return $deliveryExecution;
     }
 
@@ -74,6 +74,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
      * @param BaseDeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
+     * @throws \common_exception_NotFound
      */
     protected function setState(BaseDeliveryExecution $deliveryExecution, $state)
     {
@@ -93,7 +94,8 @@ abstract class AbstractStateService extends ConfigurableService implements State
     }
 
     /**
-     * @return \taoDelivery_models_classes_execution_Service
+     * @return Service
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     protected function getStorageEngine()
     {

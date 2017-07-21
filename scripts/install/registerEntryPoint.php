@@ -20,4 +20,4 @@ use oat\tao\model\entryPoint\EntryPointService;
  *
  */
 
-EntryPointService::getRegistry()->registerEntryPoint(new taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
+EntryPointService::getRegistry()->registerEntryPoint(new \oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint());

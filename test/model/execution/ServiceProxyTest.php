@@ -19,10 +19,11 @@
  */
 namespace oat\taoDelivery\test;
 
+use common_exception_NoImplementation;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use common_ext_ExtensionsManager;
-use taoDelivery_models_classes_execution_ServiceProxy;
-use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\oatbox\user\User;
 
 class ServiceProxyTest extends TaoPhpUnitTestRunner
@@ -36,7 +37,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     protected function setUp()
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        $this->config = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+        $this->config = $ext->getConfig(ServiceProxy::CONFIG_KEY);
     }
     /**
      *
@@ -45,7 +46,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     protected function tearDown()
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        $ext->setConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY,$this->config);
+        $ext->setConfig(ServiceProxy::CONFIG_KEY,$this->config);
 
     }
 
@@ -56,11 +57,11 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testSetImplementation()
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $new = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+        $new = $ext->getConfig(ServiceProxy::CONFIG_KEY);
         $this->assertEquals($service, $new);
 
     }
@@ -70,15 +71,15 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetUserExecutions()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $res = $resource->reveal();
         $serviceProphecy->getUserExecutions($res, '#UserUri')->willReturn(true);
 
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($res, '#UserUri');
+        $return = ServiceProxy::singleton()->getUserExecutions($res, '#UserUri');
 
         $this->assertTrue($return);
     }
@@ -88,12 +89,12 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetDeliveryExecutionsByStatus()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri','status')->willReturn(true);
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getDeliveryExecutionsByStatus('#UserUri','status');
+        $return = ServiceProxy::singleton()->getDeliveryExecutionsByStatus('#UserUri','status');
         $this->assertTrue($return);
     }
     /**
@@ -102,12 +103,12 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetActiveDeliveryExecutions()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecution::STATE_ACTIVE)->willReturn(true);
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_ACTIVE)->willReturn(true);
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getActiveDeliveryExecutions('#UserUri');
+        $return = ServiceProxy::singleton()->getActiveDeliveryExecutions('#UserUri');
         $this->assertTrue($return);
     }
     /**
@@ -116,12 +117,12 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetPausedDeliveryExecutions()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecution::STATE_PAUSED)->willReturn(true);
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_PAUSED)->willReturn(true);
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getPausedDeliveryExecutions('#UserUri');
+        $return = ServiceProxy::singleton()->getPausedDeliveryExecutions('#UserUri');
         $this->assertTrue($return);
     }
     /**
@@ -130,13 +131,13 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetFinishedDeliveryExecutions()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',DeliveryExecution::STATE_FINISHIED)->willReturn(true);
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
+        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri',DeliveryExecutionInterface::STATE_FINISHIED)->willReturn(true);
 
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->getFinishedDeliveryExecutions('#UserUri');
+        $return = ServiceProxy::singleton()->getFinishedDeliveryExecutions('#UserUri');
         $this->assertTrue($return);
 
     }
@@ -146,7 +147,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testInitDeliveryExecution()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         
         $deProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\DeliveryExecution');
         $deliveryExecution = $deProphecy->reveal();
@@ -160,9 +161,9 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
         $serviceProphecy->initDeliveryExecution($delivery,'#UserUri')->willReturn($deliveryExecution);
 
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return = taoDelivery_models_classes_execution_ServiceProxy::singleton()->initDeliveryExecution($delivery,$user);
+        $return = ServiceProxy::singleton()->initDeliveryExecution($delivery, $user);
         $this->assertEquals($deliveryExecution, $return);
     }
     /**
@@ -171,12 +172,12 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetExecution()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $serviceProphecy->getDeliveryExecution('#id')->willReturn(true);
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        $return =  taoDelivery_models_classes_execution_ServiceProxy::singleton()->getDeliveryExecution('#id');
+        $return =  ServiceProxy::singleton()->getDeliveryExecution('#id');
         $this->assertTrue($return);
     }
     /**
@@ -185,32 +186,30 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      */
     public function testGetExecutionsByDeliveryException()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Service');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $res = $resource->reveal();
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->getExecutionsByDelivery($res);
+        ServiceProxy::singleton()->getExecutionsByDelivery($res);
     }
     /**
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetExecutionsByDelivery()
     {
-        $serviceProphecy = $this->prophesize('taoDelivery_models_classes_execution_Monitoring');
+        $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Monitoring');
         $service = $serviceProphecy->reveal();
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->setImplementation($service);
+        ServiceProxy::singleton()->setImplementation($service);
 
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $res = $resource->reveal();
 
-        taoDelivery_models_classes_execution_ServiceProxy::singleton()->getExecutionsByDelivery($res);
+        ServiceProxy::singleton()->getExecutionsByDelivery($res);
         $serviceProphecy->getExecutionsByDelivery($res)->shouldHaveBeenCalled();
 
     }
 
 
 }
-
-?>

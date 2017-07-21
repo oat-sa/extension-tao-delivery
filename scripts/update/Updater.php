@@ -30,9 +30,14 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
+use oat\taoDelivery\model\entrypoint\GuestAccess;
+use oat\taoDelivery\model\execution\DeliveryServerService;
+use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\taoDelivery\model\execution\OntologyService;
+use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
-use taoDelivery_models_classes_execution_ServiceProxy;
 use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\model\RuntimeService;
@@ -48,7 +53,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
     /**
      *
-     * @param string $currentVersion
+     * @param $initialVersion
      * @return string $versionUpdatedTo
      */
     public function update($initialVersion) {
@@ -65,23 +70,25 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($currentVersion == '2.6.1') {
             $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-            $className = $ext->getConfig(taoDelivery_models_classes_execution_ServiceProxy::CONFIG_KEY);
+            $className = $ext->getConfig(ServiceProxy::CONFIG_KEY);
             if (is_string($className)) {
                 $impl = null;
                 switch ($className) {
                     case 'taoDelivery_models_classes_execution_OntologyService' :
-                        $impl = new \taoDelivery_models_classes_execution_OntologyService();
+                    case 'oat\\taoDelivery\\model\\execution\\OntologyService' :
+                        $impl = new OntologyService();
                         break;
                     case 'taoDelivery_models_classes_execution_KeyValueService' :
-                        $impl = new \taoDelivery_models_classes_execution_KeyValueService(array(
-                            \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
+                    case 'oat\\taoDelivery\\model\\execution\\KeyValueService' :
+                        $impl = new KeyValueService(array(
+                            KeyValueService::OPTION_PERSISTENCE => 'deliveryExecution'
                         ));
                         break;
                     default :
                         \common_Logger::w('Unable to migrate custom execution service');
                 }
                 if (!is_null($impl)) {
-                    $proxy = taoDelivery_models_classes_execution_ServiceProxy::singleton();
+                    $proxy = ServiceProxy::singleton();
                     $proxy->setImplementation($impl);
                     $currentVersion = '2.6.2';
                 }
@@ -100,7 +107,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
 
         if ($currentVersion == '2.7.0') {
-            EntryPointService::getRegistry()->registerEntryPoint(new \taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint());
+            EntryPointService::getRegistry()->registerEntryPoint(new \oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint());
             $currentVersion = '2.7.1';
         }
 
@@ -134,16 +141,16 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($currentVersion == '2.9.3') {
             try{
-                $currentConfig = $this->getServiceManager()->get(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID);
+                $currentConfig = $this->getServiceManager()->get(DeliveryServerService::SERVICE_ID);
                 if (is_array($currentConfig)) {
-                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService($currentConfig);
+                    $deliveryServerService = new DeliveryServerService($currentConfig);
                 } else {
-                    $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
+                    $deliveryServerService = new DeliveryServerService();
                 }
             }catch(ServiceNotFoundException $e){
-                $deliveryServerService = new \taoDelivery_models_classes_DeliveryServerService();
+                $deliveryServerService = new DeliveryServerService();
             }
-            $this->getServiceManager()->register(\taoDelivery_models_classes_DeliveryServerService::CONFIG_ID, $deliveryServerService);
+            $this->getServiceManager()->register(DeliveryServerService::SERVICE_ID, $deliveryServerService);
             $currentVersion = '2.9.4';
         }
 
@@ -288,6 +295,46 @@ class Updater extends \common_ext_ExtensionUpdater {
             $registry->registerContainerType(
                 DeliveryServiceContainer::DEFAULT_ID, new DeliveryServiceContainer());
             $this->setVersion('6.6.0');
+
         }
+      
+       if ($this->isVersion('6.6.0')) {
+           /** @var EntryPointService $entryPointService */
+           $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);
+
+           foreach ([EntryPointService::OPTION_POSTLOGIN, EntryPointService::OPTION_PRELOGIN] as $type) {
+               $entryPoints = $entryPointService->getEntryPoints($type);
+               foreach ($entryPoints as $k => $v) {
+
+                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint')) {
+                       $entryPointService->overrideEntryPoint($k, new FrontOfficeEntryPoint());
+                   }
+
+                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_GuestAccess')) {
+                       $entryPointService->overrideEntryPoint($k, new GuestAccess());
+                   }
+               }
+           }
+
+           $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $entryPointService);
+
+           $this->setVersion('6.7.0');
+       }
+
+        $this->skip('6.7.0', '7.0.0');
+
+
+        if ($this->isVersion('7.0.0')) {
+            /** @var ServiceProxy $executionService */
+            $executionService = $this->safeLoadService(ServiceProxy::SERVICE_ID);
+
+            if (is_a($executionService, 'taoDelivery_models_classes_execution_OntologyService')) {
+                $this->getServiceManager()->register(ServiceProxy::SERVICE_ID, new OntologyService());
+            }
+
+            $this->setVersion('7.0.1');
+        }
+
+        $this->skip('7.0.1', '7.0.2');
     }
 }
