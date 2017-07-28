@@ -91,7 +91,7 @@ class KeyValueService extends ConfigurableService implements Service
      * @param string $deliveryId
      * @param string $userId
      * @param string $status
-     * @return \oat\taoDelivery\models\classes\execution\DeliveryExecution
+     * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
     {
