@@ -56,7 +56,8 @@ class Updater extends \common_ext_ExtensionUpdater {
      * @param $initialVersion
      * @return string $versionUpdatedTo
      */
-    public function update($initialVersion) {
+    public function update($initialVersion)
+    {
 
         $currentVersion = $initialVersion;
 
@@ -115,20 +116,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $currentVersion = '2.9';
         }
 
-        if( $currentVersion == '2.9'){
+        if ($currentVersion == '2.9') {
             OntologyUpdater::syncModels();
 
             //grant access to anonymous user
             AclProxy::applyRule(new AccessRule(
-               AccessRule::GRANT,
-               TaoRoles::ANONYMOUS,
-               ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer', 'act' => 'guest']
+                AccessRule::GRANT,
+                TaoRoles::ANONYMOUS,
+                ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer', 'act' => 'guest']
             ));
 
             $currentVersion = '2.9.1';
         }
 
-        if( $currentVersion == '2.9.1'){
+        if ($currentVersion == '2.9.1') {
             OntologyUpdater::syncModels();
             $currentVersion = '2.9.2';
         }
@@ -161,7 +162,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.0.0');
         }
 
-        if ($this->isBetween('3.0.0','3.1.0')) {
+        if ($this->isBetween('3.0.0', '3.1.0')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
             $config = $extension->getConfig('deliveryServer');
             $config->setOption('deliveryContainer', 'oat\\taoDelivery\\helper\\container\\DeliveryServiceContainer');
@@ -169,7 +170,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('3.1.0');
         }
 
-        $this->skip('3.1.0','3.2.0');
+        $this->skip('3.1.0', '3.2.0');
 
         if ($this->isVersion('3.2.0')) {
             // set the test runner controller
@@ -200,14 +201,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
             $routeService->setRoute('logoutDelivery',
-                        [
-                            'ext'        => 'taoDelivery',
-                            'controller' => 'DeliveryServer',
-                            'action'     => 'logout',
-                            'redirect'   => ROOT_URL,
-                        ]
-                    );
-            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+                [
+                    'ext' => 'taoDelivery',
+                    'controller' => 'DeliveryServer',
+                    'action' => 'logout',
+                    'redirect' => ROOT_URL,
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $routeService);
 
             $this->setVersion('4.4.3');
         }
@@ -228,8 +229,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('4.9.0', '6.1.2');
 
         if ($this->isVersion('6.1.2')) {
-            AclProxy::revokeRule(new AccessRule('grant', TaoRoles::ANONYMOUS, array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer', 'action'=>'logout')));
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, DeliveryServer::class.'@logout'));
+            AclProxy::revokeRule(new AccessRule('grant', TaoRoles::ANONYMOUS, array('ext' => 'taoDelivery', 'mod' => 'DeliveryServer', 'action' => 'logout')));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, DeliveryServer::class . '@logout'));
             $this->setVersion('6.1.3');
         }
 
@@ -239,12 +240,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
             $routeService->setRoute('logoutDelivery',
                 [
-                    'ext'        => 'taoDelivery',
+                    'ext' => 'taoDelivery',
                     'controller' => 'DeliveryServer',
-                    'action'     => 'logout',
-                    'redirect'   =>
+                    'action' => 'logout',
+                    'redirect' =>
                         [
-                            'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                            'class' => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
                             'options' => [
                                 'action' => 'entry',
                                 'controller' => 'Main',
@@ -253,7 +254,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                         ],
                 ]
             );
-            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
+            $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $routeService);
 
             $this->setVersion('6.1.4');
         }
@@ -281,7 +282,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('6.3.0', '6.4.0');
 
         if ($this->isVersion('6.4.0')) {
-            if(!$this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)){
+            if (!$this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)) {
                 $service = new ReturnUrlService();
                 $this->getServiceManager()->propagate($service);
                 $this->getServiceManager()->register(ReturnUrlService::SERVICE_ID, $service);
@@ -297,24 +298,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.6.0');
 
         }
-      
-       if ($this->isVersion('6.6.0')) {
-           /** @var EntryPointService $entryPointService */
-           $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);
 
-           foreach ([EntryPointService::OPTION_POSTLOGIN, EntryPointService::OPTION_PRELOGIN] as $type) {
-               $entryPoints = $entryPointService->getEntryPoints($type);
-               foreach ($entryPoints as $k => $v) {
+        if ($this->isVersion('6.6.0')) {
+            /** @var EntryPointService $entryPointService */
+            $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);
 
-                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint')) {
-                       $entryPointService->overrideEntryPoint($k, new FrontOfficeEntryPoint());
-                   }
+            foreach ([EntryPointService::OPTION_POSTLOGIN, EntryPointService::OPTION_PRELOGIN] as $type) {
+                $entryPoints = $entryPointService->getEntryPoints($type);
+                foreach ($entryPoints as $k => $v) {
 
-                   if (is_a($v, 'taoDelivery_models_classes_entrypoint_GuestAccess')) {
-                       $entryPointService->overrideEntryPoint($k, new GuestAccess());
-                   }
-               }
-           }
+                    if (is_a($v, 'taoDelivery_models_classes_entrypoint_FrontOfficeEntryPoint')) {
+                        $entryPointService->overrideEntryPoint($k, new FrontOfficeEntryPoint());
+                    }
+
+                    if (is_a($v, 'taoDelivery_models_classes_entrypoint_GuestAccess')) {
+                        $entryPointService->overrideEntryPoint($k, new GuestAccess());
+                    }
+                }
+            }
 
            $this->getServiceManager()->register(EntryPointService::SERVICE_ID, $entryPointService);
 
@@ -335,6 +336,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.0.1');
         }
 
-        $this->skip('7.0.1', '7.0.2');
+        $this->skip('7.0.1', '7.1.0');
     }
 }
