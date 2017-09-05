@@ -30,6 +30,7 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\model\DeliveryPluginService;
 use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
 use oat\taoDelivery\model\entrypoint\GuestAccess;
 use oat\taoDelivery\model\execution\DeliveryServerService;
@@ -336,5 +337,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.0.1', '7.0.2');
+
+        if ($this->isVersion('7.0.2')) {
+            $this->getServiceManager()->register(DeliveryPluginService::SERVICE_ID, new DeliveryPluginService(['plugin_type' => 'taoDelivery']));
+            $this->setVersion('7.1.0');
+        }
     }
 }
