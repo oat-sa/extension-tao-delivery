@@ -44,7 +44,7 @@ return array(
             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
             \oat\taoDelivery\scripts\install\installDeliveryFields::class,
             RegisterServiceContainer::class,
-            \oat\taoDelivery\scripts\install\RegisterDeliveryPluginService::class
+            \oat\taoDelivery\scripts\install\RegisterDeliverySecurePluginsService::class
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',

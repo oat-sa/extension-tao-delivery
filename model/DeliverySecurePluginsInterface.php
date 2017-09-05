@@ -20,16 +20,14 @@
 
 namespace oat\taoDelivery\model;
 
-use oat\tao\model\plugins\PluginModule;
-
 /**
  * Interface DeliveryPluginInterface
  *
  * @package oat\taoDelivery
  */
-interface DeliveryPluginInterface
+interface DeliverySecurePluginsInterface
 {
     const SERVICE_ID = 'taoDelivery/deliveryPlugin';
 
-    public function checkPlugin(PluginModule $plugin, \core_kernel_classes_Resource $delivery);
+    public function getPlugins();
 }
