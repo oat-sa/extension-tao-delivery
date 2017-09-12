@@ -69,7 +69,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getStartTime()
     {
-        return $this->getData(PROPERTY_DELVIERYEXECUTION_START);
+        return $this->getData(OntologyDeliveryExecution::PROPERTY_TIME_START);
     }
 
     /**
@@ -80,7 +80,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
     public function getFinishTime()
     {
         try {
-            return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
+            return $this->getData(OntologyDeliveryExecution::PROPERTY_TIME_END);
         } catch (common_exception_NotFound $missingException) {
             return null;
         }
@@ -103,7 +103,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getState()
     {
-        return new core_kernel_classes_Resource($this->getData(PROPERTY_DELVIERYEXECUTION_STATUS));
+        return new core_kernel_classes_Resource($this->getData(OntologyDeliveryExecution::PROPERTY_STATUS));
     }
 
     /**
@@ -113,7 +113,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getDelivery()
     {
-        return new core_kernel_classes_Resource($this->getData(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+        return new core_kernel_classes_Resource($this->getData(OntologyDeliveryExecution::PROPERTY_DELIVERY));
     }
 
     /**
@@ -123,7 +123,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getUserIdentifier()
     {
-        return $this->getData(PROPERTY_DELVIERYEXECUTION_SUBJECT);
+        return $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
     }
 
     /**
@@ -137,9 +137,9 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
             common_Logger::w('Delivery execution ' . $this->getIdentifier() . ' already in state ' . $state);
             return false;
         }
-        $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
+        $this->setData(OntologyDeliveryExecution::PROPERTY_STATUS, $state);
         if ($state == DeliveryExecutionInterface::STATE_FINISHIED) {
-            $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
+            $this->setData(OntologyDeliveryExecution::PROPERTY_TIME_END, microtime());
         }
         return $this->service->updateDeliveryExecutionStatus($this, $oldState, $state);
     }

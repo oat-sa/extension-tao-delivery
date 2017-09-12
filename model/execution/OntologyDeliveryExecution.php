@@ -67,7 +67,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      */
     public function getStartTime() {
         if (!isset($this->startTime)) {
-            $this->startTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_START);
+            $this->startTime = (string)$this->getData(OntologyDeliveryExecution::PROPERTY_TIME_START);
         }
         return $this->startTime;
     }
@@ -80,7 +80,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
     public function getFinishTime() {
         if (!isset($this->finishTime)) {
             try {
-                $this->finishTime = (string)$this->getData(PROPERTY_DELVIERYEXECUTION_END);
+                $this->finishTime = (string)$this->getData(OntologyDeliveryExecution::PROPERTY_TIME_END);
             } catch (common_exception_NotFound $missingException) {
                 $this->finishTime = null;
             }
@@ -94,7 +94,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      */
     public function getState() {
         if (!isset($this->state)) {
-            $state = $this->getData(PROPERTY_DELVIERYEXECUTION_STATUS);
+            $state = $this->getData(OntologyDeliveryExecution::PROPERTY_STATUS);
             if (!$state instanceof core_kernel_classes_Resource) {
                 $state = $this->getResource((string)$state);
             }
@@ -109,7 +109,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      */
     public function getDelivery() {
         if (!isset($this->delivery)) {
-            $this->delivery = $this->getData(PROPERTY_DELVIERYEXECUTION_DELIVERY);
+            $this->delivery = $this->getData(OntologyDeliveryExecution::PROPERTY_DELIVERY);
         }
         return $this->delivery;
     }
@@ -120,7 +120,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      */
     public function getUserIdentifier() {
         if (!isset($this->userIdentifier)) {
-            $user = $this->getData(PROPERTY_DELVIERYEXECUTION_SUBJECT);
+            $user = $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
             $this->userIdentifier =  ($user instanceof core_kernel_classes_Resource) ? $user->getUri() : (string)$user;
         }
         return $this->userIdentifier;
@@ -131,7 +131,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * @see DeliveryExecution::setState()
      */
     public function setState($state) {
-        $statusProp = $this->getProperty(PROPERTY_DELVIERYEXECUTION_STATUS);
+        $statusProp = $this->getProperty(OntologyDeliveryExecution::PROPERTY_STATUS);
         $state = $this->getResource($state);
         $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state->getUri()) {
@@ -140,7 +140,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         $this->editPropertyValues($statusProp, $state);
         if ($state->getUri() == DeliveryExecutionInterface::STATE_FINISHIED) {
-            $this->setPropertyValue($this->getProperty(PROPERTY_DELVIERYEXECUTION_END), microtime());
+            $this->setPropertyValue($this->getProperty(OntologyDeliveryExecution::PROPERTY_TIME_END), microtime());
         }
         $this->state = $state;
         return true;

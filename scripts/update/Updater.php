@@ -343,6 +343,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             //$this->getServiceManager()->register(DeliveryPluginService::SERVICE_ID, new DeliveryPluginService(['plugin_type' => 'taoDelivery']));
             $this->setVersion('7.1.0');
         }
-        $this->skip('7.1.0', '7.2.0');
+
+        $this->skip('7.1.0', '7.3.0');
     }
 }
