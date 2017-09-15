@@ -24,6 +24,7 @@ namespace oat\taoDelivery\scripts\update;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
@@ -271,7 +272,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('6.2.0')) {
             $service = new DeliveryFieldsService([
                 DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-                    INSTANCE_ROLE_DELIVERY
+					TaoOntology::INSTANCE_ROLE_DELIVERY
                 ]
             ]);
             $service->setServiceManager($this->getServiceManager());
@@ -343,6 +344,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             //$this->getServiceManager()->register(DeliveryPluginService::SERVICE_ID, new DeliveryPluginService(['plugin_type' => 'taoDelivery']));
             $this->setVersion('7.1.0');
         }
-        $this->skip('7.1.0', '7.2.0');
+        $this->skip('7.1.0', '7.2.1');
     }
 }

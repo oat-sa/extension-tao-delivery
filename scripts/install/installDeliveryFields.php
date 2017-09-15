@@ -20,6 +20,7 @@
 
 namespace oat\taoDelivery\scripts\install;
 
+use oat\tao\model\TaoOntology;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class installDeliveryFields extends \oat\oatbox\extension\InstallAction
@@ -29,7 +30,7 @@ class installDeliveryFields extends \oat\oatbox\extension\InstallAction
 
         $service = new DeliveryFieldsService([
             DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-                INSTANCE_ROLE_DELIVERY
+				TaoOntology::INSTANCE_ROLE_DELIVERY
             ]
         ]);
         $service->setServiceManager($this->getServiceManager());
