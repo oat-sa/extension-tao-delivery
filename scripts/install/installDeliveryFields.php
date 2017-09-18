@@ -30,7 +30,7 @@ class installDeliveryFields extends \oat\oatbox\extension\InstallAction
 
         $service = new DeliveryFieldsService([
             DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-				TaoOntology::INSTANCE_ROLE_DELIVERY
+				TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
             ]
         ]);
         $service->setServiceManager($this->getServiceManager());

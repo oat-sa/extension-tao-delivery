@@ -272,7 +272,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('6.2.0')) {
             $service = new DeliveryFieldsService([
                 DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-					TaoOntology::INSTANCE_ROLE_DELIVERY
+					TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
                 ]
             ]);
             $service->setServiceManager($this->getServiceManager());
