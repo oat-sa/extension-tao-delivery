@@ -40,6 +40,7 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
+use oat\taoDelivery\models\classes\theme\DeliveryThemeDetailsProvider;
 
 /**
  * DeliveryServer Controller
@@ -149,6 +150,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function _initDeliveryExecution() {
         $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $user              = common_session_SessionManager::getSession()->getUser();
+
         $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
 
         $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
@@ -158,7 +160,14 @@ class DeliveryServer extends \tao_actions_CommonModule
             throw new common_exception_Unauthorized();
         }
         $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        /** @var DeliveryExecution $deliveryExecution */
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
+
+        // Sets the deliveryId to session.
+        $this->setSessionAttribute(
+            DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
+            $compiledDelivery->getUri()
+        );
 
         return $deliveryExecution;
     }
