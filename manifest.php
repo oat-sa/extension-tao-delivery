@@ -35,7 +35,7 @@ return array(
     'version' => '7.3.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'tao' => '>=10.20.0',
+        'tao' => '>=12.19.0',
         'taoResultServer' => '>=3.3.1'
     ),
     'install' => array(
