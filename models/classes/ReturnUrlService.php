@@ -39,7 +39,6 @@ class ReturnUrlService extends ConfigurableService
      */
     public function getReturnUrl($deliveryExecutionUri = '')
     {
-        $params = [];
 
         $ext = ($this->hasOption(self::EXTENSION_OPTION))? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';
 
@@ -47,10 +46,7 @@ class ReturnUrlService extends ConfigurableService
 
         $method = ($this->hasOption(self::METHOD_OPTION))? $this->getOption(self::METHOD_OPTION) : 'index';
 
-        if($deliveryExecutionUri !== ''){
-            $params = ['deliveryExecution' => $deliveryExecutionUri];
-        }
 
-        return _url($method, $ctrl, $ext, $params);
+        return _url($method, $ctrl, $ext);
     }
 }
