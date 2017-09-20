@@ -163,11 +163,6 @@ class DeliveryServer extends \tao_actions_CommonModule
         /** @var DeliveryExecution $deliveryExecution */
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
 
-        // Sets the deliveryId to session.
-        $this->setSessionAttribute(
-            DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
-            $compiledDelivery->getUri()
-        );
 
         return $deliveryExecution;
     }
@@ -198,6 +193,13 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
+
+        // Sets the deliveryId to session.
+
+        $this->setSessionAttribute(
+            DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
+            $deliveryExecution->getDelivery()->getUri()
+        );
 
         try {
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
