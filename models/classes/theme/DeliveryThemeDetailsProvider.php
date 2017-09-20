@@ -30,14 +30,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
 {
 
     use PhpSerializeStateless;
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
-     */
-    public function __toPhpCode() {
-        return 'new '.get_class($this).'()';
-    }
+    
 
     /**
      * The delivery theme id uri.
