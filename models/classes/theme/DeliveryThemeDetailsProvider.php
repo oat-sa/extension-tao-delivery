@@ -21,11 +21,24 @@
 namespace oat\taoDelivery\models\classes\theme;
 
 
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\theme\ThemeDetailsProviderInterface;
 
-class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProviderInterface
+class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProviderInterface, PhpSerializable
 {
+
+    use PhpSerializeStateless;
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\oatbox\PhpSerializable::__toPhpCode()
+     */
+    public function __toPhpCode() {
+        return 'new '.get_class($this).'()';
+    }
+
     /**
      * The delivery theme id uri.
      */
@@ -36,6 +49,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
      */
     public function getThemeId()
     {
+
         $deliveryExecutionId = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
 
         $themeId = '';
