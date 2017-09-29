@@ -86,7 +86,7 @@ class DeliveryServerService extends ConfigurableService
         //starts or resume a taoResultServerStateFull session for results submission
 
         //retrieve the result server definition
-        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(DeliveryContainerService::RESULT_SERVER_PROP));
+        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(DeliveryContainerService::PROPERTY_RESULT_SERVER));
         //callOptions are required in the case of a LTI basic storage
 
         taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
