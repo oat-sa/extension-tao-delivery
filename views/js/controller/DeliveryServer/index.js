@@ -80,7 +80,7 @@ define([
                 e.stopPropagation();
 
                 if(!deliveryStarted && !$elt.hasClass('disabled')){
-                    runDelivery($elt.attr('href'));
+                    runDelivery($elt.data().launch_url);
                 }
             });
         }
