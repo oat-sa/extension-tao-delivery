@@ -20,7 +20,7 @@ $warningMessage = get_data('warningMessage');
         <ul class="entry-point-box plain">
             <?php foreach ($resumableDeliveries as $delivery): ?>
                 <li>
-                    <a class="block entry-point entry-point-started-deliveries" href="<?= $delivery[Delivery::LAUNCH_URL] ?>">
+                    <a class="block entry-point entry-point-started-deliveries" data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>">
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
                         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
