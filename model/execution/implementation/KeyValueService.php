@@ -22,6 +22,7 @@ namespace oat\taoDelivery\model\execution\implementation;
 use common_Logger;
 use common_persistence_KeyValuePersistence;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\Service;
@@ -97,7 +98,7 @@ class KeyValueService extends ConfigurableService implements Service
     {
         $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
         $data = array(
-            RDFS_LABEL => $label,
+            OntologyRdfs::RDFS_LABEL => $label,
             PROPERTY_DELVIERYEXECUTION_DELIVERY => $deliveryId,
             PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
             PROPERTY_DELVIERYEXECUTION_START => microtime(),

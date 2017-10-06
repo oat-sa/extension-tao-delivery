@@ -23,6 +23,7 @@ namespace oat\taoDelivery\model\execution;
 use common_Logger;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 
 
@@ -123,7 +124,7 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     {
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $execution = $executionClass->createInstanceWithProperties(array(
-            RDFS_LABEL                            => $label,
+            OntologyRdfs::RDFS_LABEL              => $label,
             PROPERTY_DELVIERYEXECUTION_DELIVERY   => $deliveryId,
             PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userId,
             PROPERTY_DELVIERYEXECUTION_START      => microtime(),
