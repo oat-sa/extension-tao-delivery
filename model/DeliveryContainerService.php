@@ -33,6 +33,8 @@ interface  DeliveryContainerService  {
 
     const SERVICE_ID = 'taoDelivery/deliveryContainer';
 
+    const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
+
     /**
      * Get the list of plugins for the current execution
      * @param DeliveryExecution $execution
