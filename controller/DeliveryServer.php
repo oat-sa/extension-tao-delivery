@@ -40,6 +40,7 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
+use oat\taoDelivery\models\classes\theme\DeliveryThemeDetailsProvider;
 
 /**
  * DeliveryServer Controller
@@ -149,6 +150,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function _initDeliveryExecution() {
         $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $user              = common_session_SessionManager::getSession()->getUser();
+
         $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
 
         $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
@@ -158,7 +160,9 @@ class DeliveryServer extends \tao_actions_CommonModule
             throw new common_exception_Unauthorized();
         }
         $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        /** @var DeliveryExecution $deliveryExecution */
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
+
 
         return $deliveryExecution;
     }
@@ -190,6 +194,14 @@ class DeliveryServer extends \tao_actions_CommonModule
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 
+        // Sets the deliveryId to session.
+        if (!$this->hasSessionAttribute(DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
+            $this->setSessionAttribute(
+                DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
+                $deliveryExecution->getDelivery()->getUri()
+            );
+        }
+
         try {
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
         } catch (UnAuthorizedException $e) {
@@ -217,7 +229,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $container->setData('client_timeout', $this->getClientTimeout());
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
-        $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl());
+        $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl($deliveryExecution));
         
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
@@ -244,21 +256,16 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     /**
      * Finish the delivery execution
-     * @throws \common_exception_Error
      */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 	    if ($deliveryExecution->getUserIdentifier() == common_session_SessionManager::getSession()->getUserUri()) {
             $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
-	        $success = $stateService->finish($deliveryExecution);
+	        $stateService->finish($deliveryExecution);
 	    } else {
 	        common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
-	        $success = false;
 	    }
-	    echo json_encode(array(
-	        'success'      => $success,
-	    	'destination'  => $this->getReturnUrl()
-	    ));
+	    $this->redirect($this->getReturnUrl());
 	}
 	
 	/**
@@ -302,12 +309,12 @@ class DeliveryServer extends \tao_actions_CommonModule
     
     /**
      * Defines the URL of the finish delivery execution action
-     * 
+     * @param DeliveryExecution $deliveryExecution
      * @return string
      */
-    protected function getfinishDeliveryExecutionUrl()
+    protected function getfinishDeliveryExecutionUrl(DeliveryExecution $deliveryExecution)
     {
-        return _url('finishDeliveryExecution');
+        return _url('finishDeliveryExecution', null, null, ['deliveryExecution' => $deliveryExecution->getIdentifier()]);
     }
 
 
