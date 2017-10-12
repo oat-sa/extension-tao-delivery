@@ -21,6 +21,11 @@
  */
 
 //define specific constants to delivery extension:
+/**
+ * This constants are deprecated
+ *
+ * @deprecated
+ */
 $todefine = array(
     
     'PROPERTY_DELVIERYEXECUTION_DELIVERY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery',
