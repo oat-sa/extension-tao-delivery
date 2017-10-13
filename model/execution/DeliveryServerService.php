@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\DeliveryContainerService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
 use taoResultServer_models_classes_ResultServerStateFull;
@@ -85,7 +86,7 @@ class DeliveryServerService extends ConfigurableService
         //starts or resume a taoResultServerStateFull session for results submission
 
         //retrieve the result server definition
-        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(DeliveryContainerService::PROPERTY_RESULT_SERVER));
         //callOptions are required in the case of a LTI basic storage
 
         taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
