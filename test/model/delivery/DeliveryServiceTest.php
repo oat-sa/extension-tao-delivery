@@ -61,7 +61,7 @@ class DeliveryServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateDelivery()
     {
-        $deliveryClass = new \core_kernel_classes_Class(DeliveryInterface::ASSEMBLED_DELIVERY);
+        $deliveryClass = new \core_kernel_classes_Class(DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY);
         $delivery = $this->service->createDelivery($deliveryClass, 'testDelivery');
         self::assertInstanceOf(Delivery::class, $delivery, 'Delivery returned');
         self::assertEquals('testDelivery', $delivery->getLabel());
@@ -88,14 +88,38 @@ class DeliveryServiceTest extends \PHPUnit_Framework_TestCase
         $delivery->setMaxExec(4);
         self::assertEquals(4, $delivery->getMaxExec());
         $delivery->setParameters([
-            DeliveryInterface::MAX_EXEC => 5,
-            DeliveryInterface::ASSEMBLED_DELIVERY_TIME => $time + 5,
-            DeliveryInterface::ASSEMBLED_DELIVERY_RUNTIME => 'assembled_runtime',
-            DeliveryInterface::EXCLUDED_SUBJECTS => ['ex2', 'ex5'],
+            DeliveryInterface::PROPERTY_MAX_EXEC => 5,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_TIME => $time + 5,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_RUNTIME => 'assembled_runtime',
+            DeliveryInterface::PROPERTY_EXCLUDED_SUBJECTS => ['ex2', 'ex5'],
         ]);
         self::assertEquals(5, $delivery->getMaxExec());
         self::assertEquals($time + 5, $delivery->getCompilationDate());
         self::assertEquals('assembled_runtime', $delivery->getCompilationRuntime());
         self::assertEquals(['ex2', 'ex5'], $delivery->getExcludedSubjects());
     }
+
+    public function testAccessParameter()
+    {
+        $delivery = new Delivery('delivery1', $this->service);
+        $delivery->setAccessSettings([DeliveryInterface::DELIVERY_GUEST_ACCESS, 'access2']);
+        $deliveries = $this->service->getDeliveriesByAccess(DeliveryInterface::DELIVERY_GUEST_ACCESS);
+        self::assertCount(1, $deliveries);
+        self::assertEquals($delivery, $deliveries[0]);
+
+        $deliveries2 = $this->service->getDeliveriesByAccess('access2');
+        self::assertCount(1, $deliveries2);
+
+        $delivery2 = new Delivery('delivery2', $this->service);
+        $delivery3 = new Delivery('delivery3', $this->service);
+
+        $delivery2->setAccessSettings(['access2']);
+        $delivery3->setAccessSettings(['access2']);
+
+        $deliveries2 = $this->service->getDeliveriesByAccess('access2');
+        self::assertCount(3, $deliveries2);
+        $deliveries = $this->service->getDeliveriesByAccess(DeliveryInterface::DELIVERY_GUEST_ACCESS);
+        self::assertCount(1, $deliveries);
+    }
+
 }

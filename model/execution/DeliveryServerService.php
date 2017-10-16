@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\delivery\DeliveryServiceInterface;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
 use taoResultServer_models_classes_ResultServerStateFull;
@@ -67,7 +68,9 @@ class DeliveryServerService extends ConfigurableService
         $resumable = array();
         foreach ($started as $deliveryExecution) {
             $delivery = $deliveryExecution->getDelivery();
-            if ($delivery->exists()) {
+            if ($delivery instanceof \core_kernel_classes_Resource && $delivery->exists()) {
+                $resumable[] = $deliveryExecution;
+            } elseif ($delivery instanceof \core_kernel_classes_Literal) {
                 $resumable[] = $deliveryExecution;
             }
         }
@@ -85,7 +88,15 @@ class DeliveryServerService extends ConfigurableService
         //starts or resume a taoResultServerStateFull session for results submission
 
         //retrieve the result server definition
-        $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+        if ($compiledDelivery instanceof \core_kernel_classes_Resource) {
+            $resultServer = $compiledDelivery->getUniquePropertyValue(new core_kernel_classes_Property(TAO_DELIVERY_RESULTSERVER_PROP));
+            $compiledDeliveryId = $compiledDelivery->getUri();
+        } else {
+            /** @var DeliveryServiceInterface $deliveryService */
+            $deliveryService = $this->getServiceManager()->get(DeliveryServiceInterface::SERVICE_ID);
+            $compiledDeliveryId = $compiledDelivery->literal;
+            $resultServer = new \core_kernel_classes_Resource($deliveryService->getResultServer($compiledDeliveryId));
+        }
         //callOptions are required in the case of a LTI basic storage
 
         taoResultServer_models_classes_ResultServerStateFull::singleton()->initResultServer($resultServer->getUri());
@@ -101,7 +112,7 @@ class DeliveryServerService extends ConfigurableService
         taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedTestTaker(common_session_SessionManager::getSession()->getUserUri());
 
          //a unique identifier for the delivery
-        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDelivery->getUri());
+        taoResultServer_models_classes_ResultServerStateFull::singleton()->storeRelatedDelivery($compiledDeliveryId);
     }
 
     /**
@@ -114,7 +125,9 @@ class DeliveryServerService extends ConfigurableService
     public function getDeliveryContainer(DeliveryExecution $deliveryExecution)
     {
         $runtimeService = $this->getServiceLocator()->get(RuntimeService::SERVICE_ID);
-        $deliveryContainer = $runtimeService->getDeliveryContainer($deliveryExecution->getDelivery()->getUri());
+        $delivery = $deliveryExecution->getDelivery();
+        $deliveryId = $delivery instanceof \core_kernel_classes_Resource ? $delivery->getUri() : $delivery->literal;
+        $deliveryContainer = $runtimeService->getDeliveryContainer($deliveryId);
         return $deliveryContainer->getExecutionContainer($deliveryExecution);
     }
 }

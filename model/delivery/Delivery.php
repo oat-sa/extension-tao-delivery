@@ -69,6 +69,16 @@ class Delivery implements DeliveryInterface
         $this->service->setLabel($this->getIdentifier(), $val);
     }
 
+    public function getCustomLabel()
+    {
+        return $this->service->getCustomLabel($this->getIdentifier());
+    }
+
+    public function setCustomLabel($val)
+    {
+        $this->service->setCustomLabel($this->getIdentifier(), $val);
+    }
+
     public function getPeriodEnd()
     {
         return $this->service->getPeriodEnd($this->getIdentifier());
@@ -104,7 +114,7 @@ class Delivery implements DeliveryInterface
         return $this->service->getAccessSettings($this->getIdentifier());
     }
 
-    public function setAccessSettings($val)
+    public function setAccessSettings(array $val)
     {
         $this->service->setAccessSettings($this->getIdentifier(), $val);
     }
@@ -139,6 +149,16 @@ class Delivery implements DeliveryInterface
         $this->service->setCompilationRuntime($this->getIdentifier(), $val);
     }
 
+    public function getAssembledContainer()
+    {
+        $this->service->getAssembledContainer($this->getIdentifier());
+    }
+
+    public function setAssembledContainer($val)
+    {
+        $this->service->setAssembledContainer($this->getIdentifier(), $val);
+    }
+
     public function getResultServer()
     {
         return $this->service->getResultServer($this->getIdentifier());
@@ -147,6 +167,26 @@ class Delivery implements DeliveryInterface
     public function setResultServer($val)
     {
         $this->service->setResultServer($this->getIdentifier(), $val);
+    }
+
+    public function getDeliveryOrder()
+    {
+        return $this->service->getDeliveryOrder($this->getIdentifier());
+    }
+
+    public function setDeliveryOrder($val)
+    {
+        $this->service->setDeliveryOrder($this->getIdentifier(), $val);
+    }
+
+    public function getDeliveryAssembledOrigin()
+    {
+        $this->service->getDeliveryAssembledOrigin($this->getIdentifier());
+    }
+
+    public function setDeliveryAssembledOrigin($val)
+    {
+        $this->service->setDeliveryAssembledOrigin($this->getIdentifier(), $val);
     }
 
     public function setParameter($param = '', $value = '')
@@ -162,5 +202,10 @@ class Delivery implements DeliveryInterface
     public function isExcludedSubject($subject)
     {
         return $this->service->isExcludedSubject($this->getIdentifier(), $subject);
+    }
+
+    public function delete()
+    {
+        $this->service->delete($this->getIdentifier());
     }
 }

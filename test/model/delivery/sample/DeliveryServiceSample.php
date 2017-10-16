@@ -73,4 +73,16 @@ class DeliveryServiceSample extends AbstractDeliveryService
             $this->setParameter($id, $param, $val);
         }
     }
+
+    public function getDeliveriesByAccess($access = '')
+    {
+        $deliveries = [];
+        foreach ($this->storage as $id => $item) {
+            $accessSettings = $this->getAccessSettings($id);
+            if ($accessSettings && ($accessSettings == $access || (is_array($accessSettings) && in_array($access, $accessSettings)))) {
+                $deliveries[] = new Delivery($id, $this);
+            }
+        }
+        return $deliveries;
+    }
 }

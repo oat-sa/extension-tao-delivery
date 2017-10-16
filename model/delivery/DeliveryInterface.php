@@ -27,16 +27,27 @@ use oat\taoResultServer\models\classes\ResultServerService;
 
 interface DeliveryInterface
 {
-    const ASSEMBLED_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
-    const EXCLUDED_SUBJECTS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects';
-    const RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
-    const MAX_EXEC = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec';
-    const PERIOD_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart';
-    const PERIOD_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd';
-    const ACCESS_SETTINGS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings';
-    const ASSEMBLED_DELIVERY_TIME = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime';
-    const ASSEMBLED_DELIVERY_RUNTIME = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime';
-    const ASSEMBLED_DELIVERY_DIRECTORY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory';
+    const PROPERTY_ASSEMBLED_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
+    const PROPERTY_EXCLUDED_SUBJECTS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects';
+    const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
+    const PROPERTY_MAX_EXEC = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec';
+    const PROPERTY_PERIOD_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart';
+    const PROPERTY_PERIOD_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd';
+    const PROPERTY_ACCESS_SETTINGS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings';
+    const PROPERTY_ASSEMBLED_DELIVERY_TIME = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime';
+    const PROPERTY_ASSEMBLED_DELIVERY_RUNTIME = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime';
+    const PROPERTY_ASSEMBLED_DELIVERY_DIRECTORY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory';
+    const PROPERTY_ASSEMBLED_DELIVERY_ORIGIN = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin';
+    const PROPERTY_ASSEMBLED_DELIVERY_CONTAINER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryContainer';
+    const PROPERTY_DISPLAY_ORDER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DisplayOrder';
+    const PROPERTY_CUSTOM_LABEL = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel';
+
+    const DELIVERY_GUEST_ACCESS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess';
+
+    /**
+     * @return string
+     */
+    public function getIdentifier();
 
     /**
      * @return string
@@ -47,6 +58,16 @@ interface DeliveryInterface
      * @param $val
      */
     public function setLabel($val);
+
+    /**
+     * @return string
+     */
+    public function getCustomLabel();
+
+    /**
+     * @param $val
+     */
+    public function setCustomLabel($val);
 
     /**
      * @return string
@@ -112,7 +133,7 @@ interface DeliveryInterface
     /**
      * @param $val
      */
-    public function setAccessSettings($val);
+    public function setAccessSettings(array $val);
 
     /**
      * @return string
@@ -125,7 +146,7 @@ interface DeliveryInterface
     public function setCompilationDate($val);
 
     /**
-     * @return RuntimeService
+     * @return string
      */
     public function getCompilationRuntime();
 
@@ -145,6 +166,39 @@ interface DeliveryInterface
     public function setCompilationDirectory($val);
 
     /**
+     * @return mixed
+     */
+    public function getAssembledContainer();
+
+    /**
+     * @param $val
+     * @return mixed
+     */
+    public function setAssembledContainer($val);
+
+    /**
+     * @return mixed
+     */
+    public function getDeliveryOrder();
+
+    /**
+     * @param $val
+     * @return mixed
+     */
+    public function setDeliveryOrder($val);
+
+    /**
+     * @return mixed
+     */
+    public function getDeliveryAssembledOrigin();
+
+    /**
+     * @param $val
+     * @return mixed
+     */
+    public function setDeliveryAssembledOrigin($val);
+
+    /**
      * @param string $param
      * @param string|array $value
      * @return mixed
@@ -156,4 +210,9 @@ interface DeliveryInterface
      * @return mixed
      */
     public function setParameters(array $params);
+
+    /**
+     * @return mixed
+     */
+    public function delete();
 }

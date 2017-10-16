@@ -89,7 +89,7 @@ abstract class AbstractDeliveryFactoryService extends ConfigurableService implem
 
             $properties = array(
                 RDFS_LABEL => $label,
-                DeliveryInterface::ASSEMBLED_DELIVERY_DIRECTORY => $storage->getSpawnedDirectoryIds(),
+                DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_DIRECTORY => $storage->getSpawnedDirectoryIds(),
                 DeliveryAssemblyService::PROPERTY_ORIGIN => $test,
             );
 
@@ -117,11 +117,11 @@ abstract class AbstractDeliveryFactoryService extends ConfigurableService implem
      */
     protected function storeDelivery(\tao_models_classes_service_ServiceCall $serviceCall, $container, $properties = [])
     {
-        $properties[DeliveryInterface::ASSEMBLED_DELIVERY_TIME] = time();
-        $properties[DeliveryInterface::ASSEMBLED_DELIVERY_RUNTIME] = $serviceCall->toOntology();
+        $properties[DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_TIME] = time();
+        $properties[DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_RUNTIME] = $serviceCall->toOntology();
 
-        if (!isset($properties[DeliveryInterface::RESULT_SERVER])) {
-            $properties[DeliveryInterface::RESULT_SERVER] = \taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
+        if (!isset($properties[DeliveryInterface::PROPERTY_RESULT_SERVER])) {
+            $properties[DeliveryInterface::PROPERTY_RESULT_SERVER] = \taoResultServer_models_classes_ResultServerAuthoringService::singleton()->getDefaultResultServer();
         }
 
         if (!is_null($container)) {

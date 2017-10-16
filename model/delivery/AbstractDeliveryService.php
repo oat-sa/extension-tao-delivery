@@ -38,6 +38,26 @@ abstract class AbstractDeliveryService extends ConfigurableService implements De
      */
     abstract protected function getParameterValue($id, $param);
 
+    public function getAllParams()
+    {
+        return [
+            DeliveryInterface::PROPERTY_ACCESS_SETTINGS,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_DIRECTORY,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY,
+            DeliveryInterface::PROPERTY_DISPLAY_ORDER,
+            DeliveryInterface::PROPERTY_RESULT_SERVER,
+            DeliveryInterface::PROPERTY_PERIOD_END,
+            DeliveryInterface::PROPERTY_PERIOD_START,
+            DeliveryInterface::PROPERTY_MAX_EXEC,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_TIME,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_RUNTIME,
+            DeliveryInterface::PROPERTY_EXCLUDED_SUBJECTS,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_ORIGIN,
+            DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_CONTAINER,
+            DeliveryInterface::PROPERTY_CUSTOM_LABEL,
+        ];
+    }
+
     public function getParameter($id, $param = '')
     {
         if (!$this->deliveryExists($id)) {
@@ -54,22 +74,22 @@ abstract class AbstractDeliveryService extends ConfigurableService implements De
 
     public function getExcludedSubjects($id)
     {
-        return $this->getParameter($id, DeliveryInterface::EXCLUDED_SUBJECTS);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_EXCLUDED_SUBJECTS);
     }
 
     public function setExcludedSubjects($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::EXCLUDED_SUBJECTS, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_EXCLUDED_SUBJECTS, $val);
     }
 
     public function getMaxExec($id)
     {
-        return $this->getParameter($id, DeliveryInterface::MAX_EXEC);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_MAX_EXEC);
     }
 
     public function setMaxExec($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::MAX_EXEC, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_MAX_EXEC, $val);
     }
 
     public function getLabel($id)
@@ -82,73 +102,120 @@ abstract class AbstractDeliveryService extends ConfigurableService implements De
         return $this->setParameter($id, RDFS_LABEL, $val);
     }
 
+    public function getCustomLabel($id)
+    {
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_CUSTOM_LABEL);
+    }
+
+    public function setCustomLabel($id, $val)
+    {
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_CUSTOM_LABEL, $val);
+    }
+
+    public function getDeliveryAssembledOrigin($id)
+    {
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_ORIGIN);
+    }
+
+    public function setDeliveryAssembledOrigin($id, $val)
+    {
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_ORIGIN, $val);
+    }
+
     public function getPeriodStart($id)
     {
-        return $this->getParameter($id, DeliveryInterface::PERIOD_START);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_PERIOD_START);
     }
 
     public function setPeriodStart($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::PERIOD_START, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_PERIOD_START, $val);
     }
 
     public function getPeriodEnd($id)
     {
-        return $this->getParameter($id, DeliveryInterface::PERIOD_END);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_PERIOD_END);
     }
 
     public function setPeriodEnd($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::PERIOD_END, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_PERIOD_END, $val);
     }
 
     public function getCompilationRuntime($id)
     {
-        return $this->getParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_RUNTIME);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_RUNTIME);
     }
 
     public function setCompilationRuntime($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_RUNTIME, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_RUNTIME, $val);
     }
 
     public function getCompilationDirectory($id)
     {
-        return $this->getParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_DIRECTORY);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_DIRECTORY);
     }
 
     public function setCompilationDirectory($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_DIRECTORY, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_DIRECTORY, $val);
     }
 
     public function getCompilationDate($id)
     {
-        return $this->getParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_TIME);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_TIME);
     }
 
     public function setCompilationDate($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::ASSEMBLED_DELIVERY_TIME, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_TIME, $val);
+    }
+
+    public function getAssembledContainer($id)
+    {
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_CONTAINER);
+    }
+
+    public function setAssembledContainer($id, $val)
+    {
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ASSEMBLED_DELIVERY_CONTAINER, $val);
     }
 
     public function getAccessSettings($id)
     {
-        return $this->getParameter($id, DeliveryInterface::ACCESS_SETTINGS);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_ACCESS_SETTINGS);
     }
 
-    public function setAccessSettings($id, $val)
+    public function setAccessSettings($id, array $val)
     {
-        return $this->setParameter($id, DeliveryInterface::ACCESS_SETTINGS, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_ACCESS_SETTINGS, $val);
     }
 
     public function getResultServer($id)
     {
-        return $this->getParameter($id, DeliveryInterface::RESULT_SERVER);
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_RESULT_SERVER);
     }
 
     public function setResultServer($id, $val)
     {
-        return $this->setParameter($id, DeliveryInterface::RESULT_SERVER, $val);
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_RESULT_SERVER, $val);
+    }
+
+    public function getDeliveryOrder($id)
+    {
+        return $this->getParameter($id, DeliveryInterface::PROPERTY_DISPLAY_ORDER);
+    }
+
+    public function setDeliveryOrder($id, $val)
+    {
+        return $this->setParameter($id, DeliveryInterface::PROPERTY_DISPLAY_ORDER, $val);
+    }
+
+    public function delete($id)
+    {
+        foreach ($this->getAllParams() as $param) {
+            $this->deleteParameter($id, $param);
+        }
     }
 }

@@ -32,6 +32,7 @@ class LegacyServiceContainer extends DeliveryServiceContainer
     public function getRuntime(DeliveryExecution $execution)
     {
         $delivery = $execution->getDelivery();
-        return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($delivery->getUri());
+        $deliveryId = $delivery instanceof \core_kernel_classes_Resource ? $delivery->getUri() : $delivery->literal;
+        return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($deliveryId);
     }
 }

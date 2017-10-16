@@ -196,9 +196,11 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         // Sets the deliveryId to session.
         if (!$this->hasSessionAttribute(DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
+            $delivery = $deliveryExecution->getDelivery();
+            $deliveryId = $delivery instanceof \core_kernel_classes_Resource ? $delivery->getUri() : $delivery->literal;
             $this->setSessionAttribute(
                 DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
-                $deliveryExecution->getDelivery()->getUri()
+                $deliveryId
             );
         }
 

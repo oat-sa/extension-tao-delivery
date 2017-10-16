@@ -27,8 +27,13 @@ use oat\taoResultServer\models\classes\ResultServerService;
 
 interface DeliveryServiceInterface
 {
-    const SERVICE_ID = 'taoDelivery\DeliveryService';
+    const SERVICE_ID = 'taoDelivery/deliveryService';
     const OPTION_PERSISTENCE = 'persistence';
+
+    /**
+     * @return array
+     */
+    public function getAllParams();
 
     /**
      * Checks if delivery exists
@@ -61,7 +66,7 @@ interface DeliveryServiceInterface
     public function createDelivery(\core_kernel_classes_Class $deliveryClass, $label = '');
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
      * @return string
      */
     public function getLabel($id);
@@ -73,7 +78,20 @@ interface DeliveryServiceInterface
     public function setLabel($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
+     * @return mixed
+     */
+    public function getDeliveryAssembledOrigin($id);
+
+    /**
+     * @param $id
+     * @param $val
+     * @return mixed
+     */
+    public function setDeliveryAssembledOrigin($id, $val);
+
+    /**
+     * @param $id
      * @return string
      */
     public function getPeriodStart($id);
@@ -85,7 +103,7 @@ interface DeliveryServiceInterface
     public function setPeriodStart($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
      * @return string
      */
     public function getPeriodEnd($id);
@@ -97,7 +115,7 @@ interface DeliveryServiceInterface
     public function setPeriodEnd($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
      * @return array
      */
     public function getExcludedSubjects($id);
@@ -109,14 +127,14 @@ interface DeliveryServiceInterface
     public function setExcludedSubjects($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
      * @param $subject
      * @return bool
      */
     public function isExcludedSubject($id, $subject);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id
      * @return ResultServerService
      */
     public function getResultServer($id);
@@ -128,7 +146,7 @@ interface DeliveryServiceInterface
     public function setResultServer($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id string Delivery identifier
      * @return integer
      */
     public function getMaxExec($id);
@@ -140,7 +158,7 @@ interface DeliveryServiceInterface
     public function setMaxExec($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id string Delivery identifier
      * @return mixed
      */
     public function getAccessSettings($id);
@@ -149,10 +167,10 @@ interface DeliveryServiceInterface
      * @param $id
      * @param $val
      */
-    public function setAccessSettings($id, $val);
+    public function setAccessSettings($id, array $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id string Delivery identifier
      * @return string
      */
     public function getCompilationDate($id);
@@ -164,7 +182,7 @@ interface DeliveryServiceInterface
     public function setCompilationDate($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id string Delivery identifier
      * @return RuntimeService
      */
     public function getCompilationRuntime($id);
@@ -176,7 +194,7 @@ interface DeliveryServiceInterface
     public function setCompilationRuntime($id, $val);
 
     /**
-     * @param $id Delivery identifier
+     * @param $id string Delivery identifier
      * @return \core_kernel_classes_Resource
      */
     public function getCompilationDirectory($id);
@@ -189,6 +207,19 @@ interface DeliveryServiceInterface
 
     /**
      * @param $id
+     * @return mixed
+     */
+    public function getAssembledContainer($id);
+
+    /**
+     * @param $id
+     * @param $val
+     * @return mixed
+     */
+    public function setAssembledContainer($id, $val);
+
+    /**
+     * @param $id
      * @param string $param
      * @param string|array $value
      * @return mixed
@@ -197,8 +228,53 @@ interface DeliveryServiceInterface
 
     /**
      * @param $id
+     * @param $param
+     * @return mixed
+     */
+    public function deleteParameter($id, $param = '');
+
+    /**
+     * @param $id
      * @param array $params ['paramName' => 'paramValue' | ['paramValue1', 'paramValue2']]
      * @return mixed
      */
     public function setParameters($id, array $params);
+
+    /**
+     * @param $access
+     * @return array Delivery[]
+     */
+    public function getDeliveriesByAccess($access = '');
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getDeliveryOrder($id);
+
+    /**
+     * @param $id
+     * @param $val
+     * @return mixed
+     */
+    public function setDeliveryOrder($id, $val);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getCustomLabel($id);
+
+    /**
+     * @param $id
+     * @param $val
+     * @return mixed
+     */
+    public function setCustomLabel($id, $val);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id);
 }

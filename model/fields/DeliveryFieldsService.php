@@ -22,6 +22,8 @@ namespace oat\taoDelivery\model\fields;
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoDelivery\model\delivery\Delivery;
+use oat\taoDelivery\model\delivery\DeliveryServiceInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ConfigurableService;
 
@@ -43,18 +45,25 @@ class DeliveryFieldsService extends ConfigurableService
     /**
      * Getting custom label from Delivery
      *
-     * @param \core_kernel_classes_Resource $delivery
+     * @param $delivery
      * @param string $label
      * @return string
      */
-    public function getLabel(\core_kernel_classes_Resource $delivery, $label = '')
+    public function getLabel($delivery, $label = '')
     {
         $user = \common_session_SessionManager::getSession()->getUser();
         $customLabelRoles = $this->getOption(self::PROPERTY_CUSTOM_LABEL);
         if (array_intersect($customLabelRoles, $user->getRoles())) {
-            $property = $this->getProperty(self::PROPERTY_CUSTOM_LABEL);
-            if ((string)$delivery->getOnePropertyValue($property)) {
-                $label = $delivery->getOnePropertyValue($property);
+
+            if ($delivery instanceof \core_kernel_classes_Resource) {
+                $property = $this->getProperty(self::PROPERTY_CUSTOM_LABEL);
+                if ((string)$delivery->getOnePropertyValue($property)) {
+                    $label = $delivery->getOnePropertyValue($property);
+                }
+            } else {
+                /** @var DeliveryServiceInterface $deliveryService */
+                $deliveryService = $this->getServiceManager()->get(DeliveryServiceInterface::SERVICE_ID);
+                $deliveryService->getCustomLabel($delivery->literal);
             }
         }
         return (string) $label;
