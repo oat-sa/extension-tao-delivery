@@ -19,8 +19,6 @@
  */
 namespace oat\taoDelivery\model\authorization;
 
-use oat\oatbox\user\User;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 /**
  * Exception in case of a failed authorization
  */

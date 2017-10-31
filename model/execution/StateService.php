@@ -40,6 +40,7 @@ class StateService extends AbstractStateService
     /**
      * @param DeliveryExecution $deliveryExecution
      * @return bool
+     * @throws \common_exception_NotFound
      */
     public function finish(DeliveryExecution $deliveryExecution)
     {
@@ -58,6 +59,7 @@ class StateService extends AbstractStateService
     /**
      * @param DeliveryExecution $deliveryExecution
      * @return bool
+     * @throws \common_exception_NotFound
      */
     public function pause(DeliveryExecution $deliveryExecution)
     {
@@ -71,6 +73,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
+     * @throws \common_exception_NotFound
      */
     public function legacyTransition(DeliveryExecution $deliveryExecution, $state)
     {

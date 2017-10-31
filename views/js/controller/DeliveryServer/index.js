@@ -79,8 +79,8 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                if(!deliveryStarted){
-                    runDelivery($elt.attr('href'));
+                if(!deliveryStarted && !$elt.hasClass('disabled')){
+                    runDelivery($elt.data().launch_url);
                 }
             });
         }

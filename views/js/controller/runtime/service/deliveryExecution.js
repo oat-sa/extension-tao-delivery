@@ -55,6 +55,7 @@ define([
 
     return {
         start: function(options){
+            var serviceApi = options.serviceApi;
 
             if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();
@@ -69,20 +70,9 @@ define([
                 logoutEvent();
             });
 
-            var serviceApi = options.serviceApi;
 
             serviceApi.onFinish(function() {
-                $.ajax({
-                    url : options.finishDeliveryExecution,
-                    data : {
-                        'deliveryExecution' : options.deliveryExecution
-                    },
-                    type : 'post',
-                    dataType : 'json',
-                    success : function(data) {
-                        window.location = data.destination;
-                    }
-                });
+                window.location = options.finishDeliveryExecution;
             }).onExit(function() {
                 window.location = options.exitDeliveryExecution;
             });

@@ -53,7 +53,7 @@ class DeliveryFieldsService extends ConfigurableService
         $customLabelRoles = $this->getOption(self::PROPERTY_CUSTOM_LABEL);
         if (array_intersect($customLabelRoles, $user->getRoles())) {
             $property = $this->getProperty(self::PROPERTY_CUSTOM_LABEL);
-            if ($delivery->getOnePropertyValue($property)) {
+            if ((string)$delivery->getOnePropertyValue($property)) {
                 $label = $delivery->getOnePropertyValue($property);
             }
         }

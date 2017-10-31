@@ -27,8 +27,8 @@ interface ExecutionContainer
 {
     /**
      * adds or replaces the data for a specific key
-     * @param  string key
-     * @param  mixed value
+     * @param  string $key
+     * @param  mixed $value
      */
     public function setData($key, $value);
     

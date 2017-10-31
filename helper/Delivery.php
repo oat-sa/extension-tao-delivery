@@ -40,7 +40,7 @@ class Delivery
     
     const LAUNCH_URL = 'launchUrl';
     
-    static function buildFromAssembly($assignment, User $user)
+    public static function buildFromAssembly($assignment, User $user)
     {
         $data = array(
             self::ID => $assignment->getDeliveryId(),
@@ -52,7 +52,7 @@ class Delivery
         return $data;
     }
     
-    static function buildFromDeliveryExecution(DeliveryExecution $deliveryExecution)
+    public static function buildFromDeliveryExecution(DeliveryExecution $deliveryExecution)
     {
         $data = array();
         $data[self::ID] = $deliveryExecution->getIdentifier();

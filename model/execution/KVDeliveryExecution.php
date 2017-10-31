@@ -15,12 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
-use oat\taoDelivery\model\execution\DeliveryExecution as InterfaceDeliveryExecution;
+use common_exception_Error;
+use common_exception_NotFound;
+use common_Logger;
+use core_kernel_classes_Resource;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 /**
@@ -31,7 +34,7 @@ use oat\taoDelivery\model\execution\implementation\KeyValueService;
  * @package taoDelivery
  *
  */
-class taoDelivery_models_classes_execution_KVDeliveryExecution implements InterfaceDeliveryExecution, \JsonSerializable
+class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializable
 {
     /**
      * @var KeyValueService
@@ -52,7 +55,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getIdentifier()
+     * @see DeliveryExecutionInterface::getIdentifier()
      */
     public function getIdentifier()
     {
@@ -62,22 +65,22 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getStartTime()
+     * @see DeliveryExecutionInterface::getStartTime()
      */
     public function getStartTime()
     {
-        return $this->getData(PROPERTY_DELVIERYEXECUTION_START);
+        return $this->getData(OntologyDeliveryExecution::PROPERTY_TIME_START);
     }
 
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getFinishTime()
+     * @see DeliveryExecutionInterface::getFinishTime()
      */
     public function getFinishTime()
     {
         try {
-            return $this->getData(PROPERTY_DELVIERYEXECUTION_END);
+            return $this->getData(OntologyDeliveryExecution::PROPERTY_TIME_END);
         } catch (common_exception_NotFound $missingException) {
             return null;
         }
@@ -86,7 +89,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getLabel()
+     * @see DeliveryExecutionInterface::getLabel()
      */
     public function getLabel()
     {
@@ -96,36 +99,36 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getState()
+     * @see DeliveryExecutionInterface::getState()
      */
     public function getState()
     {
-        return new core_kernel_classes_Resource($this->getData(PROPERTY_DELVIERYEXECUTION_STATUS));
+        return new core_kernel_classes_Resource($this->getData(OntologyDeliveryExecution::PROPERTY_STATUS));
     }
 
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getDelivery()
+     * @see DeliveryExecutionInterface::getDelivery()
      */
     public function getDelivery()
     {
-        return new core_kernel_classes_Resource($this->getData(PROPERTY_DELVIERYEXECUTION_DELIVERY));
+        return new core_kernel_classes_Resource($this->getData(OntologyDeliveryExecution::PROPERTY_DELIVERY));
     }
 
     /**
      * (non-PHPdoc)
      *
-     * @see InterfaceDeliveryExecution::getUserIdentifier()
+     * @see DeliveryExecutionInterface::getUserIdentifier()
      */
     public function getUserIdentifier()
     {
-        return $this->getData(PROPERTY_DELVIERYEXECUTION_SUBJECT);
+        return $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
     }
 
     /**
      * (non-PHPdoc)
-     * @see InterfaceDeliveryExecution::setState()
+     * @see DeliveryExecutionInterface::setState()
      */
     public function setState($state)
     {
@@ -134,9 +137,9 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
             common_Logger::w('Delivery execution ' . $this->getIdentifier() . ' already in state ' . $state);
             return false;
         }
-        $this->setData(PROPERTY_DELVIERYEXECUTION_STATUS, $state);
-        if ($state == InterfaceDeliveryExecution::STATE_FINISHIED) {
-            $this->setData(PROPERTY_DELVIERYEXECUTION_END, microtime());
+        $this->setData(OntologyDeliveryExecution::PROPERTY_STATUS, $state);
+        if ($state == DeliveryExecutionInterface::STATE_FINISHIED) {
+            $this->setData(OntologyDeliveryExecution::PROPERTY_TIME_END, microtime());
         }
         return $this->service->updateDeliveryExecutionStatus($this, $oldState, $state);
     }
@@ -163,6 +166,7 @@ class taoDelivery_models_classes_execution_KVDeliveryExecution implements Interf
     /**
      * (non-PHPdoc)
      * @see JsonSerializable::jsonSerialize()
+     * @throws \common_exception_Error
      */
     public function jsonSerialize()
     {

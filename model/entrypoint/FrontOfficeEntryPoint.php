@@ -14,27 +14,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ *
  *
  */
 
-namespace oat\taoDelivery\scripts\install;
+namespace oat\taoDelivery\model\entrypoint;
 
-use oat\tao\model\TaoOntology;
-use oat\taoDelivery\model\fields\DeliveryFieldsService;
+use oat\oatbox\Configurable;
+use oat\tao\model\entryPoint\Entrypoint;
 
-class installDeliveryFields extends \oat\oatbox\extension\InstallAction
+class FrontOfficeEntryPoint extends Configurable implements Entrypoint
 {
-    
-    public function __invoke($params) {
 
-        $service = new DeliveryFieldsService([
-            DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-				TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
-            ]
-        ]);
-        $service->setServiceManager($this->getServiceManager());
-        $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
+    public function getId() {
+        return 'deliveryServer';
     }
     
+    public function getTitle() {
+        return __('Test-Takers');
+    }
+    
+    public function getLabel() {
+        return __('TAO Delivery Server');
+    }
+    
+    public function getDescription() {
+        return __('Take or continue a test.');
+    }
+    
+    public function getUrl() {
+        return _url("index", "DeliveryServer", "taoDelivery");
+    }
+
 }

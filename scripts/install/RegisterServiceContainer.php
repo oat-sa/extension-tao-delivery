@@ -15,26 +15,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
-
 namespace oat\taoDelivery\scripts\install;
 
-use oat\tao\model\TaoOntology;
-use oat\taoDelivery\model\fields\DeliveryFieldsService;
+use oat\oatbox\extension\InstallAction;
+use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
+use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
+use common_report_Report as Report;
 
-class installDeliveryFields extends \oat\oatbox\extension\InstallAction
+/**
+ * Installation action that registers the test runner container
+ */
+class RegisterServiceContainer extends InstallAction
 {
-    
-    public function __invoke($params) {
-
-        $service = new DeliveryFieldsService([
-            DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-				TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
-            ]
-        ]);
-        $service->setServiceManager($this->getServiceManager());
-        $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
+    public function __invoke($params)
+    {
+        $registry = DeliveryContainerRegistry::getRegistry();
+        $registry->setServiceLocator($this->getServiceLocator());
+        $registry->registerContainerType('service', new DeliveryServiceContainer());
+        return new Report(Report::TYPE_SUCCESS, 'Qti Client Testrunner Container registered.');
     }
-    
 }

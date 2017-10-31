@@ -19,12 +19,11 @@
  */
 namespace oat\taoDelivery\test\model\authorization;
 
-use oat\taoDelivery\model\authorization\AuthorizationProvider;
-use oat\taoDelivery\model\authorization\DeliveryAuthorizationProvider;
 use oat\tao\test\TaoPhpUnitTestRunner;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * Test the StateValidation
@@ -45,7 +44,7 @@ class StateValidationTest extends TaoPhpUnitTestRunner
         
         $prophet = new \Prophecy\Prophet();
         $prophecy = $prophet->prophesize();
-        $prophecy->willImplement(DeliveryExecution::class);
+        $prophecy->willImplement(DeliveryExecutionInterface::class);
         $prophecy->getState()->willReturn($prophecyState->reveal());
         return $prophecy->reveal();
     }

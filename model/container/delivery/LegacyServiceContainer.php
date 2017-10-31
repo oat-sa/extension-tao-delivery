@@ -14,35 +14,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 
-use oat\oatbox\Configurable;
-use oat\tao\model\entryPoint\Entrypoint;
+namespace oat\taoDelivery\model\container\delivery;
 
-class taoDelivery_models_classes_entrypoint_GuestAccess extends Configurable implements Entrypoint
+use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+
+class LegacyServiceContainer extends DeliveryServiceContainer
 {
-
-    public function getId() {
-        return 'guestaccess';
+    /**
+     * Return the service call to run the delivery
+     * @param DeliveryExecution $execution
+     * @return \tao_models_classes_service_ServiceCall
+     */
+    public function getRuntime(DeliveryExecution $execution)
+    {
+        $delivery = $execution->getDelivery();
+        return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($delivery->getUri());
     }
-    
-    public function getTitle() {
-        return __('Guest access');
-    }
-    
-    public function getLabel() {
-        return __('TAO Guest Access');
-    }
-    
-    public function getDescription() {
-        return __('Access deliveries as a guest');
-    }
-    
-    public function getUrl() {
-        return _url("guest", "Guest", "taoDeliveryRdf");
-    }
-
 }

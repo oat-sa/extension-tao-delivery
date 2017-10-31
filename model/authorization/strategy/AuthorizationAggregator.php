@@ -23,8 +23,8 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\authorization\AuthorizationService;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionVerified;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -60,20 +60,19 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
             $provider->verifyStartAuthorization($deliveryId, $user);
         }
     }
-    
+
     /**
      * Verify that a given delivery execution is allowed to be executed
      *
-     * @param DeliveryExecution $deliveryExecution
+     * @param DeliveryExecutionInterface $deliveryExecution
      * @param User $user
-     * @throws \common_exception_Unauthorized
-    */
-    public function verifyResumeAuthorization(DeliveryExecution $deliveryExecution, User $user)
+     */
+    public function verifyResumeAuthorization(DeliveryExecutionInterface $deliveryExecution, User $user)
     {
         foreach ($this->getProviders() as $provider) {
             $provider->verifyResumeAuthorization($deliveryExecution, $user);
         }
-        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new DeliveryExecutionVerified($deliveryExecution));
+        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger(new DeliveryExecutionVerified($deliveryExecution));
     }
     
     /**
@@ -109,12 +108,13 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
         $providers[] = $provider;
         $this->setOption(self::OPTION_PROVIDERS, $providers);
     }
-    
+
     /**
      * Remove an existing authorization provider, identified by
      * exact class
-     * 
-     * @param AuthorizationProvider $provider
+     *
+     * @param $providerClass
+     * @internal param AuthorizationProvider $provider
      */
     public function unregister($providerClass)
     {

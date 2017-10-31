@@ -21,11 +21,16 @@
  */
 
 //define specific constants to delivery extension:
+/**
+ * This constants are deprecated
+ *
+ * @deprecated
+ */
 $todefine = array(
     
     'PROPERTY_DELVIERYEXECUTION_DELIVERY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery',
     'PROPERTY_DELVIERYEXECUTION_SUBJECT'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject',
-    'PROPERTY_DELVIERYEXECUTION_START'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart',
-    'PROPERTY_DELVIERYEXECUTION_END'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd',
+	'PROPERTY_DELVIERYEXECUTION_START'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart',
+	'PROPERTY_DELVIERYEXECUTION_END'       => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd',
     'PROPERTY_DELVIERYEXECUTION_STATUS'    => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution',
 );
