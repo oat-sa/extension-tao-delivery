@@ -37,6 +37,7 @@ interface  DeliveryContainerService  {
 
     const SERVICE_ID = 'taoDelivery/deliveryContainer';
 
+    /** @deprecated  */
     const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
 
     /**
