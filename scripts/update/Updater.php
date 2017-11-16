@@ -299,7 +299,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.6.0');
 
         }
-      
+
        if ($this->isVersion('6.6.0')) {
            /** @var EntryPointService $entryPointService */
            $entryPointService = $this->safeLoadService(EntryPointService::SERVICE_ID);

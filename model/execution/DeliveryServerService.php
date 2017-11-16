@@ -53,6 +53,18 @@ class DeliveryServerService extends ConfigurableService
     }
 
     /**
+     * Return the states a delivey execution can be resumed from
+     * @return string[]
+     */
+    public function getResumableStates()
+    {
+        return [
+            DeliveryExecution::STATE_ACTIVE
+            ,DeliveryExecution::STATE_PAUSED
+        ];
+    }
+
+    /**
      * Get resumable (active) deliveries.
      * @param User $user User instance. If not given then all deliveries will be returned regardless of user URI.
      * @return \oat\taoDelivery\model\execution\DeliveryExecution []
@@ -60,16 +72,13 @@ class DeliveryServerService extends ConfigurableService
     public function getResumableDeliveries(User $user)
     {
         $deliveryExecutionService = ServiceProxy::singleton();
-            $started = array_merge(
-                $deliveryExecutionService->getActiveDeliveryExecutions($user->getIdentifier()),
-                $deliveryExecutionService->getPausedDeliveryExecutions($user->getIdentifier())
-            );
-        
         $resumable = array();
-        foreach ($started as $deliveryExecution) {
-            $delivery = $deliveryExecution->getDelivery();
-            if ($delivery->exists()) {
-                $resumable[] = $deliveryExecution;
+        foreach ($this->getResumableStates() as $state) {
+            foreach ($deliveryExecutionService->getDeliveryExecutionsByStatus($user->getIdentifier(), $state) as $execution) {
+                $delivery = $execution->getDelivery();
+                if ($delivery->exists()) {
+                    $resumable[] = $execution;
+                }
             }
         }
         return $resumable;
