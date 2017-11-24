@@ -18,13 +18,6 @@
  * 
  */
 
-use oat\oatbox\user\User;
-use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\oatbox\service\ServiceManager;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\model\RuntimeService;
-use oat\taoDelivery\model\container\ExecutionContainer;
-
 /**
  * Service to manage the execution of deliveries
  * @deprecated in favor of psr-4 \oat\taoDelivery\model\execution\DeliveryServerService
