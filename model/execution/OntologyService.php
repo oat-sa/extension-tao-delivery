@@ -47,7 +47,7 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     {
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $resources = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
+            OntologyDeliveryExecution::PROPERTY_DELIVERY => $compiled->getUri()
         ), array(
             'like' => false
         ));
@@ -61,8 +61,8 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     public function getDeliveryExecutionsByStatus($userUri, $status) {
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $started = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userUri,
-            PROPERTY_DELVIERYEXECUTION_STATUS => $status
+            OntologyDeliveryExecution::PROPERTY_SUBJECT => $userUri,
+            OntologyDeliveryExecution::PROPERTY_STATUS => $status
         ), array(
             'like' => false
         ));
@@ -81,8 +81,8 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
     {
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $instances = $executionClass->searchInstances(array(
-            PROPERTY_DELVIERYEXECUTION_SUBJECT  => $userUri,
-            PROPERTY_DELVIERYEXECUTION_DELIVERY => $compiled->getUri()
+            OntologyDeliveryExecution::PROPERTY_SUBJECT  => $userUri,
+            OntologyDeliveryExecution::PROPERTY_DELIVERY => $compiled->getUri()
         ), array(
             'like' => false
         ));
@@ -125,10 +125,10 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
         $execution = $executionClass->createInstanceWithProperties(array(
             OntologyRdfs::RDFS_LABEL              => $label,
-            PROPERTY_DELVIERYEXECUTION_DELIVERY   => $deliveryId,
-            PROPERTY_DELVIERYEXECUTION_SUBJECT    => $userId,
-            PROPERTY_DELVIERYEXECUTION_START      => microtime(),
-            PROPERTY_DELVIERYEXECUTION_STATUS     => $status
+            OntologyDeliveryExecution::PROPERTY_DELIVERY             => $deliveryId,
+            OntologyDeliveryExecution::PROPERTY_SUBJECT    => $userId,
+            OntologyDeliveryExecution::PROPERTY_TIME_START      => microtime(),
+            OntologyDeliveryExecution::PROPERTY_STATUS     => $status
         ));
         return $this->getDeliveryExecution($execution);
     }

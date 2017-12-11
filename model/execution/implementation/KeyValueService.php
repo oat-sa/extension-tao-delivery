@@ -25,6 +25,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
+use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 
@@ -99,10 +100,10 @@ class KeyValueService extends ConfigurableService implements Service
         $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
         $data = array(
             OntologyRdfs::RDFS_LABEL => $label,
-            PROPERTY_DELVIERYEXECUTION_DELIVERY => $deliveryId,
-            PROPERTY_DELVIERYEXECUTION_SUBJECT => $userId,
-            PROPERTY_DELVIERYEXECUTION_START => microtime(),
-            PROPERTY_DELVIERYEXECUTION_STATUS => $status
+            OntologyDeliveryExecution::PROPERTY_DELIVERY  => $deliveryId,
+            OntologyDeliveryExecution::PROPERTY_SUBJECT => $userId,
+            OntologyDeliveryExecution::PROPERTY_TIME_START => microtime(),
+            OntologyDeliveryExecution::PROPERTY_STATUS => $status
         );
         $kvDe = new KVDeliveryExecution($this, $identifier, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);

@@ -4,7 +4,7 @@ $delivery = get_data('delivery');
 ?>
 <li>
     <a class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>"
-        href="<?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? $delivery[Delivery::LAUNCH_URL] : "#" ?>">
+        data-launch_url="<?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? $delivery[Delivery::LAUNCH_URL] : "#" ?>">
         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
