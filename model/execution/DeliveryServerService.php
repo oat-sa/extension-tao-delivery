@@ -21,16 +21,11 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
-use common_Logger;
-use common_session_SessionManager;
-use core_kernel_classes_Property;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\model\DeliveryContainerService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
-use taoResultServer_models_classes_ResultServerStateFull;
 
 /**
  * Service to manage the execution of deliveries
@@ -90,9 +85,9 @@ class DeliveryServerService extends ConfigurableService
      * @param $compiledDelivery
      * @param string $executionIdentifier
      */
-    public function initResultServer($compiledDelivery, $executionIdentifier) {
+    public function initResultServer($compiledDelivery, $executionIdentifier, $userUri) {
         $this->getServiceManager()->get(\oat\taoResultServer\models\classes\ResultServerService::SERVICE_ID)
-            ->initResultServer($compiledDelivery, $executionIdentifier);
+            ->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
 
     /**

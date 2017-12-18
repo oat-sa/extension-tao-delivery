@@ -214,7 +214,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    }
 	    
 	    $delivery = $deliveryExecution->getDelivery();
-	    $this->initResultServer($delivery, $deliveryExecution->getIdentifier());
+        $this->initResultServer($delivery, $deliveryExecution->getIdentifier(), $userUri);
 
         $deliveryExecutionStateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
         $deliveryExecutionStateService->run($deliveryExecution);
@@ -267,18 +267,19 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    }
 	    $this->redirect($this->getReturnUrl());
 	}
-	
-	/**
-	 * Initialize the result server using the delivery configuration and for this results session submission
+
+    /**
+     * Initialize the result server using the delivery configuration and for this results session submission
      *
      * @param $compiledDelivery
      * @param $executionIdentifier
+     * @param $userUri
      */
-    protected function initResultServer($compiledDelivery, $executionIdentifier)
+    protected function initResultServer($compiledDelivery, $executionIdentifier, $userUri)
     {
         $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
         if (!($resultServerCallOverride)) {
-            $this->service->initResultServer($compiledDelivery, $executionIdentifier);
+            $this->service->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
         }
     }
     
