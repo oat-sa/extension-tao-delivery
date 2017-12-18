@@ -277,10 +277,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function initResultServer($compiledDelivery, $executionIdentifier, $userUri)
     {
-        $resultServerCallOverride =  $this->hasRequestParameter('resultServerCallOverride') ? $this->getRequestParameter('resultServerCallOverride') : false;
-        if (!($resultServerCallOverride)) {
-            $this->service->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
-        }
+        $this->service->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
     
     /**
