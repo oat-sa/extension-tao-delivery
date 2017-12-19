@@ -21,16 +21,13 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
-use common_Logger;
-use common_session_SessionManager;
-use core_kernel_classes_Property;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\model\DeliveryContainerService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
-use taoResultServer_models_classes_ResultServerStateFull;
+use oat\taoResultServer\models\classes\ResultServerService;
+use oat\taoResultServer\models\classes\ResultStorageWrapper;
 
 /**
  * Service to manage the execution of deliveries
@@ -90,9 +87,9 @@ class DeliveryServerService extends ConfigurableService
      * @param $compiledDelivery
      * @param string $executionIdentifier
      */
-    public function initResultServer($compiledDelivery, $executionIdentifier) {
+    public function initResultServer($compiledDelivery, $executionIdentifier, $userUri) {
         $this->getServiceManager()->get(\oat\taoResultServer\models\classes\ResultServerService::SERVICE_ID)
-            ->initResultServer($compiledDelivery, $executionIdentifier);
+            ->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
 
     /**
@@ -107,5 +104,22 @@ class DeliveryServerService extends ConfigurableService
         $runtimeService = $this->getServiceLocator()->get(RuntimeService::SERVICE_ID);
         $deliveryContainer = $runtimeService->getDeliveryContainer($deliveryExecution->getDelivery()->getUri());
         return $deliveryContainer->getExecutionContainer($deliveryExecution);
+    }
+
+    /**
+     * @param $deliveryExecution
+     * @return ResultStorageWrapper
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function getResultStoreWrapper($deliveryExecution)
+    {
+        //@todo check if cache should be used here
+        if (!$deliveryExecution instanceof DeliveryExecutionInterface) {
+            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution($deliveryExecution);
+        }
+        $compiledDelivery = $deliveryExecution->getDelivery();
+        /** @var ResultServerService $resultService */
+        $resultService = $this->getServiceManager()->get(ResultServerService::SERVICE_ID);
+        return new ResultStorageWrapper($deliveryExecution->getIdentifier(), $resultService->getResultStorage($compiledDelivery->getUri()));
     }
 }
