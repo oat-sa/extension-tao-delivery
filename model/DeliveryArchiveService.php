@@ -24,4 +24,17 @@ interface DeliveryArchiveService
     const SERVICE_ID = 'taoDeliveryRdf/DeliveryArchive';
 
     const BUCKET_DIRECTORY = 'deliveriesArchivesDirectory';
+
+    /**
+     * @param $compiledDelivery
+     * @return mixed
+     */
+    public function archive($compiledDelivery);
+
+
+    /**
+     * @param $compiledDelivery
+     * @return mixed
+     */
+    public function unArchive($compiledDelivery);
 }
