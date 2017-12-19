@@ -19,23 +19,6 @@
  */
 namespace oat\taoDelivery\model;
 
-interface DeliveryArchiveService
+class DeliverArchiveExistingException extends \Exception
 {
-    const SERVICE_ID = 'taoDeliveryRdf/DeliveryArchive';
-
-
-    /**
-     * @param string $compiledDelivery
-     * @return string $fileName (filename archived)
-     * @throws DeliverArchiveExistingException
-     */
-    public function archive($compiledDelivery);
-
-
-    /**
-     * @param string $compiledDelivery
-     * @return string $fileName (filename unarchived)
-     * @throws DeliveryArchiveNotExistingException
-     */
-    public function unArchive($compiledDelivery);
 }

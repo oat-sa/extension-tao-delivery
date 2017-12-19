@@ -17,25 +17,9 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\model;
 
-interface DeliveryArchiveService
+class DeliveryArchiveNotExistingException extends \Exception
 {
-    const SERVICE_ID = 'taoDeliveryRdf/DeliveryArchive';
-
-
-    /**
-     * @param string $compiledDelivery
-     * @return string $fileName (filename archived)
-     * @throws DeliverArchiveExistingException
-     */
-    public function archive($compiledDelivery);
-
-
-    /**
-     * @param string $compiledDelivery
-     * @return string $fileName (filename unarchived)
-     * @throws DeliveryArchiveNotExistingException
-     */
-    public function unArchive($compiledDelivery);
 }
