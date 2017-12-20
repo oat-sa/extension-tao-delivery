@@ -23,14 +23,12 @@ interface DeliveryArchiveService
 {
     const SERVICE_ID = 'taoDeliveryRdf/DeliveryArchive';
 
-
     /**
      * @param string $compiledDelivery
      * @return string $fileName (filename archived)
      * @throws DeliverArchiveExistingException
      */
     public function archive($compiledDelivery);
-
 
     /**
      * @param string $compiledDelivery
