@@ -32,9 +32,7 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
     {
         $services = $this->getOption('services');
         foreach ($services as $service) {
-            if ($service instanceof ConfigurableService && $service->getServiceLocator() === null) {
-                $this->propagate($service);
-            }
+            $this->propagate($service);
         }
         return $services;
     }
