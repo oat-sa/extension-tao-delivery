@@ -24,6 +24,7 @@ use common_exception_Error;
 use common_exception_NotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 /**
@@ -93,7 +94,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getLabel()
     {
-        return $this->getData(RDFS_LABEL);
+        return $this->getData(OntologyRdfs::RDFS_LABEL);
     }
 
     /**
