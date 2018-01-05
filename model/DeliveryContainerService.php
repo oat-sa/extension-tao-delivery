@@ -26,14 +26,8 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-interface  DeliveryContainerService  {
-
-    /** @deprecated use DeliveryAssemblyService::PROPERTY_PERIOD_START */
-    const PROPERTY_PERIOD_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart';
-
-    /** @deprecated use DeliveryAssemblyService::PROPERTY_PERIOD_END */
-    const PROPERTY_PERIOD_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd';
-
+interface  DeliveryContainerService
+{
     /** @deprecated */
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
 
