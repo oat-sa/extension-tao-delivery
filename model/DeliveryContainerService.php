@@ -26,12 +26,8 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-interface  DeliveryContainerService  {
-
-	const PROPERTY_PERIOD_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart';
-
-	const PROPERTY_PERIOD_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd';
-
+interface  DeliveryContainerService
+{
     /** @deprecated */
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
 
@@ -39,7 +35,14 @@ interface  DeliveryContainerService  {
 
     /** @deprecated  */
     const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
-
+    
+    /**
+     * Get the list of providers for the current execution
+     * @param DeliveryExecution $execution
+     * @return array the list of providers
+     */
+    public function getProviders(DeliveryExecution $execution);
+    
     /**
      * Get the list of plugins for the current execution
      * @param DeliveryExecution $execution
