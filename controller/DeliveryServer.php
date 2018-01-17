@@ -374,7 +374,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function getDeliveryServer()
     {
-        return $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
+        return $this->service = $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
     }
 
     /**
