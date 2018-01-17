@@ -27,6 +27,7 @@ use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
@@ -63,9 +64,10 @@ class DeliveryServer extends \tao_actions_CommonModule
 	 */
 	public function __construct()
 	{
+	    $this->service = ServiceManager::getServiceManager()->get(DeliveryServerService::SERVICE_ID);
 		$this->executionService = $this->getExecutionService();
 	}
-	
+
 	/**
 	 * @return DeliveryExecution
 	 */
