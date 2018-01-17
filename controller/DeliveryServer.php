@@ -27,6 +27,7 @@ use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
@@ -52,6 +53,7 @@ use oat\taoDelivery\models\classes\theme\DeliveryThemeDetailsProvider;
 class DeliveryServer extends \tao_actions_CommonModule
 {
     /**
+     * @deprecated use $this->getExecutionService() instead
      * @var Service
      */
     private $executionService;
@@ -62,16 +64,16 @@ class DeliveryServer extends \tao_actions_CommonModule
 	 */
 	public function __construct()
 	{
-		$this->service = $this->getServiceManager()->get(DeliveryServerService::SERVICE_ID);
-		$this->executionService = ServiceProxy::singleton();
+	    $this->service = ServiceManager::getServiceManager()->get(DeliveryServerService::SERVICE_ID);
+		$this->executionService = $this->getExecutionService();
 	}
-	
+
 	/**
 	 * @return DeliveryExecution
 	 */
 	protected function getCurrentDeliveryExecution() {
 	    $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
-	    return $this->executionService->getDeliveryExecution($id);
+	    return $this->getExecutionService()->getDeliveryExecution($id);
 	}
 
     /**
@@ -91,12 +93,12 @@ class DeliveryServer extends \tao_actions_CommonModule
 		 * Retrieve resumable deliveries (via delivery execution)
 		 */
 		$resumableData = array();
-		foreach ($this->service->getResumableDeliveries($user) as $de) {
+		foreach ($this->getDeliveryServer()->getResumableDeliveries($user) as $de) {
 		    $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
 		}
 		$this->setData('resumableDeliveries', $resumableData);
 		
-		$assignmentService= $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
+		$assignmentService= $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
 		
 		$deliveryData = array();
 		foreach ($assignmentService->getAssignments($user) as $delivery)
@@ -151,7 +153,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $user              = common_session_SessionManager::getSession()->getUser();
 
-        $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
+        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
 
         $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
 
@@ -159,7 +161,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user) ) {
             throw new common_exception_Unauthorized();
         }
-        $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+        $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
         /** @var DeliveryExecution $deliveryExecution */
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
 
@@ -222,7 +224,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         /**
          * Use particular delivery container
          */
-        $container = $this->service->getDeliveryContainer($deliveryExecution);
+        $container = $this->getDeliveryServer()->getDeliveryContainer($deliveryExecution);
 
 	    // Require JS config
         $container->setData('client_config_url', $this->getClientConfigUrl());
@@ -277,7 +279,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function initResultServer($compiledDelivery, $executionIdentifier, $userUri)
     {
-        $this->service->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
+        $this->getDeliveryServer()->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
     
     /**
@@ -298,9 +300,9 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
 	protected function getReturnUrl()
 	{
-	    if($this->getServiceManager()->has(ReturnUrlService::SERVICE_ID)){
+	    if($this->getServiceLocator()->has(ReturnUrlService::SERVICE_ID)){
             $deliveryExecution = $this->getCurrentDeliveryExecution();
-	        return $this->getServiceManager()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
+	        return $this->getServiceLocator()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
         }
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
@@ -323,7 +325,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function getAuthorizationProvider()
     {
-        $authService = $this->getServiceManager()->get(AuthorizationService::SERVICE_ID);
+        $authService = $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID);
         return $authService->getAuthorizationProvider();
     }
 
@@ -361,9 +363,31 @@ class DeliveryServer extends \tao_actions_CommonModule
     public function logout()
     {
         common_session_SessionManager::endSession();
-        /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
-        
+
     }
+
+    /**
+     * Get the delivery server
+     *
+     * @return DeliveryServerService
+     */
+    protected function getDeliveryServer()
+    {
+        return $this->service = $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
+    }
+
+    /**
+     * Get the execution service
+     *
+     * @return ServiceProxy
+     */
+    protected function getExecutionService()
+    {
+        return ServiceProxy::singleton();
+    }
+
+
 }
