@@ -25,6 +25,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 
 
 /**
@@ -141,5 +142,15 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
         return new DeliveryExecution(
             new OntologyDeliveryExecution($identifier)
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
+    {
+        $resource = new core_kernel_classes_Resource($request->getDeliveryExecution()->getIdentifier());
+
+        return $resource->delete();
     }
 }
