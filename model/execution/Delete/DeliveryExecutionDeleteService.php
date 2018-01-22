@@ -24,7 +24,7 @@ use oat\taoDelivery\model\execution\Service;
 
 class DeliveryExecutionDeleteService extends ConfigurableService
 {
-    const SERVICE_ID = 'taoDeliveryRdf/DeliveryExecutionDelete';
+    const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
 
     const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
 
