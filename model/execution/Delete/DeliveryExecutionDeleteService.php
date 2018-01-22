@@ -19,6 +19,7 @@
  */
 namespace oat\taoDelivery\model\execution\Delete;
 
+use common_report_Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\Service;
 
@@ -27,6 +28,9 @@ class DeliveryExecutionDeleteService extends ConfigurableService
     const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
 
     const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
+
+    /** @var common_report_Report  */
+    private $report;
 
     /**
      * DeliveryExecutionDeleteService constructor.
@@ -40,32 +44,72 @@ class DeliveryExecutionDeleteService extends ConfigurableService
         if (!$this->hasOption(static::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES)) {
             throw new \common_exception_Error('Invalid Option provided: ' . static::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES);
         }
+
+        $this->report = common_report_Report::createInfo('Deleting Delivery Execution');
     }
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
+     * @return bool
      * @throws \Exception
      */
     public function execute(DeliveryExecutionDeleteRequest $request)
     {
-        $this->deleteDeliveryExecutionData($request);
+        $shouldDelete = $this->deleteDeliveryExecutionData($request);
 
-        /** @var Service $executionService */
-        $executionService = $this->getServiceLocator()->get('taoDelivery/execution_service');
-        // at the end delete the delivery execution itself.
-        $executionService->deleteDeliveryExecutionData($request);
+        if ($shouldDelete) {
+            /** @var Service $executionService */
+            $executionService = $this->getServiceLocator()->get('taoDelivery/execution_service');
+            // at the end delete the delivery execution itself.
+            $deleted = $executionService->deleteDeliveryExecutionData($request);
+
+            if ($deleted){
+                $this->report->add(common_report_Report::createSuccess('Delivery Execution has been deleted.', $request->getDeliveryExecution()->getIdentifier()));
+            } else {
+                $this->report->add(common_report_Report::createFailure('Delivery Execution has NOT been deleted.', $request->getDeliveryExecution()->getIdentifier()));
+            }
+
+            return $deleted;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return common_report_Report
+     */
+    public function getReport()
+    {
+        return $this->report;
     }
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
+     * @return bool
      * @throws \Exception
      */
     protected function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
     {
         $services = $this->getDeliveryExecutionDeleteService();
+
         foreach ($services as $service) {
-            $service->deleteDeliveryExecutionData($request);
+            try{
+                $service->deleteDeliveryExecutionData($request);
+                $this->report->add(common_report_Report::createSuccess(
+                    'Delivery Execution related to service: '. get_class($service) .' has been deleted.',
+                    $request->getDeliveryExecution()->getIdentifier())
+                );
+
+            } catch (\Exception $exception) {
+                $this->report->add(common_report_Report::createFailure(
+                    'Delivery Execution related to service: '. get_class($service) .' has not been deleted. DE id: '. $request->getDeliveryExecution()->getIdentifier())
+                    . $exception->getMessage()
+                );
+                throw  $exception;
+            }
         }
+
+        return true;
     }
 
     /**
