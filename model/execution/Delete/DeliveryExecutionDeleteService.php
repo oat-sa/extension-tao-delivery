@@ -96,16 +96,14 @@ class DeliveryExecutionDeleteService extends ConfigurableService
             $deleted = $service->deleteDeliveryExecutionData($request);
             if ($deleted) {
                 $this->report->add(common_report_Report::createSuccess(
-                    'Delivery Execution related to service: '. get_class($service) .' has been deleted.',
+                    'Delete execution Service: '. get_class($service) .' data has been deleted.',
                     $request->getDeliveryExecution()->getIdentifier())
                 );
             } else {
                 $this->report->add(common_report_Report::createFailure(
-                    'Delivery Execution related to service: '. get_class($service) .' has nothing to deleted. 
-                     DE id: '. $request->getDeliveryExecution()->getIdentifier())
-                );
+                    'Delete execution Service: '. get_class($service) .' data has nothing to delete'
+                ));
             }
-
         }
 
         return true;
