@@ -28,6 +28,7 @@ use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
+use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 
 /**
  * Service to manage the execution of deliveries
@@ -215,6 +216,14 @@ class KeyValueService extends ConfigurableService implements Service
         $dataString = $this->getPersistence()->get($deliveryExecutionId);
         $data = json_decode($dataString, true);
         return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
+    {
+        return $this->getPersistence()->del($request->getDeliveryExecution()->getIdentifier());
     }
 
     /**
