@@ -31,6 +31,7 @@ use core_kernel_users_GenerisUser;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
+use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use tao_models_classes_Service;
 
 /**
@@ -176,5 +177,13 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      */
     public function implementsMonitoring() {
         return $this->getImplementation() instanceof Monitoring;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
+    {
+        return $this->getImplementation()->deleteDeliveryExecutionData($request);
     }
 }

@@ -21,6 +21,7 @@ namespace oat\taoDelivery\model\execution;
 
 use core_kernel_classes_Resource;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDelete;
 
 /**
  * Service to manage the execution of deliveries
@@ -29,7 +30,7 @@ use oat\oatbox\user\User;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-interface Service
+interface Service extends DeliveryExecutionDelete
 {
     /**
      * Returns the executions the user has of a specified assembly
