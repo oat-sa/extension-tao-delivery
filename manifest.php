@@ -32,11 +32,11 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '9.0.1',
+    'version' => '9.1.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'tao' => '>=15.2.0',
-    	'generis' => '>=5.9.0',
+        'tao' => '>=16.0.0',
+    	'generis' => '>=7.0.0',
         'taoResultServer' => '>=5.0.0'
     ),
     'install' => array(
