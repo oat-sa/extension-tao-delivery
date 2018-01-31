@@ -41,7 +41,6 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
-use oat\taoDelivery\models\classes\theme\DeliveryThemeDetailsProvider;
 
 /**
  * DeliveryServer Controller
@@ -197,9 +196,9 @@ class DeliveryServer extends \tao_actions_CommonModule
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
 
         // Sets the deliveryId to session.
-        if (!$this->hasSessionAttribute(DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
+        if (!$this->hasSessionAttribute(DeliveryExecution::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
             $this->setSessionAttribute(
-                DeliveryThemeDetailsProvider::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
+                DeliveryExecution::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()),
                 $deliveryExecution->getDelivery()->getUri()
             );
         }
