@@ -223,7 +223,34 @@ class KeyValueService extends ConfigurableService implements Service
      */
     public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
     {
-        return $this->getPersistence()->del($request->getDeliveryExecution()->getIdentifier());
+        $deUri = $request->getDeliveryExecution()->getIdentifier();
+        $deliveryUri = $request->getDeliveryExecution()->getDelivery()->getUri();
+        $userUri = $request->getDeliveryExecution()->getUserIdentifier();
+
+        /** @var \common_ext_ExtensionsManager $extManager */
+        $extManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        if ($extManager->isInstalled('taoProctoring')){
+            $reflect = new \ReflectionClass(\oat\taoProctoring\model\execution\DeliveryExecution::class);
+        } else {
+            $reflect = new \ReflectionClass(\oat\taoDelivery\model\execution\DeliveryExecutionInterface::class);
+        }
+
+        $constants = $reflect->getConstants();
+        $statuses = [];
+        foreach ($constants as $constantName => $constantValue){
+            if (strpos($constantName, 'STATE_') !== false) {
+                $statuses[] = $constantValue;
+            }
+        }
+
+        foreach ($statuses as $status) {
+           $this->getPersistence()->del(self::USER_EXECUTIONS_PREFIX . $userUri . $status);
+        }
+
+        $deletedDe = $this->getPersistence()->del($deUri);
+        $deletedUE = $this->getPersistence()->del(self::USER_DELIVERY_PREFIX . $userUri . $deliveryUri);
+
+        return $deletedDe && $deletedUE;
     }
 
     /**
