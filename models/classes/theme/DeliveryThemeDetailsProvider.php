@@ -26,6 +26,12 @@ use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\theme\ThemeDetailsProviderInterface;
 
+/**
+ * Class DeliveryThemeDetailsProvider
+ *
+ * @package oat\taoDelivery\models\classes\theme
+ * @deprecated It was moved to oat\taoDeliveryRdf\model\theme\DeliveryThemeDetailsProvider
+ */
 class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProviderInterface, PhpSerializable
 {
 

@@ -150,4 +150,16 @@ class DeliveryExecution implements DeliveryExecutionInterface
     {
         return call_user_func_array(array($this->getImplementation(), $name), $parameters);
     }
+
+    /**
+     * Returns the delivery id session key.
+     *
+     * @param $deliveryExecutionId
+     *
+     * @return string
+     */
+    public static function getDeliveryIdSessionKey($deliveryExecutionId)
+    {
+        return 'deliveryIdForDeliveryExecution:' . $deliveryExecutionId;
+    }
 }
