@@ -73,3 +73,6 @@ msgstr "Ce test a besoin d'être en mode plein écran"
 msgid "You are no longer allowed to take this test"
 msgstr "Vous n'êtes plus autorisés à passer ce test"
 
+msgid "Available from %1$s to %2$s"
+msgstr "Disponible du %1$s au %2$s"
+
