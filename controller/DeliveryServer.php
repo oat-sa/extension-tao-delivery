@@ -27,7 +27,10 @@ use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
+use oat\generis\model\GenerisRdf;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
@@ -361,7 +364,13 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     public function logout()
     {
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
+
         common_session_SessionManager::endSession();
+
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
