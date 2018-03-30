@@ -69,8 +69,10 @@ define([
                 }
             };
 
-            if(parameters && parameters.message){
-                displayPermanentMessage(parameters.message.level, parameters.message.content);
+            if (parameters && parameters.messages) {
+                _.forEach(parameters.messages, function(message) {
+                    displayPermanentMessage(message.level, message.content);
+                });
             }
 
             $('a.entry-point').on('click', function (e) {
