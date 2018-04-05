@@ -121,16 +121,8 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         $loaderRenderer = new \Renderer(Template::getTemplate('DeliveryServer/blocks/loader.tpl', 'taoDelivery'));
         $loaderRenderer->setData('client_config_url', $this->getClientConfigUrl());
-        $loaderParams = [];
-        if ($this->getRequest()->hasParameter('warning') && !empty($this->getRequest()->getParameter('warning'))) {
-            $loaderParams['message'] = [
-                'level' => 'danger',
-                'content' => $this->getRequest()->getParameter('warning'),
-                'timeout' => -1
-            ];
-        }
-        $loaderRenderer->setData('parameters', $loaderParams);
-        
+        $loaderRenderer->setData('parameters', ['messages' => $this->getViewDataFromRequest()]);
+
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery' , []));
@@ -144,6 +136,26 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
+    /**
+     * Get data from request to be passed to renderer
+     * @return array
+     */
+    protected function getViewDataFromRequest()
+    {
+        $lookupParams = ['warning', 'error'];
+        $result = [];
+        foreach ($lookupParams as $lookupParam) {
+            if ($this->getRequest()->hasParameter($lookupParam) && !empty($this->getRequest()->getParameter($lookupParam))) {
+                $result[] = [
+                    'level' => $lookupParam,
+                    'content' => $this->getRequest()->getParameter($lookupParam),
+                    'timeout' => -1
+                ];
+            }
+        }
+        return $result;
+    }
+    
     /**
      * Init a delivery execution from the current delivery.
      *
