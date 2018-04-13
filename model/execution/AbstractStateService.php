@@ -88,7 +88,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
         $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
-        $this->logInfo("DeliveryExecutionState from ".$prevState->getUri()." to ".$state." triggered");
+        $this->logDebug("DeliveryExecutionState from ".$prevState->getUri()." to ".$state." triggered");
 
         return $result;
     }
