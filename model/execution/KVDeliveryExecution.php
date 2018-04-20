@@ -80,11 +80,10 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
      */
     public function getFinishTime()
     {
-        try {
+        if ($this->hasData(OntologyDeliveryExecution::PROPERTY_TIME_END)) {
             return $this->getData(OntologyDeliveryExecution::PROPERTY_TIME_END);
-        } catch (common_exception_NotFound $missingException) {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -154,6 +153,14 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
             throw new common_exception_NotFound('Information ' . $dataKey . ' not found for entry ' . $this->id);
         }
         return $this->data[$dataKey];
+    }
+
+    private function hasData($dataKey)
+    {
+        if (is_null($this->data)) {
+            $this->data = $this->service->getData($this->id);
+        }
+        return isset($this->data[$dataKey]);
     }
 
     private function setData($dataKey, $value)
