@@ -44,7 +44,6 @@ return array(
             __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
             \oat\taoDelivery\scripts\install\installDeliveryFields::class,
-            \oat\taoDelivery\scripts\install\RegisterEvents::class,
             RegisterServiceContainer::class
         )
     ),
