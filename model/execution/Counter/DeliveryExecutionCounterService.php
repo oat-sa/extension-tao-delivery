@@ -55,14 +55,15 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
         $toStatusKey = $this->getStatusKey($event->getState());
         $persistence = $this->getPersistence();
 
-        if ($this->count($event->getPreviousState()) > 0) {
+        if ($persistence->exists($fromStatusKey) && $persistence->get($fromStatusKey) > 0) {
             $persistence->decr($fromStatusKey);
         }
 
-        if ($persistence->get($toStatusKey) === false) {
-            $persistence->set($toStatusKey, 0);
+        if (!$persistence->exists($toStatusKey)) {
+            $persistence->set($toStatusKey, 1);
+        } else {
+            $persistence->incr($toStatusKey);
         }
-        $persistence->incr($toStatusKey);
     }
 
     /**
