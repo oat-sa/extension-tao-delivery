@@ -42,7 +42,7 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
     public function count($statusUri)
     {
         $persistence = $this->getPersistence();
-        $key = self::KEY_PREFIX . $statusUri;
+        $key = $this->getStatusKey($statusUri);
         return intval($persistence->get($key));
     }
 
@@ -51,8 +51,8 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
      */
     public function executionStateChanged(DeliveryExecutionState $event)
     {
-        $fromStatusKey = self::KEY_PREFIX . $event->getPreviousState();
-        $toStatusKey = self::KEY_PREFIX . $event->getState();
+        $fromStatusKey = $this->getStatusKey($event->getPreviousState());
+        $toStatusKey = $this->getStatusKey($event->getState());
         $persistence = $this->getPersistence();
 
         if ($this->count($event->getPreviousState()) > 0) {
@@ -72,5 +72,14 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
     {
         return $this->getServiceLocator()
             ->get(\common_persistence_Manager::class)->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
+    }
+
+    /**
+     * @param string $statusUri
+     * @return string
+     */
+    private function getStatusKey($statusUri)
+    {
+        return self::KEY_PREFIX . $statusUri;
     }
 }
