@@ -46,6 +46,9 @@ use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\LegacyRuntime;
 use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
 use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
+use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterService;
+use oat\oatbox\event\EventManager;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
 
 /**
  *
@@ -346,5 +349,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.1.0', '9.6.2');
+
+        if ($this->isVersion('9.6.2')) {
+            $this->getServiceManager()->register(
+                DeliveryExecutionCounterService::SERVICE_ID,
+                new DeliveryExecutionCounterService([
+                    DeliveryExecutionCounterService::OPTION_PERSISTENCE => 'cache',
+                ]
+            ));
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(DeliveryExecutionState::class, [DeliveryExecutionCounterService::SERVICE_ID, 'executionStateChanged']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('9.7.0');
+        }
     }
 }
