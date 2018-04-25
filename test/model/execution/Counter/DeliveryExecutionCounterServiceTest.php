@@ -36,7 +36,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
 
     public function testCount()
     {
-        $serviceManager = $this->getServiceManager();
+        $serviceManager = $this->buildServiceManager();
         $service = $serviceManager->get(DeliveryExecutionCounterService::SERVICE_ID);
 
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
@@ -103,7 +103,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
      * @return ServiceManager
      * @throws \common_Exception
      */
-    private function getServiceManager()
+    private function buildServiceManager()
     {
         $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
         $serviceManager = new ServiceManager($config);
