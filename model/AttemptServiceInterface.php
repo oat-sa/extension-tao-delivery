@@ -20,9 +20,8 @@
 
 namespace oat\taoDelivery\model;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
-use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * Service to count the attempts to pass the test.
@@ -31,15 +30,16 @@ use oat\taoDelivery\model\execution\ServiceProxy;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package taoDelivery
  */
-class AttemptService extends ConfigurableService implements AttemptServiceInterface
+interface AttemptServiceInterface
 {
+    const SERVICE_ID = 'taoDelivery/AttemptService';
 
     /**
-     * @inheritdoc
+     * Get array of delivery finished delivery executions which should be considered as an attempt.
+     *
+     * @param string $delivery delivery identifier
+     * @param User $user
+     * @return DeliveryExecutionInterface[]
      */
-    public function getAttempts($delivery, User $user)
-    {
-        return $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID)
-            ->getUserExecutions(new \core_kernel_classes_Resource($delivery), $user->getIdentifier());
-    }
+    public function getAttempts($delivery, User $user);
 }
