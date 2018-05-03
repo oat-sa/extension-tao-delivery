@@ -75,8 +75,13 @@ class AttemptService extends ConfigurableService implements AttemptServiceInterf
     protected function filterStates(array $executions = [])
     {
         $statesToExclude = $this->getStatesToExclude();
-        return array_filter($executions, function ($execution) use ($statesToExclude) {
-            return !in_array($execution->getState()->getUri(), $statesToExclude);
-        });
+        if (!empty($statesToExclude)) {
+            $result = array_filter($executions, function ($execution) use ($statesToExclude) {
+                return !in_array($execution->getState()->getUri(), $statesToExclude);
+            });
+        } else {
+            $result = $executions;
+        }
+        return $result;
     }
 }
