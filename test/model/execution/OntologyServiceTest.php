@@ -36,10 +36,11 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
     public function testSetState()
     {
         $service = new OntologyService();
+        $service->setServiceLocator($this->getServiceManagerProphecy());
         $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
         
         $assembly = new \core_kernel_classes_Resource('fake');
-        $deliveryExecution = $service->initDeliveryExecution($assembly, 'fakeUser');
+        $deliveryExecution = $service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
         
         $this->assertInstanceOf(DeliveryExecution::class, $deliveryExecution);
         
