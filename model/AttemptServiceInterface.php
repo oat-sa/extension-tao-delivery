@@ -37,9 +37,9 @@ interface AttemptServiceInterface
     /**
      * Get array of delivery finished delivery executions which should be considered as an attempt.
      *
-     * @param string $delivery delivery identifier
+     * @param string $deliveryId delivery identifier
      * @param User $user
      * @return DeliveryExecutionInterface[]
      */
-    public function getAttempts($delivery, User $user);
+    public function getAttempts($deliveryId, User $user);
 }

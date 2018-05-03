@@ -37,9 +37,9 @@ class AttemptService extends ConfigurableService implements AttemptServiceInterf
     /**
      * @inheritdoc
      */
-    public function getAttempts($delivery, User $user)
+    public function getAttempts($deliveryId, User $user)
     {
         return $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID)
-            ->getUserExecutions(new \core_kernel_classes_Resource($delivery), $user->getIdentifier());
+            ->getUserExecutions(new \core_kernel_classes_Resource($deliveryId), $user->getIdentifier());
     }
 }
