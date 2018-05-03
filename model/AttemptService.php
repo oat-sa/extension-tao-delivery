@@ -53,7 +53,6 @@ class AttemptService extends ConfigurableService implements AttemptServiceInterf
     public function setStatesToExclude(array $deliveryExecutionsStates)
     {
         $this->setOption(self::OPTION_STATES_TO_EXCLUDE, $deliveryExecutionsStates);
-        $this->getServiceManager()->register(self::SERVICE_ID, $this);
     }
 
     /**
