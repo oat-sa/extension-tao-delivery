@@ -48,6 +48,27 @@ class AttemptService extends ConfigurableService implements AttemptServiceInterf
     }
 
     /**
+     * @inheritdoc
+     */
+    public function setStatesToExclude(array $deliveryExecutionsStates)
+    {
+        $this->setOption(self::OPTION_STATES_TO_EXCLUDE, $deliveryExecutionsStates);
+        $this->getServiceManager()->register(self::SERVICE_ID, $this);
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getStatesToExclude()
+    {
+        $statesToExclude = $this->getOption(self::OPTION_STATES_TO_EXCLUDE);
+        if (!is_array($statesToExclude)) {
+            $statesToExclude = [];
+        }
+        return $statesToExclude;
+    }
+
+    /**
      * @param DeliveryExecutionInterface[] $executions
      * @return DeliveryExecutionInterface[]
      */
@@ -57,17 +78,5 @@ class AttemptService extends ConfigurableService implements AttemptServiceInterf
         return array_filter($executions, function ($execution) use ($statesToExclude) {
             return !in_array($execution->getState()->getUri(), $statesToExclude);
         });
-    }
-
-    /**
-     * @return array|mixed
-     */
-    protected function getStatesToExclude()
-    {
-        $statesToExclude = $this->getOption(self::OPTION_STATES_TO_EXCLUDE);
-        if (!is_array($statesToExclude)) {
-            $statesToExclude = [];
-        }
-        return $statesToExclude;
     }
 }
