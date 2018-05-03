@@ -21,7 +21,6 @@
 namespace oat\taoDelivery\model\execution;
 
 use core_kernel_classes_Resource;
-use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
@@ -71,7 +70,7 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
     public function getLabel()
     {
         /** @var DeliveryFieldsService $deliveryFieldsService */
-        $deliveryFieldsService = $this->getServiceManager()->get(DeliveryFieldsService::SERVICE_ID);
+        $deliveryFieldsService = $this->getServiceLocator()->get(DeliveryFieldsService::SERVICE_ID);
         $label = $deliveryFieldsService->getLabel(
             $this->getImplementation()->getDelivery(),
             $this->getImplementation()->getLabel()
