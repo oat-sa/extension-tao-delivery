@@ -23,6 +23,7 @@ namespace oat\taoDelivery\model;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * Service to count the attempts to pass the test.
@@ -34,12 +35,39 @@ use oat\taoDelivery\model\execution\ServiceProxy;
 class AttemptService extends ConfigurableService implements AttemptServiceInterface
 {
 
+    const OPTION_STATES_TO_EXCLUDE = 'states_to_exclude';
+
     /**
      * @inheritdoc
      */
     public function getAttempts($deliveryId, User $user)
     {
-        return $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID)
+        $executions = $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID)
             ->getUserExecutions(new \core_kernel_classes_Resource($deliveryId), $user->getIdentifier());
+        return $this->filterStates($executions);
+    }
+
+    /**
+     * @param DeliveryExecutionInterface[] $executions
+     * @return DeliveryExecutionInterface[]
+     */
+    protected function filterStates(array $executions = [])
+    {
+        $statesToExclude = $this->getStatesToExclude();
+        return array_filter($executions, function ($execution) use ($statesToExclude) {
+            return !in_array($execution->getState()->getUri(), $statesToExclude);
+        });
+    }
+
+    /**
+     * @return array|mixed
+     */
+    protected function getStatesToExclude()
+    {
+        $statesToExclude = $this->getOption(self::OPTION_STATES_TO_EXCLUDE);
+        if (!is_array($statesToExclude)) {
+            $statesToExclude = [];
+        }
+        return $statesToExclude;
     }
 }
