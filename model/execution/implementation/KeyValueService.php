@@ -61,7 +61,7 @@ class KeyValueService extends ConfigurableService implements Service
             $persistenceOption = $this->getOption(self::OPTION_PERSISTENCE);
             $this->persistence = (is_object($persistenceOption))
                 ? $persistenceOption
-                : common_persistence_KeyValuePersistence::getPersistence($persistenceOption);
+                : $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceOption);
         }
         return $this->persistence;
     }
@@ -109,7 +109,7 @@ class KeyValueService extends ConfigurableService implements Service
         $kvDe = new KVDeliveryExecution($this, $identifier, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
-        return new DeliveryExecutionWrapper($kvDe);
+        return $this->propagate(new DeliveryExecutionWrapper($kvDe));
     }
 
     /**
@@ -172,7 +172,7 @@ class KeyValueService extends ConfigurableService implements Service
 
         $deImplementation = new KVDeliveryExecution($this, $identifier);
 
-        return new DeliveryExecutionWrapper($deImplementation);
+        return $this->propagate(new DeliveryExecutionWrapper($deImplementation));
     }
 
     /**

@@ -28,6 +28,8 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\taoDelivery\model\AttemptService;
+use oat\taoDelivery\model\AttemptServiceInterface;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
@@ -345,6 +347,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.1.0');
         }
 
-        $this->skip('7.1.0', '9.6.2');
+        $this->skip('7.1.0', '9.7.0');
+
+        if ($this->isVersion('9.7.0')) {
+            $this->getServiceManager()->register(
+                AttemptServiceInterface::SERVICE_ID,
+                new AttemptService([])
+            );
+            $this->setVersion('9.8.0');
+        }
+
+        $this->skip('9.8.0', '9.9.0');
     }
 }
