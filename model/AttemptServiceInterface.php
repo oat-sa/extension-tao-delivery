@@ -42,4 +42,15 @@ interface AttemptServiceInterface
      * @return DeliveryExecutionInterface[]
      */
     public function getAttempts($deliveryId, User $user);
+
+    /**
+     * Set array of states to be excluded (execution in this state will not be considered as an attempt)
+     * @param array $deliveryExecutionsStates
+     */
+    public function setStatesToExclude(array $deliveryExecutionsStates);
+
+    /**
+     * Get array of states to be excluded
+     */
+    public function getStatesToExclude();
 }
