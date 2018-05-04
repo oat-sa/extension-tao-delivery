@@ -89,9 +89,7 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
         ));
         $deliveryExecutions = array();
         foreach ($instances as $resource) {
-            $deliveryExecutions[] = new DeliveryExecution(
-                new OntologyDeliveryExecution($resource->getUri())
-            );
+            $deliveryExecutions[] = $this->getDeliveryExecution($resource->getUri());
         }
         return $deliveryExecutions;
     }
@@ -139,9 +137,9 @@ class OntologyService extends ConfigurableService implements Service, Monitoring
      * @see Service::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier) {
-        return new DeliveryExecution(
+        return $this->propagate(new DeliveryExecution(
             new OntologyDeliveryExecution($identifier)
-        );
+        ));
     }
 
     /**

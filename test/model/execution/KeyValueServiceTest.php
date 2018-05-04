@@ -23,21 +23,14 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyService;
+use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
-class OntologyServiceTest extends TaoPhpUnitTestRunner
+class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        // load constants
-        \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
-    }
-    
     public function testSetState()
     {
-        $service = new OntologyService();
-        $service->setServiceLocator($this->getServiceManagerProphecy());
+        $service = $this->getKvService();
         $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
         
         $assembly = new \core_kernel_classes_Resource('fake');
@@ -61,15 +54,26 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
         
         $success = $deliveryExecution->setState('fakeState');
         $this->assertFalse($success);
-        
-        $deWrapper->delete();
     }
     
     public function testFailedStartTime()
     {
-        $execution = new OntologyDeliveryExecution('http://uri.com/fake#Execution');
+        $execution = new KVDeliveryExecution($this->getKvService(), 'http://uri.com/fake#Execution');
         $this->setExpectedException(\common_exception_NotFound::class);
         $execution->getStartTime();
         
+    }
+    
+    protected function getKvService()
+    {
+        $pmMock = $this->getKvMock('dummy');
+        $sm = $this->getServiceManagerProphecy([
+            \common_persistence_Manager::SERVICE_ID => $pmMock
+        ]);
+        $service = new \taoDelivery_models_classes_execution_KeyValueService([
+            \taoDelivery_models_classes_execution_KeyValueService::OPTION_PERSISTENCE => 'dummy'
+        ]);
+        $service->setServiceLocator($sm);
+        return $service;
     }
 }
