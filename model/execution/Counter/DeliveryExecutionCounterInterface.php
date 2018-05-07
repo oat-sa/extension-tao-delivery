@@ -20,6 +20,9 @@
 
 namespace oat\taoDelivery\model\execution\Counter;
 
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
+
 /**
  * Interface DeliveryExecutionCounterInterface
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
@@ -35,4 +38,16 @@ interface DeliveryExecutionCounterInterface
      * @return integer
      */
     public function count($statusUri);
+
+    /**
+     * @param DeliveryExecutionState $event
+     * @return mixed
+     */
+    public function executionStateChanged(DeliveryExecutionState $event);
+
+    /**
+     * @param DeliveryExecutionCreated $event
+     * @return mixed
+     */
+    public function executionCreated(DeliveryExecutionCreated $event);
 }

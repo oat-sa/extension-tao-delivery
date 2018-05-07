@@ -22,6 +22,7 @@ namespace oat\taoDelivery\model\execution\Counter;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 
 /**
  * Class DeliveryExecutionCounterService
@@ -59,6 +60,22 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
             $persistence->decr($fromStatusKey);
         }
 
+        if (!$persistence->exists($toStatusKey)) {
+            $persistence->set($toStatusKey, 1);
+        } else {
+            $persistence->incr($toStatusKey);
+        }
+    }
+
+    /**
+     * @param DeliveryExecutionCreated $event
+     * @return mixed|void
+     * @throws \common_exception_NotFound
+     */
+    public function executionCreated(DeliveryExecutionCreated $event)
+    {
+        $toStatusKey = $this->getStatusKey($event->getDeliveryExecution()->getState()->getUri());
+        $persistence = $this->getPersistence();
         if (!$persistence->exists($toStatusKey)) {
             $persistence->set($toStatusKey, 1);
         } else {
