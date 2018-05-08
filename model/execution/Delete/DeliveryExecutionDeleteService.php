@@ -22,6 +22,7 @@ namespace oat\taoDelivery\model\execution\Delete;
 use common_report_Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\Service;
+use oat\taoDelivery\model\execution\ServiceProxy;
 
 class DeliveryExecutionDeleteService extends ConfigurableService
 {
@@ -59,7 +60,7 @@ class DeliveryExecutionDeleteService extends ConfigurableService
 
         if ($shouldDelete) {
             /** @var Service $executionService */
-            $executionService = $this->getServiceLocator()->get('taoDelivery/execution_service');
+            $executionService = $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID);
             // at the end delete the delivery execution itself.
             $deleted = $executionService->deleteDeliveryExecutionData($request);
 
@@ -93,16 +94,20 @@ class DeliveryExecutionDeleteService extends ConfigurableService
         $services = $this->getDeliveryExecutionDeleteService();
 
         foreach ($services as $service) {
-            $deleted = $service->deleteDeliveryExecutionData($request);
-            if ($deleted) {
-                $this->report->add(common_report_Report::createSuccess(
-                    'Delete execution Service: '. get_class($service) .' data has been deleted.',
-                    $request->getDeliveryExecution()->getIdentifier())
-                );
-            } else {
-                $this->report->add(common_report_Report::createInfo(
-                    'Delete execution Service: '. get_class($service) .' data has nothing to delete'
-                ));
+            try {
+                $deleted = $service->deleteDeliveryExecutionData($request);
+                if ($deleted) {
+                    $this->report->add(common_report_Report::createSuccess(
+                        'Delete execution Service: '. get_class($service) .' data has been deleted.',
+                        $request->getDeliveryExecution()->getIdentifier())
+                    );
+                } else {
+                    $this->report->add(common_report_Report::createInfo(
+                        'Delete execution Service: '. get_class($service) .' data has nothing to delete'
+                    ));
+                }
+            }catch (\Exception $exception){
+                $this->report->add(common_report_Report::createFailure($exception->getMessage()));
             }
         }
 
