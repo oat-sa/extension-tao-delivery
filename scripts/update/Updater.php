@@ -39,7 +39,6 @@ use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\ServiceProxy;
-use oat\taoDelivery\models\classes\DeliveryCompleteUrlService;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\model\execution\StateService;
@@ -357,15 +356,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.8.0');
         }
 
-        $this->skip('9.8.0', '9.9.0');
+        $this->skip('9.8.0', '9.11.0');
       
-        if ($this->isVersion('9.9.0')) {
-            if(!$this->getServiceManager()->has(DeliveryCompleteUrlService::SERVICE_ID)){
-                $service = new DeliveryCompleteUrlService();
-                $this->getServiceManager()->propagate($service);
-                $this->getServiceManager()->register(DeliveryCompleteUrlService::SERVICE_ID, $service);
-            }
-            $this->setVersion('9.10.0');
-        }
     }
 }
