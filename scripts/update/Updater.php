@@ -356,12 +356,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.8.0');
         }
 
-        $this->skip('9.8.0', '9.9.0');
+        $this->skip('9.8.0', '9.11.0');
       
-        if ($this->isVersion('9.9.0')) {
-            $this->setVersion('9.10.0');
-        }
-
-        $this->skip('9.10.0', '9.11.0');
     }
 }
