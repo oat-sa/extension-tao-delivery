@@ -50,7 +50,7 @@ class DeleteDeliveryExecution extends ScriptAction
                 'prefix' => 'd',
                 'longPrefix' => 'deliveryExecution',
                 'required' => true,
-                'description' => 'A comma separated list of service IDs'
+                'description' => 'A delivery execution ID.'
             ]
         ];
     }
