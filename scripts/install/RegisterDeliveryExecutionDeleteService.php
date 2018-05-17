@@ -19,12 +19,19 @@
 
 namespace oat\taoDelivery\scripts\install;
 
-
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteService;
 use common_report_Report as Report;
 
+/**
+ * Class RegisterDeliveryExecutionDeleteService
+ *
+ * Register the DeliveryExecutionDelete service. The --services option enables the invoker
+ * to setup, as a comma-separated list, the service IDs to be configured for the service.
+ *
+ * @package oat\taoDelivery\scripts\install
+ */
 class RegisterDeliveryExecutionDeleteService extends ScriptAction
 {
     private $services;
