@@ -28,6 +28,14 @@ use common_report_Report as Report;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoQtiTest\models\TestSessionService;
 
+/**
+ * Class DeleteDeliveryExecution
+ *
+ * This script aims at providing a tool to properly delete a delivery execution
+ * by using the currently registered DeliveryExecutionDeleteService.
+ *
+ * @package oat\taoDelivery\scripts\tools
+ */
 class DeleteDeliveryExecution extends ScriptAction
 {
     public function provideDescription()
@@ -41,7 +49,8 @@ class DeleteDeliveryExecution extends ScriptAction
             'deliveryExecution' => [
                 'prefix' => 'd',
                 'longPrefix' => 'deliveryExecution',
-                'required' => true
+                'required' => true,
+                'description' => 'A comma separated list of service IDs'
             ]
         ];
     }
