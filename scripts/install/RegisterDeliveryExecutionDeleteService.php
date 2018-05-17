@@ -31,7 +31,7 @@ class RegisterDeliveryExecutionDeleteService extends ScriptAction
 
     public function provideDescription()
     {
-        return 'TAO QTI Tests - Register Delivery Execution Delete Service';
+        return 'TAO Delivery - Register Delivery Execution Delete Service';
     }
 
     public function run()
