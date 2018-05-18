@@ -204,8 +204,11 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     /**
      * Displays the execution screen
-     * 
+     *
+     * @throws \common_Exception
      * @throws common_exception_Error
+     * @throws common_exception_NotFound
+     * @throws common_exception_Unauthorized
      */
 	public function runDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
@@ -246,7 +249,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
         $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl($deliveryExecution));
-        
+
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
         
@@ -272,6 +275,9 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     /**
      * Finish the delivery execution
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_NotFound
      */
 	public function finishDeliveryExecution() {
 	    $deliveryExecution = $this->getCurrentDeliveryExecution();
@@ -316,7 +322,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	{
 	    if($this->getServiceLocator()->has(ReturnUrlService::SERVICE_ID)){
             $deliveryExecution = $this->getCurrentDeliveryExecution();
-	        return $this->getServiceLocator()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
+            return $this->getServiceLocator()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
         }
 	    return _url('index', 'DeliveryServer', 'taoDelivery');
 	}
