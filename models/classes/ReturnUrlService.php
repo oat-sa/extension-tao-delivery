@@ -34,9 +34,10 @@ class ReturnUrlService extends ConfigurableService
 
     /**
      * Get the full url to go at the end of a test
+     * @param string $deliveryExecutionUri in case we need it in the params
      * @return string the full url
      */
-    public function getReturnUrl()
+    public function getReturnUrl($deliveryExecutionUri = '')
     {
 
         $ext = ($this->hasOption(self::EXTENSION_OPTION))? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';

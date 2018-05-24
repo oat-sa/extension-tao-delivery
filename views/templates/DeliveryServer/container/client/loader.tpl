@@ -7,7 +7,7 @@ use oat\tao\helpers\Template;
     Template::js('loader/qtiTestRunner.min.js', 'taoQtiTest'),
     'taoQtiTest/controller/runner/runner',
     [
-        'exitUrl'              => get_data('deliveryCompleteUrl'),
+        'exitUrl'              => get_data('returnUrl'),
         'testDefinition'       => get_data('testDefinition'),
         'testCompilation'      => get_data('testCompilation'),
         'serviceCallId'        => get_data('serviceCallId'),
