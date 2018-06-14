@@ -224,7 +224,7 @@ class KeyValueService extends ConfigurableService implements Service
     public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
     {
         $deUri = $request->getDeliveryExecution()->getIdentifier();
-        $deliveryUri = $request->getDeliveryExecution()->getDelivery()->getUri();
+        $deliveryUri = $request->getDeliveryResource()->getUri();
         $userUri = $request->getDeliveryExecution()->getUserIdentifier();
 
         /** @var \common_ext_ExtensionsManager $extManager */
