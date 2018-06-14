@@ -55,6 +55,10 @@ class DeleteDeliveryExecution extends ScriptAction
         ];
     }
 
+    /**
+     * @return Report
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
     public function run()
     {
         // Main report.
@@ -63,44 +67,51 @@ class DeleteDeliveryExecution extends ScriptAction
             "Script ended gracefully."
         );
 
+        /** @var DeliveryExecutionDeleteService $deleteDeliveryExecutionService */
+        $deleteDeliveryExecutionService = $this->getServiceManager()->get(DeliveryExecutionDeleteService::SERVICE_ID);
+        /** @var ServiceProxy $serviceProxy */
+        $serviceProxy = $this->getServiceManager()->get(ServiceProxy::SERVICE_ID);
+
+        $deliveryExecutionIdentifier = $this->getOption('deliveryExecution');
+        $deliveryExecution           = $serviceProxy->getDeliveryExecution($deliveryExecutionIdentifier);
+        $session                     = $this->getSession($deliveryExecution);
+
         try {
-            /** @var DeliveryExecutionDeleteService $deleteDeliveryExecutionService */
-            $deleteDeliveryExecutionService = $this->getServiceManager()->get(DeliveryExecutionDeleteService::SERVICE_ID);
-            /** @var ServiceProxy $serviceProxy */
-            $serviceProxy = $this->getServiceManager()->get(ServiceProxy::SERVICE_ID);
-            /** @var TestSessionService $testSessionService */
-            $testSessionService = $this->getServiceManager()->get(TestSessionService::SERVICE_ID);
+            $deleteRequest = new DeliveryExecutionDeleteRequest(
+                $deliveryExecution->getDelivery(),
+                $deliveryExecution,
+                $session
+            );
 
-            $deliveryExecutionIdentifier = $this->getOption('deliveryExecution');
+            $deleteDeliveryExecutionService->execute($deleteRequest);
+            $report->add($deleteDeliveryExecutionService->getReport());
+        } catch (\Exception $e) {
+            $msg = "An unexpected error occurred while deleting Delivery Execution '${deliveryExecutionIdentifier}'.";
+            $msg .= "System returned: " . $e->getMessage();
 
-            if ($deliveryExecution = $serviceProxy->getDeliveryExecution($deliveryExecutionIdentifier)) {
-
-                $deleteRequest = new DeliveryExecutionDeleteRequest(
-                    $deliveryExecution->getDelivery(),
-                    $deliveryExecution,
-                    $testSessionService->getTestSession($deliveryExecution)
-                );
-
-                try {
-                    $deleteDeliveryExecutionService->execute($deleteRequest);
-                    $report->add($deleteDeliveryExecutionService->getReport());
-                } catch (\Exception $e) {
-                    $msg = "An unexpected error occurred while deleting Delivery Execution '${deliveryExecutionIdentifier}'.";
-                    $msg .= "System returned: " . $e->getMessage();
-
-                    return new Report(Report::TYPE_ERROR, $msg);
-                }
-            } else {
-
-                return new Report(Report::TYPE_ERROR, "No Delivery Execution with identifier ''.");
-            }
-
-        } catch (ServiceNotFoundException $e) {
-
-            return new Report(Report::TYPE_ERROR, "'DeliveryExecutionDeleteService' not registered.");
+            return new Report(Report::TYPE_ERROR, $msg);
         }
 
         return $report;
+    }
+
+    /**
+     * @param $deliveryExecution
+     * @return null|\qtism\runtime\tests\AssessmentTestSession
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    protected function getSession($deliveryExecution)
+    {
+        /** @var TestSessionService $testSessionService */
+        $testSessionService = $this->getServiceManager()->get(TestSessionService::SERVICE_ID);
+
+        try{
+            $session =  $testSessionService->getTestSession($deliveryExecution);
+        }catch (\Exception $exception){
+            $session = null;
+        }
+
+        return $session;
     }
 
     protected function provideUsage()
