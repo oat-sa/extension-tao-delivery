@@ -122,7 +122,7 @@ class KeyValueService extends ConfigurableService implements Service
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userId)
     {
         common_Logger::w('Call to deprecated function '.__FUNCTION__);
-        return $this->spawnDeliveryExecution($assembly->getLabel(), $assembly->getUri(), $userId,  DeliveryExecution::STATE_ACTIVE);
+        return $this->spawnDeliveryExecution($assembly->getLabel(), $assembly->getUri(), $userId,  KvDeliveryExecution::STATE_ACTIVE);
     }
 
     /**
