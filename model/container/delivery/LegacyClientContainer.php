@@ -21,7 +21,7 @@ namespace oat\taoDelivery\model\container\delivery;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\DeliveryContainerService;
-use oat\taoDelivery\helper\container\DeliveryClientContainer as ClientExecution;
+use oat\taoDelivery\model\container\execution\ExecutionClientContainer;
 /**
  * Legacy Client Container, requires to do its own data retrieval
  */
@@ -77,7 +77,7 @@ class LegacyClientContainer extends AbstractContainer
      */
     public function getExecutionContainer(DeliveryExecution $execution)
     {
-        $container = new ClientExecution($execution);
+        $container = new ExecutionClientContainer($execution);
         $containerService = $this->getServiceLocator()->get(DeliveryContainerService::SERVICE_ID);
 
         // set the test parameters

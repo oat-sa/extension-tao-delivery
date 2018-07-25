@@ -19,50 +19,8 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\oatbox\service\ServiceManager;
-use oat\taoDelivery\model\AssignmentService;
-use oat\tao\helpers\Template;
+use oat\taoDelivery\model\container\execution\DeliveryServiceContainer as RealContainer;
 
-class DeliveryServiceContainer extends AbstractContainer
+class DeliveryServiceContainer extends RealContainer
 {
-    /**
-     * @inheritDoc
-     */
-    protected $loaderTemplate = 'DeliveryServer/container/service/loader.tpl';
-
-    /**
-     * @inheritDoc
-     */
-    protected $contentTemplate = 'DeliveryServer/container/service/template.tpl';
-
-    /**
-     * The name of the extension containing the loader template
-     * @var string
-     */
-    protected $templateExtension = 'taoDelivery';
-    
-    /**
-     * @inheritDoc
-     */
-    protected function init()
-    {
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()
-     */
-    protected function getHeaderTemplate()
-    {
-        return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\helper\container\AbstractContainer::getBodyTemplate()
-     */
-    protected function getBodyTemplate()
-    {
-        return Template::getTemplate($this->contentTemplate, $this->templateExtension);        
-    }
 }
