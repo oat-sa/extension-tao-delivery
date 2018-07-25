@@ -72,8 +72,8 @@ class LegacyClientContainer extends AbstractContainer
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\model\container\delivery\DeliveryClientContainer::getExecutionContainer()
+     * {@inheritDoc}
+     * @see \oat\taoDelivery\model\container\delivery\AbstractContainer::getExecutionContainer()
      */
     public function getExecutionContainer(DeliveryExecution $execution)
     {

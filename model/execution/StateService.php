@@ -44,7 +44,7 @@ class StateService extends AbstractStateService
      */
     public function finish(DeliveryExecution $deliveryExecution)
     {
-        return $this->setState($deliveryExecution, DeliveryExecution::STATE_FINISHIED);
+        return $this->setState($deliveryExecution, DeliveryExecution::STATE_FINISHED);
     }
 
     /**
@@ -67,6 +67,16 @@ class StateService extends AbstractStateService
     }
 
     /**
+     * Terminate a delivery execution with an optional reason
+     * @param DeliveryExecution $deliveryExecution
+     * @return boolean
+     */
+     public function terminate(DeliveryExecution $deliveryExecution)
+    {
+        return $this->setState($deliveryExecution, DeliveryExecution::STATE_TERMINATED);
+    }
+
+    /**
      * Legacy function to ensure all calls to setState use
      * the correct transition instead
      *
@@ -78,7 +88,7 @@ class StateService extends AbstractStateService
     public function legacyTransition(DeliveryExecution $deliveryExecution, $state)
     {
         switch ($state) {
-            case DeliveryExecution::STATE_FINISHIED:
+            case DeliveryExecution::STATE_FINISHED:
                 $result = $this->finish($deliveryExecution);
                 break;
             case DeliveryExecution::STATE_ACTIVE:
@@ -100,7 +110,7 @@ class StateService extends AbstractStateService
     public function getDeliveriesStates()
      {
          return [
-             DeliveryExecution::STATE_FINISHIED,
+             DeliveryExecution::STATE_FINISHED,
              DeliveryExecution::STATE_ACTIVE,
              DeliveryExecution::STATE_PAUSED
          ];

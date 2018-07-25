@@ -67,6 +67,6 @@ class StateValidationTest extends TaoPhpUnitTestRunner
     {
         $this->setExpectedException(\common_exception_Unauthorized::class);
         $validator = new StateValidation();
-        $validator->verifyResumeAuthorization($this->getDeliveryExecution(DeliveryExecution::STATE_FINISHIED), $this->getUser());
+        $validator->verifyResumeAuthorization($this->getDeliveryExecution(DeliveryExecution::STATE_FINISHED), $this->getUser());
     }
 }

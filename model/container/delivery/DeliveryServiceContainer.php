@@ -19,11 +19,8 @@
 
 namespace oat\taoDelivery\model\container\delivery;
 
-use oat\oatbox\Configurable;
 use oat\taoDelivery\helper\container\DeliveryServiceContainer as ServiceExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\taoDelivery\model\container\DeliveryContainer;
-use oat\taoDelivery\model\RuntimeService;
 
 class DeliveryServiceContainer extends AbstractContainer
 {

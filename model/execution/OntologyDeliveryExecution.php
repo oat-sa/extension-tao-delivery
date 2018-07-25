@@ -139,7 +139,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
-        if ($state->getUri() == DeliveryExecutionInterface::STATE_FINISHIED) {
+        if ($state->getUri() == DeliveryExecutionInterface::STATE_FINISHED) {
             $this->setPropertyValue($this->getProperty(OntologyDeliveryExecution::PROPERTY_TIME_END), microtime());
         }
         $this->state = $state;
