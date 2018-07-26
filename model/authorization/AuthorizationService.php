@@ -19,8 +19,6 @@
  */
 namespace oat\taoDelivery\model\authorization;
 
-use oat\oatbox\user\User;
-
 /**
  * Manage the Delivery execution authorization.
  *

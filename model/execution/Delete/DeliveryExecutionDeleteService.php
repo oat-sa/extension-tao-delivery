@@ -21,7 +21,6 @@ namespace oat\taoDelivery\model\execution\Delete;
 
 use common_report_Report;
 use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\ServiceProxy;
 
 class DeliveryExecutionDeleteService extends ConfigurableService

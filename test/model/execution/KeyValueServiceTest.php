@@ -21,8 +21,6 @@ namespace oat\taoDelivery\test;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
-use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
