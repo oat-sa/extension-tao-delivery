@@ -19,11 +19,11 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\taoDelivery\model\container\execution\DeliveryClientContainer as RealContainer;
+use oat\taoDelivery\model\container\execution\ExecutionClientContainer;
 
 /**
  * @deprecated
  */
-class DeliveryClientContainer extends RealContainer
+class DeliveryClientContainer extends ExecutionClientContainer
 {
 }

@@ -19,8 +19,8 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\taoDelivery\model\container\execution\DeliveryServiceContainer as RealContainer;
+use oat\taoDelivery\model\container\execution\ExecutionServiceContainer;
 
-class DeliveryServiceContainer extends RealContainer
+class DeliveryServiceContainer extends ExecutionServiceContainer
 {
 }
