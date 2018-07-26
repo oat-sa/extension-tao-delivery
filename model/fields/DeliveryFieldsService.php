@@ -22,7 +22,6 @@ namespace oat\taoDelivery\model\fields;
  */
 
 use oat\generis\model\OntologyAwareTrait;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\oatbox\service\ConfigurableService;
 
 /**

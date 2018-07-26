@@ -41,7 +41,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
 
         // activate
         $event = new DeliveryExecutionState(
@@ -52,7 +52,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
         $service->executionStateChanged($event);
         $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
 
         // activate
         $event = new DeliveryExecutionState(
@@ -63,18 +63,18 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
         $service->executionStateChanged($event);
         $this->assertEquals(2, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
 
         // finish active
         $event = new DeliveryExecutionState(
             $this->mockDeliveryExecution(),
-            DeliveryExecutionInterface::STATE_FINISHIED,
+            DeliveryExecutionInterface::STATE_FINISHED,
             DeliveryExecutionInterface::STATE_ACTIVE
         );
         $service->executionStateChanged($event);
         $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
 
         // pause active
         $event = new DeliveryExecutionState(
@@ -85,7 +85,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
         $service->executionStateChanged($event);
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
 
         // pause active
         $event = new DeliveryExecutionState(
@@ -96,7 +96,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
         $service->executionStateChanged($event);
         $this->assertEquals(0, $service->count(DeliveryExecutionInterface::STATE_ACTIVE));
         $this->assertEquals(2, $service->count(DeliveryExecutionInterface::STATE_PAUSED));
-        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHIED));
+        $this->assertEquals(1, $service->count(DeliveryExecutionInterface::STATE_FINISHED));
     }
 
     /**

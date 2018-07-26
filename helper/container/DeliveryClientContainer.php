@@ -19,52 +19,11 @@
 
 namespace oat\taoDelivery\helper\container;
 
-use oat\tao\helpers\Template;
+use oat\taoDelivery\model\container\execution\ExecutionClientContainer;
 
 /**
- * Class DeliveryClientContainer
- * @package oat\taoDelivery\helper
+ * @deprecated
  */
-class DeliveryClientContainer extends AbstractContainer
+class DeliveryClientContainer extends ExecutionClientContainer
 {
-    /**
-     * @inheritDoc
-     */
-    protected $loaderTemplate = 'DeliveryServer/container/client/loader.tpl';
-
-    /**
-     * @inheritDoc
-     */
-    protected $contentTemplate = 'DeliveryServer/container/client/template.tpl';
-
-    /**
-     * The name of the extension containing the loader template
-     * @var string
-     */
-    protected $templateExtension = 'taoDelivery';
-
-    /**
-     * @inheritDoc
-     */
-    protected function init()
-    {
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\helper\container\AbstractContainer::getHeaderTemplate()
-     */
-    protected function getHeaderTemplate()
-    {
-        return Template::getTemplate($this->loaderTemplate, $this->templateExtension);
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\helper\container\AbstractContainer::getBodyTemplate()
-     */
-    protected function getBodyTemplate()
-    {
-        return Template::getTemplate($this->contentTemplate, $this->templateExtension);
-    }
 }

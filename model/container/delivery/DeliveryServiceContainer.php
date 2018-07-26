@@ -19,11 +19,8 @@
 
 namespace oat\taoDelivery\model\container\delivery;
 
-use oat\oatbox\Configurable;
-use oat\taoDelivery\helper\container\DeliveryServiceContainer as ServiceExecution;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\taoDelivery\model\container\DeliveryContainer;
-use oat\taoDelivery\model\RuntimeService;
+use oat\taoDelivery\model\container\execution\ExecutionServiceContainer;
 
 class DeliveryServiceContainer extends AbstractContainer
 {
@@ -36,7 +33,7 @@ class DeliveryServiceContainer extends AbstractContainer
 
     public function getExecutionContainer(DeliveryExecution $execution)
     {
-        $container = new ServiceExecution($execution);
+        $container = new ExecutionServiceContainer($execution);
         $container->setData('deliveryExecution', $execution->getIdentifier());
         $container->setData('deliveryServerConfig', []);
         $container->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi(

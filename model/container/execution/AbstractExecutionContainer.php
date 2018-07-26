@@ -16,28 +16,27 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
-/**
- * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
- */
-
-namespace oat\taoDelivery\helper\container;
+namespace oat\taoDelivery\model\container\execution;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\container\ExecutionContainer;
-
 /**
+ * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * Abstract container to simplify the development of
  * simple containers
  */
-abstract class AbstractContainer implements ExecutionContainer
+abstract class AbstractExecutionContainer implements ExecutionContainer
 {
+    /**
+     * @var array
+     */
     private $data = array();
-    
+
     /**
      * @var DeliveryExecution
      */
-    protected $deliveryExecution;
-    
+    private $deliveryExecution;
+
     /**
      * DeliveryContainer constructor.
      * @param DeliveryExecution $deliveryExecution
@@ -45,18 +44,17 @@ abstract class AbstractContainer implements ExecutionContainer
     public function __construct(DeliveryExecution $deliveryExecution)
     {
         $this->deliveryExecution = $deliveryExecution;
-        $this->init();
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\model\DeliveryContainer::setData()
+     * {@inheritDoc}
+     * @see \oat\taoDelivery\model\container\ExecutionContainer::setData()
      */
     public function setData($key, $value)
     {
         $this->data[$key] = $value;
     }
-    
+
     /**
      * @return \Renderer
      */
@@ -66,7 +64,7 @@ abstract class AbstractContainer implements ExecutionContainer
         $renderer->setMultipleData($this->data);
         return $renderer;
     }
-    
+
     /**
      * @return \Renderer
     */
@@ -79,22 +77,13 @@ abstract class AbstractContainer implements ExecutionContainer
 
     /**
      * Returns the path to the header template
-     * 
      * @return string
      */
     protected abstract function getHeaderTemplate();
-    
+
     /**
      * Returns the path to the body template
-     * 
      * @return string
      */
     protected abstract function getBodyTemplate();
-    
-    /**
-     * Delegated constructor
-     * @return void
-     */
-    abstract protected function init();
-
 }

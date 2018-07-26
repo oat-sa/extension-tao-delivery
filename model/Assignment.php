@@ -21,7 +21,6 @@
 namespace oat\taoDelivery\model;
 
 use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\user\User;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\oatbox\service\ServiceManager;
 
