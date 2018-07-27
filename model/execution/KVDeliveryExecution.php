@@ -20,6 +20,7 @@
  */
 namespace oat\taoDelivery\model\execution;
 
+use JsonSerializable;
 use common_exception_Error;
 use common_exception_NotFound;
 use common_Logger;
@@ -138,7 +139,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
             return false;
         }
         $this->setData(OntologyDeliveryExecution::PROPERTY_STATUS, $state);
-        if ($state == DeliveryExecutionInterface::STATE_FINISHIED) {
+        if ($state == DeliveryExecutionInterface::STATE_FINISHED) {
             $this->setData(OntologyDeliveryExecution::PROPERTY_TIME_END, microtime());
         }
         return $this->service->updateDeliveryExecutionStatus($this, $oldState, $state);

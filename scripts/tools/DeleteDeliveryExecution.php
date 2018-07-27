@@ -21,7 +21,6 @@
 namespace oat\taoDelivery\scripts\tools;
 
 use oat\oatbox\extension\script\ScriptAction;
-use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteService;
 use common_report_Report as Report;

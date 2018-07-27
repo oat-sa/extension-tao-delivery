@@ -49,5 +49,13 @@ interface StateServiceInterface
 
     public function finish(DeliveryExecution $deliveryExecution);
 
+    /**
+     * Terminates a delivery execution
+     *
+     * @param DeliveryExecution $deliveryExecution
+     * @return bool
+     */
+    public function terminate(DeliveryExecution $deliveryExecution);
+
     public function getDeliveriesStates();
 }

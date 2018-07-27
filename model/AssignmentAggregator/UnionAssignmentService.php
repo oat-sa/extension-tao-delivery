@@ -24,6 +24,7 @@ namespace oat\taoDelivery\model\AssignmentAggregator;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
+use oat\taoDelivery\model\Assignment;
 
 class UnionAssignmentService extends ConfigurableService implements UnionAssignmentInterface
 {
