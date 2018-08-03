@@ -34,8 +34,10 @@ use core_kernel_classes_Resource;
  */
 class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
 {
+    const RDFS_LABEL = 'http://www.w3.org/2000/01/rdf-schema#label';
+
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution';
-    
+
     const PROPERTY_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery';
     
     const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject';
