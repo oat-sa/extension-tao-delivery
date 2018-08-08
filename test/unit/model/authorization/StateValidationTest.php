@@ -17,7 +17,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoDelivery\test\model\authorization;
+namespace oat\taoDelivery\test\unit\model\authorization;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;

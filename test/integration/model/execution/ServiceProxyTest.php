@@ -17,7 +17,9 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoDelivery\test;
+namespace oat\taoDelivery\test\integration\model\execution;
+
+require_once dirname(__FILE__) .'/../../../../../tao/includes/raw_start.php';
 
 use common_exception_NoImplementation;
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -148,10 +150,10 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testInitDeliveryExecution()
     {
         $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
-        
+
         $deProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\DeliveryExecution');
         $deliveryExecution = $deProphecy->reveal();
-        
+
         $deliveryProphecy = $this->prophesize('core_kernel_classes_Resource');
         $delivery = $deliveryProphecy->reveal();
         $userProphecy = $this->prophesize(User::class);
