@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\taoDelivery\test\Counter\DeliveryExecutionCounterServiceTest;
+namespace oat\taoDelivery\test\integration\model\execution\Counter;
 
 use oat\oatbox\service\ServiceManager;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;

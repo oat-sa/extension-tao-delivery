@@ -17,19 +17,20 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoDelivery\test;
+namespace oat\taoDelivery\test\unit;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\Service as ExecutionService;
 
 class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {
     public function testSetState()
     {
         $service = $this->getKvService();
-        $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
+        $this->assertInstanceOf(ExecutionService::class, $service);
         
         $assembly = new \core_kernel_classes_Resource('fake');
         $deWrapper = $service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');

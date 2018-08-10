@@ -17,7 +17,9 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoDelivery\test;
+namespace oat\taoDelivery\test\integration\model\execution;
+
+require_once dirname(__FILE__) .'/../../../../../tao/includes/raw_start.php';
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
