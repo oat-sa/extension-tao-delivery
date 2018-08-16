@@ -177,7 +177,14 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
         /** @var DeliveryExecution $deliveryExecution */
-        $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
+
+        $label = (string)$compiledDelivery->getOnePropertyValue(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel'));
+
+        if (!$label) {
+            $label = $compiledDelivery->getLabel();
+        }
+
+        $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $label);
 
 
         return $deliveryExecution;
