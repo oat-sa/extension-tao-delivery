@@ -40,7 +40,6 @@ use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\models\classes\ReturnUrlService;
-use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\model\RuntimeService;
@@ -269,15 +268,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('6.2.0');
         }
 
-        // Added Delivery Fields Service
         if ($this->isVersion('6.2.0')) {
-            $service = new DeliveryFieldsService([
-                DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-					TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
-                ]
-            ]);
-            $service->setServiceManager($this->getServiceManager());
-            $this->getServiceManager()->register(DeliveryFieldsService::SERVICE_ID, $service);
             $this->setVersion('6.3.0');
         }
 
@@ -356,7 +347,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.8.0');
         }
 
-        $this->skip('9.8.0', '10.0.1');
+        $this->skip('9.8.0', '10.0.2');
       
     }
 }
