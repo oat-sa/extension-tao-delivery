@@ -1,8 +1,9 @@
 <?php
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\execution\rds;
 
 use core_kernel_classes_Resource;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
  * RDS Delivery Execution model

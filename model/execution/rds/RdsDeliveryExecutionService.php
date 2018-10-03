@@ -1,12 +1,15 @@
 <?php
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\execution\rds;
 
 use common_persistence_sql_dbal_Driver;
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
+use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\Monitoring;
+use oat\taoDelivery\model\execution\Service;
 
 /**
  * RDS implementation of the Delivery Execution Service
