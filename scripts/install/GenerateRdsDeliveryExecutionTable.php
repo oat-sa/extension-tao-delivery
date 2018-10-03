@@ -22,7 +22,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
      * @param \common_persistence_SqlPersistence $persistence
      * @throws \common_ext_InstallationException
      */
-    private function generateTable(\common_persistence_SqlPersistence $persistence)
+    public function generateTable(\common_persistence_SqlPersistence $persistence)
     {
         $tableName       = RdsDeliveryExecutionService::TABLE_NAME;
         $schemaManager   = $persistence->getSchemaManager();
