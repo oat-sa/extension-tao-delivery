@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:08:45\n"
+"Project-Id-Version: TAO 3.3.0-sprint86\n"
+"PO-Revision-Date: 2018-09-26T12:04:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -14,62 +14,62 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Krijg toegang tot uitgaven als gast"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Alle rechten voorbehouden"
 
 msgid "Available"
-msgstr ""
+msgstr "Beschikbaar"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Deze notitie sluiten"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Volledig scherm tonen"
 
 msgid "Exit"
-msgstr ""
+msgstr "Afsluiten"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Gast toegang"
 
 msgid "In progress"
-msgstr ""
+msgstr "Bezig"
 
 msgid "Logout"
-msgstr ""
+msgstr "Afmelden"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Mijn toetsen"
 
 msgid "Resume"
-msgstr ""
+msgstr "Hervatten"
 
 msgid "Start"
-msgstr ""
+msgstr "Starten"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Gestart op %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Start of vervolg een toets"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - Een open en veelzijdig digitaal toets platform"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO uitgifte server"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "TAO gasttoegang"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Kandidaten"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Deze toets moet in volledig scherm modus worden afgenomen"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "U heeft niet langer toegang tot deze toets"
 
