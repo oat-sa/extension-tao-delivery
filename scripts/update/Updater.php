@@ -357,6 +357,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('9.8.0', '10.0.2');
+
+        if ($this->isVersion('10.0.2')) {
+            $deliveryServerService = $this->safeLoadService(DeliveryServerService::SERVICE_ID);
+            if (!$deliveryServerService instanceof DeliveryServerService) {
+                $oldOptions = $deliveryServerService->getOptions();
+                $deliveryServerService = new DeliveryServerService($oldOptions);
+                $this->getServiceManager()->register(DeliveryServerService::SERVICE_ID, $deliveryServerService);
+            }
+            $this->setVersion('10.0.3');
+        }
       
+        $this->skip('10.0.3', '10.0.4');
     }
 }
