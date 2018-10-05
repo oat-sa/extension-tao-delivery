@@ -106,6 +106,8 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
 
     private function createColumns(Table $table)
     {
+        $indexPrefix = "idx_";
+
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, "string", ["length" => 255, "notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_DELIVERY_ID, "string", ["length" => 255, "notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_USER_ID, "string", ["length" => 255, "notnull" => true]);
@@ -114,5 +116,17 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, "string", ["length" => 255, "notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, "string", ["length" => 255, "notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);
+
+        $table->addIndex([
+            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
+        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID);
+        $table->addIndex([
+            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
+            RdsDeliveryExecutionService::COLUMN_USER_ID,
+        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . "_" . RdsDeliveryExecutionService::COLUMN_USER_ID);
+        $table->addIndex([
+            RdsDeliveryExecutionService::COLUMN_USER_ID,
+            RdsDeliveryExecutionService::COLUMN_STATUS,
+        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_USER_ID . "_" . RdsDeliveryExecutionService::COLUMN_STATUS);
     }
 }
