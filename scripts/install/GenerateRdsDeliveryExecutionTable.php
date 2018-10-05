@@ -28,8 +28,46 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         $schemaManager   = $persistence->getSchemaManager();
         $updatedSchema   = $schemaManager->createSchema();
         $currentSchema   = clone $updatedSchema;
-        $isTableExist    = $this->isTableExist($schemaManager, $tableName);
-        $areColumnsExist = $this->areColumnsExist($schemaManager, $tableName, [
+        $isTableExist    = $this->isTableExist($schemaManager);
+        $areColumnsExist = $this->areColumnsExist($schemaManager);
+
+        if ($isTableExist && !$areColumnsExist) {
+            throw new \common_ext_InstallationException(
+                sprintf("'%s' table is already exist, but with the wrong Schema", $tableName)
+            );
+        }
+
+        if (!$isTableExist) {
+            $this->createTable($updatedSchema);
+        }
+
+        $queries = $persistence->getPlatForm()->getMigrateSchemaSql($currentSchema, $updatedSchema);
+
+        foreach ($queries as $query) {
+            $persistence->exec($query);
+        }
+    }
+
+    /**
+     * Returns that the delivery_executions table is already exist in the database or not
+     *
+     * @param \common_persistence_sql_SchemaManager $schemaManager
+     * @return bool
+     */
+    private function isTableExist(\common_persistence_sql_SchemaManager $schemaManager)
+    {
+        return in_array(RdsDeliveryExecutionService::TABLE_NAME, $schemaManager->getTables());
+    }
+
+    /**
+     * Returns that the delivery_executions table columns are already exist in the table or not
+     *
+     * @param \common_persistence_sql_SchemaManager $schemaManager
+     * @return bool
+     */
+    private function areColumnsExist(\common_persistence_sql_SchemaManager $schemaManager)
+    {
+        $columnNames = [
             RdsDeliveryExecutionService::COLUMN_ID,
             RdsDeliveryExecutionService::COLUMN_USER_ID,
             RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
@@ -37,54 +75,11 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
             RdsDeliveryExecutionService::COLUMN_STATUS,
             RdsDeliveryExecutionService::COLUMN_STARTED_AT,
             RdsDeliveryExecutionService::COLUMN_FINISHED_AT,
-        ]);
+        ];
 
-        if ($isTableExist) {
-            if ($areColumnsExist) {
-                \common_Logger::i(sprintf("'%s' table is already exist with the correct Schema. Skipping...", $tableName));
-            } else {
-                throw new \common_ext_InstallationException(
-                    sprintf("'%s' table is already exist, but with the wrong Schema", $tableName)
-                );
-            }
-        } else {
-            \common_Logger::i(sprintf("'%s' table is not exists. Creating...", $tableName));
-
-            $this->createTable($updatedSchema);
-
-            $queries = $persistence->getPlatForm()->getMigrateSchemaSql($currentSchema, $updatedSchema);
-
-            foreach ($queries as $query) {
-                $persistence->exec($query);
-            }
-        }
-    }
-
-    /**
-     * Returns that the given table is already exist in the database or not
-     *
-     * @param \common_persistence_sql_SchemaManager $schemaManager
-     * @param $tableName
-     * @return bool
-     */
-    private function isTableExist(\common_persistence_sql_SchemaManager $schemaManager, $tableName)
-    {
-        return in_array($tableName, $schemaManager->getTables());
-    }
-
-    /**
-     * Returns that the given columns are already exist in the table or not
-     *
-     * @param \common_persistence_sql_SchemaManager $schemaManager
-     * @param $tableName
-     * @param $columnNames
-     * @return bool
-     */
-    private function areColumnsExist(\common_persistence_sql_SchemaManager $schemaManager, $tableName, $columnNames)
-    {
         $tableColumns = array_map(function(Column $column) {
             return $column->getName();
-        }, $schemaManager->getColumnNames($tableName));
+        }, $schemaManager->getColumnNames(RdsDeliveryExecutionService::TABLE_NAME));
 
         return array_reduce($columnNames, function($areColumnsExist, $column) use ($tableColumns) {
             $areColumnsExist = $areColumnsExist && in_array($column, $tableColumns);

@@ -2,7 +2,6 @@
 
 namespace oat\taoDelivery\model\execution\rds;
 
-use common_persistence_sql_dbal_Driver;
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
