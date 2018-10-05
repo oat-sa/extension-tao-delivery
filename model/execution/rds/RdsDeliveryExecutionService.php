@@ -114,7 +114,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Service
      */
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
     {
-        $deliveryExecutionId = self::ID_PREFIX . \common_Utils::getNewUri();
+         $deliveryExecutionId = self::ID_PREFIX . $this->getNewUri();
 
          $this->getPersistence()->insert(self::TABLE_NAME, [
              self::COLUMN_ID => $deliveryExecutionId,
@@ -139,8 +139,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Service
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user)
     {
-        \common_Logger::w("Deprecated function called: " . __FUNCTION__);
-
         return $this->spawnDeliveryExecution(
             $assembly->getLabel(),
             $assembly->getUri(),
@@ -173,11 +171,22 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Service
     /**
      * Returns the default SQL persistence
      *
-     * @return common_persistence_sql_dbal_Driver
+     * @return common_persistence_SqlPersistence
      */
-    private function getPersistence()
+    public function getPersistence()
     {
         return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById("default");
+    }
+
+    /**
+     * Returns a new Uri
+     * (moved to a separated function to be able to mock it during unit tests)
+     *
+     * @return string
+     */
+    protected function getNewUri()
+    {
+        return \common_Utils::getNewUri();
     }
 
     /**
