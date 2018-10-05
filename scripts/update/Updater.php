@@ -369,7 +369,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.0.3');
         }
 
-        if ($this->isVersion('10.0.3')) {
+        $this->skip('10.0.3', '10.0.4');
+
+        if ($this->isVersion('10.0.4')) {
             $rdsHelper   = new GenerateRdsDeliveryExecutionTable();
             $persistence = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById("default");
 
