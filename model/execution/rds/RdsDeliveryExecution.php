@@ -51,6 +51,14 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     /** @var string */
     private $finishTime;
 
+    /** @var RdsDeliveryExecutionService */
+    private $service;
+
+    public function __construct(RdsDeliveryExecutionService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @return string
      */
@@ -94,7 +102,7 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     /**
      * @param core_kernel_classes_Resource $delivery
      */
-    public function setDelivery($delivery)
+    public function setDelivery(core_kernel_classes_Resource $delivery)
     {
         $this->delivery = $delivery;
     }
@@ -109,10 +117,20 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
 
     /**
      * @param core_kernel_classes_Resource $state
+     * @return bool
      */
     public function setState($state)
     {
+        $isUpdated = true;
+
+        // Avoid any update in database when mapping the value
+        if ($this->state !== null) {
+            $isUpdated = $this->service->updateDeliveryExecutionState($this->identifier, $this->state, $state);
+        }
+
         $this->state = $state;
+
+        return $isUpdated;
     }
 
     /**

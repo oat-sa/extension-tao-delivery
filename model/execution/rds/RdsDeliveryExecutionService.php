@@ -20,20 +20,20 @@
  */
 namespace oat\taoDelivery\model\execution\rds;
 
+use common_persistence_SqlPersistence;
 use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\Monitoring;
-use oat\taoDelivery\model\execution\Service;
 
 /**
  * RDS implementation of the Delivery Execution Service
  *
  * @author Péter Halász <peter@taotesting.com>
  */
-class RdsDeliveryExecutionService extends ConfigurableService implements Service, Monitoring
+class RdsDeliveryExecutionService extends ConfigurableService implements Monitoring
 {
     const ID_PREFIX          = "rds_de_";
     const TABLE_NAME         = "delivery_executions";
@@ -186,6 +186,41 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Service
     }
 
     /**
+     * Updates the state of the given delivery execution
+     *
+     * @param string $identifier                         the ID of the delivery execution
+     * @param core_kernel_classes_Resource $fromState    the original state
+     * @param string $toState                            the desired state
+     * @return bool                                      true if the update went well, false otherwise
+     */
+    public function updateDeliveryExecutionState($identifier, $fromState, $toState)
+    {
+        try {
+            $result = 0;
+
+            if ($fromState->getUri() === $toState) {
+                $sql    = "UPDATE " . self::TABLE_NAME . " SET " . self::COLUMN_STATUS . " = ? WHERE " . self::COLUMN_ID . " = ?";
+                $result = $this->getPersistence()->exec($sql, [
+                    $toState,
+                    $identifier,
+                ]);
+            } else {
+                $sql    = "UPDATE " . self::TABLE_NAME . " SET " . self::COLUMN_STATUS . " = ?, " . self::COLUMN_FINISHED_AT . " = ? WHERE " . self::COLUMN_ID . " = ?";
+                $result = $this->getPersistence()->exec($sql, [
+                    $toState,
+                    microtime(true),
+                    $identifier,
+                ]);
+            }
+
+            return $result === 1;
+        } catch (\Exception $e) {
+            return false;
+        }
+
+    }
+
+    /**
      * Returns the default SQL persistence
      *
      * @return common_persistence_SqlPersistence
@@ -215,7 +250,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Service
      */
     private function parseQueryResult($result = [])
     {
-        $rdsDeliveryExecution = new RdsDeliveryExecution();
+        $rdsDeliveryExecution = new RdsDeliveryExecution($this);
 
         if (array_key_exists(self::COLUMN_ID, $result)) {
             $rdsDeliveryExecution->setIdentifier($result[self::COLUMN_ID]);
