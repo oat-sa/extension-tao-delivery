@@ -16,16 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 namespace oat\taoDelivery\model\execution\rds;
 
+use common_persistence_sql_pdo_mysql_Driver;
 use common_persistence_SqlPersistence;
 use core_kernel_classes_Resource;
+use Doctrine\DBAL\Query\QueryBuilder;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\Monitoring;
 
 /**
@@ -44,6 +46,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     const COLUMN_FINISHED_AT = "finished_at";
     const COLUMN_STARTED_AT  = "started_at";
     const COLUMN_LABEL       = "label";
+    const DATETIME_FORMAT    = "Y-m-d H:i:s";
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
@@ -52,10 +55,13 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function deleteDeliveryExecutionData(DeliveryExecutionDeleteRequest $request)
     {
-        $sql    = "DELETE FROM " . self::TABLE_NAME . " WHERE " . self::COLUMN_ID . " = ?";
-        $result = $this->getPersistence()->exec($sql, [
-            $request->getDeliveryExecution()->getIdentifier(),
-        ]);
+        $query = $this->getQueryBuilder()
+            ->delete(self::TABLE_NAME)
+            ->where(self::COLUMN_ID . " = :id")
+            ->setParameter("id", $request->getDeliveryExecution()->getIdentifier())
+        ;
+
+        $result = $query->execute();
 
         return $result;
     }
@@ -68,14 +74,16 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
-        $sql    = "SELECT * FROM " . self::TABLE_NAME . " WHERE " . self::COLUMN_DELIVERY_ID . " =  ?";
-        $result = $this->getPersistence()->query($sql, [
-            $compiled->getUri(),
-        ])->fetchAll();
+        $query = $this->getQueryBuilder()
+            ->select("*")
+            ->from(self::TABLE_NAME)
+            ->where(self::COLUMN_DELIVERY_ID . " = :deliveryId")
+            ->setParameter("deliveryId", $compiled->getUri())
+        ;
 
         $result = array_map(function($row) {
             return $this->parseQueryResult($row);
-        }, $result);
+        }, $query->execute()->fetchAll());
 
         return $result;
     }
@@ -89,15 +97,18 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri)
     {
-        $sql    = "SELECT * FROM " . self::TABLE_NAME . " WHERE " . self::COLUMN_DELIVERY_ID . " =  ? AND " . self::COLUMN_USER_ID . " = ?";
-        $result = $this->getPersistence()->query($sql, [
-            $assembly->getUri(),
-            $userUri,
-        ])->fetchAll();
+        $query = $this->getQueryBuilder()
+            ->select("*")
+            ->from(self::TABLE_NAME)
+            ->where(self::COLUMN_DELIVERY_ID . " = :deliveryId")
+            ->andWhere(self::COLUMN_USER_ID . " = :userId")
+            ->setParameter("deliveryId", $assembly->getUri())
+            ->setParameter("userId", $userUri)
+        ;
 
         $result = array_map(function($row) {
             return $this->parseQueryResult($row);
-        }, $result);
+        }, $query->execute()->fetchAll());
 
         return $result;
     }
@@ -111,12 +122,18 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function getDeliveryExecutionsByStatus($userUri, $status)
     {
-        $sql    = "SELECT * FROM " . self::TABLE_NAME . " WHERE " . self::COLUMN_USER_ID . " =  ? AND " . self::COLUMN_STATUS . " = ?";
-        $result = $this->getPersistence()->query($sql, [$userUri, $status])->fetchAll();
+        $query = $this->getQueryBuilder()
+            ->select("*")
+            ->from(self::TABLE_NAME)
+            ->where(self::COLUMN_USER_ID . " = :userId")
+            ->andWhere(self::COLUMN_STATUS . " = :status")
+            ->setParameter("userId", $userUri)
+            ->setParameter("status", $status)
+        ;
 
         $result = array_map(function($row) {
             return $this->parseQueryResult($row);
-        }, $result);
+        }, $query->execute()->fetchAll());
 
         return $result;
     }
@@ -131,15 +148,15 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
     {
-         $deliveryExecutionId = self::ID_PREFIX . $this->getNewUri();
+        $deliveryExecutionId = self::ID_PREFIX . $this->getNewUri();
 
-         $this->getPersistence()->insert(self::TABLE_NAME, [
-             self::COLUMN_ID => $deliveryExecutionId,
-             self::COLUMN_LABEL => $label,
-             self::COLUMN_DELIVERY_ID => $deliveryId,
-             self::COLUMN_USER_ID => $userId,
-             self::COLUMN_STATUS => $status,
-             self::COLUMN_STARTED_AT => microtime(true),
+        $this->getPersistence()->insert(self::TABLE_NAME, [
+            self::COLUMN_ID => $deliveryExecutionId,
+            self::COLUMN_LABEL => $label,
+            self::COLUMN_DELIVERY_ID => $deliveryId,
+            self::COLUMN_USER_ID => $userId,
+            self::COLUMN_STATUS => $status,
+            self::COLUMN_STARTED_AT => $this->getCurrentDateTime(),
         ]);
 
         return $this->getDeliveryExecution($deliveryExecutionId);
@@ -173,10 +190,14 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function getDeliveryExecution($identifier)
     {
-        $sql    = "SELECT * FROM " . self::TABLE_NAME . " WHERE " . self::COLUMN_ID . " = ?";
-        $result = $this->getPersistence()->query($sql, [
-            $identifier,
-        ])->fetch();
+        $query = $this->getQueryBuilder()
+            ->select("*")
+            ->from(self::TABLE_NAME)
+            ->where(self::COLUMN_ID . " = :id")
+            ->setParameter("id", $identifier)
+        ;
+
+        $result = $query->execute()->fetch();
 
         if (!$result) {
             $result = [];
@@ -186,7 +207,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     }
 
     /**
-     * Updates the state of the given delivery execution
+     * Updates the state of the given deliveryexecution
      *
      * @param string $identifier                         the ID of the delivery execution
      * @param core_kernel_classes_Resource $fromState    the original state
@@ -196,22 +217,27 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     public function updateDeliveryExecutionState($identifier, $fromState, $toState)
     {
         try {
-            $result = 0;
-
-            if ($fromState->getUri() === $toState) {
-                $sql    = "UPDATE " . self::TABLE_NAME . " SET " . self::COLUMN_STATUS . " = ? WHERE " . self::COLUMN_ID . " = ?";
-                $result = $this->getPersistence()->exec($sql, [
-                    $toState,
-                    $identifier,
-                ]);
-            } else {
-                $sql    = "UPDATE " . self::TABLE_NAME . " SET " . self::COLUMN_STATUS . " = ?, " . self::COLUMN_FINISHED_AT . " = ? WHERE " . self::COLUMN_ID . " = ?";
-                $result = $this->getPersistence()->exec($sql, [
-                    $toState,
-                    microtime(true),
-                    $identifier,
-                ]);
+            if ($fromState === $toState) {
+                // do nothing, when the state didn't change
+                return true;
             }
+
+            $query = $this->getQueryBuilder()
+                ->update(self::TABLE_NAME)
+                ->set(self::COLUMN_STATUS, ":status")
+                ->where(self::COLUMN_ID . " = :id")
+                ->setParameter("status", $toState)
+                ->setParameter("id", $identifier)
+            ;
+
+            if ($toState === DeliveryExecutionInterface::STATE_FINISHED) {
+                $query
+                    ->set(self::COLUMN_FINISHED_AT, ":finishedAt")
+                    ->setParameter("finishedAt", $this->getCurrentDateTime())
+                ;
+            }
+
+            $result = $query->execute();
 
             return $result === 1;
         } catch (\Exception $e) {
@@ -239,6 +265,17 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     protected function getNewUri()
     {
         return \common_Utils::getNewUri();
+    }
+
+    /**
+     * Returns the QueryBuilder
+     *
+     * @return QueryBuilder
+     */
+    private function getQueryBuilder()
+    {
+        /**@var common_persistence_sql_pdo_mysql_Driver $driver */
+        return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 
     /**
@@ -273,13 +310,33 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         }
 
         if (array_key_exists(self::COLUMN_STARTED_AT, $result)) {
-            $rdsDeliveryExecution->setStartTime($result[self::COLUMN_STARTED_AT]);
+            $rdsDeliveryExecution->setStartTime(\DateTime::createFromFormat(
+                self::DATETIME_FORMAT,
+                $result[self::COLUMN_STARTED_AT]
+            ));
         }
 
         if (array_key_exists(self::COLUMN_FINISHED_AT, $result)) {
-            $rdsDeliveryExecution->setFinishTime($result[self::COLUMN_FINISHED_AT]);
+            $rdsDeliveryExecution->setFinishTime(\DateTime::createFromFormat(
+                self::DATETIME_FORMAT,
+                $result[self::COLUMN_FINISHED_AT]
+            ));
         }
 
         return $this->propagate(new DeliveryExecution($rdsDeliveryExecution));
+    }
+
+    /**
+     * Returns the current DateTime in a predefined format
+     *
+     * @return string
+     */
+    private function getCurrentDateTime()
+    {
+        $dateTime = new \DateTime();
+
+        $dateTime->setTimezone(new \DateTimeZone("UTC"));
+
+        return $dateTime->format(self::DATETIME_FORMAT);
     }
 }

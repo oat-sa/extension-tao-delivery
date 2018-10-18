@@ -23,6 +23,7 @@ namespace oat\taoDelivery\scripts\install;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use oat\oatbox\extension\AbstractAction;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
@@ -110,6 +111,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
      * Creates the table in the database for the Delivery
      *
      * @param Schema $schema
+     * @return void
      */
     private function createTable(Schema $schema)
     {
@@ -120,31 +122,60 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         $table->addOption("collate", "utf8_unicode_ci");
 
         $this->createColumns($table);
+
+        /**
+         * Create index for the following methods
+         * @see RdsDeliveryExecutionService::getExecutionsByDelivery()
+         * @see RdsDeliveryExecutionService::getUserExecutions()
+         */
+        $this->createIndex($table, [
+            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
+            RdsDeliveryExecutionService::COLUMN_USER_ID,
+        ]);
+
+        /**
+         * Create index for the following methods
+         * @see RdsDeliveryExecutionService::getDeliveryExecutionsByStatus()
+         */
+        $this->createIndex($table, [
+            RdsDeliveryExecutionService::COLUMN_USER_ID,
+        ]);
     }
 
+    /**
+     * Generates columns
+     *
+     * @param Table $table
+     * @return void
+     */
     private function createColumns(Table $table)
     {
-        $indexPrefix = "idx_";
-
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_DELIVERY_ID, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_USER_ID, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_LABEL, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STATUS, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, "string", ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, "string", ["length" => 255, "notnull" => false]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_DELIVERY_ID, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_USER_ID, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_LABEL, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STATUS, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, Type::DATETIMETZ, ["notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, Type::DATETIMETZ, ["notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);
+    }
 
-        $table->addIndex([
-            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
-        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID);
-        $table->addIndex([
-            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
-            RdsDeliveryExecutionService::COLUMN_USER_ID,
-        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . "_" . RdsDeliveryExecutionService::COLUMN_USER_ID);
-        $table->addIndex([
-            RdsDeliveryExecutionService::COLUMN_USER_ID,
-            RdsDeliveryExecutionService::COLUMN_STATUS,
-        ], $indexPrefix . RdsDeliveryExecutionService::COLUMN_USER_ID . "_" . RdsDeliveryExecutionService::COLUMN_STATUS);
+    /**
+     * Generates index for the given columns
+     *
+     * @param Table $table
+     * @param array $columns
+     * @return void
+     */
+    private function createIndex(Table $table, array $columns)
+    {
+        if (count($columns) > 0) {
+            $indexPrefix = "idx_" . RdsDeliveryExecutionService::TABLE_NAME . "_";
+
+            // Index names are limited to 63 characters in PostgreSQL (64 in MySQL)
+            $indexName = substr($indexPrefix . implode("_", $columns), 0, 63);
+
+            $table->addIndex($columns, $indexName);
+        }
     }
 }

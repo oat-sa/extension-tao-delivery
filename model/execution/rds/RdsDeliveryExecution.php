@@ -45,10 +45,10 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     /** @var string */
     private $userIdentifier;
 
-    /** @var string */
+    /** @var \DateTime */
     private $startTime;
 
-    /** @var string */
+    /** @var \DateTime */
     private $finishTime;
 
     /** @var RdsDeliveryExecutionService */
@@ -150,15 +150,19 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getStartTime()
     {
-        return $this->startTime;
+        if (!empty($this->startTime)) {
+            return $this->startTime->getTimestamp();
+        } else {
+            return null;
+        }
     }
 
     /**
-     * @param string $startTime
+     * @param \DateTime $startTime
      */
     public function setStartTime($startTime)
     {
@@ -166,15 +170,19 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getFinishTime()
     {
-        return $this->finishTime;
+        if (!empty($this->finishTime)) {
+            return $this->finishTime->getTimestamp();
+        } else {
+            return null;
+        }
     }
 
     /**
-     * @param string $finishTime
+     * @param \DateTime $finishTime
      */
     public function setFinishTime($finishTime)
     {
