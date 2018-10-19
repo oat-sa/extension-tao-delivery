@@ -36,10 +36,10 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     /** @var string */
     private $label;
 
-    /** @var core_kernel_classes_Resource */
+    /** @var string */
     private $delivery;
 
-    /** @var core_kernel_classes_Resource */
+    /** @var string */
     private $state;
 
     /** @var string */
@@ -93,30 +93,32 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
 
     /**
      * @return core_kernel_classes_Resource
+     * @throws \common_exception_Error
      */
     public function getDelivery()
     {
-        return $this->delivery;
+        return new core_kernel_classes_Resource($this->delivery);
     }
 
     /**
-     * @param core_kernel_classes_Resource $delivery
+     * @param string $delivery
      */
-    public function setDelivery(core_kernel_classes_Resource $delivery)
+    public function setDelivery($delivery)
     {
         $this->delivery = $delivery;
     }
 
     /**
      * @return core_kernel_classes_Resource
+     * @throws \common_exception_Error
      */
     public function getState()
     {
-        return $this->state;
+        return new core_kernel_classes_Resource($this->state);
     }
 
     /**
-     * @param core_kernel_classes_Resource $state
+     * @param string $state
      * @return bool
      */
     public function setState($state)
@@ -125,7 +127,11 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
 
         // Avoid any update in database when mapping the value
         if ($this->state !== null) {
-            $isUpdated = $this->service->updateDeliveryExecutionState($this->identifier, $this->state, $state);
+            $isUpdated = $this->service->updateDeliveryExecutionState(
+                $this->identifier,
+                $this->state,
+                $state
+            );
         }
 
         $this->state = $state;

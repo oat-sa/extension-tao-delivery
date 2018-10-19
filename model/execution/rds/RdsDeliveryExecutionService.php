@@ -287,11 +287,11 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         }
 
         if (array_key_exists(self::COLUMN_DELIVERY_ID, $result)) {
-            $rdsDeliveryExecution->setDelivery(new core_kernel_classes_Resource($result[self::COLUMN_DELIVERY_ID]));
+            $rdsDeliveryExecution->setDelivery($result[self::COLUMN_DELIVERY_ID]);
         }
 
         if (array_key_exists(self::COLUMN_STATUS, $result)) {
-            $rdsDeliveryExecution->setState(new core_kernel_classes_Resource($result[self::COLUMN_STATUS]));
+            $rdsDeliveryExecution->setState($result[self::COLUMN_STATUS]);
         }
 
         if (array_key_exists(self::COLUMN_USER_ID, $result)) {
