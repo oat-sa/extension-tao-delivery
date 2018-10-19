@@ -155,8 +155,8 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_USER_ID, Type::STRING, ["length" => 255, "notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_LABEL, Type::STRING, ["length" => 255, "notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_STATUS, Type::STRING, ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, Type::DATETIMETZ, ["notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, Type::DATETIMETZ, ["notnull" => false]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, Type::DATETIME, ["notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, Type::DATETIME, ["notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);
     }
 
