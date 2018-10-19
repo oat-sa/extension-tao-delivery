@@ -46,7 +46,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     const COLUMN_FINISHED_AT = "finished_at";
     const COLUMN_STARTED_AT  = "started_at";
     const COLUMN_LABEL       = "label";
-    const DATETIME_FORMAT    = "Y-m-d H:i:s";
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
@@ -61,9 +60,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("id", $request->getDeliveryExecution()->getIdentifier())
         ;
 
-        $result = $query->execute();
-
-        return $result;
+        return $query->execute();
     }
 
     /**
@@ -81,11 +78,9 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("deliveryId", $compiled->getUri())
         ;
 
-        $result = array_map(function($row) {
+        return array_map(function($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
-
-        return $result;
     }
 
     /**
@@ -106,11 +101,9 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("userId", $userUri)
         ;
 
-        $result = array_map(function($row) {
+        return array_map(function($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
-
-        return $result;
     }
 
     /**
@@ -131,11 +124,9 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("status", $status)
         ;
 
-        $result = array_map(function($row) {
+        return array_map(function($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
-
-        return $result;
     }
 
     /**
@@ -237,9 +228,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
                 ;
             }
 
-            $result = $query->execute();
-
-            return $result === 1;
+            return $query->execute() === 1;
         } catch (\Exception $e) {
             return false;
         }
@@ -310,17 +299,11 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         }
 
         if (array_key_exists(self::COLUMN_STARTED_AT, $result)) {
-            $rdsDeliveryExecution->setStartTime(\DateTime::createFromFormat(
-                self::DATETIME_FORMAT,
-                $result[self::COLUMN_STARTED_AT]
-            ));
+            $rdsDeliveryExecution->setStartTime(new \DateTime($result[self::COLUMN_STARTED_AT]));
         }
 
         if (array_key_exists(self::COLUMN_FINISHED_AT, $result)) {
-            $rdsDeliveryExecution->setFinishTime(\DateTime::createFromFormat(
-                self::DATETIME_FORMAT,
-                $result[self::COLUMN_FINISHED_AT]
-            ));
+            $rdsDeliveryExecution->setFinishTime(new \DateTime($result[self::COLUMN_FINISHED_AT]));
         }
 
         return $this->propagate(new DeliveryExecution($rdsDeliveryExecution));
@@ -337,6 +320,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
         $dateTime->setTimezone(new \DateTimeZone("UTC"));
 
-        return $dateTime->format(self::DATETIME_FORMAT);
+        return $dateTime->format("Y-m-d H:i:s");
     }
 }
