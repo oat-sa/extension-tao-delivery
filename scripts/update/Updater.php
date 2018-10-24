@@ -33,6 +33,8 @@ use oat\taoDelivery\model\AttemptServiceInterface;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\model\DeliveryRendererHelperService;
+use oat\taoDelivery\model\DeliveryRendererHelperServiceInterface;
 use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
 use oat\taoDelivery\model\entrypoint\GuestAccess;
 use oat\taoDelivery\model\execution\DeliveryServerService;
@@ -369,5 +371,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
       
         $this->skip('10.0.3', '10.0.4');
+
+        if ($this->isVersion('10.0.4')) {
+            $this->getServiceManager()->register(
+                DeliveryRendererHelperServiceInterface::SERVICE_ID,
+                new DeliveryRendererHelperService()
+            );
+            $this->setVersion('10.0.5');
+        }
     }
 }

@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
 namespace oat\taoDelivery\controller;
 
 
@@ -32,10 +33,10 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
+use oat\taoDelivery\model\DeliveryRendererHelperServiceInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\Service;
@@ -60,6 +61,9 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     private $executionService;
 
+    /** @var DeliveryRendererHelperServiceInterface */
+    private $deliveryRendererHelper;
+
     /**
 	 * constructor: initialize the service and the default data
 	 * @return DeliveryServer
@@ -67,6 +71,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 	public function __construct()
 	{
 	    $this->service = ServiceManager::getServiceManager()->get(DeliveryServerService::SERVICE_ID);
+	    $this->deliveryRendererHelper = $this->getServiceManager()->get(DeliveryRendererHelperServiceInterface::SERVICE_ID);
 		$this->executionService = $this->getExecutionService();
 	}
 
@@ -96,7 +101,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 		 */
 		$resumableData = array();
 		foreach ($this->getDeliveryServer()->getResumableDeliveries($user) as $de) {
-		    $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
+		    $resumableData[] = $this->deliveryRendererHelper->buildFromDeliveryExecution($de);
 		}
 		$this->setData('resumableDeliveries', $resumableData);
 		
@@ -105,7 +110,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 		$deliveryData = array();
 		foreach ($assignmentService->getAssignments($user) as $delivery)
 		{
-		    $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
+		    $deliveryData[] = $this->deliveryRendererHelper->buildFromAssembly($delivery, $user);
 		}
 		$this->setData('availableDeliveries', $deliveryData);
                 
