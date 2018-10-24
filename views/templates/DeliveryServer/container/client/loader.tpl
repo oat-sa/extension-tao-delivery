@@ -4,7 +4,7 @@ use oat\tao\helpers\Template;
 ?>
 
 <?= Layout::getAmdLoader(
-    Template::js('loader/qtiTestRunner.min.js', 'taoQtiTest'),
+    Template::js('loader/taoQtiTestRunner.min.js', 'taoQtiTest'),
     'taoQtiTest/controller/runner/runner',
     [
         'exitUrl'              => get_data('returnUrl'),
