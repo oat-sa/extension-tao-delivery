@@ -21,8 +21,8 @@
 
 namespace oat\taoDelivery\controller;
 
-use oat\taoProctoring\model\DeliveryExecutionStateService;
-use oat\taoProctoring\model\execution\DeliveryExecutionManagerService;
+use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 
 /**
  * Manipulate with executions over REST
@@ -49,12 +49,10 @@ class RestExecution extends \tao_actions_RestController
             if ($this->hasRequestParameter('reason')) {
                 $reason = $this->getRequestParameter('reason');
             }
+            /** @var StateServiceInterface $deliveryExecutionStateService */
+            $deliveryExecutionStateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
+            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution($this->getRequestParameter('deliveryExecution'));
 
-            /** @var  DeliveryExecutionStateService $deliveryExecutionStateService */
-            $deliveryExecutionStateService = $this->getServiceLocator()->get(DeliveryExecutionStateService::SERVICE_ID);
-            $deliveryExecutionManagerService = $this->getServiceLocator()->get(DeliveryExecutionManagerService::SERVICE_ID);
-
-            $deliveryExecution = $deliveryExecutionManagerService->getDeliveryExecutionById($this->getRequestParameter('deliveryExecution'));
             if (!$deliveryExecution->exists()) {
                 throw new \common_exception_NotFound('Delivery Execution not found');
             }
