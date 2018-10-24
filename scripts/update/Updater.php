@@ -377,7 +377,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 DeliveryRendererHelperServiceInterface::SERVICE_ID,
                 new DeliveryRendererHelperService()
             );
-            $this->setVersion('10.0.5');
+
+            $this->setVersion('10.1.0');
         }
     }
 }
