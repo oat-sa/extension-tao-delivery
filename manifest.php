@@ -32,7 +32,7 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '10.0.4',
+    'version' => '11.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'tao' => '>=18.6.0',
@@ -51,6 +51,7 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
         array('grant', TaoRoles::ANONYMOUS, DeliveryServer::class.'@logout'),
+        ['grant', TaoRoles::REST_PUBLISHER, ['ext'=>'taoDelivery', 'mod'=>'RestExecution']],
     ),
     'routes' => array(
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
