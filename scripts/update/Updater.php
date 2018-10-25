@@ -28,6 +28,7 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
+use oat\taoDelivery\controller\RestExecution;
 use oat\taoDelivery\model\AttemptService;
 use oat\taoDelivery\model\AttemptServiceInterface;
 use oat\taoDelivery\model\authorization\AuthorizationService;
@@ -369,5 +370,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.0.3', '11.0.0');
+
+        if ($this->isVersion('11.0.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, RestExecution::class));
+            $this->setVersion('12.0.0');
+        }
+
     }
 }
