@@ -22,6 +22,7 @@ namespace oat\taoDelivery\test\unit\model\execution\rds;
 
 use oat\generis\test\TestCase;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
+use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
 class RdsDeliveryExecutionTest extends TestCase
 {
@@ -29,36 +30,39 @@ class RdsDeliveryExecutionTest extends TestCase
 
     protected function setUp()
     {
-        $this->classUnderTest = new RdsDeliveryExecution();
+        $serviceMock = $this->prophesize(RdsDeliveryExecutionService::class);
+        $this->classUnderTest = new RdsDeliveryExecution($serviceMock->reveal());
     }
 
     /**
      * @param string $variableName
+     * @param callable $validator
      * @dataProvider variableProvider
      */
-    public function testGetters($variableName)
+    public function testGetters($variableName, $validator)
     {
         $getterMethod = "get" . ucfirst($variableName);
 
         $this->assertTrue(method_exists($this->classUnderTest, $getterMethod));
-        $this->assertEquals(null, $this->classUnderTest->$getterMethod());
+        $this->assertTrue($validator($this->classUnderTest->$getterMethod()));
     }
 
     /**
      * @param $variableName
-     * @param $testValue
+     * @param $validator
+     * @param $value
      * @dataProvider variableProvider
      */
-    public function testSetters($variableName, $testValue)
+    public function testSetters($variableName, $validator, $value)
     {
         $getterMethod = "get" . ucfirst($variableName);
         $setterMethod = "set" . ucfirst($variableName);
 
         $this->assertTrue(method_exists($this->classUnderTest, $setterMethod));
 
-        $this->classUnderTest->$setterMethod($testValue);
+        $this->classUnderTest->$setterMethod($value);
 
-        $this->assertEquals($testValue, $this->classUnderTest->$getterMethod());
+        $this->assertTrue($validator($this->classUnderTest->$getterMethod()));
     }
 
     /**
@@ -69,21 +73,27 @@ class RdsDeliveryExecutionTest extends TestCase
     public function variableProvider()
     {
         return [
-            ["identifier", "test"],
-            ["label", "test"],
-            ["delivery", $this->getMockResource()],
-            ["state", $this->getMockResource()],
-            ["userIdentifier", "test"],
-            ["startTime", "test"],
-            ["finishTime", "test"],
+            ["identifier", function($value) {
+                return is_null($value) || is_string($value);
+            }, "test"],
+            ["label", function($value) {
+                return is_null($value) || is_string($value);
+            }, "test"],
+            ["delivery", function($value) {
+                return is_null($value) || $value instanceof \core_kernel_classes_Resource;
+            }, "test"],
+            ["state", function($value) {
+                return is_null($value) || $value instanceof \core_kernel_classes_Resource;
+            }, "test"],
+            ["userIdentifier", function($value) {
+                return is_null($value) || is_string($value);
+            }, "test"],
+            ["startTime", function($value) {
+                return is_null($value) || is_integer($value);
+            }, new \DateTime()],
+            ["finishTime", function($value) {
+                return is_null($value) || is_integer($value);
+            }, new \DateTime()],
         ];
-    }
-
-    /**
-     * @return \Prophecy\Prophecy\ObjectProphecy
-     */
-    private function getMockResource()
-    {
-        return $this->prophesize(\core_kernel_classes_Resource::class);
     }
 }

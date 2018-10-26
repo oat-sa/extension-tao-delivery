@@ -92,12 +92,16 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     }
 
     /**
-     * @return core_kernel_classes_Resource
+     * @return core_kernel_classes_Resource|null
      * @throws \common_exception_Error
      */
     public function getDelivery()
     {
-        return new core_kernel_classes_Resource($this->delivery);
+        if (!is_null($this->delivery)) {
+            return new core_kernel_classes_Resource($this->delivery);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -109,12 +113,16 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     }
 
     /**
-     * @return core_kernel_classes_Resource
+     * @return core_kernel_classes_Resource|null
      * @throws \common_exception_Error
      */
     public function getState()
     {
-        return new core_kernel_classes_Resource($this->state);
+        if (!is_null($this->state)) {
+            return new core_kernel_classes_Resource($this->state);
+        } else {
+            return null;
+        }
     }
 
     /**
