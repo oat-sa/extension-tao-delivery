@@ -48,6 +48,7 @@ use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\LegacyRuntime;
 use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
 use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
+use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 
 /**
  *
@@ -375,6 +376,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, RestExecution::class));
             $this->setVersion('12.0.0');
         }
+        
+        if ($this->isVersion('12.0.0')) {
+            $rdsHelper   = new GenerateRdsDeliveryExecutionTable();
+            $persistence = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById("default");
 
+            $rdsHelper->generateTable($persistence);
+            $this->setVersion('12.1.0');
+        }
     }
 }
