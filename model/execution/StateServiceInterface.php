@@ -58,4 +58,11 @@ interface StateServiceInterface
     public function terminate(DeliveryExecution $deliveryExecution);
 
     public function getDeliveriesStates();
+
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @param null $reason
+     * @return mixed
+     */
+    public function reactivateExecution(DeliveryExecution $deliveryExecution, $reason = null);
 }
