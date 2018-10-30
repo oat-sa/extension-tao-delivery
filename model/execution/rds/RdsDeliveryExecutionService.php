@@ -316,10 +316,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     private function getCurrentDateTime()
     {
-        $dateTime = new \DateTime();
-
-        $dateTime->setTimezone(new \DateTimeZone("UTC"));
-
-        return $dateTime->format("Y-m-d H:i:s");
+        return $this->getPersistence()->getPlatform()->getNowExpression();
     }
 }

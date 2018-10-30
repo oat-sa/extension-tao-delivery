@@ -21,6 +21,7 @@
 namespace oat\taoDelivery\model\execution\rds;
 
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyAwareTrait;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
@@ -30,6 +31,8 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 class RdsDeliveryExecution implements DeliveryExecutionInterface
 {
+    use OntologyAwareTrait;
+
     /** @var string */
     private $identifier;
 
@@ -98,7 +101,7 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     public function getDelivery()
     {
         if (!is_null($this->delivery)) {
-            return new core_kernel_classes_Resource($this->delivery);
+            return $this->getResource($this->delivery);
         } else {
             return null;
         }
@@ -119,7 +122,7 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     public function getState()
     {
         if (!is_null($this->state)) {
-            return new core_kernel_classes_Resource($this->state);
+            return $this->getResource($this->state);
         } else {
             return null;
         }
