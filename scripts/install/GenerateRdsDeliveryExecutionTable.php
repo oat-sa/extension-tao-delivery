@@ -117,7 +117,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
     {
         $table = $schema->createTable(RdsDeliveryExecutionService::TABLE_NAME);
 
-        $table->addOption("engine", "MyISAM");
+        $table->addOption("engine", "InnoDB");
         $table->addOption("charset", "utf8");
         $table->addOption("collate", "utf8_unicode_ci");
 

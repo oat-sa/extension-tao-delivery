@@ -384,5 +384,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $rdsHelper->generateTable($persistence);
             $this->setVersion('12.1.0');
         }
+
+        $this->skip('12.1.0', '12.1.1');
     }
 }
