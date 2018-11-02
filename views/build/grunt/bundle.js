@@ -1,57 +1,47 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ */
+
+/**
+ * configure the extension bundles
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 module.exports = function(grunt) {
     'use strict';
 
-    var requirejs   = grunt.config('requirejs') || {};
-    var clean       = grunt.config('clean') || {};
-    var copy        = grunt.config('copy') || {};
-
-    var root        = grunt.option('root');
-    var libs        = grunt.option('mainlibs');
-    var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var out         = 'output';
-
-    /**
-     * Remove bundled and bundling files
-     */
-    clean.taodeliverybundle = [out];
-
-    /**
-     * Compile tao files into a bundle
-     */
-    requirejs.taodeliverybundle = {
-        options: {
-            baseUrl : '../js',
-            dir : out,
-            mainConfigFile : './config/requirejs.build.js',
-            paths : { 'taoDelivery' : root + '/taoDelivery/views/js' },
-            modules : [{
-                name: 'taoDelivery/controller/routes',
-                include : ext.getExtensionsControllers(['taoDelivery']),
-                exclude : ['mathJax', 'taoDelivery/controller/DeliveryServer/index'].concat(libs)
-            }, {
-                name: 'taoDelivery/controller/DeliveryServer/index',
-                include: ['lib/require', 'loader/bootstrap'],
-                exclude : ['json!i18ntr/messages.json']
-            }]
+    grunt.config.merge({
+        bundle : {
+            taodelivery : {
+                options : {
+                    extension : 'taoDelivery',
+                    outputDir : 'loader',
+                    bundles : [{
+                        name : 'taoDelivery',
+                        default : true
+                    }, {
+                        name : 'deliveryServerIndex',
+                        bootstrap : true,
+                        entryPoint : 'taoDelivery/controller/DeliveryServer/index'
+                    }]
+                }
+            }
         }
-    };
-
-    /**
-     * copy the bundles to the right place
-     */
-    copy.taodeliverybundle = {
-        files: [
-            { src: [out + '/taoDelivery/controller/routes.js'],      dest: root + '/taoDelivery/views/js/controllers.min.js' },
-            { src: [out + '/taoDelivery/controller/routes.js.map'],  dest: root + '/taoDelivery/views/js/controllers.min.js.map' },
-            { src: [out + '/taoDelivery/controller/DeliveryServer/index.js'],       dest: root + '/taoDelivery/views/js/loader/index.min.js' },
-            { src: [out + '/taoDelivery/controller/DeliveryServer/index.js.map'],   dest: root + '/taoDelivery/views/js/loader/index.min.js.map' }
-        ]
-    };
-
-    grunt.config('clean', clean);
-    grunt.config('requirejs', requirejs);
-    grunt.config('copy', copy);
+    });
 
     // bundle task
-    grunt.registerTask('taodeliverybundle', ['clean:taodeliverybundle', 'requirejs:taodeliverybundle', 'copy:taodeliverybundle']);
+    grunt.registerTask('taodeliverybundle', ['bundle:taodelivery']);
 };

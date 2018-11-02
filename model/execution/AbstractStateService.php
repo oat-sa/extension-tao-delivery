@@ -22,6 +22,7 @@ namespace oat\taoDelivery\model\execution;
 
 use oat\taoDelivery\model\execution\DeliveryExecution as BaseDeliveryExecution;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -100,5 +101,30 @@ abstract class AbstractStateService extends ConfigurableService implements State
     protected function getStorageEngine()
     {
         return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
+    }
+
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @param null $reason
+     * @return mixed
+     * @throws \common_exception_Error
+     * @throws \common_exception_NotFound
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function reactivateExecution(DeliveryExecution $deliveryExecution, $reason = null)
+    {
+        $executionState = $deliveryExecution->getState()->getUri();
+        $result = false;
+
+        if (DeliveryExecution::STATE_TERMINATED === $executionState) {
+            $user = \common_session_SessionManager::getSession()->getUser();
+            /** @var EventManager $eventManager */
+            $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->trigger(new DeliveryExecutionReactivated($deliveryExecution, $user, $reason));
+            $result = true;
+        }
+
+        return $result;
     }
 }
