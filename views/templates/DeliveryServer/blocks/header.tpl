@@ -20,7 +20,7 @@ use oat\tao\model\theme\Theme;
                 <li class="infoControl sep-before">
                     <span class="a">
                         <span class="icon-test-taker"></span>
-                        <span><?= get_data('userLabel'); ?></span>
+                        <span class="text"><?= get_data('userLabel'); ?></span>
                     </span>
                 </li>
                 <li class="infoControl sep-before" data-control="logout">
