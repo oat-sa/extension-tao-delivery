@@ -91,7 +91,7 @@ define([
                 }
             });
 
-            // dispatch any extra registered controllers
+            // dispatch any extra registered routes
             if (config && _.isArray(config.extraRoutes) && config.extraRoutes.length) {
                 router.dispatch(config.extraRoutes);
             }
