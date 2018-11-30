@@ -37,6 +37,5 @@ use oat\tao\model\theme\Theme;
                 </li>
             </ul>
         </div>
-        <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'user-menu')?>
     </nav>
 </header>

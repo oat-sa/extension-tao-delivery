@@ -25,9 +25,11 @@
 define([
     'jquery',
     'lodash',
+    'module',
+    'core/router',
     'ui/feedback',
     'layout/loading-bar'
-], function($, _, feedback, loadingBar){
+], function($, _, module, router, feedback, loadingBar){
     'use strict';
 
     /**
@@ -69,6 +71,9 @@ define([
                 }
             };
 
+            var config = module.config();
+
+
             if (parameters && parameters.messages) {
                 _.forEach(parameters.messages, function(message) {
                     displayPermanentMessage(message.level, message.content);
@@ -85,6 +90,11 @@ define([
                     runDelivery($elt.data().launch_url);
                 }
             });
+
+            // dispatch any extra registered routes
+            if (config && _.isArray(config.extraRoutes) && config.extraRoutes.length) {
+                router.dispatch(config.extraRoutes);
+            }
         }
     };
 });
