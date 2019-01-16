@@ -62,7 +62,32 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
         $execution->getStartTime();
         
     }
-    
+
+    public function testGetDeliveryExecutionsByStatus()
+    {
+        $userId = 'fakeUser';
+        $service = $this->getKvService();
+        $assembly = new \core_kernel_classes_Resource('fake');
+        $de = $service->spawnDeliveryExecution('DE label', $assembly, $userId, 'http://uri.com/fake#StartState');
+        $kvde = $de->getImplementation();
+        $service->updateDeliveryExecutionStatus($kvde, null, 'http://uri.com/fake#FinishState');
+        $persistence = $service->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById('dummy');
+
+        $deInStartState = json_decode($persistence->get('kve_ue_fakeUserhttp://uri.com/fake#StartState'), true);
+        $deInFinishState = json_decode($persistence->get('kve_ue_fakeUserhttp://uri.com/fake#FinishState'), true);
+        $this->assertEquals(1, count($deInStartState));
+        $this->assertEquals(1, count($deInFinishState));
+
+        $this->assertEquals(1, count($service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState')));
+        $this->assertEquals(0, count($service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState')));
+
+        $kvde->setState('http://uri.com/fake#FinishState');
+
+        $service->updateDeliveryExecutionStatus($kvde, null, 'http://uri.com/fake#FinishState');
+        $this->assertEquals(0, count($service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState')));
+        $this->assertEquals(1, count($service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState')));
+    }
+
     protected function getKvService()
     {
         $pmMock = $this->getKvMock('dummy');
