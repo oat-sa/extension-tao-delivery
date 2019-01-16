@@ -98,7 +98,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
     public function getDeliveryThemeId($deliveryId)
     {
         $themeId = $this->getDeliveryThemeIdFromCache($deliveryId);
-        if (empty($themeId)) {
+        if ($themeId === false) {
             $themeId = $this->getDeliveryThemeIdFromDb($deliveryId);
             $this->storeDeliveryThemeIdToCache($deliveryId, $themeId);
         }
