@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint33\n"
-"PO-Revision-Date: 2016-08-25T14:33:01\n"
+"Project-Id-Version: TAO 3.3.0-sprint93\n"
+"PO-Revision-Date: 2019-01-18T12:43:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -12,9 +12,6 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-msgid "%s have not implementation for taoDelivery_models_classes_execution_Monitoring"
-msgstr ""
 
 msgid "Access deliveries as a guest"
 msgstr "ゲストで受験"
@@ -69,6 +66,9 @@ msgstr "TAO ゲストアクセス"
 
 msgid "Test-Takers"
 msgstr "受験者"
+
+msgid "Tests Home"
+msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "このテストはフルスクリーンモードが必要です。"
