@@ -153,7 +153,12 @@ class KeyValueService extends ConfigurableService implements Service
         $keys = $data !== false ? json_decode($data) : array();
         if (is_array($keys)) {
             foreach ($keys as $key) {
-                $returnValue[$key] = $this->getDeliveryExecution($key);
+                $de = $this->getDeliveryExecution($key);
+                if ($de->getState()->getUri() !== $status) {
+                    $this->fixStatus($de->getImplementation(), $status, $de->getState()->getUri());
+                } else {
+                    $returnValue[$key] = $de;
+                }
             }
         } else {
             common_Logger::w('Non array "' . gettype($keys) . '" received as active Delivery Keys for user ' . $userUri);
@@ -198,7 +203,7 @@ class KeyValueService extends ConfigurableService implements Service
         }
 
         $newReferences = $this->getDeliveryExecutionsByStatus($userId, $new);
-        $newReferences[] = $deliveryExecution;
+        $newReferences[$deliveryExecution->getIdentifier()] = $deliveryExecution;
         return $this->setDeliveryExecutions($userId, $new, $newReferences);
     }
 
@@ -266,5 +271,39 @@ class KeyValueService extends ConfigurableService implements Service
             $keys[] = $execution->getIdentifier();
         }
         return $this->getPersistence()->set(self::USER_EXECUTIONS_PREFIX . $userUri . $status, json_encode($keys));
+    }
+
+    /**
+     * @param KVDeliveryExecution $deliveryExecution
+     * @param $old
+     * @param $new
+     */
+    private function fixStatus(KVDeliveryExecution $deliveryExecution, $old, $new)
+    {
+        $userId = $deliveryExecution->getUserIdentifier();
+        $oldData = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userId . $old);
+        $oldStateKeys = $oldData !== false ? json_decode($oldData) : [];
+        $oldStateExecutions = [];
+        if (is_array($oldStateKeys)) {
+            foreach ($oldStateKeys as $key) {
+                $de = $this->getDeliveryExecution($key);
+                if ($de->getIdentifier() !== $deliveryExecution->getIdentifier()) {
+                    $oldStateExecutions[$de->getIdentifier()] = $de;
+                }
+            }
+            $this->setDeliveryExecutions($userId, $old, $oldStateExecutions);
+        }
+
+        $newData = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userId . $new);
+        $newStateKeys = $newData !== false ? json_decode($newData) : [];
+        $newStateExecutions = [];
+        if (is_array($newStateKeys) && !isset($newStateKeys[$deliveryExecution->getIdentifier()])) {
+            foreach ($newStateKeys as $key) {
+                $de = $this->getDeliveryExecution($key);
+                $newStateExecutions[$de->getIdentifier()] = $de;
+            }
+            $newStateExecutions[$deliveryExecution->getIdentifier()] = $deliveryExecution;
+        }
+        $this->setDeliveryExecutions($userId, $new, $newStateExecutions);
     }
 }
