@@ -203,7 +203,7 @@ class KeyValueService extends ConfigurableService implements Service
         }
 
         $newReferences = $this->getDeliveryExecutionsByStatus($userId, $new);
-        $newReferences[] = $deliveryExecution;
+        $newReferences[$deliveryExecution->getIdentifier()] = $deliveryExecution;
         return $this->setDeliveryExecutions($userId, $new, $newReferences);
     }
 
@@ -298,7 +298,7 @@ class KeyValueService extends ConfigurableService implements Service
         $newStateKeys = $newData !== false ? json_decode($newData) : [];
         $newStateExecutions = [];
         if (is_array($newStateKeys) && !isset($newStateKeys[$deliveryExecution->getIdentifier()])) {
-            foreach ($oldStateKeys as $key) {
+            foreach ($newStateKeys as $key) {
                 $de = $this->getDeliveryExecution($key);
                 $newStateExecutions[$de->getIdentifier()] = $de;
             }
