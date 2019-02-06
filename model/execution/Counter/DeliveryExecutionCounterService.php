@@ -69,7 +69,7 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
     /**
      * @return \common_persistence_KvDriver
      */
-    private function getPersistence()
+    protected function getPersistence()
     {
         return $this->getServiceLocator()
             ->get(\common_persistence_Manager::class)->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
@@ -79,8 +79,16 @@ class DeliveryExecutionCounterService extends ConfigurableService implements Del
      * @param string $statusUri
      * @return string
      */
-    private function getStatusKey($statusUri)
+    protected function getStatusKey($statusUri)
     {
         return self::KEY_PREFIX . $statusUri;
+    }
+
+    /**
+     * @param $statusUri
+     */
+    public function refresh($statusUri)
+    {
+        //this implementation do not support refreshing
     }
 }

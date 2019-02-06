@@ -35,4 +35,10 @@ interface DeliveryExecutionCounterInterface
      * @return integer
      */
     public function count($statusUri);
+
+    /**
+     * Recalculate amount of delivery executions of given status
+     * @param $statusUri
+     */
+    public function refresh($statusUri);
 }
