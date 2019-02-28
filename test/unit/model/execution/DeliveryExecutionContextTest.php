@@ -41,7 +41,7 @@ class DeliveryExecutionContextTest extends TestCase
     }
 
     /**
-     * @param array $executionId
+     * @param string $executionId
      *
      * @dataProvider dataProviderSetInvalidExecutionId
      */
