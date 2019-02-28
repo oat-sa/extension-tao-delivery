@@ -26,6 +26,21 @@ use oat\taoDelivery\model\execution\DeliveryExecutionContextInterface;
 class DeliveryExecutionContextTest extends TestCase
 {
     /**
+     * @param string $executionId
+     * @param string $executionContextId
+     * @param string $type
+     * @param string $label
+     *
+     * @dataProvider dataProviderConstructInvalidValues
+     */
+    public function testConstructThrowsException($executionId, $executionContextId, $type, $label)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new DeliveryExecutionContext($executionId, $executionContextId, $type, $label);
+    }
+
+    /**
      * @param array $contextData
      * @dataProvider dataProviderTestCreateFromArray
      */
@@ -43,7 +58,7 @@ class DeliveryExecutionContextTest extends TestCase
     public function testJsonSerialize()
     {
         $contextData = [
-            'execution_id' => 'TEST EXECUTION ID',
+            'execution_id' => 'http://test-execution-uri.dev',
             'context_id' => 'TEST CONTEXT ID',
             'type' => 'TEST EXEC TYPE',
             'label' => 'TEST LABEL'
@@ -60,15 +75,54 @@ class DeliveryExecutionContextTest extends TestCase
         $this->assertEquals($contextData, $result, 'jsonSerialize method must return array with correct data');
     }
 
+    /**
+     * @return array
+     */
+    public function dataProviderConstructInvalidValues()
+    {
+        return [
+            'Empty execution and context IDs' => [
+                'executionId'           => '',
+                'executionContextId'    => '',
+                'type'                  => '',
+                'label'                 => '',
+            ],
+            'Empty execution ID' => [
+                'executionId'           => '',
+                'executionContextId'    => 'TEST_CONTEXT_ID',
+                'type'                  => '',
+                'label'                 => '',
+            ],
+            'Empty context ID' => [
+                'executionId'           => 'http://test-execution-uri.dev',
+                'executionContextId'    => '',
+                'type'                  => '',
+                'label'                 => '',
+            ],
+            'Execution ID is not valid URI' => [
+                'executionId'           => 'INVALID_URI',
+                'executionContextId'    => 'TEST_CONTEXT_ID',
+                'type'                  => '',
+                'label'                 => '',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public function dataProviderTestCreateFromArray()
     {
         return [
-            'Empty values' => [
-                'contextData' => []
+            'Empty optional parameters' => [
+                'contextData' => [
+                    'execution_id' => 'http://test-execution-uri.dev',
+                    'context_id' => 'TEST CONTEXT ID',
+                ]
             ],
             'Correct values' => [
                 'contextData' => [
-                    'execution_id' => 'TEST EXECUTION ID',
+                    'execution_id' => 'http://test-execution-uri.dev',
                     'context_id' => 'TEST CONTEXT ID',
                     'type' => 'TEST EXEC TYPE',
                     'label' => 'TEST LABEL'

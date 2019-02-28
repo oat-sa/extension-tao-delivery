@@ -19,6 +19,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
+use InvalidArgumentException;
 
 class DeliveryExecutionContext implements DeliveryExecutionContextInterface
 {
@@ -53,6 +54,9 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      */
     public function __construct($executionId, $executionContextId, $type, $label)
     {
+        $this->validateExecutionId($executionId);
+        $this->validateExecutionContextId($executionContextId);
+
         $this->executionId = $executionId;
         $this->executionContextId = $executionContextId;
         $this->type = $type;
@@ -71,6 +75,28 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
         $label = isset($contextData[self::PARAM_LABEL]) ? $contextData[self::PARAM_LABEL] : '';
 
         return new static($executionId, $executionContextId, $type, $label);
+    }
+
+    /**
+     * @param $executionId
+     * @throws InvalidArgumentException
+     */
+    private function validateExecutionId($executionId)
+    {
+        if (!filter_var($executionId, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException('Execution ID value must be a valid URI.');
+        }
+    }
+
+    /**
+     * @param $executionContextId
+     * @throws InvalidArgumentException
+     */
+    private function validateExecutionContextId($executionContextId)
+    {
+        if (!is_string($executionContextId) || empty($executionContextId)) {
+            throw new InvalidArgumentException('Execution context ID value must be not empty string.');
+        }
     }
 
     /**
