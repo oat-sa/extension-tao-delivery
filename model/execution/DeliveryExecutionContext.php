@@ -49,6 +49,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      * DeliveryExecutionContext constructor.
      *
      * @param string $executionId
+     * @param string $executionContextId
      * @param string $type
      * @param string $label
      */
@@ -109,17 +110,23 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
 
     /**
      * @param string $executionId
+     * @throws InvalidArgumentException
      */
     public function setExecutionId($executionId)
     {
+        $this->validateExecutionId($executionId);
+
         $this->executionId = $executionId;
     }
 
     /**
      * @param string $contextId
+     * @throws InvalidArgumentException
      */
     public function setExecutionContextId($contextId)
     {
+        $this->validateExecutionContextId($contextId);
+
         $this->executionContextId = $contextId;
     }
 

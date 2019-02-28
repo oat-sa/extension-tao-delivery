@@ -41,6 +41,29 @@ class DeliveryExecutionContextTest extends TestCase
     }
 
     /**
+     * @param array $executionId
+     *
+     * @dataProvider dataProviderSetInvalidExecutionId
+     */
+    public function testSetExecutionIdThrowsException($executionId)
+    {
+        $contextData = $this->getValidContextData();
+        $contextObject = DeliveryExecutionContext::createFromArray($contextData);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $contextObject->setExecutionId($executionId);
+    }
+
+    public function testSetExecutionContextIdThrowsException()
+    {
+        $contextData = $this->getValidContextData();
+        $contextObject = DeliveryExecutionContext::createFromArray($contextData);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $contextObject->setExecutionContextId('');
+    }
+
+    /**
      * @param array $contextData
      * @dataProvider dataProviderTestCreateFromArray
      */
@@ -57,12 +80,7 @@ class DeliveryExecutionContextTest extends TestCase
 
     public function testJsonSerialize()
     {
-        $contextData = [
-            'execution_id' => 'http://test-execution-uri.dev',
-            'context_id' => 'TEST CONTEXT ID',
-            'type' => 'TEST EXEC TYPE',
-            'label' => 'TEST LABEL'
-        ];
+        $contextData = $this->getValidContextData();
         $contextObject = new DeliveryExecutionContext(
             $contextData['execution_id'],
             $contextData['context_id'],
@@ -73,6 +91,21 @@ class DeliveryExecutionContextTest extends TestCase
         $result = $contextObject->jsonSerialize();
 
         $this->assertEquals($contextData, $result, 'jsonSerialize method must return array with correct data');
+    }
+
+    /**
+     * Returns valid delivery execution context data
+     *
+     * @return array
+     */
+    public function getValidContextData()
+    {
+        return [
+            'execution_id' => 'http://test-execution-uri.dev',
+            'context_id' => 'TEST CONTEXT ID',
+            'type' => 'TEST EXEC TYPE',
+            'label' => 'TEST LABEL'
+        ];
     }
 
     /**
@@ -104,6 +137,21 @@ class DeliveryExecutionContextTest extends TestCase
                 'executionContextId'    => 'TEST_CONTEXT_ID',
                 'type'                  => '',
                 'label'                 => '',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderSetInvalidExecutionId()
+    {
+        return [
+            'Empty execution ID' => [
+                'executionId' => '',
+            ],
+            'Invalid URI execution ID' => [
+                'executionId' => 'INVALID_URI',
             ],
         ];
     }
