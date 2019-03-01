@@ -17,9 +17,9 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\taoDelivery\test\unit\model\authorization;
+namespace oat\taoDelivery\test\integration\model\authorization;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -30,7 +30,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class StateValidationTest extends TaoPhpUnitTestRunner
+class StateValidationTest extends TestCase
 {
     /**
      * Create a dummy variable for a DeliveryExecution
@@ -41,7 +41,7 @@ class StateValidationTest extends TaoPhpUnitTestRunner
         $prophet = new \Prophecy\Prophet();
         $prophecyState = $prophet->prophesize(\core_kernel_classes_Resource::class);
         $prophecyState->getUri()->willReturn($state);
-        
+
         $prophet = new \Prophecy\Prophet();
         $prophecy = $prophet->prophesize();
         $prophecy->willImplement(DeliveryExecutionInterface::class);
