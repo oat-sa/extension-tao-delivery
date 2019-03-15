@@ -32,6 +32,7 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\routing\AnnotationReader\security;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\authorization\AuthorizationService;
@@ -62,7 +63,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     /**
 	 * constructor: initialize the service and the default data
-	 * @return DeliveryServer
+     * @security("hide")
 	 */
 	public function __construct()
 	{
