@@ -1,0 +1,1 @@
+<div><br/><br/><h1>Vous avez terminé votre entraînement.</h1><br/><h2>Vos stats</h2><br/><table><?php  foreach($scores as $name => $value):?><tr><td><?=$name?></td><td><?=$value?></td></tr><?php endforeach;?></table>
