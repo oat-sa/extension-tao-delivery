@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: admin
- * Date: 4/2/19
- * Time: 5:31 PM
- */
 
 namespace oat\taoDelivery\controller;
 
@@ -29,6 +23,7 @@ class DeliveryExecution extends \tao_actions_RestController
             if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
                 $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
             }
+
             return $this->returnJson([
                 'success' => true,
                 'state' => $state,
@@ -76,8 +71,7 @@ class DeliveryExecution extends \tao_actions_RestController
      *
      * @throws \common_exception_MissingParameter
      */
-    protected function getRequiredParameter($requiredParameterName)
-    {
+    protected function getRequiredParameter($requiredParameterName){
         $parameters = $this->getRequestParameters();
         if (array_key_exists($requiredParameterName, $parameters)) {
             $value = $parameters[$requiredParameterName];
@@ -90,8 +84,7 @@ class DeliveryExecution extends \tao_actions_RestController
         throw new \common_exception_MissingParameter('Missing parameter: ' . $requiredParameterName);
     }
 
-    protected function getService()
-    {
+    protected function getService(){
         return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
     }
 }

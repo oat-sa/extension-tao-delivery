@@ -43,6 +43,7 @@ use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
 use oat\taoDelivery\model\entrypoint\GuestAccess;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
@@ -396,7 +397,17 @@ class Updater extends \common_ext_ExtensionUpdater
             $rdsHelper->generateTable($persistence);
             $this->setVersion('12.1.0');
         }
-
         $this->skip('12.1.0', '13.0.0');
+
+        if ($this->isVersion('13.0.0')) {
+            $DeliveryService = $this->getServiceManager()->get(DeliveryExecutionService::SERVICE_ID);
+            $DeliveryOptions = $DeliveryService->getOptions();
+            $DeliveryService->setOptions($DeliveryOptions);
+            $this->getServiceManager()->register(DeliveryExecutionService::SERVICE_ID, $DeliveryService);
+            $this->setVersion('13.1.0');
+        }
+
+
     }
+
 }
