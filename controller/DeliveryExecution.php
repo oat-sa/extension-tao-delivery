@@ -10,15 +10,10 @@ namespace oat\taoDelivery\controller;
 
 
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-use oat\taoDelivery\model\execution\ServiceProxy;
-use oat\taoDelivery\model\execution\StateServiceInterface;
+
 
 class DeliveryExecution extends \tao_actions_RestController
 {
-    public function __construct()
-    {
-//        $this->executionService = $this->getService();
-    }
 
     public function state(){
         $service = $this->getService();
@@ -28,16 +23,12 @@ class DeliveryExecution extends \tao_actions_RestController
             }
 
             $deliveryExecutionId = $this->getRequiredParameter('deliveryExecution');
-            $execution = $service->getDeliveryExecution($deliveryExecutionId);
-
-           // $deliveryExecution->getDelivery();
             $scoreReport = null;
             $scores = $service->getScores($deliveryExecutionId);
             $state = $service->getState($deliveryExecutionId);
-//            if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
-//                $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
-//            }
-
+            if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
+                $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
+            }
             return $this->returnJson([
                 'success' => true,
                 'state' => $state,

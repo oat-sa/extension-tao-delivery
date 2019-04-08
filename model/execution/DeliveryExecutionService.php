@@ -11,24 +11,18 @@ namespace oat\taoDelivery\model\execution;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
-use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
-use oat\taoDeliverySchedule\model\AssignmentService;
-use oat\taoLti\controller\RestService;
-use oat\taoLti\models\classes\user\LtiUser;
+
 use oat\taoOutcomeUi\helper\ResponseVariableFormatter;
 use oat\taoOutcomeUi\model\ResultsService;
 use oat\taoOutcomeUi\model\Wrapper\ResultServiceWrapper;
-use qtism\runtime\storage\binary\BinaryAssessmentTestSeeker;
 use Renderer;
 
 class DeliveryExecutionService extends  ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'taoDelivery/deliveryExecutionApi';
+    const SERVICE_ID = 'taoDelivery/deliveryExecutionService';
 
     const DELIVERY_EXECUTION_PARAM_DELIVERYEXECUTIONID  = 'deliveryExecutionID';
     const DELIVERY_EXECUTION_PARAM_TESTSESSIONID        = 'testSessionID';
@@ -75,13 +69,9 @@ class DeliveryExecutionService extends  ConfigurableService
         /** @var \oat\taoResultServer\models\classes\ResultManagement $implementation */
         $implementation = $resultService->getReadableImplementation($deliveryExecution->getDelivery());
         $resultService->setImplementation($implementation);
-        $scoreReport = array(
-            'PERCENT_CORRECT' => 0,
-            'RAW_SCORE' => 0,
-            'NUMBER_SELECTED' => 0
-        );
+
         $variables = $this->getResultVariables($deliveryExecution->getIdentifier());
-        $resultService->calculateResponseStatistics($variables);
+        $scoreReport = $resultService->calculateResponseStatistics($variables);
 
 
 
@@ -123,15 +113,6 @@ class DeliveryExecutionService extends  ConfigurableService
     public function getScoreReport($deliveryExecutionId, $scores)
     {
 
-        $scoreReport = array(
-            'PERCENT_CORRECT' => 0,
-            'RAW_SCORE' => 0,
-            'NUMBER_SELECTED' => 0
-        );
-
-        if (count(array_intersect_key($scoreReport, $scores)) != count($scoreReport)) {
-            throw new \common_Exception('The scores do not contain all required data to generate html render.');
-        }
 
         $lang = $this->getLang($deliveryExecutionId);
         switch ($lang) {
@@ -141,30 +122,14 @@ class DeliveryExecutionService extends  ConfigurableService
                 $lang = 'en-US';
         }
         $renderer = new Renderer();
-        $template = Template::getTemplate('deliveryReport/' . $lang .'.tpl', 'btDelivery');
-        $renderer->setData('numberSelected', $scores['NUMBER_SELECTED']);
-        $renderer->setData('percentCorrect', $scores['PERCENT_CORRECT']);
-        $renderer->setData('rawScore', $scores['RAW_SCORE']);
+        $template = Template::getTemplate('deliveryReport/' . $lang .'.tpl', 'taoDelivery');
+        $renderer->setData('scores', $scores);
+
         $renderer->setTemplate($template);
         return $renderer->render();
     }
 
 
-    /**
-     * Get shortened delivery URI from execution
-     *
-     * @param DeliveryExecutionInterface $deliveryExecution
-     *
-     * @return mixed
-     */
-    private function getDeliveryId(DeliveryExecutionInterface $deliveryExecution)
-    {
-        $deliveryUri = $deliveryExecution->getDelivery()->getUri();
-
-        $shortenedUri = str_replace(LOCAL_NAMESPACE . '#', '', $deliveryUri);
-
-        return $shortenedUri;
-    }
 
     /**
      * Gets delivery execution state.
@@ -182,10 +147,6 @@ class DeliveryExecutionService extends  ConfigurableService
 
         $state = $deliveryExecution->getState()->getUri();
 
-//        if ($this->isTimeout($deliveryExecution)) {
-//            return self::TEST_STATUS_TIMEOUT;
-//        }
-
         return ($state !== DeliveryExecution::STATE_ACTIVE && $state !== DeliveryExecution::STATE_PAUSED)
             ? self::TEST_STATUS_FINISHED
             : self::TEST_STATUS_INPROGRESS;
@@ -201,7 +162,7 @@ class DeliveryExecutionService extends  ConfigurableService
     public function getLang($deliveryExecutionId)
     {
         $executionService = ServiceProxy::singleton();
-        $deliveryExecution = $executionService->getDeliveryExecution($this->makeUri($deliveryExecutionId));
+        $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionId);
         $delivery = $deliveryExecution->getDelivery();
         /** @var \core_kernel_classes_Resource $reportLang */
         $reportLang = $delivery->getOnePropertyValue($this->getProperty(self::DELIVERY_REPORT_LANGUAGE));
@@ -220,8 +181,7 @@ class DeliveryExecutionService extends  ConfigurableService
     }
 
 
-    protected function getResultVariables($resultId, $filterSubmission='', $filterTypes = array())
-    {
+    protected function getResultVariables($resultId, $filterSubmission='', $filterTypes = array()){
         $filterSubmission = ResultsService::VARIABLES_FILTER_LAST_SUBMITTED;
         $filterTypes = array(\taoResultServer_models_classes_ResponseVariable::class, \taoResultServer_models_classes_OutcomeVariable::class, \taoResultServer_models_classes_TraceVariable::class);
 
