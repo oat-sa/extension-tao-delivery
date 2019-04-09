@@ -75,16 +75,12 @@ class DeliveryExecutionService extends  ConfigurableService
     {
         $executionService = ServiceProxy::singleton();
         $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionID);
-
         $resultService = ResultsService::singleton();
-
         /** @var \oat\taoResultServer\models\classes\ResultManagement $implementation */
         $implementation = $resultService->getReadableImplementation($deliveryExecution->getDelivery());
         $resultService->setImplementation($implementation);
-
         $variables = $this->getResultVariables($deliveryExecution->getIdentifier());
         $scoreReport = $resultService->calculateResponseStatistics($variables);
-
         $testCallIds = $resultService->getTestsFromDeliveryResult($deliveryExecution->getIdentifier());
         foreach ($testCallIds as $testCallId) {
             $testVariables = $resultService->getVariablesFromObjectResult($testCallId);
@@ -105,7 +101,6 @@ class DeliveryExecutionService extends  ConfigurableService
                 }
             }
         }
-
         return $scoreReport;
     }
 
@@ -147,9 +142,7 @@ class DeliveryExecutionService extends  ConfigurableService
     private function getDeliveryExecutionState($deliveryExecutionUri){
         $executionService = ServiceProxy::singleton();
         $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionUri);
-
         $state = $deliveryExecution->getState()->getUri();
-
         return ($state !== DeliveryExecution::STATE_ACTIVE && $state !== DeliveryExecution::STATE_PAUSED)
             ? self::TEST_STATUS_FINISHED
             : self::TEST_STATUS_INPROGRESS;
@@ -183,13 +176,11 @@ class DeliveryExecutionService extends  ConfigurableService
     protected function getResultVariables($resultId, $filterSubmission='', $filterTypes = array()){
         $filterSubmission = ResultsService::VARIABLES_FILTER_LAST_SUBMITTED;
         $filterTypes = array(\taoResultServer_models_classes_ResponseVariable::class, \taoResultServer_models_classes_OutcomeVariable::class, \taoResultServer_models_classes_TraceVariable::class);
-
         $resultService = ResultsService::singleton();
         $variables = $resultService->getStructuredVariables($resultId, $filterSubmission, array_merge($filterTypes, [\taoResultServer_models_classes_ResponseVariable::class]));
         $displayedVariables = $resultService->filterStructuredVariables($variables, $filterTypes);
         $responses = ResponseVariableFormatter::formatStructuredVariablesToItemState($variables);
         $excludedVariables = array_flip(['numAttempts', 'duration']);
-
         foreach ($displayedVariables as &$item) {
             if (!isset($item['uri'])) {
                 continue;
