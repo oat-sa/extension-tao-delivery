@@ -174,7 +174,6 @@ class DeliveryExecutionService extends  ConfigurableService
 
     public function getDeliveryExecution($deliveryExecution){
          return ServiceProxy::singleton()->getDeliveryExecution($deliveryExecution);
-
     }
 
     public function getResultService(){
