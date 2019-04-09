@@ -19,10 +19,7 @@
  */
 
 namespace oat\taoDelivery\controller;
-
-
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-
 
 class DeliveryExecution extends \tao_actions_RestController
 {
