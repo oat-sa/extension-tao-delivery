@@ -24,12 +24,11 @@ use oat\taoDelivery\model\execution\DeliveryExecutionService;
 class DeliveryExecution extends \tao_actions_RestController
 {
     public function state(){
-        $service = $this->getService();
+        $service = $this->getDeliveryExecutionsService();
         try {
             if (!$this->isRequestGet()) {
                 throw new \common_exception_BadRequest(sprintf('Bad Request Method: %s.', $this->getRequestMethod()));
             }
-
             $deliveryExecutionId = $this->getRequiredParameter('deliveryExecution');
             $scoreReport = null;
             $scores = $service->getScores($deliveryExecutionId);
@@ -37,7 +36,6 @@ class DeliveryExecution extends \tao_actions_RestController
             if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
                 $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
             }
-
             return $this->returnJson([
                 'success' => true,
                 'state' => $state,
@@ -75,7 +73,6 @@ class DeliveryExecution extends \tao_actions_RestController
         }
     }
 
-
     /**
      * Validates request parameters.
      *
@@ -93,12 +90,11 @@ class DeliveryExecution extends \tao_actions_RestController
                 return $value;
             }
         }
-
         \common_Logger::i('Missing parameter ' . $requiredParameterName);
         throw new \common_exception_MissingParameter('Missing parameter: ' . $requiredParameterName);
     }
 
-    protected function getService(){
+    protected function getDeliveryExecutionsService(){
         return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
     }
 }
