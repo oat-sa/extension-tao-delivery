@@ -35,8 +35,8 @@ class DeliveryExecution extends \tao_actions_RestController
             }
             $deliveryExecutionId = $this->getRequiredParameter('deliveryExecution');
             $scoreReport = null;
-            if(!$service->getDeliveryExecution($deliveryExecutionId)->exists() || !$service->getDeliveryExecution($deliveryExecutionId)->exists()){
-               throw  new common_exception_BadRequest();
+            if(!$service->getDeliveryExecution($deliveryExecutionId)->exists() || !$service->getDeliveryExecution($deliveryExecutionId)->getDelivery()->exists()){
+               throw  new common_exception_BadRequest('');
             }
             $scores = $service->getScores($deliveryExecutionId);
             $state = $service->getState($deliveryExecutionId);
