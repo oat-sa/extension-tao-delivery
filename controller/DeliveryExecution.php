@@ -44,32 +44,18 @@ class DeliveryExecution extends \tao_actions_RestController
             ]);
         } /** @noinspection BadExceptionsProcessingInspection */
         catch (common_exception_BadRequest $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorCode' => 2,
-                'errorMsg' => 'Bad request.'
-            ]);
+            return $this->generateError(false, 2, 'Bad request.');
         } /** @noinspection PhpWrongCatchClausesOrderInspection, BadExceptionsProcessingInspection */
         catch (common_exception_MissingParameter $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorCode' => 3,
-                'errorMsg' => 'Bad request.'
-            ]);
+            return $this->generateError(false, 3, 'Bad request.');
+
         } /** @noinspection BadExceptionsProcessingInspection */
         catch (common_exception_Unauthorized $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorCode' => 4,
-                'errorMsg' => 'Unauthorized.'
-            ]);
+            return $this->generateError(false, 4, 'Unauthorized');
+
         } catch (Exception $e) {
             common_Logger::e('Failed to get delivery execution state: ' . $e->getMessage());
-            return $this->returnJson([
-                'success' => false,
-                'errorCode' => 5,
-                'errorMsg' => 'Failed to get delivery execution state.'
-            ]);
+            return $this->generateError(false, 5, 'Failed to get delivery execution state.');
         }
     }
 
@@ -96,5 +82,14 @@ class DeliveryExecution extends \tao_actions_RestController
 
     protected function getDeliveryExecutionsService(){
         return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
+    }
+
+
+    protected function generateError($success, $errorCode, $errorMsg){
+        return $this->returnJson([
+            'success' => $success,
+            'errorCode' => $errorCode,
+            'errorMsg' => $errorMsg
+        ]);
     }
 }

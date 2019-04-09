@@ -73,8 +73,7 @@ class DeliveryExecutionService extends  ConfigurableService
      */
     public function getScores($deliveryExecutionID)
     {
-        $executionService = ServiceProxy::singleton();
-        $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionID);
+        $deliveryExecution = $this->getDeliveryExecution($deliveryExecutionID);
         $resultService = ResultsService::singleton();
         /** @var \oat\taoResultServer\models\classes\ResultManagement $implementation */
         $implementation = $resultService->getReadableImplementation($deliveryExecution->getDelivery());
@@ -131,8 +130,7 @@ class DeliveryExecutionService extends  ConfigurableService
      * @throws \common_Exception
      */
     private function getDeliveryExecutionState($deliveryExecutionUri){
-        $executionService = ServiceProxy::singleton();
-        $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionUri);
+        $deliveryExecution = $this->getDeliveryExecution($deliveryExecutionUri);
         $state = $deliveryExecution->getState()->getUri();
         return ($state !== DeliveryExecution::STATE_ACTIVE && $state !== DeliveryExecution::STATE_PAUSED)
             ? self::TEST_STATUS_FINISHED
@@ -148,8 +146,7 @@ class DeliveryExecutionService extends  ConfigurableService
      */
     public function getLang($deliveryExecutionId)
     {
-        $executionService = ServiceProxy::singleton();
-        $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionId);
+        $deliveryExecution = $this->getDeliveryExecution($deliveryExecutionId);
         $delivery = $deliveryExecution->getDelivery();
         /** @var \core_kernel_classes_Resource $reportLang */
         $reportLang = $delivery->getOnePropertyValue($this->getProperty(self::DELIVERY_REPORT_LANGUAGE));
@@ -183,4 +180,6 @@ class DeliveryExecutionService extends  ConfigurableService
         }
         return $displayedVariables;
     }
+
+
 }
