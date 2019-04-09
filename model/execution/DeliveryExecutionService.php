@@ -1,9 +1,21 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: admin
- * Date: 4/2/19
- * Time: 6:01 PM
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ *
  */
 
 namespace oat\taoDelivery\model\execution;
@@ -73,9 +85,6 @@ class DeliveryExecutionService extends  ConfigurableService
         $variables = $this->getResultVariables($deliveryExecution->getIdentifier());
         $scoreReport = $resultService->calculateResponseStatistics($variables);
 
-
-
-
         $testCallIds = $resultService->getTestsFromDeliveryResult($deliveryExecution->getIdentifier());
         foreach ($testCallIds as $testCallId) {
             $testVariables = $resultService->getVariablesFromObjectResult($testCallId);
@@ -112,8 +121,6 @@ class DeliveryExecutionService extends  ConfigurableService
      */
     public function getScoreReport($deliveryExecutionId, $scores)
     {
-
-
         $lang = $this->getLang($deliveryExecutionId);
         switch ($lang) {
             case 'fr-CA':
@@ -124,7 +131,6 @@ class DeliveryExecutionService extends  ConfigurableService
         $renderer = new Renderer();
         $template = Template::getTemplate('deliveryReport/' . $lang .'.tpl', 'taoDelivery');
         $renderer->setData('scores', $scores);
-
         $renderer->setTemplate($template);
         return $renderer->render();
     }
@@ -140,8 +146,7 @@ class DeliveryExecutionService extends  ConfigurableService
      *
      * @throws \common_Exception
      */
-    private function getDeliveryExecutionState($deliveryExecutionUri)
-    {
+    private function getDeliveryExecutionState($deliveryExecutionUri){
         $executionService = ServiceProxy::singleton();
         $deliveryExecution = $executionService->getDeliveryExecution($deliveryExecutionUri);
 
