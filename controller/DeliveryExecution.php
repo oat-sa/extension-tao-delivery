@@ -21,8 +21,8 @@
 namespace oat\taoDelivery\controller;
 use common_exception_BadRequest;
 use common_exception_MissingParameter;
-use common_exception_Unauthorized;
 use common_Logger;
+use Exception;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
 class DeliveryExecution extends \tao_actions_RestController
@@ -31,38 +31,27 @@ class DeliveryExecution extends \tao_actions_RestController
         $service = $this->getDeliveryExecutionsService();
         try {
             if (!$this->isRequestGet()) {
-                throw new \common_exception_BadRequest(sprintf('Bad Request Method: %s.', $this->getRequestMethod()));
+                throw new common_exception_BadRequest(sprintf('Bad Request Method: %s.', $this->getRequestMethod()));
             }
             $deliveryExecutionId = $this->getRequiredParameter('deliveryExecution');
-            $scoreReport = null;
+
             if(!$service->getDeliveryExecution($deliveryExecutionId)->exists() || !$service->getDeliveryExecution($deliveryExecutionId)->getDelivery()->exists()){
                throw  new common_exception_BadRequest('');
             }
-            $scores = $service->getScores($deliveryExecutionId);
-            $state = $service->getState($deliveryExecutionId);
-            if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
-                $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
-            }
-            return $this->returnJson([
-                'success' => true,
-                'state' => $state,
-                'scoreReport' => $scoreReport,
-                'scores' => $scores,
-            ]);
+            $response = $this->getStateReport($service, $deliveryExecutionId);
         }catch (common_exception_MissingParameter $e) {
-            return $this->generateError(false, 3, 'Bad request.');
+            $response= $this->generateError(false, 3, 'Bad request.');
         }
         /** @noinspection BadExceptionsProcessingInspection */
         catch (common_exception_BadRequest $e) {
-            return $this->generateError(false, 2, 'Bad request.');
+            $response = $this->generateError(false, 2, 'Bad request.');
         } /** @noinspection PhpWrongCatchClausesOrderInspection, BadExceptionsProcessingInspection */
          /** @noinspection BadExceptionsProcessingInspection */
-        catch (common_exception_Unauthorized $e) {
-            return $this->generateError(false, 4, 'Unauthorized');
-
-        } catch (Exception $e) {
+       catch (Exception $e) {
             common_Logger::e('Failed to get delivery execution state: ' . $e->getMessage());
-            return $this->generateError(false, 5, 'Failed to get delivery execution state.');
+           $response =  $this->generateError(false, 5, 'Failed to get delivery execution state.');
+        }finally{
+           return $this->returnJson($response);
         }
     }
 
@@ -92,10 +81,24 @@ class DeliveryExecution extends \tao_actions_RestController
     }
 
     protected function generateError($success, $errorCode, $errorMsg){
-        return $this->returnJson([
+        return [
             'success' => $success,
             'errorCode' => $errorCode,
             'errorMsg' => $errorMsg
-        ]);
+        ];
+    }
+    protected function getStateReport($service, $deliveryExecutionId){
+
+        $scores = $service->getScores($deliveryExecutionId);
+        $state = $service->getState($deliveryExecutionId);
+        if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
+            $scoreReport = $service->getScoreReport($deliveryExecutionId, $scores);
+        }
+       return [
+            'success' => true,
+            'state' => $state,
+            'scoreReport' => $scoreReport,
+            'scores' => $scores,
+        ];
     }
 }
