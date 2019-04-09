@@ -87,15 +87,6 @@ class DeliveryExecutionService extends  ConfigurableService
             foreach ($testVariables as $testVariable) {
                 /** @var \taoResultServer_models_classes_OutcomeVariable $variable */
                 $variable= $testVariable[0]->variable;
-                    $scoreReport[$variable->getIdentifier()] = $variable->getValue();
-            }
-        }
-        $testCallIds = $resultService->getTestsFromDeliveryResult($deliveryExecution->getIdentifier());
-        foreach ($testCallIds as $testCallId) {
-            $testVariables = $resultService->getVariablesFromObjectResult($testCallId);
-            foreach ($testVariables as $testVariable) {
-                /** @var \taoResultServer_models_classes_OutcomeVariable $variable */
-                $variable= $testVariable[0]->variable;
                 if (in_array($variable->getIdentifier(), array_keys($scoreReport))) {
                     $scoreReport[$variable->getIdentifier()] = $variable->getValue();
                 }
