@@ -400,10 +400,10 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('12.1.0', '13.0.0');
 
         if ($this->isVersion('13.0.0')) {
-            $DeliveryService = $this->getServiceManager()->get(DeliveryExecutionService::SERVICE_ID);
-            $DeliveryOptions = $DeliveryService->getOptions();
-            $DeliveryService->setOptions($DeliveryOptions);
-            $this->getServiceManager()->register(DeliveryExecutionService::SERVICE_ID, $DeliveryService);
+            $deliveryService = $this->getServiceManager()->get(DeliveryExecutionService::SERVICE_ID);
+            $deliveryOptions = $deliveryService->getOptions();
+            $deliveryService->setOptions($deliveryOptions);
+            $this->getServiceManager()->register(DeliveryExecutionService::SERVICE_ID, $deliveryService);
             $this->setVersion('13.1.0');
         }
 
