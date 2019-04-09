@@ -135,8 +135,6 @@ class DeliveryExecutionService extends  ConfigurableService
         return $renderer->render();
     }
 
-
-
     /**
      * Gets delivery execution state.
      *
@@ -174,8 +172,6 @@ class DeliveryExecutionService extends  ConfigurableService
         return $reportLang ? (string)$reportLang->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE)) : '';
     }
 
-
-
     public function getDeliveryExecution($deliveryExecution){
          return ServiceProxy::singleton()->getDeliveryExecution($deliveryExecution);
 
@@ -184,7 +180,6 @@ class DeliveryExecutionService extends  ConfigurableService
     public function getResultService(){
         return $this->getServiceManager()->get(ResultServiceWrapper::SERVICE_ID)->getService();
     }
-
 
     protected function getResultVariables($resultId, $filterSubmission='', $filterTypes = array()){
         $filterSubmission = ResultsService::VARIABLES_FILTER_LAST_SUBMITTED;
@@ -205,13 +200,6 @@ class DeliveryExecutionService extends  ConfigurableService
                 ? json_encode(array_diff_key($responses[$itemUri][$item['attempt']], $excludedVariables))
                 : null;
         }
-
         return $displayedVariables;
     }
-
-
-
-
-
-
 }
