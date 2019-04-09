@@ -19,6 +19,10 @@
  */
 
 namespace oat\taoDelivery\controller;
+use common_exception_BadRequest;
+use common_exception_MissingParameter;
+use common_exception_Unauthorized;
+use common_Logger;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
 class DeliveryExecution extends \tao_actions_RestController
@@ -31,6 +35,9 @@ class DeliveryExecution extends \tao_actions_RestController
             }
             $deliveryExecutionId = $this->getRequiredParameter('deliveryExecution');
             $scoreReport = null;
+            if(!$service->getDeliveryExecution($deliveryExecutionId)->exists() || !$service->getDeliveryExecution($deliveryExecutionId)->exists()){
+               throw  new common_exception_BadRequest();
+            }
             $scores = $service->getScores($deliveryExecutionId);
             $state = $service->getState($deliveryExecutionId);
             if ($state === DeliveryExecutionService::TEST_STATUS_FINISHED) {
@@ -42,14 +49,14 @@ class DeliveryExecution extends \tao_actions_RestController
                 'scoreReport' => $scoreReport,
                 'scores' => $scores,
             ]);
-        } /** @noinspection BadExceptionsProcessingInspection */
+        }catch (common_exception_MissingParameter $e) {
+            return $this->generateError(false, 3, 'Bad request.');
+        }
+        /** @noinspection BadExceptionsProcessingInspection */
         catch (common_exception_BadRequest $e) {
             return $this->generateError(false, 2, 'Bad request.');
         } /** @noinspection PhpWrongCatchClausesOrderInspection, BadExceptionsProcessingInspection */
-        catch (common_exception_MissingParameter $e) {
-            return $this->generateError(false, 3, 'Bad request.');
-
-        } /** @noinspection BadExceptionsProcessingInspection */
+         /** @noinspection BadExceptionsProcessingInspection */
         catch (common_exception_Unauthorized $e) {
             return $this->generateError(false, 4, 'Unauthorized');
 
@@ -77,13 +84,12 @@ class DeliveryExecution extends \tao_actions_RestController
             }
         }
         \common_Logger::i('Missing parameter ' . $requiredParameterName);
-        throw new \common_exception_MissingParameter('Missing parameter: ' . $requiredParameterName);
+        throw new common_exception_MissingParameter('Missing parameter: ' . $requiredParameterName);
     }
 
     protected function getDeliveryExecutionsService(){
         return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
     }
-
 
     protected function generateError($success, $errorCode, $errorMsg){
         return $this->returnJson([

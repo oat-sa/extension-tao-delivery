@@ -19,8 +19,6 @@
  */
 
 namespace oat\taoDelivery\model\execution;
-
-
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\Template;
@@ -30,7 +28,7 @@ use oat\taoOutcomeUi\model\ResultsService;
 use oat\taoOutcomeUi\model\Wrapper\ResultServiceWrapper;
 use Renderer;
 
-class DeliveryExecutionService extends  ConfigurableService
+class DeliveryExecutionService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
