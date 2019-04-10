@@ -19,6 +19,7 @@
  */
 
 namespace oat\taoDelivery\controller;
+
 use common_exception_BadRequest;
 use common_exception_MissingParameter;
 use common_Logger;
@@ -72,7 +73,7 @@ class DeliveryExecution extends \tao_actions_RestController
                 return $value;
             }
         }
-        \common_Logger::i('Missing parameter ' . $requiredParameterName);
+        common_Logger::i('Missing parameter ' . $requiredParameterName);
         throw new common_exception_MissingParameter('Missing parameter: ' . $requiredParameterName);
     }
 
@@ -97,7 +98,7 @@ class DeliveryExecution extends \tao_actions_RestController
        return [
             'success' => true,
             'state' => $state,
-            'scoreReport' => $scoreReport,
+            'scoreReport' => $scoreReport?:null,
             'scores' => $scores,
         ];
     }

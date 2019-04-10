@@ -17,8 +17,8 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  *
  */
-
 namespace oat\taoDelivery\model\execution;
+
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\Template;
@@ -178,6 +178,4 @@ class DeliveryExecutionService extends ConfigurableService
         }
         return $displayedVariables;
     }
-
-
 }
