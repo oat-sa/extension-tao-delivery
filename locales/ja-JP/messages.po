@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2019-02-15T10:27:11\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:06:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr "ゲストで受験"
+msgstr "ゲストとしてデリバリーにアクセス"
 
 msgid "All rights reserved."
 msgstr "All rights reserved."
@@ -35,7 +35,7 @@ msgid "Guest access"
 msgstr "ゲストアクセス"
 
 msgid "In progress"
-msgstr "実施中テスト"
+msgstr "実施中"
 
 msgid "Logout"
 msgstr "ログアウト"
@@ -44,13 +44,13 @@ msgid "My Tests"
 msgstr "テスト一覧"
 
 msgid "Resume"
-msgstr "再開"
+msgstr "再 開"
 
 msgid "Start"
-msgstr "開始"
+msgstr "開 始"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "%s 開始"
 
 msgid "Take or continue a test."
 msgstr "テストの受験・継続"
@@ -59,7 +59,7 @@ msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - An Open and Versatile Computer-Based Assessment Platform"
 
 msgid "TAO Delivery Server"
-msgstr "TAO　配信サーバ"
+msgstr "TAO 配信サーバー"
 
 msgid "TAO Guest Access"
 msgstr "TAO ゲストアクセス"
@@ -74,5 +74,5 @@ msgid "This test needs to be taken in full screen mode"
 msgstr "このテストはフルスクリーンモードが必要です。"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "このテストを受けることはできなくなりました"
 

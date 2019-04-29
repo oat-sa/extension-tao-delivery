@@ -1,1 +1,1 @@
-[]
+{"Access deliveries as a guest":"Akses ujian sebagai tamu","All rights reserved.":"Hak cipta dilindungi.","Available":"Tersedia","Close this prompt":"Tutup kotak ini","Enter full screen":"Masuk ke mode layar penuh","Exit":"Keluar","Guest access":"Akses tamu","In progress":"Dalam proses","Logout":"Keluar","My Tests":"Ujian Saya","Resume":"Lanjutkan","Start":"Mulai","Started at %s":"Dimulai pada %s","Take or continue a test.":"Laksanakan atau lanjutkan ujian"}

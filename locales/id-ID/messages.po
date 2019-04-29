@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint91\n"
-"PO-Revision-Date: 2019-02-15T10:27:11\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:09:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: id-ID\n"
@@ -14,46 +14,46 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Akses ujian sebagai tamu"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Hak cipta dilindungi."
 
 msgid "Available"
-msgstr ""
+msgstr "Tersedia"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Tutup kotak ini"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Masuk ke mode layar penuh"
 
 msgid "Exit"
-msgstr ""
+msgstr "Keluar"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Akses tamu"
 
 msgid "In progress"
-msgstr ""
+msgstr "Dalam proses"
 
 msgid "Logout"
-msgstr ""
+msgstr "Keluar"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Ujian Saya"
 
 msgid "Resume"
-msgstr ""
+msgstr "Lanjutkan"
 
 msgid "Start"
-msgstr ""
+msgstr "Mulai"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Dimulai pada %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Laksanakan atau lanjutkan ujian"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr ""
