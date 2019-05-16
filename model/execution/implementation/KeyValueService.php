@@ -75,7 +75,7 @@ class KeyValueService extends ConfigurableService implements Service
     {
         $returnValue = array();
         $data = $this->getPersistence()->get(self::USER_DELIVERY_PREFIX . $userUri . $compiled->getUri());
-        $keys = $data !== false ? json_decode($data) : array();
+        $keys = $data !== false ? json_decode($data, true) : array();
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $returnValue[$key] = $this->getDeliveryExecution($key);
@@ -133,7 +133,7 @@ class KeyValueService extends ConfigurableService implements Service
     private function addDeliveryToUserExecutionList($userId, $assemblyId, $executionId)
     {
         $uid = self::USER_DELIVERY_PREFIX . $userId . $assemblyId;
-        $data = json_decode($this->getPersistence()->get($uid));
+        $data = json_decode($this->getPersistence()->get($uid), true);
         if (!$data) {
             $data = [];
         }
@@ -150,7 +150,7 @@ class KeyValueService extends ConfigurableService implements Service
     {
         $returnValue = array();
         $data = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userUri . $status);
-        $keys = $data !== false ? json_decode($data) : array();
+        $keys = $data !== false ? json_decode($data, true) : array();
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $de = $this->getDeliveryExecution($key);
@@ -282,7 +282,7 @@ class KeyValueService extends ConfigurableService implements Service
     {
         $userId = $deliveryExecution->getUserIdentifier();
         $oldData = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userId . $old);
-        $oldStateKeys = $oldData !== false ? json_decode($oldData) : [];
+        $oldStateKeys = $oldData !== false ? json_decode($oldData, true) : [];
         $oldStateExecutions = [];
         if (is_array($oldStateKeys)) {
             foreach ($oldStateKeys as $key) {
@@ -295,7 +295,7 @@ class KeyValueService extends ConfigurableService implements Service
         }
 
         $newData = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userId . $new);
-        $newStateKeys = $newData !== false ? json_decode($newData) : [];
+        $newStateKeys = $newData !== false ? json_decode($newData, true) : [];
         $newStateExecutions = [];
         if (is_array($newStateKeys) && !isset($newStateKeys[$deliveryExecution->getIdentifier()])) {
             foreach ($newStateKeys as $key) {
