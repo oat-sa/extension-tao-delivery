@@ -20,6 +20,7 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_exception_NotFound;
+use common_exception_ResourceNotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 
@@ -104,12 +105,19 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
     }
     
     /**
-     * (non-PHPdoc)
+     * @throws common_exception_ResourceNotFound
      * @see DeliveryExecution::getDelivery()
      */
-    public function getDelivery() {
+    public function getDelivery()
+    {
         if (!isset($this->delivery)) {
-            $this->delivery = $this->getData(OntologyDeliveryExecution::PROPERTY_DELIVERY);
+            try {
+                $this->delivery = $this->getData(OntologyDeliveryExecution::PROPERTY_DELIVERY);
+            } catch (common_exception_NotFound $missingException) {
+                throw new common_exception_ResourceNotFound(
+                    __('Delivery Execution for %s not found', $this->getUri())
+                 );
+            }
         }
         return $this->delivery;
     }
