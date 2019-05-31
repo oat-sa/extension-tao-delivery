@@ -13,12 +13,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  */
 
 /**
  * configure the extension bundles
  * @author Bertrand Chevrier <bertrand@taotesting.com>
+ *
+ * @param {Object} grunt - the grunt object (by convention)
  */
 module.exports = function(grunt) {
     'use strict';
@@ -32,9 +34,11 @@ module.exports = function(grunt) {
                     bundles : [{
                         name : 'taoDelivery',
                         default : true
+                        babel : true
                     }, {
                         name : 'deliveryServerIndex',
                         bootstrap : true,
+                        babel : true,
                         entryPoint : 'taoDelivery/controller/DeliveryServer/index'
                     }]
                 }
