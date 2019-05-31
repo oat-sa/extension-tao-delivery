@@ -33,7 +33,7 @@ module.exports = function(grunt) {
                     outputDir : 'loader',
                     bundles : [{
                         name : 'taoDelivery',
-                        default : true
+                        default : true,
                         babel : true
                     }, {
                         name : 'deliveryServerIndex',
