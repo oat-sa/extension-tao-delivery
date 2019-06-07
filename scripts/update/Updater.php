@@ -411,21 +411,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('13.1.1');
         }
 
-        if ($this->isVersion('13.1.1')) {
-            $deliveryExecutionDeleteService = $this->getServiceManager()->get(DeliveryExecutionDeleteService::SERVICE_ID);
-            $previousServices       = $deliveryExecutionDeleteService->getOption(DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES);
-
-            if (!is_array($previousServices)) {
-                $previousServices = [$previousServices];
-            }
-            $deliveryExecutionDeleteService->setOption(DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES,
-                $previousServices
-            );
-
-            $this->getServiceManager()->register(DeliveryExecutionDeleteService::SERVICE_ID, $deliveryExecutionDeleteService);
-
-            $this->setVersion('13.1.2');
-        }
+        $this->skip('13.1.1', '13.1.2');
     }
 
 }
