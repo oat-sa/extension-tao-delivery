@@ -37,7 +37,7 @@ define([
      * @param {String} level - in supported feedbacks' levels
      * @param {String} content - the message to display
      */
-    var displayPermanentMessage = function displayPermanentMessage(level, content){
+    const displayPermanentMessage = function displayPermanentMessage(level, content){
         if(level && content){
             feedback($('.permanent-feedback'))[level](content, {
                 timeout : -1,
@@ -56,14 +56,14 @@ define([
          * @param {Object} [parameters] - controller's data
          * @param {Object} [parameters.message] - message data to display
          */
-        start: function start(parameters){
-            var deliveryStarted = false;
+        start(parameters){
+            let deliveryStarted = false;
 
             /**
              * Run/open the given delivery
              * @param {String} url - the delivery URL
              */
-            var runDelivery = function runDelivery (url) {
+            const runDelivery = function runDelivery (url) {
                 if(_.isString(url) && !_.isEmpty(url)){
                     deliveryStarted = true;
                     loadingBar.start();
@@ -71,17 +71,17 @@ define([
                 }
             };
 
-            var config = module.config();
+            const config = module.config();
 
 
             if (parameters && parameters.messages) {
-                _.forEach(parameters.messages, function(message) {
+                _.forEach(parameters.messages, message => {
                     displayPermanentMessage(message.level, message.content);
                 });
             }
 
             $('a.entry-point').on('click', function (e) {
-                var $elt = $(this);
+                const $elt = $(this);
 
                 e.preventDefault();
                 e.stopPropagation();
