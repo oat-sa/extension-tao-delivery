@@ -408,7 +408,7 @@ class Updater extends \common_ext_ExtensionUpdater
                 ]);
                 $this->getServiceManager()->register(DeliveryExecutionDeleteService::SERVICE_ID, $deliveryExecutionDeleteService);
             }
-            $this->setVersion('13.1.0');
+            $this->setVersion('13.1.1');
         }
     }
 
