@@ -43,6 +43,7 @@ use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
 use oat\taoDelivery\model\entrypoint\GuestAccess;
+use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteService;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
@@ -56,6 +57,7 @@ use oat\taoDelivery\model\container\LegacyRuntime;
 use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
 use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
+use oat\taoResultServer\models\classes\ResultServerService;
 
 /**
  * @author Joel Bout <joel@taotesting.com>
@@ -398,5 +400,16 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('12.1.0', '13.1.0');
+
+        if ($this->isVersion('13.1.0')) {
+            if (!$this->getServiceManager()->has(DeliveryExecutionDeleteService::SERVICE_ID)) {
+                $deliveryExecutionDeleteService = new DeliveryExecutionDeleteService([
+                    DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES => ResultServerService::SERVICE_ID
+                ]);
+                $this->getServiceManager()->register(DeliveryExecutionDeleteService::SERVICE_ID, $deliveryExecutionDeleteService);
+            }
+            $this->setVersion('13.1.1');
+        }
     }
+
 }
