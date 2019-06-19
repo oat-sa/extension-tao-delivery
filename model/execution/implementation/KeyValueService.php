@@ -53,7 +53,7 @@ class KeyValueService extends ConfigurableService implements Service
     private $persistence;
 
     /**
-     * @return common_persistence_KeyValuePersistence|\common_persistence_Persistence
+     * @return common_persistence_KeyValuePersistence
      */
     protected function getPersistence()
     {
