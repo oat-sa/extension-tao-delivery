@@ -28,19 +28,25 @@ use oat\taoDelivery\model\execution\Service as ExecutionService;
 
 class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {
+    const KV_PERSISTENCE_ID = 'dummy';
+
     /** @var KeyValueService */
     private $service;
+
+    /** @var \common_persistence_Manager */
+    private $persistenceMock;
 
     public function setUp()
     {
         parent::setUp();
 
-        $pmMock = $this->getKvMock('dummy');
+        $this->persistenceMock = $this->getKvMock(self::KV_PERSISTENCE_ID);
+
         $serviceLocatorMock = $this->getServiceLocatorMock([
-            \common_persistence_Manager::SERVICE_ID => $pmMock
+            \common_persistence_Manager::SERVICE_ID => $this->persistenceMock
         ]);
         $this->service = new KeyValueService([
-            KeyValueService::OPTION_PERSISTENCE => 'dummy'
+            KeyValueService::OPTION_PERSISTENCE => self::KV_PERSISTENCE_ID
         ]);
         $this->service->setServiceLocator($serviceLocatorMock);
     }
@@ -126,5 +132,26 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
 
         $this->assertCount(0, $deInStartState);
         $this->assertCount(1, $deInFinishState);
+    }
+
+    public function testExistsDeliveryDoNotExists()
+    {
+        $result = $this->service->exists('NOT_EXISTING_KEY');
+        $this->assertFalse($result, 'Result must be as expected for not existing delivery execution.');
+
+        $existsInStorage = $this->persistenceMock->getPersistenceById(self::KV_PERSISTENCE_ID)->exists('NOT_EXISTING_KEY');
+        $this->assertFalse($existsInStorage, 'Delivery should not exist in KV storage.');
+    }
+
+    public function testExistsDeliveryExists()
+    {
+        $deWrapper = $this->service->spawnDeliveryExecution('DUMMY label', 'DUMMY_DELIVERY_URI', 'dummyUser', 'http://uri.com/fake#StartState');
+        $deliveryExecutionKey = $deWrapper->getIdentifier();
+
+        $result = $this->service->exists($deliveryExecutionKey);
+        $this->assertTrue($result, 'Result must be as expected for existing delivery key.');
+
+        $existsInStorage = $this->persistenceMock->getPersistenceById(self::KV_PERSISTENCE_ID)->exists($deliveryExecutionKey);
+        $this->assertTrue($existsInStorage, 'Delivery execution key must exist in KV storage.');
     }
 }
