@@ -306,4 +306,12 @@ class KeyValueService extends ConfigurableService implements Service
         }
         $this->setDeliveryExecutions($userId, $new, $newStateExecutions);
     }
+
+    /**
+     * @param $deliveryExecutionId
+     * @return bool
+     */
+    public function exists($deliveryExecutionId) {
+        return $this->getPersistence()->exists($deliveryExecutionId);
+    }
 }
