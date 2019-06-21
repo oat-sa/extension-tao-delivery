@@ -53,7 +53,7 @@ class KeyValueService extends ConfigurableService implements Service
     private $persistence;
 
     /**
-     * @return common_persistence_KeyValuePersistence|\common_persistence_Persistence
+     * @return common_persistence_KeyValuePersistence
      */
     protected function getPersistence()
     {
@@ -305,5 +305,13 @@ class KeyValueService extends ConfigurableService implements Service
             $newStateExecutions[$deliveryExecution->getIdentifier()] = $deliveryExecution;
         }
         $this->setDeliveryExecutions($userId, $new, $newStateExecutions);
+    }
+
+    /**
+     * @param $deliveryExecutionId
+     * @return bool
+     */
+    public function exists($deliveryExecutionId) {
+        return $this->getPersistence()->exists($deliveryExecutionId);
     }
 }
