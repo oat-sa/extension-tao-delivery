@@ -84,9 +84,7 @@ class LegacyClientContainer extends AbstractContainer
         $container->setData('testDefinition', $this->getSourceTest($execution));
         $container->setData('testCompilation', $this->getPrivateDirId($execution).'|'.$this->getPublicDirId($execution));
 
-        $providers = $containerService->getProviders($execution);
-        $providers['plugins'] = $containerService->getPlugins($execution);
-        $container->setData('providers', $providers);
+        $container->setData('providers', $containerService->getProviders($execution));
         $container->setData('bootstrap', $containerService->getBootstrap($execution));
         $container->setData('serviceCallId', $execution->getIdentifier());
         $container->setData('deliveryExecution', $execution->getIdentifier());
