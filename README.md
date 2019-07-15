@@ -6,9 +6,7 @@
 ![GitHub release](https://img.shields.io/github/release/oat-sa/extension-tao-delivery.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/oat-sa/extension-tao-delivery.svg)
 
-> Short description of `oat-sa/extension-tao-delivery`
-
-Long description of `oat-sa/extension-tao-delivery`
+> Extension to manage deliveries
 
 ## Installation instructions
 
