@@ -1,13 +1,63 @@
-extension-tao-delivery
-======================
+# TAO _taoDelivery_ extension
 
-Extension to manage delivery
+![TAO Logo](https://github.com/oat-sa/taohub-developer-guide/raw/master/resources/tao-logo.png)
 
-# Configuration options:
+![GitHub](https://img.shields.io/github/license/oat-sa/extension-tao-delivery.svg)
+![GitHub release](https://img.shields.io/github/release/oat-sa/extension-tao-delivery.svg)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/oat-sa/extension-tao-delivery.svg)
 
-## AttemptService.conf.php
+> Short description of `oat-sa/extension-tao-delivery`
 
-### Configuration option "states_to_exclude"
+Long description of `oat-sa/extension-tao-delivery`
+
+## Installation instructions
+
+These instructions assume that you have already a TAO installation on your system. If you don't, go to
+[package/tao](https://github.com/oat-sa/package-tao) and follow the installation instructions.
+
+If you installed your TAO instance through [package/tao](https://github.com/oat-sa/package-tao),
+`oat-sa/extension-tao-delivery` is very likely already installed. You can verify this under _Settings -> Extension
+manager_, where it would appear on the left hand side as `taoDelivery`. Alternatively you would find it in
+the code at `/config/generis/installation.conf.php`.
+
+_Note, that you have to be logged in as System Administrator to do this._
+
+Add the extension to your TAO composer and to the autoloader:
+```bash
+composer require oat-sa/extension-tao-delivery
+```
+
+Install the extension on the CLI from the project root:
+
+**Linux:**
+```bash
+sudo php tao/scripts/installExtension oat-sa/extension-tao-delivery
+```
+
+**Windows:**
+```bash
+php tao\scripts\installExtension oat-sa/extension-tao-delivery
+```
+
+As a system administrator you also install it through the TAO Extension Manager:
+- Settings (the gears on the right hand side of the menu) -> Extension manager
+- Select _taoDelivery_ on the right hand side, check the box and hit _install_
+
+## REST API
+[](https://openapi.taotesting.com/viewer/?url=https://raw.githubusercontent.com/oat-sa/extension-tao-delivery/master/doc/rest.json)
+
+<!-- Uncomment and describe if applicable
+## LTI Endpoints
+-->
+
+## Extension Wiki
+You can find the [extension wiki here](https://github.com/oat-sa/extension-tao-delivery/wiki).
+
+## Configuration options
+
+### AttemptService.conf.php
+
+#### Configuration option "states_to_exclude"
 
 *Description :* when retrieving attempts (executions), those attempts with specified states won't be retrieved
 
@@ -19,9 +69,9 @@ Extension to manage delivery
 
 One can specify multiple states as an array to exclude.
 
-## authorization.conf.php
+### authorization.conf.php
 
-### Configuration option "providers"
+#### Configuration option "providers"
 
 *Description :* when verifying that a given delivery execution is allowed to be executed, the specified providers are used. For an execution to be rejected, at least one provider should throw an exception, return values are not considered 
 
@@ -33,9 +83,9 @@ One can specify multiple states as an array to exclude.
 * [ new oat\taoDelivery\model\authorization\strategy\StateValidation(), oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator() ]
 
 
-## DeliveryExecutionDelete.conf.php
+### DeliveryExecutionDelete.conf.php
 
-### Configuration option "deleteDeliveryExecutionDataServices"
+#### Configuration option "deleteDeliveryExecutionDataServices"
 
 *Description:* the list of services to remove a delivery execution
 
@@ -43,9 +93,9 @@ One can specify multiple states as an array to exclude.
 * Objects of a class that implements the DeliveryExecutionDelete interface.
 
 
-## deliveryFields.conf.php
+### deliveryFields.conf.php
 
-### Configuration option "http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel"
+#### Configuration option "http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel"
 
 *Description:* the use roles able to see delivery custom labels
 
@@ -55,15 +105,15 @@ One can specify multiple states as an array to exclude.
 *Value examples:* 
 * [ 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole' ]
 
-## DeliveryServer.conf.php
+### DeliveryServer.conf.php
 No options
 
-## execution_service.conf.php
+### execution_service.conf.php
 No options
 
-## returnUrl.conf.php
+### returnUrl.conf.php
 
-### Configuration option "extension"
+#### Configuration option "extension"
 
 *Description:* an extension name for composing a return URL
 
@@ -73,7 +123,7 @@ No options
 *Value examples:* 
 * taoDelivery
 
-### Configuration option "controller"
+#### Configuration option "controller"
 
 *Description:* a controller (module) name for composing a return URL
 
@@ -83,7 +133,7 @@ No options
 *Value examples:* 
 * Main
 
-### Configuration option "method"
+#### Configuration option "method"
 
 *Description:* a method (action) for composing a return URL
 
@@ -93,8 +143,8 @@ No options
 *Value examples:* 
 * index
 
-## Runtime.conf.php
+### Runtime.conf.php
 No options
 
-## stateService.conf.php
+### stateService.conf.php
 No options
