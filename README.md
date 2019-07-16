@@ -48,9 +48,6 @@ As a system administrator you also install it through the TAO Extension Manager:
 ## LTI Endpoints
 -->
 
-## Extension Wiki
-You can find the [extension wiki here](https://github.com/oat-sa/extension-tao-delivery/wiki).
-
 ## Configuration options
 
 ### AttemptService.conf.php
@@ -103,12 +100,6 @@ One can specify multiple states as an array to exclude.
 *Value examples:* 
 * `[ 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole' ]`
 
-### DeliveryServer.conf.php
-No options
-
-### execution_service.conf.php
-No options
-
 ### returnUrl.conf.php
 
 #### Configuration option `extension`
@@ -141,8 +132,5 @@ No options
 *Value examples:* 
 * `index`
 
-### Runtime.conf.php
-No options
-
-### stateService.conf.php
-No options
+## Extension Wiki
+You can find the [extension wiki here](https://github.com/oat-sa/extension-tao-delivery/wiki).
