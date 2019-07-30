@@ -23,6 +23,7 @@ namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\oatbox\event\Event;
 use oat\oatbox\user\User;
+use oat\tao\model\webhooks\WebhookSerializableInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
@@ -30,7 +31,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  *
  * @author Joel Bout, <joel@taotesting.com>
  */
-class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
+class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface, WebhookSerializableInterface
 {
     const EVENT_NAME = __CLASS__;
 
@@ -54,8 +55,8 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
     private $user;
 
     /**
-     * DeliveryExecutionState constructor.
      * @param DeliveryExecutionInterface $deliveryExecution
+     * @param User $user
      */
     public function __construct(DeliveryExecutionInterface $deliveryExecution, User $user)
     {
@@ -75,10 +76,21 @@ class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface
 
     /**
      * Returns the user for whom the delivery execution was created
-     * @return \oat\oatbox\user\User
+     * @return User
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return array
+     * @throws \common_exception_NotFound
+     */
+    public function serializeForWebhook()
+    {
+        return [
+            'delivery_execution_id' => $this->deliveryExecution->getIdentifier()
+        ];
     }
 }
