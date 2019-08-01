@@ -433,7 +433,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(WebhookEventsServiceInterface::SERVICE_ID, $webhooksService);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-            $this->setVersion('13.4.1');
+            $this->setVersion('14.0.0');
         }
     }
 }
