@@ -21,9 +21,8 @@
 
 namespace oat\taoDelivery\models\classes\execution\event;
 
-use oat\oatbox\event\Event;
 use oat\oatbox\user\User;
-use oat\tao\model\webhooks\WebhookSerializableInterface;
+use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
@@ -31,7 +30,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  *
  * @author Joel Bout, <joel@taotesting.com>
  */
-class DeliveryExecutionCreated implements Event, DeliveryExecutionAwareInterface, WebhookSerializableInterface
+class DeliveryExecutionCreated implements WebhookSerializableEventInterface, DeliveryExecutionAwareInterface
 {
     const EVENT_NAME = __CLASS__;
 

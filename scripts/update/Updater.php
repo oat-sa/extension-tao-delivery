@@ -34,7 +34,7 @@ use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
-use oat\tao\model\webhooks\EventWebhooksServiceInterface;
+use oat\tao\model\webhooks\WebhookEventsServiceInterface;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\controller\RestExecution;
@@ -426,15 +426,14 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('13.4.0')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            /** @var EventWebhooksServiceInterface $webhooksService */
-            $webhooksService = $this->getServiceManager()->get(EventWebhooksServiceInterface::SERVICE_ID);
-            $webhooksService->registerEvent(DeliveryExecutionCreated::EVENT_NAME, $eventManager);
+            /** @var WebhookEventsServiceInterface $webhooksService */
+            $webhooksService = $this->getServiceManager()->get(WebhookEventsServiceInterface::SERVICE_ID);
+            $webhooksService->registerEvent(DeliveryExecutionCreated::EVENT_NAME);
             /** @noinspection PhpParamsInspection */
-            $this->getServiceManager()->register(EventWebhooksServiceInterface::SERVICE_ID, $webhooksService);
+            $this->getServiceManager()->register(WebhookEventsServiceInterface::SERVICE_ID, $webhooksService);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
             $this->setVersion('13.4.1');
         }
     }
-
 }
