@@ -26,6 +26,7 @@ use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use common_ext_InstallationException;
 use common_persistence_Manager;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -33,6 +34,7 @@ use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\webhooks\WebhookEventsServiceInterface;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoDelivery\controller\RestExecution;
@@ -48,6 +50,7 @@ use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\model\execution\StateService;
@@ -412,6 +415,25 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('13.1.1', '13.3.0');
-    }
 
+        if ($this->isVersion('13.3.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('13.3.1');
+        }
+
+        $this->skip('13.3.1', '13.4.0');
+
+        if ($this->isVersion('13.4.0')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            /** @var WebhookEventsServiceInterface $webhooksService */
+            $webhooksService = $this->getServiceManager()->get(WebhookEventsServiceInterface::SERVICE_ID);
+            $webhooksService->registerEvent(DeliveryExecutionCreated::EVENT_NAME);
+            /** @noinspection PhpParamsInspection */
+            $this->getServiceManager()->register(WebhookEventsServiceInterface::SERVICE_ID, $webhooksService);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('14.0.0');
+        }
+    }
 }

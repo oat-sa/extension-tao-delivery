@@ -23,6 +23,7 @@
 use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\scripts\install\RegisterServiceContainer;
+use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
 
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 $taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
@@ -32,10 +33,10 @@ return array(
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '13.3.0',
+    'version' => '14.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'tao' => '>=36.1.0',
+        'tao' => '>=38.3.1',
     	'generis' => '>=11.2.3',
         'taoResultServer' => '>=5.0.0'
     ),
@@ -45,7 +46,8 @@ return array(
             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
             \oat\taoDelivery\scripts\install\installDeliveryFields::class,
             \oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable::class,
-            RegisterServiceContainer::class
+            RegisterServiceContainer::class,
+            RegisterWebhookEvents::class
         )
     ),
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
