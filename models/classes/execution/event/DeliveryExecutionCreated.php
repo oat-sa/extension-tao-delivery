@@ -32,7 +32,8 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 class DeliveryExecutionCreated implements WebhookSerializableEventInterface, DeliveryExecutionAwareInterface
 {
-    const EVENT_NAME = __CLASS__;
+    const EVENT_NAME = self::class;
+    const WEBHOOK_EVENT_NAME = 'DeliveryExecutionCreated';
 
     /**
      * (non-PHPdoc)
@@ -83,13 +84,21 @@ class DeliveryExecutionCreated implements WebhookSerializableEventInterface, Del
     }
 
     /**
+     * @return string
+     */
+    public function getWebhookEventName()
+    {
+        return self::WEBHOOK_EVENT_NAME;
+    }
+
+    /**
      * @return array
      * @throws \common_exception_NotFound
      */
     public function serializeForWebhook()
     {
         return [
-            'delivery_execution_id' => $this->deliveryExecution->getIdentifier()
+            'deliveryExecutionId' => $this->deliveryExecution->getIdentifier()
         ];
     }
 }
