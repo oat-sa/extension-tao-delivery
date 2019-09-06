@@ -186,7 +186,17 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
     }
 
     /**
+     * @return bool
+     */
+    public function exists()
+    {
+        return $this->service->exists($this->id);
+    }
+
+    /**
      * Stored the current data
+     *
+     * @deprecated since version 13.1.0 - not used anywhere
      */
     private function save()
     {
