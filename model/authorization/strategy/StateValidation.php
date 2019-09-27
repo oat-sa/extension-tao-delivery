@@ -50,7 +50,7 @@ class StateValidation extends ConfigurableService  implements AuthorizationProvi
     {
         $stateId = $deliveryExecution->getState()->getUri();
         if (!in_array($stateId, $this->getResumableStates())) {
-            \common_Logger::w('Unexpected state "'.$stateId);
+            \common_Logger::w('Unexpected state "'.$stateId . '; delivery execution: ' . $deliveryExecution->getIdentifier());
             throw new \common_exception_Unauthorized();
         }
     }
