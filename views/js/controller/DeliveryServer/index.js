@@ -25,12 +25,16 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'module',
     'core/router',
     'ui/feedback',
+    'core/logger',
     'layout/loading-bar'
-], function($, _, module, router, feedback, loadingBar){
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar){
     'use strict';
+
+    const logger = loggerFactory('deliveryServer');
 
     /**
      * Display a permanent message
@@ -47,6 +51,21 @@ define([
     };
 
     /**
+     * Extract standard LTI error parameters from query string
+     * @returns {Object} LTI error parameters
+     */
+    const getLTIErrorParameters = function getLTIErrorParameters() {
+        const { searchParams } = new URL(window.location.href);
+
+        return ['lti_errormsg', 'lti_errorlog'].reduce((params, paramName) => {
+            if (searchParams.has(paramName)) {
+                params[paramName] = searchParams.get(paramName);
+            }
+            return params;
+        }, {});
+    };
+
+    /**
      * The DeliveryServer/index controller
      */
     return {
@@ -54,7 +73,7 @@ define([
         /**
          * Controller entry point
          * @param {Object} [parameters] - controller's data
-         * @param {Object} [parameters.message] - message data to display
+         * @param {Object} [parameters.messages] - message data to display
          */
         start(parameters){
             let deliveryStarted = false;
@@ -73,12 +92,22 @@ define([
 
             const config = module.config();
 
-
+            // display as feedbacks any messages in parameters
             if (parameters && parameters.messages) {
                 _.forEach(parameters.messages, message => {
                     displayPermanentMessage(message.level, message.content);
                 });
             }
+
+            // display as feedbacks any LTI error messages from query string
+            const { lti_errormsg: ltiErrorMsg, lti_errorlog: ltiErrorLog } = getLTIErrorParameters();
+
+            if (ltiErrorMsg) {
+                displayPermanentMessage('error', ltiErrorMsg.length ? ltiErrorMsg : __('An error occurred!'));
+            };
+            if (ltiErrorLog) {
+                logger.error(`${ltiErrorMsg} ${ltiErrorLog}`);
+            };
 
             $('a.entry-point').on('click', function (e) {
                 const $elt = $(this);
