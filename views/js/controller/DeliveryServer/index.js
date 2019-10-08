@@ -30,7 +30,8 @@ define([
     'core/router',
     'ui/feedback',
     'core/logger',
-    'layout/loading-bar'
+    'layout/loading-bar',
+    'url-polyfill'
 ], function($, _, __, module, router, feedback, loggerFactory, loadingBar){
     'use strict';
 
