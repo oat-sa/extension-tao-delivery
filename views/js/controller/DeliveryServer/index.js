@@ -42,7 +42,7 @@ define([
      * @param {String} level - in supported feedbacks' levels
      * @param {String} content - the message to display
      */
-    const displayPermanentMessage = function displayPermanentMessage(level, content){
+    const displayPermanentMessage = (level, content) => {
         if(level && content){
             feedback($('.permanent-feedback'))[level](content, {
                 timeout : -1,
@@ -55,7 +55,7 @@ define([
      * Extract standard LTI error parameters from query string
      * @returns {Object} LTI error parameters
      */
-    const getLTIErrorParameters = function getLTIErrorParameters() {
+    const getLTIErrorParameters = () => {
         const { searchParams } = new URL(window.location.href);
 
         return ['lti_errormsg', 'lti_errorlog'].reduce((params, paramName) => {
@@ -107,7 +107,7 @@ define([
                 displayPermanentMessage('error', ltiErrorMsg.length ? ltiErrorMsg : __('An error occurred!'));
             };
             if (ltiErrorLog) {
-                logger.error(`${ltiErrorMsg} ${ltiErrorLog}`);
+                logger.error(ltiErrorLog);
             };
 
             $('a.entry-point').on('click', function (e) {
