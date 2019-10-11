@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -25,25 +25,45 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'module',
     'core/router',
     'ui/feedback',
-    'layout/loading-bar'
-], function($, _, module, router, feedback, loadingBar){
+    'core/logger',
+    'layout/loading-bar',
+    'url-polyfill'
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar){
     'use strict';
+
+    const logger = loggerFactory('deliveryServer');
 
     /**
      * Display a permanent message
      * @param {String} level - in supported feedbacks' levels
      * @param {String} content - the message to display
      */
-    const displayPermanentMessage = function displayPermanentMessage(level, content){
+    const displayPermanentMessage = (level, content) => {
         if(level && content){
             feedback($('.permanent-feedback'))[level](content, {
                 timeout : -1,
                 popup : false
             });
         }
+    };
+
+    /**
+     * Extract standard LTI error parameters from query string
+     * @returns {Object} LTI error parameters
+     */
+    const getLTIErrorParameters = () => {
+        const { searchParams } = new URL(window.location.href);
+
+        return ['lti_errormsg', 'lti_errorlog'].reduce((params, paramName) => {
+            if (searchParams.has(paramName)) {
+                params[paramName] = searchParams.get(paramName);
+            }
+            return params;
+        }, {});
     };
 
     /**
@@ -54,7 +74,7 @@ define([
         /**
          * Controller entry point
          * @param {Object} [parameters] - controller's data
-         * @param {Object} [parameters.message] - message data to display
+         * @param {Object} [parameters.messages] - message data to display
          */
         start(parameters){
             let deliveryStarted = false;
@@ -73,12 +93,22 @@ define([
 
             const config = module.config();
 
-
+            // display as feedbacks any messages in parameters
             if (parameters && parameters.messages) {
                 _.forEach(parameters.messages, message => {
                     displayPermanentMessage(message.level, message.content);
                 });
             }
+
+            // display as feedbacks any LTI error messages from query string
+            const { lti_errormsg: ltiErrorMsg, lti_errorlog: ltiErrorLog } = getLTIErrorParameters();
+
+            if (ltiErrorMsg) {
+                displayPermanentMessage('error', ltiErrorMsg.length ? ltiErrorMsg : __('An error occurred!'));
+            };
+            if (ltiErrorLog) {
+                logger.error(ltiErrorLog);
+            };
 
             $('a.entry-point').on('click', function (e) {
                 const $elt = $(this);
