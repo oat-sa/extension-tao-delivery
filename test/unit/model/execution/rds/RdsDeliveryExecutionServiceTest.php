@@ -196,8 +196,6 @@ class RdsDeliveryExecutionServiceTest extends TestCase
 
     private function insertNewRow()
     {
-        $currentDateTime = new \DateTime();
-
         $query = "INSERT INTO " . RdsDeliveryExecutionService::TABLE_NAME . " ("
             . RdsDeliveryExecutionService::COLUMN_ID . ", "
             . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . ", "
@@ -207,7 +205,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
             . RdsDeliveryExecutionService::COLUMN_STARTED_AT . ", "
             . RdsDeliveryExecutionService::COLUMN_LABEL
             . ") VALUES ("
-            . "'test', 'test', 'test', 'test', '', '" .     $currentDateTime->format("Y-m-d H:i:s") . "', 'test'"
+            . "'test', 'test', 'test', 'test', '', '" . $this->persistence->getPlatform()->getNowExpression() . "', 'test'"
             . ")"
         ;
 
