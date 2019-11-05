@@ -20,7 +20,7 @@ msgid "All rights reserved."
 msgstr "Visos teisės saugomos."
 
 msgid "Available"
-msgstr "Galimas"
+msgstr "Galimi testai"
 
 msgid "Close this prompt"
 msgstr "Uždaryti šį langą"
@@ -59,7 +59,7 @@ msgid "Take or continue a test."
 msgstr "Pradėti arba tęsti testą."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO – Atvira ir Įvairiapusė Įvertinimo Platforma"
+msgstr "TAO - atvirojo kodo testavimo platforma"
 
 msgid "TAO Delivery Server"
 msgstr "TAO Pateikties Serveris"
