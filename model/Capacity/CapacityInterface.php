@@ -36,4 +36,12 @@ interface CapacityInterface
      * @return int
      */
     public function getCapacity();
+
+    /**
+     * transaction safe function to consume capacity
+     * returns true on success, false on failure
+     *
+     * @return boolean
+     */
+    public function consume();
 }

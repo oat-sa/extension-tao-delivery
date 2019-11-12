@@ -24,12 +24,18 @@ use oat\oatbox\service\ConfigurableService;
 
 class DummyCapacityService extends ConfigurableService implements CapacityInterface
 {
+    const OPTION_CAPACITY = 'capacity';
+
     /**
      * By default do not limit the capacity
      * {@inheritDoc}
      * @see \oat\taoDelivery\model\Capacity\CapacityInterface::getCapacity()
      */
     public function getCapacity() {
-        return -1;
+        return $this->hasOption(self::OPTION_CAPACITY) ? $this->getOption(self::OPTION_CAPACITY) : -1;
+    }
+    
+    public function consume() {
+        return $this->getCapacity() > 0 || $this->getCapacity() == -1;
     }
 }
