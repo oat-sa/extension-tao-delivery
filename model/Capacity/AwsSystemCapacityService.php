@@ -21,14 +21,18 @@ namespace oat\taoDelivery\model\Capacity;
 
 
 use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metrics\MetricsService;
+use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\Metrics\AwsLoadMetric;
 
 class AwsSystemCapacityService extends ConfigurableService implements CapacityInterface
 {
+    use EventManagerAwareTrait;
+
     const METRIC = AwsLoadMetric::class;
 
     const OPTION_AWS_PROBE_LIMIT = 'aws_probe';
@@ -50,7 +54,6 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
      *
      * @return int
      * @throws \common_Exception
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     public function getCapacity()
     {
@@ -60,15 +63,16 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
         $currentActiveTestTakers = $deliveryExecutionService->count(DeliveryExecution::STATE_ACTIVE);
         $previousActiveTestTakers = (int) $persistence->get(self::ACTIVE_EXECUTIONS_CACHE_KEY);
 
-        $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
+        $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
 
-        if (!$capacity) {
+        if (!$cachedCapacity) {
             $awsLimit = $this->getOption(self::OPTION_AWS_PROBE_LIMIT) ?? self::FALLBACK_AWS_LIMIT;
             $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::FALLBACK_TAO_LIMIT;
             $awsMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
             $currentAwsLoad = $awsMetricService->collect();
             $capacity = (1 - $currentAwsLoad / $awsLimit) * $taoLimit;
             $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::FALLBACK_TTL);
+            $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
             $persistence->set(self::ACTIVE_EXECUTIONS_CACHE_KEY, $currentActiveTestTakers);
             $previousActiveTestTakers = $currentActiveTestTakers;
         }
