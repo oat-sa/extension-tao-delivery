@@ -21,7 +21,7 @@ namespace oat\taoDelivery\model\Capacity;
 
 
 use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
@@ -31,8 +31,6 @@ use oat\taoDelivery\model\Metrics\AwsLoadMetric;
 
 class AwsSystemCapacityService extends ConfigurableService implements CapacityInterface
 {
-    use EventManagerAwareTrait;
-
     const METRIC = AwsLoadMetric::class;
 
     const OPTION_AWS_PROBE_LIMIT = 'aws_probe';
@@ -91,7 +89,7 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
      */
     public function consume()
     {
-        return true;
+        return $this->getCapacity() > 0;
     }
 
     /**
@@ -102,5 +100,13 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?? self::FALLBACK_PERSISTENCE;
 
         return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById($persistenceId);
+    }
+
+    /**
+     * @return EventManager
+     */
+    private function getEventManager()
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 }

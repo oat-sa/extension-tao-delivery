@@ -22,6 +22,7 @@ namespace oat\taoDelivery\test\unit\model\Capacity;
 use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\TestCase;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\Capacity\AwsSystemCapacityService;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
@@ -37,13 +38,12 @@ class AwsSystemCapacityServiceTest extends TestCase
     ) {
         $deliveryExecutionCounterMock = $this->createMock(DeliveryExecutionCounterInterface::class);
         $deliveryExecutionCounterMock->method('count')->willReturn($currentActiveExecutions);
-        $persistenceManagerMock = $this->createPersistenceManagerMock($cachedCapacity, $cachedActiveExecutions);
-        $metricsServiceMock = $this->createMetricsMock($currentAwsLoad);
 
         $serviceLocatorMock = $this->getServiceLocatorMock([
             DeliveryExecutionCounterInterface::SERVICE_ID => $deliveryExecutionCounterMock,
-            PersistenceManager::SERVICE_ID => $persistenceManagerMock,
-            MetricsService::class => $metricsServiceMock,
+            PersistenceManager::SERVICE_ID => $this->createPersistenceManagerMock($cachedCapacity, $cachedActiveExecutions),
+            EventManager::SERVICE_ID => $this->createMock(EventManager::class),
+            MetricsService::class => $this->createMetricsMock($currentAwsLoad),
         ]);
         $service = new AwsSystemCapacityService([
             AwsSystemCapacityService::OPTION_AWS_PROBE_LIMIT => $awsLimit,
