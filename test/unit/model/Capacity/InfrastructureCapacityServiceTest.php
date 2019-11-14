@@ -25,12 +25,12 @@ use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\metrics\MetricsService;
-use oat\taoDelivery\model\Capacity\AwsSystemCapacityService;
+use oat\taoDelivery\model\Capacity\InfrastructureCapacityService;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
 use oat\taoDelivery\model\Metrics\AwsLoadMetric;
 use Psr\Log\LoggerInterface;
 
-class AwsSystemCapacityServiceTest extends TestCase
+class InfrastructureCapacityServiceTest extends TestCase
 {
     /**
      * @dataProvider provideConfigAndMetricData
@@ -48,11 +48,11 @@ class AwsSystemCapacityServiceTest extends TestCase
             LoggerService::SERVICE_ID => $this->createMock(LoggerInterface::class),
             MetricsService::class => $this->createMetricsMock($currentAwsLoad),
         ]);
-        $service = new AwsSystemCapacityService([
-            AwsSystemCapacityService::OPTION_AWS_PROBE_LIMIT => $awsLimit,
-            AwsSystemCapacityService::OPTION_TAO_CAPACITY_LIMIT => $taoLimit,
-            AwsSystemCapacityService::OPTION_TTL => 60,
-            AwsSystemCapacityService::OPTION_PERSISTENCE => 'testPersistence',
+        $service = new InfrastructureCapacityService([
+            InfrastructureCapacityService::OPTION_INFRASTRUCTURE_LOAD_LIMIT => $awsLimit,
+            InfrastructureCapacityService::OPTION_TAO_CAPACITY_LIMIT => $taoLimit,
+            InfrastructureCapacityService::OPTION_TTL => 60,
+            InfrastructureCapacityService::OPTION_PERSISTENCE => 'testPersistence',
         ]);
         $service->setServiceLocator($serviceLocatorMock);
 
@@ -123,9 +123,9 @@ class AwsSystemCapacityServiceTest extends TestCase
         $persistenceMock = $this->createMock(common_persistence_KeyValuePersistence::class);
         $persistenceMock->method('get')->willReturnCallback(function ($argument) use ($cachedCapacity, $cachedActiveExecutions) {
             switch ($argument) {
-                case AwsSystemCapacityService::CAPACITY_CACHE_KEY:
+                case InfrastructureCapacityService::CAPACITY_CACHE_KEY:
                     return $cachedCapacity;
-                case AwsSystemCapacityService::ACTIVE_EXECUTIONS_CACHE_KEY:
+                case InfrastructureCapacityService::ACTIVE_EXECUTIONS_CACHE_KEY:
                     return $cachedActiveExecutions;
             }
         });

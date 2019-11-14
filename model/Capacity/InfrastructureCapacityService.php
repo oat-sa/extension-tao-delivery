@@ -29,25 +29,25 @@ use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\taoDelivery\model\Metrics\AwsLoadMetric;
+use oat\taoDelivery\model\Metrics\InfrastructureLoadMetricInterface;
 
-class AwsSystemCapacityService extends ConfigurableService implements CapacityInterface
+class InfrastructureCapacityService extends ConfigurableService implements CapacityInterface
 {
     use LoggerAwareTrait;
 
-    const METRIC = AwsLoadMetric::class;
+    const METRIC = InfrastructureLoadMetricInterface::class;
 
-    const OPTION_AWS_PROBE_LIMIT = 'aws_probe';
+    const OPTION_INFRASTRUCTURE_LOAD_LIMIT = 'infrastructure_load_limit';
     const OPTION_TAO_CAPACITY_LIMIT = 'tao_capacity';
     const OPTION_PERSISTENCE = 'persistence';
     const OPTION_TTL = 'ttl';
 
-    const DEFAULT_AWS_LIMIT = 75;
-    const DEFAULT_TAO_LIMIT = 100;
+    const DEFAULT_INFRASTRUCTURE_LOAD_LIMIT = 75;
+    const DEFAULT_TAO_CAPACITY_LIMIT = 100;
     const DEFAULT_TTL = 300;
 
-    const CAPACITY_CACHE_KEY = 'AwsSystemCapacityService_capacity';
-    const ACTIVE_EXECUTIONS_CACHE_KEY = 'AwsSystemCapacityService_active_executions';
+    const CAPACITY_CACHE_KEY = 'infrastructure_capacity';
+    const ACTIVE_EXECUTIONS_CACHE_KEY = 'infrastructure_active_executions';
 
     /**
      * Returns the available capacity of the system
@@ -67,12 +67,12 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
         $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
 
         if (!$cachedCapacity) {
-            $awsLimit = $this->getOption(self::OPTION_AWS_PROBE_LIMIT) ?? self::DEFAULT_AWS_LIMIT;
-            $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::DEFAULT_TAO_LIMIT;
-            $awsMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
-            $currentAwsLoad = $awsMetricService->collect();
-            $capacity = (1 - $currentAwsLoad / $awsLimit) * $taoLimit;
-            $this->logCapacityCalculationDetails($capacity, $currentAwsLoad, $awsLimit, $taoLimit);
+            $infrastructureLoadLimit = $this->getOption(self::OPTION_INFRASTRUCTURE_LOAD_LIMIT) ?? self::DEFAULT_INFRASTRUCTURE_LOAD_LIMIT;
+            $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::DEFAULT_TAO_CAPACITY_LIMIT;
+            $infrastructureMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
+            $currentInfrastructureLoad = $infrastructureMetricService->collect();
+            $capacity = (1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit;
+            $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
             $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::DEFAULT_TTL);
             $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
             $persistence->set(self::ACTIVE_EXECUTIONS_CACHE_KEY, $currentActiveTestTakers);
@@ -118,11 +118,11 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 
-    private function logCapacityCalculationDetails($capacity, $currentAwsLoad, $awsLimit, $taoLimit)
+    private function logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit)
     {
         $this->getLogger()->debug(sprintf(
-            'Recalculated system capacity: %s, current AWS load: %s%%, configured AWS limit: %s%%, configured TAO limit: %s',
-            $capacity, $currentAwsLoad, $awsLimit, $taoLimit
+            'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
+            $capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit
         ));
     }
 }

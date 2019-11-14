@@ -25,7 +25,7 @@ use oat\tao\model\metrics\implementations\abstractMetrics;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 
-class AwsLoadMetric extends abstractMetrics
+class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricInterface
 {
     private $awsClient;
 
