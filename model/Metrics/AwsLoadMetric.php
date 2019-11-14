@@ -65,7 +65,7 @@ class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricI
             $active = $this->getMetric();
             $this->getPersistence()->set(self::class, $active, $this->getOption(self::OPTION_TTL));
             /** @var DeliveryExecutionCounterInterface $deliveryExecutionService */
-            $deliveryExecutionService = $this->getServiceManager()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
+            $deliveryExecutionService = $this->getServiceLocator()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
             $deliveryExecutionService->refresh(DeliveryExecution::STATE_ACTIVE);
         }
         return $active;
@@ -98,12 +98,11 @@ class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricI
     /**
      * Requires lib-generis-aws at least 0.9.3
      * @return AwsClient
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     public function getAwsClient()
     {
         if (!$this->awsClient) {
-            $this->awsClient = $this->getServiceManager()->get('generis/awsClient');
+            $this->awsClient = $this->getServiceLocator()->get('generis/awsClient');
         }
         return $this->awsClient;
     }
