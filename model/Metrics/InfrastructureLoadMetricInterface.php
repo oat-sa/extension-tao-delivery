@@ -19,6 +19,10 @@
 
 namespace oat\taoDelivery\model\Metrics;
 
+/**
+ * The metric implementing this interface should calculate
+ * the infrastructure load and provide it in percentage
+ */
 interface InfrastructureLoadMetricInterface
 {
 }
