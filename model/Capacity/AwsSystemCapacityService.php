@@ -20,8 +20,10 @@
 namespace oat\taoDelivery\model\Capacity;
 
 
+use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
@@ -31,6 +33,8 @@ use oat\taoDelivery\model\Metrics\AwsLoadMetric;
 
 class AwsSystemCapacityService extends ConfigurableService implements CapacityInterface
 {
+    use LoggerAwareTrait;
+
     const METRIC = AwsLoadMetric::class;
 
     const OPTION_AWS_PROBE_LIMIT = 'aws_probe';
@@ -38,10 +42,9 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
     const OPTION_PERSISTENCE = 'persistence';
     const OPTION_TTL = 'ttl';
 
-    const FALLBACK_AWS_LIMIT = 75;
-    const FALLBACK_TAO_LIMIT = 100;
-    const FALLBACK_TTL = 300;
-    const FALLBACK_PERSISTENCE = 'metricsCache';
+    const DEFAULT_AWS_LIMIT = 75;
+    const DEFAULT_TAO_LIMIT = 100;
+    const DEFAULT_TTL = 300;
 
     const CAPACITY_CACHE_KEY = 'AwsSystemCapacityService_capacity';
     const ACTIVE_EXECUTIONS_CACHE_KEY = 'AwsSystemCapacityService_active_executions';
@@ -64,12 +67,13 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
         $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
 
         if (!$cachedCapacity) {
-            $awsLimit = $this->getOption(self::OPTION_AWS_PROBE_LIMIT) ?? self::FALLBACK_AWS_LIMIT;
-            $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::FALLBACK_TAO_LIMIT;
+            $awsLimit = $this->getOption(self::OPTION_AWS_PROBE_LIMIT) ?? self::DEFAULT_AWS_LIMIT;
+            $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::DEFAULT_TAO_LIMIT;
             $awsMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
             $currentAwsLoad = $awsMetricService->collect();
             $capacity = (1 - $currentAwsLoad / $awsLimit) * $taoLimit;
-            $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::FALLBACK_TTL);
+            $this->logCapacityCalculationDetails($capacity, $currentAwsLoad, $awsLimit, $taoLimit);
+            $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::DEFAULT_TTL);
             $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
             $persistence->set(self::ACTIVE_EXECUTIONS_CACHE_KEY, $currentActiveTestTakers);
             $previousActiveTestTakers = $currentActiveTestTakers;
@@ -97,7 +101,11 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
      */
     private function getPersistence()
     {
-        $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?? self::FALLBACK_PERSISTENCE;
+        if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
+            throw new InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
+        }
+
+        $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
 
         return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
@@ -108,5 +116,13 @@ class AwsSystemCapacityService extends ConfigurableService implements CapacityIn
     private function getEventManager()
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function logCapacityCalculationDetails($capacity, $currentAwsLoad, $awsLimit, $taoLimit)
+    {
+        $this->getLogger()->debug(sprintf(
+            'Recalculated system capacity: %s, current AWS load: %s%%, configured AWS limit: %s%%, configured TAO limit: %s',
+            $capacity, $currentAwsLoad, $awsLimit, $taoLimit
+        ));
     }
 }

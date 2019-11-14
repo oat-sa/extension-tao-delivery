@@ -23,10 +23,12 @@ use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\Capacity\AwsSystemCapacityService;
 use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
 use oat\taoDelivery\model\Metrics\AwsLoadMetric;
+use Psr\Log\LoggerInterface;
 
 class AwsSystemCapacityServiceTest extends TestCase
 {
@@ -43,12 +45,14 @@ class AwsSystemCapacityServiceTest extends TestCase
             DeliveryExecutionCounterInterface::SERVICE_ID => $deliveryExecutionCounterMock,
             PersistenceManager::SERVICE_ID => $this->createPersistenceManagerMock($cachedCapacity, $cachedActiveExecutions),
             EventManager::SERVICE_ID => $this->createMock(EventManager::class),
+            LoggerService::SERVICE_ID => $this->createMock(LoggerInterface::class),
             MetricsService::class => $this->createMetricsMock($currentAwsLoad),
         ]);
         $service = new AwsSystemCapacityService([
             AwsSystemCapacityService::OPTION_AWS_PROBE_LIMIT => $awsLimit,
             AwsSystemCapacityService::OPTION_TAO_CAPACITY_LIMIT => $taoLimit,
             AwsSystemCapacityService::OPTION_TTL => 60,
+            AwsSystemCapacityService::OPTION_PERSISTENCE => 'testPersistence',
         ]);
         $service->setServiceLocator($serviceLocatorMock);
 
@@ -78,8 +82,8 @@ class AwsSystemCapacityServiceTest extends TestCase
         return [
             // when there is no cached capacity, and server load is lower than configured threshold,
             // then calculated capacity is proportional amount from configured TAO limit
-            [80, 3000, null, null, 0, 10, 2625], // no cached capacity, server load limit 80, current load 10%
-            [80, 3000, null, null, 0, 30, 1875], // no cached capacity, server load limit 80, current load 30%
+            [80, 3000, null, null, 0, 40, 1500], // no cached capacity, server load limit 80%, current load 40%
+            [90, 3000, null, null, 0, 30, 2000], // no cached capacity, server load limit 90%, current load 30%
             // when there is no cached capacity, and server load is larger than configured threshold,
             // then calculated capacity is negative and a zero capacity is returned
             [80, 3000, null, null, 0, 80, 0],
