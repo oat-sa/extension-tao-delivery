@@ -22,8 +22,6 @@ use DateInterval;
 use DateTime;
 use oat\awsTools\AwsClient;
 use oat\tao\model\metrics\implementations\abstractMetrics;
-use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 
 class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricInterface
 {
@@ -64,9 +62,6 @@ class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricI
         if (!$active || $force) {
             $active = $this->getMetric();
             $this->getPersistence()->set(self::class, $active, $this->getOption(self::OPTION_TTL));
-            /** @var DeliveryExecutionCounterInterface $deliveryExecutionService */
-            $deliveryExecutionService = $this->getServiceLocator()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
-            $deliveryExecutionService->refresh(DeliveryExecution::STATE_ACTIVE);
         }
         return $active;
 

@@ -75,6 +75,12 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
             $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
             $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::DEFAULT_TTL);
             $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
+
+            /** @var DeliveryExecutionCounterInterface $deliveryExecutionService */
+            $deliveryExecutionService = $this->getServiceLocator()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
+            $deliveryExecutionService->refresh(DeliveryExecution::STATE_ACTIVE);
+            $currentActiveTestTakers = $deliveryExecutionService->count(DeliveryExecution::STATE_ACTIVE);
+            
             $persistence->set(self::ACTIVE_EXECUTIONS_CACHE_KEY, $currentActiveTestTakers);
             $previousActiveTestTakers = $currentActiveTestTakers;
         }
