@@ -88,7 +88,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     private function getAwsClient()
     {
         if (!$this->awsClient) {
-            $this->awsClient = $this->getServiceManager()->get('generis/awsClient');
+            $this->awsClient = $this->getServiceLocator()->get('generis/awsClient');
         }
         return $this->awsClient;
     }
@@ -107,6 +107,6 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
         $logEvent = $logEvents[0];
         $logMessage = json_decode($logEvent['message'], true);
 
-        return $logMessage['cpuUtilization']['total'];
+        return (float) $logMessage['cpuUtilization']['total'];
     }
 }
