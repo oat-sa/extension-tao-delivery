@@ -15,26 +15,26 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     /** @var string */
     const OPTION_LOG_STREAM_NAME = 'logStreamName';
 
-    /** @var string */
-    const OPTION_AVERAGE_PERIOD = 'averagePeriod';
-
-    const AVERAGE_LOAD_1_MIN = 'one';
-    const AVERAGE_LOAD_5_MIN = 'five';
-    const AVERAGE_LOAD_15_MIN = 'fifteen';
-
     /**
      * @var AwsClient
      */
     private $awsClient;
 
     /**
-     * @var array List of allowed values for averagePeriod parameter
+     * @param bool $force
+     * @return float
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
-    private $averageAllowedValues = [
-        self::AVERAGE_LOAD_1_MIN,
-        self::AVERAGE_LOAD_5_MIN,
-        self::AVERAGE_LOAD_15_MIN
-    ];
+    public function collect($force = false)
+    {
+        if ($force || !$metricValue = $this->getPersistence()->get(self::class)) {
+            $metricValue = $this->getMetric();
+            $this->getPersistence()->set(self::class, $metricValue, $this->getOption(self::OPTION_TTL));
+        }
+
+        return $metricValue;
+    }
 
     /**
      * @return mixed
@@ -63,35 +63,6 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     }
 
     /**
-     * @return string
-     */
-    private function getAveragePeriod()
-    {
-        $averagePeriod = $this->getOption(self::OPTION_AVERAGE_PERIOD);
-        if (!$averagePeriod && !in_array($averagePeriod, $this->averageAllowedValues)) {
-            $averagePeriod = self::AVERAGE_LOAD_1_MIN;
-        }
-
-        return $averagePeriod;
-    }
-
-    /**
-     * @param bool $force
-     * @return bool|int|mixed|string|null
-     * @throws \common_Exception
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
-     */
-    public function collect($force = false)
-    {
-        if ($force || !$metricValue = $this->getPersistence()->get(self::class)) {
-            $metricValue = $this->getMetric();
-            $this->getPersistence()->set(self::class, $metricValue, $this->getOption(self::OPTION_TTL));
-        }
-
-        return $metricValue;
-    }
-
-    /**
      * @return mixed
      * @throws MetricConfigurationException
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
@@ -114,7 +85,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
      * @return AwsClient
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
-    public function getAwsClient()
+    private function getAwsClient()
     {
         if (!$this->awsClient) {
             $this->awsClient = $this->getServiceManager()->get('generis/awsClient');
@@ -135,8 +106,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
         $logEvents = $result->get('events');
         $logEvent = $logEvents[0];
         $logMessage = json_decode($logEvent['message'], true);
-        $averagePeriod = $this->getAveragePeriod();
 
-        return $logMessage['loadAverageMinute'][$averagePeriod];
+        return $logMessage['cpuUtilization']['total'];
     }
 }
