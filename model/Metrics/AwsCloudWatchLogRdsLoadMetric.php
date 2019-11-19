@@ -15,6 +15,9 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     /** @var string */
     const OPTION_LOG_STREAM_NAME = 'logStreamName';
 
+    /** @var string */
+    const OPTION_LOG_EVENTS_LIMIT = 'logEventsLimit';
+
     /**
      * @var AwsClient
      */
@@ -63,6 +66,20 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     }
 
     /**
+     * @return int
+     */
+    private function getLogEventsLimit()
+    {
+        if (!$this->hasOption(self::OPTION_LOG_EVENTS_LIMIT)) {
+            return 1; // Default limit for log events number.
+        }
+
+        return $this->getOption(self::OPTION_LOG_EVENTS_LIMIT);
+    }
+
+
+
+    /**
      * @return mixed
      * @throws MetricConfigurationException
      */
@@ -70,7 +87,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     {
         $cloudWatchClient = $this->getAwsClient()->getCloudWatchLogsClient();
         $result = $cloudWatchClient->getLogEvents([
-            'limit' => 1,
+            'limit' => $this->getLogEventsLimit(),
             'logGroupName' => $this->getLogGroupName(), // REQUIRED
             'logStreamName' => $this->getLogStreamName(), // REQUIRED
             'startFromHead' => false,
@@ -97,14 +114,18 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
      */
     private function parseMetricValue(Result $result)
     {
-        $default = 0;
+        $metricValue = 0;
         if (!$result->hasKey('events')) {
-            return $default;
+            return $metricValue;
         }
         $logEvents = $result->get('events');
-        $logEvent = $logEvents[0];
-        $logMessage = json_decode($logEvent['message'], true);
 
-        return (float) $logMessage['cpuUtilization']['total'];
+        foreach ($logEvents as $logEvent) {
+            $logMessage = json_decode($logEvent['message'], true);
+            $currentValue = (float) $logMessage['cpuUtilization']['total'];
+            $metricValue = ($metricValue < $currentValue) ? $currentValue : $metricValue;
+        }
+
+        return $metricValue;
     }
 }
