@@ -61,6 +61,8 @@ use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
 use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 use oat\taoResultServer\models\classes\ResultServerService;
+use oat\taoDelivery\model\Capacity\CapacityInterface;
+use oat\taoDelivery\model\Capacity\DummyCapacityService;
 
 /**
  * @author Joel Bout <joel@taotesting.com>
@@ -437,5 +439,12 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('14.0.0', '14.2.2');
+
+        if ($this->isVersion('14.2.2')) {
+            $this->getServiceManager()->register(CapacityInterface::SERVICE_ID, new DummyCapacityService([DummyCapacityService::OPTION_CAPACITY => -1]));
+            $this->setVersion('14.3.0');
+        }
+
+        $this->skip('14.3.0', '14.5.0');
     }
 }
