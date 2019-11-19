@@ -121,6 +121,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     {
         $metricValue = 0;
         if (!$result->hasKey('events')) {
+            $this->logAlert("CloudWatch Logs doesn't have log events records for RDS Metrics.");
             return $metricValue;
         }
         $logEvents = $result->get('events');
