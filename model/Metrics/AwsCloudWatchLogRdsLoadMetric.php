@@ -76,7 +76,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     private function getLogEventsLimit()
     {
         if (!$this->hasOption(self::OPTION_LOG_EVENTS_LIMIT)) {
-            self::DEFAULT_LOG_EVENTS_LIMIT;
+            return self::DEFAULT_LOG_EVENTS_LIMIT;
         }
 
         return $this->getOption(self::OPTION_LOG_EVENTS_LIMIT);
