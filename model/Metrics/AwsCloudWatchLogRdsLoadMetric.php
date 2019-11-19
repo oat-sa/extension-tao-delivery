@@ -19,6 +19,11 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     const OPTION_LOG_EVENTS_LIMIT = 'logEventsLimit';
 
     /**
+     * @var int
+     */
+    const DEFAULT_LOG_EVENTS_LIMIT = 1;
+
+    /**
      * @var AwsClient
      */
     private $awsClient;
@@ -71,7 +76,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     private function getLogEventsLimit()
     {
         if (!$this->hasOption(self::OPTION_LOG_EVENTS_LIMIT)) {
-            return 1; // Default limit for log events number.
+            self::DEFAULT_LOG_EVENTS_LIMIT;
         }
 
         return $this->getOption(self::OPTION_LOG_EVENTS_LIMIT);
