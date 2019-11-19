@@ -65,7 +65,6 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     /**
      * @return mixed
      * @throws MetricConfigurationException
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     private function getMetric()
     {
@@ -83,7 +82,6 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     /**
      * Requires lib-generis-aws at least 0.10.0
      * @return AwsClient
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     private function getAwsClient()
     {
