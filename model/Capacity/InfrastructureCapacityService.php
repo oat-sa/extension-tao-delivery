@@ -24,16 +24,16 @@ use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\mutex\LockTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
-use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterInterface;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\Metrics\InfrastructureLoadMetricInterface;
 
 class InfrastructureCapacityService extends ConfigurableService implements CapacityInterface
 {
     use LoggerAwareTrait;
+    use LockTrait;
 
     const METRIC = InfrastructureLoadMetricInterface::class;
 
@@ -45,9 +45,9 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     const DEFAULT_INFRASTRUCTURE_LOAD_LIMIT = 75;
     const DEFAULT_TAO_CAPACITY_LIMIT = 100;
     const DEFAULT_TTL = 300;
+    const DEFAULT_LOCK_TTL = 30;
 
     const CAPACITY_CACHE_KEY = 'infrastructure_capacity';
-    const ACTIVE_EXECUTIONS_CACHE_KEY = 'infrastructure_active_executions';
 
     /**
      * Returns the available capacity of the system
@@ -59,34 +59,24 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     public function getCapacity()
     {
         $persistence = $this->getPersistence();
-        /** @var DeliveryExecutionCounterInterface $deliveryExecutionService */
-        $deliveryExecutionService = $this->getServiceLocator()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
-        $currentActiveTestTakers = $deliveryExecutionService->count(DeliveryExecution::STATE_ACTIVE);
-        $previousActiveTestTakers = (int) $persistence->get(self::ACTIVE_EXECUTIONS_CACHE_KEY);
+
+        $lock = $this->createLock(__CLASS__ . __METHOD__, $this->getLockTtl());
+        $lock->acquire(true);
 
         $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
-
         if (!$cachedCapacity) {
-            $infrastructureLoadLimit = $this->getOption(self::OPTION_INFRASTRUCTURE_LOAD_LIMIT) ?? self::DEFAULT_INFRASTRUCTURE_LOAD_LIMIT;
-            $taoLimit = $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::DEFAULT_TAO_CAPACITY_LIMIT;
-            $infrastructureMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
-            $currentInfrastructureLoad = $infrastructureMetricService->collect();
-            $capacity = (1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit;
+            $infrastructureLoadLimit = $this->getInfrastructureLoadLimit();
+            $taoLimit = $this->getTaoCapacityLimit();
+            $currentInfrastructureLoad = $this->collectInfrastructureLoad();
+
+            $capacity = floor((1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit);
+            $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
+
             $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
-            $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getOption(self::OPTION_TTL) ?? self::DEFAULT_TTL);
             $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
-
-            /** @var DeliveryExecutionCounterInterface $deliveryExecutionService */
-            $deliveryExecutionService = $this->getServiceLocator()->get(DeliveryExecutionCounterInterface::SERVICE_ID);
-            $deliveryExecutionService->refresh(DeliveryExecution::STATE_ACTIVE);
-            $currentActiveTestTakers = $deliveryExecutionService->count(DeliveryExecution::STATE_ACTIVE);
-            
-            $persistence->set(self::ACTIVE_EXECUTIONS_CACHE_KEY, $currentActiveTestTakers);
-            $previousActiveTestTakers = $currentActiveTestTakers;
         }
+        $lock->release();
 
-        $activeTestTakersDiff = $previousActiveTestTakers - $currentActiveTestTakers;
-        $capacity += $activeTestTakersDiff;
         if ($capacity < 0) {
             return 0;
         }
@@ -99,7 +89,30 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
      */
     public function consume()
     {
-        return $this->getCapacity() > 0;
+        $lock = $this->createLock(__CLASS__ . __METHOD__, $this->getLockTtl());
+        $lock->acquire(true);
+
+        try {
+            $capacity = $this->getCapacity();
+            if ($capacity <= 0) {
+                return false;
+            }
+
+            $this->getPersistence()->decr(self::CAPACITY_CACHE_KEY);
+            return true;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    private function getLockTtl()
+    {
+        $capacityTtl = $this->getCapacityCacheTtl();
+
+        return min($capacityTtl, self::DEFAULT_LOCK_TTL);
     }
 
     /**
@@ -126,9 +139,43 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
 
     private function logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit)
     {
-        $this->getLogger()->debug(sprintf(
+        $this->getLogger()->info(sprintf(
             'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
             $capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit
         ));
+    }
+
+    /**
+     * @return int|mixed
+     */
+    private function getCapacityCacheTtl()
+    {
+        return $this->getOption(self::OPTION_TTL) ?? self::DEFAULT_TTL;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    private function getInfrastructureLoadLimit()
+    {
+        return $this->getOption(self::OPTION_INFRASTRUCTURE_LOAD_LIMIT) ?? self::DEFAULT_INFRASTRUCTURE_LOAD_LIMIT;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    private function getTaoCapacityLimit()
+    {
+        return $this->getOption(self::OPTION_TAO_CAPACITY_LIMIT) ?? self::DEFAULT_TAO_CAPACITY_LIMIT;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function collectInfrastructureLoad()
+    {
+        $infrastructureMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
+
+        return $infrastructureMetricService->collect();
     }
 }
