@@ -60,6 +60,6 @@ class LegacyRuntime extends ConfigurableService implements RuntimeService
      */
     public function getRuntime($deliveryId)
     {
-        return $this->getServiceLocator()->get(AssignmentService::SERVICE_ID)->getRuntime($deliveryId);
+        return $this->getServiceLocator()->get(RuntimeService::SERVICE_ID)->getRuntime($deliveryId);
     }
 }

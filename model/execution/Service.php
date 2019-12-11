@@ -32,6 +32,8 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDelete;
  */
 interface Service extends DeliveryExecutionDelete
 {
+    const SERVICE_ID = 'taoDelivery/execution_service';
+
     /**
      * Returns the executions the user has of a specified assembly
      *

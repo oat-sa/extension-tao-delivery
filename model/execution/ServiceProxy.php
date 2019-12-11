@@ -40,12 +40,10 @@ use tao_models_classes_Service;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
-
  */
 class ServiceProxy extends tao_models_classes_Service implements Service
 {
     const CONFIG_KEY = 'execution_service';
-    const SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
      * @var Service
