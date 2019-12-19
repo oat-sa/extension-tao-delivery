@@ -64,7 +64,7 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
         $lock->acquire(true);
 
         $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
-        if (!$cachedCapacity) {
+        if ($cachedCapacity === null || $cachedCapacity === false) {
             $infrastructureLoadLimit = $this->getInfrastructureLoadLimit();
             $taoLimit = $this->getTaoCapacityLimit();
             $currentInfrastructureLoad = $this->collectInfrastructureLoad();
