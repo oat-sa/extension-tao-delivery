@@ -53,7 +53,7 @@ class InfrastructureCapacityServiceTest extends TestCase
 
     public function testConsume_WhenCachedServerCapacityIsSufficient_ThenTrueReturnedAndCapacityDecremented()
     {
-        $service = $this->createInfrastructureCapacityService(50, 100, 1, 50);
+        $service = $this->createInfrastructureCapacityService(50, 100, 1, 50, true);
         $this->assertTrue($service->consume());
     }
 
@@ -144,7 +144,8 @@ class InfrastructureCapacityServiceTest extends TestCase
         $persistenceMock = $this->createMock(common_persistence_KeyValuePersistence::class);
         $persistenceMock->method('get')->willReturnCallback(function ($argument) use ($cachedCapacity) {
             switch ($argument) {
-                case InfrastructureCapacityService::CAPACITY_CACHE_KEY:
+                case InfrastructureCapacityService::CAPACITY_TO_PROVIDE_CACHE_KEY:
+                case InfrastructureCapacityService::CAPACITY_TO_CONSUME_CACHE_KEY:
                     return $cachedCapacity;
             }
         });

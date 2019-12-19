@@ -47,7 +47,8 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     const DEFAULT_TTL = 300;
     const DEFAULT_LOCK_TTL = 30;
 
-    const CAPACITY_CACHE_KEY = 'infrastructure_capacity';
+    const CAPACITY_TO_PROVIDE_CACHE_KEY = 'infrastructure_capacity_to_provide';
+    const CAPACITY_TO_CONSUME_CACHE_KEY = 'infrastructure_capacity_to_consume';
 
     /**
      * Returns the available capacity of the system
@@ -58,30 +59,23 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
      */
     public function getCapacity()
     {
-        $persistence = $this->getPersistence();
-
         $lock = $this->createLock(__CLASS__ . __METHOD__, $this->getLockTtl());
         $lock->acquire(true);
 
-        $cachedCapacity = $capacity = $persistence->get(self::CAPACITY_CACHE_KEY);
-        if ($cachedCapacity === null || $cachedCapacity === false) {
-            $infrastructureLoadLimit = $this->getInfrastructureLoadLimit();
-            $taoLimit = $this->getTaoCapacityLimit();
-            $currentInfrastructureLoad = $this->collectInfrastructureLoad();
+        try {
+            $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
+            if ($cachedCapacity === false || $cachedCapacity === null) {
+                $capacity = $this->recalculateCapacity(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
+            }
+            if ($capacity <= 0) {
+                return 0;
+            }
+            $this->getPersistence()->decr(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
 
-            $capacity = floor((1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit);
-            $persistence->set(self::CAPACITY_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
-
-            $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
-            $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent($cachedCapacity, $capacity));
+            return $capacity;
+        } finally {
+            $lock->release();
         }
-        $lock->release();
-
-        if ($capacity < 0) {
-            return 0;
-        }
-
-        return $capacity;
     }
 
     /**
@@ -93,13 +87,49 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
         $lock->acquire(true);
 
         try {
-            $capacity = $this->getCapacity();
+            $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_CONSUME_CACHE_KEY);
+            if ($cachedCapacity === false || $cachedCapacity === null) {
+                $capacity = $this->recalculateCapacity(self::CAPACITY_TO_CONSUME_CACHE_KEY);
+            }
             if ($capacity <= 0) {
                 return false;
             }
 
-            $this->getPersistence()->decr(self::CAPACITY_CACHE_KEY);
+            $this->getPersistence()->decr(self::CAPACITY_TO_CONSUME_CACHE_KEY);
             return true;
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
+     * @return float
+     * @throws \common_Exception
+     */
+    private function recalculateCapacity($keyToCheck)
+    {
+        $lock = $this->createLock(__CLASS__ . __METHOD__, $this->getLockTtl());
+        $lock->acquire(true);
+
+        try {
+            $persistence = $this->getPersistence();
+            $cachedValue = null;
+            if ($persistence->exists($keyToCheck) && ($cachedValue = $persistence->get($keyToCheck)) !== null) {
+                return $cachedValue;
+            }
+
+            $infrastructureLoadLimit = $this->getInfrastructureLoadLimit();
+            $taoLimit = $this->getTaoCapacityLimit();
+            $currentInfrastructureLoad = $this->collectInfrastructureLoad();
+
+            $capacity = floor((1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit);
+            $persistence->set(self::CAPACITY_TO_PROVIDE_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
+            $persistence->set(self::CAPACITY_TO_CONSUME_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
+
+            $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
+            $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent(null, $capacity));
+
+            return $capacity;
         } finally {
             $lock->release();
         }
