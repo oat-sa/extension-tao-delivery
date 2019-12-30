@@ -84,8 +84,8 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      */
     private function validateExecutionId($executionId)
     {
-        if (!filter_var($executionId, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException('Execution ID value must be a valid URI.');
+        if (!is_string($executionId) || empty($executionId)) {
+            throw new InvalidArgumentException('Execution ID value must be not empty string.');
         }
     }
 
