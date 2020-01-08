@@ -132,12 +132,6 @@ class DeliveryExecutionContextTest extends TestCase
                 'type'                  => '',
                 'label'                 => '',
             ],
-            'Execution ID is not valid URI' => [
-                'executionId'           => 'INVALID_URI',
-                'executionContextId'    => 'TEST_CONTEXT_ID',
-                'type'                  => '',
-                'label'                 => '',
-            ],
         ];
     }
 
@@ -149,9 +143,6 @@ class DeliveryExecutionContextTest extends TestCase
         return [
             'Empty execution ID' => [
                 'executionId' => '',
-            ],
-            'Invalid URI execution ID' => [
-                'executionId' => 'INVALID_URI',
             ],
         ];
     }
