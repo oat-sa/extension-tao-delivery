@@ -30,12 +30,13 @@ class DeliveryExecutionContextTest extends TestCase
      * @param string $executionContextId
      * @param string $type
      * @param string $label
+     * @param string $errorMessage
      *
      * @dataProvider dataProviderConstructInvalidValues
      */
-    public function testConstructThrowsException($executionId, $executionContextId, $type, $label)
+    public function testConstructThrowsException($executionId, $executionContextId, $type, $label,$errorMessage)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class,$errorMessage);
 
         new DeliveryExecutionContext($executionId, $executionContextId, $type, $label);
     }
@@ -119,24 +120,21 @@ class DeliveryExecutionContextTest extends TestCase
                 'executionContextId'    => '',
                 'type'                  => '',
                 'label'                 => '',
+                'errorMessage'          => 'Execution ID value must be not empty string.'
             ],
             'Empty execution ID' => [
                 'executionId'           => '',
                 'executionContextId'    => 'TEST_CONTEXT_ID',
                 'type'                  => '',
                 'label'                 => '',
+                'errorMessage'          => 'Execution ID value must be not empty string.'
             ],
             'Empty context ID' => [
                 'executionId'           => 'http://test-execution-uri.dev',
                 'executionContextId'    => '',
                 'type'                  => '',
                 'label'                 => '',
-            ],
-            'Execution ID is not valid URI' => [
-                'executionId'           => 'INVALID_URI',
-                'executionContextId'    => 'TEST_CONTEXT_ID',
-                'type'                  => '',
-                'label'                 => '',
+                'errorMessage'          => 'Execution context ID value must be not empty string.'
             ],
         ];
     }
@@ -149,9 +147,6 @@ class DeliveryExecutionContextTest extends TestCase
         return [
             'Empty execution ID' => [
                 'executionId' => '',
-            ],
-            'Invalid URI execution ID' => [
-                'executionId' => 'INVALID_URI',
             ],
         ];
     }
