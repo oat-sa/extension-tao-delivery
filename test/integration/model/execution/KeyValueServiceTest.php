@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\test\integration\model\execution;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -83,7 +85,6 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
         $execution = new KVDeliveryExecution($this->service, 'http://uri.com/fake#Execution');
         $this->setExpectedException(\common_exception_NotFound::class);
         $execution->getStartTime();
-        
     }
 
     public function testGetDeliveryExecutionsByStatus()

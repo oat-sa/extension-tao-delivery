@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016  (original work) Open Assessment Technologies SA;
- * 
+ *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
 namespace oat\taoDelivery\model\AssignmentAggregator;
-
 
 use oat\taoDelivery\model\AssignmentService;
 
@@ -29,7 +29,7 @@ interface UnionAssignmentInterface extends AssignmentService
     
     /**
      * Returns AssignmentServices which was appended for current realisation
-     * 
+     *
      * @return \oat\taoDelivery\model\AssignmentService []
      */
     public function getInternalServices();

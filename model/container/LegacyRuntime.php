@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\taoDelivery\model\container;
 
 use oat\oatbox\service\ConfigurableService;
@@ -24,6 +26,7 @@ use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\container\delivery\LegacyServiceContainer;
 use oat\taoDelivery\model\container\delivery\LegacyClientContainer;
+
 /**
  * LegacyRuntime Service that uses platform wide configuration
  * to determine runtime container
@@ -49,7 +52,7 @@ class LegacyRuntime extends ConfigurableService implements RuntimeService
                 $container->setServiceLocator($this->getServiceLocator());
                 break;
             default:
-                throw new \common_exception_InconsistentData('Unknown container "'.$containerClass.'"');
+                throw new \common_exception_InconsistentData('Unknown container "' . $containerClass . '"');
         }
         return $container;
     }

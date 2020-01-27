@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoDelivery\model\authorization;
 
 use oat\oatbox\user\User;
@@ -33,7 +35,7 @@ interface AuthorizationProvider
 
     /**
      * Verify that a given delivery is allowed to be started
-     * 
+     *
      * @param string $deliveryId
      * @throws \common_exception_Unauthorized
      */
@@ -41,7 +43,7 @@ interface AuthorizationProvider
     
     /**
      * Verify that a given delivery execution is allowed to be executed
-     * 
+     *
      * @param DeliveryExecutionInterface $deliveryExecution
      * @param User $user
      * @throws \common_exception_Unauthorized

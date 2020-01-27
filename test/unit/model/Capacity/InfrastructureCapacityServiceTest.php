@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,13 @@ class InfrastructureCapacityServiceTest extends TestCase
      * @dataProvider provideConfigAndMetricData
      */
     public function testGetCapacity_WhenConfigOptionsAndMetricDataIsProvided_ThenExpectedValuesAreReturned(
-        $awsLimit, $taoLimit, $cachedCapacity, $cachedActiveExecutions, $currentActiveExecutions, $currentAwsLoad, $expectedCapacity
+        $awsLimit,
+        $taoLimit,
+        $cachedCapacity,
+        $cachedActiveExecutions,
+        $currentActiveExecutions,
+        $currentAwsLoad,
+        $expectedCapacity
     ) {
         $deliveryExecutionCounterMock = $this->createMock(DeliveryExecutionCounterInterface::class);
         $deliveryExecutionCounterMock->method('count')->willReturn($currentActiveExecutions);

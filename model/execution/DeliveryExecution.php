@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoDelivery\model\execution;
 
 use core_kernel_classes_Resource;
@@ -39,14 +41,16 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
         $this->setImplementation($implementation);
     }
 
-    public function setImplementation(DeliveryExecutionInterface $implementation) {
+    public function setImplementation(DeliveryExecutionInterface $implementation)
+    {
         $this->implementation = $implementation;
     }
 
     /**
      * @return DeliveryExecutionInterface
      */
-    public function getImplementation() {
+    public function getImplementation()
+    {
         return $this->implementation;
     }
 
@@ -150,7 +154,7 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
      */
     public function __call($name, $parameters)
     {
-        return call_user_func_array(array($this->getImplementation(), $name), $parameters);
+        return call_user_func_array([$this->getImplementation(), $name], $parameters);
     }
 
     /**
