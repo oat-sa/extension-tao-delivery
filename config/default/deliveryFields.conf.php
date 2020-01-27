@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The default DeliveryFields service
  *
@@ -13,6 +14,6 @@ return new oat\taoDelivery\model\fields\DeliveryFieldsService([
      * @type array
      */
     oat\taoDelivery\model\fields\DeliveryFieldsService::PROPERTY_CUSTOM_LABEL => [
-		TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
+        TaoOntology::PROPERTY_INSTANCE_ROLE_DELIVERY
     ]
 ]);

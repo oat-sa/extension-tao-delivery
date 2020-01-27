@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +18,10 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\test\integration\model\execution;
 
-require_once dirname(__FILE__) .'/../../../../../tao/includes/raw_start.php';
+require_once dirname(__FILE__) . '/../../../../../tao/includes/raw_start.php';
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -70,8 +72,7 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
     public function testFailedStartTime()
     {
         $execution = new OntologyDeliveryExecution('http://uri.com/fake#Execution');
-        $this->setExpectedException(\common_exception_NotFound::class);
+        $this->expectException(\common_exception_NotFound::class);
         $execution->getStartTime();
-        
     }
 }

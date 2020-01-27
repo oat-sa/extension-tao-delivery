@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,7 +43,7 @@ class taoDelivery_models_classes_execution_KeyValueService extends KeyValueServi
             $deliveries = array_merge($deliveries, $this->getDeliveryExecutionsByStatus($userUri, $state));
         }
 
-        $returnValue = array();
+        $returnValue = [];
         foreach ($deliveries as $de) {
             if ($compiled->equals($de->getDelivery())) {
                 $returnValue[] = $de;

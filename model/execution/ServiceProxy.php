@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,7 +53,8 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      */
     private $implementation;
 
-    public function setImplementation(Service $implementation) {
+    public function setImplementation(Service $implementation)
+    {
         $this->implementation = $implementation;
         $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('taoDelivery');
         $ext->setConfig(self::CONFIG_KEY, $implementation);
@@ -62,11 +64,12 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * @return Service
      * @throws common_exception_Error
      */
-    protected function getImplementation() {
+    protected function getImplementation()
+    {
         if (is_null($this->implementation)) {
             $this->implementation = $this->getServiceLocator()->get(self::SERVICE_ID);
             if (!$this->implementation instanceof Service) {
-                throw new common_exception_Error('No implementation for '.__CLASS__.' found');
+                throw new common_exception_Error('No implementation for ' . __CLASS__ . ' found');
             }
         }
         return $this->implementation;
@@ -76,7 +79,8 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * (non-PHPdoc)
      * @see Service::getUserExecutions()
      */
-    public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri) {
+    public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri)
+    {
         return $this->getImplementation()->getUserExecutions($assembly, $userUri);
     }
 
@@ -84,7 +88,8 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * (non-PHPdoc)
      * @see Service::getDeliveryExecutionsByStatus()
      */
-    public function getDeliveryExecutionsByStatus($userUri, $status) {
+    public function getDeliveryExecutionsByStatus($userUri, $status)
+    {
         return $this->getImplementation()->getDeliveryExecutionsByStatus($userUri, $status);
     }
 
@@ -133,7 +138,7 @@ class ServiceProxy extends tao_models_classes_Service implements Service
                 if ($generisUser->exists()) {
                     $user = new core_kernel_users_GenerisUser($generisUser);
                 } else {
-                    throw new common_exception_NotFound('Unable to find User "'.$user.'"');
+                    throw new common_exception_NotFound('Unable to find User "' . $user . '"');
                 }
             }
         }
@@ -164,7 +169,7 @@ class ServiceProxy extends tao_models_classes_Service implements Service
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!$this->implementsMonitoring()) {
-            throw new common_exception_NoImplementation(get_class($this->getImplementation()).' does not implement \oat\taoDelivery\model\execution\Monitoring');
+            throw new common_exception_NoImplementation(get_class($this->getImplementation()) . ' does not implement \oat\taoDelivery\model\execution\Monitoring');
         }
         return $this->getImplementation()->getExecutionsByDelivery($compiled);
     }
@@ -175,7 +180,8 @@ class ServiceProxy extends tao_models_classes_Service implements Service
      * @return boolean
      * @throws \common_exception_Error
      */
-    public function implementsMonitoring() {
+    public function implementsMonitoring()
+    {
         return $this->getImplementation() instanceof Monitoring;
     }
 

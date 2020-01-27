@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
 namespace oat\taoDelivery\model\container\execution;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\container\ExecutionContainer;
+
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * Abstract container to simplify the development of
@@ -30,7 +33,7 @@ abstract class AbstractExecutionContainer implements ExecutionContainer
     /**
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
     /**
      * @var DeliveryExecution
@@ -79,11 +82,11 @@ abstract class AbstractExecutionContainer implements ExecutionContainer
      * Returns the path to the header template
      * @return string
      */
-    protected abstract function getHeaderTemplate();
+    abstract protected function getHeaderTemplate();
 
     /**
      * Returns the path to the body template
      * @return string
      */
-    protected abstract function getBodyTemplate();
+    abstract protected function getBodyTemplate();
 }

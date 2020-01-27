@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoDelivery\model\authorization\strategy;
 
 use oat\oatbox\event\EventManager;
@@ -32,7 +34,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * An Authorization Aggregator, that requires all internal
  * authorization providers to allow access
  */
-class AuthorizationAggregator extends ConfigurableService  implements AuthorizationService, AuthorizationProvider
+class AuthorizationAggregator extends ConfigurableService implements AuthorizationService, AuthorizationProvider
 {
     const OPTION_PROVIDERS = 'providers';
     
@@ -41,7 +43,7 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
     /**
      * Returns the base authorization provider.
      *
-     * @return AuthorizationProvider 
+     * @return AuthorizationProvider
      */
     public function getAuthorizationProvider()
     {
@@ -77,13 +79,13 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
     
     /**
      * Returns a list of providers that need to be verified
-     * 
+     *
      * @return AuthorizationProvider[]
      */
     protected function getProviders()
     {
         if (is_null($this->providers)) {
-            $this->providers = array();
+            $this->providers = [];
             if ($this->hasOption(self::OPTION_PROVIDERS)) {
                 foreach ($this->getOption(self::OPTION_PROVIDERS) as $provider) {
                     if ($provider instanceof ServiceLocatorAwareInterface) {
@@ -99,7 +101,7 @@ class AuthorizationAggregator extends ConfigurableService  implements Authorizat
     /**
      * Add an additional authorization provider that needs
      * to be satisfied as well
-     * 
+     *
      * @param AuthorizationProvider $provider
      */
     public function addProvider(AuthorizationProvider $provider)

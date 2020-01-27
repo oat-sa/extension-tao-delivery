@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,24 +28,28 @@ use oat\tao\model\entryPoint\Entrypoint;
 class FrontOfficeEntryPoint extends Configurable implements Entrypoint
 {
 
-    public function getId() {
+    public function getId()
+    {
         return 'deliveryServer';
     }
     
-    public function getTitle() {
+    public function getTitle()
+    {
         return __('Test-Takers');
     }
     
-    public function getLabel() {
+    public function getLabel()
+    {
         return __('TAO Delivery Server');
     }
     
-    public function getDescription() {
+    public function getDescription()
+    {
         return __('Take or continue a test.');
     }
     
-    public function getUrl() {
+    public function getUrl()
+    {
         return _url("index", "DeliveryServer", "taoDelivery");
     }
-
 }

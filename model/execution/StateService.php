@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 namespace oat\taoDelivery\model\execution;
 
 use oat\oatbox\user\User;
+
 /**
  * Class StateService
  * @package oat\taoDelivery
@@ -34,7 +36,7 @@ class StateService extends AbstractStateService
      */
     public function getInitialStatus($deliveryId, User $user)
     {
-       return DeliveryExecution::STATE_ACTIVE;
+        return DeliveryExecution::STATE_ACTIVE;
     }
 
     /**
@@ -71,7 +73,7 @@ class StateService extends AbstractStateService
      * @param DeliveryExecution $deliveryExecution
      * @return boolean
      */
-     public function terminate(DeliveryExecution $deliveryExecution)
+    public function terminate(DeliveryExecution $deliveryExecution)
     {
         return $this->setState($deliveryExecution, DeliveryExecution::STATE_TERMINATED);
     }
@@ -98,7 +100,7 @@ class StateService extends AbstractStateService
                 $result = $this->pause($deliveryExecution);
                 break;
             default:
-                $this->logWarning('Unrecognised state '.$state);
+                $this->logWarning('Unrecognised state ' . $state);
                 $result = $this->setState($deliveryExecution, $state);
         }
         return $result;
@@ -108,11 +110,11 @@ class StateService extends AbstractStateService
      * @return array
      */
     public function getDeliveriesStates()
-     {
+    {
          return [
              DeliveryExecution::STATE_FINISHED,
              DeliveryExecution::STATE_ACTIVE,
              DeliveryExecution::STATE_PAUSED
          ];
-     }
+    }
 }
