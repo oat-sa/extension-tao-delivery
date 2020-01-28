@@ -59,23 +59,16 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
      */
     public function getCapacity()
     {
-        $lock = $this->createLock(__CLASS__ . __METHOD__, $this->getLockTtl());
-        $lock->acquire(true);
-
-        try {
-            $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
-            if ($cachedCapacity === false || $cachedCapacity === null) {
-                $capacity = $this->recalculateCapacity(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
-            }
-            if ($capacity <= 0) {
-                return 0;
-            }
-            $this->getPersistence()->decr(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
-
-            return $capacity;
-        } finally {
-            $lock->release();
+        $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
+        if ($cachedCapacity === false || $cachedCapacity === null) {
+            $capacity = $this->recalculateCapacity(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
         }
+        if ($capacity <= 0) {
+            return 0;
+        }
+        $this->getPersistence()->decr(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
+
+        return $capacity;
     }
 
     /**
