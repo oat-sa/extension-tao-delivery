@@ -18,6 +18,7 @@
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\test\unit\model\execution\rds;
 
 use oat\generis\test\TestCase;
@@ -210,6 +211,5 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         ;
 
         $this->persistence->exec($query);
-
     }
 }

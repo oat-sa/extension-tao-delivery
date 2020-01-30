@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +19,6 @@
  */
 
 namespace oat\taoDelivery\model\Capacity;
-
 
 use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
@@ -164,7 +164,10 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     {
         $this->getLogger()->info(sprintf(
             'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
-            $capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit
+            $capacity,
+            $currentInfrastructureLoad,
+            $infrastructureLimit,
+            $taoLimit
         ));
     }
 

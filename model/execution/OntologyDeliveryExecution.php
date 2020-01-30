@@ -1,22 +1,24 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
+
 namespace oat\taoDelivery\model\execution;
 
 use common_exception_NotFound;
@@ -24,14 +26,13 @@ use common_exception_ResourceNotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 
-
 /**
  * Service to manage the execution of deliveries
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
+
  */
 class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
 {
@@ -57,7 +58,8 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * (non-PHPdoc)
      * @see DeliveryExecution::getIdentifier()
      */
-    public function getIdentifier() {
+    public function getIdentifier()
+    {
         return $this->getUri();
     }
 
@@ -66,7 +68,8 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * @see DeliveryExecution::getStartTime()
      * @throws \common_exception_NotFound
      */
-    public function getStartTime() {
+    public function getStartTime()
+    {
         if (!isset($this->startTime)) {
             $this->startTime = (string)$this->getData(OntologyDeliveryExecution::PROPERTY_TIME_START);
         }
@@ -78,7 +81,8 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * (non-PHPdoc)
      * @see DeliveryExecution::getFinishTime()
      */
-    public function getFinishTime() {
+    public function getFinishTime()
+    {
         if (!isset($this->finishTime)) {
             try {
                 $this->finishTime = (string)$this->getData(OntologyDeliveryExecution::PROPERTY_TIME_END);
@@ -93,7 +97,8 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * (non-PHPdoc)
      * @see DeliveryExecution::getState()
      */
-    public function getState() {
+    public function getState()
+    {
         if (!isset($this->state)) {
             $state = $this->getData(OntologyDeliveryExecution::PROPERTY_STATUS);
             if (!$state instanceof core_kernel_classes_Resource) {
@@ -116,7 +121,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
             } catch (common_exception_NotFound $missingException) {
                 throw new common_exception_ResourceNotFound(
                     __('Delivery Execution for %s not found', $this->getUri())
-                 );
+                );
             }
         }
         return $this->delivery;
@@ -126,7 +131,8 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * (non-PHPdoc)
      * @see DeliveryExecution::getUserIdentifier()
      */
-    public function getUserIdentifier() {
+    public function getUserIdentifier()
+    {
         if (!isset($this->userIdentifier)) {
             $user = $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
             $this->userIdentifier =  ($user instanceof core_kernel_classes_Resource) ? $user->getUri() : (string)$user;
@@ -138,12 +144,13 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * (non-PHPdoc)
      * @see DeliveryExecution::setState()
      */
-    public function setState($state) {
+    public function setState($state)
+    {
         $statusProp = $this->getProperty(OntologyDeliveryExecution::PROPERTY_STATUS);
         $state = $this->getResource($state);
         $currentStatus = $this->getState();
         if ($currentStatus->getUri() == $state->getUri()) {
-            common_Logger::w('Delivery execution '.$this->getIdentifier().' already in state '.$state->getUri());
+            common_Logger::w('Delivery execution ' . $this->getIdentifier() . ' already in state ' . $state->getUri());
             return false;
         }
         $this->editPropertyValues($statusProp, $state);
@@ -159,11 +166,12 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * @return \core_kernel_classes_Container
      * @throws common_exception_NotFound
      */
-    private function getData($propertyName){
+    private function getData($propertyName)
+    {
         $property = $this->getProperty($propertyName);
         $propertyValue = $this->getOnePropertyValue($property);
-        if(is_null($propertyValue)){
-            throw new common_exception_NotFound('Property '.$propertyName.' not found for resource ' . $this->getUri());
+        if (is_null($propertyValue)) {
+            throw new common_exception_NotFound('Property ' . $propertyName . ' not found for resource ' . $this->getUri());
         }
 
         return $propertyValue;

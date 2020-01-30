@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoDelivery\models\classes;
 
 use oat\oatbox\service\ConfigurableService;
@@ -40,11 +41,11 @@ class ReturnUrlService extends ConfigurableService
     public function getReturnUrl($deliveryExecutionUri = '')
     {
 
-        $ext = ($this->hasOption(self::EXTENSION_OPTION))? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';
+        $ext = ($this->hasOption(self::EXTENSION_OPTION)) ? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';
 
-        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION))? $this->getOption(self::CONTROLLER_OPTION) : 'DeliveryServer';
+        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION)) ? $this->getOption(self::CONTROLLER_OPTION) : 'DeliveryServer';
 
-        $method = ($this->hasOption(self::METHOD_OPTION))? $this->getOption(self::METHOD_OPTION) : 'index';
+        $method = ($this->hasOption(self::METHOD_OPTION)) ? $this->getOption(self::METHOD_OPTION) : 'index';
 
 
         return _url($method, $ctrl, $ext);

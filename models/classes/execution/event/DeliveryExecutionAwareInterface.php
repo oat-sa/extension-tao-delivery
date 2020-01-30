@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoDelivery\models\classes\execution\event;
 
 interface DeliveryExecutionAwareInterface

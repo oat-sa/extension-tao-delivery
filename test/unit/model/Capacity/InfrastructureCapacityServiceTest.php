@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,7 +39,11 @@ class InfrastructureCapacityServiceTest extends TestCase
      * @dataProvider provideConfigAndMetricDataForCheckCapacity
      */
     public function testGetCapacity_WhenConfigOptionsAndMetricDataIsProvided_ThenExpectedValuesAreReturned(
-        $infrastructureLimit, $taoLimit, $cachedCapacity, $currentInfrastructureLoad, $expectedCapacity
+        $infrastructureLimit,
+        $taoLimit,
+        $cachedCapacity,
+        $currentInfrastructureLoad,
+        $expectedCapacity
     ) {
         $service = $this->createInfrastructureCapacityService($infrastructureLimit, $taoLimit, $cachedCapacity, $currentInfrastructureLoad);
 

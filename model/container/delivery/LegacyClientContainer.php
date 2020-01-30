@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@ namespace oat\taoDelivery\model\container\delivery;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\DeliveryContainerService;
 use oat\taoDelivery\model\container\execution\ExecutionClientContainer;
+
 /**
  * Legacy Client Container, requires to do its own data retrieval
  */
@@ -82,7 +84,7 @@ class LegacyClientContainer extends AbstractContainer
 
         // set the test parameters
         $container->setData('testDefinition', $this->getSourceTest($execution));
-        $container->setData('testCompilation', $this->getPrivateDirId($execution).'|'.$this->getPublicDirId($execution));
+        $container->setData('testCompilation', $this->getPrivateDirId($execution) . '|' . $this->getPublicDirId($execution));
 
         $container->setData('providers', $containerService->getProviders($execution));
         $container->setData('bootstrap', $containerService->getBootstrap($execution));

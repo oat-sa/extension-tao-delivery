@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -122,7 +123,6 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         if ($currentVersion == '2.6.3') {
-
             //data upgrade
             OntologyUpdater::syncModels();
             $currentVersion = '2.7.0';
@@ -318,7 +318,6 @@ class Updater extends \common_ext_ExtensionUpdater
                 new DeliveryServiceContainer()
             );
             $this->setVersion('6.6.0');
-
         }
 
         if ($this->isVersion('6.6.0')) {

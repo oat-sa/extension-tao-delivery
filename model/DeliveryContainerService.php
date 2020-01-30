@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +27,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-interface  DeliveryContainerService
+interface DeliveryContainerService
 {
     /** @deprecated */
     const CONFIG_ID = 'taoDelivery/deliveryContainer';
@@ -70,5 +71,4 @@ interface  DeliveryContainerService
      * @return string the test compilation
      */
     public function getTestCompilation(DeliveryExecution $execution);
-
 }

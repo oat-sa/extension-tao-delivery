@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,9 +35,9 @@ class DeliveryExecutionContextTest extends TestCase
      *
      * @dataProvider dataProviderConstructInvalidValues
      */
-    public function testConstructThrowsException($executionId, $executionContextId, $type, $label,$errorMessage)
+    public function testConstructThrowsException($executionId, $executionContextId, $type, $label, $errorMessage)
     {
-        $this->setExpectedException(\InvalidArgumentException::class,$errorMessage);
+        $this->setExpectedException(\InvalidArgumentException::class, $errorMessage);
 
         new DeliveryExecutionContext($executionId, $executionContextId, $type, $label);
     }
@@ -174,4 +175,3 @@ class DeliveryExecutionContextTest extends TestCase
         ];
     }
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -104,9 +105,9 @@ class DeleteDeliveryExecution extends ScriptAction
         /** @var TestSessionService $testSessionService */
         $testSessionService = $this->getServiceManager()->get(TestSessionService::SERVICE_ID);
 
-        try{
+        try {
             $session =  $testSessionService->getTestSession($deliveryExecution);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $session = null;
         }
 

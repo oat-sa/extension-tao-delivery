@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,15 +21,17 @@
 
 namespace oat\taoDelivery\scripts\install;
 
-class installDeliveryLogout extends \oat\oatbox\extension\InstallAction 
+class installDeliveryLogout extends \oat\oatbox\extension\InstallAction
 {
     
-    public function __invoke($params) {
+    public function __invoke($params)
+    {
         
         /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
         $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-        $routeService->setRoute('logoutDelivery',
-                    [
+        $routeService->setRoute(
+            'logoutDelivery',
+            [
                         'ext'        => 'taoDelivery',
                         'controller' => 'DeliveryServer',
                         'action'     => 'logout',
@@ -42,9 +45,7 @@ class installDeliveryLogout extends \oat\oatbox\extension\InstallAction
                                 ]
                             ],
                     ]
-                );
-        $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
-        
+        );
+        $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $routeService);
     }
-    
 }

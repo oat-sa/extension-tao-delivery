@@ -1,6 +1,5 @@
 <?php
 
-
 namespace oat\taoDelivery\model\Metrics;
 
 use Aws\Result;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +38,8 @@ class DeliveryServiceContainer extends AbstractContainer
         $container->setData('deliveryExecution', $execution->getIdentifier());
         $container->setData('deliveryServerConfig', []);
         $container->setData('serviceApi', \tao_helpers_ServiceJavascripts::getServiceApi(
-            $this->getRuntime($execution), $execution->getIdentifier()
+            $this->getRuntime($execution),
+            $execution->getIdentifier()
         ));
         return $container;
     }
