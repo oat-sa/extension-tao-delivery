@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -59,5 +61,4 @@ class DeliveryExecutionVerified implements Event, DeliveryExecutionAwareInterfac
     {
         return $this->deliveryExecution;
     }
-
 }

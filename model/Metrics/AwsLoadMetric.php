@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA
  */
+
 namespace oat\taoDelivery\model\Metrics;
 
 use DateInterval;
@@ -64,7 +66,6 @@ class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricI
             $this->getPersistence()->set(self::class, $active, $this->getOption(self::OPTION_TTL));
         }
         return $active;
-
     }
 
     private function getMetric()

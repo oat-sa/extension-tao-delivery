@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoDelivery\model\execution\Delete;
 
 use common_report_Report;
@@ -37,7 +39,7 @@ class DeliveryExecutionDeleteService extends ConfigurableService
      * @param array $options
      * @throws \common_exception_Error
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
 
@@ -53,7 +55,7 @@ class DeliveryExecutionDeleteService extends ConfigurableService
      */
     public function execute(DeliveryExecutionDeleteRequest $request)
     {
-        $this->report = common_report_Report::createInfo('Deleting Delivery Execution: '. $request->getDeliveryExecution()->getIdentifier());
+        $this->report = common_report_Report::createInfo('Deleting Delivery Execution: ' . $request->getDeliveryExecution()->getIdentifier());
 
         $shouldDelete = $this->deleteDeliveryExecutionData($request);
 
@@ -63,10 +65,10 @@ class DeliveryExecutionDeleteService extends ConfigurableService
             // at the end delete the delivery execution itself.
             $deleted = $executionService->deleteDeliveryExecutionData($request);
 
-            if ($deleted){
+            if ($deleted) {
                 $this->report->add(common_report_Report::createSuccess('Delivery Execution has been deleted.', $request->getDeliveryExecution()->getIdentifier()));
             } else {
-                $this->report->add(common_report_Report::createInfo('Delivery Execution has NOT been deleted. DE id: '. $request->getDeliveryExecution()->getIdentifier()));
+                $this->report->add(common_report_Report::createInfo('Delivery Execution has NOT been deleted. DE id: ' . $request->getDeliveryExecution()->getIdentifier()));
             }
 
             return $deleted;
@@ -97,15 +99,15 @@ class DeliveryExecutionDeleteService extends ConfigurableService
                 $deleted = $service->deleteDeliveryExecutionData($request);
                 if ($deleted) {
                     $this->report->add(common_report_Report::createSuccess(
-                        'Delete execution Service: '. get_class($service) .' data has been deleted.',
-                        $request->getDeliveryExecution()->getIdentifier())
-                    );
+                        'Delete execution Service: ' . get_class($service) . ' data has been deleted.',
+                        $request->getDeliveryExecution()->getIdentifier()
+                    ));
                 } else {
                     $this->report->add(common_report_Report::createInfo(
-                        'Delete execution Service: '. get_class($service) .' data has nothing to delete'
+                        'Delete execution Service: ' . get_class($service) . ' data has nothing to delete'
                     ));
                 }
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $this->report->add(common_report_Report::createFailure($exception->getMessage()));
             }
         }
