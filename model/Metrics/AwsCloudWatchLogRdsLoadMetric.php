@@ -17,10 +17,11 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     /** @var string */
     const OPTION_LOG_EVENTS_LIMIT = 'logEventsLimit';
 
-    /**
-     * @var int
-     */
+    /** @var int */
     const DEFAULT_LOG_EVENTS_LIMIT = 1;
+
+    /** @var int */
+    const DEFAULT_METRIC_VALUE = 0;
 
     /**
      * @var AwsClient
@@ -36,7 +37,12 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
     public function collect($force = false)
     {
         if ($force || !$metricValue = $this->getPersistence()->get(self::class)) {
-            $metricValue = $this->getMetric();
+            try {
+                $metricValue = $this->getMetric();
+            } catch (\RuntimeException $e) {
+                $metricValue = self::DEFAULT_METRIC_VALUE;
+                $this->logAlert($e->getMessage());
+            }
             $this->getPersistence()->set(self::class, $metricValue, $this->getOption(self::OPTION_TTL));
         }
 
@@ -118,7 +124,7 @@ class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements Infrastru
      */
     private function parseMetricValue(Result $result)
     {
-        $metricValue = 0;
+        $metricValue = self::DEFAULT_METRIC_VALUE;
         if (!$result->hasKey('events')) {
             $this->logAlert("CloudWatch Logs doesn't have log events records for RDS Metrics.");
             return $metricValue;
