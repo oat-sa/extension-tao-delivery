@@ -105,7 +105,11 @@ class InfrastructureCapacityServiceTest extends TestCase
      * @return InfrastructureCapacityService
      */
     private function createInfrastructureCapacityService(
-        $infrastructureLimit, $taoLimit, $cachedCapacity, $currentInfrastructureLoad, $shouldDecrementCapacity = false
+        $infrastructureLimit,
+        $taoLimit,
+        $cachedCapacity,
+        $currentInfrastructureLoad,
+        $shouldDecrementCapacity = false
     ) {
         $serviceLocatorMock = $this->getServiceLocatorMock([
             LockService::SERVICE_ID => $this->createLockServiceMock(),
