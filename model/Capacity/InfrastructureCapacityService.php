@@ -115,7 +115,7 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
             $taoLimit = $this->getTaoCapacityLimit();
             $currentInfrastructureLoad = $this->collectInfrastructureLoad();
 
-            $capacity = floor((1 - $currentInfrastructureLoad / $infrastructureLoadLimit) * $taoLimit);
+            $capacity = ceil((($currentInfrastructureLoad - $infrastructureLoadLimit) ** 2) * ($taoLimit/($infrastructureLoadLimit ** 2)));
             $persistence->set(self::CAPACITY_TO_PROVIDE_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
             $persistence->set(self::CAPACITY_TO_CONSUME_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
 
