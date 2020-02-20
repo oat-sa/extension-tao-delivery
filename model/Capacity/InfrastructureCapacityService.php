@@ -29,6 +29,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\event\SystemCapacityUpdatedEvent;
 use oat\taoDelivery\model\Metrics\InfrastructureLoadMetricInterface;
+use Symfony\Component\Lock\Exception\LockAcquiringException;
 
 class InfrastructureCapacityService extends ConfigurableService implements CapacityInterface
 {
@@ -60,6 +61,9 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     public function getCapacity()
     {
         $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
+        if (!empty($cachedCapacity)) {
+            $this->logInfo(sprintf('Cached capacity to provide: %s', $cachedCapacity));
+        }
         if ($cachedCapacity === false || $cachedCapacity === null) {
             $capacity = $this->recalculateCapacity(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
         }
@@ -81,6 +85,12 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
 
         try {
             $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_CONSUME_CACHE_KEY);
+            if (!empty($cachedCapacity)) {
+                $this->logInfo(sprintf('Cached capacity to consume: %s', $cachedCapacity));
+            }
+            if (!$lock->isAcquired()) {
+                throw new LockAcquiringException(sprintf('No longer the holder of "%s" lock.', __CLASS__ . __METHOD__));
+            }
             if ($cachedCapacity === false || $cachedCapacity === null) {
                 $capacity = $this->recalculateCapacity(self::CAPACITY_TO_CONSUME_CACHE_KEY);
             }
@@ -90,6 +100,9 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
 
             $this->getPersistence()->decr(self::CAPACITY_TO_CONSUME_CACHE_KEY);
             return true;
+        } catch (LockAcquiringException $e) {
+            $this->logWarning($e->getMessage());
+            return false;
         } finally {
             $lock->release();
         }
@@ -110,6 +123,9 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
             if ($persistence->exists($keyToCheck) && ($cachedValue = $persistence->get($keyToCheck)) !== null) {
                 return $cachedValue;
             }
+            if (!$lock->isAcquired()) {
+                throw new LockAcquiringException(sprintf('No longer the holder of "%s" lock.', __CLASS__ . __METHOD__));
+            }
 
             $infrastructureLoadLimit = $this->getInfrastructureLoadLimit();
             $taoLimit = $this->getTaoCapacityLimit();
@@ -117,15 +133,25 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
 
             $capacity = 0;
             if ($currentInfrastructureLoad < $infrastructureLoadLimit) {
-                $capacity = ceil((($currentInfrastructureLoad - $infrastructureLoadLimit) ** 2) * ($taoLimit/($infrastructureLoadLimit ** 2)));
+                $capacity = ceil(
+                    (($currentInfrastructureLoad - $infrastructureLoadLimit) ** 2) * ($taoLimit / ($infrastructureLoadLimit ** 2))
+                );
             }
             $persistence->set(self::CAPACITY_TO_PROVIDE_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
             $persistence->set(self::CAPACITY_TO_CONSUME_CACHE_KEY, $capacity, $this->getCapacityCacheTtl());
 
-            $this->logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLoadLimit, $taoLimit);
+            $this->logCapacityCalculationDetails(
+                $capacity,
+                $currentInfrastructureLoad,
+                $infrastructureLoadLimit,
+                $taoLimit
+            );
             $this->getEventManager()->trigger(new SystemCapacityUpdatedEvent(null, $capacity));
 
             return $capacity;
+        } catch (LockAcquiringException $e) {
+            $this->logWarning($e->getMessage());
+            return 0;
         } finally {
             $lock->release();
         }
