@@ -37,6 +37,8 @@ define([
 
     const logger = loggerFactory('deliveryServer');
 
+    const accessibilityLaunchKeyCodes = [13, 32];  // "enter" or "space" - list of keys able to run delivery
+
     /**
      * Display a permanent message
      * @param {String} level - in supported feedbacks' levels
@@ -110,14 +112,20 @@ define([
                 logger.error(ltiErrorLog);
             };
 
-            $('a.entry-point').on('click', function (e) {
-                const $elt = $(this);
+            const launchDelivery = function (e) {
+                const $elt = $(e.currentTarget);
 
                 e.preventDefault();
                 e.stopPropagation();
 
                 if(!deliveryStarted && !$elt.hasClass('disabled')){
                     runDelivery($elt.data().launch_url);
+                }
+            };
+            $('a.entry-point').on('click', launchDelivery);
+            $('a.entry-point').on('keydown', (e) => {
+                if(accessibilityLaunchKeyCodes.includes(e.which)) {
+                    launchDelivery(e);
                 }
             });
 
