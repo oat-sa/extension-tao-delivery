@@ -12,7 +12,7 @@ use oat\tao\model\theme\Theme;
         <div class="settings-menu">
             <ul class="clearfix plain">
                 <li data-control="home">
-                    <a id="home" href="<?=get_data('returnUrl')?>">
+                    <a id="home" href="<?=get_data('returnUrl')?>" tabindex="0" role="button">
                         <span class="icon-home"></span>
                         <span class="text hidden"><?= __("Tests Home"); ?></span>
                     </a>
@@ -24,13 +24,13 @@ use oat\tao\model\theme\Theme;
                     </span>
                 </li>
                 <li class="infoControl sep-before" data-control="logout">
-                    <a id="logout" class="" href="<?= get_data('logout') ?>">
+                    <a id="logout" class="" href="<?= get_data('logout') ?>" tabindex="0" role="button">
                         <span class="icon-logout"></span>
                         <span class="text"><?= __("Logout"); ?></span>
                     </a>
                 </li>
                 <li class="infoControl sep-before hidden" data-control="exit">
-                    <a href="#">
+                    <a href="#" tabindex="0" role="button">
                         <span class="icon-logout"></span>
                         <span class="text"><?= __("Exit"); ?></span>
                     </a>
