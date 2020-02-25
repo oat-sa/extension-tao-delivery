@@ -123,7 +123,7 @@ define([
                 }
             };
             $('a.entry-point').on('click', launchDelivery);
-            $('a.entry-point').on('keydown', (e) => {
+            $('a.entry-point').on('keyup', (e) => {
                 if(accessibilityLaunchKeyCodes.includes(e.which)) {
                     launchDelivery(e);
                 }
