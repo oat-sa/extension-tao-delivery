@@ -4,4 +4,4 @@
  *
  * It uses the ontology to store the deliveryExecutions of the students
  */
-return new \oat\taoDelivsecuery\model\execution\OntologyService();
+return new \oat\taoDelivery\model\execution\OntologyService();
