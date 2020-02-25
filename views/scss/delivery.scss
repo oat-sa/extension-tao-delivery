@@ -45,23 +45,6 @@ html {
         }
     }
 
-    /* accessibility */
-    .entry-point-box {
-        @mixin entry-point-focus($focusColor) {
-            &:focus {
-                outline: none;
-            }
-            &:focus .text-link {
-                outline: 3px solid $focusColor !important;
-                outline-offset: -3px;
-            }
-        }
-        .entry-point-started-deliveries {
-            @include entry-point-focus($colorWheel-04);
-        }
-        .entry-point-all-deliveries {
-            @include entry-point-focus($colorWheel-10);
-        }
-    }
 }
+
 
