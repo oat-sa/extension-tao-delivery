@@ -46,14 +46,6 @@ html {
     }
 
     /* accessibility */
-    .settings-menu {
-        $focusColor: $textHighlight;
-        #logout:focus {
-            content: " ";
-            outline: 2px solid $focusColor !important;
-            outline-offset: -2px;
-        }
-    }
     .entry-point-box {
         @mixin entry-point-focus($focusColor) {
             &:focus {
