@@ -67,6 +67,7 @@ interface AssignmentService
     /**
      * Returns the serviecall to start the delivery
      *
+     * @deprecated Please use RuntimeService::getRuntime() as it is "less" deprecated
      * @param string $deliveryId
      * @return \tao_models_classes_service_ServiceCall
      */
