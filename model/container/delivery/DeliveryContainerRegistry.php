@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +44,8 @@ class DeliveryContainerRegistry extends AbstractRegistry implements ServiceLocat
         $this->set($id, $container);
     }
     
-    public function fromJson($string) {
+    public function fromJson($string)
+    {
         $data = json_decode($string, true);
         if (!isset($data['container']) || !isset($data['params'])) {
             throw new \common_exception_InconsistentData('Invalid container json');
@@ -55,7 +57,7 @@ class DeliveryContainerRegistry extends AbstractRegistry implements ServiceLocat
     {
         $container = $this->get($id);
         if (empty($container)) {
-            throw new \common_exception_InconsistentData('Conainer "'.$id.'" not found.');
+            throw new \common_exception_InconsistentData('Conainer "' . $id . '" not found.');
         }
         $container->setId($id);
         $container->setRuntimeParams($params);

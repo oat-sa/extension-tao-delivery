@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,11 +32,13 @@ class DummyCapacityService extends ConfigurableService implements CapacityInterf
      * {@inheritDoc}
      * @see \oat\taoDelivery\model\Capacity\CapacityInterface::getCapacity()
      */
-    public function getCapacity() {
+    public function getCapacity()
+    {
         return $this->hasOption(self::OPTION_CAPACITY) ? $this->getOption(self::OPTION_CAPACITY) : -1;
     }
     
-    public function consume() {
+    public function consume()
+    {
         return $this->getCapacity() > 0 || $this->getCapacity() == -1;
     }
 }

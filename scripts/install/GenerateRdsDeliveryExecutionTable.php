@@ -18,6 +18,7 @@
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\scripts\install;
 
 use Doctrine\DBAL\Schema\Column;
@@ -96,11 +97,11 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
             RdsDeliveryExecutionService::COLUMN_FINISHED_AT,
         ];
 
-        $tableColumns = array_map(function(Column $column) {
+        $tableColumns = array_map(function (Column $column) {
             return $column->getName();
         }, $schemaManager->getColumnNames(RdsDeliveryExecutionService::TABLE_NAME));
 
-        return array_reduce($columnNames, function($areColumnsExist, $column) use ($tableColumns) {
+        return array_reduce($columnNames, function ($areColumnsExist, $column) use ($tableColumns) {
             $areColumnsExist = $areColumnsExist && in_array($column, $tableColumns);
 
             return $areColumnsExist;

@@ -18,6 +18,7 @@
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\model\execution;
 
 use JsonSerializable;

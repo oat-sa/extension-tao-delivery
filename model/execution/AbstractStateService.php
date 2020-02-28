@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -81,7 +82,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
     {
         $prevState = $deliveryExecution->getState();
         if ($prevState->getUri() === $state) {
-            $this->logWarning('Delivery execution '.$deliveryExecution->getIdentifier().' already in state '.$state);
+            $this->logWarning('Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state);
             return false;
         }
 
@@ -89,7 +90,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
         $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
-        $this->logDebug("DeliveryExecutionState from ".$prevState->getUri()." to ".$state." triggered");
+        $this->logDebug("DeliveryExecutionState from " . $prevState->getUri() . " to " . $state . " triggered");
 
         return $result;
     }

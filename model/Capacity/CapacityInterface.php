@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,12 +28,12 @@ namespace oat\taoDelivery\model\Capacity;
 interface CapacityInterface
 {
 
-    const SERVICE_ID= 'taoDelivery/CapacityService';
+    const SERVICE_ID = 'taoDelivery/CapacityService';
 
     /**
      * Returns the available capacity of the system
      * Will return -1 if unlimited
-     * 
+     *
      * @return int
      */
     public function getCapacity();

@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\taoDelivery\model\execution\rds;
 
 use common_persistence_sql_pdo_mysql_Driver;
@@ -78,7 +79,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("deliveryId", $compiled->getUri())
         ;
 
-        return array_map(function($row) {
+        return array_map(function ($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
     }
@@ -101,7 +102,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("userId", $userUri)
         ;
 
-        return array_map(function($row) {
+        return array_map(function ($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
     }
@@ -124,7 +125,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("status", $status)
         ;
 
-        return array_map(function($row) {
+        return array_map(function ($row) {
             return $this->parseQueryResult($row);
         }, $query->execute()->fetchAll());
     }
@@ -232,7 +233,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         } catch (\Exception $e) {
             return false;
         }
-
     }
 
     /**

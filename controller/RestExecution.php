@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -65,12 +66,8 @@ class RestExecution extends \tao_actions_RestController
             } else {
                 throw new \common_Exception('Impossible to restore execution state');
             }
-
         } catch (\Exception $ex) {
             $this->returnFailure($ex);
         }
-
     }
-
 }
-

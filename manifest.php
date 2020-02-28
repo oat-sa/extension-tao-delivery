@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,57 +26,57 @@ use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
 
-$extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
-$taopath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'tao'.DIRECTORY_SEPARATOR;
+$extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+$taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
 
-return array(
+return [
     'name' => 'taoDelivery',
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '14.5.2',
+    'version' => '14.7.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-    'requires' => array(
+    'requires' => [
         'tao' => '>=39.0.6',
-    	'generis' => '>=11.2.3',
+        'generis' => '>=11.2.3',
         'taoResultServer' => '>=5.0.0'
-    ),
-    'install' => array(
-        'php' => array(
-            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'install'.DIRECTORY_SEPARATOR.'registerEntryPoint.php',
+    ],
+    'install' => [
+        'php' => [
+            __DIR__ . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'registerEntryPoint.php',
             \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
             \oat\taoDelivery\scripts\install\installDeliveryFields::class,
             \oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable::class,
             RegisterServiceContainer::class,
             RegisterWebhookEvents::class
-        )
-    ),
+        ]
+    ],
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
-    'acl' => array(
-        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoDelivery', 'mod'=>'DeliveryServer')),
-        array('grant', TaoRoles::ANONYMOUS, DeliveryServer::class.'@logout'),
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext'=>'taoDelivery', 'mod'=>'RestExecution']],
-    ),
-    'routes' => array(
+    'acl' => [
+        ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer']],
+        ['grant', TaoRoles::ANONYMOUS, DeliveryServer::class . '@logout'],
+        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoDelivery', 'mod' => 'RestExecution']],
+    ],
+    'routes' => [
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
-    ),
-	'constants' => array(
-		# actions directory
-		"DIR_ACTIONS"			=> $extpath."actions".DIRECTORY_SEPARATOR,
+    ],
+    'constants' => [
+        # actions directory
+        "DIR_ACTIONS"           => $extpath . "actions" . DIRECTORY_SEPARATOR,
 
-		# views directory
-		"DIR_VIEWS"				=> $extpath."views".DIRECTORY_SEPARATOR,
+        # views directory
+        "DIR_VIEWS"             => $extpath . "views" . DIRECTORY_SEPARATOR,
 
-		# default module name
-		'DEFAULT_MODULE_NAME'	=> 'DeliveryServer',
+        # default module name
+        'DEFAULT_MODULE_NAME'   => 'DeliveryServer',
 
-		#default action name
-		'DEFAULT_ACTION_NAME'	=> 'index',
+        #default action name
+        'DEFAULT_ACTION_NAME'   => 'index',
 
-		#BASE PATH: the root path in the file system (usually the document root)
-		'BASE_PATH'				=> $extpath,
+        #BASE PATH: the root path in the file system (usually the document root)
+        'BASE_PATH'             => $extpath,
 
-		#BASE URL (usually the domain root)
-		'BASE_URL'				=> ROOT_URL . 'taoDelivery/',
-	)
-);
+        #BASE URL (usually the domain root)
+        'BASE_URL'              => ROOT_URL . 'taoDelivery/',
+    ]
+];

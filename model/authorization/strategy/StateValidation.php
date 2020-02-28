@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoDelivery\model\authorization\strategy;
 
 use oat\oatbox\service\ConfigurableService;
@@ -28,7 +30,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 /**
  * Verifies that the current state of a delivery execution allows resuming
  */
-class StateValidation extends ConfigurableService  implements AuthorizationProvider
+class StateValidation extends ConfigurableService implements AuthorizationProvider
 {
     /**
      * (non-PHPdoc)
@@ -50,13 +52,13 @@ class StateValidation extends ConfigurableService  implements AuthorizationProvi
     {
         $stateId = $deliveryExecution->getState()->getUri();
         if (!in_array($stateId, $this->getResumableStates())) {
-            \common_Logger::w('Unexpected state "'.$stateId . '; delivery execution: ' . $deliveryExecution->getIdentifier());
+            \common_Logger::w('Unexpected state "' . $stateId . '; delivery execution: ' . $deliveryExecution->getIdentifier());
             throw new \common_exception_Unauthorized();
         }
     }
     
     public function getResumableStates()
     {
-        return array(DeliveryExecution::STATE_ACTIVE, DeliveryExecution::STATE_PAUSED);
+        return [DeliveryExecution::STATE_ACTIVE, DeliveryExecution::STATE_PAUSED];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoDelivery\model\execution\implementation;
 
 use common_Logger;
@@ -73,9 +75,9 @@ class KeyValueService extends ConfigurableService implements Service
      */
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
-        $returnValue = array();
+        $returnValue = [];
         $data = $this->getPersistence()->get(self::USER_DELIVERY_PREFIX . $userUri . $compiled->getUri());
-        $keys = $data !== false ? json_decode($data, true) : array();
+        $keys = $data !== false ? json_decode($data, true) : [];
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $returnValue[$key] = $this->getDeliveryExecution($key);
@@ -99,13 +101,13 @@ class KeyValueService extends ConfigurableService implements Service
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
     {
         $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
-        $data = array(
+        $data = [
             OntologyRdfs::RDFS_LABEL => $label,
             OntologyDeliveryExecution::PROPERTY_DELIVERY  => $deliveryId,
             OntologyDeliveryExecution::PROPERTY_SUBJECT => $userId,
             OntologyDeliveryExecution::PROPERTY_TIME_START => microtime(),
             OntologyDeliveryExecution::PROPERTY_STATUS => $status
-        );
+        ];
         $kvDe = new KVDeliveryExecution($this, $identifier, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
@@ -121,8 +123,8 @@ class KeyValueService extends ConfigurableService implements Service
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userId)
     {
-        common_Logger::w('Call to deprecated function '.__FUNCTION__);
-        return $this->spawnDeliveryExecution($assembly->getLabel(), $assembly->getUri(), $userId,  KvDeliveryExecution::STATE_ACTIVE);
+        common_Logger::w('Call to deprecated function ' . __FUNCTION__);
+        return $this->spawnDeliveryExecution($assembly->getLabel(), $assembly->getUri(), $userId, KvDeliveryExecution::STATE_ACTIVE);
     }
 
     /**
@@ -148,9 +150,9 @@ class KeyValueService extends ConfigurableService implements Service
      */
     public function getDeliveryExecutionsByStatus($userUri, $status)
     {
-        $returnValue = array();
+        $returnValue = [];
         $data = $this->getPersistence()->get(self::USER_EXECUTIONS_PREFIX . $userUri . $status);
-        $keys = $data !== false ? json_decode($data, true) : array();
+        $keys = $data !== false ? json_decode($data, true) : [];
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $de = $this->getDeliveryExecution($key);
@@ -234,7 +236,7 @@ class KeyValueService extends ConfigurableService implements Service
 
         /** @var \common_ext_ExtensionsManager $extManager */
         $extManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
-        if ($extManager->isInstalled('taoProctoring')){
+        if ($extManager->isInstalled('taoProctoring')) {
             $reflect = new \ReflectionClass(\oat\taoProctoring\model\execution\DeliveryExecution::class);
         } else {
             $reflect = new \ReflectionClass(\oat\taoDelivery\model\execution\DeliveryExecutionInterface::class);
@@ -242,14 +244,14 @@ class KeyValueService extends ConfigurableService implements Service
 
         $constants = $reflect->getConstants();
         $statuses = [];
-        foreach ($constants as $constantName => $constantValue){
+        foreach ($constants as $constantName => $constantValue) {
             if (strpos($constantName, 'STATE_') !== false) {
                 $statuses[] = $constantValue;
             }
         }
 
         foreach ($statuses as $status) {
-           $this->getPersistence()->del(self::USER_EXECUTIONS_PREFIX . $userUri . $status);
+            $this->getPersistence()->del(self::USER_EXECUTIONS_PREFIX . $userUri . $status);
         }
 
         $deletedDe = $this->getPersistence()->del($deUri);
@@ -266,7 +268,7 @@ class KeyValueService extends ConfigurableService implements Service
      */
     private function setDeliveryExecutions($userUri, $status, $executions)
     {
-        $keys = array();
+        $keys = [];
         foreach ($executions as $execution) {
             $keys[] = $execution->getIdentifier();
         }
@@ -311,7 +313,8 @@ class KeyValueService extends ConfigurableService implements Service
      * @param $deliveryExecutionId
      * @return bool
      */
-    public function exists($deliveryExecutionId) {
+    public function exists($deliveryExecutionId)
+    {
         return $this->getPersistence()->exists($deliveryExecutionId);
     }
 }

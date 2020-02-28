@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 
 namespace oat\taoDelivery\models\classes\theme;
 
-
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ServiceManager;
@@ -34,7 +34,6 @@ use oat\tao\model\theme\ThemeDetailsProviderInterface;
  */
 class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProviderInterface, PhpSerializable
 {
-
     use PhpSerializeStateless;
     
 
@@ -81,7 +80,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
      */
     public function getDeliveryIdFromSession($deliveryExecutionId)
     {
-        if (\PHPSession::singleton()->hasAttribute(static::getDeliveryIdSessionKey($deliveryExecutionId))){
+        if (\PHPSession::singleton()->hasAttribute(static::getDeliveryIdSessionKey($deliveryExecutionId))) {
             return \PHPSession::singleton()->getAttribute(static::getDeliveryIdSessionKey($deliveryExecutionId));
         }
 
@@ -140,8 +139,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
             $themeId  = (string)$delivery->getOnePropertyValue($property);
 
             return $themeId;
-        }
-        catch (\common_exception_Error $e) {
+        } catch (\common_exception_Error $e) {
             return '';
         }
     }
@@ -158,8 +156,7 @@ class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProvi
     {
         try {
             return $this->getCache()->put($themeId, $this->getCacheKey($deliveryId), 60);
-        }
-        catch (\common_exception_NotImplemented $e) {
+        } catch (\common_exception_NotImplemented $e) {
             return false;
         }
     }
