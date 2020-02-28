@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint112\n"
-"PO-Revision-Date: 2019-10-09T09:02:32\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:05:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -18,6 +18,9 @@ msgstr "Prisijungti prie testų kaip svečiui"
 
 msgid "All rights reserved."
 msgstr "Visos teisės saugomos."
+
+msgid "An error occurred!"
+msgstr ""
 
 msgid "Available"
 msgstr "Galimi testai"

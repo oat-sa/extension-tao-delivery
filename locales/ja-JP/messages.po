@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-07-05T08:37:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint123\n"
+"PO-Revision-Date: 2020-02-28T14:05:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -18,6 +18,9 @@ msgstr "ゲストで受験"
 
 msgid "All rights reserved."
 msgstr "All rights reserved."
+
+msgid "An error occurred!"
+msgstr ""
 
 msgid "Available"
 msgstr "実施対象テスト"
