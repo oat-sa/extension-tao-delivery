@@ -20,17 +20,21 @@ $warningMessage = get_data('warningMessage');
         <ul class="entry-point-box plain">
             <?php foreach ($resumableDeliveries as $delivery): ?>
                 <li>
-                    <a class="block entry-point entry-point-started-deliveries" data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>"
-                       tabindex="0" role="button" aria-label="<?= __("Resume") ?>"
-                    >
+                    <a class="block entry-point entry-point-started-deliveries"
+                        data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>"
+                        tabindex="0">
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
                         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
-                        <p><?= $desc?></p>
+                        <p aria-hidden="true"><?= $desc?></p>
                         <?php endforeach; ?>
 
                         <div class="clearfix">
-                            <span class="text-link" href="<?= $delivery[Delivery::LAUNCH_URL] ?>">
+                            <span class="text-link"
+                                  href="<?= $delivery[Delivery::LAUNCH_URL] ?>"
+                                  role="button"
+                                  aria-label="<?= __('Resume button')?>. <?= __('To activate press enter') ?>"
+                            >
                                 <span class="icon-continue"></span> <?= __("Resume") ?>
                             </span>
                         </div>
