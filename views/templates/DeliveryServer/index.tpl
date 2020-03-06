@@ -6,7 +6,7 @@ $resumableDeliveries = get_data('resumableDeliveries');
 $availableDeliveries = get_data('availableDeliveries');
 $warningMessage = get_data('warningMessage');
 ?>
-<div class="test-listing">
+<main class="test-listing">
 
     <h1><?= __("My Tests"); ?></h1>
 
@@ -54,4 +54,4 @@ $warningMessage = get_data('warningMessage');
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-</div>
+</main>

@@ -7,6 +7,8 @@ use oat\tao\model\theme\Theme;
 <header class="dark-bar clearfix">
     <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
     <div class="lft title-box"></div>
+</header>
+<div class="dark-bar raised rgt">
     <nav class="rgt">
         <!-- snippet: dark bar left menu -->
         <div class="settings-menu">
@@ -24,7 +26,7 @@ use oat\tao\model\theme\Theme;
                     </span>
                 </li>
                 <li class="infoControl sep-before" data-control="logout">
-                    <a id="logout" class="" href="<?= get_data('logout') ?>">
+                    <a id="logout" class="logout" href="<?= get_data('logout') ?>" tabindex="0">
                         <span class="icon-logout"></span>
                         <span class="text"><?= __("Logout"); ?></span>
                     </a>
@@ -38,4 +40,4 @@ use oat\tao\model\theme\Theme;
             </ul>
         </div>
     </nav>
-</header>
+</div>
