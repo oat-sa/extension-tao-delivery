@@ -12,7 +12,11 @@ $delivery = get_data('delivery');
         <p><?= $desc?></p>
         <?php endforeach; ?>
         <div class="clearfix">
-            <span class="text-link">
+            <span
+                class="text-link"
+                role="button"
+                aria-label="<?= __('Start button')?>. <?= __('To activate press enter') ?>"
+            >
                 <span class="icon-play"></span> <?= __('Start') ?>
             </span>
         </div>

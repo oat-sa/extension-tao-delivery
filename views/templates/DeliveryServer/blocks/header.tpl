@@ -24,7 +24,7 @@ use oat\tao\model\theme\Theme;
                     </span>
                 </li>
                 <li class="infoControl sep-before" data-control="logout">
-                    <a id="logout" class="" href="<?= get_data('logout') ?>">
+                    <a id="logout" class="logout" href="<?= get_data('logout') ?>" tabindex="0">
                         <span class="icon-logout"></span>
                         <span class="text"><?= __("Logout"); ?></span>
                     </a>
