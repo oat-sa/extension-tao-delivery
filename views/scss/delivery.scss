@@ -1,4 +1,5 @@
 @import "inc/bootstrap";
+$entrypointLinkColor: #276d9b;
 html {
     width: 100% !important;
 }
@@ -42,6 +43,25 @@ html {
         }
         .entry-point-box {
             margin-top: 0
+        }
+        .action {
+            display: inline-block;
+            position: absolute;
+            padding: 20px;
+            right: -1px;
+            bottom: -1px;
+            height: 62px;
+            background: inherit;
+            color: $entrypointLinkColor;
+            text-shadow: none;
+            border-bottom: 3px solid;
+            &:focus {
+                outline: 3px solid $entrypointLinkColor;
+                outline-offset: 3px;
+            }
+            &:hover {
+                color: $info;
+            }
         }
     }
 
