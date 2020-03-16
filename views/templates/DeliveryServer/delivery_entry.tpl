@@ -3,7 +3,8 @@ use oat\taoDelivery\helper\Delivery;
 $delivery = get_data('delivery');
 ?>
 <li>
-    <a class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled" ?>"
+    <a class="block entry-point entry-point-all-deliveries <?= ($delivery[" TAO_DELIVERY_TAKABLE"]) ? "" : "disabled"
+    ?>"
     data-launch_url="<?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? $delivery[Delivery::LAUNCH_URL] : "#" ?>"
     tabindex="0">
     <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
