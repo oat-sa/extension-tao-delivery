@@ -35,7 +35,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
     /** @var \common_persistence_Persistence */
     private $persistence;
 
-    public function setUp()
+    public function setUp(): void
     {
         $managerMock = $this->getSqlMock("default");
         $serviceLocatorMock = $this->getServiceLocatorMock([
@@ -57,7 +57,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->classUnderTest->method("getNewUri")->willReturn("test");
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->classUnderTest = null;
     }

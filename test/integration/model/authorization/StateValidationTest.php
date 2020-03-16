@@ -21,6 +21,7 @@
 
 namespace oat\taoDelivery\test\integration\model\authorization;
 
+use common_exception_Unauthorized;
 use oat\generis\test\TestCase;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
 use oat\oatbox\user\User;
@@ -67,7 +68,7 @@ class StateValidationTest extends TestCase
      */
     public function testNotAuthorized()
     {
-        $this->setExpectedException(\common_exception_Unauthorized::class);
+        $this->expectException(common_exception_Unauthorized::class);
         $validator = new StateValidation();
         $validator->verifyResumeAuthorization($this->getDeliveryExecution(DeliveryExecution::STATE_FINISHED), $this->getUser());
     }

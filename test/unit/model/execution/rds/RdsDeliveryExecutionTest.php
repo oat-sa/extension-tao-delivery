@@ -29,7 +29,7 @@ class RdsDeliveryExecutionTest extends TestCase
 {
     private $classUnderTest;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $serviceMock = $this->prophesize(RdsDeliveryExecutionService::class);
         $this->classUnderTest = new RdsDeliveryExecution($serviceMock->reveal());
