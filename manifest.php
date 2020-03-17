@@ -38,7 +38,7 @@ return [
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'tao' => '>=39.0.6',
-        'generis' => '>=11.2.3',
+        'generis' => '>=12.15.0',
         'taoResultServer' => '>=5.0.0'
     ],
     'install' => [
