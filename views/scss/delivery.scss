@@ -1,5 +1,5 @@
 @import "inc/bootstrap";
-$entrypointLinkColor: #276d9b;
+$actionColor: whiten($info, .1);
 html {
     width: 100% !important;
 }
@@ -52,11 +52,11 @@ html {
             bottom: -1px;
             height: 62px;
             background: inherit;
-            color: $entrypointLinkColor;
+            color: $actionColor;
             text-shadow: none;
             border-bottom: 3px solid;
             &:focus {
-                outline: 3px solid $entrypointLinkColor;
+                outline: 3px solid $actionColor;
                 outline-offset: 3px;
             }
             &:hover {
