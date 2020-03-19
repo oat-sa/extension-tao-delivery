@@ -20,6 +20,7 @@
 
 namespace oat\taoDelivery\test\unit\model\execution;
 
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\taoDelivery\model\execution\DeliveryExecutionContext;
 use oat\taoDelivery\model\execution\DeliveryExecutionContextInterface;
@@ -37,7 +38,8 @@ class DeliveryExecutionContextTest extends TestCase
      */
     public function testConstructThrowsException($executionId, $executionContextId, $type, $label, $errorMessage)
     {
-        $this->setExpectedException(\InvalidArgumentException::class, $errorMessage);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($errorMessage);
 
         new DeliveryExecutionContext($executionId, $executionContextId, $type, $label);
     }
@@ -52,7 +54,7 @@ class DeliveryExecutionContextTest extends TestCase
         $contextData = $this->getValidContextData();
         $contextObject = DeliveryExecutionContext::createFromArray($contextData);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $contextObject->setExecutionId($executionId);
     }
 
@@ -61,7 +63,7 @@ class DeliveryExecutionContextTest extends TestCase
         $contextData = $this->getValidContextData();
         $contextObject = DeliveryExecutionContext::createFromArray($contextData);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $contextObject->setExecutionContextId('');
     }
 

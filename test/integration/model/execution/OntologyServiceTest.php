@@ -31,44 +31,44 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 class OntologyServiceTest extends TaoPhpUnitTestRunner
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         // load constants
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
     }
-    
+
     public function testSetState()
     {
         $service = new OntologyService();
         $service->setServiceLocator($this->getServiceManagerProphecy());
         $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
-        
+
         $assembly = new \core_kernel_classes_Resource('fake');
         $deWrapper = $service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
-        
+
         $this->assertInstanceOf(DeliveryExecution::class, $deWrapper);
         $deliveryExecution = $deWrapper->getImplementation();
         $this->assertInstanceOf(DeliveryExecutionInterface::class, $deliveryExecution);
-        
+
         $success = $deliveryExecution->setState('http://uri.com/fake#State');
         $this->assertTrue($success);
-        
+
         $state = $deliveryExecution->getState();
         $this->assertEquals('http://uri.com/fake#State', $state->getUri());
-        
+
         $success = $deliveryExecution->setState('fakeState');
         $this->assertTrue($success);
-        
+
         $state = $deliveryExecution->getState();
         $this->assertEquals('fakeState', $state->getUri());
-        
+
         $success = $deliveryExecution->setState('fakeState');
         $this->assertFalse($success);
-        
+
         $deWrapper->delete();
     }
-    
+
     public function testFailedStartTime()
     {
         $execution = new OntologyDeliveryExecution('http://uri.com/fake#Execution');
