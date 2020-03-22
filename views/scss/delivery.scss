@@ -1,5 +1,4 @@
 @import "inc/bootstrap";
-$actionColor: whiten($info, .1);
 html {
     width: 100% !important;
 }
@@ -52,19 +51,17 @@ html {
             bottom: -1px;
             height: 62px;
             background: inherit;
-            color: $actionColor;
+            color: $deliveryColor;
             text-shadow: none;
             border-bottom: 3px solid;
             &:focus {
-                outline: 3px solid $actionColor;
+                outline: 3px solid $deliveryColor;
                 outline-offset: 3px;
             }
             &:hover {
-                color: $info;
+                color: $deliveryHoverColor;
             }
         }
     }
 
 }
-
-
