@@ -51,15 +51,15 @@ html {
             bottom: -1px;
             height: 62px;
             background: inherit;
-            color: $deliveryColor;
+            color: $actionLinkColor;
             text-shadow: none;
             border-bottom: 3px solid;
             &:focus {
-                outline: 3px solid $deliveryColor;
+                outline: 3px solid $actionLinkColor;
                 outline-offset: 3px;
             }
             &:hover {
-                color: $deliveryHoverColor;
+                color: $actionLinkHoverColor;
             }
         }
     }
