@@ -26,7 +26,7 @@ $warningMessage = get_data('warningMessage');
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
                         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
-                        <p aria-hidden="true"><?= $desc?></p>
+                        <p><?= $desc?></p>
                         <?php endforeach; ?>
 
                         <div class="clearfix">
