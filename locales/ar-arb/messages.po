@@ -73,7 +73,7 @@ msgstr ""
 msgid "Test-Takers"
 msgstr ""
 
-msgid "Tests Home"
+msgid "Go back to tests selection"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
