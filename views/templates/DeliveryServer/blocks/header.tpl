@@ -4,8 +4,8 @@ use oat\tao\helpers\Template;
 use oat\tao\model\theme\Theme;
 ?>
 <?php Template::inc('blocks/careers.tpl', 'tao'); ?>
-<header class="header-bar">
-    <div class="dark-bar clearfix">
+<header>
+    <div class="dark-bar header-bar clearfix">
         <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
         <div class="lft title-box"></div>
         <div class="nav-class rgt">
