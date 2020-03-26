@@ -15,7 +15,7 @@ use oat\tao\model\theme\Theme;
                     <li data-control="home">
                         <a role="button" id="home" href="<?=get_data('returnUrl')?>">
                             <span class="icon-home"></span>
-                            <span class="text hidden"><?= __("Tests Home"); ?></span>
+                            <span class="text hidden"><?= __("Go back to tests selection"); ?></span>
                         </a>
                     </li>
                     <li class="infoControl sep-before">
