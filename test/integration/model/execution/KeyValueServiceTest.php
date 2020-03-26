@@ -21,6 +21,7 @@
 
 namespace oat\taoDelivery\test\integration\model\execution;
 
+use common_exception_NotFound;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
@@ -38,7 +39,7 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
     /** @var \common_persistence_Manager */
     private $persistenceMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -56,34 +57,34 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
     public function testSetState()
     {
         $this->assertInstanceOf(ExecutionService::class, $this->service);
-        
+
         $assembly = new \core_kernel_classes_Resource('fake');
         $deWrapper = $this->service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
-        
+
         $this->assertInstanceOf(DeliveryExecution::class, $deWrapper);
         $deliveryExecution = $deWrapper->getImplementation();
         $this->assertInstanceOf(DeliveryExecutionInterface::class, $deliveryExecution);
-        
+
         $success = $deliveryExecution->setState('http://uri.com/fake#State');
         $this->assertTrue($success);
-        
+
         $state = $deliveryExecution->getState();
         $this->assertEquals('http://uri.com/fake#State', $state->getUri());
-        
+
         $success = $deliveryExecution->setState('fakeState');
         $this->assertTrue($success);
-        
+
         $state = $deliveryExecution->getState();
         $this->assertEquals('fakeState', $state->getUri());
-        
+
         $success = $deliveryExecution->setState('fakeState');
         $this->assertFalse($success);
     }
-    
+
     public function testFailedStartTime()
     {
         $execution = new KVDeliveryExecution($this->service, 'http://uri.com/fake#Execution');
-        $this->setExpectedException(\common_exception_NotFound::class);
+        $this->expectException(common_exception_NotFound::class);
         $execution->getStartTime();
     }
 

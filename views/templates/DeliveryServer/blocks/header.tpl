@@ -4,8 +4,8 @@ use oat\tao\helpers\Template;
 use oat\tao\model\theme\Theme;
 ?>
 <?php Template::inc('blocks/careers.tpl', 'tao'); ?>
-<header>
-    <div class="header-bar dark-bar clearfix">
+<header class="header-bar">
+    <div class="dark-bar clearfix">
         <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
         <div class="lft title-box"></div>
         <div class="nav-class rgt">
@@ -15,7 +15,7 @@ use oat\tao\model\theme\Theme;
                     <li data-control="home">
                         <a role="button" id="home" href="<?=get_data('returnUrl')?>">
                             <span class="icon-home"></span>
-                            <span class="text hidden"><?= __("Go back to tests selection"); ?></span>
+                            <span class="text hidden"><?= __("Tests Home"); ?></span>
                         </a>
                     </li>
                     <li class="infoControl sep-before">
@@ -25,7 +25,7 @@ use oat\tao\model\theme\Theme;
                     </span>
                     </li>
                     <li class="infoControl sep-before" data-control="logout">
-                        <a role="button" id="logout" class="" href="<?= get_data('logout') ?>">
+                        <a role="button" id="logout" class="logout" href="<?= get_data('logout') ?>" tabindex="0">
                             <span class="icon-logout"></span>
                             <span class="text"><?= __("Logout"); ?></span>
                         </a>

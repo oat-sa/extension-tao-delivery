@@ -38,7 +38,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         $this->config = $ext->getConfig(ServiceProxy::CONFIG_KEY);
@@ -47,7 +47,7 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
      *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('taoDelivery');
         $ext->setConfig(ServiceProxy::CONFIG_KEY, $this->config);
@@ -182,11 +182,11 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
         $this->assertTrue($return);
     }
     /**
-     * @expectedException common_exception_NoImplementation
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGetExecutionsByDeliveryException()
     {
+        $this->expectException(common_exception_NoImplementation::class);
         $serviceProphecy = $this->prophesize('oat\\taoDelivery\\model\\execution\\Service');
         $resource = $this->prophesize('core_kernel_classes_Resource');
         $res = $resource->reveal();
