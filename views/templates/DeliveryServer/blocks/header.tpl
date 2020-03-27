@@ -8,7 +8,7 @@ use oat\tao\model\theme\Theme;
     <div class="dark-bar header-bar clearfix">
         <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
         <div class="lft title-box"></div>
-        <div class="nav-class rgt">
+        <div class="nav rgt">
             <!-- snippet: dark bar left menu -->
             <div class="settings-menu">
                 <ul class="clearfix plain">
