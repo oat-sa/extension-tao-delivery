@@ -38,7 +38,7 @@ msgid "Exit"
 msgstr "Išeiti"
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "Torna alla selezione dei test"
 
 msgid "Guest access"
 msgstr "Svečio prisijungimas"

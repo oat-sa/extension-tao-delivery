@@ -38,7 +38,7 @@ msgid "Exit"
 msgstr "Afsluiten"
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "Ga terug naar testselectie"
 
 msgid "Guest access"
 msgstr "Gast toegang"
