@@ -13,7 +13,7 @@ use oat\tao\model\theme\Theme;
         <link rel="stylesheet" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('tao-3.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('delivery.css', 'taoDelivery') ?>"/>
-        <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao')?>"/>
+        <?= Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'head') ?>
 
         <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 
