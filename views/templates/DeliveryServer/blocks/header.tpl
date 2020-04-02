@@ -4,11 +4,11 @@ use oat\tao\helpers\Template;
 use oat\tao\model\theme\Theme;
 ?>
 <?php Template::inc('blocks/careers.tpl', 'tao'); ?>
-<header>
-    <div class="dark-bar header-bar clearfix">
+<div role="banner" aria-label="Main Menu.">
+    <header role="menubar" class="dark-bar clearfix">
         <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
         <div class="lft title-box"></div>
-        <div class="nav rgt">
+        <nav role="menu" class="rgt">
             <!-- snippet: dark bar left menu -->
             <div class="settings-menu">
                 <ul class="clearfix plain">
@@ -38,6 +38,6 @@ use oat\tao\model\theme\Theme;
                     </li>
                 </ul>
             </div>
-        </div>
-    </div>
-</header>
+        </nav>
+    </header>
+</div>
