@@ -37,6 +37,9 @@ msgstr "Pereiti į viso ekrano rodymą"
 msgid "Exit"
 msgstr "Išeiti"
 
+msgid "Go back to tests selection"
+msgstr "Torna alla selezione dei test"
+
 msgid "Guest access"
 msgstr "Svečio prisijungimas"
 
@@ -78,9 +81,6 @@ msgstr "TAO Svečio prisijungimas"
 
 msgid "Test-Takers"
 msgstr "Testo Laikytojai"
-
-msgid "Tests Home"
-msgstr "Testų Namai"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Šis testas turi būti sprendžiamas įjungus viso ekrano rodymą"

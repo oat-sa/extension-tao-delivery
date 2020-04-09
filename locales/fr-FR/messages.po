@@ -37,6 +37,9 @@ msgstr "Mode plein écran"
 msgid "Exit"
 msgstr "Quitter"
 
+msgid "Go back to tests selection"
+msgstr "Retour à la sélection des tests"
+
 msgid "Guest access"
 msgstr "Accès invité"
 
@@ -78,9 +81,6 @@ msgstr "Accès invité pour TAO"
 
 msgid "Test-Takers"
 msgstr "Participants"
-
-msgid "Tests Home"
-msgstr "Accueil des tests"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Ce test a besoin d'être en mode plein écran"
