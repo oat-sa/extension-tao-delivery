@@ -37,6 +37,9 @@ msgstr "フルスクリーン"
 msgid "Exit"
 msgstr "終了"
 
+msgid "Go back to tests selection"
+msgstr ""
+
 msgid "Guest access"
 msgstr "ゲストアクセス"
 
@@ -78,9 +81,6 @@ msgstr "TAO ゲストアクセス"
 
 msgid "Test-Takers"
 msgstr "受験者"
-
-msgid "Tests Home"
-msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "このテストはフルスクリーンモードが必要です。"

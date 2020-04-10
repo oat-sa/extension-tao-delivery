@@ -37,6 +37,9 @@ msgstr "Volledig scherm tonen"
 msgid "Exit"
 msgstr "Afsluiten"
 
+msgid "Go back to tests selection"
+msgstr "Ga terug naar testselectie"
+
 msgid "Guest access"
 msgstr "Gast toegang"
 
@@ -78,9 +81,6 @@ msgstr "TAO gasttoegang"
 
 msgid "Test-Takers"
 msgstr "Kandidaten"
-
-msgid "Tests Home"
-msgstr "Tests thuispagina"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Deze toets moet in volledig scherm modus worden afgenomen"
