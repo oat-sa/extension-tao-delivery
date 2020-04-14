@@ -3,7 +3,7 @@ html {
     width: 100% !important;
 }
 .delivery-scope {
-    min-height: 300px; // This is needed for cross-domain iFrames to render the test runner correctly
+    min-height: 300px; // This is needed for cross-domain iframes to render the test runner correctly
 
     .no-controls { // == .content-wrap
         margin-bottom: 0 !important;
