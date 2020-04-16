@@ -3,13 +3,15 @@ html {
     width: 100% !important;
 }
 .delivery-scope {
+    min-height: 300px; // This is needed for cross-domain iframes to render the test runner correctly
+
     .no-controls { // == .content-wrap
         margin-bottom: 0 !important;
         &:after {
             height: 0 !important;
         }
     }
-    
+
     .section-container {
         .content-block {
             &.iframe-block {
@@ -43,8 +45,25 @@ html {
         .entry-point-box {
             margin-top: 0
         }
+        .action {
+            display: inline-block;
+            position: absolute;
+            padding: 20px;
+            right: -1px;
+            bottom: -1px;
+            height: 62px;
+            background: inherit;
+            color: $actionLinkColor;
+            text-shadow: none;
+            border-bottom: 3px solid;
+            &:focus {
+                outline: 3px solid $actionLinkColor;
+                outline-offset: 3px;
+            }
+            &:hover {
+                color: $actionLinkHoverColor;
+            }
+        }
     }
 
 }
-
-

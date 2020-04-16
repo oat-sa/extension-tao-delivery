@@ -109,6 +109,7 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     }
 
     /**
+     * @param  string $keyToCheck
      * @return float
      * @throws \common_Exception
      */
@@ -189,15 +190,21 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 
-    private function logCapacityCalculationDetails($capacity, $currentInfrastructureLoad, $infrastructureLimit, $taoLimit)
-    {
-        $this->getLogger()->info(sprintf(
-            'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
-            $capacity,
-            $currentInfrastructureLoad,
-            $infrastructureLimit,
-            $taoLimit
-        ));
+    private function logCapacityCalculationDetails(
+        $capacity,
+        $currentInfrastructureLoad,
+        $infrastructureLimit,
+        $taoLimit
+    ) {
+        $this->getLogger()->info(
+            sprintf(
+                'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
+                $capacity,
+                $currentInfrastructureLoad,
+                $infrastructureLimit,
+                $taoLimit
+            )
+        );
     }
 
     /**
@@ -229,7 +236,9 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
      */
     private function collectInfrastructureLoad()
     {
-        $infrastructureMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(self::METRIC);
+        $infrastructureMetricService = $this->getServiceLocator()->get(MetricsService::class)->getOneMetric(
+            self::METRIC
+        );
 
         return $infrastructureMetricService->collect();
     }

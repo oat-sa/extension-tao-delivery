@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-26 11:07+0200\n"
+"POT-Creation-Date: 2020-03-19 15:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,8 +11,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 2.2.5\n"
-"X-Pootle-Path: /nl-NL/tao32/taoDelivery/taodelivery.rdf.po\n"
-"X-Pootle-Revision: 7924\n"
+"X-Pootle-Path: /nl-NL/tao33/taoDelivery/taodelivery.rdf.po\n"
+"X-Pootle-Revision: 36667\n"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -212,7 +212,7 @@ msgstr "De directory van de compilatie van het pakketje"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery origin"
-msgstr "Pakketjes oorsprong"
+msgstr "Publicatie oorsprong"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
