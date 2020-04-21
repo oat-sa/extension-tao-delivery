@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:05:42\n"
+"Project-Id-Version: TAO 3.4.0-sprint125\n"
+"PO-Revision-Date: 2020-03-27T10:25:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -37,6 +37,9 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+msgid "Go back to tests selection"
+msgstr "返回测试选择"
+
 msgid "Guest access"
 msgstr ""
 
@@ -52,8 +55,14 @@ msgstr "我的考試"
 msgid "Resume"
 msgstr "繼續"
 
+msgid "Resume button"
+msgstr ""
+
 msgid "Start"
 msgstr "開始"
+
+msgid "Start button"
+msgstr ""
 
 msgid "Started at %s"
 msgstr ""
@@ -73,10 +82,10 @@ msgstr ""
 msgid "Test-Takers"
 msgstr ""
 
-msgid "Tests Home"
+msgid "This test needs to be taken in full screen mode"
 msgstr ""
 
-msgid "This test needs to be taken in full screen mode"
+msgid "To activate press enter"
 msgstr ""
 
 msgid "You are no longer allowed to take this test"

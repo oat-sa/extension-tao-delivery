@@ -9,11 +9,14 @@ use oat\tao\model\theme\Theme;
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?php echo __("TAO - An Open and Versatile Computer-Based Assessment Platform"); ?></title>
+
+        <?= Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'head') ?>
+
+        <title><?= __("TAO - An Open and Versatile Computer-Based Assessment Platform") ?></title>
+
         <link rel="stylesheet" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('tao-3.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('delivery.css', 'taoDelivery') ?>"/>
-        <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao')?>"/>
 
         <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_FRONTOFFICE) ?>" />
 

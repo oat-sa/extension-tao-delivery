@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint123\n"
-"PO-Revision-Date: 2020-02-28T14:05:41\n"
+"Project-Id-Version: TAO 3.4.0-sprint125\n"
+"PO-Revision-Date: 2020-03-27T10:25:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -37,6 +37,9 @@ msgstr "Mostra a schermo intero"
 msgid "Exit"
 msgstr "Esci"
 
+msgid "Go back to tests selection"
+msgstr ""
+
 msgid "Guest access"
 msgstr "Accesso ospite"
 
@@ -52,8 +55,14 @@ msgstr "I miei test"
 msgid "Resume"
 msgstr "Riprendi"
 
+msgid "Resume button"
+msgstr ""
+
 msgid "Start"
 msgstr "Comincia"
+
+msgid "Start button"
+msgstr ""
 
 msgid "Started at %s"
 msgstr "Iniziato il %s"
@@ -73,11 +82,11 @@ msgstr "Accesso ospite TAO"
 msgid "Test-Takers"
 msgstr "Partecipanti al test"
 
-msgid "Tests Home"
-msgstr ""
-
 msgid "This test needs to be taken in full screen mode"
 msgstr "Questo test necessita di funzionare a modalità schermo intero"
+
+msgid "To activate press enter"
+msgstr ""
 
 msgid "You are no longer allowed to take this test"
 msgstr ""
