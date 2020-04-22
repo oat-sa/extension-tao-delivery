@@ -61,7 +61,7 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     public function getCapacity()
     {
         $cachedCapacity = $capacity = $this->getPersistence()->get(self::CAPACITY_TO_PROVIDE_CACHE_KEY);
-        if (!empty($cachedCapacity)) {
+        if (!empty($cachedCapacity) && $cachedCapacity > 0) {
             $this->logInfo(sprintf('Cached capacity to provide: %s', $cachedCapacity));
         }
         if ($cachedCapacity === false || $cachedCapacity === null) {
