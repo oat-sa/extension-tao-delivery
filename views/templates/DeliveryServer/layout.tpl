@@ -29,9 +29,14 @@ use oat\tao\model\theme\Theme;
 
         <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">
 
-            <?php if (get_data('showControls')){
-                Template::inc('DeliveryServer/blocks/header.tpl', 'taoDelivery');
-            }?>
+            <?php if (get_data('showControls')): ?>
+                <?php $themeTemplate = Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'delivery-header', ['logout' => get_data('logout'), 'userLabel' => get_data('userLabel')]); ?>
+                <?php if ($themeTemplate): ?>
+                    <?= $themeTemplate ?>
+                <?php else: ?>
+                    <?php Template::inc('DeliveryServer/blocks/header.tpl', 'taoDelivery'); ?>
+                <?php endif; ?>
+            <?php endif; ?>
 
             <div id="feedback-box"></div>
 
