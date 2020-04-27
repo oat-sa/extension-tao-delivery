@@ -157,7 +157,10 @@
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "400": {
