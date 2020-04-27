@@ -4,14 +4,25 @@
     "version": "1.0.0",
     "title": ""
   },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
   "tags": [
     {
       "name": "taoDelivery",
       "description": "Operations about delivery executions"
     }
   ],
+  "basePath": "/taoDelivery",
   "paths": {
-    "/taoDelivery/RestExecution/unstop": {
+    "/RestExecution/unstop": {
       "post": {
         "produces": [
           "application/json"
@@ -92,7 +103,7 @@
             "description": "User isn't authorized to access to this functionality"
           },
           "404": {
-            "description": "Item can't be found",
+            "description": "Delivery can't be found",
             "examples": {
               "application/json": {
                 "success": false,
