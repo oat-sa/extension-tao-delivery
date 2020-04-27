@@ -160,7 +160,8 @@
               "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "example": []
             }
           },
           "400": {
