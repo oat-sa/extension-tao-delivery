@@ -32,18 +32,24 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\webhooks\WebhookEventsServiceInterface;
 use oat\tao\scripts\update\OntologyUpdater;
-use oat\tao\model\entryPoint\EntryPointService;
+use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\controller\RestExecution;
 use oat\taoDelivery\model\AttemptService;
 use oat\taoDelivery\model\AttemptServiceInterface;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\strategy\AuthorizationAggregator;
 use oat\taoDelivery\model\authorization\strategy\StateValidation;
+use oat\taoDelivery\model\Capacity\CapacityInterface;
+use oat\taoDelivery\model\Capacity\DummyCapacityService;
+use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
+use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
+use oat\taoDelivery\model\container\LegacyRuntime;
 use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
 use oat\taoDelivery\model\entrypoint\GuestAccess;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteService;
@@ -51,19 +57,13 @@ use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\StateService;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
+use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\ReturnUrlService;
-use oat\taoDelivery\model\fields\DeliveryFieldsService;
-use oat\taoDelivery\model\execution\StateService;
-use oat\taoDelivery\controller\DeliveryServer;
-use oat\taoDelivery\model\RuntimeService;
-use oat\taoDelivery\model\container\LegacyRuntime;
-use oat\taoDelivery\model\container\delivery\DeliveryContainerRegistry;
-use oat\taoDelivery\model\container\delivery\DeliveryServiceContainer;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 use oat\taoResultServer\models\classes\ResultServerService;
-use oat\taoDelivery\model\Capacity\CapacityInterface;
-use oat\taoDelivery\model\Capacity\DummyCapacityService;
 
 /**
  * @author Joel Bout <joel@taotesting.com>
@@ -444,6 +444,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('14.3.0');
         }
 
-        $this->skip('14.3.0', '14.11.0');
+        $this->skip('14.3.0', '14.12.0');
     }
 }
