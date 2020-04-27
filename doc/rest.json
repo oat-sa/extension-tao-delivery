@@ -83,41 +83,19 @@
             }
           },
           "400": {
-            "description": "Bad request if you send invalid parameters. deliveryExecution is mandatory.",
-            "examples": {
-              "application/json": {
-                "success": false,
-                "errorCode": 0,
-                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
-                "version": "3.1.0"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorModel"
-            }
+            "$ref": "#/responses/genericValidationError"
           },
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/responses/genericAuthenticationError"
           },
           "403": {
-            "description": "User isn't authorized to access to this functionality"
+            "$ref": "#/responses/genericAuthorizationError"
           },
           "404": {
-            "description": "Delivery can't be found",
-            "examples": {
-              "application/json": {
-                "success": false,
-                "errorCode": 0,
-                "errorMsg": "Delivery Execution not found",
-                "version": "3.1.0"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/errorModel"
-            }
+            "$ref": "#/responses/executionNotFoundError"
           },
           "500": {
-            "description": "Internal error (should not occur)"
+            "$ref": "#/responses/genericInternalError"
           }
         }
       }
@@ -154,6 +132,45 @@
           "description": "error description"
         }
       }
+    }
+  },
+  "responses": {
+    "genericValidationError": {
+      "description": "Bad request if you send invalid parameters.",
+      "examples": {
+        "application/json": {
+          "success": false,
+          "errorCode": 0,
+          "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+          "version": "3.1.0"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/errorModel"
+      }
+    },
+    "genericAuthenticationError": {
+      "description": "Not authenticated"
+    },
+    "genericAuthorizationError": {
+      "description": "User isn't authorized to access to this functionality"
+    },
+    "executionNotFoundError": {
+      "description": "Delivery can't be found",
+      "examples": {
+        "application/json": {
+          "success": false,
+          "errorCode": 0,
+          "errorMsg": "Delivery Execution not found",
+          "version": "3.1.0"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/errorModel"
+      }
+    },
+    "genericInternalError": {
+      "description": "Internal error (should not occur)"
     }
   },
   "externalDocs": {
