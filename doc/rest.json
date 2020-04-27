@@ -99,6 +99,73 @@
           }
         }
       }
+    },
+    "/DeliveryState": {
+      "put": {
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "executions"
+        ],
+        "parameters": [
+          {
+            "name": "uri",
+            "in": "query",
+            "description": "Execution identifier, in URI format",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "body",
+            "description": "State to set the execution to",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "value"
+              ],
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "enum": [
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive",
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused",
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/genericValidationError"
+          },
+          "401": {
+            "$ref": "#/responses/genericAuthenticationError"
+          },
+          "403": {
+            "$ref": "#/responses/genericAuthorizationError"
+          },
+          "404": {
+            "$ref": "#/responses/executionNotFoundError"
+          },
+          "500": {
+            "$ref": "#/responses/genericInternalError"
+          }
+        }
+      }
     }
   },
   "definitions": {
