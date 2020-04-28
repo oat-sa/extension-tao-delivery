@@ -32,7 +32,7 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
 use tao_actions_CommonRestModule as RestModule;
 
 /** Kindly use `funcAcl` in order to assign the roles, having access to the controller */
-class DeliveryState extends RestModule
+class DeliveryExecutionState extends RestModule
 {
     public function put($uri): void
     {

@@ -100,7 +100,7 @@
         }
       }
     },
-    "/DeliveryState": {
+    "/DeliveryExecutionState": {
       "put": {
         "produces": [
           "application/json"
