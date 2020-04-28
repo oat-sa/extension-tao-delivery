@@ -39,6 +39,12 @@ abstract class AbstractStateService extends ConfigurableService implements State
 {
     use LoggerAwareTrait;
 
+    public const OPTION_REACTIVABLE_STATES = 'reactivableStates';
+
+    private const DEFAULT_REACTIVABLE_STATES = [
+        DeliveryExecution::STATE_TERMINATED,
+    ];
+
     /**
      * Legacy function to ensure all calls to setState use
      * the correct transition instead
@@ -117,7 +123,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $executionState = $deliveryExecution->getState()->getUri();
         $result = false;
 
-        if (DeliveryExecution::STATE_TERMINATED === $executionState) {
+        if (in_array($executionState, $this->getReactivableStates(), true)) {
             $user = \common_session_SessionManager::getSession()->getUser();
             /** @var EventManager $eventManager */
             $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
@@ -127,5 +133,14 @@ abstract class AbstractStateService extends ConfigurableService implements State
         }
 
         return $result;
+    }
+
+    private function getReactivableStates(): array
+    {
+        if (!$this->hasOption(self::OPTION_REACTIVABLE_STATES)) {
+            return self::DEFAULT_REACTIVABLE_STATES;
+        }
+
+        return $this->getOption(self::OPTION_REACTIVABLE_STATES);
     }
 }
