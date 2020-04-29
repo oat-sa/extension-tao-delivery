@@ -25,16 +25,37 @@ namespace oat\taoDelivery\controller;
 
 use common_exception_MissingParameter;
 use common_exception_NotFound as NotFoundException;
+use common_exception_NotImplemented as NotImplementedException;
 use common_exception_RestApi as ApiException;
 use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\model\execution\StateServiceInterface;
-use tao_actions_CommonRestModule as RestModule;
+use tao_actions_RestController as RestController;
 
 /** Kindly use `funcAcl` in order to assign the roles, having access to the controller */
-class DeliveryExecutionState extends RestModule
+class DeliveryExecutionState extends RestController
 {
-    public function put($uri): void
+    /**
+     * @throws NotFoundException
+     *
+     * @throws NotImplementedException
+     * @throws NotFoundException
+     */
+    public function index(): void
+    {
+        $queryParams = $this->getPsrRequest()->getQueryParams();
+
+        switch ($this->getPsrRequest()->getMethod()) {
+            case 'PUT':
+                $this->put($queryParams['uri'] ?? '');
+                break;
+            default:
+                /** @noinspection PhpUnhandledExceptionInspection */
+                $this->returnFailure(new ApiException('Not implemented'));
+        }
+    }
+
+    private function put(string $uri): void
     {
         if (empty($uri)) {
             $this->returnFailure(new common_exception_MissingParameter('uri'));
@@ -49,25 +70,10 @@ class DeliveryExecutionState extends RestModule
                 $deliveryExecution->setState($state);
             }
         } catch (NotFoundException $exception) {
-            throw new NotFoundException('Delivery execution not found', 404, $exception);
+            $this->returnFailure(new NotFoundException('Delivery execution not found', 404, $exception));
         }
 
         $this->returnSuccess([], false);
-    }
-
-    public function get($uri = null)
-    {
-        $this->returnFailure(new ApiException('Not implemented'));
-    }
-
-    public function post($uri = null)
-    {
-        $this->returnFailure(new ApiException('Not implemented'));
-    }
-
-    public function delete($uri = null)
-    {
-        $this->returnFailure(new ApiException('Not implemented'));
     }
 
     protected function getExecutionService(): Service
