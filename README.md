@@ -42,7 +42,7 @@ As a system administrator you also install it through the TAO Extension Manager:
 - Select _taoDelivery_ on the right hand side, check the box and hit _install_
 
 ## REST API
-[](https://openapi.taotesting.com/viewer/?url=https://raw.githubusercontent.com/oat-sa/extension-tao-delivery/master/doc/rest.json)
+[Open API Specification](https://openapi.taotesting.com/viewer/?url=https://raw.githubusercontent.com/oat-sa/extension-tao-delivery/master/doc/rest.json)
 
 <!-- Uncomment and describe if applicable
 ## LTI Endpoints
