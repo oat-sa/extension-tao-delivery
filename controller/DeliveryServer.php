@@ -136,6 +136,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->setData('additional-header', $loaderRenderer);
         $this->setData('content-template', 'DeliveryServer/index.tpl');
         $this->setData('content-extension', 'taoDelivery');
+        $this->setData('title', __('TAO: Test Selection'));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
@@ -276,6 +277,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
+        $this->setData('title', __('TAO: %s', $delivery->getLabel()));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
