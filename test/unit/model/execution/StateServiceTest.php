@@ -308,6 +308,13 @@ class StateServiceTest extends TestCase
         $this->eventManager
             ->expects(static::exactly(count($events)))
             ->method('trigger')
-            ->withConsecutive(...$events);
+            ->withConsecutive(
+                ...array_map(
+                       static function (Event $event): array {
+                           return [$event];
+                       },
+                       $events
+                   )
+            );
     }
 }
