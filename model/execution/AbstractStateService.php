@@ -21,14 +21,15 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use oat\taoDelivery\model\execution\DeliveryExecution as BaseDeliveryExecution;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
+use common_session_SessionManager as SessionManager;
+use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
 
 /**
  * Class AbstractStateService
@@ -42,14 +43,19 @@ abstract class AbstractStateService extends ConfigurableService implements State
     public const OPTION_REACTIVABLE_STATES = 'reactivableStates';
 
     private const DEFAULT_REACTIVABLE_STATES = [
-        DeliveryExecution::STATE_TERMINATED,
+        DeliveryExecutionInterface::STATE_TERMINATED,
+    ];
+
+    private const INTERACTIVE_STATES = [
+        DeliveryExecutionInterface::STATE_ACTIVE,
+        DeliveryExecutionInterface::STATE_PAUSED,
     ];
 
     /**
      * Legacy function to ensure all calls to setState use
      * the correct transition instead
      *
-     * @param BaseDeliveryExecution $deliveryExecution
+     * @param DeliveryExecution $deliveryExecution
      * @param string $state
      * @return bool
      */
@@ -74,49 +80,18 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $deliveryExecution = $this->getStorageEngine()->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
         // trigger event
         $event = new DeliveryExecutionCreated($deliveryExecution, $user);
-        $this->getServiceLocator()->get(EventManager::SERVICE_ID)->trigger($event);
+        $this->getEventManager()->trigger($event);
+
         return $deliveryExecution;
-    }
-
-    /**
-     * @param BaseDeliveryExecution $deliveryExecution
-     * @param string $state
-     * @return bool
-     * @throws \common_exception_NotFound
-     */
-    protected function setState(BaseDeliveryExecution $deliveryExecution, $state)
-    {
-        $prevState = $deliveryExecution->getState();
-        if ($prevState->getUri() === $state) {
-            $this->logWarning('Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state);
-            return false;
-        }
-
-        $result = $deliveryExecution->getImplementation()->setState($state);
-
-        $event = new DeliveryExecutionStateEvent($deliveryExecution, $state, $prevState->getUri());
-        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger($event);
-        $this->logDebug("DeliveryExecutionState from " . $prevState->getUri() . " to " . $state . " triggered");
-
-        return $result;
-    }
-
-    /**
-     * @return Service
-     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     */
-    protected function getStorageEngine()
-    {
-        return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
     }
 
     /**
      * @param DeliveryExecution $deliveryExecution
      * @param null $reason
+     *
      * @return mixed
-     * @throws \common_exception_Error
+     *
      * @throws \common_exception_NotFound
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     public function reactivateExecution(DeliveryExecution $deliveryExecution, $reason = null)
     {
@@ -124,15 +99,63 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $result = false;
 
         if (in_array($executionState, $this->getReactivableStates(), true)) {
-            $user = \common_session_SessionManager::getSession()->getUser();
-            /** @var EventManager $eventManager */
-            $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED);
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->trigger(new DeliveryExecutionReactivated($deliveryExecution, $user, $reason));
+            $this->setState($deliveryExecution, DeliveryExecution::STATE_PAUSED, $reason);
             $result = true;
         }
 
         return $result;
+    }
+
+    /**
+     * @param DeliveryExecution $deliveryExecution
+     * @param string            $state
+     * @param string|null       $reason
+     *
+     * @return bool
+     *
+     * @throws \common_exception_NotFound
+     */
+    protected function setState(DeliveryExecution $deliveryExecution, string $state, string $reason = null): bool
+    {
+        $previousState = $deliveryExecution->getState()->getUri();
+        if ($previousState === $state) {
+            $this->logWarning('Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state);
+
+            return false;
+        }
+
+        $result = $deliveryExecution->getImplementation()->setState($state);
+
+        $this->emitEvent(new DeliveryExecutionStateEvent($deliveryExecution, $state, $previousState));
+        $this->logDebug(sprintf('DeliveryExecutionState from %s to %s triggered', $previousState, $state));
+
+        if (!$this->isStateInteractive($previousState) && $this->isStateInteractive($state)) {
+            $this->emitEvent(new DeliveryExecutionReactivated($deliveryExecution, $this->getUser(), $reason));
+        }
+
+        return $result;
+    }
+
+    protected function getUser(): User
+    {
+        return SessionManager::getSession()->getUser();
+    }
+
+    protected function getStorageEngine(): Service
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
+    }
+
+    private function getEventManager(): EventManager
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function emitEvent(Event $event): void
+    {
+        $this->getEventManager()->trigger($event);
     }
 
     private function getReactivableStates(): array
@@ -142,5 +165,10 @@ abstract class AbstractStateService extends ConfigurableService implements State
         }
 
         return $this->getOption(self::OPTION_REACTIVABLE_STATES);
+    }
+
+    private function isStateInteractive(string $state): bool
+    {
+        return in_array($state, self::INTERACTIVE_STATES, true);
     }
 }
