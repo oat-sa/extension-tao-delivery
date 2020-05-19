@@ -28,6 +28,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
@@ -45,6 +46,9 @@ class StateServiceTest extends TestCase
     /** @var User|MockObject */
     private $user;
 
+    /** @var SessionService|MockObject */
+    private $sessionService;
+
     /** @var KeyValueService|MockObject */
     private $storage;
 
@@ -56,13 +60,18 @@ class StateServiceTest extends TestCase
      */
     public function initializeDependencies(): void
     {
-        $this->user         = $this->createMock(User::class);
-        $this->storage      = $this->createMock(KeyValueService::class);
-        $this->eventManager = $this->createMock(EventManager::class);
+        $this->user           = $this->createMock(User::class);
+        $this->sessionService = $this->createMock(SessionService::class);
+        $this->storage        = $this->createMock(KeyValueService::class);
+        $this->eventManager   = $this->createMock(EventManager::class);
 
         $this->user
             ->method('getIdentifier')
             ->willReturn('user_id_1');
+
+        $this->sessionService
+            ->method('getCurrentUser')
+            ->willReturn($this->user);
     }
 
     public function testDeliveryExecutionCreation(): void
@@ -233,36 +242,12 @@ class StateServiceTest extends TestCase
         $this->assertTrue($this->createSut()->terminate($deliveryExecution));
     }
 
-    private function createOverriddenInitialStatusImplementation(string $initialStatus): StateService
+    private function initializeSut(StateService $sut): StateService
     {
-        $stateService = $this->createSut('getInitialStatus');
-
-        $stateService
-            ->method('getInitialStatus')
-            ->with(self::TEST_DELIVERY_ID, $this->user)
-            ->willReturn($initialStatus);
-
-        return $stateService;
-    }
-
-    /**
-     * @param string ...$overriddenMethods
-     *
-     * @return StateService|MockObject
-     */
-    private function createSut(string ...$overriddenMethods): StateService
-    {
-        $overriddenMethods[] = 'getUser';
-
-        $sut = $this->createPartialMock(StateService::class, $overriddenMethods);
-
-        $sut
-            ->method('getUser')
-            ->willReturn($this->user);
-
         $sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
+                    SessionService::SERVICE_ID       => $this->sessionService,
                     StateService::STORAGE_SERVICE_ID => $this->storage,
                     EventManager::SERVICE_ID         => $this->eventManager,
                     LoggerService::SERVICE_ID        => new NullLogger(),
@@ -271,6 +256,23 @@ class StateServiceTest extends TestCase
         );
 
         return $sut;
+    }
+
+    private function createOverriddenInitialStatusImplementation(string $initialStatus): StateService
+    {
+        $stateService = $this->createPartialMock(StateService::class, ['getInitialStatus']);
+
+        $stateService
+            ->method('getInitialStatus')
+            ->with(self::TEST_DELIVERY_ID, $this->user)
+            ->willReturn($initialStatus);
+
+        return $this->initializeSut($stateService);
+    }
+
+    private function createSut(): StateService
+    {
+        return $this->initializeSut(new StateService());
     }
 
     private function createDeliveryExecution(string $state, string $futureState = null): DeliveryExecution
