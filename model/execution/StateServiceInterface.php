@@ -20,6 +20,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
+use common_exception_NotFound;
 use oat\oatbox\user\User;
 /**
  * Interface StateServiceInterface
@@ -30,9 +31,9 @@ use oat\oatbox\user\User;
  */
 interface StateServiceInterface
 {
-    const SERVICE_ID = 'taoDelivery/stateService';
+    public const SERVICE_ID = 'taoDelivery/stateService';
 
-    const STORAGE_SERVICE_ID = 'taoDelivery/execution_service';
+    public const STORAGE_SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
      * Spawns a new delivery execution
@@ -53,6 +54,7 @@ interface StateServiceInterface
      * Terminates a delivery execution
      *
      * @param DeliveryExecution $deliveryExecution
+     *
      * @return bool
      */
     public function terminate(DeliveryExecution $deliveryExecution);
@@ -61,8 +63,11 @@ interface StateServiceInterface
 
     /**
      * @param DeliveryExecution $deliveryExecution
-     * @param null $reason
-     * @return mixed
+     * @param string|null       $reason
+     *
+     * @return bool
+     *
+     * @throws common_exception_NotFound
      */
     public function reactivateExecution(DeliveryExecution $deliveryExecution, $reason = null);
 }
