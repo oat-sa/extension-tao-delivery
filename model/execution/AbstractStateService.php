@@ -21,11 +21,12 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use common_session_SessionManager as SessionManager;
+use common_exception_NotFound;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
@@ -57,6 +58,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
      *
      * @param DeliveryExecution $deliveryExecution
      * @param string $state
+     *
      * @return bool
      */
     abstract public function legacyTransition(DeliveryExecution $deliveryExecution, $state);
@@ -66,13 +68,13 @@ abstract class AbstractStateService extends ConfigurableService implements State
      *
      * @param string $deliveryId
      * @param User $user
+     *
      * @return string
      */
     abstract public function getInitialStatus($deliveryId, User $user);
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\taoDelivery\model\execution\StateServiceInterface::createDeliveryExecution()
+     * @inheritDoc
      */
     public function createDeliveryExecution($deliveryId, User $user, $label)
     {
@@ -86,12 +88,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
     }
 
     /**
-     * @param DeliveryExecution $deliveryExecution
-     * @param null $reason
-     *
-     * @return mixed
-     *
-     * @throws \common_exception_NotFound
+     * @inheritDoc
      */
     public function reactivateExecution(DeliveryExecution $deliveryExecution, $reason = null)
     {
@@ -113,7 +110,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
      *
      * @return bool
      *
-     * @throws \common_exception_NotFound
+     * @throws common_exception_NotFound
      */
     protected function setState(DeliveryExecution $deliveryExecution, string $state, string $reason = null): bool
     {
@@ -130,21 +127,28 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $this->logDebug(sprintf('DeliveryExecutionState from %s to %s triggered', $previousState, $state));
 
         if (!$this->isStateInteractive($previousState) && $this->isStateInteractive($state)) {
-            $this->emitEvent(new DeliveryExecutionReactivated($deliveryExecution, $this->getUser(), $reason));
+            $this->emitEvent(
+                new DeliveryExecutionReactivated(
+                    $deliveryExecution,
+                    $this->getSessionService()->getCurrentUser(),
+                    $reason
+                )
+            );
         }
 
         return $result;
-    }
-
-    protected function getUser(): User
-    {
-        return SessionManager::getSession()->getUser();
     }
 
     protected function getStorageEngine(): Service
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
+    }
+
+    private function getSessionService(): SessionService
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(SessionService::SERVICE_ID);
     }
 
     private function getEventManager(): EventManager
