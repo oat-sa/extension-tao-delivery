@@ -22,7 +22,6 @@
 namespace oat\taoDelivery\model\execution\Delete;
 
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
-use qtism\runtime\tests\AssessmentTestSession;
 use core_kernel_classes_Resource;
 
 class DeliveryExecutionDeleteRequest
@@ -33,23 +32,17 @@ class DeliveryExecutionDeleteRequest
     /** @var DeliveryExecutionInterface */
     private $deliveryExecution;
 
-    /** @var AssessmentTestSession */
-    private $session;
-
     /**
      * DeliveryExecutionDeleteRequest constructor.
      * @param core_kernel_classes_Resource $deliveryResource
      * @param DeliveryExecutionInterface $deliveryExecution
-     * @param AssessmentTestSession $session
      */
     public function __construct(
         core_kernel_classes_Resource $deliveryResource,
-        DeliveryExecutionInterface $deliveryExecution,
-        AssessmentTestSession $session = null //can  be null in case delivery was cancelled
+        DeliveryExecutionInterface $deliveryExecution
     ) {
         $this->deliveryResource = $deliveryResource;
         $this->deliveryExecution = $deliveryExecution;
-        $this->session = $session;
     }
 
     /**
@@ -58,14 +51,6 @@ class DeliveryExecutionDeleteRequest
     public function getDeliveryExecution()
     {
         return $this->deliveryExecution;
-    }
-
-    /**
-     * @return AssessmentTestSession
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 
     /**
