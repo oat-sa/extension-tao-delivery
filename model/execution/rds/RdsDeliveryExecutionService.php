@@ -20,7 +20,6 @@
 
 namespace oat\taoDelivery\model\execution\rds;
 
-use common_persistence_sql_pdo_mysql_Driver;
 use common_persistence_SqlPersistence;
 use core_kernel_classes_Resource;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -263,7 +262,6 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     private function getQueryBuilder()
     {
-        /**@var common_persistence_sql_pdo_mysql_Driver $driver */
         return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 

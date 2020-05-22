@@ -74,13 +74,11 @@ class DeleteDeliveryExecution extends ScriptAction
 
         $deliveryExecutionIdentifier = $this->getOption('deliveryExecution');
         $deliveryExecution           = $serviceProxy->getDeliveryExecution($deliveryExecutionIdentifier);
-        $session                     = $this->getSession($deliveryExecution);
 
         try {
             $deleteRequest = new DeliveryExecutionDeleteRequest(
                 $deliveryExecution->getDelivery(),
-                $deliveryExecution,
-                $session
+                $deliveryExecution
             );
 
             $deleteDeliveryExecutionService->execute($deleteRequest);
@@ -93,25 +91,6 @@ class DeleteDeliveryExecution extends ScriptAction
         }
 
         return $report;
-    }
-
-    /**
-     * @param $deliveryExecution
-     * @return null|\qtism\runtime\tests\AssessmentTestSession
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
-     */
-    protected function getSession($deliveryExecution)
-    {
-        /** @var TestSessionService $testSessionService */
-        $testSessionService = $this->getServiceManager()->get(TestSessionService::SERVICE_ID);
-
-        try {
-            $session =  $testSessionService->getTestSession($deliveryExecution);
-        } catch (\Exception $exception) {
-            $session = null;
-        }
-
-        return $session;
     }
 
     protected function provideUsage()
