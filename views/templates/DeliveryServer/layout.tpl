@@ -12,7 +12,7 @@ use oat\tao\model\theme\Theme;
 
         <?= Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'head') ?>
 
-        <title><?= __("TAO - An Open and Versatile Computer-Based Assessment Platform") ?></title>
+        <title><?= Layout::getTitle() ?></title>
 
         <link rel="stylesheet" href="<?= Template::css('tao-main-style.css', 'tao')?>"/>
         <link rel="stylesheet" href="<?= Template::css('tao-3.css', 'tao')?>"/>
