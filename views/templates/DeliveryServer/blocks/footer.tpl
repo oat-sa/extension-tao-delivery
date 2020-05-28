@@ -2,7 +2,7 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\ApplicationHelper;
 ?>
-<footer aria-label="About" class="dark-bar">
+<footer aria-label="<?=__('About')?>" class="dark-bar">
     © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= ApplicationHelper::getVersionName() ?></span> ·
     Open Assessment Technologies S.A.
     · <?= __('All rights reserved.') ?>
