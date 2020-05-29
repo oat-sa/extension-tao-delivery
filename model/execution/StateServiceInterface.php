@@ -65,7 +65,7 @@ interface StateServiceInterface
 
     /**
      * @param DeliveryExecution $deliveryExecution
-     * @param string|null       $reason
+     * @param string|array|null $reason
      *
      * @return bool
      *
