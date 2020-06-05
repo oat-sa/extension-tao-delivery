@@ -106,13 +106,13 @@ abstract class AbstractStateService extends ConfigurableService implements State
     /**
      * @param DeliveryExecution $deliveryExecution
      * @param string            $state
-     * @param string|null       $reason
+     * @param string|array|null $reason
      *
      * @return bool
      *
      * @throws common_exception_NotFound
      */
-    protected function setState(DeliveryExecution $deliveryExecution, string $state, string $reason = null): bool
+    protected function setState(DeliveryExecution $deliveryExecution, string $state, $reason = null): bool
     {
         $previousState = $deliveryExecution->getState()->getUri();
         if ($previousState === $state) {

@@ -4,7 +4,7 @@ use oat\tao\helpers\Template;
 use oat\tao\model\theme\Theme;
 ?>
 <?php Template::inc('blocks/careers.tpl', 'tao'); ?>
-<header role="menubar" class="dark-bar clearfix">
+<header role="menubar" aria-label="<?=__('Main Menu')?>" class="dark-bar clearfix">
     <?=Layout::renderThemeTemplate(Theme::CONTEXT_FRONTOFFICE, 'header-logo')?>
     <div class="lft title-box"></div>
     <nav role="menu" class="rgt">
