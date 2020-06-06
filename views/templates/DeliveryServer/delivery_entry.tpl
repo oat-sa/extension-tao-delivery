@@ -5,7 +5,7 @@ $delivery = get_data('delivery');
 <li>
     <a class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled"?>"
         data-launch_url="<?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? $delivery[Delivery::LAUNCH_URL] : "#" ?>"
-        tabindex="0">
+        tabindex="-1">
         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
@@ -16,7 +16,7 @@ $delivery = get_data('delivery');
                 class="action"
                 tabindex="0"
                 role="button"
-                aria-label="<?= __('Start button')?>. <?= __('To activate press enter') ?>"
+                aria-label="<?= __('Start this test')?>"
             >
                 <span class="icon-play"></span> <?= __('Start') ?>
             </span>
