@@ -22,7 +22,7 @@ $warningMessage = get_data('warningMessage');
                 <li>
                     <a class="block entry-point entry-point-started-deliveries"
                        data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>"
-                       tabindex="0">
+                       tabindex="-1">
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
                         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
