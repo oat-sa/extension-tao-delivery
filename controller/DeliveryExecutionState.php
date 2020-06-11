@@ -27,10 +27,10 @@ use common_exception_MissingParameter;
 use common_exception_NotFound as NotFoundException;
 use common_exception_NotImplemented as NotImplementedException;
 use common_exception_RestApi as ApiException;
-use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\model\execution\StateServiceInterface;
 use tao_actions_RestController as RestController;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
 /** Kindly use `funcAcl` in order to assign the roles, having access to the controller */
 class DeliveryExecutionState extends RestController
@@ -76,7 +76,7 @@ class DeliveryExecutionState extends RestController
         $this->returnSuccess([], false);
     }
 
-    protected function getExecutionService(): Service
+    protected function getExecutionService(): DeliveryExecutionService
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(ServiceProxy::SERVICE_ID);

@@ -24,7 +24,6 @@ namespace oat\taoDelivery\model\execution;
 use common_exception_Error;
 use common_exception_NoImplementation;
 use common_exception_NotFound;
-use common_ext_ExtensionsManager;
 use common_Logger;
 use common_session_SessionManager;
 use core_kernel_classes_Resource;
@@ -43,36 +42,27 @@ use tao_models_classes_Service;
  * @package taoDelivery
 
  */
-class ServiceProxy extends tao_models_classes_Service implements Service
+class ServiceProxy extends tao_models_classes_Service implements DeliveryExecutionService
 {
     const CONFIG_KEY = 'execution_service';
-    const SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
      * @var Service
      */
     private $implementation;
 
-    public function setImplementation(Service $implementation)
+    public function setImplementation(DeliveryExecutionService $implementation)
     {
-        $this->implementation = $implementation;
-        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('taoDelivery');
-        $ext->setConfig(self::CONFIG_KEY, $implementation);
+        $this->getServiceLocator()->register(self::SERVICE_ID, $implementation);
     }
 
     /**
      * @return Service
      * @throws common_exception_Error
      */
-    protected function getImplementation()
+    protected function getImplementation(): DeliveryExecutionService
     {
-        if (is_null($this->implementation)) {
-            $this->implementation = $this->getServiceLocator()->get(self::SERVICE_ID);
-            if (!$this->implementation instanceof Service) {
-                throw new common_exception_Error('No implementation for ' . __CLASS__ . ' found');
-            }
-        }
-        return $this->implementation;
+        return $this->getServiceLocator()->get(self::SERVICE_ID);
     }
 
     /**
