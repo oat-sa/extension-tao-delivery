@@ -16,7 +16,7 @@ $delivery = get_data('delivery');
                 class="action"
                 tabindex="0"
                 role="button"
-                aria-label="<?= __('Start button')?>. <?= __('To activate press enter') ?>"
+                aria-label="<?= __('Start this test')?>"
             >
                 <span class="icon-play"></span> <?= __('Start') ?>
             </span>
