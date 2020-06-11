@@ -33,7 +33,7 @@ $warningMessage = get_data('warningMessage');
                             <span class="action"
                                   href="<?= $delivery[Delivery::LAUNCH_URL] ?>"
                                   role="button"
-                                  aria-label="<?= __('Resume button')?>. <?= __('To activate press enter') ?>"
+                                  aria-label="<?= __('Resume this test')?>"
                                   tabindex="0">
                                 <span class="icon-continue"></span> <?= __("Resume") ?>
                             </span>
