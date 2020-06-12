@@ -27,7 +27,6 @@ use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
-$taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
 
 return [
     'name' => 'taoDelivery',
@@ -61,22 +60,10 @@ return [
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
     ],
     'constants' => [
-        # actions directory
-        "DIR_ACTIONS"           => $extpath . "actions" . DIRECTORY_SEPARATOR,
-
-        # views directory
+        # views directory, required for js
         "DIR_VIEWS"             => $extpath . "views" . DIRECTORY_SEPARATOR,
 
-        # default module name
-        'DEFAULT_MODULE_NAME'   => 'DeliveryServer',
-
-        #default action name
-        'DEFAULT_ACTION_NAME'   => 'index',
-
-        #BASE PATH: the root path in the file system (usually the document root)
-        'BASE_PATH'             => $extpath,
-
-        #BASE URL (usually the domain root)
+        #BASE URL (usually the domain root), required for js
         'BASE_URL'              => ROOT_URL . 'taoDelivery/',
     ]
 ];
