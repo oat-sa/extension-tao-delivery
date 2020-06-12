@@ -23,8 +23,13 @@
 
 use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
+use oat\taoDelivery\scripts\install\installDeliveryLogout;
+use oat\taoDelivery\scripts\install\installDeliveryFields;
+use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
+use oat\taoDelivery\scripts\install\RegisterFrontOfficeEntryPoint;
+use oat\taoDelivery\controller\RestExecution;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -42,19 +47,19 @@ return [
     ],
     'install' => [
         'php' => [
-            __DIR__ . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'registerEntryPoint.php',
-            \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
-            \oat\taoDelivery\scripts\install\installDeliveryFields::class,
-            \oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable::class,
+            RegisterFrontOfficeEntryPoint::class,
+            installDeliveryLogout::class,
+            installDeliveryFields::class,
+            GenerateRdsDeliveryExecutionTable::class,
             RegisterServiceContainer::class,
             RegisterWebhookEvents::class
         ]
     ],
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
     'acl' => [
-        ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer']],
+        ['grant', TaoRoles::DELIVERY, DeliveryServer::class],
         ['grant', TaoRoles::ANONYMOUS, DeliveryServer::class . '@logout'],
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoDelivery', 'mod' => 'RestExecution']],
+        ['grant', TaoRoles::REST_PUBLISHER, RestExecution::class],
     ],
     'routes' => [
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
