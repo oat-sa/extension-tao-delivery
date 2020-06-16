@@ -19,17 +19,18 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\Capacity;
+namespace oat\taoDelivery\model\Restriction;
 
-use oat\tao\model\actionQueue\restriction\basicRestriction;
+use oat\tao\model\actionQueue\restriction\BasicRestriction;
+use oat\taoDelivery\model\Capacity\CapacityInterface;
 
-class CapacityRestriction extends basicRestriction
+class CapacityRestriction extends BasicRestriction
 {
     /**
      * @param mixed $value
      * @return bool
      */
-    public function doesComplies($value)
+    public function doesComply($value)
     {
         if ($value === 0) {
             return true;

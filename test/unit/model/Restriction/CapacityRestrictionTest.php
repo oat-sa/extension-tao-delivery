@@ -19,11 +19,11 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\test\unit\model\Capacity;
+namespace oat\taoDelivery\test\unit\model\Restriction;
 
 use oat\generis\test\TestCase;
 use oat\taoDelivery\model\Capacity\CapacityInterface;
-use oat\taoDelivery\model\Capacity\CapacityRestriction;
+use oat\taoDelivery\model\Restriction\CapacityRestriction;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CapacityRestrictionTest extends TestCase
@@ -47,15 +47,15 @@ class CapacityRestrictionTest extends TestCase
         parent::setUp();
     }
 
-    public function testDoesComplies_WhenConfigValueIsZero_ThenRestrictionIsNotApplied()
+    public function testDoesComply_WhenConfigValueIsZero_ThenRestrictionIsNotApplied()
     {
         $this->capacityMock->expects($this->never())->method('consume');
-        $this->assertTrue($this->subject->doesComplies(0));
+        $this->assertTrue($this->subject->doesComply(0));
     }
 
-    public function testDoesComplies_WhenConfigValueIsProvided_ThenCapacityIsConsumed()
+    public function testDoesComply_WhenConfigValueIsProvided_ThenCapacityIsConsumed()
     {
         $this->capacityMock->expects($this->once())->method('consume')->willReturn(true);
-        $this->assertTrue($this->subject->doesComplies([]));
+        $this->assertTrue($this->subject->doesComply(1));
     }
 }
