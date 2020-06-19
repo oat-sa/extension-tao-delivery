@@ -22,7 +22,7 @@ $warningMessage = get_data('warningMessage');
                 <li>
                     <a class="block entry-point entry-point-started-deliveries"
                        data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>"
-                       tabindex="0">
+                       tabindex="-1">
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
 
                         <?php foreach ($delivery[Delivery::DESCRIPTION] as $desc) : ?>
@@ -33,7 +33,7 @@ $warningMessage = get_data('warningMessage');
                             <span class="action"
                                   href="<?= $delivery[Delivery::LAUNCH_URL] ?>"
                                   role="button"
-                                  aria-label="<?= __('Resume button')?>. <?= __('To activate press enter') ?>"
+                                  aria-label="<?= __('Resume this test')?>"
                                   tabindex="0">
                                 <span class="icon-continue"></span> <?= __("Resume") ?>
                             </span>

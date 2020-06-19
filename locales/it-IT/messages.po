@@ -58,10 +58,22 @@ msgstr "Riprendi"
 msgid "Resume button"
 msgstr ""
 
+msgid "Resume this test"
+msgstr ""
+
+msgid "Resume this test"
+msgstr ""
+
 msgid "Start"
 msgstr "Comincia"
 
 msgid "Start button"
+msgstr ""
+
+msgid "Start this test"
+msgstr ""
+
+msgid "Start this test"
 msgstr ""
 
 msgid "Started at %s"
