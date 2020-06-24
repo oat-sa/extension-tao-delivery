@@ -20,7 +20,7 @@ $warningMessage = get_data('warningMessage');
         <ul class="entry-point-box plain">
             <?php foreach ($resumableDeliveries as $delivery): ?>
                 <li>
-                    <a class="block entry-point entry-point-started-deliveries"
+                    <div class="block entry-point entry-point-started-deliveries"
                        data-launch_url="<?= $delivery[Delivery::LAUNCH_URL] ?>"
                        tabindex="-1">
                         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
@@ -38,7 +38,7 @@ $warningMessage = get_data('warningMessage');
                                 <span class="icon-continue"></span> <?= __("Resume") ?>
                             </span>
                         </div>
-                    </a>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
