@@ -31,7 +31,7 @@ class RegisterFrontOfficeEntryPoint extends InstallAction
     public function __invoke($params)
     {
         $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
-        $entryPointService->addEntryPoint(new FrontOfficeEntryPoint());
+        $entryPointService->addEntryPoint(new FrontOfficeEntryPoint(), EntryPointService::OPTION_POSTLOGIN);
         $this->registerService(EntryPointService::SERVICE_ID, $entryPointService);
     }
 }
