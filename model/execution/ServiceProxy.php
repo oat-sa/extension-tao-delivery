@@ -46,11 +46,6 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
 {
     const CONFIG_KEY = 'execution_service';
 
-    /**
-     * @var Service
-     */
-    private $implementation;
-
     public function setImplementation(DeliveryExecutionService $implementation)
     {
         $this->getServiceLocator()->register(self::SERVICE_ID, $implementation);
