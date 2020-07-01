@@ -17,6 +17,9 @@ $delivery = get_data('delivery');
                 tabindex="0"
                 role="button"
                 aria-label="<?= __('Start this test')?>"
+                <?php if (!$delivery["TAO_DELIVERY_TAKABLE"]): ?>
+                    aria-disabled="true"
+                <?php endif; ?>
             >
                 <span class="icon-play"></span> <?= __('Start') ?>
             </span>

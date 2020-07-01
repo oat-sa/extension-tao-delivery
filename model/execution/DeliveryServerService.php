@@ -109,19 +109,15 @@ class DeliveryServerService extends ConfigurableService
     }
 
     /**
-     * @param $deliveryExecution
-     * @return ResultStorageWrapper
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     * @param string $deliveryExecutionId id expectected, but still accepts delivery executions for backward compatibility
      */
-    public function getResultStoreWrapper($deliveryExecution)
+    public function getResultStoreWrapper($deliveryExecutionId): ResultStorageWrapper
     {
-        //@todo check if cache should be used here
-        if (!$deliveryExecution instanceof DeliveryExecutionInterface) {
-            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution($deliveryExecution);
+        if ($deliveryExecutionId instanceof DeliveryExecutionInterface) {
+            $deliveryExecutionId = $deliveryExecutionId->getIdentifier();
         }
-        $compiledDelivery = $deliveryExecution->getDelivery();
         /** @var ResultServerService $resultService */
-        $resultService = $this->getServiceManager()->get(ResultServerService::SERVICE_ID);
-        return new ResultStorageWrapper($deliveryExecution->getIdentifier(), $resultService->getResultStorage($compiledDelivery->getUri()));
+        $resultService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
+        return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
     }
 }
