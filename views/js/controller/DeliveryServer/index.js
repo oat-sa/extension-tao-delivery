@@ -122,8 +122,8 @@ define([
                     runDelivery($elt.data().launch_url);
                 }
             };
-            $('a.entry-point').on('click', launchDelivery);
-            $('a.entry-point').on('keyup', (e) => {
+            $('.entry-point').on('click', launchDelivery);
+            $('.entry-point').on('keyup', (e) => {
                 if(accessibilityLaunchKeyCodes.includes(e.which)) {
                     launchDelivery(e);
                 }
