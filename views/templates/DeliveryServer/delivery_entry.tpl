@@ -3,7 +3,7 @@ use oat\taoDelivery\helper\Delivery;
 $delivery = get_data('delivery');
 ?>
 <li>
-    <a class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled"?>"
+    <div class="block entry-point entry-point-all-deliveries <?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? "" : "disabled"?>"
         data-launch_url="<?= ($delivery["TAO_DELIVERY_TAKABLE"]) ? $delivery[Delivery::LAUNCH_URL] : "#" ?>"
         tabindex="-1">
         <h3><?= _dh($delivery[Delivery::LABEL]) ?></h3>
@@ -24,5 +24,5 @@ $delivery = get_data('delivery');
                 <span class="icon-play"></span> <?= __('Start') ?>
             </span>
         </div>
-    </a>
+    </div>
 </li>
