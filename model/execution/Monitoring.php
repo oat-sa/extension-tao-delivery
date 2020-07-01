@@ -30,7 +30,7 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-interface Monitoring extends Service
+interface Monitoring extends DeliveryExecutionService
 {
     /**
      * Returns the delivery executions for a compiled directory

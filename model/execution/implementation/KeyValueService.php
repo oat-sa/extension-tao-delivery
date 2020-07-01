@@ -28,9 +28,9 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
-use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
 /**
  * Service to manage the execution of deliveries
@@ -38,7 +38,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements Service
+class KeyValueService extends ConfigurableService implements DeliveryExecutionService
 {
 
     const OPTION_PERSISTENCE = 'persistence';

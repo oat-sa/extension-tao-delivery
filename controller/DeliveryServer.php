@@ -40,7 +40,6 @@ use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryServerService;
-use oat\taoDelivery\model\execution\Service;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
@@ -56,11 +55,6 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
  */
 class DeliveryServer extends \tao_actions_CommonModule
 {
-    /**
-     * @deprecated use $this->getExecutionService() instead
-     * @var Service
-     */
-    private $executionService;
 
     /**
      * constructor: initialize the service and the default data
@@ -69,7 +63,6 @@ class DeliveryServer extends \tao_actions_CommonModule
     public function __construct()
     {
         $this->service = ServiceManager::getServiceManager()->get(DeliveryServerService::SERVICE_ID);
-        $this->executionService = $this->getExecutionService();
     }
 
     /**

@@ -23,18 +23,22 @@
 
 use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
+use oat\taoDelivery\scripts\install\installDeliveryLogout;
+use oat\taoDelivery\scripts\install\installDeliveryFields;
+use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
+use oat\taoDelivery\scripts\install\RegisterFrontOfficeEntryPoint;
+use oat\taoDelivery\controller\RestExecution;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
-$taopath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
 
 return [
     'name' => 'taoDelivery',
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '14.17.3',
+    'version' => '14.18.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'tao' => '>=44.0.0',
@@ -43,40 +47,28 @@ return [
     ],
     'install' => [
         'php' => [
-            __DIR__ . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'registerEntryPoint.php',
-            \oat\taoDelivery\scripts\install\installDeliveryLogout::class,
-            \oat\taoDelivery\scripts\install\installDeliveryFields::class,
-            \oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable::class,
+            RegisterFrontOfficeEntryPoint::class,
+            installDeliveryLogout::class,
+            installDeliveryFields::class,
+            GenerateRdsDeliveryExecutionTable::class,
             RegisterServiceContainer::class,
             RegisterWebhookEvents::class
         ]
     ],
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
     'acl' => [
-        ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer']],
+        ['grant', TaoRoles::DELIVERY, DeliveryServer::class],
         ['grant', TaoRoles::ANONYMOUS, DeliveryServer::class . '@logout'],
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoDelivery', 'mod' => 'RestExecution']],
+        ['grant', TaoRoles::REST_PUBLISHER, RestExecution::class],
     ],
     'routes' => [
         '/taoDelivery' => 'oat\\taoDelivery\\controller'
     ],
     'constants' => [
-        # actions directory
-        "DIR_ACTIONS"           => $extpath . "actions" . DIRECTORY_SEPARATOR,
-
-        # views directory
+        # views directory, required for js
         "DIR_VIEWS"             => $extpath . "views" . DIRECTORY_SEPARATOR,
 
-        # default module name
-        'DEFAULT_MODULE_NAME'   => 'DeliveryServer',
-
-        #default action name
-        'DEFAULT_ACTION_NAME'   => 'index',
-
-        #BASE PATH: the root path in the file system (usually the document root)
-        'BASE_PATH'             => $extpath,
-
-        #BASE URL (usually the domain root)
+        #BASE URL (usually the domain root), required for js
         'BASE_URL'              => ROOT_URL . 'taoDelivery/',
     ]
 ];

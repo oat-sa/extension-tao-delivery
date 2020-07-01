@@ -21,52 +21,10 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use core_kernel_classes_Resource;
-use oat\oatbox\user\User;
-use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDelete;
-
 /**
  * Service to manage the execution of deliveries
- *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
- * @package taoDelivery
+ * @deprecated Please use DeliveryExecutionService
  */
-interface Service extends DeliveryExecutionDelete
+interface Service extends DeliveryExecutionService
 {
-    /**
-     * Returns the executions the user has of a specified assembly
-     *
-     * @param core_kernel_classes_Resource $assembly
-     * @param string $userUri
-     * @return array
-     * @internal param core_kernel_classes_Resource $compiled
-     */
-    public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri);
-    
-    /**
-     * Returns all Delivery Executions of a User with a specific status
-     *
-     * @param string $userUri
-     * @param string $status
-     * @return array
-     */
-    public function getDeliveryExecutionsByStatus($userUri, $status);
-    
-    /**
-     * Generate a new delivery execution
-     *
-     * @param core_kernel_classes_Resource $assembly
-     * @param User $user
-     * @return core_kernel_classes_Resource the delivery execution
-     */
-    public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user);
-    
-    /**
-     * Returns the delivery execution instance associated to the implementation
-     *
-     * @param string $identifier
-     * @return DeliveryExecution
-     */
-    public function getDeliveryExecution($identifier);
 }
