@@ -35,7 +35,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyService extends ConfigurableService implements Service, Monitoring
+class OntologyService extends ConfigurableService implements DeliveryExecutionService, Monitoring
 {
 
     /**

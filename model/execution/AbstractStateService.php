@@ -139,10 +139,10 @@ abstract class AbstractStateService extends ConfigurableService implements State
         return $result;
     }
 
-    protected function getStorageEngine(): Service
+    protected function getStorageEngine(): DeliveryExecutionService
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(self::STORAGE_SERVICE_ID);
+        return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
     }
 
     private function getSessionService(): SessionService

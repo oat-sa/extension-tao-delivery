@@ -27,7 +27,7 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
-use oat\taoDelivery\model\execution\Service as ExecutionService;
+use oat\taoDelivery\model\execution\DeliveryExecutionService as ExecutionService;
 
 class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {

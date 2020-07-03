@@ -1,7 +1,5 @@
 <?php
 
-use oat\tao\model\entryPoint\EntryPointService;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +15,23 @@ use oat\tao\model\entryPoint\EntryPointService;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
-EntryPointService::getRegistry()->registerEntryPoint(new \oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint());
+declare(strict_types = 1);
+
+namespace oat\taoDelivery\scripts\install;
+
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\entryPoint\EntryPointService;
+use oat\taoDelivery\model\entrypoint\FrontOfficeEntryPoint;
+
+class RegisterFrontOfficeEntryPoint extends InstallAction
+{
+    public function __invoke($params)
+    {
+        $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
+        $entryPointService->addEntryPoint(new FrontOfficeEntryPoint(), EntryPointService::OPTION_POSTLOGIN);
+        $this->registerService(EntryPointService::SERVICE_ID, $entryPointService);
+    }
+}
