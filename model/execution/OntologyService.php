@@ -40,7 +40,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
 
     /**
      * (non-PHPdoc)
-     * @see Service::getExecutionsByDelivery()
+     * @see Monitoring::getExecutionsByDelivery()
      * @param core_kernel_classes_Resource $compiled
      * @return DeliveryExecution[]
      */
@@ -58,7 +58,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
         }
         return $returnValue;
     }
-    
+
     public function getDeliveryExecutionsByStatus($userUri, $status)
     {
         $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
@@ -74,10 +74,10 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
         }
         return $returnValue;
     }
-    
+
     /**
      * (non-PHPdoc)
-     * @see Service::getUserExecutions()
+     * @see DeliveryExecutionService::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $compiled, $userUri)
     {
@@ -98,7 +98,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
     /**
      * @deprecated
      * (non-PHPdoc)
-     * @see Service::initDeliveryExecution()
+     * @see DeliveryExecutionService::initDeliveryExecution()
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userUri)
     {
@@ -132,10 +132,10 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
         ]);
         return $this->getDeliveryExecution($execution);
     }
-    
+
     /**
      * (non-PHPdoc)
-     * @see Service::getDeliveryExecution()
+     * @see DeliveryExecutionService::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier)
     {

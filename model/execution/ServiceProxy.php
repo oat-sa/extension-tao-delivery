@@ -21,7 +21,6 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use common_exception_Error;
 use common_exception_NoImplementation;
 use common_exception_NotFound;
 use common_Logger;
@@ -51,18 +50,15 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
         $this->getServiceLocator()->register(self::SERVICE_ID, $implementation);
     }
 
-    /**
-     * @return Service
-     * @throws common_exception_Error
-     */
     protected function getImplementation(): DeliveryExecutionService
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(self::SERVICE_ID);
     }
 
     /**
      * (non-PHPdoc)
-     * @see Service::getUserExecutions()
+     * @see DeliveryExecutionService::getUserExecutions()
      */
     public function getUserExecutions(core_kernel_classes_Resource $assembly, $userUri)
     {
@@ -71,35 +67,23 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
 
     /**
      * (non-PHPdoc)
-     * @see Service::getDeliveryExecutionsByStatus()
+     * @see DeliveryExecutionService::getDeliveryExecutionsByStatus()
      */
     public function getDeliveryExecutionsByStatus($userUri, $status)
     {
         return $this->getImplementation()->getDeliveryExecutionsByStatus($userUri, $status);
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see Service::getActiveDeliveryExecutions()
-     */
     public function getActiveDeliveryExecutions($userUri)
     {
         return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_ACTIVE);
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see Service::getPausedDeliveryExecutions()
-     */
     public function getPausedDeliveryExecutions($userUri)
     {
         return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_PAUSED);
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see Service::getFinishedDeliveryExecutions()
-     */
     public function getFinishedDeliveryExecutions($userUri)
     {
         return $this->getDeliveryExecutionsByStatus($userUri, DeliveryExecutionInterface::STATE_FINISHED);
@@ -108,7 +92,7 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
     /**
      * @deprecated
      * (non-PHPdoc)
-     * @see Service::initDeliveryExecution()
+     * @see DeliveryExecutionService::initDeliveryExecution()
      * @throws \common_exception_Error
      */
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $user)
@@ -136,7 +120,7 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
 
     /**
      * (non-PHPdoc)
-     * @see Service::getDeliveryExecution()
+     * @see DeliveryExecutionService::getDeliveryExecution()
      */
     public function getDeliveryExecution($identifier)
     {
