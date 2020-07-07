@@ -21,10 +21,11 @@
 
 namespace oat\taoDelivery\test\integration\model\execution;
 
-require_once dirname(__FILE__) . '/../../../../../tao/includes/raw_start.php';
+require_once __DIR__ . '/../../../../../tao/includes/raw_start.php';
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyService;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
@@ -42,7 +43,7 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
     {
         $service = new OntologyService();
         $service->setServiceLocator($this->getServiceManagerProphecy());
-        $this->assertInstanceOf('oat\\taoDelivery\\model\\execution\\Service', $service);
+        $this->assertInstanceOf(DeliveryExecutionService::class, $service);
 
         $assembly = new \core_kernel_classes_Resource('fake');
         $deWrapper = $service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
