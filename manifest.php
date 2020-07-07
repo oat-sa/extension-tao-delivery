@@ -31,14 +31,14 @@ use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
 use oat\taoDelivery\scripts\install\RegisterFrontOfficeEntryPoint;
 use oat\taoDelivery\controller\RestExecution;
 
-$extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+$extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
 return [
     'name' => 'taoDelivery',
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '14.18.0',
+    'version' => '14.18.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'tao' => '>=44.0.0',
