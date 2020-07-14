@@ -45,6 +45,7 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
+use oat\taoProctoring\model\execution\DeliveryExecutionManagerService;
 
 /**
  * DeliveryServer Controller
@@ -270,7 +271,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
-        $this->setData('title', __('TAO: %s', $delivery->getLabel()));
+        $this->setData('title', $this->getDeliveryExecutionManagerService()->getTitle($delivery));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
@@ -414,5 +415,13 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function getExecutionService()
     {
         return ServiceProxy::singleton();
+    }
+
+    /**
+     * @return DeliveryExecutionManagerService
+     */
+    protected function getDeliveryExecutionManagerService()
+    {
+        return $this->getServiceLocator()->get(DeliveryExecutionManagerService::SERVICE_ID);
     }
 }
