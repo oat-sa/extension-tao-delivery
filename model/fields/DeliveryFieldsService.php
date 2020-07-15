@@ -21,6 +21,7 @@ namespace oat\taoDelivery\model\fields;
  *
  */
 
+use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
@@ -57,5 +58,16 @@ class DeliveryFieldsService extends ConfigurableService
             }
         }
         return (string) $label;
+    }
+
+    /**
+     * get Title of the Webpage on the Browser Tab when Run delivery Execution
+     *
+     * @param core_kernel_classes_Resource $delivery
+     * @return string
+     */
+    public function getBrowserPageTitleRunningExecution(core_kernel_classes_Resource $delivery)
+    {
+        return __('TAO: %s', $delivery->getLabel());
     }
 }

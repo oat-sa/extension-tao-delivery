@@ -41,11 +41,11 @@ use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
-use oat\taoProctoring\model\execution\DeliveryExecutionManagerService;
 
 /**
  * DeliveryServer Controller
@@ -271,7 +271,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
-        $this->setData('title', $this->getDeliveryExecutionManagerService()->getTitle($delivery));
+        $this->setData('title', $this->getDeliveryFieldsService()->getBrowserPageTitleRunningExecution($delivery));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
@@ -418,10 +418,10 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * @return DeliveryExecutionManagerService
+     * @return DeliveryFieldsService
      */
-    protected function getDeliveryExecutionManagerService()
+    protected function getDeliveryFieldsService()
     {
-        return $this->getServiceLocator()->get(DeliveryExecutionManagerService::SERVICE_ID);
+        return $this->getServiceLocator()->get(DeliveryFieldsService::SERVICE_ID);
     }
 }
