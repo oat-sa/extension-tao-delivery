@@ -66,7 +66,7 @@ class DeliveryFieldsService extends ConfigurableService
      * @param core_kernel_classes_Resource $delivery
      * @return string
      */
-    public function getBrowserPageTitleRunningExecution(core_kernel_classes_Resource $delivery)
+    public function getDeliveryExecutionPageTitle(core_kernel_classes_Resource $delivery)
     {
         return __('TAO: %s', $delivery->getLabel());
     }

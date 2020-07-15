@@ -271,7 +271,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
-        $this->setData('title', $this->getDeliveryFieldsService()->getBrowserPageTitleRunningExecution($delivery));
+        $this->setData('title', $this->getDeliveryFieldsService()->getDeliveryExecutionPageTitle($delivery));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
