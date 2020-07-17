@@ -41,6 +41,7 @@ use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
@@ -270,7 +271,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
-        $this->setData('title', __('TAO: %s', $delivery->getLabel()));
+        $this->setData('title', $this->getDeliveryFieldsService()->getDeliveryExecutionPageTitle($delivery));
         $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
@@ -414,5 +415,13 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function getExecutionService()
     {
         return ServiceProxy::singleton();
+    }
+
+    /**
+     * @return DeliveryFieldsService
+     */
+    protected function getDeliveryFieldsService()
+    {
+        return $this->getServiceLocator()->get(DeliveryFieldsService::SERVICE_ID);
     }
 }
