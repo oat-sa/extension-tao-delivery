@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-07-05T08:37:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T15:27:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -18,6 +18,9 @@ msgstr "Somministrazioni di accesso come ospite"
 
 msgid "All rights reserved."
 msgstr "Tutti i diritti riservati"
+
+msgid "An error occurred!"
+msgstr ""
 
 msgid "Available"
 msgstr "Disponibile"
@@ -71,11 +74,11 @@ msgid "Test-Takers"
 msgstr "Partecipanti al test"
 
 msgid "Tests Home"
-msgstr ""
+msgstr "Home Test"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Questo test necessita di funzionare a modalità schermo intero"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Non è più consentito eseguire questo test"
 

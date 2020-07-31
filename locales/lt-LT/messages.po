@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint112\n"
-"PO-Revision-Date: 2019-10-09T09:02:32\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T15:27:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -19,8 +19,11 @@ msgstr "Prisijungti prie testų kaip svečiui"
 msgid "All rights reserved."
 msgstr "Visos teisės saugomos."
 
+msgid "An error occurred!"
+msgstr ""
+
 msgid "Available"
-msgstr "Galimi testai"
+msgstr "Galimas"
 
 msgid "Close this prompt"
 msgstr "Uždaryti šį langą"
@@ -59,7 +62,7 @@ msgid "Take or continue a test."
 msgstr "Pradėti arba tęsti testą."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - atvirojo kodo testavimo platforma"
+msgstr "TAO – Atvira ir Įvairiapusė Įvertinimo Platforma"
 
 msgid "TAO Delivery Server"
 msgstr "TAO Pateikties Serveris"

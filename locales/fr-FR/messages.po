@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-07-05T08:37:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T15:27:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -18,6 +18,9 @@ msgstr "Accès invité pour les passations"
 
 msgid "All rights reserved."
 msgstr "Tous droits réservés"
+
+msgid "An error occurred!"
+msgstr ""
 
 msgid "Available"
 msgstr "Disponible"
@@ -68,10 +71,10 @@ msgid "TAO Guest Access"
 msgstr "Accès invité pour TAO"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Participants"
 
 msgid "Tests Home"
-msgstr ""
+msgstr "Accueil des tests"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Ce test a besoin d'être en mode plein écran"

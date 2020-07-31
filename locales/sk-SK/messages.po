@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-07-05T08:37:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T15:28:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk-SK\n"
@@ -14,68 +14,71 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Prístup k doručeniam ako hosť"
 
 msgid "All rights reserved."
+msgstr "Všetky práva vyhradené."
+
+msgid "An error occurred!"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "K dispozícii"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Zatvorte túto výzvu"
 
 msgid "Delivery Execution for %s not found"
 msgstr ""
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Na celú obrazovku"
 
 msgid "Exit"
-msgstr ""
+msgstr "Odísť"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Prístup pre hosťa"
 
 msgid "In progress"
-msgstr ""
+msgstr "Prebieha"
 
 msgid "Logout"
-msgstr ""
+msgstr "Odhlásiť"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Moje testy"
 
 msgid "Resume"
-msgstr ""
+msgstr "Pokračovať"
 
 msgid "Start"
-msgstr ""
+msgstr "Štart"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Začaté o %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Vykonajte alebo pokračujte v testovaní."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - otvorená a všestranná počítačová platforma na hodnotenie"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO doručovací server"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "TAO hosťovský prístup"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Odberatelia testov"
 
 msgid "Tests Home"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Tento test je potrebné vykonať v režime celej obrazovky"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Už nemáte povolené vykonať tento test"
 
