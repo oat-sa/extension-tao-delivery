@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint105\n"
-"PO-Revision-Date: 2019-07-05T08:37:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint121\n"
+"PO-Revision-Date: 2020-07-31T15:28:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -14,68 +14,71 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Доступ к доставке в качестве гостя"
 
 msgid "All rights reserved."
+msgstr "Все права защищены."
+
+msgid "An error occurred!"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Доступный"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Закрыть этот запрос"
 
 msgid "Delivery Execution for %s not found"
 msgstr ""
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Введите полный экран"
 
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Гостевой доступ"
 
 msgid "In progress"
-msgstr ""
+msgstr "В процессе"
 
 msgid "Logout"
-msgstr ""
+msgstr "Выход"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Мои тесты"
 
 msgid "Resume"
-msgstr ""
+msgstr "Возобновить"
 
 msgid "Start"
-msgstr ""
+msgstr "Начать"
 
 msgid "Started at %s"
-msgstr "Дата начала %s"
+msgstr ""
 
 msgid "Take or continue a test."
 msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TАО - это открытая и универсальная платформа электронного оценивания "
 
 msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "Гостевой доступ в ТАО"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Тестируемые"
 
 msgid "Tests Home"
 msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Этот тест необходимо принимать в полноэкранном режиме"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Вы больше не можете проходить этот тест"
 
