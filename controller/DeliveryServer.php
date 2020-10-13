@@ -24,6 +24,7 @@
 namespace oat\taoDelivery\controller;
 
 use common_exception_NotFound;
+use common_ext_ExtensionsManager as ExtensionsManager;
 use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
@@ -253,13 +254,19 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
-        
+
+        /** @var ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
+        $extension = $extensionManager->getExtensionById('taoDelivery');
+        $headerConfig = $extension->getConfig('deliveryExecutionHeader');
         
         /**
          * Delivery header & footer info
          */
         $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
         $this->setData('showControls', $this->showControls());
+        $this->setData('hideHomeButton', $headerConfig['hideHomeButton']);
+        $this->setData('hideLogoutButton', $headerConfig['hideLogoutButton']);
         $this->setData('returnUrl', $this->getReturnUrl());
 
         /* @var $urlRouteService DefaultUrlService */
