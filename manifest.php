@@ -25,6 +25,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\taoDelivery\controller\DeliveryServer;
 use oat\taoDelivery\scripts\install\installDeliveryLogout;
 use oat\taoDelivery\scripts\install\installDeliveryFields;
+use oat\taoDelivery\scripts\tools\ConfigureDeliveryExecutionHeader;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
@@ -52,7 +53,8 @@ return [
             installDeliveryFields::class,
             GenerateRdsDeliveryExecutionTable::class,
             RegisterServiceContainer::class,
-            RegisterWebhookEvents::class
+            RegisterWebhookEvents::class,
+            ConfigureDeliveryExecutionHeader::class,
         ]
     ],
     'update' => 'oat\\taoDelivery\\scripts\\update\\Updater',
