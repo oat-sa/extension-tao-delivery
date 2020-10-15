@@ -31,6 +31,7 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 
 /**
  * Class ConfigureDeliveryExecutionHeader
+ * Script allow to control the visibility of the "Home" and "Logout" buttons while executing the delivery.
  *
  * @package oat\taoDelivery\scripts\tools
  */
