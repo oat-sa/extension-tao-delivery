@@ -48,7 +48,9 @@ final class Version202010131343168613_taoDelivery extends AbstractMigration
      */
     public function up(Schema $schema): void
     {
-        $this->propagate(new ConfigureDeliveryExecutionHeader())([]);
+        /** @var ConfigureDeliveryExecutionHeader $script */
+        $script = $this->propagate(new ConfigureDeliveryExecutionHeader());
+        $script([]);
     }
 
     /**
