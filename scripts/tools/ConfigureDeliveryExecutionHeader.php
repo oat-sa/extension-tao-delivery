@@ -86,8 +86,8 @@ class ConfigureDeliveryExecutionHeader extends ScriptAction
         $extension = $extensionManager->getExtensionById('taoDelivery');
 
         $config = $extension->getConfig(self::CONFIG_KEY);
-        $config['hideHomeButton'] = $this->getOption(self::OPTION_HIDE_HOME_BUTTON);
-        $config['hideLogoutButton'] = $this->getOption(self::OPTION_HIDE_LOGOUT_BUTTON);
+        $config[self::OPTION_HIDE_HOME_BUTTON] = $this->getOption(self::OPTION_HIDE_HOME_BUTTON);
+        $config[self::OPTION_HIDE_LOGOUT_BUTTON] = $this->getOption(self::OPTION_HIDE_LOGOUT_BUTTON);
         $extension->setConfig(self::CONFIG_KEY, $config);
 
         return Report::createSuccess(
