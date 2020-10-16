@@ -29,7 +29,6 @@ use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_ExtensionException as ExtensionException;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 
-/**
 class ConfigureDeliveryExecutionHeader extends ScriptAction
 {
     public const OPTION_HIDE_HOME_BUTTON = 'hideHomeButton';
