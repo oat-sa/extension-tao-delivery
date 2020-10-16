@@ -26,11 +26,6 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoDelivery\scripts\tools\ConfigureDeliveryExecutionHeader;
 
-/**
- * Class Version202010131343168613_taoDelivery
- *
- * @package oat\taoDelivery\migrations
- */
 final class Version202010131343168613_taoDelivery extends AbstractMigration
 {
     private const CONFIG_KEY = 'deliveryExecutionHeader';
