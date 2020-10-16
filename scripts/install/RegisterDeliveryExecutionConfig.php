@@ -20,51 +20,36 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\migrations;
+namespace oat\taoDelivery\scripts\install;
 
-use Doctrine\DBAL\Schema\Schema;
 use common_Exception as Exception;
 use common_report_Report as Report;
-use oat\tao\scripts\tools\migrations\AbstractMigration;
+use oat\oatbox\extension\InstallAction;
 use oat\taoDelivery\model\execution\DeliveryExecutionConfig;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\taoDelivery\scripts\install\RegisterDeliveryExecutionConfig;
 
-final class Version202010131343168613_taoDelivery extends AbstractMigration
+class RegisterDeliveryExecutionConfig extends InstallAction
 {
     /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return 'Register ' . DeliveryExecutionConfig::class;
-    }
-
-    /**
-     * @param Schema $schema
+     * @param $params
      *
      * @throws Exception
      * @throws InvalidServiceManagerException
-     */
-    public function up(Schema $schema): void
-    {
-        /** @var RegisterDeliveryExecutionConfig $script */
-        $script = $this->propagate(new RegisterDeliveryExecutionConfig());
-        $report = $script([]);
-        $this->addReport($report);
-    }
-
-    /**
-     * @param Schema $schema
      *
-     * @throws InvalidServiceManagerException
+     * @return Report
      */
-    public function down(Schema $schema): void
+    public function __invoke($params)
     {
-        $this->getServiceManager()->unregister(DeliveryExecutionConfig::SERVICE_ID);
-        $this->addReport(Report::createSuccess(sprintf(
-            'Service "%s" successfully unregistered.',
+        $deliveryExecutionConfig = new DeliveryExecutionConfig([
+            DeliveryExecutionConfig::OPTION_HIDE_HOME_BUTTON => false,
+            DeliveryExecutionConfig::OPTION_HIDE_LOGOUT_BUTTON => false,
+        ]);
+
+        $this->getServiceManager()->register(DeliveryExecutionConfig::SERVICE_ID, $deliveryExecutionConfig);
+
+        return Report::createSuccess(sprintf(
+            'Service "%s" successfully configured.',
             DeliveryExecutionConfig::class
-        )));
+        ));
     }
 }
