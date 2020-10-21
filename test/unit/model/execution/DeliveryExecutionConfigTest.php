@@ -82,17 +82,6 @@ class DeliveryExecutionConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProviderForToBoolTest
-     *
-     * @param $value
-     * @param bool $expected
-     */
-    public function testToBoolMethod($value, bool $expected): void
-    {
-        $this->assertEquals($expected, DeliveryExecutionConfig::toBool($value));
-    }
-
-    /**
      * @return array
      */
     public function dataProviderForIsHomeButtonHiddenTest(): array
@@ -104,6 +93,10 @@ class DeliveryExecutionConfigTest extends TestCase
             ],
             [
                 'options' => [DeliveryExecutionConfig::OPTION_HIDE_HOME_BUTTON => false],
+                'expected' => false,
+            ],
+            [
+                'options' => [DeliveryExecutionConfig::OPTION_HIDE_HOME_BUTTON => 'test value'],
                 'expected' => false,
             ],
             [
@@ -128,6 +121,10 @@ class DeliveryExecutionConfigTest extends TestCase
                 'expected' => false,
             ],
             [
+                'options' => [DeliveryExecutionConfig::OPTION_HIDE_LOGOUT_BUTTON => 'test value'],
+                'expected' => false,
+            ],
+            [
                 'options' => [],
                 'expected' => false,
             ],
@@ -147,63 +144,6 @@ class DeliveryExecutionConfigTest extends TestCase
             [
                 'hide' => false,
                 'expected' => false,
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderForToBoolTest(): array
-    {
-        return [
-            [
-                'value' => null,
-                'expected' => false,
-            ],
-            [
-                'value' => 0,
-                'expected' => false,
-            ],
-            [
-                'value' => '0',
-                'expected' => false,
-            ],
-            [
-                'value' => false,
-                'expected' => false,
-            ],
-            [
-                'value' => 'false',
-                'expected' => false,
-            ],
-            [
-                'value' => [],
-                'expected' => false,
-            ],
-            [
-                'value' => 1,
-                'expected' => true,
-            ],
-            [
-                'value' => '1',
-                'expected' => true,
-            ],
-            [
-                'value' => true,
-                'expected' => true,
-            ],
-            [
-                'value' => 'true',
-                'expected' => true,
-            ],
-            [
-                'value' => 'test value',
-                'expected' => true,
-            ],
-            [
-                'value' => [123],
-                'expected' => true,
             ],
         ];
     }
