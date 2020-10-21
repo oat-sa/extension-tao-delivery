@@ -24,6 +24,7 @@
 namespace oat\taoDelivery\controller;
 
 use common_exception_NotFound;
+use common_ext_ExtensionsManager as ExtensionsManager;
 use common_exception_Unauthorized;
 use common_Logger;
 use common_exception_Error;
@@ -36,6 +37,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
+use oat\taoDelivery\model\execution\DeliveryExecutionConfig;
 use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -253,13 +255,17 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         $this->setData('additional-header', $container->getContainerHeader());
         $this->setData('container-body', $container->getContainerBody());
-        
-        
+
+        /** @var DeliveryExecutionConfig $deliveryExecutionConfig */
+        $deliveryExecutionConfig = $this->getServiceLocator()->get(DeliveryExecutionConfig::class);
+
         /**
          * Delivery header & footer info
          */
         $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
         $this->setData('showControls', $this->showControls());
+        $this->setData('hideHomeButton', $deliveryExecutionConfig->isHomeButtonHidden());
+        $this->setData('hideLogoutButton', $deliveryExecutionConfig->isLogoutButtonHidden());
         $this->setData('returnUrl', $this->getReturnUrl());
 
         /* @var $urlRouteService DefaultUrlService */

@@ -11,24 +11,28 @@ use oat\tao\model\theme\Theme;
         <!-- snippet: dark bar left menu -->
         <div class="settings-menu">
             <ul class="clearfix plain">
-                <li data-control="home">
-                    <a role="button" id="home" href="<?=get_data('returnUrl')?>">
-                        <span class="icon-home"></span>
-                        <span class="text hidden"><?= __("Go back to tests selection"); ?></span>
-                    </a>
-                </li>
+                <?php if (!get_data('hideHomeButton')): ?>
+                    <li data-control="home">
+                        <a role="button" id="home" href="<?=get_data('returnUrl')?>">
+                            <span class="icon-home"></span>
+                            <span class="text hidden"><?= __("Go back to tests selection"); ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="infoControl sep-before">
                     <span class="a">
                         <span class="icon-test-taker"></span>
                         <span class="text"><?= get_data('userLabel'); ?></span>
                     </span>
                 </li>
-                <li class="infoControl sep-before" data-control="logout">
-                    <a role="button" id="logout" class="logout" href="<?= get_data('logout') ?>" tabindex="0">
-                        <span class="icon-logout"></span>
-                        <span class="text"><?= __("Logout"); ?></span>
-                    </a>
-                </li>
+                <?php if (!get_data('hideLogoutButton')): ?>
+                    <li class="infoControl sep-before" data-control="logout">
+                        <a role="button" id="logout" class="logout" href="<?= get_data('logout') ?>" tabindex="0">
+                            <span class="icon-logout"></span>
+                            <span class="text"><?= __("Logout"); ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="infoControl sep-before hidden" data-control="exit">
                     <a role="button" href="#">
                         <span class="icon-logout"></span>
