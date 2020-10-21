@@ -28,33 +28,74 @@ use oat\taoDelivery\model\execution\DeliveryExecutionConfig;
 class DeliveryExecutionConfigTest extends TestCase
 {
     /**
-     * @dataProvider dataProviderForHomeButtonTest
+     * @dataProvider dataProviderForIsHomeButtonHiddenTest
      *
      * @param array $options
      * @param bool $expected
      */
-    public function testIsHomeButtonMethod(array $options, bool $expected): void
+    public function testIsHomeButtonHiddenMethod(array $options, bool $expected): void
     {
         $deliveryExecutionConfig = new DeliveryExecutionConfig($options);
         $this->assertEquals($expected, $deliveryExecutionConfig->isHomeButtonHidden());
     }
 
     /**
-     * @dataProvider dataProviderForLogoutButtonTest
+     * @dataProvider dataProviderForSetHideButtonTest
+     *
+     * @param bool $hide
+     * @param bool $expected
+     */
+    public function testSetHideHomeButtonMethod(bool $hide, bool $expected): void
+    {
+        $deliveryExecutionConfig = new DeliveryExecutionConfig([]);
+        $this->assertEquals(false, $deliveryExecutionConfig->isHomeButtonHidden());
+
+        $deliveryExecutionConfig->setHideHomeButton($hide);
+        $this->assertEquals($expected, $deliveryExecutionConfig->isHomeButtonHidden());
+    }
+
+    /**
+     * @dataProvider dataProviderForIsLogoutButtonHiddenTest
      *
      * @param array $options
      * @param bool $expected
      */
-    public function testIsLogoutButtonMethod(array $options, bool $expected): void
+    public function testIsLogoutButtonHiddenMethod(array $options, bool $expected): void
     {
         $deliveryExecutionConfig = new DeliveryExecutionConfig($options);
         $this->assertEquals($expected, $deliveryExecutionConfig->isLogoutButtonHidden());
     }
 
     /**
+     * @dataProvider dataProviderForSetHideButtonTest
+     *
+     * @param bool $hide
+     * @param bool $expected
+     */
+    public function testSetHideLogoutButtonMethod(bool $hide, bool $expected): void
+    {
+        $deliveryExecutionConfig = new DeliveryExecutionConfig([]);
+        $this->assertEquals(false, $deliveryExecutionConfig->isLogoutButtonHidden());
+
+        $deliveryExecutionConfig->setHideLogoutButton($hide);
+        $this->assertEquals($expected, $deliveryExecutionConfig->isLogoutButtonHidden());
+    }
+
+    /**
+     * @dataProvider dataProviderForToBoolTest
+     *
+     * @param $value
+     * @param bool $expected
+     */
+    public function testToBoolMethod($value, bool $expected): void
+    {
+        $this->assertEquals($expected, DeliveryExecutionConfig::toBool($value));
+    }
+
+    /**
      * @return array
      */
-    public function dataProviderForHomeButtonTest(): array
+    public function dataProviderForIsHomeButtonHiddenTest(): array
     {
         return [
             [
@@ -65,13 +106,17 @@ class DeliveryExecutionConfigTest extends TestCase
                 'options' => [DeliveryExecutionConfig::OPTION_HIDE_HOME_BUTTON => false],
                 'expected' => false,
             ],
+            [
+                'options' => [],
+                'expected' => false,
+            ],
         ];
     }
 
     /**
      * @return array
      */
-    public function dataProviderForLogoutButtonTest(): array
+    public function dataProviderForIsLogoutButtonHiddenTest(): array
     {
         return [
             [
@@ -81,6 +126,84 @@ class DeliveryExecutionConfigTest extends TestCase
             [
                 'options' => [DeliveryExecutionConfig::OPTION_HIDE_LOGOUT_BUTTON => false],
                 'expected' => false,
+            ],
+            [
+                'options' => [],
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSetHideButtonTest(): array
+    {
+        return [
+            [
+                'hide' => true,
+                'expected' => true,
+            ],
+            [
+                'hide' => false,
+                'expected' => false,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForToBoolTest(): array
+    {
+        return [
+            [
+                'value' => null,
+                'expected' => false,
+            ],
+            [
+                'value' => 0,
+                'expected' => false,
+            ],
+            [
+                'value' => '0',
+                'expected' => false,
+            ],
+            [
+                'value' => false,
+                'expected' => false,
+            ],
+            [
+                'value' => 'false',
+                'expected' => false,
+            ],
+            [
+                'value' => [],
+                'expected' => false,
+            ],
+            [
+                'value' => 1,
+                'expected' => true,
+            ],
+            [
+                'value' => '1',
+                'expected' => true,
+            ],
+            [
+                'value' => true,
+                'expected' => true,
+            ],
+            [
+                'value' => 'true',
+                'expected' => true,
+            ],
+            [
+                'value' => 'test value',
+                'expected' => true,
+            ],
+            [
+                'value' => [123],
+                'expected' => true,
             ],
         ];
     }
