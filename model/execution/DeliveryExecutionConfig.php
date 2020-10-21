@@ -36,7 +36,15 @@ class DeliveryExecutionConfig extends ConfigurableService
      */
     public function isHomeButtonHidden(): bool
     {
-        return (bool) $this->getOption(self::OPTION_HIDE_HOME_BUTTON, false);
+        return self::toBool($this->getOption(self::OPTION_HIDE_HOME_BUTTON, false));
+    }
+
+    /**
+     * @param bool $hide
+     */
+    public function setHideHomeButton(bool $hide): void
+    {
+        $this->setOption(self::OPTION_HIDE_HOME_BUTTON, $hide);
     }
 
     /**
@@ -44,6 +52,30 @@ class DeliveryExecutionConfig extends ConfigurableService
      */
     public function isLogoutButtonHidden(): bool
     {
-        return (bool) $this->getOption(self::OPTION_HIDE_LOGOUT_BUTTON, false);
+        return self::toBool($this->getOption(self::OPTION_HIDE_LOGOUT_BUTTON, false));
+    }
+
+    /**
+     * @param bool $hide
+     */
+    public function setHideLogoutButton(bool $hide): void
+    {
+        $this->setOption(self::OPTION_HIDE_LOGOUT_BUTTON, $hide);
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool
+     */
+    public static function toBool($value): bool
+    {
+        if ($value === 'false') {
+            $value = false;
+        } else {
+            $value = (bool) $value;
+        }
+
+        return $value;
     }
 }
