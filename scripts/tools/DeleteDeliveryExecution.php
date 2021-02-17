@@ -26,7 +26,6 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteService;
 use common_report_Report as Report;
 use oat\taoDelivery\model\execution\ServiceProxy;
-use oat\taoQtiTest\models\TestSessionService;
 
 /**
  * Class DeleteDeliveryExecution

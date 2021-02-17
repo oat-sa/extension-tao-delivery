@@ -39,13 +39,7 @@ return [
     'label' => 'Delivery core extension',
     'description' => 'TAO delivery extension manges the administration of the tests',
     'license' => 'GPL-2.0',
-    'version' => '14.19.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-    'requires' => [
-        'tao' => '>=44.0.0',
-        'generis' => '>=12.15.0',
-        'taoResultServer' => '>=5.0.0'
-    ],
     'install' => [
         'php' => [
             RegisterFrontOfficeEntryPoint::class,
