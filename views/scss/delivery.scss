@@ -30,6 +30,7 @@ html {
 
     // entry page
     .test-listing {
+        display: block; //IE11 treatment for <main> tag
         width: 500px;
         margin: auto;
         h1 {
