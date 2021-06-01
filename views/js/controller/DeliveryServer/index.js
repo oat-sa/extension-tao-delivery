@@ -31,13 +31,18 @@ define([
     'ui/feedback',
     'core/logger',
     'layout/loading-bar',
+    'context',
+    'util/locale',
     'url-polyfill'
-], function($, _, __, module, router, feedback, loggerFactory, loadingBar){
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale){
     'use strict';
 
     const logger = loggerFactory('deliveryServer');
 
     const accessibilityLaunchKeyCodes = [13, 32];  // "enter" or "space" - list of keys able to run delivery
+
+    // adding attr for RTL languages
+    $('.delivery-scope').attr({dir: locale.getLanguageDirection(context.locale)});
 
     /**
      * Display a permanent message
