@@ -41,9 +41,6 @@ define([
 
     const accessibilityLaunchKeyCodes = [13, 32];  // "enter" or "space" - list of keys able to run delivery
 
-    // adding attr for RTL languages
-    $('.delivery-scope').attr({dir: locale.getLanguageDirection(context.locale)});
-
     /**
      * Display a permanent message
      * @param {String} level - in supported feedbacks' levels
@@ -98,6 +95,18 @@ define([
                 }
             };
 
+            /**
+             * improve UI to support rtl languages
+             */
+            const supportRTL = function supportRTL () {
+                // adding attr for RTL languages
+                $('.delivery-scope').attr({dir: locale.getLanguageDirection(context.locale)});
+                // tune classes to remove page header RTL artifacts
+                const menuItemSelector = '.delivery-scope[dir=rtl] .content-wrap [role=menubar] > [role=menu] > .settings-menu > .plain > *';
+                $(menuItemSelector).addClass('sep-before');
+                $(`${menuItemSelector}:visible:last`).removeClass('sep-before');
+            };
+
             const config = module.config();
 
             // display as feedbacks any messages in parameters
@@ -127,6 +136,8 @@ define([
                     runDelivery($elt.data().launch_url);
                 }
             };
+
+            supportRTL();
             $('.entry-point').on('click', launchDelivery);
             $('.entry-point').on('keyup', (e) => {
                 if(accessibilityLaunchKeyCodes.includes(e.which)) {

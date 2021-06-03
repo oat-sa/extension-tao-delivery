@@ -4,28 +4,17 @@
 
 .content-wrap {
   [role=menubar] {
-    transform: scaleX(-1);
-    & #tao-main-logo {
-      transform: scaleX(-1);
+    // reverse elements position
+    & > .lft {
+      float: right;
     }
-    & > [role=menu] > .settings-menu > .plain > * {
-      transform: scaleX(-1);
-      &:first-child {
-        padding-left:15px;
-        [role=button]:before {
-          content: ' ';
-          background: #666;
-          width: 1px;
-          position: absolute;
-          top: 25px;
-          left: 7px;
-          height: 20px;
-        }
-      }
-      &:nth-last-child(2) {
-        &:before {
-          display:none;
-        }
+    & > .rgt {
+      float: left;
+    }
+    & > [role=menu] > .settings-menu {
+      padding-left: 20px;
+      & > .plain > * {
+        float: right;
       }
     }
   }
