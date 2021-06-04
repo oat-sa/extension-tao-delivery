@@ -31,8 +31,10 @@ define([
     'ui/feedback',
     'core/logger',
     'layout/loading-bar',
+    'context',
+    'util/locale',
     'url-polyfill'
-], function($, _, __, module, router, feedback, loggerFactory, loadingBar){
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale){
     'use strict';
 
     const logger = loggerFactory('deliveryServer');
@@ -93,6 +95,18 @@ define([
                 }
             };
 
+            /**
+             * improve UI to support rtl languages
+             */
+            const supportRTL = function supportRTL () {
+                // adding attr for RTL languages
+                $('.delivery-scope').attr({dir: locale.getLanguageDirection(context.locale)});
+                // tune classes to remove page header RTL artifacts
+                const menuItemSelector = '.delivery-scope[dir=rtl] .settings-menu li';
+                $(menuItemSelector).addClass('sep-before');
+                $(`${menuItemSelector}:visible:last`).removeClass('sep-before');
+            };
+
             const config = module.config();
 
             // display as feedbacks any messages in parameters
@@ -122,6 +136,8 @@ define([
                     runDelivery($elt.data().launch_url);
                 }
             };
+
+            supportRTL();
             $('.entry-point').on('click', launchDelivery);
             $('.entry-point').on('keyup', (e) => {
                 if(accessibilityLaunchKeyCodes.includes(e.which)) {
