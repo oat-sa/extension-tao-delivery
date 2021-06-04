@@ -1,0 +1,11 @@
+/**
+ * Copyright (c) 2021 Open Assessment Technologies SA
+*/
+
+body {
+  &.delivery-scope {
+    &[dir=rtl] {
+      @import 'rtl/header';
+    }
+  }
+}
