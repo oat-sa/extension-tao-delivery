@@ -14,22 +14,22 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Access deliveries as a guest"
-msgstr "ゲストで受験"
+msgstr "ゲストとしてデリバリにアクセス"
 
 msgid "All rights reserved."
 msgstr "All rights reserved."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "エラーが発生しました!"
 
 msgid "Available"
-msgstr "実施対象テスト"
+msgstr "実施対象"
 
 msgid "Close this prompt"
 msgstr "プロンプトを閉じる"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "デリバリ %s が見つかりません"
 
 msgid "Enter full screen"
 msgstr "フルスクリーン"
@@ -38,62 +38,65 @@ msgid "Exit"
 msgstr "終了"
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "テスト選択に戻る"
 
 msgid "Guest access"
 msgstr "ゲストアクセス"
 
 msgid "In progress"
-msgstr "実施中テスト"
+msgstr "実施中"
 
 msgid "Logout"
 msgstr "ログアウト"
 
 msgid "My Tests"
-msgstr "テスト一覧"
+msgstr "実施一覧"
 
 msgid "Resume"
 msgstr "再開"
 
 msgid "Resume button"
-msgstr ""
+msgstr "再開ボタン"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "このテストを再開する"
 
 msgid "Start"
 msgstr "開始"
 
 msgid "Start button"
-msgstr ""
+msgstr "開始ボタン"
 
 msgid "Start this test"
-msgstr ""
+msgstr "このテストを開始する"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "%s 開始"
 
 msgid "Take or continue a test."
-msgstr "テストの受験・継続"
+msgstr "テストの受検・継続"
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr "TAO-オープンで汎用性の高いCBT（Computer-Based Testing）プラットフォーム"
 
 msgid "TAO Delivery Server"
-msgstr "TAO　配信サーバ"
+msgstr "TAOデリバリサーバ"
 
 msgid "TAO Guest Access"
-msgstr "TAO ゲストアクセス"
+msgstr "TAOゲストアクセス"
 
 msgid "Test-Takers"
-msgstr "受験者"
+msgstr "受検者"
+
+msgid "Tests Home"
+msgstr "テストホ－ム"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr "このテストはフルスクリーンモードが必要です。"
+msgstr "このテストはフルスクリーンモードで受けてください"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Enterキーを押してください"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "このテストを受けることはできません"
 
