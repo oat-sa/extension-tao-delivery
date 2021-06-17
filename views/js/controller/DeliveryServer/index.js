@@ -101,10 +101,6 @@ define([
             const supportRTL = function supportRTL () {
                 // adding attr for RTL languages
                 $('.delivery-scope').attr({dir: locale.getLanguageDirection(context.locale)});
-                // tune classes to remove page header RTL artifacts
-                const menuItemSelector = '.delivery-scope[dir=rtl] .settings-menu li';
-                $(menuItemSelector).addClass('sep-before');
-                $(`${menuItemSelector}:visible:last`).removeClass('sep-before');
             };
 
             const config = module.config();
