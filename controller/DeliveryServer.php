@@ -24,12 +24,14 @@
 namespace oat\taoDelivery\controller;
 
 use common_exception_NotFound;
-use common_ext_ExtensionsManager as ExtensionsManager;
 use common_exception_Unauthorized;
+use common_ext_Extension;
 use common_Logger;
 use common_exception_Error;
 use common_session_SessionManager;
+use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\LogoutSucceedEvent;
@@ -48,6 +50,8 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
+use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
+use tao_helpers_I18n;
 
 /**
  * DeliveryServer Controller
@@ -58,7 +62,6 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
  */
 class DeliveryServer extends \tao_actions_CommonModule
 {
-
     /**
      * constructor: initialize the service and the default data
      * @security("hide")
@@ -88,7 +91,6 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     public function index()
     {
-
         $user = common_session_SessionManager::getSession()->getUser();
         
         /**
@@ -165,7 +167,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function _initDeliveryExecution()
     {
-        $compiledDelivery  = new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $compiledDelivery  = new core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $user              = common_session_SessionManager::getSession()->getUser();
 
         $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
@@ -188,19 +190,22 @@ class DeliveryServer extends \tao_actions_CommonModule
     /**
      * Init the selected delivery execution and forward to the execution screen
      */
-    public function initDeliveryExecution()
+    public function initDeliveryExecution(): void
     {
         try {
             $deliveryExecution = $this->_initDeliveryExecution();
             //if authorized we can move to this URL.
             $this->redirect(_url('runDeliveryExecution', null, null, ['deliveryExecution' => $deliveryExecution->getIdentifier()]));
         } catch (UnAuthorizedException $e) {
-            return $this->redirect($e->getErrorPage());
+            $this->redirect($e->getErrorPage());
         } catch (common_exception_Unauthorized $e) {
-            return $this->returnJson([
-                'success' => false,
-                'message' => __('You are no longer allowed to take this test')
-            ], 403);
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'message' => __('You are no longer allowed to take this test')
+                ],
+                403
+            );
         }
     }
 
@@ -212,7 +217,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      * @throws common_exception_NotFound
      * @throws common_exception_Unauthorized
      */
-    public function runDeliveryExecution()
+    public function runDeliveryExecution(): void
     {
         $deliveryExecution = $this->getCurrentDeliveryExecution();
 
@@ -227,15 +232,18 @@ class DeliveryServer extends \tao_actions_CommonModule
         try {
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
         } catch (UnAuthorizedException $e) {
-            return $this->redirect($e->getErrorPage());
+            $this->redirect($e->getErrorPage());
+
+            return;
         }
 
         $userUri = common_session_SessionManager::getSession()->getUserUri();
         if ($deliveryExecution->getUserIdentifier() != $userUri) {
             throw new common_exception_Error('User ' . $userUri . ' is not the owner of the execution ' . $deliveryExecution->getIdentifier());
         }
-        
+
         $delivery = $deliveryExecution->getDelivery();
+
         $this->initResultServer($delivery, $deliveryExecution->getIdentifier(), $userUri);
 
         $deliveryExecutionStateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
@@ -246,9 +254,12 @@ class DeliveryServer extends \tao_actions_CommonModule
          */
         $container = $this->getDeliveryServer()->getDeliveryContainer($deliveryExecution);
 
+        $this->overrideInterfaceLanguage($delivery);
+
         // Require JS config
         $container->setData('client_config_url', $this->getClientConfigUrl());
         $container->setData('client_timeout', $this->getClientTimeout());
+
         // Delivery params
         $container->setData('returnUrl', $this->getReturnUrl());
         $container->setData('finishUrl', $this->getfinishDeliveryExecutionUrl($deliveryExecution));
@@ -383,13 +394,13 @@ class DeliveryServer extends \tao_actions_CommonModule
      * @throws \common_exception_Error
      * @throws UnAuthorizedException
      */
-    protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution)
+    protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution): void
     {
         $user = common_session_SessionManager::getSession()->getUser();
         $this->getAuthorizationProvider()->verifyResumeAuthorization($deliveryExecution, $user);
     }
 
-    public function logout()
+    public function logout(): void
     {
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
@@ -400,34 +411,51 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+
         $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
     }
 
-    /**
-     * Get the delivery server
-     *
-     * @return DeliveryServerService
-     */
-    protected function getDeliveryServer()
+    protected function getDeliveryServer(): DeliveryServerService
     {
         return $this->service = $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
     }
 
-    /**
-     * Get the execution service
-     *
-     * @return ServiceProxy
-     */
-    protected function getExecutionService()
+    protected function getExecutionService(): ServiceProxy
     {
         return ServiceProxy::singleton();
     }
 
-    /**
-     * @return DeliveryFieldsService
-     */
-    protected function getDeliveryFieldsService()
+    protected function getDeliveryFieldsService(): DeliveryFieldsService
     {
         return $this->getServiceLocator()->get(DeliveryFieldsService::SERVICE_ID);
+    }
+
+    private function overrideInterfaceLanguage(core_kernel_classes_Resource $delivery): void
+    {
+        $deliveryLanguage = $delivery->getProperty(DeliveryAssemblyService::PROPERTY_INTERFACE_LANGUAGE);
+
+        if (!$deliveryLanguage->exists()) {
+            return;
+        }
+
+        $deliveryLanguage = $delivery->getOnePropertyValue($deliveryLanguage);
+
+        if (empty($deliveryLanguage)) {
+            return;
+        }
+
+        $resource = $delivery->getResource($deliveryLanguage);
+
+        $language = (string)$resource->getOnePropertyValue(
+            $delivery->getProperty(OntologyRdf::RDF_VALUE)
+        );
+
+        if (empty($language)) {
+            return;
+        }
+
+        $this->setSessionAttribute('overrideInterfaceLanguage', $language);
+
+        tao_helpers_I18n::init(new common_ext_Extension('taoDelivery'), $language);
     }
 }
