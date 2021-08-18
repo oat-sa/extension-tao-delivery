@@ -21,11 +21,13 @@
 
 namespace oat\taoDelivery\test\unit\model\execution\rds;
 
+use core_kernel_classes_Resource;
 use oat\generis\test\TestCase;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class RdsDeliveryExecutionServiceTest extends TestCase
 {
@@ -118,17 +120,19 @@ class RdsDeliveryExecutionServiceTest extends TestCase
 
     public function testGetExecutionsByDeliveryWithEmptyDatabase()
     {
-        $resourceMock = $this->prophesize(\core_kernel_classes_Resource::class);
+        $resource = $this->createResource();
 
-        $this->assertTrue(is_array($this->classUnderTest->getExecutionsByDelivery($resourceMock->reveal())));
-        $this->assertTrue(count($this->classUnderTest->getExecutionsByDelivery($resourceMock->reveal())) === 0);
+        $executions = $this->classUnderTest->getExecutionsByDelivery($resource);
+
+        $this->assertIsArray($executions);
+        $this->assertCount(0, $executions);
     }
 
     public function testGetExecutionsByDeliveryWithNonEmptyDatabase()
     {
         $this->insertNewRow();
 
-        $resourceMock = $this->prophesize(\core_kernel_classes_Resource::class);
+        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
 
         $resourceMock->getUri()->willReturn("test");
 
@@ -138,17 +142,17 @@ class RdsDeliveryExecutionServiceTest extends TestCase
 
     public function testGetUserExecutions()
     {
-        $resourceMock = $this->prophesize(\core_kernel_classes_Resource::class);
+        $resource = $this->createResource();
 
-        $this->assertTrue(is_array($this->classUnderTest->getUserExecutions($resourceMock->reveal(), "test")));
-        $this->assertTrue(count($this->classUnderTest->getExecutionsByDelivery($resourceMock->reveal())) === 0);
+        $this->assertIsArray($this->classUnderTest->getUserExecutions($resource, "test"));
+        $this->assertCount(0, $this->classUnderTest->getExecutionsByDelivery($resource));
     }
 
     public function testGetUserExecutionsWithNonEmptyDatabase()
     {
         $this->insertNewRow();
 
-        $resourceMock = $this->prophesize(\core_kernel_classes_Resource::class);
+        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
 
         $resourceMock->getUri()->willReturn("test");
 
@@ -177,7 +181,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
 
     public function testInitDeliveryExecution()
     {
-        $resourceMock = $this->prophesize(\core_kernel_classes_Resource::class);
+        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
 
         $resourceMock->getLabel()->willReturn("test");
         $resourceMock->getUri()->willReturn("test");
@@ -211,5 +215,15 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         ;
 
         $this->persistence->exec($query);
+    }
+
+    private function createResource(): core_kernel_classes_Resource
+    {
+        /** @var core_kernel_classes_Resource|ObjectProphecy $resourceMock */
+        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
+
+        $resourceMock->getUri()->willReturn('http://tao.lu/test#1');
+
+        return $resourceMock->reveal();
     }
 }
