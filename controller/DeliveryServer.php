@@ -435,12 +435,16 @@ class DeliveryServer extends \tao_actions_CommonModule
         $deliveryLanguage = $delivery->getProperty(DeliveryAssemblyService::PROPERTY_INTERFACE_LANGUAGE);
 
         if (!$deliveryLanguage->exists()) {
+            $this->resetOverwrittenLanguage();
+
             return;
         }
 
         $deliveryLanguage = $delivery->getOnePropertyValue($deliveryLanguage);
 
         if (empty($deliveryLanguage)) {
+            $this->resetOverwrittenLanguage();
+
             return;
         }
 
@@ -451,11 +455,27 @@ class DeliveryServer extends \tao_actions_CommonModule
         );
 
         if (empty($language)) {
+            $this->resetOverwrittenLanguage();
+
             return;
         }
 
         $this->setSessionAttribute('overrideInterfaceLanguage', $language);
 
         tao_helpers_I18n::init(new common_ext_Extension('taoDelivery'), $language);
+    }
+
+    private function resetOverwrittenLanguage(): void
+    {
+        if (!$this->hasSessionAttribute('overrideInterfaceLanguage')) {
+            return;
+        }
+
+        $this->removeSessionAttribute('overrideInterfaceLanguage');
+
+        tao_helpers_I18n::init(
+            new common_ext_Extension('taoDelivery'),
+            common_session_SessionManager::getSession()->getInterfaceLanguage()
+        );
     }
 }
