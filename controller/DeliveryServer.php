@@ -50,7 +50,6 @@ use oat\taoDelivery\models\classes\ReturnUrlService;
 use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\tao\helpers\Template;
 use oat\taoDelivery\model\execution\StateServiceInterface;
-use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use tao_helpers_I18n;
 
 /**
@@ -62,6 +61,8 @@ use tao_helpers_I18n;
  */
 class DeliveryServer extends \tao_actions_CommonModule
 {
+    private const PROPERTY_INTERFACE_LANGUAGE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#InterfaceLanguage';
+
     /**
      * constructor: initialize the service and the default data
      * @security("hide")
@@ -181,7 +182,6 @@ class DeliveryServer extends \tao_actions_CommonModule
         $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
         /** @var DeliveryExecution $deliveryExecution */
         $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
-
 
         return $deliveryExecution;
     }
@@ -432,7 +432,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     private function overrideInterfaceLanguage(core_kernel_classes_Resource $delivery): void
     {
-        $deliveryLanguage = $delivery->getProperty(DeliveryAssemblyService::PROPERTY_INTERFACE_LANGUAGE);
+        $deliveryLanguage = $delivery->getProperty(self::PROPERTY_INTERFACE_LANGUAGE);
 
         if (!$deliveryLanguage->exists()) {
             $this->resetOverwrittenLanguage();
