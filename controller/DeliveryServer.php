@@ -92,8 +92,10 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     public function index()
     {
+        $this->resetOverwrittenLanguage();
+
         $user = common_session_SessionManager::getSession()->getUser();
-        
+
         /**
          * Retrieve resumable deliveries (via delivery execution)
          */
