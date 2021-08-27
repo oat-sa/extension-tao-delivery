@@ -18,45 +18,43 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
  */
 
 namespace oat\taoDelivery\controller;
 
+use common_exception_Error;
 use common_exception_NotFound;
 use common_exception_Unauthorized;
 use common_ext_Extension;
 use common_Logger;
-use common_exception_Error;
 use common_session_SessionManager;
 use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\Template;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\taoDelivery\helper\Delivery as DeliveryHelper;
 use oat\taoDelivery\model\AssignmentService;
-use oat\taoDelivery\model\execution\DeliveryExecutionConfig;
-use oat\taoDelivery\model\authorization\AuthorizationService;
 use oat\taoDelivery\model\authorization\AuthorizationProvider;
+use oat\taoDelivery\model\authorization\AuthorizationService;
+use oat\taoDelivery\model\authorization\UnAuthorizedException;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecutionConfig;
 use oat\taoDelivery\model\execution\DeliveryServerService;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\taoDelivery\models\classes\ReturnUrlService;
-use oat\taoDelivery\model\authorization\UnAuthorizedException;
-use oat\tao\helpers\Template;
-use oat\taoDelivery\model\execution\StateServiceInterface;
 use tao_helpers_I18n;
 
 /**
- * DeliveryServer Controller
+ * DeliveryServer Controller.
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @package taoDelivery
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class DeliveryServer extends \tao_actions_CommonModule
@@ -64,7 +62,8 @@ class DeliveryServer extends \tao_actions_CommonModule
     private const PROPERTY_INTERFACE_LANGUAGE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#InterfaceLanguage';
 
     /**
-     * constructor: initialize the service and the default data
+     * constructor: initialize the service and the default data.
+     *
      * @security("hide")
      */
     public function __construct()
@@ -73,21 +72,12 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * @return DeliveryExecution
-     */
-    protected function getCurrentDeliveryExecution()
-    {
-        $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
-        return $this->getExecutionService()->getDeliveryExecution($id);
-    }
-
-    /**
-     * Set a view with the list of process instances (both started or finished) and available process definitions
+     * Set a view with the list of process instances (both started or finished) and available process definitions.
      *
-     * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+     *
      * @param processDefinitionUri
-     * @return void
+     *
      * @throws \common_exception_Error
      */
     public function index()
@@ -97,25 +87,23 @@ class DeliveryServer extends \tao_actions_CommonModule
         $user = common_session_SessionManager::getSession()->getUser();
 
         /**
-         * Retrieve resumable deliveries (via delivery execution)
+         * Retrieve resumable deliveries (via delivery execution).
          */
         $resumableData = [];
         foreach ($this->getDeliveryServer()->getResumableDeliveries($user) as $de) {
             $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
         }
         $this->setData('resumableDeliveries', $resumableData);
-        
+
         $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-        
+
         $deliveryData = [];
         foreach ($assignmentService->getAssignments($user) as $delivery) {
             $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
         }
         $this->setData('availableDeliveries', $deliveryData);
-                
-        /**
-         * Header & footer info
-         */
+
+        // Header & footer info
         $this->setData('showControls', $this->showControls());
         $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
 
@@ -127,13 +115,11 @@ class DeliveryServer extends \tao_actions_CommonModule
         $loaderRenderer->setData('client_config_url', $this->getClientConfigUrl());
         $loaderRenderer->setData('parameters', ['messages' => $this->getViewDataFromRequest()]);
 
-        /* @var $urlRouteService DefaultUrlService */
+        // @var $urlRouteService DefaultUrlService
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
-        
-        /**
-         * Layout template + real template inclusion
-         */
+
+        // Layout template + real template inclusion
         $this->setData('additional-header', $loaderRenderer);
         $this->setData('content-template', 'DeliveryServer/index.tpl');
         $this->setData('content-extension', 'taoDelivery');
@@ -142,55 +128,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * Get data from request to be passed to renderer
-     * @return array
-     */
-    protected function getViewDataFromRequest()
-    {
-        $lookupParams = ['warning', 'error'];
-        $result = [];
-        foreach ($lookupParams as $lookupParam) {
-            if ($this->getRequest()->hasParameter($lookupParam) && !empty($this->getRequest()->getParameter($lookupParam))) {
-                $result[] = [
-                    'level' => $lookupParam,
-                    'content' => $this->getRequest()->getParameter($lookupParam),
-                    'timeout' => -1
-                ];
-            }
-        }
-        return $result;
-    }
-    
-    /**
-     * Init a delivery execution from the current delivery.
-     *
-     * @throws common_exception_Unauthorized
-     * @return DeliveryExecution the selected execution
-     * @throws \common_exception_Error
-     */
-    protected function _initDeliveryExecution()
-    {
-        $compiledDelivery  = new core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $user              = common_session_SessionManager::getSession()->getUser();
-
-        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-
-        $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
-
-        //check if the assignment allows the user to start the delivery and the authorization provider
-        if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user)) {
-            throw new common_exception_Unauthorized();
-        }
-        $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
-        /** @var DeliveryExecution $deliveryExecution */
-        $deliveryExecution = $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
-
-        return $deliveryExecution;
-    }
-
-
-    /**
-     * Init the selected delivery execution and forward to the execution screen
+     * Init the selected delivery execution and forward to the execution screen.
      */
     public function initDeliveryExecution(): void
     {
@@ -204,7 +142,7 @@ class DeliveryServer extends \tao_actions_CommonModule
             $this->returnJson(
                 [
                     'success' => false,
-                    'message' => __('You are no longer allowed to take this test')
+                    'message' => __('You are no longer allowed to take this test'),
                 ],
                 403
             );
@@ -212,14 +150,14 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * Displays the execution screen
+     * Displays the execution screen.
      *
      * @throws \common_Exception
      * @throws common_exception_Error
      * @throws common_exception_NotFound
      * @throws common_exception_Unauthorized
      */
-    public function runDeliveryExecution(): void
+    public function runDeliveryExecution()
     {
         $deliveryExecution = $this->getCurrentDeliveryExecution();
 
@@ -241,7 +179,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         $userUri = common_session_SessionManager::getSession()->getUserUri();
         if ($deliveryExecution->getUserIdentifier() != $userUri) {
-            throw new common_exception_Error('User ' . $userUri . ' is not the owner of the execution ' . $deliveryExecution->getIdentifier());
+            throw new common_exception_Error('User '.$userUri.' is not the owner of the execution '.$deliveryExecution->getIdentifier());
         }
 
         $delivery = $deliveryExecution->getDelivery();
@@ -252,7 +190,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $deliveryExecutionStateService->run($deliveryExecution);
 
         /**
-         * Use particular delivery container
+         * Use particular delivery container.
          */
         $container = $this->getDeliveryServer()->getDeliveryContainer($deliveryExecution);
 
@@ -272,22 +210,18 @@ class DeliveryServer extends \tao_actions_CommonModule
         /** @var DeliveryExecutionConfig $deliveryExecutionConfig */
         $deliveryExecutionConfig = $this->getServiceLocator()->get(DeliveryExecutionConfig::class);
 
-        /**
-         * Delivery header & footer info
-         */
+        // Delivery header & footer info
         $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
         $this->setData('showControls', $this->showControls());
         $this->setData('hideHomeButton', $deliveryExecutionConfig->isHomeButtonHidden());
         $this->setData('hideLogoutButton', $deliveryExecutionConfig->isLogoutButtonHidden());
         $this->setData('returnUrl', $this->getReturnUrl());
 
-        /* @var $urlRouteService DefaultUrlService */
+        // @var $urlRouteService DefaultUrlService
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
 
-        /**
-         * Layout template + real template inclusion
-         */
+        // Layout template + real template inclusion
         $this->setData('content-template', 'DeliveryServer/runDeliveryExecution.tpl');
         $this->setData('content-extension', 'taoDelivery');
         $this->setData('title', $this->getDeliveryFieldsService()->getDeliveryExecutionPageTitle($delivery));
@@ -295,7 +229,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * Finish the delivery execution
+     * Finish the delivery execution.
      *
      * @throws common_exception_Error
      * @throws common_exception_NotFound
@@ -307,13 +241,86 @@ class DeliveryServer extends \tao_actions_CommonModule
             $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
             $stateService->finish($deliveryExecution);
         } else {
-            common_Logger::w('Non owner ' . common_session_SessionManager::getSession()->getUserUri() . ' tried to finish deliveryExecution ' . $deliveryExecution->getIdentifier());
+            common_Logger::w('Non owner '.common_session_SessionManager::getSession()->getUserUri().' tried to finish deliveryExecution '.$deliveryExecution->getIdentifier());
         }
         $this->redirect($this->getReturnUrl());
     }
 
+    public function logout(): void
+    {
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
+
+        common_session_SessionManager::endSession();
+
+        // @var $urlRouteService DefaultUrlService
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+
+        $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
+    }
+
     /**
-     * Initialize the result server using the delivery configuration and for this results session submission
+     * @return DeliveryExecution
+     */
+    protected function getCurrentDeliveryExecution()
+    {
+        $id = \tao_helpers_Uri::decode($this->getRequestParameter('deliveryExecution'));
+
+        return $this->getExecutionService()->getDeliveryExecution($id);
+    }
+
+    /**
+     * Get data from request to be passed to renderer.
+     *
+     * @return array
+     */
+    protected function getViewDataFromRequest()
+    {
+        $lookupParams = ['warning', 'error'];
+        $result = [];
+        foreach ($lookupParams as $lookupParam) {
+            if ($this->getRequest()->hasParameter($lookupParam) && !empty($this->getRequest()->getParameter($lookupParam))) {
+                $result[] = [
+                    'level' => $lookupParam,
+                    'content' => $this->getRequest()->getParameter($lookupParam),
+                    'timeout' => -1,
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Init a delivery execution from the current delivery.
+     *
+     * @throws common_exception_Unauthorized
+     * @throws \common_exception_Error
+     *
+     * @return DeliveryExecution the selected execution
+     */
+    protected function _initDeliveryExecution()
+    {
+        $compiledDelivery = new core_kernel_classes_Resource(\tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $user = common_session_SessionManager::getSession()->getUser();
+
+        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
+
+        $this->verifyDeliveryStartAuthorized($compiledDelivery->getUri());
+
+        //check if the assignment allows the user to start the delivery and the authorization provider
+        if (!$assignmentService->isDeliveryExecutionAllowed($compiledDelivery->getUri(), $user)) {
+            throw new common_exception_Unauthorized();
+        }
+        $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
+        /** @var DeliveryExecution $deliveryExecution */
+        return $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
+    }
+
+    /**
+     * Initialize the result server using the delivery configuration and for this results session submission.
      *
      * @param $compiledDelivery
      * @param $executionIdentifier
@@ -323,11 +330,11 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->getDeliveryServer()->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
-    
+
     /**
-     * Defines if the top and bottom action menu should be displayed or not
+     * Defines if the top and bottom action menu should be displayed or not.
      *
-     * @return boolean
+     * @return bool
      */
     protected function showControls()
     {
@@ -335,30 +342,32 @@ class DeliveryServer extends \tao_actions_CommonModule
     }
 
     /**
-     * Defines the returning URL in the top-right corner action menu
+     * Defines the returning URL in the top-right corner action menu.
+     *
+     * @throws common_exception_NotFound
      *
      * @return string
-     * @throws common_exception_NotFound
      */
     protected function getReturnUrl()
     {
         if ($this->getServiceLocator()->has(ReturnUrlService::SERVICE_ID)) {
             $deliveryExecution = $this->getCurrentDeliveryExecution();
+
             return $this->getServiceLocator()->get(ReturnUrlService::SERVICE_ID)->getReturnUrl($deliveryExecution->getIdentifier());
         }
+
         return _url('index', 'DeliveryServer', 'taoDelivery');
     }
-    
+
     /**
-     * Defines the URL of the finish delivery execution action
-     * @param DeliveryExecution $deliveryExecution
+     * Defines the URL of the finish delivery execution action.
+     *
      * @return string
      */
     protected function getfinishDeliveryExecutionUrl(DeliveryExecution $deliveryExecution)
     {
         return _url('finishDeliveryExecution', null, null, ['deliveryExecution' => $deliveryExecution->getIdentifier()]);
     }
-
 
     /**
      * Gives you the authorization provider for the given execution.
@@ -368,14 +377,16 @@ class DeliveryServer extends \tao_actions_CommonModule
     protected function getAuthorizationProvider()
     {
         $authService = $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID);
+
         return $authService->getAuthorizationProvider();
     }
 
     /**
      * Verify if the start of the delivery is allowed.
-     * Throws an exception if not
+     * Throws an exception if not.
      *
      * @param string $deliveryId
+     *
      * @throws UnAuthorizedException
      * @throws \common_exception_Error
      * @throws \common_exception_Unauthorized
@@ -388,33 +399,18 @@ class DeliveryServer extends \tao_actions_CommonModule
 
     /**
      * Check wether the delivery execution is authorized to run
-     * Throws an exception if not
+     * Throws an exception if not.
      *
-     * @param DeliveryExecution $deliveryExecution
-     * @return boolean
      * @throws \common_exception_Unauthorized
      * @throws \common_exception_Error
      * @throws UnAuthorizedException
+     *
+     * @return bool
      */
     protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution): void
     {
         $user = common_session_SessionManager::getSession()->getUser();
         $this->getAuthorizationProvider()->verifyResumeAuthorization($deliveryExecution, $user);
-    }
-
-    public function logout(): void
-    {
-        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-
-        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
-        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
-
-        common_session_SessionManager::endSession();
-
-        /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
-
-        $this->redirect($urlRouteService->getRedirectUrl('logoutDelivery'));
     }
 
     protected function getDeliveryServer(): DeliveryServerService
@@ -452,7 +448,7 @@ class DeliveryServer extends \tao_actions_CommonModule
 
         $resource = $delivery->getResource($deliveryLanguage);
 
-        $language = (string)$resource->getOnePropertyValue(
+        $language = (string) $resource->getOnePropertyValue(
             $delivery->getProperty(OntologyRdf::RDF_VALUE)
         );
 
