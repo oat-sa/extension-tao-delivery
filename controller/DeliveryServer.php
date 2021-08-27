@@ -130,7 +130,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     /**
      * Init the selected delivery execution and forward to the execution screen.
      */
-    public function initDeliveryExecution(): void
+    public function initDeliveryExecution()
     {
         try {
             $deliveryExecution = $this->_initDeliveryExecution();
@@ -246,7 +246,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->redirect($this->getReturnUrl());
     }
 
-    public function logout(): void
+    public function logout()
     {
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
@@ -315,7 +315,7 @@ class DeliveryServer extends \tao_actions_CommonModule
             throw new common_exception_Unauthorized();
         }
         $stateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
-        /** @var DeliveryExecution $deliveryExecution */
+        // @var DeliveryExecution $deliveryExecution
         return $stateService->createDeliveryExecution($compiledDelivery->getUri(), $user, $compiledDelivery->getLabel());
     }
 
@@ -407,23 +407,23 @@ class DeliveryServer extends \tao_actions_CommonModule
      *
      * @return bool
      */
-    protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution): void
+    protected function verifyDeliveryExecutionAuthorized(DeliveryExecution $deliveryExecution)
     {
         $user = common_session_SessionManager::getSession()->getUser();
         $this->getAuthorizationProvider()->verifyResumeAuthorization($deliveryExecution, $user);
     }
 
-    protected function getDeliveryServer(): DeliveryServerService
+    protected function getDeliveryServer()
     {
         return $this->service = $this->getServiceLocator()->get(DeliveryServerService::SERVICE_ID);
     }
 
-    protected function getExecutionService(): ServiceProxy
+    protected function getExecutionService()
     {
         return ServiceProxy::singleton();
     }
 
-    protected function getDeliveryFieldsService(): DeliveryFieldsService
+    protected function getDeliveryFieldsService()
     {
         return $this->getServiceLocator()->get(DeliveryFieldsService::SERVICE_ID);
     }
