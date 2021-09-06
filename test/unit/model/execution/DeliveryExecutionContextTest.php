@@ -89,7 +89,8 @@ class DeliveryExecutionContextTest extends TestCase
             $contextData['execution_id'],
             $contextData['context_id'],
             $contextData['type'],
-            $contextData['label']
+            $contextData['label'],
+            $contextData['extra_data']
         );
 
         $result = $contextObject->jsonSerialize();
@@ -108,7 +109,8 @@ class DeliveryExecutionContextTest extends TestCase
             'execution_id' => 'http://test-execution-uri.dev',
             'context_id' => 'TEST CONTEXT ID',
             'type' => 'TEST EXEC TYPE',
-            'label' => 'TEST LABEL'
+            'label' => 'TEST LABEL',
+            'extra_data' => ['key' => 'value'],
         ];
     }
 
