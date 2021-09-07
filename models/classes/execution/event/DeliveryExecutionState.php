@@ -1,92 +1,80 @@
 <?php
-
 /**
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; under version 2
-* of the License (non-upgradable).
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*
-* Copyright (c) 2015 (original work) Open Assessment Technologies SA;
-*
-*
-*/
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ */
+
+declare(strict_types = 1);
 
 namespace oat\taoDelivery\models\classes\execution\event;
 
 use oat\oatbox\event\Event;
-use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 /**
-* Event should be triggered after changing delivery execution state.
-*
-* @author Aleh Hutnikau <hutnikau@1pt.com>
-*/
+ * Event should be triggered after changing delivery execution state.
+ *
+ * @author Aleh Hutnikau <hutnikau@1pt.com>
+ */
 class DeliveryExecutionState implements Event
 {
-    /**
-     * @var DeliveryExecutionInterface delivery execution instance
-     */
+    /** @var DeliveryExecutionInterface delivery execution instance */
     private $deliveryExecution;
-    /**
-     * @var string state name
-     */
+
+    /** @var string state name */
     private $state;
-    /**
-     * @var string previous state name
-     */
+
+    /** @var string|null previous state name */
     private $prevState;
 
     /**
      * DeliveryExecutionState constructor.
+     *
      * @param DeliveryExecutionInterface $deliveryExecution
-     * @param string $state
-     * @param string $prevState
+     * @param string                     $state
+     * @param string|null                $prevState
      */
-    public function __construct(DeliveryExecutionInterface $deliveryExecution, $state, $prevState = null)
+    public function __construct(DeliveryExecutionInterface $deliveryExecution, string $state, ?string $prevState)
     {
         $this->deliveryExecution = $deliveryExecution;
         $this->state = $state;
         $this->prevState = $prevState;
     }
 
-    /**
-     * @return DeliveryExecutionInterface
-     */
-    public function getDeliveryExecution()
+    public function getDeliveryExecution(): DeliveryExecutionInterface
     {
         return $this->deliveryExecution;
     }
 
-    /**
-     * @return string
-     */
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPreviousState()
+    public function getHumanReadableState(): string
+    {
+        return str_replace(DeliveryExecutionInterface::PROPERTY_PREFIX, '', $this->getState());
+    }
+
+    public function getPreviousState(): ?string
     {
         return $this->prevState;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return __CLASS__;
     }
