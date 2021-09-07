@@ -106,15 +106,8 @@ class StateService extends AbstractStateService
         return $result;
     }
 
-    /**
-     * @return array
-     */
-    public function getDeliveriesStates()
+    public function getDeliveriesStates(): array
     {
-         return [
-             DeliveryExecution::STATE_FINISHED,
-             DeliveryExecution::STATE_ACTIVE,
-             DeliveryExecution::STATE_PAUSED
-         ];
+         return DeliveryExecutionInterface::STATES;
     }
 }
