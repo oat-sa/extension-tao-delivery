@@ -26,7 +26,7 @@ use common_exception_NotFound;
 use core_kernel_classes_Resource;
 
 /**
- * New interface for delivery executions
+ * Interface for delivery executions
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -34,34 +34,47 @@ use core_kernel_classes_Resource;
  */
 interface DeliveryExecutionInterface
 {
+    public const PROPERTY_PREFIX = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus';
+
     /**
      * Indicates that a test-taker is currently taking a delivery
      * @var string
+     * @value http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
      */
-    const STATE_ACTIVE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive';
+    public const STATE_ACTIVE = self::PROPERTY_PREFIX . 'Active';
 
     /**
      * Indicates that a delivery is in progress, but the test-taker is not actively taking it
      * @var string
+     * @value http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused
      */
-    const STATE_PAUSED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused';
+    public const STATE_PAUSED = self::PROPERTY_PREFIX . 'Paused';
 
     /**
      * Indicates that a delivery has been finished successfully and the results should be considered
      * @var string
+     * @value http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished
      */
-    const STATE_FINISHED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
-
-    /**
-     * @deprecated
-     */
-    const STATE_FINISHIED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
+    public const STATE_FINISHED = self::PROPERTY_PREFIX . 'Finished';
 
     /**
      * Indicates that a delivery has been terminated and the results might not be valid
      * @var string
+     * @value http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusTerminated
      */
-    const STATE_TERMINATED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusTerminated';
+    public const STATE_TERMINATED = self::PROPERTY_PREFIX. 'Terminated';
+
+    /**
+     * @deprecated
+     */
+    public const STATE_FINISHIED = self::STATE_FINISHED;
+
+    /** @var string[] List of states in which delivery can be */
+    public const STATES = [
+        self::STATE_ACTIVE,
+        self::STATE_PAUSED,
+        self::STATE_FINISHED,
+    ];
 
     /**
      * Returns the identifier of the delivery execution
@@ -72,7 +85,7 @@ interface DeliveryExecutionInterface
     public function getIdentifier();
 
     /**
-     * Returns a human readable test representation of the delivery execution
+     * Returns a human-readable test representation of the delivery execution
      * Should respect the current user's language
      *
      * @throws common_exception_NotFound
