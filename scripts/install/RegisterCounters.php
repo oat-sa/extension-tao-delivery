@@ -8,9 +8,17 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\counter\CounterService;
 use oat\tao\model\counter\CounterServiceException;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\StateService;
+use oat\taoDelivery\model\execution\StateServiceInterface;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
 
+/**
+ * Script registers listeners for delivery execution event which counts related actions.
+ *
+ * Script usage: sudo -u www-data php index.php 'oat\taoDelivery\scripts\install\RegisterCounters'
+ */
 class RegisterCounters extends InstallAction
 {
     public const COUNTER_SHORT_NAME_DELIVERY_EXECUTION_CREATED = 'taoDelivery:created';
@@ -40,8 +48,20 @@ class RegisterCounters extends InstallAction
         $counterService->attach(
             DeliveryExecutionState::class,
             self::COUNTER_SHORT_NAME_DELIVERY_EXECUTION_STATE,
-            'getState'
+            'getHumanReadableState'
         );
+
+        // Resetting counters and setting starting values for SQL based KV storages
+
+        $counterService->reset(DeliveryExecutionCreated::class);
+
+        /** @var StateService $stateService */
+        $stateService = $this->getServiceManager()->get(StateServiceInterface::SERVICE_ID);
+
+        foreach ($stateService->getDeliveriesStates() as $state) {
+            $humanReadableState = str_replace(DeliveryExecutionInterface::PROPERTY_PREFIX, '', $state);
+            $counterService->reset(DeliveryExecutionState::class, 0, $humanReadableState);
+        }
 
         $this->getServiceManager()->register(CounterService::SERVICE_ID, $counterService);
     }
