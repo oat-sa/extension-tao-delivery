@@ -28,16 +28,10 @@ final class Version202108081940308613_taoDelivery extends AbstractMigration
 
     /**
      * @param Schema $schema
-     * @throws CounterServiceException
-     * @throws InvalidServiceManagerException
-     * @throws ServiceNotFoundException
-     * @throws common_Exception
      */
     public function up(Schema $schema): void
     {
-        $registerCounters = new RegisterCounters();
-        $this->propagate($registerCounters);
-        $registerCounters([]);
+        $this->propagate(new RegisterCounters)();
     }
 
     /**

@@ -17,13 +17,13 @@ class RegisterCounters extends InstallAction
     public const COUNTER_SHORT_NAME_DELIVERY_EXECUTION_STATE = 'taoDelivery:state';
 
     /**
-     * @param $params
+     * @param array $params
      * @throws common_Exception
      * @throws ServiceNotFoundException
      * @throws InvalidServiceManagerException
      * @throws CounterServiceException
      */
-    public function __invoke($params)
+    public function __invoke($params = [])
     {
         /** @var CounterService $counterService */
         $counterService = $this->getServiceManager()->get(CounterService::SERVICE_ID);
