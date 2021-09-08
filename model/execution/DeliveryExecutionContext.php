@@ -47,14 +47,26 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     private $label;
 
     /**
+     * @var array
+     */
+    private $extraData = [];
+
+    /**
      * DeliveryExecutionContext constructor.
      *
      * @param string $executionId
      * @param string $executionContextId
      * @param string $type
      * @param string $label
+     * @param array|null $extraData
      */
-    public function __construct($executionId, $executionContextId, $type, $label)
+    public function __construct(
+        string $executionId,
+        string $executionContextId,
+        string $type,
+        string $label,
+        ?array $extraData = []
+    )
     {
         $this->validateExecutionId($executionId);
         $this->validateExecutionContextId($executionContextId);
@@ -63,20 +75,22 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
         $this->executionContextId = $executionContextId;
         $this->type = $type;
         $this->label = $label;
+        $this->extraData = $extraData;
     }
 
     /**
      * @param array $contextData
      * @return DeliveryExecutionContextInterface
      */
-    public static function createFromArray(array $contextData)
+    public static function createFromArray(array $contextData): DeliveryExecutionContextInterface
     {
-        $executionId = isset($contextData[self::PARAM_EXECUTION_ID]) ? $contextData[self::PARAM_EXECUTION_ID] : '';
-        $executionContextId = isset($contextData[self::PARAM_CONTEXT_ID]) ? $contextData[self::PARAM_CONTEXT_ID] : '';
-        $type = isset($contextData[self::PARAM_TYPE]) ? $contextData[self::PARAM_TYPE] : '';
-        $label = isset($contextData[self::PARAM_LABEL]) ? $contextData[self::PARAM_LABEL] : '';
+        $executionId = $contextData[self::PARAM_EXECUTION_ID] ?? '';
+        $executionContextId = $contextData[self::PARAM_CONTEXT_ID] ?? '';
+        $type = $contextData[self::PARAM_TYPE] ?? '';
+        $label = $contextData[self::PARAM_LABEL] ?? '';
+        $extraData = $contextData[self::PARAM_EXTRA_DATA] ?? [];
 
-        return new static($executionId, $executionContextId, $type, $label);
+        return new static($executionId, $executionContextId, $type, $label, $extraData);
     }
 
     /**
@@ -85,7 +99,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      */
     private function validateExecutionId($executionId)
     {
-        if (!is_string($executionId) || empty($executionId)) {
+        if (empty($executionId)) {
             throw new InvalidArgumentException('Execution ID value must be not empty string.');
         }
     }
@@ -96,7 +110,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      */
     private function validateExecutionContextId($executionContextId)
     {
-        if (!is_string($executionContextId) || empty($executionContextId)) {
+        if (empty($executionContextId)) {
             throw new InvalidArgumentException('Execution context ID value must be not empty string.');
         }
     }
@@ -104,7 +118,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @return string
      */
-    public function getExecutionId()
+    public function getExecutionId(): string
     {
         return $this->executionId;
     }
@@ -113,7 +127,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      * @param string $executionId
      * @throws InvalidArgumentException
      */
-    public function setExecutionId($executionId)
+    public function setExecutionId(string $executionId): void
     {
         $this->validateExecutionId($executionId);
 
@@ -124,7 +138,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
      * @param string $contextId
      * @throws InvalidArgumentException
      */
-    public function setExecutionContextId($contextId)
+    public function setExecutionContextId(string $contextId): void
     {
         $this->validateExecutionContextId($contextId);
 
@@ -134,7 +148,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @return string
      */
-    public function getExecutionContextId()
+    public function getExecutionContextId(): string
     {
         return $this->executionContextId;
     }
@@ -143,7 +157,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -151,7 +165,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @param string $type
      */
-    public function setType($type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
@@ -159,7 +173,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -167,9 +181,25 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * @param string $label
      */
-    public function setLabel($label)
+    public function setLabel(string $label): void
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraData(): array
+    {
+        return $this->extraData;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setExtraData(array $data): void
+    {
+        $this->extraData = $data;
     }
 
     /**
@@ -181,7 +211,8 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
             self::PARAM_EXECUTION_ID => $this->getExecutionId(),
             self::PARAM_CONTEXT_ID => $this->getExecutionContextId(),
             self::PARAM_TYPE => $this->getType(),
-            self::PARAM_LABEL => $this->getLabel()
+            self::PARAM_LABEL => $this->getLabel(),
+            self::PARAM_EXTRA_DATA => $this->extraData,
         ];
     }
 }
