@@ -28,44 +28,55 @@ interface DeliveryExecutionContextInterface extends JsonSerializable
     const PARAM_CONTEXT_ID = 'context_id';
     const PARAM_TYPE = 'type';
     const PARAM_LABEL = 'label';
+    const PARAM_EXTRA_DATA = 'extra_data';
 
     /**
      * @param string $executionId
      */
-    public function setExecutionId($executionId);
+    public function setExecutionId(string $executionId): void;
 
     /**
      * @return string
      */
-    public function getExecutionId();
+    public function getExecutionId(): string;
 
     /**
      * @param string $contextId
      */
-    public function setExecutionContextId($contextId);
+    public function setExecutionContextId(string $contextId): void;
 
     /**
      * @return string
      */
-    public function getExecutionContextId();
+    public function getExecutionContextId(): string;
 
     /**
      * @param string $type
      */
-    public function setType($type);
+    public function setType(string $type): void;
 
     /**
      * @return string
      */
-    public function getType();
+    public function getType(): string;
 
     /**
      * @param string $label
      */
-    public function setLabel($label);
+    public function setLabel(string $label): void;
 
     /**
      * @return string
      */
-    public function getLabel();
+    public function getLabel(): string;
+
+    /**
+     * @param array $data
+     */
+    public function setExtraData(array $data): void;
+
+    /**
+     * @return array
+     */
+    public function getExtraData(): array;
 }
