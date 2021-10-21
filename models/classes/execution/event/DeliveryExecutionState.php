@@ -48,13 +48,6 @@ class DeliveryExecutionState implements Event
     /** @var ContextInterface|null */
     private $context;
 
-    /**
-     * DeliveryExecutionState constructor.
-     * @param DeliveryExecutionInterface $deliveryExecution
-     * @param string $state
-     * @param string|null $prevState
-     * @param ContextInterface|null $context
-     */
     public function __construct(
         DeliveryExecutionInterface $deliveryExecution,
         string $state,
