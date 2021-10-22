@@ -29,6 +29,7 @@ use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
+use oat\oatbox\user\AnonymousUser;
 use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
@@ -37,6 +38,7 @@ use oat\taoDelivery\model\execution\StateService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionStateContext;
 use Psr\Log\NullLogger;
 
 class StateServiceTest extends TestCase
@@ -221,8 +223,12 @@ class StateServiceTest extends TestCase
 
         $deliveryExecution = $this->createDeliveryExecution($state, $futureState);
 
+        $context = new DeliveryExecutionStateContext([
+            DeliveryExecutionStateContext::PARAM_USER => new AnonymousUser()
+        ]);
+
         $this->expectEvents(
-            new DeliveryExecutionState($deliveryExecution, $futureState, $state)
+            new DeliveryExecutionState($deliveryExecution, $futureState, $state, $context)
         );
 
         $this->assertTrue($this->createSut()->finish($deliveryExecution));
