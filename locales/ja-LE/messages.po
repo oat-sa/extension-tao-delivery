@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-10-14T09:22:47\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ja-LE\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ja-LE\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "About"
+msgstr ""
+
+msgid "Access deliveries as a guest"
+msgstr "ゲストとしてデリバリにアクセス"
+
+msgid "All rights reserved."
+msgstr "All rights reserved."
+
+msgid "An error occurred!"
+msgstr "エラーが発生しました!"
+
+msgid "Available"
+msgstr "実施対象"
+
+msgid "Close this prompt"
+msgstr "プロンプトを閉じる"
+
+msgid "Delivery Execution for %s not found"
+msgstr "デリバリ %s が見つかりません"
+
+msgid "Enter full screen"
+msgstr "フルスクリーン"
+
+msgid "Exit"
+msgstr "終了"
+
+msgid "Go back to tests selection"
+msgstr "テスト選択に戻る"
+
+msgid "Guest access"
+msgstr "ゲストアクセス"
+
+msgid "In progress"
+msgstr "実施中"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Main Menu"
+msgstr ""
+
+msgid "My Tests"
+msgstr "実施一覧"
+
+msgid "Resume"
+msgstr "再開"
+
+msgid "Resume this test"
+msgstr "このテストを再開する"
+
+msgid "Start"
+msgstr "開始"
+
+msgid "Start this test"
+msgstr "このテストを開始する"
+
+msgid "Started at %s"
+msgstr "%s 開始"
+
+msgid "Take or continue a test."
+msgstr "テストの受検・継続"
+
+msgid "TAO Delivery Server"
+msgstr "TAOデリバリサーバ"
+
+msgid "TAO Guest Access"
+msgstr "TAOゲストアクセス"
+
+msgid "TAO: %s"
+msgstr ""
+
+msgid "TAO: Test Selection"
+msgstr ""
+
+msgid "Test-Takers"
+msgstr "受検者"
+
+msgid "This test needs to be taken in full screen mode"
+msgstr "このテストはフルスクリーンモードで受けてください"
+
+msgid "You are no longer allowed to take this test"
+msgstr "このテストを受けることはできません"
+
