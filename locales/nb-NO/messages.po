@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-10-22T09:26:16\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: nb-NO\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "About"
+msgstr "Om"
+
+msgid "Access deliveries as a guest"
+msgstr "Få tilgang til besvarelser som gjest"
+
+msgid "All rights reserved."
+msgstr "Alle rettigheter forbeholdt."
+
+msgid "An error occurred!"
+msgstr "Det oppstod en feil!"
+
+msgid "Available"
+msgstr "Tilgjengelig"
+
+msgid "Close this prompt"
+msgstr "Lukk denne ledeteksten"
+
+msgid "Delivery Execution for %s not found"
+msgstr "Levering for %s ble ikke funnet"
+
+msgid "Enter full screen"
+msgstr "Fullskjermmodus"
+
+msgid "Exit"
+msgstr "Avslutt"
+
+msgid "Go back to tests selection"
+msgstr "Gå tilbake til prøver"
+
+msgid "Guest access"
+msgstr "Gjestetilgang"
+
+msgid "In progress"
+msgstr "Under arbeid"
+
+msgid "Logout"
+msgstr "Logg ut"
+
+msgid "Main Menu"
+msgstr "Hovedmeny"
+
+msgid "My Tests"
+msgstr "Mine prøver"
+
+msgid "Resume"
+msgstr "Gjenoppta"
+
+msgid "Resume this test"
+msgstr "Gjenoppta denne prøven"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Start this test"
+msgstr "Start denne prøven"
+
+msgid "Started at %s"
+msgstr "Startet med %s"
+
+msgid "Take or continue a test."
+msgstr "Ta eller fortsett en prøve."
+
+msgid "TAO Delivery Server"
+msgstr "TAO Delivery Server"
+
+msgid "TAO Guest Access"
+msgstr "TAO Gjestetilgang"
+
+msgid "TAO: %s"
+msgstr "TAO: %s"
+
+msgid "TAO: Test Selection"
+msgstr "TAO: Prøveutvalg"
+
+msgid "Test-Takers"
+msgstr "Elever"
+
+msgid "This test needs to be taken in full screen mode"
+msgstr "Denne prøven må tas i fullskjermsmodus"
+
+msgid "You are no longer allowed to take this test"
+msgstr "Du har ikke lenger tilgang til å ta denne prøven"
+
