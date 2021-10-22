@@ -22,6 +22,7 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_exception_NotFound;
+use common_session_SessionManager;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -31,6 +32,7 @@ use oat\oatbox\user\User;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionReactivated;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionState as DeliveryExecutionStateEvent;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionStateContext;
 
 /**
  * Class AbstractStateService
@@ -123,7 +125,16 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $result = $deliveryExecution->getImplementation()->setState($state);
 
-        $this->emitEvent(new DeliveryExecutionStateEvent($deliveryExecution, $state, $previousState));
+        $user = common_session_SessionManager::getSession()->getUser();
+
+        $context =
+            $state === DeliveryExecutionInterface::STATE_FINISHED
+            ? new DeliveryExecutionStateContext([
+                DeliveryExecutionStateContext::PARAM_USER => $user
+            ])
+            : null;
+
+        $this->emitEvent(new DeliveryExecutionStateEvent($deliveryExecution, $state, $previousState, $context));
         $this->logDebug(sprintf('DeliveryExecutionState from %s to %s triggered', $previousState, $state));
 
         if (!$this->isStateInteractive($previousState) && $this->isStateInteractive($state)) {
