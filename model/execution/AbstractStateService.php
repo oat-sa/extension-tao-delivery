@@ -127,9 +127,12 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $user = common_session_SessionManager::getSession()->getUser();
 
-        $context = new DeliveryExecutionStateContext([
-            DeliveryExecutionStateContext::PARAM_USER => $user
-        ]);
+        $context =
+            $state === DeliveryExecutionInterface::STATE_FINISHED
+            ? new DeliveryExecutionStateContext([
+                DeliveryExecutionStateContext::PARAM_USER => $user
+            ])
+            : null;
 
         $this->emitEvent(new DeliveryExecutionStateEvent($deliveryExecution, $state, $previousState, $context));
         $this->logDebug(sprintf('DeliveryExecutionState from %s to %s triggered', $previousState, $state));
