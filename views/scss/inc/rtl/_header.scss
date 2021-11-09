@@ -22,5 +22,8 @@
         }
       }
     }
+    & .icon-logout {
+      transform: scaleX(-1);
+    }
   }
 }
