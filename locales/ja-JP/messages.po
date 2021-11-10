@@ -50,7 +50,7 @@ msgid "Logout"
 msgstr "ログアウト"
 
 msgid "My Tests"
-msgstr "実施一覧"
+msgstr "実施テスト一覧"
 
 msgid "Resume"
 msgstr "再開"
@@ -71,7 +71,7 @@ msgid "Start this test"
 msgstr "このテストを開始する"
 
 msgid "Started at %s"
-msgstr "%s 開始"
+msgstr "実施：%s"
 
 msgid "Take or continue a test."
 msgstr "テストの受検・継続"
