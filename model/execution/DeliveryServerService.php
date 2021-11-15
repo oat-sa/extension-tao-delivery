@@ -22,13 +22,16 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
+use common_session_SessionManager;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
+use oat\taoResultServer\models\classes\NoResultStorage;
 use oat\taoResultServer\models\classes\ResultServerService;
 use oat\taoResultServer\models\classes\ResultStorageWrapper;
+use oat\taoResultServer\models\classes\implementation\ResultServerService as ResultServerServiceImplementation;
 
 /**
  * Service to manage the execution of deliveries
@@ -86,12 +89,11 @@ class DeliveryServerService extends ConfigurableService
      * Initialize the result server for a given execution
      *
      * @param $compiledDelivery
-     * @param string $executionIdentifier
+     * @param string $deliveryExecutionId
      */
-    public function initResultServer($compiledDelivery, $executionIdentifier, $userUri)
+    public function initResultServer($compiledDelivery, $deliveryExecutionId, $userUri)
     {
-        $this->getServiceManager()->get(\oat\taoResultServer\models\classes\ResultServerService::SERVICE_ID)
-            ->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
+        $this->getResultServerService()->initResultServer($compiledDelivery, $deliveryExecutionId, $userUri);
     }
 
     /**
@@ -117,7 +119,27 @@ class DeliveryServerService extends ConfigurableService
             $deliveryExecutionId = $deliveryExecutionId->getIdentifier();
         }
         /** @var ResultServerService $resultService */
-        $resultService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
+        $resultService = $this->getResultServerService();
         return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
+    }
+
+    private function getResultServerService(): ResultServerService
+    {
+        $session = common_session_SessionManager::getSession();
+
+        /** trying to avoid add dependency, need to think together on code review */
+        if ($session &&
+            in_array('http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor', $session->getUser()->getRoles())
+        ) {
+            $service = new ResultServerServiceImplementation([
+                ResultServerServiceImplementation::OPTION_RESULT_STORAGE => NoResultStorage::class
+            ]);
+
+            $service->setServiceManager($this->getServiceManager());
+
+            return $service;
+        }
+
+        return $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
     }
 }
