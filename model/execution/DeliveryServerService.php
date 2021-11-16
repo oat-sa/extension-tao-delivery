@@ -22,7 +22,6 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
-use common_session_SessionManager;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
@@ -47,6 +46,7 @@ class DeliveryServerService extends ConfigurableService
 
     const SERVICE_ID = 'taoDelivery/deliveryServer';
 
+    const OPTION_PROVIDERS = 'providers';
 
     public static function singleton()
     {
@@ -60,8 +60,8 @@ class DeliveryServerService extends ConfigurableService
     public function getResumableStates()
     {
         return [
-            DeliveryExecution::STATE_ACTIVE
-            ,DeliveryExecution::STATE_PAUSED
+            DeliveryExecution::STATE_ACTIVE,
+            DeliveryExecution::STATE_PAUSED
         ];
     }
 
@@ -74,6 +74,7 @@ class DeliveryServerService extends ConfigurableService
     {
         $deliveryExecutionService = ServiceProxy::singleton();
         $resumable = [];
+
         foreach ($this->getResumableStates() as $state) {
             foreach ($deliveryExecutionService->getDeliveryExecutionsByStatus($user->getIdentifier(), $state) as $execution) {
                 $delivery = $execution->getDelivery();
@@ -82,6 +83,7 @@ class DeliveryServerService extends ConfigurableService
                 }
             }
         }
+
         return $resumable;
     }
 
@@ -123,19 +125,59 @@ class DeliveryServerService extends ConfigurableService
         return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
     }
 
+    public function addProvider($provider): void
+    {
+        $providers = $this->getOption(self::OPTION_PROVIDERS, []);
+
+        $providers[] = $provider;
+
+        $this->setOption(self::OPTION_PROVIDERS, $providers);
+    }
+
+    public function removeProvider($providerClass): void
+    {
+        $providers = $this->getOption(self::OPTION_PROVIDERS);
+
+        foreach ($providers as $key => $provider) {
+            if (get_class($provider) == $providerClass) {
+                unset($providers[$key]);
+            }
+        }
+
+        $this->setOption(self::OPTION_PROVIDERS, $providers);
+    }
+
+    private function getProviders(): array
+    {
+        if ($this->hasOption(self::OPTION_PROVIDERS)
+            && is_array($providers = $this->getOption(self::OPTION_PROVIDERS))
+        ) {
+            return $providers;
+        }
+
+        return [];
+    }
+
     private function getResultServerService(): ResultServerService
     {
-        $session = common_session_SessionManager::getSession();
+        $isDryRun = false;
 
-        /** trying to avoid add dependency, need to think together on code review */
-        if ($session &&
-            in_array('http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor', $session->getUser()->getRoles())
-        ) {
+        foreach ($this->getProviders() as $provider) {
+            if ($provider instanceof DryRunCheckerInterface) {
+                $isDryRun = $provider->isDryRun();
+            }
+
+            if ($isDryRun) {
+                break;
+            }
+        }
+
+        if ($isDryRun) {
             $service = new ResultServerServiceImplementation([
                 ResultServerServiceImplementation::OPTION_RESULT_STORAGE => NoResultStorage::class
             ]);
 
-            $service->setServiceManager($this->getServiceManager());
+            $this->propagate($service);
 
             return $service;
         }
