@@ -42,11 +42,11 @@ use oat\taoResultServer\models\classes\implementation\ResultServerService as Res
 class DeliveryServerService extends ConfigurableService
 {
     /** @deprecated */
-    const CONFIG_ID = 'taoDelivery/deliveryServer';
+    public const CONFIG_ID = 'taoDelivery/deliveryServer';
 
-    const SERVICE_ID = 'taoDelivery/deliveryServer';
+    public const SERVICE_ID = 'taoDelivery/deliveryServer';
 
-    const OPTION_PROVIDERS = 'providers';
+    public const OPTION_PROVIDERS = 'providers';
 
     public static function singleton()
     {
