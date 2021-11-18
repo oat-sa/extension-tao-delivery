@@ -3,24 +3,27 @@
 */
 
 .content-wrap {
-  [role=menubar] {
-    // reverse elements position
-    & > .lft {
-      float: right;
-    }
-    & > .rgt {
-      float: left;
-    }
-    & > [role=menu] > .settings-menu {
-      padding-left: 20px;
-      & > .plain > * {
-        float: right;
-        padding-left: 0px;
-        padding-right: 15px;
-        &:before {
-          right: 7px;
+    [role=menubar] {
+        // reverse elements position
+        & > .lft {
+            float: right;
         }
-      }
+        & > .rgt {
+            float: left;
+        }
+        & > [role=menu] > .settings-menu {
+            padding-left: 20px;
+            & > .plain > * {
+                float: right;
+                padding-left: 0px;
+                padding-right: 15px;
+                &:before {
+                    right: 7px;
+                }
+            }
+        }
+        & .icon-logout {
+            transform: scaleX(-1);
+        }
     }
-  }
 }
