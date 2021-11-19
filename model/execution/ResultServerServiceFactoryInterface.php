@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\model\execution;
 
-interface DryRunCheckerInterface
+use oat\taoResultServer\models\classes\ResultServerService;
+
+interface ResultServerServiceFactoryInterface
 {
-    public function isDryRun(): bool;
+    public function create(): ResultServerService;
 }

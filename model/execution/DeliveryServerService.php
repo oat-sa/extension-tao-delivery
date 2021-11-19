@@ -27,10 +27,8 @@ use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\RuntimeService;
 use oat\taoDelivery\model\container\ExecutionContainer;
-use oat\taoResultServer\models\classes\NoResultStorage;
 use oat\taoResultServer\models\classes\ResultServerService;
 use oat\taoResultServer\models\classes\ResultStorageWrapper;
-use oat\taoResultServer\models\classes\implementation\ResultServerService as ResultServerServiceImplementation;
 
 /**
  * Service to manage the execution of deliveries
@@ -46,7 +44,10 @@ class DeliveryServerService extends ConfigurableService
 
     public const SERVICE_ID = 'taoDelivery/deliveryServer';
 
-    public const OPTION_MIDDLEWARE = 'middleware';
+    public const OPTION_RESULT_SERVER_SERVICE_FACTORY = 'resultServerServiceFactory';
+
+    /** @var ResultServerService */
+    public $resultServerService = null;
 
     public static function singleton()
     {
@@ -54,7 +55,7 @@ class DeliveryServerService extends ConfigurableService
     }
 
     /**
-     * Return the states a delivey execution can be resumed from
+     * Return the states a delivery execution can be resumed from
      * @return string[]
      */
     public function getResumableStates()
@@ -125,63 +126,21 @@ class DeliveryServerService extends ConfigurableService
         return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
     }
 
-    public function registerMiddleware($middleware): void
-    {
-        $middlewares = $this->getOption(self::OPTION_MIDDLEWARE, []);
-
-        $middlewares[] = $middleware;
-
-        $this->setOption(self::OPTION_MIDDLEWARE, $middlewares);
-    }
-
-    public function unregisterMiddleware($class): void
-    {
-        $middlewares = $this->getOption(self::OPTION_MIDDLEWARE);
-
-        foreach ($middlewares as $key => $middleware) {
-            if (get_class($middleware) == $class) {
-                unset($middlewares[$key]);
-            }
-        }
-
-        $this->setOption(self::OPTION_MIDDLEWARE, $middlewares);
-    }
-
-    private function getMiddlewareList(): array
-    {
-        if ($this->hasOption(self::OPTION_MIDDLEWARE)
-            && is_array($middlewares = $this->getOption(self::OPTION_MIDDLEWARE))
-        ) {
-            return $middlewares;
-        }
-
-        return [];
-    }
-
     private function getResultServerService(): ResultServerService
     {
-        $isDryRun = false;
-
-        foreach ($this->getMiddlewareList() as $middleware) {
-            if ($middleware instanceof DryRunCheckerInterface) {
-                $isDryRun = $middleware->isDryRun();
-            }
-
-            if ($isDryRun) {
-                break;
-            }
+        if (null !== $this->resultServerService) {
+            return $this->resultServerService;
         }
 
-        if ($isDryRun) {
-            $service = new ResultServerServiceImplementation([
-                ResultServerServiceImplementation::OPTION_RESULT_STORAGE => NoResultStorage::class
-            ]);
+        $factory = $this->getOption(self::OPTION_RESULT_SERVER_SERVICE_FACTORY);
 
-            $this->propagate($service);
-
-            return $service;
+        if ($factory instanceof ResultServerServiceFactoryInterface) {
+            $this->propagate($factory);
+            $this->resultServerService = $factory->create();
+        } else {
+            $this->resultServerService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
         }
 
-        return $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
+        return $this->resultServerService;
     }
 }
