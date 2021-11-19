@@ -46,7 +46,7 @@ class DeliveryServerService extends ConfigurableService
 
     public const SERVICE_ID = 'taoDelivery/deliveryServer';
 
-    public const OPTION_PROVIDERS = 'providers';
+    public const OPTION_MIDDLEWARE = 'middleware';
 
     public static function singleton()
     {
@@ -125,34 +125,34 @@ class DeliveryServerService extends ConfigurableService
         return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
     }
 
-    public function addProvider($provider): void
+    public function registerMiddleware($middleware): void
     {
-        $providers = $this->getOption(self::OPTION_PROVIDERS, []);
+        $middlewares = $this->getOption(self::OPTION_MIDDLEWARE, []);
 
-        $providers[] = $provider;
+        $middlewares[] = $middleware;
 
-        $this->setOption(self::OPTION_PROVIDERS, $providers);
+        $this->setOption(self::OPTION_MIDDLEWARE, $middlewares);
     }
 
-    public function removeProvider($providerClass): void
+    public function unregisterMiddleware($class): void
     {
-        $providers = $this->getOption(self::OPTION_PROVIDERS);
+        $middlewares = $this->getOption(self::OPTION_MIDDLEWARE);
 
-        foreach ($providers as $key => $provider) {
-            if (get_class($provider) == $providerClass) {
-                unset($providers[$key]);
+        foreach ($middlewares as $key => $middleware) {
+            if (get_class($middleware) == $class) {
+                unset($middlewares[$key]);
             }
         }
 
-        $this->setOption(self::OPTION_PROVIDERS, $providers);
+        $this->setOption(self::OPTION_MIDDLEWARE, $middlewares);
     }
 
-    private function getProviders(): array
+    private function getMiddlewareList(): array
     {
-        if ($this->hasOption(self::OPTION_PROVIDERS)
-            && is_array($providers = $this->getOption(self::OPTION_PROVIDERS))
+        if ($this->hasOption(self::OPTION_MIDDLEWARE)
+            && is_array($middlewares = $this->getOption(self::OPTION_MIDDLEWARE))
         ) {
-            return $providers;
+            return $middlewares;
         }
 
         return [];
@@ -162,9 +162,9 @@ class DeliveryServerService extends ConfigurableService
     {
         $isDryRun = false;
 
-        foreach ($this->getProviders() as $provider) {
-            if ($provider instanceof DryRunCheckerInterface) {
-                $isDryRun = $provider->isDryRun();
+        foreach ($this->getMiddlewareList() as $middleware) {
+            if ($middleware instanceof DryRunCheckerInterface) {
+                $isDryRun = $middleware->isDryRun();
             }
 
             if ($isDryRun) {
