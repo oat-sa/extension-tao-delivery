@@ -22,6 +22,7 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
@@ -40,10 +41,14 @@ use oat\taoResultServer\models\classes\ResultStorageWrapper;
 class DeliveryServerService extends ConfigurableService
 {
     /** @deprecated */
-    const CONFIG_ID = 'taoDelivery/deliveryServer';
+    public const CONFIG_ID = 'taoDelivery/deliveryServer';
 
-    const SERVICE_ID = 'taoDelivery/deliveryServer';
+    public const SERVICE_ID = 'taoDelivery/deliveryServer';
 
+    public const OPTION_RESULT_SERVER_SERVICE_FACTORY = 'resultServerServiceFactory';
+
+    /** @var ResultServerService */
+    public $resultServerService = null;
 
     public static function singleton()
     {
@@ -51,14 +56,14 @@ class DeliveryServerService extends ConfigurableService
     }
 
     /**
-     * Return the states a delivey execution can be resumed from
+     * Return the states a delivery execution can be resumed from
      * @return string[]
      */
     public function getResumableStates()
     {
         return [
-            DeliveryExecution::STATE_ACTIVE
-            ,DeliveryExecution::STATE_PAUSED
+            DeliveryExecution::STATE_ACTIVE,
+            DeliveryExecution::STATE_PAUSED
         ];
     }
 
@@ -71,6 +76,7 @@ class DeliveryServerService extends ConfigurableService
     {
         $deliveryExecutionService = ServiceProxy::singleton();
         $resumable = [];
+
         foreach ($this->getResumableStates() as $state) {
             foreach ($deliveryExecutionService->getDeliveryExecutionsByStatus($user->getIdentifier(), $state) as $execution) {
                 $delivery = $execution->getDelivery();
@@ -79,6 +85,7 @@ class DeliveryServerService extends ConfigurableService
                 }
             }
         }
+
         return $resumable;
     }
 
@@ -86,12 +93,11 @@ class DeliveryServerService extends ConfigurableService
      * Initialize the result server for a given execution
      *
      * @param $compiledDelivery
-     * @param string $executionIdentifier
+     * @param string $deliveryExecutionId
      */
-    public function initResultServer($compiledDelivery, $executionIdentifier, $userUri)
+    public function initResultServer($compiledDelivery, $deliveryExecutionId, $userUri)
     {
-        $this->getServiceManager()->get(\oat\taoResultServer\models\classes\ResultServerService::SERVICE_ID)
-            ->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
+        $this->getResultServerService()->initResultServer($compiledDelivery, $deliveryExecutionId, $userUri);
     }
 
     /**
@@ -117,7 +123,27 @@ class DeliveryServerService extends ConfigurableService
             $deliveryExecutionId = $deliveryExecutionId->getIdentifier();
         }
         /** @var ResultServerService $resultService */
-        $resultService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
+        $resultService = $this->getResultServerService();
         return new ResultStorageWrapper($deliveryExecutionId, $resultService->getResultStorage());
+    }
+
+    private function getResultServerService(): ResultServerService
+    {
+        if (null !== $this->resultServerService) {
+            return $this->resultServerService;
+        }
+
+        $factory = $this->getOption(self::OPTION_RESULT_SERVER_SERVICE_FACTORY);
+
+        if ($factory instanceof ResultServerServiceFactoryInterface) {
+            if ($factory instanceof ServiceLocatorAwareInterface) {
+                $this->propagate($factory);
+            }
+            $this->resultServerService = $factory->create();
+        } else {
+            $this->resultServerService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
+        }
+
+        return $this->resultServerService;
     }
 }

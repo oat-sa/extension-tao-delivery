@@ -1,3 +1,3 @@
 <?php
-return new \oat\taoDelivery\model\execution\DeliveryServerService([
-]);
+
+return new \oat\taoDelivery\model\execution\DeliveryServerService([]);
