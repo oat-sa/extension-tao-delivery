@@ -22,6 +22,7 @@
 namespace oat\taoDelivery\model\execution;
 
 use common_Exception;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
@@ -135,7 +136,9 @@ class DeliveryServerService extends ConfigurableService
         $factory = $this->getOption(self::OPTION_RESULT_SERVER_SERVICE_FACTORY);
 
         if ($factory instanceof ResultServerServiceFactoryInterface) {
-            $this->propagate($factory);
+            if ($factory instanceof ServiceLocatorAwareInterface) {
+                $this->propagate($factory);
+            }
             $this->resultServerService = $factory->create();
         } else {
             $this->resultServerService = $this->getServiceLocator()->get(ResultServerService::SERVICE_ID);
