@@ -1,5 +1,5 @@
 @import "inc/bootstrap";
-@import "inc/rtl";
+
 html {
     width: 100% !important;
 }
@@ -67,5 +67,12 @@ html {
             }
         }
     }
-
+    &[dir=rtl] {
+        .test-listing{
+            .icon-continue, .icon-play {
+                transform: rotate(180deg);
+                display: inline-block;
+            }
+        }
+    }
 }
