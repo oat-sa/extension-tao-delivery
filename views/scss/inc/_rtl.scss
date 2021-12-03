@@ -6,6 +6,7 @@ body {
   &.delivery-scope {
     &[dir=rtl] {
       @import 'rtl/header';
+      @import 'rtl/content';
     }
   }
 }
