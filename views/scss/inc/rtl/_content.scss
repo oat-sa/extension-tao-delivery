@@ -1,0 +1,10 @@
+/**
+ * Copyright (c) 2021 Open Assessment Technologies SA
+*/
+
+.test-listing{
+    .icon-continue, .icon-play {
+        transform: rotate(180deg);
+        display: inline-block;
+    }
+}
