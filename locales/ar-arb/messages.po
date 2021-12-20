@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint160\n"
-"PO-Revision-Date: 2021-07-27T12:35:59\n"
+"Project-Id-Version: TAO 2022.01\n"
+"PO-Revision-Date: 2021-12-07T08:20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid "About"
+msgstr "بخصوص"
 
 msgid "Access deliveries as a guest"
 msgstr "الوصول إلى عمليات التسليم كمدعو"
@@ -49,6 +52,9 @@ msgstr "في تقدم"
 msgid "Logout"
 msgstr "تسجيل خروج"
 
+msgid "Main Menu"
+msgstr "القائمة الرئيسية"
+
 msgid "My Tests"
 msgstr "اروائزي"
 
@@ -84,6 +90,12 @@ msgstr "خدوم تسليم TAO"
 
 msgid "TAO Guest Access"
 msgstr "وصول مدعو TAO"
+
+msgid "TAO: %s"
+msgstr "TAO: %s"
+
+msgid "TAO: Test Selection"
+msgstr "TAO: اختيار الرائز"
 
 msgid "Test-Takers"
 msgstr "الخاضعين للرائز"
