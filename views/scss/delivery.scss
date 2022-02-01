@@ -6,6 +6,7 @@ html {
 }
 .delivery-scope {
     min-height: 300px; // This is needed for cross-domain iframes to render the test runner correctly
+    -webkit-touch-callout: none;
 
     .no-controls { // == .content-wrap
         margin-bottom: 0 !important;
