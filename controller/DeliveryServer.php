@@ -104,15 +104,15 @@ class DeliveryServer extends \tao_actions_CommonModule
             $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
         }
         $this->setData('resumableDeliveries', $resumableData);
-        
+
         $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-        
+
         $deliveryData = [];
         foreach ($assignmentService->getAssignments($user) as $delivery) {
             $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
         }
         $this->setData('availableDeliveries', $deliveryData);
-                
+
         /**
          * Header & footer info
          */
@@ -130,7 +130,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
-        
+
         /**
          * Layout template + real template inclusion
          */
@@ -160,7 +160,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return $result;
     }
-    
+
     /**
      * Init a delivery execution from the current delivery.
      *
@@ -323,7 +323,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->getDeliveryServer()->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
-    
+
     /**
      * Defines if the top and bottom action menu should be displayed or not
      *
@@ -348,7 +348,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return _url('index', 'DeliveryServer', 'taoDelivery');
     }
-    
+
     /**
      * Defines the URL of the finish delivery execution action
      * @param DeliveryExecution $deliveryExecution
