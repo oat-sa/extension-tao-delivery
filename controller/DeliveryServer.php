@@ -364,8 +364,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function getAuthorizationProvider()
     {
-        $authService = $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID);
-        return $authService->getAuthorizationProvider();
+        return $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID)->getAuthorizationProvider();
     }
 
     /**
