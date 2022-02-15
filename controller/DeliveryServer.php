@@ -82,7 +82,6 @@ class DeliveryServer extends \tao_actions_CommonModule
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param processDefinitionUri
      * @return void
      * @throws \common_exception_Error
      */
