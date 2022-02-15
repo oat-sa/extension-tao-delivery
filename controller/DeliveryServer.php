@@ -235,8 +235,6 @@ class DeliveryServer extends \tao_actions_CommonModule
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
         } catch (UnAuthorizedException $e) {
             $this->redirect($e->getErrorPage());
-
-            return;
         }
 
         $userUri = common_session_SessionManager::getSession()->getUserUri();
