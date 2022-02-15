@@ -222,6 +222,10 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $deliveryExecution = $this->getCurrentDeliveryExecution();
 
+        if (!in_array($deliveryExecution->getState()->getUri(), $this->getDeliveryServer()->getResumableStates())) {
+            $this->redirect($this->getReturnUrl());
+        }
+
         // Sets the deliveryId to session.
         if (!$this->hasSessionAttribute(DeliveryExecution::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
             $this->setSessionAttribute(
