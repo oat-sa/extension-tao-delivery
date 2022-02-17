@@ -23,6 +23,7 @@
 
 namespace oat\taoDelivery\controller;
 
+use tao_helpers_Display;
 use common_exception_NotFound;
 use common_exception_Unauthorized;
 use common_ext_Extension;
@@ -94,7 +95,8 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->resetOverwrittenLanguage();
 
-        $user = common_session_SessionManager::getSession()->getUser();
+        $session = common_session_SessionManager::getSession();
+        $user = $session->getUser();
 
         /**
          * Retrieve resumable deliveries (via delivery execution)
@@ -104,20 +106,20 @@ class DeliveryServer extends \tao_actions_CommonModule
             $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
         }
         $this->setData('resumableDeliveries', $resumableData);
-        
+
         $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-        
+
         $deliveryData = [];
         foreach ($assignmentService->getAssignments($user) as $delivery) {
             $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
         }
         $this->setData('availableDeliveries', $deliveryData);
-                
+
         /**
          * Header & footer info
          */
         $this->setData('showControls', $this->showControls());
-        $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
+        $this->setData('userLabel', tao_helpers_Display::htmlEscape($session->getUserLabel()));
 
         // Require JS config
         $this->setData('client_config_url', $this->getClientConfigUrl());
@@ -130,7 +132,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
-        
+
         /**
          * Layout template + real template inclusion
          */
@@ -160,7 +162,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return $result;
     }
-    
+
     /**
      * Init a delivery execution from the current delivery.
      *
@@ -323,7 +325,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->getDeliveryServer()->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
-    
+
     /**
      * Defines if the top and bottom action menu should be displayed or not
      *
@@ -348,7 +350,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return _url('index', 'DeliveryServer', 'taoDelivery');
     }
-    
+
     /**
      * Defines the URL of the finish delivery execution action
      * @param DeliveryExecution $deliveryExecution
