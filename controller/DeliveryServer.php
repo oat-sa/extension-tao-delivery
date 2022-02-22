@@ -23,6 +23,7 @@
 
 namespace oat\taoDelivery\controller;
 
+use tao_helpers_Display;
 use common_exception_NotFound;
 use common_exception_Unauthorized;
 use common_ext_Extension;
@@ -93,7 +94,8 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->resetOverwrittenLanguage();
 
-        $user = common_session_SessionManager::getSession()->getUser();
+        $session = common_session_SessionManager::getSession();
+        $user = $session->getUser();
 
         /**
          * Retrieve resumable deliveries (via delivery execution)
@@ -116,7 +118,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          * Header & footer info
          */
         $this->setData('showControls', $this->showControls());
-        $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
+        $this->setData('userLabel', tao_helpers_Display::htmlEscape($session->getUserLabel()));
 
         // Require JS config
         $this->setData('client_config_url', $this->getClientConfigUrl());
