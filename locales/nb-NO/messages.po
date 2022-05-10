@@ -32,7 +32,7 @@ msgid "Close this prompt"
 msgstr "Lukk denne ledeteksten"
 
 msgid "Delivery Execution for %s not found"
-msgstr "Levering for %s ble ikke funnet"
+msgstr "Publisering for %s ble ikke funnet"
 
 msgid "Enter full screen"
 msgstr "Fullskjermmodus"
@@ -56,7 +56,7 @@ msgid "Main Menu"
 msgstr "Hovedmeny"
 
 msgid "My Tests"
-msgstr "Mine prøver"
+msgstr "Mine oppgavesett"
 
 msgid "Resume"
 msgstr "Gjenoppta"
@@ -77,7 +77,7 @@ msgid "Take or continue a test."
 msgstr "Ta eller fortsett en prøve."
 
 msgid "TAO Delivery Server"
-msgstr "TAO Delivery Server"
+msgstr ""
 
 msgid "TAO Guest Access"
 msgstr "TAO Gjestetilgang"

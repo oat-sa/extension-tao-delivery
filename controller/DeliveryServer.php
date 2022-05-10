@@ -23,6 +23,7 @@
 
 namespace oat\taoDelivery\controller;
 
+use tao_helpers_Display;
 use common_exception_NotFound;
 use common_exception_Unauthorized;
 use common_ext_Extension;
@@ -86,7 +87,6 @@ class DeliveryServer extends \tao_actions_CommonModule
      *
      * @access public
      * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
-     * @param processDefinitionUri
      * @return void
      * @throws \common_exception_Error
      */
@@ -94,7 +94,8 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->resetOverwrittenLanguage();
 
-        $user = common_session_SessionManager::getSession()->getUser();
+        $session = common_session_SessionManager::getSession();
+        $user = $session->getUser();
 
         /**
          * Retrieve resumable deliveries (via delivery execution)
@@ -104,20 +105,20 @@ class DeliveryServer extends \tao_actions_CommonModule
             $resumableData[] = DeliveryHelper::buildFromDeliveryExecution($de);
         }
         $this->setData('resumableDeliveries', $resumableData);
-        
+
         $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-        
+
         $deliveryData = [];
         foreach ($assignmentService->getAssignments($user) as $delivery) {
             $deliveryData[] = DeliveryHelper::buildFromAssembly($delivery, $user);
         }
         $this->setData('availableDeliveries', $deliveryData);
-                
+
         /**
          * Header & footer info
          */
         $this->setData('showControls', $this->showControls());
-        $this->setData('userLabel', common_session_SessionManager::getSession()->getUserLabel());
+        $this->setData('userLabel', tao_helpers_Display::htmlEscape($session->getUserLabel()));
 
         // Require JS config
         $this->setData('client_config_url', $this->getClientConfigUrl());
@@ -130,7 +131,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
-        
+
         /**
          * Layout template + real template inclusion
          */
@@ -160,7 +161,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return $result;
     }
-    
+
     /**
      * Init a delivery execution from the current delivery.
      *
@@ -223,6 +224,10 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $deliveryExecution = $this->getCurrentDeliveryExecution();
 
+        if (!in_array($deliveryExecution->getState()->getUri(), $this->getDeliveryServer()->getResumableStates())) {
+            $this->redirect($this->getReturnUrl());
+        }
+
         // Sets the deliveryId to session.
         if (!$this->hasSessionAttribute(DeliveryExecution::getDeliveryIdSessionKey($deliveryExecution->getIdentifier()))) {
             $this->setSessionAttribute(
@@ -235,8 +240,6 @@ class DeliveryServer extends \tao_actions_CommonModule
             $this->verifyDeliveryExecutionAuthorized($deliveryExecution);
         } catch (UnAuthorizedException $e) {
             $this->redirect($e->getErrorPage());
-
-            return;
         }
 
         $userUri = common_session_SessionManager::getSession()->getUserUri();
@@ -323,7 +326,7 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         $this->getDeliveryServer()->initResultServer($compiledDelivery, $executionIdentifier, $userUri);
     }
-    
+
     /**
      * Defines if the top and bottom action menu should be displayed or not
      *
@@ -348,7 +351,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         return _url('index', 'DeliveryServer', 'taoDelivery');
     }
-    
+
     /**
      * Defines the URL of the finish delivery execution action
      * @param DeliveryExecution $deliveryExecution
@@ -367,8 +370,7 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     protected function getAuthorizationProvider()
     {
-        $authService = $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID);
-        return $authService->getAuthorizationProvider();
+        return $this->getServiceLocator()->get(AuthorizationService::SERVICE_ID)->getAuthorizationProvider();
     }
 
     /**
