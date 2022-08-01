@@ -27,6 +27,7 @@ use common_exception_NotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
+use oat\taoDelivery\model\execution\exception\NonExistentMetadata;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 /**
@@ -37,7 +38,7 @@ use oat\taoDelivery\model\execution\implementation\KeyValueService;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializable
+class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, DeliveryExecutionInterface, \JsonSerializable
 {
     /**
      * @var KeyValueService
@@ -202,5 +203,38 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
     private function save()
     {
         $this->service->update($this);
+    }
+
+    public function getAllMetadata(): array
+    {
+        try {
+            return $this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA);
+        } catch (common_exception_NotFound $exception) {
+            common_Logger::w($exception->getMessage());
+            return [];
+        }
+    }
+
+    public function addMetadata(array $metadata): void
+    {
+        try {
+            $metadataList = $this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA);
+            $metadataList = array_merge($metadataList, $metadata);
+            $this->setData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA, $metadataList);
+        } catch (common_exception_NotFound $exception) {
+            $this->setData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA, $metadata);
+        }
+
+        $this->service->update($this);
+    }
+
+    public function getMetadata(string $metadataId): string
+    {
+        $metadata = $this->getAllMetadata();
+        if (isset($metadata[$metadataId])) {
+            return $metadata[$metadataId];
+        }
+
+        throw new NonExistentMetadata();
     }
 }
