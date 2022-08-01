@@ -27,7 +27,7 @@ use common_exception_NotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
-use oat\taoDelivery\model\execution\exception\NonExistentMetadata;
+use oat\taoDelivery\model\execution\exception\NonExistentMetadataException;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 /**
@@ -235,6 +235,6 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
             return $metadata[$metadataId];
         }
 
-        throw new NonExistentMetadata();
+        throw new NonExistentMetadataException();
     }
 }

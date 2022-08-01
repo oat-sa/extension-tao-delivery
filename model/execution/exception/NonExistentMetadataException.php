@@ -24,6 +24,6 @@ namespace oat\taoDelivery\model\execution\exception;
 
 use InvalidArgumentException;
 
-class NonExistentMetadata extends InvalidArgumentException
+class NonExistentMetadataException extends InvalidArgumentException
 {
 }
