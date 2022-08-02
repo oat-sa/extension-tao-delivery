@@ -62,9 +62,5 @@
       "oat-sa/generis" : ">=14.4.0",
       "oat-sa/tao-core" : ">=48.23.0",
       "oat-sa/extension-tao-outcome" : ">=13.0.0"
-    },
-  "require-dev": {
-    "oat-sa/generis": "dev-php8-migration as v16.0.0",
-    "oat-sa/tao-core": "dev-php8-migration as v51.0.0"
-  }
+    }
 }
