@@ -28,39 +28,42 @@ use oat\taoDelivery\model\execution\DeliveryExecutionMetadataInterface;
 use oat\taoDelivery\model\execution\exception\NonExistentMetadataException;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
+use oat\taoDelivery\model\execution\metadata\Metadata;
+use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use PHPUnit\Framework\TestCase;
 
 class KVDeliveryExecutionTest extends TestCase
 {
-
-    private const DATASET = [
-        OntologyDeliveryExecution::PROPERTY_TIME_END => '1234',
-        OntologyDeliveryExecution::PROPERTY_TIME_START => '4321',
-        OntologyRdfs::RDFS_LABEL => 'label',
-        OntologyDeliveryExecution::PROPERTY_STATUS => 'tao.example.status.uri',
-        OntologyDeliveryExecution::PROPERTY_DELIVERY => 'tao.delivery.example.uri',
-        OntologyDeliveryExecution::PROPERTY_SUBJECT => 'subject',
-        DeliveryExecutionMetadataInterface::PROPERTY_METADATA => [
-            'metadata1' => 'metadata value 1'
-        ]
-    ];
-
     private KeyValueService $keyValueServiceMock;
 
     public function setUp(): void
     {
         $this->keyValueServiceMock = $this->createMock(KeyValueService::class);
+        $this->dataset = [
+            OntologyDeliveryExecution::PROPERTY_TIME_END => '1234',
+            OntologyDeliveryExecution::PROPERTY_TIME_START => '4321',
+            OntologyRdfs::RDFS_LABEL => 'label',
+            OntologyDeliveryExecution::PROPERTY_STATUS => 'tao.example.status.uri',
+            OntologyDeliveryExecution::PROPERTY_DELIVERY => 'tao.delivery.example.uri',
+            OntologyDeliveryExecution::PROPERTY_SUBJECT => 'subject',
+            DeliveryExecutionMetadataInterface::PROPERTY_METADATA => [
+                'some_metadataId' => [
+                    'metadataId' => 'some_metadataId',
+                    'metadataContent' => 'some content'
+                ]
+            ]
+        ];
     }
 
     public function testGettersWitchData(): void
     {
-        $this->assertDataset(new KVDeliveryExecution($this->keyValueServiceMock, 'id', self::DATASET));
+        $this->assertDataset(new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset));
     }
 
     public function testGetterWithService()
     {
-        $this->keyValueServiceMock->method('getData')->willReturn(self::DATASET);
+        $this->keyValueServiceMock->method('getData')->willReturn($this->dataset);
         $this->assertDataset(new KVDeliveryExecution($this->keyValueServiceMock, 'id'));
     }
 
@@ -74,30 +77,43 @@ class KVDeliveryExecutionTest extends TestCase
         self::assertEquals($subject->getState()->getUri(), 'tao.example.status.uri');
         self::assertInstanceOf(core_kernel_classes_Resource::class, $subject->getDelivery());
         self::assertEquals($subject->getDelivery()->getUri(), 'tao.delivery.example.uri');
-        self::assertEquals($subject->getAllMetadata(), ['metadata1' => 'metadata value 1']);
-        self::assertEquals($subject->getMetadata('metadata1'), 'metadata value 1');
+
+        self::assertEquals(
+            new MetadataCollection(new Metadata('some_metadataId', 'some content')),
+            $subject->getAllMetadata()
+        );
+
+        self::assertEquals(
+            new Metadata('some_metadataId', 'some content'),
+            $subject->getMetadata('some_metadataId')
+        );
     }
 
     public function testAddMetadataToExistingArray()
     {
         $this->keyValueServiceMock->expects(self::once())->method('update');
-        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', self::DATASET);
-        $subject->addMetadata(['metadata2' => 'metadata content 2']);
-        self::assertEquals($subject->getMetadata('metadata2'), 'metadata content 2');
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
+        $subject->addMetadata(new Metadata('metadata2', 'metadata content 2'));
+        self::assertEquals(
+            new Metadata('metadata2', 'metadata content 2'),
+            $subject->getMetadata('metadata2')
+        );
     }
 
     public function testAddMetadataToEmptyMetadata()
     {
         $this->keyValueServiceMock->expects(self::once())->method('update');
-        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id',[]);
-        $subject->addMetadata(['metadata2' => 'metadata content 2']);
-        self::assertEquals($subject->getMetadata('metadata2'), 'metadata content 2');
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', []);
+        $subject->addMetadata(new Metadata('metadata2', 'metadata content 2'));
+        self::assertEquals(
+            new Metadata('metadata2', 'metadata content 2'),
+            $subject->getMetadata('metadata2'));
     }
 
     public function testGetMetadataWhenArrayDoesNotExist()
     {
-        $this->expectException(NonExistentMetadataException::class);
-        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', self::DATASET);
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
         $subject->getMetadata('metadata2');
+        self::assertNull($subject->getMetadata('metadata2'));
     }
 }

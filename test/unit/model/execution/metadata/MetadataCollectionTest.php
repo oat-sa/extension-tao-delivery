@@ -20,10 +20,28 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\execution\exception;
+namespace oat\taoDelivery\test\unit\model\execution\metadata;
 
-use InvalidArgumentException;
+use oat\taoDelivery\model\execution\metadata\Metadata;
+use oat\taoDelivery\model\execution\metadata\MetadataCollection;
+use PHPUnit\Framework\TestCase;
 
-class NonExistentMetadataException extends InvalidArgumentException
+class MetadataCollectionTest extends TestCase
 {
+    private Metadata $metadata;
+
+    public function testAddMetadata(): void
+    {
+        $metadata = new Metadata('someId', 'someContent');
+        $subject = new MetadataCollection();
+        $result = $subject->addMetadata($metadata);
+        self::assertInstanceOf(MetadataCollection::class, $result);
+        self::assertEquals(1, $subject->count());
+        self::assertEquals(
+            [
+                'someId' => new Metadata('someId', 'someContent')
+            ],
+            $subject->jsonSerialize()
+        );
+    }
 }

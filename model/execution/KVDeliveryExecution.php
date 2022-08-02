@@ -27,8 +27,9 @@ use common_exception_NotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
-use oat\taoDelivery\model\execution\exception\NonExistentMetadataException;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\taoDelivery\model\execution\metadata\Metadata;
+use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 
 /**
  * Service to manage the execution of deliveries
@@ -152,7 +153,7 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
         if (is_null($this->data)) {
             $this->data = $this->service->getData($this->id);
         }
-        if (! isset($this->data[$dataKey])) {
+        if (!isset($this->data[$dataKey])) {
             throw new common_exception_NotFound('Information ' . $dataKey . ' not found for entry ' . $this->id);
         }
         return $this->data[$dataKey];
@@ -166,7 +167,7 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
         return isset($this->data[$dataKey]);
     }
 
-    private function setData($dataKey, $value)
+    private function setData($dataKey, $value): void
     {
         if (is_null($this->data)) {
             $this->data = $this->service->getData($this->id);
@@ -176,7 +177,6 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
 
     /**
      * (non-PHPdoc)
-     * @see JsonSerializable::jsonSerialize()
      * @throws \common_exception_Error
      */
     public function jsonSerialize()
@@ -205,36 +205,57 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
         $this->service->update($this);
     }
 
-    public function getAllMetadata(): array
+    public function getAllMetadata(): MetadataCollection
     {
+        $collection = new MetadataCollection();
         try {
-            return $this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA);
+            $this->extractCollection($collection);
+            return $collection;
         } catch (common_exception_NotFound $exception) {
             common_Logger::w($exception->getMessage());
-            return [];
+            return $collection;
         }
     }
 
-    public function addMetadata(array $metadata): void
+    public function addMetadata(Metadata $metadata): void
     {
         try {
-            $metadataList = $this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA);
-            $metadataList = array_merge($metadataList, $metadata);
-            $this->setData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA, $metadataList);
+            $collection = $this->getAllMetadata()->addMetadata($metadata);
+            $this->setData(
+                DeliveryExecutionMetadataInterface::PROPERTY_METADATA,
+                $collection->jsonSerialize()
+            );
         } catch (common_exception_NotFound $exception) {
-            $this->setData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA, $metadata);
+            $this->setData(
+                DeliveryExecutionMetadataInterface::PROPERTY_METADATA,
+                new MetadataCollection($metadata)
+            );
         }
 
         $this->service->update($this);
     }
 
-    public function getMetadata(string $metadataId): string
+    public function getMetadata(string $metadataId): ?Metadata
     {
-        $metadata = $this->getAllMetadata();
-        if (isset($metadata[$metadataId])) {
-            return $metadata[$metadataId];
-        }
+        return $this->getAllMetadata()->getMetadataElement($metadataId);
+    }
 
-        throw new NonExistentMetadataException();
+    /**
+     * @throws common_exception_NotFound
+     */
+    private function extractCollection(MetadataCollection $collection): void
+    {
+        foreach ($this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA) as $metadata) {
+            if (
+                !($metadata instanceof Metadata)
+                && isset($metadata[Metadata::METADATA_ID], $metadata[Metadata::METADATA_CONTENT])
+            ) {
+                $collection->addMetadata(
+                    new Metadata($metadata[Metadata::METADATA_ID], $metadata[Metadata::METADATA_CONTENT])
+                );
+                continue;
+            }
+            $collection->addMetadata($metadata);
+        }
     }
 }

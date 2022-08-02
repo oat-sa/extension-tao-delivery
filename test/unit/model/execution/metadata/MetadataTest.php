@@ -20,18 +20,29 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\test\unit\model\execution\metadata;
 
 use oat\taoDelivery\model\execution\metadata\Metadata;
-use oat\taoDelivery\model\execution\metadata\MetadataCollection;
+use PHPUnit\Framework\TestCase;
 
-interface DeliveryExecutionMetadataInterface
+class MetadataTest extends TestCase
 {
-    public const PROPERTY_METADATA = 'http://www.tao.lu//Ontologies/Metadata';
+    public function testGetters(): void
+    {
+        $subject = new Metadata('metadataId', 123);
+        self::assertEquals('metadataId', $subject->getMetadataId());
+        self::assertEquals(123, $subject->getMetadataContent());
+    }
 
-    public function getAllMetadata(): MetadataCollection;
-
-    public function getMetadata(string $metadataId): ?Metadata;
-
-    public function addMetadata(Metadata $metadata): void;
+    public function testJsonSerialise()
+    {
+        $subject = new Metadata('metadataId', 123);
+        self::assertEquals(
+            [
+                'metadataId' => 'metadataId',
+                'metadataContent' => 123
+            ],
+            $subject->jsonSerialize()
+        );
+    }
 }
