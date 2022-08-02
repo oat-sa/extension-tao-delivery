@@ -61,13 +61,13 @@ class KVDeliveryExecutionTest extends TestCase
         $this->assertDataset(new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset));
     }
 
-    public function testGetterWithService()
+    public function testGetterWithService(): void
     {
         $this->keyValueServiceMock->method('getData')->willReturn($this->dataset);
         $this->assertDataset(new KVDeliveryExecution($this->keyValueServiceMock, 'id'));
     }
 
-    private function assertDataset(KVDeliveryExecution $subject)
+    private function assertDataset(KVDeliveryExecution $subject): void
     {
         self::assertEquals('id', $subject->getIdentifier());
         self::assertEquals('1234', $subject->getFinishTime());
@@ -89,7 +89,7 @@ class KVDeliveryExecutionTest extends TestCase
         );
     }
 
-    public function testAddMetadataToExistingArray()
+    public function testAddMetadataToExistingArray(): void
     {
         $this->keyValueServiceMock->expects(self::once())->method('update');
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
@@ -100,7 +100,7 @@ class KVDeliveryExecutionTest extends TestCase
         );
     }
 
-    public function testAddMetadataToEmptyMetadata()
+    public function testAddMetadataToEmptyMetadata(): void
     {
         $this->keyValueServiceMock->expects(self::once())->method('update');
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', []);
@@ -110,7 +110,7 @@ class KVDeliveryExecutionTest extends TestCase
             $subject->getMetadata('metadata2'));
     }
 
-    public function testGetMetadataWhenArrayDoesNotExist()
+    public function testGetMetadataWhenArrayDoesNotExist(): void
     {
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
         $subject->getMetadata('metadata2');

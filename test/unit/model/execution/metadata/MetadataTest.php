@@ -34,7 +34,7 @@ class MetadataTest extends TestCase
         self::assertEquals(123, $subject->getMetadataContent());
     }
 
-    public function testJsonSerialise()
+    public function testJsonSerialise(): void
     {
         $subject = new Metadata('metadataId', 123);
         self::assertEquals(
