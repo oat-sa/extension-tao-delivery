@@ -62,8 +62,6 @@ class StateServiceTest extends TestCase
      */
     public function initializeDependencies(): void
     {
-        define('CONFIG_PATH', 'some/path');
-
         $this->user           = $this->createMock(User::class);
         $this->sessionService = $this->createMock(SessionService::class);
         $this->storage        = $this->createMock(KeyValueService::class);
