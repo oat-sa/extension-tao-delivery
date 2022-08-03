@@ -27,7 +27,7 @@ use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 
 interface DeliveryExecutionMetadataInterface
 {
-    public const PROPERTY_METADATA = 'http://www.tao.lu//Ontologies/Metadata';
+    public const PROPERTY_METADATA = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionMetadata';
 
     public function getAllMetadata(): MetadataCollection;
 
