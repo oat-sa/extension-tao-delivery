@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\test\unit\model\execution;
 
+use common_exception_NotFound;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\DeliveryExecutionMetadataInterface;
@@ -115,5 +116,12 @@ class KVDeliveryExecutionTest extends TestCase
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
         $subject->getMetadata('metadata2');
         self::assertNull($subject->getMetadata('metadata2'));
+    }
+
+    public function getNonExistentPropertyWillThrowError(): void
+    {
+        $this->expectException(common_exception_NotFound::class);
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', []);
+        $subject->getState();
     }
 }
