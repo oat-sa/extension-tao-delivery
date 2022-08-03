@@ -210,10 +210,8 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
         $collection = new MetadataCollection();
         try {
             $this->extractCollection($collection);
-            return $collection;
         } catch (common_exception_NotFound $exception) {
             common_Logger::w($exception->getMessage());
-            return $collection;
         }
         return $collection;
     }
