@@ -34,7 +34,9 @@ class MetadataCollection implements IteratorAggregate, JsonSerializable, Countab
 
     public function __construct(Metadata ...$items)
     {
-        foreach ($items as $item) $this->items[$item->getMetadataId()] = $item;
+        foreach ($items as $item) {
+            $this->items[$item->getMetadataId()] = $item;
+        }
     }
 
     public function addMetadata(Metadata $metadata): self
