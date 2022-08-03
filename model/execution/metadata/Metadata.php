@@ -49,7 +49,7 @@ class Metadata implements JsonSerializable
         return $this->metadataContent;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             self::METADATA_ID => $this->metadataId,

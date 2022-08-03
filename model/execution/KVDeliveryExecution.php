@@ -215,6 +215,7 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
             common_Logger::w($exception->getMessage());
             return $collection;
         }
+        return $collection;
     }
 
     public function addMetadata(Metadata $metadata): void
