@@ -28,7 +28,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionMetadataInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
-use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionModel;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use \tao_actions_RestController;
 
 class DeliveryExecution extends tao_actions_RestController
@@ -55,9 +55,11 @@ class DeliveryExecution extends tao_actions_RestController
         ]);
     }
 
-    private function getDeliveryExecution(DeliveryExecutionService $deliveryExecutionService): DeliveryExecutionModel
+    private function getDeliveryExecution(DeliveryExecutionService $deliveryExecutionService): DeliveryExecutionInterface
     {
         $queryBag = $this->getPsrRequest()->getQueryParams();
-        return  $deliveryExecutionService->getDeliveryExecution(KeyValueService::DELIVERY_EXECUTION_PREFIX . $queryBag['execution'])->getImplementation();
+        return  $deliveryExecutionService
+            ->getDeliveryExecution(KeyValueService::DELIVERY_EXECUTION_PREFIX . $queryBag['execution'])
+            ->getImplementation();
     }
 }
