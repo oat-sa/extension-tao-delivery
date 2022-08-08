@@ -92,7 +92,6 @@ class KVDeliveryExecutionTest extends TestCase
 
     public function testAddMetadataToExistingArray(): void
     {
-        $this->keyValueServiceMock->expects(self::once())->method('update');
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
         $subject->addMetadata(new Metadata('metadata2', 'metadata content 2'));
         self::assertEquals(
@@ -103,7 +102,6 @@ class KVDeliveryExecutionTest extends TestCase
 
     public function testAddMetadataToEmptyMetadata(): void
     {
-        $this->keyValueServiceMock->expects(self::once())->method('update');
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', []);
         $subject->addMetadata(new Metadata('metadata2', 'metadata content 2'));
         self::assertEquals(
