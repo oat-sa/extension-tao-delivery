@@ -20,17 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\execution\metadata;
 
-use oat\taoDelivery\model\execution\metadata\Metadata;
-use oat\taoDelivery\model\execution\metadata\MetadataCollection;
-use \JsonSerializable;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
-interface DeliveryExecutionMetadataInterface extends DeliveryExecutionInterface, JsonSerializable
+interface DeliveryExecutionMetadataAwareService extends DeliveryExecutionService
 {
-    public function getAllMetadata(): MetadataCollection;
-
-    public function getMetadata(string $metadataId): ?Metadata;
-
-    public function addMetadata(Metadata $metadata): void;
+    public function addMetadata(Metadata $metadata, string $deliveryExecutionUri): void;
 }

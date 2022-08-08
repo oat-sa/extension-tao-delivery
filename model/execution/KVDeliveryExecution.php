@@ -21,7 +21,6 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use JsonSerializable;
 use common_exception_Error;
 use common_exception_NotFound;
 use common_Logger;
@@ -39,7 +38,7 @@ use oat\taoDelivery\model\execution\metadata\MetadataCollection;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, DeliveryExecutionInterface, \JsonSerializable
+class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
 {
     /**
      * @var KeyValueService
@@ -177,13 +176,14 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
 
     /**
      * (non-PHPdoc)
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
     public function jsonSerialize()
     {
-        if (is_null($this->data)) {
-            throw new common_exception_Error('Unloaded delivery execution serialized');
+        if ($this->data === null) {
+            $this->retryDeliveryExecutionLoad();
         }
+
         return $this->data;
     }
 
@@ -230,8 +230,6 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
                 new MetadataCollection($metadata)
             );
         }
-
-        $this->service->update($this);
     }
 
     public function getMetadata(string $metadataId): ?Metadata
@@ -255,6 +253,18 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Deliver
                 continue;
             }
             $collection->addMetadata($metadata);
+        }
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    private function retryDeliveryExecutionLoad(): void
+    {
+        $this->data = $this->service->getData($this->getIdentifier());
+
+        if ($this->data === null) {
+            throw new common_exception_Error('Delivery not found');
         }
     }
 }

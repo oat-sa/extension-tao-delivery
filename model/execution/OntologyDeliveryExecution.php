@@ -32,22 +32,9 @@ use core_kernel_classes_Resource;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
-
  */
 class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
 {
-    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution';
-    
-    const PROPERTY_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery';
-    
-    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject';
-    
-    const PROPERTY_TIME_START = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart';
-    
-    const PROPERTY_TIME_END = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd';
-    
-    const PROPERTY_STATUS = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution';
-
     private $startTime;
     private $finishTime;
     private $state;

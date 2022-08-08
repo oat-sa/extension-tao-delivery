@@ -20,17 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\execution;
+namespace oat\taoDelivery\model\execution\implementation\exception;
 
-use oat\taoDelivery\model\execution\metadata\Metadata;
-use oat\taoDelivery\model\execution\metadata\MetadataCollection;
-use \JsonSerializable;
+use RuntimeException;
 
-interface DeliveryExecutionMetadataInterface extends DeliveryExecutionInterface, JsonSerializable
+class PersistenceException extends RuntimeException
 {
-    public function getAllMetadata(): MetadataCollection;
-
-    public function getMetadata(string $metadataId): ?Metadata;
-
-    public function addMetadata(Metadata $metadata): void;
 }
