@@ -22,44 +22,37 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\controller;
 
-use common_exception_NoImplementation;
 use Exception;
-use oat\taoDelivery\model\execution\DeliveryExecutionMetadataInterface;
+use http\Exception\BadQueryStringException;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
-use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use \tao_actions_RestController;
 
 class DeliveryExecution extends tao_actions_RestController
 {
+    public const ATTRIBUTE_DELIVERY_EXECUTION_URI = 'execution';
+
     public function get(DeliveryExecutionService $deliveryExecutionService): void
     {
-        if (!($deliveryExecutionService instanceof KeyValueService)) {
-            $this->returnFailure(new common_exception_NoImplementation());
-        }
-
         try {
-            $de = $this->getDeliveryExecution($deliveryExecutionService);
+            $queryParams = $this->getPsrRequest()->getQueryParams();
+            $this->validateRequestAttributes($queryParams);
+
+            $de = $deliveryExecutionService->getDeliveryExecution(
+                $queryParams[self::ATTRIBUTE_DELIVERY_EXECUTION_URI]
+            );
         } catch (Exception $exception) {
             $this->returnFailure($exception);
         }
 
-        $this->returnSuccess([
-            OntologyDeliveryExecution::PROPERTY_DELIVERY => $de->getDelivery()->getUri(),
-            OntologyDeliveryExecution::PROPERTY_SUBJECT => $de->getUserIdentifier(),
-            OntologyDeliveryExecution::PROPERTY_TIME_START => $de->getStartTime(),
-            OntologyDeliveryExecution::PROPERTY_TIME_END => $de->getFinishTime(),
-            OntologyDeliveryExecution::PROPERTY_STATUS => $de->getState()->getLabel(),
-            DeliveryExecutionMetadataInterface::PROPERTY_METADATA => $de->getAllMetadata(),
-        ]);
+        $this->returnSuccess($de->jsonSerialize());
     }
 
-    private function getDeliveryExecution(DeliveryExecutionService $deliveryExecutionService): DeliveryExecutionInterface
+    private function validateRequestAttributes(array $queryParams): void
     {
-        $queryBag = $this->getPsrRequest()->getQueryParams();
-        return  $deliveryExecutionService
-            ->getDeliveryExecution(KeyValueService::DELIVERY_EXECUTION_PREFIX . $queryBag['execution'])
-            ->getImplementation();
+        if (!isset($queryParams[self::ATTRIBUTE_DELIVERY_EXECUTION_URI])){
+            throw new BadQueryStringException(
+                sprintf('Missing %s query', self::ATTRIBUTE_DELIVERY_EXECUTION_URI)
+            );
+        };
     }
 }
