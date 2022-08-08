@@ -22,6 +22,7 @@
 
 namespace oat\taoDelivery\model\execution;
 
+use common_exception_NoImplementation;
 use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
@@ -176,6 +177,6 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
             return $this->getImplementation()->jsonSerialize();
         }
 
-        return [];
+        throw new common_exception_NoImplementation('Delivery Execution model does not implement json serialise method');
     }
 }

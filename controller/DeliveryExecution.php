@@ -40,11 +40,13 @@ class DeliveryExecution extends tao_actions_RestController
             $de = $deliveryExecutionService->getDeliveryExecution(
                 $queryParams[self::ATTRIBUTE_DELIVERY_EXECUTION_URI]
             );
+
+            $responsePayload = $de->jsonSerialize();
         } catch (Exception $exception) {
             $this->returnFailure($exception);
         }
 
-        $this->returnSuccess($de->jsonSerialize());
+        $this->returnSuccess($responsePayload);
     }
 
     private function validateRequestAttributes(array $queryParams): void
