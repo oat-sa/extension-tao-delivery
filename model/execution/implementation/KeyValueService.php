@@ -174,7 +174,7 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
         return $returnValue;
     }
 
-    public function getDeliveryExecutionKeyValue(string $deliveryExecutionUri): KVDeliveryExecution
+    private function getDeliveryExecutionKeyValue(string $deliveryExecutionUri): KVDeliveryExecution
     {
         return new KVDeliveryExecution($this, $deliveryExecutionUri, $this->getData($deliveryExecutionUri));
     }

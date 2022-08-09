@@ -178,7 +178,7 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
      * (non-PHPdoc)
      * @throws common_exception_Error
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         if ($this->data === null) {
             $this->retryDeliveryExecutionLoad();
