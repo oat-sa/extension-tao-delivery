@@ -21,16 +21,20 @@
 
 namespace oat\taoDelivery\model\execution\implementation;
 
+use common_Exception;
 use common_Logger;
 use common_persistence_KeyValuePersistence;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\implementation\exception\PersistenceException;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
-use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
+use oat\taoDelivery\model\execution\metadata\DeliveryExecutionMetadataAwareService;
+use oat\taoDelivery\model\execution\metadata\Metadata;
+use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
-use oat\taoDelivery\model\execution\DeliveryExecutionService;
 
 /**
  * Service to manage the execution of deliveries
@@ -38,7 +42,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionService;
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements DeliveryExecutionService
+class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService
 {
 
     const OPTION_PERSISTENCE = 'persistence';
@@ -103,10 +107,11 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionSe
         $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
-            OntologyDeliveryExecution::PROPERTY_DELIVERY  => $deliveryId,
-            OntologyDeliveryExecution::PROPERTY_SUBJECT => $userId,
-            OntologyDeliveryExecution::PROPERTY_TIME_START => microtime(),
-            OntologyDeliveryExecution::PROPERTY_STATUS => $status
+            DeliveryExecutionInterface::PROPERTY_DELIVERY  => $deliveryId,
+            DeliveryExecutionInterface::PROPERTY_SUBJECT => $userId,
+            DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
+            DeliveryExecutionInterface::PROPERTY_STATUS => $status,
+            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection()
         ];
         $kvDe = new KVDeliveryExecution($this, $identifier, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
@@ -169,13 +174,20 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionSe
         return $returnValue;
     }
 
+    private function getDeliveryExecutionKeyValue(string $deliveryExecutionUri): KVDeliveryExecution
+    {
+        return new KVDeliveryExecution($this, $deliveryExecutionUri, $this->getData($deliveryExecutionUri));
+    }
+
     /**
      * @param string $identifier
      * @return DeliveryExecutionWrapper
      */
     public function getDeliveryExecution($identifier)
     {
-        $identifier = ($identifier instanceof core_kernel_classes_Resource) ? $identifier->getUri() : (string) $identifier;
+        $identifier = ($identifier instanceof core_kernel_classes_Resource)
+            ? $identifier->getUri()
+            : $this->keyValuePrefixDecoration($identifier);
 
         $deImplementation = new KVDeliveryExecution($this, $identifier);
 
@@ -209,16 +221,15 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionSe
         return $this->setDeliveryExecutions($userId, $new, $newReferences);
     }
 
-    public function update(KVDeliveryExecution $de)
+    /**
+     * @throws common_Exception
+     */
+    public function update(KVDeliveryExecution $de): void
     {
         $this->getPersistence()->set($de->getIdentifier(), json_encode($de));
     }
 
-    /**
-     * @param $deliveryExecutionId
-     * @return mixed
-     */
-    public function getData($deliveryExecutionId)
+    public function getData(string $deliveryExecutionId): ?array
     {
         $dataString = $this->getPersistence()->get($deliveryExecutionId);
         $data = json_decode($dataString, true);
@@ -316,5 +327,27 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionSe
     public function exists($deliveryExecutionId)
     {
         return $this->getPersistence()->exists($deliveryExecutionId);
+    }
+
+    /**
+     * @throws common_Exception|PersistenceException
+     */
+    public function addMetadata(Metadata $metadata, string $deliveryExecutionUri): void
+    {
+        $de = $this->getDeliveryExecutionKeyValue(
+            $this->keyValuePrefixDecoration($deliveryExecutionUri)
+        );
+
+        $de->addMetadata($metadata);
+        $this->update($de);
+    }
+
+    private function keyValuePrefixDecoration(string $identifier): string
+    {
+        if (strpos($identifier, self::DELIVERY_EXECUTION_PREFIX) === false) {
+            return self::DELIVERY_EXECUTION_PREFIX . $identifier;
+        }
+
+        return $identifier;
     }
 }

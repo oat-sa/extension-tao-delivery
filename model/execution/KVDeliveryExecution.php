@@ -21,13 +21,14 @@
 
 namespace oat\taoDelivery\model\execution;
 
-use JsonSerializable;
 use common_exception_Error;
 use common_exception_NotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\taoDelivery\model\execution\metadata\Metadata;
+use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 
 /**
  * Service to manage the execution of deliveries
@@ -37,7 +38,7 @@ use oat\taoDelivery\model\execution\implementation\KeyValueService;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializable
+class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
 {
     /**
      * @var KeyValueService
@@ -151,7 +152,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
         if (is_null($this->data)) {
             $this->data = $this->service->getData($this->id);
         }
-        if (! isset($this->data[$dataKey])) {
+        if (!isset($this->data[$dataKey])) {
             throw new common_exception_NotFound('Information ' . $dataKey . ' not found for entry ' . $this->id);
         }
         return $this->data[$dataKey];
@@ -165,7 +166,7 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
         return isset($this->data[$dataKey]);
     }
 
-    private function setData($dataKey, $value)
+    private function setData($dataKey, $value): void
     {
         if (is_null($this->data)) {
             $this->data = $this->service->getData($this->id);
@@ -175,14 +176,14 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
 
     /**
      * (non-PHPdoc)
-     * @see JsonSerializable::jsonSerialize()
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
-        if (is_null($this->data)) {
-            throw new common_exception_Error('Unloaded delivery execution serialized');
+        if ($this->data === null) {
+            $this->retryDeliveryExecutionLoad();
         }
+
         return $this->data;
     }
 
@@ -202,5 +203,68 @@ class KVDeliveryExecution implements DeliveryExecutionInterface, \JsonSerializab
     private function save()
     {
         $this->service->update($this);
+    }
+
+    public function getAllMetadata(): MetadataCollection
+    {
+        $collection = new MetadataCollection();
+        try {
+            $this->extractCollection($collection);
+        } catch (common_exception_NotFound $exception) {
+            common_Logger::w($exception->getMessage());
+        }
+        return $collection;
+    }
+
+    public function addMetadata(Metadata $metadata): void
+    {
+        try {
+            $collection = $this->getAllMetadata()->addMetadata($metadata);
+            $this->setData(
+                DeliveryExecutionMetadataInterface::PROPERTY_METADATA,
+                $collection->jsonSerialize()
+            );
+        } catch (common_exception_NotFound $exception) {
+            $this->setData(
+                DeliveryExecutionMetadataInterface::PROPERTY_METADATA,
+                new MetadataCollection($metadata)
+            );
+        }
+    }
+
+    public function getMetadata(string $metadataId): ?Metadata
+    {
+        return $this->getAllMetadata()->getMetadataElement($metadataId);
+    }
+
+    /**
+     * @throws common_exception_NotFound
+     */
+    private function extractCollection(MetadataCollection $collection): void
+    {
+        foreach ($this->getData(DeliveryExecutionMetadataInterface::PROPERTY_METADATA) as $metadata) {
+            if (
+                !($metadata instanceof Metadata)
+                && isset($metadata[Metadata::METADATA_ID], $metadata[Metadata::METADATA_CONTENT])
+            ) {
+                $collection->addMetadata(
+                    new Metadata($metadata[Metadata::METADATA_ID], $metadata[Metadata::METADATA_CONTENT])
+                );
+                continue;
+            }
+            $collection->addMetadata($metadata);
+        }
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    private function retryDeliveryExecutionLoad(): void
+    {
+        $this->data = $this->service->getData($this->getIdentifier());
+
+        if ($this->data === null) {
+            throw new common_exception_Error('Delivery not found');
+        }
     }
 }
