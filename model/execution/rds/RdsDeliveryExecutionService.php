@@ -134,12 +134,13 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      * @param $deliveryId
      * @param $userId
      * @param $status
+     * @param string|null $deliveryExecutionId
      * @return DeliveryExecution
      * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, string $deliveryExecutionId = null)
     {
-        $deliveryExecutionId = self::ID_PREFIX . $this->getNewUri();
+        $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ? : $this->getNewUri());
 
         $this->getPersistence()->insert(self::TABLE_NAME, [
             self::COLUMN_ID => $deliveryExecutionId,

@@ -100,11 +100,12 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
      * @param string $deliveryId
      * @param string $userId
      * @param string $status
+     * @param string| null $identifier
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $identifier = null)
     {
-        $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
+        $identifier = self::DELIVERY_EXECUTION_PREFIX . ( $identifier ? : \common_Utils::getNewUri());
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
             DeliveryExecutionInterface::PROPERTY_DELIVERY  => $deliveryId,
