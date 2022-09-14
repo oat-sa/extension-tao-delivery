@@ -28,6 +28,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\DeliveryExecutionServiceInterface;
 use oat\taoDelivery\model\execution\implementation\exception\PersistenceException;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\metadata\DeliveryExecutionMetadataAwareService;
@@ -42,7 +43,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService
+class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService, DeliveryExecutionServiceInterface
 {
 
     const OPTION_PERSISTENCE = 'persistence';
