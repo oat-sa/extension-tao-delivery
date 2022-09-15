@@ -24,12 +24,14 @@ namespace oat\taoDelivery\test\unit\model\execution;
 use oat\generis\test\MockObject;
 use oat\generis\test\PersistenceManagerMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\event\EventManager;
 use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyService;
 use common_persistence_Manager;
 use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
 
 class OntologyServiceTest extends TestCase
 {
@@ -44,16 +46,24 @@ class OntologyServiceTest extends TestCase
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $resourceMock->expects($this->once())->method('setPropertiesValues');
 
+        $kernelClassMock = $this->getMockBuilder(core_kernel_classes_Class::class)
+            ->disableOriginalConstructor()->onlyMethods([
+            'createInstanceWithProperties', 'getResource'
+        ])->getMock();
+        $kernelClassMock->method('getResource')->willReturn($resourceMock);
+
         $this->subject = $this->getMockBuilder(OntologyService::class)->onlyMethods(
-            ['getResource']
+            ['getKernelClass']
         )->getMock();
-        $this->subject->expects($this->once())->method('getResource')->willReturn($resourceMock);
+
+        $this->subject->expects($this->once())->method('getKernelClass')->willReturn($kernelClassMock);
 
         $loggerServiceMock = $this->createMock(LoggerService::class);
         $loggerServiceMock->method('setLogger')->willReturn('ok');
 
         $this->subject->setServiceLocator($this->getServiceManagerMock([
             common_persistence_Manager::SERVICE_ID => $this->getPersistenceManagerMock('test'),
+            EventManager::SERVICE_ID => $this->createMock(EventManager::class)
         ]));
     }
 

@@ -133,7 +133,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
         ];
 
-        $executionClass = new core_kernel_classes_Class(DeliveryExecutionInterface::CLASS_URI);
+        $executionClass = $this->getKernelClass(DeliveryExecutionInterface::CLASS_URI);
         if (empty($deliveryExecutionId)) {
             $execution = $executionClass->createInstanceWithProperties($propertyList);
         } else {
@@ -143,6 +143,11 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
         }
 
         return $this->getDeliveryExecution($execution);
+    }
+
+    public function getKernelClass($classURI)
+    {
+        return new core_kernel_classes_Class($classURI);
     }
 
     /**
