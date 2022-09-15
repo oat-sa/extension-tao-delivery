@@ -22,24 +22,30 @@
 namespace oat\taoDelivery\test\unit\model\execution\implementation;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 
 class KeyValueServiceTest extends TestCase
 {
     /** @var KeyValueService */
-    private $classUnderTest;
-
+    private $subject;
     public function setUp(): void
     {
-        $this->classUnderTest = $this
-            ->getMockBuilder(KeyValueServiceTest::class)
-            ->getMock()
-        ;
+        $loggerServiceMock = $this->createMock(LoggerService::class);
+        $loggerServiceMock->method('setLogger')->willReturn('ok');
+
+        $managerMock = $this->getSqlMock("default");
+        $serviceLocatorMock = $this->getServiceLocatorMock([
+            \common_persistence_Manager::SERVICE_ID => $managerMock,
+            LoggerService::SERVICE_ID => $loggerServiceMock
+        ]);
+        $this->subject = new KeyValueService();
+        $this->subject->setServiceLocator($serviceLocatorMock);
     }
 
     public function testSpawnDeliveryExecution()
     {
-        $this->assertInstanceOf(DeliveryExecution::class, $this->classUnderTest->spawnDeliveryExecution("test", "test", "test", "test", "test"));
+        $this->assertInstanceOf(DeliveryExecution::class, $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test"));
     }
 }

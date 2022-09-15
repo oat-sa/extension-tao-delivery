@@ -22,24 +22,32 @@
 namespace oat\taoDelivery\test\unit\model\execution;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyService;
 
 class OntologyServiceTest extends TestCase
 {
     /** @var OntologyService */
-    private $classUnderTest;
+    private $subject;
 
     public function setUp(): void
     {
-        $this->classUnderTest = $this
-            ->getMockBuilder(OntologyService::class)
-            ->getMock()
-        ;
+        $loggerServiceMock = $this->createMock(LoggerService::class);
+        $loggerServiceMock->method('setLogger')->willReturn('ok');
+
+        $managerMock = $this->getSqlMock("default");
+        $serviceLocatorMock = $this->getServiceLocatorMock([
+            \common_persistence_Manager::SERVICE_ID => $managerMock,
+            LoggerService::SERVICE_ID => $loggerServiceMock
+        ]);
+        $this->subject = new OntologyService();
+        $this->subject->setServiceLocator($loggerServiceMock);
     }
+
 
     public function testSpawnDeliveryExecution()
     {
-        $this->assertInstanceOf(DeliveryExecution::class, $this->classUnderTest->spawnDeliveryExecution("test", "test", "test", "test", "test"));
+        $this->assertInstanceOf(DeliveryExecution::class, $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test"));
     }
 }
