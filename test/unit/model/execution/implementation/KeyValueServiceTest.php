@@ -21,31 +21,46 @@
 
 namespace oat\taoDelivery\test\unit\model\execution\implementation;
 
-use oat\generis\test\TestCase;
-use oat\oatbox\log\LoggerService;
+use common_persistence_KeyValuePersistence;
+use common_persistence_Manager;
+use oat\generis\test\MockObject;
+use oat\generis\test\PersistenceManagerMockTrait;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use PHPUnit\Framework\TestCase;
 
 class KeyValueServiceTest extends TestCase
 {
-    /** @var KeyValueService */
+    use PersistenceManagerMockTrait;
+    use ServiceManagerMockTrait;
+
+    /** @var KeyValueService|MockObject */
     private $subject;
+
     public function setUp(): void
     {
-        $loggerServiceMock = $this->createMock(LoggerService::class);
-        $loggerServiceMock->method('setLogger')->willReturn('ok');
+        $persistence = $this->createMock(common_persistence_KeyValuePersistence::class);
+        $persistence->expects($this->any())->method('get')->willReturn(json_encode(['test']));
 
-        $managerMock = $this->getSqlMock("default");
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            \common_persistence_Manager::SERVICE_ID => $managerMock,
-            LoggerService::SERVICE_ID => $loggerServiceMock
-        ]);
-        $this->subject = new KeyValueService();
-        $this->subject->setServiceLocator($serviceLocatorMock);
+        $this->subject = $this->getMockBuilder(KeyValueService::class)->onlyMethods(
+            ['getOption', 'updateDeliveryExecutionStatus', 'getPersistence']
+        )->getMock();
+        $this->subject->expects($this->any())->method('getOption')->willReturn('test');
+        $this->subject->expects($this->any())->method('getPersistence')->willReturn($persistence);
+
+        $persistenceManager = $this->getPersistenceManagerMock('test');
+
+        $this->subject->setServiceLocator(
+            $this->getServiceManagerMock([
+                common_persistence_Manager::SERVICE_ID => $persistenceManager,
+            ])
+        );
     }
 
     public function testSpawnDeliveryExecution()
     {
+        $this->subject->expects($this->once())->method('updateDeliveryExecutionStatus')->willReturn('ok');
         $this->assertInstanceOf(DeliveryExecution::class, $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test"));
     }
 }
