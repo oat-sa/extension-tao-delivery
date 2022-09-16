@@ -71,7 +71,7 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
      */
     public function getOriginalIdentifier(): string
     {
-        return ltrim($this->id, KeyValueService::DELIVERY_EXECUTION_PREFIX);
+        return str_replace(KeyValueService::DELIVERY_EXECUTION_PREFIX, '', $this->id);
     }
 
     /**

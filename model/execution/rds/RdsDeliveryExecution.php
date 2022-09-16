@@ -77,7 +77,7 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
      */
     public function getOriginalIdentifier(): string
     {
-        return ltrim($this->identifier, RdsDeliveryExecutionService::ID_PREFIX);
+        return str_replace(RdsDeliveryExecutionService::ID_PREFIX, '', $this->identifier);
     }
 
     /**
