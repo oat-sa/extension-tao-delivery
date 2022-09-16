@@ -86,6 +86,14 @@ interface DeliveryExecutionInterface
     public function getIdentifier();
 
     /**
+     * Returns the identifier of the delivery execution without any additional prefixes from storage
+     *
+     * @throws common_exception_NotFound
+     * @return string
+     */
+    public function getOriginalIdentifier(): string;
+
+    /**
      * Returns a human readable test representation of the delivery execution
      * Should respect the current user's language
      *

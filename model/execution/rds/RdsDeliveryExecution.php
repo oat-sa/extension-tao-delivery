@@ -24,6 +24,7 @@ namespace oat\taoDelivery\model\execution\rds;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
 /**
  * RDS Delivery Execution model
@@ -69,6 +70,14 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
+    {
+        return ltrim($this->identifier, RdsDeliveryExecutionService::ID_PREFIX);
     }
 
     /**

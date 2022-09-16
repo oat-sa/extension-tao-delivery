@@ -51,6 +51,14 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
+    {
+        return $this->getUri();
+    }
+
+    /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getStartTime()
      * @throws \common_exception_NotFound

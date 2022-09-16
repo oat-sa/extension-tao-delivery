@@ -67,6 +67,14 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
+    {
+        return ltrim($this->id, KeyValueService::DELIVERY_EXECUTION_PREFIX);
+    }
+
+    /**
      * (non-PHPdoc)
      *
      * @see DeliveryExecutionInterface::getStartTime()

@@ -101,21 +101,21 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
      * @param string $deliveryId
      * @param string $userId
      * @param string $status
-     * @param string| null $identifier
+     * @param string| null $deliveryExecutionId
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $identifier = null)
+    public function spawnDeliveryExecution(string $label, string $deliveryId, string $userId, string $status, string $deliveryExecutionId = null)
     {
-        $identifier = self::DELIVERY_EXECUTION_PREFIX . ( $identifier ? : \common_Utils::getNewUri());
+        $deliveryExecutionId = self::DELIVERY_EXECUTION_PREFIX . ($deliveryExecutionId ?: \common_Utils::getNewUri());
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
-            DeliveryExecutionInterface::PROPERTY_DELIVERY  => $deliveryId,
+            DeliveryExecutionInterface::PROPERTY_DELIVERY => $deliveryId,
             DeliveryExecutionInterface::PROPERTY_SUBJECT => $userId,
             DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
-            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection()
+            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection(),
         ];
-        $kvDe = new KVDeliveryExecution($this, $identifier, $data);
+        $kvDe = new KVDeliveryExecution($this, $deliveryExecutionId, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
         return $this->propagate(new DeliveryExecutionWrapper($kvDe));
