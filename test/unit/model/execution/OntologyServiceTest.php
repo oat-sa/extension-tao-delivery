@@ -53,10 +53,10 @@ class OntologyServiceTest extends TestCase
         $kernelClassMock->method('getResource')->willReturn($resourceMock);
 
         $this->subject = $this->getMockBuilder(OntologyService::class)->onlyMethods(
-            ['getKernelClass']
+            ['getClass']
         )->getMock();
 
-        $this->subject->expects($this->once())->method('getKernelClass')->willReturn($kernelClassMock);
+        $this->subject->expects($this->once())->method('getClass')->willReturn($kernelClassMock);
 
         $loggerServiceMock = $this->createMock(LoggerService::class);
         $loggerServiceMock->method('setLogger')->willReturn('ok');

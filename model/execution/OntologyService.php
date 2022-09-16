@@ -25,6 +25,7 @@ use common_Logger;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -40,6 +41,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 class OntologyService extends ConfigurableService implements DeliveryExecutionService, Monitoring, DeliveryExecutionServiceInterface
 {
     use EventManagerAwareTrait;
+    use OntologyAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -133,7 +135,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
         ];
 
-        $executionClass = $this->getKernelClass(DeliveryExecutionInterface::CLASS_URI);
+        $executionClass = $this->getClass(DeliveryExecutionInterface::CLASS_URI);
         if (empty($deliveryExecutionId)) {
             $execution = $executionClass->createInstanceWithProperties($propertyList);
         } else {
@@ -143,11 +145,6 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
         }
 
         return $this->getDeliveryExecution($execution);
-    }
-
-    protected function getKernelClass($classURI)
-    {
-        return new core_kernel_classes_Class($classURI);
     }
 
     /**
