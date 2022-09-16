@@ -170,6 +170,113 @@
           }
         }
       }
+    },
+    "/DeliveryExecution": {
+      "get": {
+        "description": "Get Delivery Execution Details",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "executions"
+        ],
+        "parameters": [
+          {
+            "name": "execution",
+            "in": "query",
+            "description": "Delivery Execution URI format",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response return delivery execution details",
+            "schema": {
+              "title": "response",
+              "format": "json",
+              "type": "object",
+              "required": [
+                "success",
+                "version",
+                "data"
+              ],
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "description": "True on success"
+                },
+                "version": {
+                  "type": "string",
+                  "description": "Tao version"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery": {
+                      "type": "string",
+                      "description": "Delivery Uri"
+                    },
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject": {
+                      "type": "string",
+                      "description": "Test Taker Uri"
+                    },
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart": {
+                      "type": "string",
+                      "description": "Delivery execution start time"
+                    },
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd": {
+                      "type": "string",
+                      "description": "Delivery execution end time"
+                    },
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution": {
+                      "type": "string",
+                      "description": "Delivery execution status"
+                    },
+                    "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionMetadata": {
+                      "type": "object",
+                      "description": "Delivery metadata collection",
+                      "properties": {
+                        "metadataId": {
+                          "type": "string",
+                          "description": "Metadata Id"
+                        },
+                        "metadataContent": {
+                          "type": "string",
+                          "description": "Metadata content"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "application/json": {
+                "success": true,
+                "data": {
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery": "Delivery of QTI Interactions",
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject": "https://tao.docker.localhost/ontologies/tao.rdf#i62ea71dcaeb9c48dac0bee9e5e171d4",
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart": "0.45403300 1659531796",
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd": "0.31138800 1659531811",
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution": "Finished",
+                  "http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionMetadata": {
+                    "metaDataId": {
+                      "metadataId": "metaDataId",
+                      "metadataContent": "Content"
+                    }
+                  }
+                },
+                "version": "2022.07"
+              }
+            }
+          },
+          "404": {
+            "description": "Delivery with a given delivery execution id does not exist"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -249,4 +356,3 @@
     "url": "https://github.com/oat-sa/extension-tao-delivery"
   }
 }
-

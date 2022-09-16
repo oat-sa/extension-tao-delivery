@@ -22,12 +22,14 @@
 
 namespace oat\taoDelivery\model\execution;
 
+use common_exception_NoImplementation;
 use core_kernel_classes_Resource;
+use JsonSerializable;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 
-class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface
+class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable
 {
     use ServiceManagerAwareTrait;
 
@@ -167,5 +169,14 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
     public static function getDeliveryIdSessionKey($deliveryExecutionId)
     {
         return 'deliveryIdForDeliveryExecution:' . $deliveryExecutionId;
+    }
+
+    public function jsonSerialize(): array
+    {
+        if ($this->getImplementation() instanceof JsonSerializable) {
+            return $this->getImplementation()->jsonSerialize();
+        }
+
+        throw new common_exception_NoImplementation('Delivery Execution model does not implement json serialise method');
     }
 }
