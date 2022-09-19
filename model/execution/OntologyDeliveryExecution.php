@@ -33,7 +33,7 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
+class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface, OriginalIDAwareDeliveryExecutionInterface
 {
     private $startTime;
     private $finishTime;
