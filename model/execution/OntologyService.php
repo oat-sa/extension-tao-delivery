@@ -125,7 +125,7 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
      * @return DeliveryExecution
      * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution(string $label, string $deliveryId, string $userId, string $status, string $deliveryExecutionId = null)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
         $propertyList = [
             OntologyRdfs::RDFS_LABEL => $label,

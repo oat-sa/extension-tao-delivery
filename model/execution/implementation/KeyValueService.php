@@ -104,7 +104,7 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
      * @param string| null $deliveryExecutionId
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution(string $label, string $deliveryId, string $userId, string $status, string $deliveryExecutionId = null)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
         $deliveryExecutionId = self::DELIVERY_EXECUTION_PREFIX . ($deliveryExecutionId ?: \common_Utils::getNewUri());
         $data = [
