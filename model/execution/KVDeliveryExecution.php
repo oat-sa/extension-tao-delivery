@@ -38,7 +38,7 @@ use oat\taoDelivery\model\execution\metadata\MetadataCollection;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, OriginalIDAwareDeliveryExecutionInterface
+class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, OriginalIdAwareDeliveryExecutionInterface
 {
     /**
      * @var KeyValueService

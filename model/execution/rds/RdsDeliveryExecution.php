@@ -24,14 +24,14 @@ namespace oat\taoDelivery\model\execution\rds;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
-use oat\taoDelivery\model\execution\OriginalIDAwareDeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\OriginalIdAwareDeliveryExecutionInterface;
 
 /**
  * RDS Delivery Execution model
  *
  * @author Péter Halász <peter@taotesting.com>
  */
-class RdsDeliveryExecution implements DeliveryExecutionInterface, OriginalIDAwareDeliveryExecutionInterface
+class RdsDeliveryExecution implements DeliveryExecutionInterface, OriginalIdAwareDeliveryExecutionInterface
 {
     use OntologyAwareTrait;
 

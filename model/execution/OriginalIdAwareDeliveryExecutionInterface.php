@@ -32,7 +32,7 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-interface OriginalIDAwareDeliveryExecutionInterface
+interface OriginalIdAwareDeliveryExecutionInterface
 {
     /**
      * Returns the identifier of the delivery execution without any additional prefixes from storage

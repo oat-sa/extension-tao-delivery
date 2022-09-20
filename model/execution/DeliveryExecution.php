@@ -29,7 +29,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
-class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable, OriginalIDAwareDeliveryExecutionInterface
+class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable, OriginalIdAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 
