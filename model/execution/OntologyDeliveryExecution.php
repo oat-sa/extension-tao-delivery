@@ -33,7 +33,7 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface
+class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface, OriginalIdAwareDeliveryExecutionInterface
 {
     private $startTime;
     private $finishTime;
@@ -46,6 +46,14 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
      * @see DeliveryExecution::getIdentifier()
      */
     public function getIdentifier()
+    {
+        return $this->getUri();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
     {
         return $this->getUri();
     }

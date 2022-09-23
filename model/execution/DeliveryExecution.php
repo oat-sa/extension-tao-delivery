@@ -25,11 +25,11 @@ namespace oat\taoDelivery\model\execution;
 use common_exception_NoImplementation;
 use core_kernel_classes_Resource;
 use JsonSerializable;
-use oat\taoDelivery\model\fields\DeliveryFieldsService;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
-class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable
+class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable, OriginalIdAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 
@@ -64,6 +64,14 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
     public function getIdentifier()
     {
         return $this->getImplementation()->getIdentifier();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
+    {
+        return  $this->getImplementation()->getOriginalIdentifier();
     }
 
     /**

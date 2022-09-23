@@ -24,7 +24,10 @@ namespace oat\taoDelivery\model\execution;
 use common_Logger;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 
@@ -35,8 +38,10 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyService extends ConfigurableService implements DeliveryExecutionService, Monitoring
+class OntologyService extends ConfigurableService implements DeliveryExecutionService, Monitoring, DeliveryExecutionServiceInterface
 {
+    use EventManagerAwareTrait;
+    use OntologyAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -112,24 +117,33 @@ class OntologyService extends ConfigurableService implements DeliveryExecutionSe
     }
 
     /**
-     * Spawn a new Delivery Execution
-     *
-     * @param string $label
-     * @param string $deliveryId
-     * @param string $userId
-     * @param string $status
-     * @return \oat\taoDelivery\model\execution\DeliveryExecution
+     * @param $label
+     * @param $deliveryId
+     * @param $userId
+     * @param $status
+     * @param string|null $deliveryExecutionId
+     * @return DeliveryExecution
+     * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
-        $executionClass = new core_kernel_classes_Class(OntologyDeliveryExecution::CLASS_URI);
-        $execution = $executionClass->createInstanceWithProperties([
-            OntologyRdfs::RDFS_LABEL              => $label,
-            OntologyDeliveryExecution::PROPERTY_DELIVERY             => $deliveryId,
-            OntologyDeliveryExecution::PROPERTY_SUBJECT    => $userId,
-            OntologyDeliveryExecution::PROPERTY_TIME_START      => microtime(),
-            OntologyDeliveryExecution::PROPERTY_STATUS     => $status
-        ]);
+        $propertyList = [
+            OntologyRdfs::RDFS_LABEL => $label,
+            DeliveryExecutionInterface::PROPERTY_DELIVERY => $deliveryId,
+            DeliveryExecutionInterface::PROPERTY_SUBJECT => $userId,
+            DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
+            DeliveryExecutionInterface::PROPERTY_STATUS => $status,
+        ];
+
+        $executionClass = $this->getClass(DeliveryExecutionInterface::CLASS_URI);
+        if (empty($deliveryExecutionId)) {
+            $execution = $executionClass->createInstanceWithProperties($propertyList);
+        } else {
+            $execution = $executionClass->getResource($deliveryExecutionId);
+            $execution->setPropertiesValues($propertyList);
+            $this->getEventManager()->trigger(new ResourceCreated($execution));
+        }
+
         return $this->getDeliveryExecution($execution);
     }
 
