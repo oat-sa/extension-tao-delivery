@@ -38,7 +38,7 @@ use oat\taoDelivery\model\execution\metadata\MetadataCollection;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
+class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, OriginalIdAwareDeliveryExecutionInterface
 {
     /**
      * @var KeyValueService
@@ -64,6 +64,14 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface
     public function getIdentifier()
     {
         return $this->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOriginalIdentifier(): string
+    {
+        return substr($this->id, strlen(KeyValueService::DELIVERY_EXECUTION_PREFIX));
     }
 
     /**
