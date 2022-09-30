@@ -28,6 +28,7 @@ use oat\oatbox\user\User;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\DeliveryExecutionServiceInterface;
 use oat\taoDelivery\model\execution\Monitoring;
 
 /**
@@ -35,7 +36,7 @@ use oat\taoDelivery\model\execution\Monitoring;
  *
  * @author Péter Halász <peter@taotesting.com>
  */
-class RdsDeliveryExecutionService extends ConfigurableService implements Monitoring
+class RdsDeliveryExecutionService extends ConfigurableService implements Monitoring, DeliveryExecutionServiceInterface
 {
     const ID_PREFIX          = "rds_de_";
     const TABLE_NAME         = "delivery_executions";
@@ -134,12 +135,13 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      * @param $deliveryId
      * @param $userId
      * @param $status
+     * @param string|null $deliveryExecutionId
      * @return DeliveryExecution
      * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
-        $deliveryExecutionId = self::ID_PREFIX . $this->getNewUri();
+        $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ? : $this->getNewUri());
 
         $this->getPersistence()->insert(self::TABLE_NAME, [
             self::COLUMN_ID => $deliveryExecutionId,

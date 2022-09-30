@@ -28,6 +28,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\DeliveryExecutionServiceInterface;
 use oat\taoDelivery\model\execution\implementation\exception\PersistenceException;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\metadata\DeliveryExecutionMetadataAwareService;
@@ -42,7 +43,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService
+class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService, DeliveryExecutionServiceInterface
 {
 
     const OPTION_PERSISTENCE = 'persistence';
@@ -100,20 +101,21 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
      * @param string $deliveryId
      * @param string $userId
      * @param string $status
+     * @param string| null $deliveryExecutionId
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status)
+    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
-        $identifier = self::DELIVERY_EXECUTION_PREFIX . \common_Utils::getNewUri();
+        $deliveryExecutionId = self::DELIVERY_EXECUTION_PREFIX . ($deliveryExecutionId ?: \common_Utils::getNewUri());
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
-            DeliveryExecutionInterface::PROPERTY_DELIVERY  => $deliveryId,
+            DeliveryExecutionInterface::PROPERTY_DELIVERY => $deliveryId,
             DeliveryExecutionInterface::PROPERTY_SUBJECT => $userId,
             DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
-            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection()
+            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection(),
         ];
-        $kvDe = new KVDeliveryExecution($this, $identifier, $data);
+        $kvDe = new KVDeliveryExecution($this, $deliveryExecutionId, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
         return $this->propagate(new DeliveryExecutionWrapper($kvDe));
