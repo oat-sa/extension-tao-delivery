@@ -22,6 +22,84 @@
   ],
   "basePath": "/taoDelivery",
   "paths": {
+    "/RestExecution/terminate": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "description": "Terminate execution",
+        "tags": [
+          "executions"
+        ],
+        "parameters": [
+          {
+            "name": "deliveryExecution",
+            "in": "query",
+            "description": "Execution identifier, in URI format",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "description": "Terminate reason, free text description",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "title": "response",
+              "format": "json",
+              "type": "object",
+              "required": [
+                "success",
+                "version",
+                "data"
+              ],
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "description": "True on success"
+                },
+                "version": {
+                  "type": "string",
+                  "description": "Tao version"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Terminate successful"
+                }
+              }
+            },
+            "examples": {
+              "application/json": {
+                "success": true,
+                "data": "Terminate successful",
+                "version": "3.1.0"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/genericValidationError"
+          },
+          "401": {
+            "$ref": "#/responses/genericAuthenticationError"
+          },
+          "403": {
+            "$ref": "#/responses/genericAuthorizationError"
+          },
+          "404": {
+            "$ref": "#/responses/executionNotFoundError"
+          },
+          "500": {
+            "$ref": "#/responses/genericInternalError"
+          }
+        }
+      }
+    },
     "/RestExecution/unstop": {
       "post": {
         "produces": [

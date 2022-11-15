@@ -33,6 +33,46 @@ class RestExecution extends \tao_actions_RestController
 {
 
     /**
+     * Allows to terminate executions
+     */
+    public function terminate()
+    {
+        try {
+            if ($this->getRequestMethod() != \Request::HTTP_POST) {
+                throw new \common_exception_NotImplemented('Only POST method is accepted to request this service.');
+            }
+
+            if (!$this->hasRequestParameter('deliveryExecution')) {
+                $this->returnFailure(new \common_exception_MissingParameter('At least one mandatory parameter was required but found missing in your request'));
+            }
+
+            $reason = 'Automatically terminated by REST call';
+
+            if ($this->hasRequestParameter('reason')) {
+                $reason = $this->getRequestParameter('reason');
+            }
+
+            /** @var StateServiceInterface $deliveryExecutionStateService */
+            $deliveryExecutionStateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
+
+            /** @var DeliveryExecution $deliveryExecution */
+            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution($this->getRequestParameter('deliveryExecution'));
+
+            if (!$deliveryExecution->exists()) {
+                throw new \common_exception_NotFound('Delivery Execution not found');
+            }
+            $result = $deliveryExecutionStateService->terminateExecution($deliveryExecution, $reason);
+            if ($result) {
+                $this->returnSuccess('Terminate successful');
+            } else {
+                throw new \common_Exception('Impossible to restore execution state');
+            }
+        } catch (\Exception $ex) {
+            $this->returnFailure($ex);
+        }
+    }
+
+    /**
      * Allows to resume terminated/finished executions
      */
     public function unstop()
