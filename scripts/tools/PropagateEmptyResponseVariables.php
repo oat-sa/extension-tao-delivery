@@ -49,7 +49,8 @@ use taoResultServer_models_classes_ResponseVariable as ResponseVariable;
  * php index.php 'oat\taoDelivery\scripts\tools\PropagateEmptyResponseVariables'
  * -de[--deliveryExecutionId] {comma separated de id list}
  * -wr[--wetRun] 1 [optional if not provided 0 applied]
- * -fs[--filterStatus] {comma separated expected statuses for provided de id list}[optional if not provided finish and terminate applied]
+ * -fs[--filterStatus] {comma separated expected statuses for provided de id list}
+ *                     [optional if not provided finish and terminate applied]
  */
 class PropagateEmptyResponseVariables extends ScriptAction
 {
