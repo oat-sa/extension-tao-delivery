@@ -51,18 +51,19 @@ use taoResultServer_models_classes_ResponseVariable as ResponseVariable;
  *
  * Usage:
  * php index.php 'oat\taoDelivery\scripts\tools\ScoreEmptyResponseVariables'
- * -de[--deliveryExecutionIds] Delivery Execution Identifiers [Required, comma separated if several]
+ * -de[--deliveryExecutionIds] Delivery Execution Identifiers [Required. Comma separated if several]
+ * -as[--allowedStatuses] Delivery Execution Statuses [Optional. Comma separated if several]
  * -wr[--wetRun] 1 [Optional. By default 0]
  */
 final class ScoreEmptyResponseVariables extends ScriptAction
 {
     use OntologyAwareTrait;
 
-    public const OPTION_WET_RUN = 'wetRun';
     public const OPTION_DELIVERY_EXECUTION_IDS = 'deliveryExecutionIds';
+    public const OPTION_ALLOWED_STATUSES = 'allowedStatuses';
+    public const OPTION_WET_RUN = 'wetRun';
 
     private const ALLOWED_STATUSES = [
-        DeliveryExecutionInterface::STATE_PAUSED,
         DeliveryExecutionInterface::STATE_FINISHED,
         DeliveryExecutionInterface::STATE_TERMINATED
     ];
@@ -79,13 +80,19 @@ final class ScoreEmptyResponseVariables extends ScriptAction
                 'required' => true,
                 'description' => 'Delivery execution ids for which need to do score',
             ],
+            self::OPTION_ALLOWED_STATUSES => [
+                'prefix' => 'as',
+                'longPrefix' => self::OPTION_ALLOWED_STATUSES,
+                'required' => false,
+                'description' => 'Override allowed statuses'
+            ],
             self::OPTION_WET_RUN => [
                 'prefix' => 'wr',
                 'longPrefix' => self::OPTION_WET_RUN,
                 'required' => false,
                 'cast' => 'boolean',
                 'description' => 'Bit of wet run value',
-            ]
+            ],
         ];
     }
 
@@ -99,6 +106,9 @@ final class ScoreEmptyResponseVariables extends ScriptAction
         $isWetRunFlag = $this->getOption(self::OPTION_WET_RUN);
         $deliveryExecutionIds = explode(',', $this->getOption(self::OPTION_DELIVERY_EXECUTION_IDS));
 
+        $allowedStatusesOverriding = explode(',', $this->getOption(self::OPTION_ALLOWED_STATUSES));
+        $allowedStatuses = $allowedStatusesOverriding ?? self::ALLOWED_STATUSES;
+
         $resultServer = $this->getResultServer();
         $resultStorage = $resultServer->getResultStorage();
         $variables = $this->createVariables();
@@ -110,7 +120,7 @@ final class ScoreEmptyResponseVariables extends ScriptAction
 
             $deliveryExecution = $this->getServiceProxy()->getDeliveryExecution($id);
 
-            if (!in_array($deliveryExecution->getState()->getUri(), self::ALLOWED_STATUSES, true)) {
+            if (!in_array($deliveryExecution->getState()->getUri(), $allowedStatuses, true)) {
                 $subReport->add(Report::createWarning('Delivery execution has not allowed state, skipped'));
                 $report->add($subReport);
                 continue;
