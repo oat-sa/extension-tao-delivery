@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\scripts\tools;
 
-use core_kernel_classes_Property;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -46,138 +46,135 @@ use taoResultServer_models_classes_OutcomeVariable as OutcomeVariable;
 use taoResultServer_models_classes_ResponseVariable as ResponseVariable;
 
 /**
- * php index.php 'oat\taoDelivery\scripts\tools\PropagateEmptyResponseVariables'
- * -de[--deliveryExecutionId] {comma separated de id list}
- * -wr[--wetRun] 1 [optional if not provided 0 applied]
- * -fs[--filterStatus] {comma separated expected statuses for provided de id list}
- *                     [optional if not provided finish and terminate applied]
+ * Script for filling the empty scores for items in case delivery execution
+ * terminated of finished by system because it was detected as a stale execution.
+ *
+ * Usage:
+ * php index.php 'oat\taoDelivery\scripts\tools\ScoreEmptyResponseVariables'
+ * -de[--deliveryExecutionId] = Delivery Execution Identifier
+ * -wr[--wetRun] = 1 [Optional. If not provided 0 applied]
  */
-class PropagateEmptyResponseVariables extends ScriptAction
+final class ScoreEmptyResponseVariables extends ScriptAction
 {
-    private const OPTION_DELIVERY_EXECUTION = 'deliveryExecutionId';
-    private const OPTION_WET_RUN = 'wetRun';
-    private const OPTION_FILTER_STATUS = 'filterStatus';
+    use OntologyAwareTrait;
 
-    private const DE_ENDED_STATUSES = [
+    public const OPTION_WET_RUN = 'wetRun';
+    public const OPTION_DELIVERY_EXECUTION_ID = 'deliveryExecutionId';
+
+    private const ALLOWED_STATUSES = [
+        DeliveryExecutionInterface::STATE_PAUSED,
         DeliveryExecutionInterface::STATE_FINISHED,
         DeliveryExecutionInterface::STATE_TERMINATED
     ];
 
-    private static $testDefinitionsByDeliveryId = [];
-    private static $mappedItemsByTestDefinition = [];
+    private static array $testDefinitionsByDeliveryId = [];
+    private static array $mappedItemsByTestDefinition = [];
 
-    protected function provideOptions()
+    protected function provideOptions(): array
     {
         return [
-            self::OPTION_DELIVERY_EXECUTION => [
+            self::OPTION_DELIVERY_EXECUTION_ID => [
                 'prefix' => 'de',
-                'longPrefix' => self::OPTION_DELIVERY_EXECUTION,
+                'longPrefix' => self::OPTION_DELIVERY_EXECUTION_ID,
                 'required' => true,
-                'description' => 'A comma-separated list of Deliveries Execution ids',
+                'description' => 'Deliveries execution id for which need to do score',
             ],
             self::OPTION_WET_RUN => [
                 'prefix' => 'wr',
                 'longPrefix' => self::OPTION_WET_RUN,
                 'required' => false,
+                'cast' => 'boolean',
                 'description' => 'Bit of wet run value',
-            ],
-            self::OPTION_FILTER_STATUS => [
-                'prefix' => 'fs',
-                'longPrefix' => self::OPTION_FILTER_STATUS,
-                'required' => false,
-                'description' => 'Comma separated de statuses list',
-            ],
+            ]
         ];
     }
 
-    protected function provideDescription()
+    protected function provideDescription(): string
     {
-        // TODO: Implement provideDescription() method.
+        return 'Does scoring for the missed or empty items in specified delivery execution';
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function run()
+    protected function run(): Report
     {
-        $outcome = [];
-        $deliveryExecutionIdList = explode(',', $this->getOption(self::OPTION_DELIVERY_EXECUTION));
-        $isWetRun = (bool)$this->getOption(self::OPTION_WET_RUN) ?? 0;
-        $rawStatusesString = $this->getOption(self::OPTION_FILTER_STATUS);
-        $status = $rawStatusesString
-            ? explode(',', $rawStatusesString)
-            : self::DE_ENDED_STATUSES;
+        $isWetRunFlag = $this->getOption(self::OPTION_WET_RUN);
+        $deliveryExecutionId = $this->getOption(self::OPTION_DELIVERY_EXECUTION_ID);
+
+        $deliveryExecution = $this->getServiceProxy()->getDeliveryExecution($deliveryExecutionId);
+
+        if (!in_array($deliveryExecution->getState()->getUri(), self::ALLOWED_STATUSES, true)) {
+            return Report::createWarning(sprintf('[%s] Delivery execution in not expected state.', $deliveryExecutionId));
+        }
 
         $resultServer = $this->getResultServer();
         $resultStorage = $resultServer->getResultStorage();
-
         $variables = $this->createVariables();
-        foreach ($deliveryExecutionIdList as $deliveryExecutionId) {
-            $deliveryExecution = $this->getServiceProxy()->getDeliveryExecution($deliveryExecutionId);
-            if (!in_array($deliveryExecution->getState()->getUri(), $status, true)) {
-                $outcome[] = sprintf('[%s] Delivery execution in not expected state.', $deliveryExecutionId);
-                continue;
-            }
 
-            $resultVariables = $resultStorage->getDeliveryVariables($deliveryExecutionId);
+        $resultVariables = $resultStorage->getDeliveryVariables($deliveryExecutionId);
 
-            $existedTestItemVariables = $this->fetchUniqueItemsIdFromResponseVariables($resultVariables);
-            $testOutcomeVariables = $this->filterTestOutcomeVariables($resultVariables);
-            $testDefinition = $this->fetchTestDefinition($deliveryExecution);
-            $assessmentItemHrefByItemId = $this->extractAssocAssessmentItemHrefByItemId($testDefinition);
-            $filteredTestOutcomeVariables = $this->extractOutcomeVariables($testDefinition->getOutcomeDeclarations());
-            $filteredTestOutcomeVariablesForInsert = $this->buildFilteredTestOutcomeVariablesSet(
-                $filteredTestOutcomeVariables,
-                $testOutcomeVariables
+        $existedTestItemVariables = $this->fetchUniqueItemsIdFromResponseVariables($resultVariables);
+        $testOutcomeVariables = $this->filterTestOutcomeVariables($resultVariables);
+        $testDefinition = $this->fetchTestDefinition($deliveryExecution);
+        $assessmentItemHrefByItemId = $this->extractAssocAssessmentItemHrefByItemId($testDefinition);
+        $filteredTestOutcomeVariables = $this->extractOutcomeVariables($testDefinition->getOutcomeDeclarations());
+
+        $filteredTestOutcomeVariablesForInsert = $this->buildFilteredTestOutcomeVariablesSet(
+            $filteredTestOutcomeVariables,
+            $testOutcomeVariables
+        );
+
+        if ($isWetRunFlag) {
+            $testResource = $deliveryExecution->getDelivery()->getOnePropertyValue(
+                $this->getProperty(DeliveryAssemblyService::PROPERTY_ORIGIN)
             );
-            if ($isWetRun) {
-                $testResource = $deliveryExecution->getDelivery()->getOnePropertyValue(
-                    new core_kernel_classes_Property(DeliveryAssemblyService::PROPERTY_ORIGIN)
-                );
-                $resultStorage->storeTestVariables(
-                    $deliveryExecutionId,
-                    $testResource->getUri(),
-                    $filteredTestOutcomeVariablesForInsert,
-                    $deliveryExecutionId
-                );
-            }
-
-            $propagated = 0;
-            foreach ($assessmentItemHrefByItemId as $itemId => $itemData) {
-                if (in_array($itemId, $existedTestItemVariables, true)) {
-                    continue;
-                }
-                if ($isWetRun) {
-                    [$itemUri, , $testUri] = explode('|', $itemData['href']);
-                    $callItemId = sprintf('%s.%s.%s', $deliveryExecutionId, $itemId, 0);
-                    $dynamicOutcomeVariables = [];
-                    foreach ($itemData['outcomes'] as $outcomeIdentifier => $data) {
-                        $dynamicOutcomeVariables[] = (new OutcomeVariable())
-                            ->setIdentifier($outcomeIdentifier)
-                            ->setValue($data['value'])
-                            ->setCardinality($data['cardinality'])
-                            ->setBaseType($data['baseType']);
-                    }
-
-                    $resultStorage->storeItemVariables(
-                        $deliveryExecutionId,
-                        $testUri,
-                        $itemUri,
-                        array_merge($variables, $dynamicOutcomeVariables),
-                        $callItemId
-                    );
-                }
-                $propagated++;
-            }
-            $outcome[] = sprintf(
-                '[%s] Response item variables were propagated for %s items, propagated %s test outcome variables',
+            $resultStorage->storeTestVariables(
                 $deliveryExecutionId,
-                $propagated,
-                count($filteredTestOutcomeVariablesForInsert)
+                $testResource->getUri(),
+                $filteredTestOutcomeVariablesForInsert,
+                $deliveryExecutionId
             );
         }
 
-        return Report::createSuccess(implode(PHP_EOL, $outcome));
+        $scored = 0;
+
+        foreach ($assessmentItemHrefByItemId as $itemId => $itemData) {
+            if (in_array($itemId, $existedTestItemVariables, true)) {
+                continue;
+            }
+            if ($isWetRunFlag) {
+                [$itemUri, , $testUri] = explode('|', $itemData['href']);
+                $callItemId = sprintf('%s.%s.%s', $deliveryExecutionId, $itemId, 0);
+                $dynamicOutcomeVariables = [];
+                foreach ($itemData['outcomes'] as $outcomeIdentifier => $data) {
+                    $dynamicOutcomeVariables[] = (new OutcomeVariable())
+                        ->setIdentifier($outcomeIdentifier)
+                        ->setValue($data['value'])
+                        ->setCardinality($data['cardinality'])
+                        ->setBaseType($data['baseType']);
+                }
+
+                $resultStorage->storeItemVariables(
+                    $deliveryExecutionId,
+                    $testUri,
+                    $itemUri,
+                    array_merge($variables, $dynamicOutcomeVariables),
+                    $callItemId
+                );
+            }
+            $scored++;
+        }
+
+        $report = Report::createSuccess(sprintf(
+            '[%s] Response item variables were scored for %s items, updated %s test outcome variables.',
+            $deliveryExecutionId,
+            $scored,
+            count($filteredTestOutcomeVariablesForInsert)
+        ));
+
+        if ($isWetRunFlag) {
+            $this->logInfo($report->getMessage());
+        }
+
+        return $report;
     }
 
     private function fetchTestDefinition(DeliveryExecution $deliveryExecution): AssessmentTest
@@ -214,7 +211,7 @@ class PropagateEmptyResponseVariables extends ScriptAction
 
     private function filterTestOutcomeVariables(array $resultVariables): array
     {
-        //filter Test Variables
+        // filter Test Variables
         $testFilteredVariables = array_filter($resultVariables, static function (array $variable) {
             return $variable[0]->callIdItem === null;
         });
@@ -280,6 +277,7 @@ class PropagateEmptyResponseVariables extends ScriptAction
     private function extractOutcomeVariables(OutcomeDeclarationCollection $outcomeDeclarationCollection): array
     {
         $outcomes = [];
+
         /** @var OutcomeDeclaration $outcomeDeclaration */
         foreach ($outcomeDeclarationCollection as $outcomeDeclaration) {
             $value = 0;
@@ -298,6 +296,7 @@ class PropagateEmptyResponseVariables extends ScriptAction
                 'value' => $value
             ];
         }
+
         return $outcomes;
     }
 
@@ -320,7 +319,7 @@ class PropagateEmptyResponseVariables extends ScriptAction
         return $resultSet;
     }
 
-    protected function getServiceProxy(): DeliveryExecutionService
+    private function getServiceProxy(): DeliveryExecutionService
     {
         return $this->getServiceLocator()->get(DeliveryExecutionService::SERVICE_ID);
     }
