@@ -51,7 +51,7 @@ use taoResultServer_models_classes_ResponseVariable as ResponseVariable;
  *
  * Usage:
  * php index.php 'oat\taoDelivery\scripts\tools\ScoreEmptyResponseVariables'
- * -de[--deliveryExecutionId] = Delivery Execution Identifier
+ * -de[--deliveryExecutionIds] = Delivery Execution Identifiers, comma separated
  * -wr[--wetRun] = 1 [Optional. If not provided 0 applied]
  */
 final class ScoreEmptyResponseVariables extends ScriptAction
@@ -59,7 +59,7 @@ final class ScoreEmptyResponseVariables extends ScriptAction
     use OntologyAwareTrait;
 
     public const OPTION_WET_RUN = 'wetRun';
-    public const OPTION_DELIVERY_EXECUTION_ID = 'deliveryExecutionId';
+    public const OPTION_DELIVERY_EXECUTION_IDS = 'deliveryExecutionIds';
 
     private const ALLOWED_STATUSES = [
         DeliveryExecutionInterface::STATE_PAUSED,
@@ -73,11 +73,11 @@ final class ScoreEmptyResponseVariables extends ScriptAction
     protected function provideOptions(): array
     {
         return [
-            self::OPTION_DELIVERY_EXECUTION_ID => [
+            self::OPTION_DELIVERY_EXECUTION_IDS => [
                 'prefix' => 'de',
-                'longPrefix' => self::OPTION_DELIVERY_EXECUTION_ID,
+                'longPrefix' => self::OPTION_DELIVERY_EXECUTION_IDS,
                 'required' => true,
-                'description' => 'Deliveries execution id for which need to do score',
+                'description' => 'Delivery execution ids for which need to do score',
             ],
             self::OPTION_WET_RUN => [
                 'prefix' => 'wr',
@@ -97,81 +97,90 @@ final class ScoreEmptyResponseVariables extends ScriptAction
     protected function run(): Report
     {
         $isWetRunFlag = $this->getOption(self::OPTION_WET_RUN);
-        $deliveryExecutionId = $this->getOption(self::OPTION_DELIVERY_EXECUTION_ID);
-
-        $deliveryExecution = $this->getServiceProxy()->getDeliveryExecution($deliveryExecutionId);
-
-        if (!in_array($deliveryExecution->getState()->getUri(), self::ALLOWED_STATUSES, true)) {
-            return Report::createWarning(sprintf('[%s] Delivery execution in not expected state.', $deliveryExecutionId));
-        }
+        $deliveryExecutionIds = explode(',', $this->getOption(self::OPTION_DELIVERY_EXECUTION_IDS));
 
         $resultServer = $this->getResultServer();
         $resultStorage = $resultServer->getResultStorage();
         $variables = $this->createVariables();
 
-        $resultVariables = $resultStorage->getDeliveryVariables($deliveryExecutionId);
+        $report = Report::createInfo('Running scoring operation...');
 
-        $existedTestItemVariables = $this->fetchUniqueItemsIdFromResponseVariables($resultVariables);
-        $testOutcomeVariables = $this->filterTestOutcomeVariables($resultVariables);
-        $testDefinition = $this->fetchTestDefinition($deliveryExecution);
-        $assessmentItemHrefByItemId = $this->extractAssocAssessmentItemHrefByItemId($testDefinition);
-        $filteredTestOutcomeVariables = $this->extractOutcomeVariables($testDefinition->getOutcomeDeclarations());
+        foreach ($deliveryExecutionIds as $id) {
+            $subReport = Report::createInfo(sprintf('Processing delivery execution %s', $id));
 
-        $filteredTestOutcomeVariablesForInsert = $this->buildFilteredTestOutcomeVariablesSet(
-            $filteredTestOutcomeVariables,
-            $testOutcomeVariables
-        );
+            $deliveryExecution = $this->getServiceProxy()->getDeliveryExecution($id);
 
-        if ($isWetRunFlag) {
-            $testResource = $deliveryExecution->getDelivery()->getOnePropertyValue(
-                $this->getProperty(DeliveryAssemblyService::PROPERTY_ORIGIN)
-            );
-            $resultStorage->storeTestVariables(
-                $deliveryExecutionId,
-                $testResource->getUri(),
-                $filteredTestOutcomeVariablesForInsert,
-                $deliveryExecutionId
-            );
-        }
-
-        $scored = 0;
-
-        foreach ($assessmentItemHrefByItemId as $itemId => $itemData) {
-            if (in_array($itemId, $existedTestItemVariables, true)) {
+            if (!in_array($deliveryExecution->getState()->getUri(), self::ALLOWED_STATUSES, true)) {
+                $subReport->add(Report::createWarning('Delivery execution has not allowed state, skipped'));
+                $report->add($subReport);
                 continue;
             }
-            if ($isWetRunFlag) {
-                [$itemUri, , $testUri] = explode('|', $itemData['href']);
-                $callItemId = sprintf('%s.%s.%s', $deliveryExecutionId, $itemId, 0);
-                $dynamicOutcomeVariables = [];
-                foreach ($itemData['outcomes'] as $outcomeIdentifier => $data) {
-                    $dynamicOutcomeVariables[] = (new OutcomeVariable())
-                        ->setIdentifier($outcomeIdentifier)
-                        ->setValue($data['value'])
-                        ->setCardinality($data['cardinality'])
-                        ->setBaseType($data['baseType']);
-                }
 
-                $resultStorage->storeItemVariables(
-                    $deliveryExecutionId,
-                    $testUri,
-                    $itemUri,
-                    array_merge($variables, $dynamicOutcomeVariables),
-                    $callItemId
+            $resultVariables = $resultStorage->getDeliveryVariables($id);
+
+            $existedTestItemVariables = $this->fetchUniqueItemsIdFromResponseVariables($resultVariables);
+            $testOutcomeVariables = $this->filterTestOutcomeVariables($resultVariables);
+            $testDefinition = $this->fetchTestDefinition($deliveryExecution);
+            $assessmentItemHrefByItemId = $this->extractAssocAssessmentItemHrefByItemId($testDefinition);
+            $filteredTestOutcomeVariables = $this->extractOutcomeVariables($testDefinition->getOutcomeDeclarations());
+
+            $filteredTestOutcomeVariablesForInsert = $this->buildFilteredTestOutcomeVariablesSet(
+                $filteredTestOutcomeVariables,
+                $testOutcomeVariables
+            );
+
+            if ($isWetRunFlag) {
+                $testResource = $deliveryExecution->getDelivery()->getOnePropertyValue(
+                    $this->getProperty(DeliveryAssemblyService::PROPERTY_ORIGIN)
+                );
+                $resultStorage->storeTestVariables(
+                    $id,
+                    $testResource->getUri(),
+                    $filteredTestOutcomeVariablesForInsert,
+                    $id
                 );
             }
-            $scored++;
-        }
 
-        $report = Report::createSuccess(sprintf(
-            '[%s] Response item variables were scored for %s items, updated %s test outcome variables.',
-            $deliveryExecutionId,
-            $scored,
-            count($filteredTestOutcomeVariablesForInsert)
-        ));
+            $scored = 0;
 
-        if ($isWetRunFlag) {
-            $this->logInfo($report->getMessage());
+            foreach ($assessmentItemHrefByItemId as $itemId => $itemData) {
+                if (in_array($itemId, $existedTestItemVariables, true)) {
+                    continue;
+                }
+                if ($isWetRunFlag) {
+                    [$itemUri, , $testUri] = explode('|', $itemData['href']);
+                    $callItemId = sprintf('%s.%s.%s', $id, $itemId, 0);
+                    $dynamicOutcomeVariables = [];
+                    foreach ($itemData['outcomes'] as $outcomeIdentifier => $data) {
+                        $dynamicOutcomeVariables[] = (new OutcomeVariable())
+                            ->setIdentifier($outcomeIdentifier)
+                            ->setValue($data['value'])
+                            ->setCardinality($data['cardinality'])
+                            ->setBaseType($data['baseType']);
+                    }
+
+                    $resultStorage->storeItemVariables(
+                        $id,
+                        $testUri,
+                        $itemUri,
+                        array_merge($variables, $dynamicOutcomeVariables),
+                        $callItemId
+                    );
+                }
+                $scored++;
+            }
+
+            $subReport->add(Report::createSuccess(sprintf(
+                'Response item variables were scored for %s items, updated %s test outcome variables',
+                $scored,
+                count($filteredTestOutcomeVariablesForInsert)
+            )));
+
+            if ($isWetRunFlag) {
+                $this->logInfo($subReport->getMessage());
+            }
+
+            $report->add($subReport);
         }
 
         return $report;
