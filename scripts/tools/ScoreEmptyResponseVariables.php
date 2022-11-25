@@ -51,8 +51,8 @@ use taoResultServer_models_classes_ResponseVariable as ResponseVariable;
  *
  * Usage:
  * php index.php 'oat\taoDelivery\scripts\tools\ScoreEmptyResponseVariables'
- * -de[--deliveryExecutionIds] = Delivery Execution Identifiers, comma separated
- * -wr[--wetRun] = 1 [Optional. If not provided 0 applied]
+ * -de[--deliveryExecutionIds] Delivery Execution Identifiers [Required, comma separated if several]
+ * -wr[--wetRun] 1 [Optional. By default 0]
  */
 final class ScoreEmptyResponseVariables extends ScriptAction
 {
