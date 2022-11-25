@@ -106,8 +106,10 @@ final class ScoreEmptyResponseVariables extends ScriptAction
         $isWetRunFlag = $this->getOption(self::OPTION_WET_RUN);
         $deliveryExecutionIds = explode(',', $this->getOption(self::OPTION_DELIVERY_EXECUTION_IDS));
 
-        $allowedStatusesOverriding = explode(',', $this->getOption(self::OPTION_ALLOWED_STATUSES));
-        $allowedStatuses = $allowedStatusesOverriding ?? self::ALLOWED_STATUSES;
+        $allowedStatuses = self::ALLOWED_STATUSES;
+        if ($this->hasOption(self::OPTION_ALLOWED_STATUSES)) {
+            $allowedStatuses = explode(',', $this->getOption(self::OPTION_ALLOWED_STATUSES));
+        }
 
         $resultServer = $this->getResultServer();
         $resultStorage = $resultServer->getResultStorage();
