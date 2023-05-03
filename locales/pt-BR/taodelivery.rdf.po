@@ -185,7 +185,7 @@ msgstr "Status abandonado de execução de entrega"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Assembled Delivery "
-msgstr "Entrega montada "
+msgstr "Exame Publicado "
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -235,22 +235,22 @@ msgstr "Chamada de serviço para executar a entrega compilada"
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Deliveries"
-msgstr "Entregas"
+msgstr "Exames"
 
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Deliveries of the group"
-msgstr "Entregas do grupo"
+msgstr "Exames do grupo"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Manager"
-msgstr "Gerente de entrega"
+msgstr "Gerente de exames"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Delivery Manager Role"
-msgstr "A função Gerente de Entrega"
+msgstr "A função Gerente de exames"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -370,10 +370,10 @@ msgstr "Runtime"
 # http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Deliveries"
-msgstr "Entregas"
+msgstr "Exames"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Delivery Manager"
-msgstr "Gerente de entrega"
+msgstr "Gerente de exames"
 
