@@ -23,10 +23,9 @@ namespace oat\taoDelivery\scripts\install;
 
 class installDeliveryLogout extends \oat\oatbox\extension\InstallAction
 {
-    
     public function __invoke($params)
     {
-        
+
         /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
         $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
         $routeService->setRoute(

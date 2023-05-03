@@ -43,7 +43,7 @@ use tao_models_classes_Service;
  */
 class ServiceProxy extends tao_models_classes_Service implements DeliveryExecutionService
 {
-    const CONFIG_KEY = 'execution_service';
+    public const CONFIG_KEY = 'execution_service';
 
     public function setImplementation(DeliveryExecutionService $implementation)
     {

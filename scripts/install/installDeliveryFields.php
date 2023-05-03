@@ -26,7 +26,6 @@ use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class installDeliveryFields extends \oat\oatbox\extension\InstallAction
 {
-    
     public function __invoke($params)
     {
 

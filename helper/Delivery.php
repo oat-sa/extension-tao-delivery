@@ -33,16 +33,16 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  */
 class Delivery
 {
-    const ID = 'id';
-    
-    const LABEL = 'label';
-    
-    const AUTHORIZED = 'TAO_DELIVERY_TAKABLE';
-    
-    const DESCRIPTION = 'description';
-    
-    const LAUNCH_URL = 'launchUrl';
-    
+    public const ID = 'id';
+
+    public const LABEL = 'label';
+
+    public const AUTHORIZED = 'TAO_DELIVERY_TAKABLE';
+
+    public const DESCRIPTION = 'description';
+
+    public const LAUNCH_URL = 'launchUrl';
+
     public static function buildFromAssembly($assignment, User $user)
     {
         $data = [
@@ -54,7 +54,7 @@ class Delivery
         ];
         return $data;
     }
-    
+
     public static function buildFromDeliveryExecution(DeliveryExecution $deliveryExecution)
     {
         $data = [];

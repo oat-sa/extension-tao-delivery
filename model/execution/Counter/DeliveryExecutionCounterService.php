@@ -31,10 +31,9 @@ use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
  */
 class DeliveryExecutionCounterService extends ConfigurableService implements DeliveryExecutionCounterInterface
 {
-
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
     //concatenation in constants allowed since php 5.6
-    const KEY_PREFIX = self::class . '_';
+    public const KEY_PREFIX = self::class . '_';
 
     /**
      * Get number of delivery executions of given status.

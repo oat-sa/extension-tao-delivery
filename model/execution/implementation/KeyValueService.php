@@ -45,14 +45,13 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  */
 class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService, DeliveryExecutionServiceInterface
 {
+    public const OPTION_PERSISTENCE = 'persistence';
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
 
-    const DELIVERY_EXECUTION_PREFIX = 'kve_de_';
+    public const USER_EXECUTIONS_PREFIX = 'kve_ue_';
 
-    const USER_EXECUTIONS_PREFIX = 'kve_ue_';
-
-    const USER_DELIVERY_PREFIX = 'kve_ud_';
+    public const USER_DELIVERY_PREFIX = 'kve_ud_';
 
     /**
      * @var common_persistence_KeyValuePersistence

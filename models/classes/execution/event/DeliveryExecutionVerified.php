@@ -27,7 +27,7 @@ use oat\oatbox\event\Event;
 
 class DeliveryExecutionVerified implements Event, DeliveryExecutionAwareInterface
 {
-    const EVENT_NAME = __CLASS__;
+    public const EVENT_NAME = __CLASS__;
 
     /**
      * (non-PHPdoc)

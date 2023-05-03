@@ -32,7 +32,7 @@ interface ExecutionContainer
      * @param  mixed $value
      */
     public function setData($key, $value);
-    
+
     /**
      * Returns a renderer for additional header data, alowing
      * the container to add custom JS, CSS and meta-data
@@ -40,7 +40,7 @@ interface ExecutionContainer
      * @return \Renderer
     */
     public function getContainerHeader();
-    
+
     /**
      * Returns a renderer for the actual container body
      *

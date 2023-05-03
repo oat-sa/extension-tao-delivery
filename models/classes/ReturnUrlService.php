@@ -26,12 +26,11 @@ use oat\oatbox\service\ConfigurableService;
 
 class ReturnUrlService extends ConfigurableService
 {
+    public const SERVICE_ID = 'taoDelivery/returnUrl';
 
-    const SERVICE_ID = 'taoDelivery/returnUrl';
-
-    const EXTENSION_OPTION = 'extension';
-    const CONTROLLER_OPTION = 'controller';
-    const METHOD_OPTION = 'method';
+    public const EXTENSION_OPTION = 'extension';
+    public const CONTROLLER_OPTION = 'controller';
+    public const METHOD_OPTION = 'method';
 
     /**
      * Get the full url to go at the end of a test

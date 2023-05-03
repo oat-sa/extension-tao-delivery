@@ -106,7 +106,8 @@ class KVDeliveryExecutionTest extends TestCase
         $subject->addMetadata(new Metadata('metadata2', 'metadata content 2'));
         self::assertEquals(
             new Metadata('metadata2', 'metadata content 2'),
-            $subject->getMetadata('metadata2'));
+            $subject->getMetadata('metadata2')
+        );
     }
 
     public function testGetMetadataWhenArrayDoesNotExist(): void

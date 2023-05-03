@@ -36,9 +36,9 @@ class DeliveryFieldsService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'taoDelivery/deliveryFields';
+    public const SERVICE_ID = 'taoDelivery/deliveryFields';
 
-    const PROPERTY_CUSTOM_LABEL = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel';
+    public const PROPERTY_CUSTOM_LABEL = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel';
 
     /**
      * Getting custom label from Delivery

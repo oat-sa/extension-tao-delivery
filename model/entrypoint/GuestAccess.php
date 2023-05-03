@@ -27,27 +27,26 @@ use oat\tao\model\entryPoint\Entrypoint;
 
 class GuestAccess extends Configurable implements Entrypoint
 {
-
     public function getId()
     {
         return 'guestaccess';
     }
-    
+
     public function getTitle()
     {
         return __('Guest access');
     }
-    
+
     public function getLabel()
     {
         return __('TAO Guest Access');
     }
-    
+
     public function getDescription()
     {
         return __('Access deliveries as a guest');
     }
-    
+
     public function getUrl()
     {
         return _url("guest", "Guest", "taoDeliveryRdf");

@@ -31,7 +31,6 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
  */
 class RestExecution extends \tao_actions_RestController
 {
-
     /**
      * Allows to resume terminated/finished executions
      */

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +28,7 @@
  * @deprecated
  */
 $todefine = [
-    
+
     'PROPERTY_DELVIERYEXECUTION_DELIVERY'  => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery',
     'PROPERTY_DELVIERYEXECUTION_SUBJECT'   => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject',
     'PROPERTY_DELVIERYEXECUTION_START'     => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart',

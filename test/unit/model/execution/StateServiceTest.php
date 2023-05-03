@@ -318,11 +318,11 @@ class StateServiceTest extends TestCase
             ->method('trigger')
             ->withConsecutive(
                 ...array_map(
-                       static function (Event $event): array {
-                           return [$event];
-                       },
-                       $events
-                   )
+                    static function (Event $event): array {
+                        return [$event];
+                    },
+                    $events
+                )
             );
     }
 }

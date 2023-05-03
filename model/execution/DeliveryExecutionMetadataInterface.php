@@ -24,7 +24,7 @@ namespace oat\taoDelivery\model\execution;
 
 use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
-use \JsonSerializable;
+use JsonSerializable;
 
 interface DeliveryExecutionMetadataInterface extends DeliveryExecutionInterface, JsonSerializable
 {

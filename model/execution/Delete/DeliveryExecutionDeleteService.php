@@ -27,9 +27,9 @@ use oat\taoDelivery\model\execution\ServiceProxy;
 
 class DeliveryExecutionDeleteService extends ConfigurableService
 {
-    const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
+    public const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
 
-    const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
+    public const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
 
     /** @var common_report_Report  */
     private $report;

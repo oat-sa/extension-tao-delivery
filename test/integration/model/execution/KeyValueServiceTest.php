@@ -31,7 +31,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionService as ExecutionService
 
 class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {
-    const KV_PERSISTENCE_ID = 'dummy';
+    public const KV_PERSISTENCE_ID = 'dummy';
 
     /** @var KeyValueService */
     private $service;

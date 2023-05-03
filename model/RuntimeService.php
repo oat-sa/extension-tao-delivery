@@ -32,7 +32,7 @@ use oat\taoDelivery\model\container\DeliveryContainer;
  */
 interface RuntimeService
 {
-    const SERVICE_ID = 'taoDelivery/Runtime';
+    public const SERVICE_ID = 'taoDelivery/Runtime';
 
     /**
      * Provides the container to run the delivery

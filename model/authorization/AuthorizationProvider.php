@@ -32,7 +32,6 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 interface AuthorizationProvider
 {
-
     /**
      * Verify that a given delivery is allowed to be started
      *
@@ -40,7 +39,7 @@ interface AuthorizationProvider
      * @throws \common_exception_Unauthorized
      */
     public function verifyStartAuthorization($deliveryId, User $user);
-    
+
     /**
      * Verify that a given delivery execution is allowed to be executed
      *

@@ -29,9 +29,9 @@ class AwsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricI
 {
     private $awsClient;
 
-    const OPTION_PERIOD = 'period';
-    const OPTION_NAMESPACE = 'namespace';
-    const OPTION_DIMENSIONS = 'dimensions';
+    public const OPTION_PERIOD = 'period';
+    public const OPTION_NAMESPACE = 'namespace';
+    public const OPTION_DIMENSIONS = 'dimensions';
 
     /**
      * in seconds

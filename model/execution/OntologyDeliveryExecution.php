@@ -71,7 +71,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         return $this->startTime;
     }
 
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getFinishTime()
@@ -87,7 +87,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->finishTime;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getState()
@@ -103,7 +103,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->state;
     }
-    
+
     /**
      * @throws common_exception_ResourceNotFound
      * @see DeliveryExecution::getDelivery()
@@ -121,7 +121,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->delivery;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getUserIdentifier()
@@ -134,7 +134,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->userIdentifier;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::setState()

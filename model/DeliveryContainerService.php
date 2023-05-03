@@ -30,20 +30,20 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
 interface DeliveryContainerService
 {
     /** @deprecated */
-    const CONFIG_ID = 'taoDelivery/deliveryContainer';
+    public const CONFIG_ID = 'taoDelivery/deliveryContainer';
 
-    const SERVICE_ID = 'taoDelivery/deliveryContainer';
+    public const SERVICE_ID = 'taoDelivery/deliveryContainer';
 
     /** @deprecated  */
-    const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
-    
+    public const PROPERTY_RESULT_SERVER = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer';
+
     /**
      * Get the list of providers for the current execution
      * @param DeliveryExecution $execution
      * @return array the list of providers
      */
     public function getProviders(DeliveryExecution $execution);
-    
+
     /**
      * Get the list of plugins for the current execution
      * @param DeliveryExecution $execution

@@ -25,7 +25,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class DummyCapacityService extends ConfigurableService implements CapacityInterface
 {
-    const OPTION_CAPACITY = 'capacity';
+    public const OPTION_CAPACITY = 'capacity';
 
     /**
      * By default do not limit the capacity
@@ -36,7 +36,7 @@ class DummyCapacityService extends ConfigurableService implements CapacityInterf
     {
         return $this->hasOption(self::OPTION_CAPACITY) ? $this->getOption(self::OPTION_CAPACITY) : -1;
     }
-    
+
     public function consume()
     {
         return $this->getCapacity() > 0 || $this->getCapacity() == -1;

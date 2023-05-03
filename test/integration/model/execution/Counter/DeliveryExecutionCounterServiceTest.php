@@ -34,7 +34,6 @@ use oat\taoDelivery\model\execution\Counter\DeliveryExecutionCounterService;
  */
 class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
 {
-
     public function testCount()
     {
         $serviceManager = $this->buildServiceManager();

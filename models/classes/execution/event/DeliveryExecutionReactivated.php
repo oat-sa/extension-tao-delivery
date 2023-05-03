@@ -27,7 +27,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 
 class DeliveryExecutionReactivated implements Event, DeliveryExecutionAwareInterface
 {
-    const LOG_KEY = 'TEST_REACTIVATED';
+    public const LOG_KEY = 'TEST_REACTIVATED';
 
     private $deliveryExecution;
     private $user;

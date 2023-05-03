@@ -33,8 +33,8 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 class DeliveryExecutionCreated implements WebhookSerializableEventInterface, DeliveryExecutionAwareInterface
 {
-    const EVENT_NAME = self::class;
-    const WEBHOOK_EVENT_NAME = 'DeliveryExecutionCreated';
+    public const EVENT_NAME = self::class;
+    public const WEBHOOK_EVENT_NAME = 'DeliveryExecutionCreated';
 
     /**
      * (non-PHPdoc)
