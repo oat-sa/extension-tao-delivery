@@ -36,8 +36,8 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 class AuthorizationAggregator extends ConfigurableService implements AuthorizationService, AuthorizationProvider
 {
-    const OPTION_PROVIDERS = 'providers';
-    
+    public const OPTION_PROVIDERS = 'providers';
+
     private $providers;
 
     /**
@@ -49,7 +49,7 @@ class AuthorizationAggregator extends ConfigurableService implements Authorizati
     {
         return $this;
     }
-    
+
     /**
      * Verify that a given delivery is allowed to be started
      *
@@ -74,9 +74,12 @@ class AuthorizationAggregator extends ConfigurableService implements Authorizati
         foreach ($this->getProviders() as $provider) {
             $provider->verifyResumeAuthorization($deliveryExecution, $user);
         }
-        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger(new DeliveryExecutionVerified($deliveryExecution));
+        $this
+            ->getServiceManager()
+            ->get(EventManager::SERVICE_ID)
+            ->trigger(new DeliveryExecutionVerified($deliveryExecution));
     }
-    
+
     /**
      * Returns a list of providers that need to be verified
      *
@@ -97,7 +100,7 @@ class AuthorizationAggregator extends ConfigurableService implements Authorizati
         }
         return $this->providers;
     }
-    
+
     /**
      * Add an additional authorization provider that needs
      * to be satisfied as well

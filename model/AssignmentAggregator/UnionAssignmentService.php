@@ -28,7 +28,6 @@ use oat\taoDelivery\model\Assignment;
 
 class UnionAssignmentService extends ConfigurableService implements UnionAssignmentInterface
 {
-    
     public function getInternalServices()
     {
         $services = $this->getOption('services');
@@ -37,7 +36,7 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
         }
         return $services;
     }
-    
+
     /**
      * Returns the deliveries available to a user
      *
@@ -90,7 +89,7 @@ class UnionAssignmentService extends ConfigurableService implements UnionAssignm
                 return $runtime;
             }
         }
-        
+
         return false;
     }
 }

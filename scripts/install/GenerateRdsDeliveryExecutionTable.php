@@ -33,7 +33,10 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
     public function __invoke($params)
     {
         /** @var \common_persistence_SqlPersistence $service */
-        $persistence = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById("default");
+        $persistence = $this
+            ->getServiceLocator()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById("default");
 
         $this->generateTable($persistence);
     }
@@ -152,10 +155,38 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
     private function createColumns(Table $table)
     {
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, Type::STRING, ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_DELIVERY_ID, Type::STRING, ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_USER_ID, Type::STRING, ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_LABEL, Type::STRING, ["length" => 255, "notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STATUS, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(
+            RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
+            Type::STRING,
+            [
+                "length" => 255,
+                "notnull" => true,
+            ]
+        );
+        $table->addColumn(
+            RdsDeliveryExecutionService::COLUMN_USER_ID,
+            Type::STRING,
+            [
+                "length" => 255,
+                "notnull" => true,
+            ]
+        );
+        $table->addColumn(
+            RdsDeliveryExecutionService::COLUMN_LABEL,
+            Type::STRING,
+            [
+                "length" => 255,
+                "notnull" => true,
+            ]
+        );
+        $table->addColumn(
+            RdsDeliveryExecutionService::COLUMN_STATUS,
+            Type::STRING,
+            [
+                "length" => 255,
+                "notnull" => true,
+            ]
+        );
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, Type::DATETIME, ["notnull" => true]);
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, Type::DATETIME, ["notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);

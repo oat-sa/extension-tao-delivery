@@ -35,20 +35,20 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     use LoggerAwareTrait;
     use LockTrait;
 
-    const METRIC = InfrastructureLoadMetricInterface::class;
+    public const METRIC = InfrastructureLoadMetricInterface::class;
 
-    const OPTION_INFRASTRUCTURE_LOAD_LIMIT = 'infrastructure_load_limit';
-    const OPTION_TAO_CAPACITY_LIMIT = 'tao_capacity';
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
+    public const OPTION_INFRASTRUCTURE_LOAD_LIMIT = 'infrastructure_load_limit';
+    public const OPTION_TAO_CAPACITY_LIMIT = 'tao_capacity';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_TTL = 'ttl';
 
-    const DEFAULT_INFRASTRUCTURE_LOAD_LIMIT = 75;
-    const DEFAULT_TAO_CAPACITY_LIMIT = 100;
-    const DEFAULT_TTL = 300;
-    const DEFAULT_LOCK_TTL = 30;
+    public const DEFAULT_INFRASTRUCTURE_LOAD_LIMIT = 75;
+    public const DEFAULT_TAO_CAPACITY_LIMIT = 100;
+    public const DEFAULT_TTL = 300;
+    public const DEFAULT_LOCK_TTL = 30;
 
-    const CAPACITY_TO_PROVIDE_CACHE_KEY = 'infrastructure_capacity_to_provide';
-    const CAPACITY_TO_CONSUME_CACHE_KEY = 'infrastructure_capacity_to_consume';
+    public const CAPACITY_TO_PROVIDE_CACHE_KEY = 'infrastructure_capacity_to_provide';
+    public const CAPACITY_TO_CONSUME_CACHE_KEY = 'infrastructure_capacity_to_consume';
 
     /**
      * Returns the available capacity of the system
@@ -174,7 +174,8 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     ) {
         $this->getLogger()->info(
             sprintf(
-                'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
+                'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure '
+                    . 'limit: %s%%, configured TAO limit: %s',
                 $capacity,
                 $currentInfrastructureLoad,
                 $infrastructureLimit,

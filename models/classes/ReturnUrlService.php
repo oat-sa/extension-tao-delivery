@@ -26,12 +26,11 @@ use oat\oatbox\service\ConfigurableService;
 
 class ReturnUrlService extends ConfigurableService
 {
+    public const SERVICE_ID = 'taoDelivery/returnUrl';
 
-    const SERVICE_ID = 'taoDelivery/returnUrl';
-
-    const EXTENSION_OPTION = 'extension';
-    const CONTROLLER_OPTION = 'controller';
-    const METHOD_OPTION = 'method';
+    public const EXTENSION_OPTION = 'extension';
+    public const CONTROLLER_OPTION = 'controller';
+    public const METHOD_OPTION = 'method';
 
     /**
      * Get the full url to go at the end of a test
@@ -43,7 +42,9 @@ class ReturnUrlService extends ConfigurableService
 
         $ext = ($this->hasOption(self::EXTENSION_OPTION)) ? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';
 
-        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION)) ? $this->getOption(self::CONTROLLER_OPTION) : 'DeliveryServer';
+        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION))
+            ? $this->getOption(self::CONTROLLER_OPTION)
+            : 'DeliveryServer';
 
         $method = ($this->hasOption(self::METHOD_OPTION)) ? $this->getOption(self::METHOD_OPTION) : 'index';
 

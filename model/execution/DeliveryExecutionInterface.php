@@ -38,24 +38,24 @@ interface DeliveryExecutionInterface
      * Indicates that a test-taker is currently taking a delivery
      * @var string
      */
-    const STATE_ACTIVE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive';
+    public const STATE_ACTIVE = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive';
 
     /**
      * Indicates that a delivery is in progress, but the test-taker is not actively taking it
      * @var string
      */
-    const STATE_PAUSED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused';
+    public const STATE_PAUSED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusPaused';
 
     /**
      * Indicates that a delivery has been finished successfully and the results should be considered
      * @var string
      */
-    const STATE_FINISHED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
+    public const STATE_FINISHED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
 
     /**
      * @deprecated
      */
-    const STATE_FINISHIED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
+    public const STATE_FINISHIED = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished';
 
     /**
      * Indicates that a delivery has been terminated and the results might not be valid

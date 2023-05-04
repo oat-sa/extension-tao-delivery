@@ -33,35 +33,51 @@ use oat\taoDelivery\model\execution\DeliveryExecution;
  */
 class Delivery
 {
-    const ID = 'id';
-    
-    const LABEL = 'label';
-    
-    const AUTHORIZED = 'TAO_DELIVERY_TAKABLE';
-    
-    const DESCRIPTION = 'description';
-    
-    const LAUNCH_URL = 'launchUrl';
-    
+    public const ID = 'id';
+
+    public const LABEL = 'label';
+
+    public const AUTHORIZED = 'TAO_DELIVERY_TAKABLE';
+
+    public const DESCRIPTION = 'description';
+
+    public const LAUNCH_URL = 'launchUrl';
+
     public static function buildFromAssembly($assignment, User $user)
     {
         $data = [
             self::ID => $assignment->getDeliveryId(),
             self::LABEL => $assignment->getLabel(),
-            self::LAUNCH_URL => _url('initDeliveryExecution', 'DeliveryServer', null, ['uri' => $assignment->getDeliveryId()]),
+            self::LAUNCH_URL => _url(
+                'initDeliveryExecution',
+                'DeliveryServer',
+                null,
+                [
+                    'uri' => $assignment->getDeliveryId(),
+                ]
+            ),
             self::DESCRIPTION => $assignment->getDescriptionStrings(),
             self::AUTHORIZED => $assignment->isStartable()
         ];
         return $data;
     }
-    
+
     public static function buildFromDeliveryExecution(DeliveryExecution $deliveryExecution)
     {
         $data = [];
         $data[self::ID] = $deliveryExecution->getIdentifier();
         $data[self::LABEL] = $deliveryExecution->getLabel();
-        $data[self::LAUNCH_URL] = _url('runDeliveryExecution', 'DeliveryServer', null, ['deliveryExecution' => $deliveryExecution->getIdentifier()]);
-        $data[self::DESCRIPTION] = [__("Started at %s", \tao_helpers_Date::displayeDate($deliveryExecution->getStartTime()))];
+        $data[self::LAUNCH_URL] = _url(
+            'runDeliveryExecution',
+            'DeliveryServer',
+            null,
+            [
+                'deliveryExecution' => $deliveryExecution->getIdentifier(),
+            ]
+        );
+        $data[self::DESCRIPTION] = [
+            __("Started at %s", \tao_helpers_Date::displayeDate($deliveryExecution->getStartTime())),
+        ];
         $data[self::AUTHORIZED] = true;
         return $data;
     }

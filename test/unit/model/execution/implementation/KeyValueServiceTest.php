@@ -61,6 +61,9 @@ class KeyValueServiceTest extends TestCase
     public function testSpawnDeliveryExecution()
     {
         $this->subject->expects($this->once())->method('updateDeliveryExecutionStatus')->willReturn('ok');
-        $this->assertInstanceOf(DeliveryExecution::class, $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test"));
+        $this->assertInstanceOf(
+            DeliveryExecution::class,
+            $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test")
+        );
     }
 }

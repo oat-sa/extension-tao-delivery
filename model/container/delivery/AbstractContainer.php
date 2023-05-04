@@ -26,29 +26,32 @@ use oat\oatbox\Configurable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class AbstractContainer extends Configurable implements DeliveryContainer, ServiceLocatorAwareInterface, \JsonSerializable
+abstract class AbstractContainer extends Configurable implements
+    DeliveryContainer,
+    ServiceLocatorAwareInterface,
+    \JsonSerializable
 {
     use ServiceLocatorAwareTrait;
-    
+
     private $containerId;
-    
+
     private $params;
-    
+
     public function setId($containerId)
     {
         $this->containerId = $containerId;
     }
-    
+
     public function setRuntimeParams($params)
     {
         $this->params = $params;
     }
-    
+
     public function getRuntimeParams()
     {
         return $this->params;
     }
-    
+
     public function jsonSerialize()
     {
         return [
@@ -56,6 +59,6 @@ abstract class AbstractContainer extends Configurable implements DeliveryContain
             'params' => $this->params
         ];
     }
-    
+
     abstract public function getExecutionContainer(DeliveryExecution $execution);
 }

@@ -111,10 +111,10 @@ class StateService extends AbstractStateService
      */
     public function getDeliveriesStates()
     {
-         return [
-             DeliveryExecution::STATE_FINISHED,
-             DeliveryExecution::STATE_ACTIVE,
-             DeliveryExecution::STATE_PAUSED
-         ];
+        return [
+            DeliveryExecution::STATE_FINISHED,
+            DeliveryExecution::STATE_ACTIVE,
+            DeliveryExecution::STATE_PAUSED
+        ];
     }
 }

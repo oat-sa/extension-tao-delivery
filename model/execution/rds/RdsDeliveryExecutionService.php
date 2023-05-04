@@ -38,15 +38,15 @@ use oat\taoDelivery\model\execution\Monitoring;
  */
 class RdsDeliveryExecutionService extends ConfigurableService implements Monitoring, DeliveryExecutionServiceInterface
 {
-    const ID_PREFIX          = "rds_de_";
-    const TABLE_NAME         = "delivery_executions";
-    const COLUMN_ID          = "id";
-    const COLUMN_DELIVERY_ID = "delivery_id";
-    const COLUMN_USER_ID     = "user_id";
-    const COLUMN_STATUS      = "status";
-    const COLUMN_FINISHED_AT = "finished_at";
-    const COLUMN_STARTED_AT  = "started_at";
-    const COLUMN_LABEL       = "label";
+    public const ID_PREFIX          = "rds_de_";
+    public const TABLE_NAME         = "delivery_executions";
+    public const COLUMN_ID          = "id";
+    public const COLUMN_DELIVERY_ID = "delivery_id";
+    public const COLUMN_USER_ID     = "user_id";
+    public const COLUMN_STATUS      = "status";
+    public const COLUMN_FINISHED_AT = "finished_at";
+    public const COLUMN_STARTED_AT  = "started_at";
+    public const COLUMN_LABEL       = "label";
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
@@ -141,7 +141,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      */
     public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
     {
-        $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ? : $this->getNewUri());
+        $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ?: $this->getNewUri());
 
         $this->getPersistence()->insert(self::TABLE_NAME, [
             self::COLUMN_ID => $deliveryExecutionId,

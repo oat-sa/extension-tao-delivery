@@ -30,7 +30,7 @@ use oat\taoDelivery\model\container\execution\ExecutionClientContainer;
 class LegacyClientContainer extends AbstractContainer
 {
     private $serviceCallParam = [];
-    
+
     /**
      * Return the URI of the test for the delivery
      * @param DeliveryExecution $execution
@@ -41,7 +41,7 @@ class LegacyClientContainer extends AbstractContainer
         $containerService = $this->getServiceLocator()->get(DeliveryContainerService::SERVICE_ID);
         return $containerService->getTestDefinition($execution);
     }
-    
+
     /**
      * Return the id of the storage directory for the public content
      * @param DeliveryExecution $execution
@@ -52,7 +52,7 @@ class LegacyClientContainer extends AbstractContainer
         list($private, $public) = explode('|', $this->getServiceCallParam($execution));
         return $public;
     }
-    
+
     /**
      * Return the id of the storage directory for the private content
      * @param DeliveryExecution $execution
@@ -63,7 +63,7 @@ class LegacyClientContainer extends AbstractContainer
         list($private, $public) = explode('|', $this->getServiceCallParam($execution));
         return $private;
     }
-    
+
     private function getServiceCallParam(DeliveryExecution $execution)
     {
         if (!isset($this->serviceCallParam[$execution->getIdentifier()])) {
@@ -84,7 +84,10 @@ class LegacyClientContainer extends AbstractContainer
 
         // set the test parameters
         $container->setData('testDefinition', $this->getSourceTest($execution));
-        $container->setData('testCompilation', $this->getPrivateDirId($execution) . '|' . $this->getPublicDirId($execution));
+        $container->setData(
+            'testCompilation',
+            $this->getPrivateDirId($execution) . '|' . $this->getPublicDirId($execution)
+        );
 
         $container->setData('providers', $containerService->getProviders($execution));
         $container->setData('bootstrap', $containerService->getBootstrap($execution));

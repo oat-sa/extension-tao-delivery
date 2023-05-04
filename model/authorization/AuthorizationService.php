@@ -28,7 +28,7 @@ namespace oat\taoDelivery\model\authorization;
  */
 interface AuthorizationService
 {
-    const SERVICE_ID = 'taoDelivery/authorization';
+    public const SERVICE_ID = 'taoDelivery/authorization';
 
     /**
      * Returns the the authorization provider for the given delivery execution.

@@ -24,11 +24,11 @@ use JsonSerializable;
 
 interface DeliveryExecutionContextInterface extends JsonSerializable
 {
-    const PARAM_EXECUTION_ID = 'execution_id';
-    const PARAM_CONTEXT_ID = 'context_id';
-    const PARAM_TYPE = 'type';
-    const PARAM_LABEL = 'label';
-    const PARAM_EXTRA_DATA = 'extra_data';
+    public const PARAM_EXECUTION_ID = 'execution_id';
+    public const PARAM_CONTEXT_ID = 'context_id';
+    public const PARAM_TYPE = 'type';
+    public const PARAM_LABEL = 'label';
+    public const PARAM_EXTRA_DATA = 'extra_data';
 
     /**
      * @param string $executionId

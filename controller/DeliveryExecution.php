@@ -25,7 +25,7 @@ namespace oat\taoDelivery\controller;
 use Exception;
 use http\Exception\BadQueryStringException;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-use \tao_actions_RestController;
+use tao_actions_RestController;
 
 class DeliveryExecution extends tao_actions_RestController
 {
@@ -51,7 +51,7 @@ class DeliveryExecution extends tao_actions_RestController
 
     private function validateRequestAttributes(array $queryParams): void
     {
-        if (!isset($queryParams[self::ATTRIBUTE_DELIVERY_EXECUTION_URI])){
+        if (!isset($queryParams[self::ATTRIBUTE_DELIVERY_EXECUTION_URI])) {
             throw new BadQueryStringException(
                 sprintf('Missing %s query', self::ATTRIBUTE_DELIVERY_EXECUTION_URI)
             );

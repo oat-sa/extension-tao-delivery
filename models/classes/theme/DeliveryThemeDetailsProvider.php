@@ -35,12 +35,12 @@ use oat\tao\model\theme\ThemeDetailsProviderInterface;
 class DeliveryThemeDetailsProvider extends \Actions implements ThemeDetailsProviderInterface, PhpSerializable
 {
     use PhpSerializeStateless;
-    
+
 
     /**
      * The delivery theme id uri.
      */
-    const DELIVERY_THEME_ID_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ThemeName';
+    public const DELIVERY_THEME_ID_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ThemeName';
 
     /**
      * @inheritdoc

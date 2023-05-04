@@ -25,7 +25,7 @@ use oat\taoDelivery\model\container\execution\ExecutionServiceContainer;
 
 class DeliveryServiceContainer extends AbstractContainer
 {
-    const DEFAULT_ID = 'service';
+    public const DEFAULT_ID = 'service';
 
     public function getRuntime(DeliveryExecution $execution)
     {

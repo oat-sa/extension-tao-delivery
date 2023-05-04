@@ -250,7 +250,17 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('4.9.0', '6.1.2');
 
         if ($this->isVersion('6.1.2')) {
-            AclProxy::revokeRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'taoDelivery', 'mod' => 'DeliveryServer', 'action' => 'logout']));
+            AclProxy::revokeRule(
+                new AccessRule(
+                    'grant',
+                    TaoRoles::ANONYMOUS,
+                    [
+                        'ext' => 'taoDelivery',
+                        'mod' => 'DeliveryServer',
+                        'action' => 'logout',
+                    ]
+                )
+            );
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, DeliveryServer::class . '@logout'));
             $this->setVersion('6.1.3');
         }
@@ -360,8 +370,6 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('7.0.1', '7.0.2');
 
         if ($this->isVersion('7.0.2')) {
-            // Delete unused service after refactoring
-            //$this->getServiceManager()->register(DeliveryPluginService::SERVICE_ID, new DeliveryPluginService(['plugin_type' => 'taoDelivery']));
             $this->setVersion('7.1.0');
         }
 
@@ -409,9 +417,16 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('13.1.0')) {
             if (!$this->getServiceManager()->has(DeliveryExecutionDeleteService::SERVICE_ID)) {
                 $deliveryExecutionDeleteService = new DeliveryExecutionDeleteService([
-                    DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES => [ResultServerService::SERVICE_ID]
+                    DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES => [
+                        ResultServerService::SERVICE_ID,
+                    ],
                 ]);
-                $this->getServiceManager()->register(DeliveryExecutionDeleteService::SERVICE_ID, $deliveryExecutionDeleteService);
+                $this
+                    ->getServiceManager()
+                    ->register(
+                        DeliveryExecutionDeleteService::SERVICE_ID,
+                        $deliveryExecutionDeleteService
+                    );
             }
             $this->setVersion('13.1.1');
         }
@@ -441,12 +456,17 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('14.0.0', '14.2.2');
 
         if ($this->isVersion('14.2.2')) {
-            $this->getServiceManager()->register(CapacityInterface::SERVICE_ID, new DummyCapacityService([DummyCapacityService::OPTION_CAPACITY => -1]));
+            $this
+                ->getServiceManager()
+                ->register(
+                    CapacityInterface::SERVICE_ID,
+                    new DummyCapacityService([DummyCapacityService::OPTION_CAPACITY => -1])
+                );
             $this->setVersion('14.3.0');
         }
 
         $this->skip('14.3.0', '14.16.2');
-        
+
         //Updater files are deprecated. Please use migrations.
         //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
 

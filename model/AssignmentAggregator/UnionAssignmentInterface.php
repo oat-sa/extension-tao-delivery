@@ -26,7 +26,6 @@ use oat\taoDelivery\model\AssignmentService;
 
 interface UnionAssignmentInterface extends AssignmentService
 {
-    
     /**
      * Returns AssignmentServices which was appended for current realisation
      *

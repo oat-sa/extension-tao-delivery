@@ -27,8 +27,7 @@ namespace oat\taoDelivery\model\Capacity;
  */
 interface CapacityInterface
 {
-
-    const SERVICE_ID = 'taoDelivery/CapacityService';
+    public const SERVICE_ID = 'taoDelivery/CapacityService';
 
     /**
      * Returns the available capacity of the system

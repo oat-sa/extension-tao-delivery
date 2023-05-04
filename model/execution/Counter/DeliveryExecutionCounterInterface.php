@@ -27,8 +27,7 @@ namespace oat\taoDelivery\model\execution\Counter;
  */
 interface DeliveryExecutionCounterInterface
 {
-
-    const SERVICE_ID = 'taoDelivery/DeliveryExecutionCounterService';
+    public const SERVICE_ID = 'taoDelivery/DeliveryExecutionCounterService';
 
     /**
      * Get number of delivery executions of given status.

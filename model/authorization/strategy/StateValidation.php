@@ -40,7 +40,7 @@ class StateValidation extends ConfigurableService implements AuthorizationProvid
     {
         // nothign to check, no state yet
     }
-    
+
     /**
      * Verify that a given delivery execution is allowed to be executed
      *
@@ -52,11 +52,13 @@ class StateValidation extends ConfigurableService implements AuthorizationProvid
     {
         $stateId = $deliveryExecution->getState()->getUri();
         if (!in_array($stateId, $this->getResumableStates())) {
-            \common_Logger::w('Unexpected state "' . $stateId . '; delivery execution: ' . $deliveryExecution->getIdentifier());
+            \common_Logger::w(
+                'Unexpected state "' . $stateId . '; delivery execution: ' . $deliveryExecution->getIdentifier()
+            );
             throw new \common_exception_Unauthorized();
         }
     }
-    
+
     public function getResumableStates()
     {
         return [DeliveryExecution::STATE_ACTIVE, DeliveryExecution::STATE_PAUSED];

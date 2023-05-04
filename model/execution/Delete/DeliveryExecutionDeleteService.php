@@ -27,9 +27,9 @@ use oat\taoDelivery\model\execution\ServiceProxy;
 
 class DeliveryExecutionDeleteService extends ConfigurableService
 {
-    const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
+    public const SERVICE_ID = 'taoDelivery/DeliveryExecutionDelete';
 
-    const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
+    public const OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES = 'deleteDeliveryExecutionDataServices';
 
     /** @var common_report_Report  */
     private $report;
@@ -44,7 +44,9 @@ class DeliveryExecutionDeleteService extends ConfigurableService
         parent::__construct($options);
 
         if (!$this->hasOption(static::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES)) {
-            throw new \common_exception_Error('Invalid Option provided: ' . static::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES);
+            throw new \common_exception_Error(
+                'Invalid Option provided: ' . static::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES
+            );
         }
     }
 
@@ -55,7 +57,9 @@ class DeliveryExecutionDeleteService extends ConfigurableService
      */
     public function execute(DeliveryExecutionDeleteRequest $request)
     {
-        $this->report = common_report_Report::createInfo('Deleting Delivery Execution: ' . $request->getDeliveryExecution()->getIdentifier());
+        $this->report = common_report_Report::createInfo(
+            'Deleting Delivery Execution: ' . $request->getDeliveryExecution()->getIdentifier()
+        );
 
         $shouldDelete = $this->deleteDeliveryExecutionData($request);
 
@@ -66,9 +70,19 @@ class DeliveryExecutionDeleteService extends ConfigurableService
             $deleted = $executionService->deleteDeliveryExecutionData($request);
 
             if ($deleted) {
-                $this->report->add(common_report_Report::createSuccess('Delivery Execution has been deleted.', $request->getDeliveryExecution()->getIdentifier()));
+                $this->report->add(
+                    common_report_Report::createSuccess(
+                        'Delivery Execution has been deleted.',
+                        $request->getDeliveryExecution()->getIdentifier()
+                    )
+                );
             } else {
-                $this->report->add(common_report_Report::createInfo('Delivery Execution has NOT been deleted. DE id: ' . $request->getDeliveryExecution()->getIdentifier()));
+                $this->report->add(
+                    common_report_Report::createInfo(
+                        'Delivery Execution has NOT been deleted. DE id: '
+                            . $request->getDeliveryExecution()->getIdentifier()
+                    )
+                );
             }
 
             return $deleted;

@@ -27,7 +27,6 @@ use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryFieldsServiceTest extends TestCase
 {
-
     public function testGetDeliveryExecutionPageTitle(): void
     {
         $deliveryFieldsService = new DeliveryFieldsService();
@@ -39,5 +38,4 @@ class DeliveryFieldsServiceTest extends TestCase
 
         $this->assertEquals($result, 'TAO: test label');
     }
-
 }

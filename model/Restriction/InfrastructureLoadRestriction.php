@@ -27,8 +27,7 @@ use oat\taoDelivery\model\Metrics\InfrastructureLoadMetricInterface;
 
 class InfrastructureLoadRestriction extends BasicRestriction
 {
-
-    const METRIC = InfrastructureLoadMetricInterface::class;
+    public const METRIC = InfrastructureLoadMetricInterface::class;
 
     /**
      * @param $value
