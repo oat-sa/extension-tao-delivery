@@ -26,7 +26,10 @@ use oat\oatbox\Configurable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class AbstractContainer extends Configurable implements DeliveryContainer, ServiceLocatorAwareInterface, \JsonSerializable
+abstract class AbstractContainer extends Configurable implements
+    DeliveryContainer,
+    ServiceLocatorAwareInterface,
+    \JsonSerializable
 {
     use ServiceLocatorAwareTrait;
 

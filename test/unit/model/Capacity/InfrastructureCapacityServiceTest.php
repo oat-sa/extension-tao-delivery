@@ -37,6 +37,8 @@ class InfrastructureCapacityServiceTest extends TestCase
 {
     /**
      * @dataProvider provideConfigAndMetricDataForCheckCapacity
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testGetCapacity_WhenConfigOptionsAndMetricDataIsProvided_ThenExpectedValuesAreReturned(
         $infrastructureLimit,
@@ -45,22 +47,32 @@ class InfrastructureCapacityServiceTest extends TestCase
         $currentInfrastructureLoad,
         $expectedCapacity
     ) {
-        $service = $this->createInfrastructureCapacityService($infrastructureLimit, $taoLimit, $cachedCapacity, $currentInfrastructureLoad);
+        $service = $this->createInfrastructureCapacityService(
+            $infrastructureLimit,
+            $taoLimit,
+            $cachedCapacity,
+            $currentInfrastructureLoad
+        );
 
         $this->assertEquals($expectedCapacity, $service->getCapacity());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testConsume_WhenCachedServerCapacityIsInsufficient_ThenFalseIsReturned()
     {
         $service = $this->createInfrastructureCapacityService(50, 100, 0, 50);
         $this->assertFalse($service->consume());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testConsume_WhenCachedServerCapacityIsSufficient_ThenTrueReturnedAndCapacityDecremented()
     {
         $service = $this->createInfrastructureCapacityService(50, 100, 1, 50, true);
         $this->assertTrue($service->consume());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * returns array with following structure:
@@ -113,7 +125,10 @@ class InfrastructureCapacityServiceTest extends TestCase
     ) {
         $serviceLocatorMock = $this->getServiceLocatorMock([
             LockService::SERVICE_ID => $this->createLockServiceMock(),
-            PersistenceManager::SERVICE_ID => $this->createPersistenceManagerMock($cachedCapacity, $shouldDecrementCapacity),
+            PersistenceManager::SERVICE_ID => $this->createPersistenceManagerMock(
+                $cachedCapacity,
+                $shouldDecrementCapacity
+            ),
             EventManager::SERVICE_ID => $this->createMock(EventManager::class),
             LoggerService::SERVICE_ID => $this->createMock(LoggerInterface::class),
             MetricsService::class => $this->createMetricsMock($currentInfrastructureLoad),

@@ -42,7 +42,9 @@ class ReturnUrlService extends ConfigurableService
 
         $ext = ($this->hasOption(self::EXTENSION_OPTION)) ? $this->getOption(self::EXTENSION_OPTION) : 'taoDelivery';
 
-        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION)) ? $this->getOption(self::CONTROLLER_OPTION) : 'DeliveryServer';
+        $ctrl = ($this->hasOption(self::CONTROLLER_OPTION))
+            ? $this->getOption(self::CONTROLLER_OPTION)
+            : 'DeliveryServer';
 
         $method = ($this->hasOption(self::METHOD_OPTION)) ? $this->getOption(self::METHOD_OPTION) : 'index';
 

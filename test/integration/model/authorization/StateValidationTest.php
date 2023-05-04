@@ -70,6 +70,9 @@ class StateValidationTest extends TestCase
     {
         $this->expectException(common_exception_Unauthorized::class);
         $validator = new StateValidation();
-        $validator->verifyResumeAuthorization($this->getDeliveryExecution(DeliveryExecution::STATE_FINISHED), $this->getUser());
+        $validator->verifyResumeAuthorization(
+            $this->getDeliveryExecution(DeliveryExecution::STATE_FINISHED),
+            $this->getUser()
+        );
     }
 }

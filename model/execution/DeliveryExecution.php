@@ -29,7 +29,11 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
-class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwareInterface, JsonSerializable, OriginalIdAwareDeliveryExecutionInterface
+class DeliveryExecution implements
+    DeliveryExecutionInterface,
+    ServiceManagerAwareInterface,
+    JsonSerializable,
+    OriginalIdAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 
@@ -185,6 +189,8 @@ class DeliveryExecution implements DeliveryExecutionInterface, ServiceManagerAwa
             return $this->getImplementation()->jsonSerialize();
         }
 
-        throw new common_exception_NoImplementation('Delivery Execution model does not implement json serialise method');
+        throw new common_exception_NoImplementation(
+            'Delivery Execution model does not implement json serialise method'
+        );
     }
 }

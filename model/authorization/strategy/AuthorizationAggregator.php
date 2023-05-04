@@ -74,7 +74,10 @@ class AuthorizationAggregator extends ConfigurableService implements Authorizati
         foreach ($this->getProviders() as $provider) {
             $provider->verifyResumeAuthorization($deliveryExecution, $user);
         }
-        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger(new DeliveryExecutionVerified($deliveryExecution));
+        $this
+            ->getServiceManager()
+            ->get(EventManager::SERVICE_ID)
+            ->trigger(new DeliveryExecutionVerified($deliveryExecution));
     }
 
     /**

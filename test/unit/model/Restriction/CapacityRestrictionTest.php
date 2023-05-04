@@ -48,15 +48,19 @@ class CapacityRestrictionTest extends TestCase
         parent::setUp();
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDoesComply_WhenConfigValueIsZero_ThenRestrictionIsNotApplied()
     {
         $this->capacityMock->expects($this->never())->method('consume');
         $this->assertTrue($this->subject->doesComply(0));
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDoesComply_WhenConfigValueIsProvided_ThenCapacityIsConsumed()
     {
         $this->capacityMock->expects($this->once())->method('consume')->willReturn(true);
         $this->assertTrue($this->subject->doesComply(1));
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 }

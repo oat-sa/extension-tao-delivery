@@ -53,12 +53,15 @@ class InfrastructureLoadRestrictionTest extends TestCase
         parent::setUp();
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDoesComply_WhenConfigValueIsZero_ThenRestrictionIsNotApplied()
     {
         $this->metricsServiceMock->expects($this->never())->method('getOneMetric');
         $this->assertTrue($this->subject->doesComply(0));
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDoesComply_WhenConfigValueIsProvided_ThenItIsComparedWithLoadMetric()
     {
         $metricsMock = $this->createMock(abstractMetrics::class);
@@ -69,4 +72,5 @@ class InfrastructureLoadRestrictionTest extends TestCase
         $this->assertFalse($this->subject->doesComply(10));
         $this->assertFalse($this->subject->doesComply(9));
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 }

@@ -174,7 +174,8 @@ class InfrastructureCapacityService extends ConfigurableService implements Capac
     ) {
         $this->getLogger()->info(
             sprintf(
-                'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure limit: %s%%, configured TAO limit: %s',
+                'Recalculated system capacity: %s, current infrastructure load: %s%%, configured infrastructure '
+                    . 'limit: %s%%, configured TAO limit: %s',
                 $capacity,
                 $currentInfrastructureLoad,
                 $infrastructureLimit,

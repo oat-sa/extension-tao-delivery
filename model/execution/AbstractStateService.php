@@ -81,7 +81,9 @@ abstract class AbstractStateService extends ConfigurableService implements State
     public function createDeliveryExecution($deliveryId, User $user, $label)
     {
         $status = $this->getInitialStatus($deliveryId, $user);
-        $deliveryExecution = $this->getStorageEngine()->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
+        $deliveryExecution = $this
+            ->getStorageEngine()
+            ->spawnDeliveryExecution($label, $deliveryId, $user->getIdentifier(), $status);
         // trigger event
         $event = new DeliveryExecutionCreated($deliveryExecution, $user);
         $this->getEventManager()->trigger($event);
@@ -118,7 +120,9 @@ abstract class AbstractStateService extends ConfigurableService implements State
     {
         $previousState = $deliveryExecution->getState()->getUri();
         if ($previousState === $state) {
-            $this->logWarning('Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state);
+            $this->logWarning(
+                'Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state
+            );
 
             return false;
         }

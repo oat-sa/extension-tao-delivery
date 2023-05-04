@@ -21,7 +21,9 @@
 
 namespace oat\taoDelivery\test\integration\model\execution;
 
+// phpcs:disable PSR1.Files.SideEffects
 require_once __DIR__ . '/../../../../../tao/includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoDelivery\model\execution\DeliveryExecution;
@@ -46,7 +48,12 @@ class OntologyServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf(DeliveryExecutionService::class, $service);
 
         $assembly = new \core_kernel_classes_Resource('fake');
-        $deWrapper = $service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
+        $deWrapper = $service->spawnDeliveryExecution(
+            'DE label',
+            $assembly,
+            'fakeUser',
+            'http://uri.com/fake#StartState'
+        );
 
         $this->assertInstanceOf(DeliveryExecution::class, $deWrapper);
         $deliveryExecution = $deWrapper->getImplementation();

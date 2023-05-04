@@ -31,7 +31,10 @@ class DeliveryContainerRegistry extends AbstractRegistry implements ServiceLocat
 
     protected function getExtension()
     {
-        return $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('taoDelivery');
+        return $this
+            ->getServiceLocator()
+            ->get(\common_ext_ExtensionsManager::SERVICE_ID)
+            ->getExtensionById('taoDelivery');
     }
 
     protected function getConfigId()

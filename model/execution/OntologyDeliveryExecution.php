@@ -33,7 +33,9 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface, OriginalIdAwareDeliveryExecutionInterface
+class OntologyDeliveryExecution extends core_kernel_classes_Resource implements
+    DeliveryExecutionInterface,
+    OriginalIdAwareDeliveryExecutionInterface
 {
     private $startTime;
     private $finishTime;
@@ -166,7 +168,9 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         $property = $this->getProperty($propertyName);
         $propertyValue = $this->getOnePropertyValue($property);
         if (is_null($propertyValue)) {
-            throw new common_exception_NotFound('Property ' . $propertyName . ' not found for resource ' . $this->getUri());
+            throw new common_exception_NotFound(
+                'Property ' . $propertyName . ' not found for resource ' . $this->getUri()
+            );
         }
 
         return $propertyValue;

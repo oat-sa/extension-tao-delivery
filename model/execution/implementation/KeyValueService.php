@@ -43,7 +43,9 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
  * @access public
  * @package taoDelivery
  */
-class KeyValueService extends ConfigurableService implements DeliveryExecutionMetadataAwareService, DeliveryExecutionServiceInterface
+class KeyValueService extends ConfigurableService implements
+    DeliveryExecutionMetadataAwareService,
+    DeliveryExecutionServiceInterface
 {
     public const OPTION_PERSISTENCE = 'persistence';
 
@@ -67,7 +69,10 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
             $persistenceOption = $this->getOption(self::OPTION_PERSISTENCE);
             $this->persistence = (is_object($persistenceOption))
                 ? $persistenceOption
-                : $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceOption);
+                : $this
+                    ->getServiceLocator()
+                    ->get(\common_persistence_Manager::SERVICE_ID)
+                    ->getPersistenceById($persistenceOption);
         }
         return $this->persistence;
     }
@@ -87,7 +92,10 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
                 $returnValue[$key] = $this->getDeliveryExecution($key);
             }
         } else {
-            common_Logger::w('Non array "' . gettype($keys) . '" received as active Execution Keys for user ' . $userUri . ' with delivery' . $compiled->getUri());
+            common_Logger::w(
+                'Non array "' . gettype($keys) . '" received as active Execution Keys for user '
+                    . $userUri . ' with delivery' . $compiled->getUri()
+            );
         }
 
         return $returnValue;
@@ -130,7 +138,12 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
     public function initDeliveryExecution(core_kernel_classes_Resource $assembly, $userId)
     {
         common_Logger::w('Call to deprecated function ' . __FUNCTION__);
-        return $this->spawnDeliveryExecution($assembly->getLabel(), $assembly->getUri(), $userId, KvDeliveryExecution::STATE_ACTIVE);
+        return $this->spawnDeliveryExecution(
+            $assembly->getLabel(),
+            $assembly->getUri(),
+            $userId,
+            KvDeliveryExecution::STATE_ACTIVE
+        );
     }
 
     /**
@@ -169,7 +182,9 @@ class KeyValueService extends ConfigurableService implements DeliveryExecutionMe
                 }
             }
         } else {
-            common_Logger::w('Non array "' . gettype($keys) . '" received as active Delivery Keys for user ' . $userUri);
+            common_Logger::w(
+                'Non array "' . gettype($keys) . '" received as active Delivery Keys for user ' . $userUri
+            );
         }
 
         return $returnValue;
