@@ -1,7 +1,5 @@
 <?php
 
-namespace oat\taoDelivery\model\fields;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +19,8 @@ namespace oat\taoDelivery\model\fields;
  *
  */
 
+namespace oat\taoDelivery\model\fields;
+
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -36,9 +36,9 @@ class DeliveryFieldsService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'taoDelivery/deliveryFields';
+    public const SERVICE_ID = 'taoDelivery/deliveryFields';
 
-    const PROPERTY_CUSTOM_LABEL = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel';
+    public const PROPERTY_CUSTOM_LABEL = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#CustomLabel';
 
     /**
      * Getting custom label from Delivery

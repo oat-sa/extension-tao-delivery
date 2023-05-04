@@ -57,13 +57,29 @@ class RegisterDeliveryExecutionDeleteService extends ScriptAction
 
         try {
             /** @var DeliveryExecutionDeleteService $deliveryDeleteService */
-            $deliveryExecutionDeleteService = $this->getServiceLocator()->get(DeliveryExecutionDeleteService::SERVICE_ID);
-            $report->add(new Report(Report::TYPE_INFO, "'DeliveryExecutionDeleteService' service found. Configuration will be replaced."));
+            $deliveryExecutionDeleteService = $this
+                ->getServiceLocator()
+                ->get(DeliveryExecutionDeleteService::SERVICE_ID);
+            $report->add(
+                new Report(
+                    Report::TYPE_INFO,
+                    "'DeliveryExecutionDeleteService' service found. Configuration will be replaced."
+                )
+            );
 
             // Update service configuration.
-            $deliveryExecutionDeleteService->setOption(DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES, $this->services);
+            $deliveryExecutionDeleteService->setOption(
+                DeliveryExecutionDeleteService::OPTION_DELETE_DELIVERY_EXECUTION_DATA_SERVICES,
+                $this->services
+            );
         } catch (ServiceNotFoundException $e) {
-            $report->add(new Report(Report::TYPE_INFO, "'DeliveryExecutionDeleteService' service not found. A new instance of the service will be registered."));
+            $report->add(
+                new Report(
+                    Report::TYPE_INFO,
+                    "'DeliveryExecutionDeleteService' service not found. A new instance of the service will be "
+                        . "registered."
+                )
+            );
 
             // Register new service instance.
             $deliveryExecutionDeleteService = new DeliveryExecutionDeleteService([
@@ -71,7 +87,12 @@ class RegisterDeliveryExecutionDeleteService extends ScriptAction
             ]);
         }
 
-        $this->getServiceManager()->register(DeliveryExecutionDeleteService::SERVICE_ID, $deliveryExecutionDeleteService);
+        $this
+            ->getServiceManager()
+            ->register(
+                DeliveryExecutionDeleteService::SERVICE_ID,
+                $deliveryExecutionDeleteService
+            );
         $report->add(new Report(Report::TYPE_SUCCESS, "'DeliveryExecutionDeleteService' registered."));
 
         return $report;

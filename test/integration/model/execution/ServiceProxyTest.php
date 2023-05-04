@@ -21,7 +21,9 @@
 
 namespace oat\taoDelivery\test\integration\model\execution;
 
+// phpcs:disable PSR1.Files.SideEffects
 require_once __DIR__ . '/../../../../../tao/includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 use common_exception_NoImplementation;
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -107,7 +109,9 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetActiveDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize(DeliveryExecutionService::class);
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_ACTIVE)->willReturn(true);
+        $serviceProphecy
+            ->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_ACTIVE)
+            ->willReturn(true);
         $service = $serviceProphecy->reveal();
         ServiceProxy::singleton()->setImplementation($service);
 
@@ -121,7 +125,9 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetPausedDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize(DeliveryExecutionService::class);
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_PAUSED)->willReturn(true);
+        $serviceProphecy
+            ->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_PAUSED)
+            ->willReturn(true);
         $service = $serviceProphecy->reveal();
         ServiceProxy::singleton()->setImplementation($service);
 
@@ -135,7 +141,9 @@ class ServiceProxyTest extends TaoPhpUnitTestRunner
     public function testGetFinishedDeliveryExecutions()
     {
         $serviceProphecy = $this->prophesize(DeliveryExecutionService::class);
-        $serviceProphecy->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_FINISHED)->willReturn(true);
+        $serviceProphecy
+            ->getDeliveryExecutionsByStatus('#UserUri', DeliveryExecutionInterface::STATE_FINISHED)
+            ->willReturn(true);
 
         $service = $serviceProphecy->reveal();
         ServiceProxy::singleton()->setImplementation($service);

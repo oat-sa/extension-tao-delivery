@@ -27,27 +27,26 @@ use oat\tao\model\entryPoint\Entrypoint;
 
 class FrontOfficeEntryPoint extends Configurable implements Entrypoint
 {
-
     public function getId()
     {
         return 'deliveryServer';
     }
-    
+
     public function getTitle()
     {
         return __('Test-Takers');
     }
-    
+
     public function getLabel()
     {
         return __('TAO Delivery Server');
     }
-    
+
     public function getDescription()
     {
         return __('Take or continue a test.');
     }
-    
+
     public function getUrl()
     {
         return _url("index", "DeliveryServer", "taoDelivery");

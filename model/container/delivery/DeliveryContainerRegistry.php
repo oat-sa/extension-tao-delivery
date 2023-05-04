@@ -28,22 +28,25 @@ use oat\oatbox\Configurable;
 class DeliveryContainerRegistry extends AbstractRegistry implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
-    
+
     protected function getExtension()
     {
-        return $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('taoDelivery');
+        return $this
+            ->getServiceLocator()
+            ->get(\common_ext_ExtensionsManager::SERVICE_ID)
+            ->getExtensionById('taoDelivery');
     }
-    
+
     protected function getConfigId()
     {
         return 'deliveryContainerRegistry';
     }
-    
+
     public function registerContainerType($id, Configurable $container)
     {
         $this->set($id, $container);
     }
-    
+
     public function fromJson($string)
     {
         $data = json_decode($string, true);
@@ -52,7 +55,7 @@ class DeliveryContainerRegistry extends AbstractRegistry implements ServiceLocat
         }
         return $this->getDeliveryContainer($data['container'], $data['params']);
     }
-    
+
     public function getDeliveryContainer($id, $params)
     {
         $container = $this->get($id);

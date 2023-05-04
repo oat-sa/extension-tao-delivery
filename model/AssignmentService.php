@@ -32,13 +32,13 @@ use oat\oatbox\user\User;
  */
 interface AssignmentService
 {
-    const SERVICE_ID = 'taoDelivery/assignment';
+    public const SERVICE_ID = 'taoDelivery/assignment';
 
     /**
      * @deprecated please use SERVICE_ID
      */
-    const CONFIG_ID = 'taoDelivery/assignment';
-     
+    public const CONFIG_ID = 'taoDelivery/assignment';
+
     /**
      * Returns the deliveries availableto a user
      *
@@ -46,7 +46,7 @@ interface AssignmentService
      * @return Assignment[] list of deliveries
      */
     public function getAssignments(User $user);
-    
+
     /**
      * Returns the ids of users assigned to a delivery
      *
@@ -54,7 +54,7 @@ interface AssignmentService
      * @return string[] ids of users
      */
     public function getAssignedUsers($deliveryId);
-    
+
     /**
      * Returns whenever or not a user can take a specific delivery
      *
@@ -72,6 +72,6 @@ interface AssignmentService
      * @return \tao_models_classes_service_ServiceCall
      */
     public function getRuntime($deliveryId);
-    
+
     // no longer available: onDelete() please use eventManager
 }

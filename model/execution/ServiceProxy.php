@@ -43,7 +43,7 @@ use tao_models_classes_Service;
  */
 class ServiceProxy extends tao_models_classes_Service implements DeliveryExecutionService
 {
-    const CONFIG_KEY = 'execution_service';
+    public const CONFIG_KEY = 'execution_service';
 
     public function setImplementation(DeliveryExecutionService $implementation)
     {
@@ -138,7 +138,10 @@ class ServiceProxy extends tao_models_classes_Service implements DeliveryExecuti
     public function getExecutionsByDelivery(core_kernel_classes_Resource $compiled)
     {
         if (!$this->implementsMonitoring()) {
-            throw new common_exception_NoImplementation(get_class($this->getImplementation()) . ' does not implement \oat\taoDelivery\model\execution\Monitoring');
+            throw new common_exception_NoImplementation(
+                get_class($this->getImplementation())
+                    . ' does not implement \oat\taoDelivery\model\execution\Monitoring'
+            );
         }
         return $this->getImplementation()->getExecutionsByDelivery($compiled);
     }

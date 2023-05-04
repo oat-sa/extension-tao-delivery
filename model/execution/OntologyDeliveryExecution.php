@@ -33,7 +33,9 @@ use core_kernel_classes_Resource;
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
  */
-class OntologyDeliveryExecution extends core_kernel_classes_Resource implements DeliveryExecutionInterface, OriginalIdAwareDeliveryExecutionInterface
+class OntologyDeliveryExecution extends core_kernel_classes_Resource implements
+    DeliveryExecutionInterface,
+    OriginalIdAwareDeliveryExecutionInterface
 {
     private $startTime;
     private $finishTime;
@@ -71,7 +73,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         return $this->startTime;
     }
 
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getFinishTime()
@@ -87,7 +89,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->finishTime;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getState()
@@ -103,7 +105,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->state;
     }
-    
+
     /**
      * @throws common_exception_ResourceNotFound
      * @see DeliveryExecution::getDelivery()
@@ -121,7 +123,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->delivery;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::getUserIdentifier()
@@ -134,7 +136,7 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         }
         return $this->userIdentifier;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecution::setState()
@@ -166,7 +168,9 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements 
         $property = $this->getProperty($propertyName);
         $propertyValue = $this->getOnePropertyValue($property);
         if (is_null($propertyValue)) {
-            throw new common_exception_NotFound('Property ' . $propertyName . ' not found for resource ' . $this->getUri());
+            throw new common_exception_NotFound(
+                'Property ' . $propertyName . ' not found for resource ' . $this->getUri()
+            );
         }
 
         return $propertyValue;

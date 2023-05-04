@@ -24,7 +24,7 @@ use InvalidArgumentException;
 
 class DeliveryExecutionContext implements DeliveryExecutionContextInterface
 {
-    const EXECUTION_CONTEXT_TYPE = 'delivery';
+    public const EXECUTION_CONTEXT_TYPE = 'delivery';
 
     /**
      * @var string
@@ -66,8 +66,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
         string $type,
         string $label,
         ?array $extraData = []
-    )
-    {
+    ) {
         $this->validateExecutionId($executionId);
         $this->validateExecutionContextId($executionContextId);
 

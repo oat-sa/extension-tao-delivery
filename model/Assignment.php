@@ -40,13 +40,13 @@ class Assignment
     use OntologyAwareTrait;
 
     private $deliveryId;
-    
+
     private $label;
-    
+
     private $desc;
-    
+
     private $startable;
-    
+
     /**
      * Simple constructor to create a new assigment object
      *
@@ -64,7 +64,7 @@ class Assignment
         $this->desc = $desc;
         $this->startable = $startable;
     }
-    
+
     /**
      * Returns the id of the delivery to run
      * @return string
@@ -73,7 +73,7 @@ class Assignment
     {
         return $this->deliveryId;
     }
-    
+
     /**
      * Returns the label of the asignment, which will often correspond
      * to the label of the delivery
@@ -91,7 +91,7 @@ class Assignment
         );
         return $label;
     }
-    
+
     /**
      * An array of description strings to give
      * enhanced informations about the assignment
@@ -103,7 +103,7 @@ class Assignment
     {
         return $this->desc;
     }
-    
+
     /**
      * Whenever or not the assigment is statable
      *

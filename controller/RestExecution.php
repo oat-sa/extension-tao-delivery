@@ -31,7 +31,6 @@ use oat\taoDelivery\model\execution\StateServiceInterface;
  */
 class RestExecution extends \tao_actions_RestController
 {
-
     /**
      * Allows to resume terminated/finished executions
      */
@@ -43,7 +42,11 @@ class RestExecution extends \tao_actions_RestController
             }
 
             if (!$this->hasRequestParameter('deliveryExecution')) {
-                $this->returnFailure(new \common_exception_MissingParameter('At least one mandatory parameter was required but found missing in your request'));
+                $this->returnFailure(
+                    new \common_exception_MissingParameter(
+                        'At least one mandatory parameter was required but found missing in your request'
+                    )
+                );
             }
 
             $reason = 'Automatically unstopped by REST call';
@@ -55,7 +58,9 @@ class RestExecution extends \tao_actions_RestController
             $deliveryExecutionStateService = $this->getServiceLocator()->get(StateServiceInterface::SERVICE_ID);
 
             /** @var DeliveryExecution $deliveryExecution */
-            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution($this->getRequestParameter('deliveryExecution'));
+            $deliveryExecution = ServiceProxy::singleton()->getDeliveryExecution(
+                $this->getRequestParameter('deliveryExecution')
+            );
 
             if (!$deliveryExecution->exists()) {
                 throw new \common_exception_NotFound('Delivery Execution not found');

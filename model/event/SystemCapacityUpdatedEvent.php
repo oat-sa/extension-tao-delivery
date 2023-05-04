@@ -24,7 +24,7 @@ use oat\oatbox\event\Event;
 
 class SystemCapacityUpdatedEvent implements Event
 {
-    const EVENT_NAME = __CLASS__;
+    public const EVENT_NAME = __CLASS__;
 
     /** @var int */
     private $oldCapacity;

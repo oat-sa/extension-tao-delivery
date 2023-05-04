@@ -31,7 +31,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionService as ExecutionService
 
 class KeyValueServiceTest extends TaoPhpUnitTestRunner
 {
-    const KV_PERSISTENCE_ID = 'dummy';
+    public const KV_PERSISTENCE_ID = 'dummy';
 
     /** @var KeyValueService */
     private $service;
@@ -59,7 +59,12 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf(ExecutionService::class, $this->service);
 
         $assembly = new \core_kernel_classes_Resource('fake');
-        $deWrapper = $this->service->spawnDeliveryExecution('DE label', $assembly, 'fakeUser', 'http://uri.com/fake#StartState');
+        $deWrapper = $this->service->spawnDeliveryExecution(
+            'DE label',
+            $assembly,
+            'fakeUser',
+            'http://uri.com/fake#StartState'
+        );
 
         $this->assertInstanceOf(DeliveryExecution::class, $deWrapper);
         $deliveryExecution = $deWrapper->getImplementation();
@@ -97,7 +102,10 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
 
         $kvde = $de->getImplementation();
         $this->service->updateDeliveryExecutionStatus($kvde, null, 'http://uri.com/fake#FinishState');
-        $persistence = $this->service->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById('dummy');
+        $persistence = $this->service
+            ->getServiceLocator()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById('dummy');
 
         $deInStartState = json_decode($persistence->get('kve_ue_fakeUserhttp://uri.com/fake#StartState'), true);
         $deInFinishState = json_decode($persistence->get('kve_ue_fakeUserhttp://uri.com/fake#FinishState'), true);
@@ -107,20 +115,35 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
         $this->assertCount(1, $deInFinishState);
 
         /** after call getDeliveryExecutionsByStatus it should be deleted from finish array, because both executions are in start state */
-        $this->assertCount(2, $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState'));
-        $this->assertCount(0, $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState'));
+        $this->assertCount(
+            2,
+            $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState')
+        );
+        $this->assertCount(
+            0,
+            $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState')
+        );
 
         $kvde->setState('http://uri.com/fake#FinishState');
 
-        $this->assertCount(1, $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState'));
-        $this->assertCount(1, $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState'));
+        $this->assertCount(
+            1,
+            $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#StartState')
+        );
+        $this->assertCount(
+            1,
+            $this->service->getDeliveryExecutionsByStatus($userId, 'http://uri.com/fake#FinishState')
+        );
     }
 
     public function testUpdateDeliveryExecutionStatus()
     {
         $userId = 'fakeUser';
         $assembly = new \core_kernel_classes_Resource('fake');
-        $persistence = $this->service->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById('dummy');
+        $persistence = $this->service
+            ->getServiceLocator()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById('dummy');
         $de = $this->service->spawnDeliveryExecution('DE label', $assembly, $userId, 'http://uri.com/fake#StartState');
 
         $deInStartState = json_decode($persistence->get('kve_ue_fakeUserhttp://uri.com/fake#StartState'), true);
@@ -141,19 +164,28 @@ class KeyValueServiceTest extends TaoPhpUnitTestRunner
         $result = $this->service->exists('NOT_EXISTING_KEY');
         $this->assertFalse($result, 'Result must be as expected for not existing delivery execution.');
 
-        $existsInStorage = $this->persistenceMock->getPersistenceById(self::KV_PERSISTENCE_ID)->exists('NOT_EXISTING_KEY');
+        $existsInStorage = $this->persistenceMock
+            ->getPersistenceById(self::KV_PERSISTENCE_ID)
+            ->exists('NOT_EXISTING_KEY');
         $this->assertFalse($existsInStorage, 'Delivery should not exist in KV storage.');
     }
 
     public function testExistsDeliveryExists()
     {
-        $deWrapper = $this->service->spawnDeliveryExecution('DUMMY label', 'DUMMY_DELIVERY_URI', 'dummyUser', 'http://uri.com/fake#StartState');
+        $deWrapper = $this->service->spawnDeliveryExecution(
+            'DUMMY label',
+            'DUMMY_DELIVERY_URI',
+            'dummyUser',
+            'http://uri.com/fake#StartState'
+        );
         $deliveryExecutionKey = $deWrapper->getIdentifier();
 
         $result = $this->service->exists($deliveryExecutionKey);
         $this->assertTrue($result, 'Result must be as expected for existing delivery key.');
 
-        $existsInStorage = $this->persistenceMock->getPersistenceById(self::KV_PERSISTENCE_ID)->exists($deliveryExecutionKey);
+        $existsInStorage = $this->persistenceMock
+            ->getPersistenceById(self::KV_PERSISTENCE_ID)
+            ->exists($deliveryExecutionKey);
         $this->assertTrue($existsInStorage, 'Delivery execution key must exist in KV storage.');
     }
 }

@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace oat\taoDelivery\model\execution;
 
 use core_kernel_classes_Resource;
@@ -35,7 +34,7 @@ use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDelete;
  */
 interface DeliveryExecutionService extends DeliveryExecutionDelete
 {
-    const SERVICE_ID = 'taoDelivery/execution_service';
+    public const SERVICE_ID = 'taoDelivery/execution_service';
 
     /**
      * Returns the executions the user has of a specified assembly

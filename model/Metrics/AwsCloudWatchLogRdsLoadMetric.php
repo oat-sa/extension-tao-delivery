@@ -9,19 +9,19 @@ use oat\tao\model\metrics\implementations\abstractMetrics;
 class AwsCloudWatchLogRdsLoadMetric extends abstractMetrics implements InfrastructureLoadMetricInterface
 {
     /** @var string */
-    const OPTION_LOG_GROUP_NAME = 'logGroupName';
+    public const OPTION_LOG_GROUP_NAME = 'logGroupName';
 
     /** @var string */
-    const OPTION_LOG_STREAM_NAME = 'logStreamName';
+    public const OPTION_LOG_STREAM_NAME = 'logStreamName';
 
     /** @var string */
-    const OPTION_LOG_EVENTS_LIMIT = 'logEventsLimit';
+    public const OPTION_LOG_EVENTS_LIMIT = 'logEventsLimit';
 
     /** @var int */
-    const DEFAULT_LOG_EVENTS_LIMIT = 1;
+    public const DEFAULT_LOG_EVENTS_LIMIT = 1;
 
     /** @var int */
-    const DEFAULT_METRIC_VALUE = 0;
+    public const DEFAULT_METRIC_VALUE = 0;
 
     /**
      * @var AwsClient

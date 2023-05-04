@@ -35,8 +35,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 class AttemptService extends ConfigurableService implements AttemptServiceInterface
 {
-
-    const OPTION_STATES_TO_EXCLUDE = 'states_to_exclude';
+    public const OPTION_STATES_TO_EXCLUDE = 'states_to_exclude';
 
     /**
      * @inheritdoc

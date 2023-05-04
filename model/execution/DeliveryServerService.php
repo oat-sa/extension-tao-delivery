@@ -78,7 +78,9 @@ class DeliveryServerService extends ConfigurableService
         $resumable = [];
 
         foreach ($this->getResumableStates() as $state) {
-            foreach ($deliveryExecutionService->getDeliveryExecutionsByStatus($user->getIdentifier(), $state) as $execution) {
+            $executions = $deliveryExecutionService->getDeliveryExecutionsByStatus($user->getIdentifier(), $state);
+
+            foreach ($executions as $execution) {
                 $delivery = $execution->getDelivery();
                 if ($delivery->exists()) {
                     $resumable[] = $execution;
@@ -115,7 +117,8 @@ class DeliveryServerService extends ConfigurableService
     }
 
     /**
-     * @param string $deliveryExecutionId id expectected, but still accepts delivery executions for backward compatibility
+     * @param string $deliveryExecutionId id expectected, but still accepts delivery executions for backward
+     *                                    compatibility
      */
     public function getResultStoreWrapper($deliveryExecutionId): ResultStorageWrapper
     {

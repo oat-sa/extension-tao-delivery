@@ -33,7 +33,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
  */
 interface AttemptServiceInterface
 {
-    const SERVICE_ID = 'taoDelivery/AttemptService';
+    public const SERVICE_ID = 'taoDelivery/AttemptService';
 
     /**
      * Get array of delivery finished delivery executions which should be considered as an attempt.

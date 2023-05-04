@@ -56,7 +56,7 @@ class LegacyRuntime extends ConfigurableService implements RuntimeService
         }
         return $container;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoDelivery\model\RuntimeService::getRuntime()

@@ -27,13 +27,13 @@ namespace oat\taoDelivery\model\authorization;
 class UnAuthorizedException extends \common_exception_Unauthorized
 {
     private $errorPage;
-    
+
     public function __construct($errorPage, $message = null)
     {
         parent::__construct($message);
         $this->errorPage = $errorPage;
     }
-    
+
     public function getErrorPage()
     {
         return $this->errorPage;
