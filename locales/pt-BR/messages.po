@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt-BR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /taoDelivery/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 1453\n"
+"Language-Team: Portuguese, Brazilian\n"
+
+msgid "Access deliveries as a guest"
+msgstr "Acessar entregas como convidado"
+
+msgid "All rights reserved."
+msgstr "Todos os direitos reservados."
+
+msgid "An error occurred!"
+msgstr "Ocorreu um erro!"
+
+msgid "Available"
+msgstr "Disponível"
+
+msgid "Close this prompt"
+msgstr "Fechar este prompt"
+
+msgid "Delivery Execution for %s not found"
+msgstr "Execução de Entrega para %s não encontrada"
+
+msgid "Enter full screen"
+msgstr "Entrar em tela cheia"
+
+msgid "Exit"
+msgstr "Sair"
+
+msgid "Go back to tests selection"
+msgstr "Voltar à seleção de testes"
+
+msgid "Guest access"
+msgstr "Acesso de convidado"
+
+msgid "In progress"
+msgstr "Em Execução"
+
+msgid "Logout"
+msgstr "Desconectar"
+
+msgid "My Tests"
+msgstr "Meus testes"
+
+msgid "Resume"
+msgstr "Retomar"
+
+msgid "Resume button"
+msgstr "Botão de continuação"
+
+msgid "Resume this test"
+msgstr "Retomar este teste"
+
+msgid "Start"
+msgstr "Iniciar"
+
+msgid "Start button"
+msgstr "Botão de início"
+
+msgid "Start this test"
+msgstr "Iniciar este teste"
+
+msgid "Started at %s"
+msgstr "Iniciado em %s"
+
+msgid "Take or continue a test."
+msgstr "Faça ou continue a prova."
+
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr "TAO - Uma Plataforma de Avaliação de Computador Aberto e Versátil"
+
+msgid "TAO Delivery Server"
+msgstr "TAO Servidor de Entrega"
+
+msgid "TAO Guest Access"
+msgstr "Acesso de Convidado TAO"
+
+msgid "Test-Takers"
+msgstr "Testes-Coletores"
+
+msgid "This test needs to be taken in full screen mode"
+msgstr "Este teste precisa ser feito em tela cheia"
+
+msgid "To activate press enter"
+msgstr "Para ativar pressione enter"
+
+msgid "You are no longer allowed to take this test"
+msgstr "Você não tem mais permissão para fazer este teste"
+
