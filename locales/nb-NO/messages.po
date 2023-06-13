@@ -1,20 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-10-22T09:26:16\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-13 12:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nb-NO\n"
+"Language: nb_NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nb-NO\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-msgid "About"
-msgstr "Om"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nb\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 725\n"
+"Language-Team: Norwegian Bokmal\n"
 
 msgid "Access deliveries as a guest"
 msgstr "Få tilgang til besvarelser som gjest"
@@ -26,7 +30,7 @@ msgid "An error occurred!"
 msgstr "Det oppstod en feil!"
 
 msgid "Available"
-msgstr "Tilgjengelig"
+msgstr ""
 
 msgid "Close this prompt"
 msgstr "Lukk denne ledeteksten"
@@ -38,7 +42,7 @@ msgid "Enter full screen"
 msgstr "Fullskjermmodus"
 
 msgid "Exit"
-msgstr "Avslutt"
+msgstr ""
 
 msgid "Go back to tests selection"
 msgstr "Gå tilbake til prøver"
@@ -52,20 +56,23 @@ msgstr "Under arbeid"
 msgid "Logout"
 msgstr "Logg ut"
 
-msgid "Main Menu"
-msgstr "Hovedmeny"
-
 msgid "My Tests"
 msgstr "Mine oppgavesett"
 
 msgid "Resume"
 msgstr "Gjenoppta"
 
+msgid "Resume button"
+msgstr ""
+
 msgid "Resume this test"
 msgstr "Gjenoppta denne prøven"
 
 msgid "Start"
-msgstr "Start"
+msgstr ""
+
+msgid "Start button"
+msgstr ""
 
 msgid "Start this test"
 msgstr "Start denne prøven"
@@ -76,23 +83,23 @@ msgstr "Startet med %s"
 msgid "Take or continue a test."
 msgstr "Ta eller fortsett en prøve."
 
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
 msgid "TAO Delivery Server"
 msgstr ""
 
 msgid "TAO Guest Access"
 msgstr "TAO Gjestetilgang"
 
-msgid "TAO: %s"
-msgstr "TAO: %s"
-
-msgid "TAO: Test Selection"
-msgstr "TAO: Prøveutvalg"
-
 msgid "Test-Takers"
 msgstr "Elever"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "Denne prøven må tas i fullskjermsmodus"
+
+msgid "To activate press enter"
+msgstr ""
 
 msgid "You are no longer allowed to take this test"
 msgstr "Du har ikke lenger tilgang til å ta denne prøven"
