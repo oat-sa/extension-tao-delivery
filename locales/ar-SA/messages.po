@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-13 12:55\n"
+"PO-Revision-Date: 2023-06-14 12:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -21,86 +21,86 @@ msgstr ""
 "Language-Team: Arabic\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "الوصول إلى عمليات التسليم كمدعو"
 
 msgid "All rights reserved."
 msgstr ""
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "حدث خطأ!"
 
 msgid "Available"
 msgstr ""
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "أغلق هذا الموجه"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "تنفيذ التسليم لـ %s غير موجود"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "أدخل ملء الشاشة"
 
 msgid "Exit"
 msgstr ""
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "ارجع إلى اختيار الروائز"
 
 msgid "Guest access"
-msgstr ""
+msgstr "مدخل للمدعويين"
 
 msgid "In progress"
-msgstr ""
+msgstr "في تقدم"
 
 msgid "Logout"
 msgstr ""
 
 msgid "My Tests"
-msgstr ""
+msgstr "اروائزي"
 
 msgid "Resume"
-msgstr ""
+msgstr "استأنف"
 
 msgid "Resume button"
-msgstr ""
+msgstr "زر الاستئناف"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "استأنف هذا الرائز"
 
 msgid "Start"
 msgstr ""
 
 msgid "Start button"
-msgstr ""
+msgstr "زر البدء"
 
 msgid "Start this test"
-msgstr ""
+msgstr "ابدأ هذا الرائز"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "بدأ في %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "خذ أو استمر في الرائز."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - منصة للتقييم المعتمد على الحاسوب مفتوحة ومتعددة الاستخدامات"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "خدوم تسليم TAO"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "وصول مدعو TAO"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "الخاضعين للرائز"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "يجب إجراء هذا الرائز في وضع ملء الشاشة"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "لتفعيل اضغط دخول"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "لم يعد مسموحًا لك بإجراء هذا الرائز"
 
