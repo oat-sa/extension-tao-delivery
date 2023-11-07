@@ -47,7 +47,7 @@ define([
      * @param {String} content - the message to display
      */
     const displayPermanentMessage = (level, content) => {
-        if(level && content){
+        if (level && content) {
             feedback($('.permanent-feedback'))[level](content, {
                 timeout : -1,
                 popup : false
@@ -88,7 +88,7 @@ define([
              * @param {String} url - the delivery URL
              */
             const runDelivery = function runDelivery (url) {
-                if(_.isString(url) && !_.isEmpty(url)){
+	        if (typeof url === 'string' && url.length !== 0) {
                     deliveryStarted = true;
                     loadingBar.start();
                     window.location.href = url;
@@ -107,8 +107,8 @@ define([
 
             // display as feedbacks any messages in parameters
             if (parameters && parameters.messages) {
-                _.forEach(parameters.messages, message => {
-                    displayPermanentMessage(message.level, message.content);
+                parameters.messages.forEach((message) => {
+                  displayPermanentMessage(message.level, message.content);
                 });
             }
 
@@ -128,7 +128,7 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
 
-                if(!deliveryStarted && !$elt.hasClass('disabled')){
+                if (!deliveryStarted && !$elt.hasClass('disabled')) {
                     runDelivery($elt.data().launch_url);
                 }
             };
@@ -136,14 +136,14 @@ define([
             supportRTL();
             $('.entry-point').on('click', launchDelivery);
             $('.entry-point').on('keyup', (e) => {
-                if(accessibilityLaunchKeyCodes.includes(e.which)) {
+                if (accessibilityLaunchKeyCodes.includes(e.which)) {
                     launchDelivery(e);
                 }
             });
 
             // dispatch any extra registered routes
-            if (config && _.isArray(config.extraRoutes) && config.extraRoutes.length) {
-                router.dispatch(config.extraRoutes);
+            if (config && Array.isArray(config.extraRoutes) && config.extraRoutes.length) {
+              router.dispatch(config.extraRoutes);
             }
         }
     };
