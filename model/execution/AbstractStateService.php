@@ -121,7 +121,7 @@ abstract class AbstractStateService extends ConfigurableService implements State
         $previousState = $deliveryExecution->getState()->getUri();
         if ($previousState === $state) {
             $this->logWarning(
-                'Delivery execution ' . $deliveryExecution->getIdentifier() . ' already in state ' . $state
+                "Delivery execution {$deliveryExecution->getIdentifier()} already in state {$state}"
             );
 
             return false;
@@ -129,14 +129,14 @@ abstract class AbstractStateService extends ConfigurableService implements State
 
         $result = $deliveryExecution->getImplementation()->setState($state);
 
-        $user = common_session_SessionManager::getSession()->getUser();
+        $context = null;
 
-        $context =
-            $state === DeliveryExecutionInterface::STATE_FINISHED
-            ? new DeliveryExecutionStateContext([
+        if ($state === DeliveryExecutionInterface::STATE_FINISHED) {
+            $user = common_session_SessionManager::getSession()->getUser();
+            $context = new DeliveryExecutionStateContext([
                 DeliveryExecutionStateContext::PARAM_USER => $user
-            ])
-            : null;
+            ]);
+        }
 
         $this->emitEvent(new DeliveryExecutionStateEvent($deliveryExecution, $state, $previousState, $context));
         $this->logDebug(sprintf('DeliveryExecutionState from %s to %s triggered', $previousState, $state));
