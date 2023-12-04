@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-14 12:52\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -24,13 +24,13 @@ msgid "Access deliveries as a guest"
 msgstr "الوصول إلى عمليات التسليم كمدعو"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "جميع الحقوق محفوظة."
 
 msgid "An error occurred!"
 msgstr "حدث خطأ!"
 
 msgid "Available"
-msgstr ""
+msgstr "متوفر"
 
 msgid "Close this prompt"
 msgstr "أغلق هذا الموجه"
@@ -42,7 +42,7 @@ msgid "Enter full screen"
 msgstr "أدخل ملء الشاشة"
 
 msgid "Exit"
-msgstr ""
+msgstr "خروج"
 
 msgid "Go back to tests selection"
 msgstr "ارجع إلى اختيار الروائز"
@@ -54,7 +54,7 @@ msgid "In progress"
 msgstr "في تقدم"
 
 msgid "Logout"
-msgstr ""
+msgstr "تسجيل الخروج"
 
 msgid "My Tests"
 msgstr "اروائزي"
@@ -69,7 +69,7 @@ msgid "Resume this test"
 msgstr "استأنف هذا الرائز"
 
 msgid "Start"
-msgstr ""
+msgstr "بداية"
 
 msgid "Start button"
 msgstr "زر البدء"
