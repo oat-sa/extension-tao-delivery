@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-13 12:55\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -24,25 +24,25 @@ msgid "Access deliveries as a guest"
 msgstr "auf Bereitstellungen als Gast zugreifen"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Alle Rechte vorbehalten."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten!"
 
 msgid "Available"
-msgstr ""
+msgstr "Verfügbar"
 
 msgid "Close this prompt"
 msgstr "Diese Abfrage schließen"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "Ausführung der Auslieferung für %s nicht gefunden"
 
 msgid "Enter full screen"
 msgstr "Vollbild anzeigen"
 
 msgid "Exit"
-msgstr ""
+msgstr "Beenden"
 
 msgid "Go back to tests selection"
 msgstr "Kehren Sie zur Testauswahl zurück"
@@ -54,7 +54,7 @@ msgid "In progress"
 msgstr "In Bearbeitung"
 
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
 msgid "My Tests"
 msgstr "Meine Tests"
@@ -63,22 +63,22 @@ msgid "Resume"
 msgstr "Fortsetzen"
 
 msgid "Resume button"
-msgstr ""
+msgstr "Fortsetzen-Schaltfläche"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "Diesen Test fortsetzen"
 
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 msgid "Start button"
-msgstr ""
+msgstr "Start-Schaltfläche"
 
 msgid "Start this test"
-msgstr ""
+msgstr "Diesen Test starten"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Gestartet um %s"
 
 msgid "Take or continue a test."
 msgstr "Einen Test beginnen oder fortsetzen."
@@ -99,8 +99,8 @@ msgid "This test needs to be taken in full screen mode"
 msgstr "Dieser Test muss im Vollbildmodus durchgeführt werden"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Zum Aktivieren drücken Sie Enter"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Sie dürfen diesen Test nicht mehr ablegen"
 
