@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-13 12:55\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -27,7 +27,7 @@ msgid "All rights reserved."
 msgstr "Visos teisės saugomos."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Įvyko klaida!"
 
 msgid "Available"
 msgstr ""
@@ -36,7 +36,7 @@ msgid "Close this prompt"
 msgstr "Uždaryti šį langą"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "Pristatymo vykdymas %s nerastas"
 
 msgid "Enter full screen"
 msgstr "Pereiti į viso ekrano rodymą"
@@ -63,19 +63,19 @@ msgid "Resume"
 msgstr "Tęsti"
 
 msgid "Resume button"
-msgstr ""
+msgstr "Tęsti mygtuką"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "Tęsti šį testą"
 
 msgid "Start"
 msgstr "Pradėti"
 
 msgid "Start button"
-msgstr ""
+msgstr "Pradėti mygtuką"
 
 msgid "Start this test"
-msgstr ""
+msgstr "Pradėti šį testą"
 
 msgid "Started at %s"
 msgstr "Pradėta %s"
@@ -99,7 +99,7 @@ msgid "This test needs to be taken in full screen mode"
 msgstr "Šis testas turi būti sprendžiamas įjungus viso ekrano rodymą"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Norėdami aktyvuoti, paspauskite Enter"
 
 msgid "You are no longer allowed to take this test"
 msgstr "Jūs nebegalite spręsti šio testo"
