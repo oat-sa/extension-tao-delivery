@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-13 12:55\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -24,7 +24,7 @@ msgid "Access deliveries as a guest"
 msgstr "ゲストとしてデリバリにアクセス"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "All rights reserved."
 
 msgid "An error occurred!"
 msgstr "エラーが発生しました!"
