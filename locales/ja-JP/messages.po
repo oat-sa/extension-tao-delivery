@@ -1,20 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.09\n"
-"PO-Revision-Date: 2022-08-12T16:45:49\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-
-msgid "About"
-msgstr "　"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 725\n"
+"Language-Team: Japanese\n"
 
 msgid "Access deliveries as a guest"
 msgstr "ゲストとしてデリバリにアクセス"
@@ -26,7 +30,7 @@ msgid "An error occurred!"
 msgstr "エラーが発生しました!"
 
 msgid "Available"
-msgstr "実施対象"
+msgstr "実施可能"
 
 msgid "Close this prompt"
 msgstr "プロンプトを閉じる"
@@ -52,20 +56,23 @@ msgstr "実施中"
 msgid "Logout"
 msgstr "ログアウト"
 
-msgid "Main Menu"
-msgstr "メインメニュー"
-
 msgid "My Tests"
 msgstr "実施テスト一覧"
 
 msgid "Resume"
 msgstr "再開"
 
+msgid "Resume button"
+msgstr ""
+
 msgid "Resume this test"
 msgstr "このテストを再開する"
 
 msgid "Start"
-msgstr "開始"
+msgstr "開 始"
+
+msgid "Start button"
+msgstr ""
 
 msgid "Start this test"
 msgstr "このテストを開始する"
@@ -76,23 +83,23 @@ msgstr "実施：%s"
 msgid "Take or continue a test."
 msgstr "テストの受験・継続"
 
+msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
+msgstr ""
+
 msgid "TAO Delivery Server"
 msgstr "TAOデリバリサーバ"
 
 msgid "TAO Guest Access"
 msgstr "TAOゲストアクセス"
 
-msgid "TAO: %s"
-msgstr "TAO: %s"
-
-msgid "TAO: Test Selection"
-msgstr "TAO:テストセレクション"
-
 msgid "Test-Takers"
 msgstr "受験者"
 
 msgid "This test needs to be taken in full screen mode"
 msgstr "このテストはフルスクリーンモードで受けてください"
+
+msgid "To activate press enter"
+msgstr ""
 
 msgid "You are no longer allowed to take this test"
 msgstr "このテストを受けることはできません"

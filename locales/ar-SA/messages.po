@@ -4,7 +4,7 @@ msgstr ""
 "PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: de\n"
+"Language: ar\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,95 +12,95 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: de\n"
+"X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/messages.po\n"
 "X-Crowdin-File-ID: 725\n"
-"Language-Team: German\n"
+"Language-Team: Arabic\n"
 
 msgid "Access deliveries as a guest"
-msgstr "auf Bereitstellungen als Gast zugreifen"
+msgstr "الوصول إلى عمليات التسليم كمدعو"
 
 msgid "All rights reserved."
-msgstr "Alle Rechte vorbehalten."
+msgstr "جميع الحقوق محفوظة."
 
 msgid "An error occurred!"
-msgstr "Ein Fehler ist aufgetreten!"
+msgstr "حدث خطأ!"
 
 msgid "Available"
-msgstr "Verfügbar"
+msgstr "متوفر"
 
 msgid "Close this prompt"
-msgstr "Diese Abfrage schließen"
+msgstr "أغلق هذا الموجه"
 
 msgid "Delivery Execution for %s not found"
-msgstr "Ausführung der Auslieferung für %s nicht gefunden"
+msgstr "تنفيذ التسليم لـ %s غير موجود"
 
 msgid "Enter full screen"
-msgstr "Vollbild anzeigen"
+msgstr "أدخل ملء الشاشة"
 
 msgid "Exit"
-msgstr "Beenden"
+msgstr "خروج"
 
 msgid "Go back to tests selection"
-msgstr "Kehren Sie zur Testauswahl zurück"
+msgstr "ارجع إلى اختيار الروائز"
 
 msgid "Guest access"
-msgstr "Gastzugang"
+msgstr "مدخل للمدعويين"
 
 msgid "In progress"
-msgstr "In Bearbeitung"
+msgstr "في تقدم"
 
 msgid "Logout"
-msgstr "Abmelden"
+msgstr "تسجيل الخروج"
 
 msgid "My Tests"
-msgstr "Meine Tests"
+msgstr "اروائزي"
 
 msgid "Resume"
-msgstr "Fortsetzen"
+msgstr "استأنف"
 
 msgid "Resume button"
-msgstr "Fortsetzen-Schaltfläche"
+msgstr "زر الاستئناف"
 
 msgid "Resume this test"
-msgstr "Diesen Test fortsetzen"
+msgstr "استأنف هذا الرائز"
 
 msgid "Start"
-msgstr "Start"
+msgstr "بداية"
 
 msgid "Start button"
-msgstr "Start-Schaltfläche"
+msgstr "زر البدء"
 
 msgid "Start this test"
-msgstr "Diesen Test starten"
+msgstr "ابدأ هذا الرائز"
 
 msgid "Started at %s"
-msgstr "Gestartet um %s"
+msgstr "بدأ في %s"
 
 msgid "Take or continue a test."
-msgstr "Einen Test beginnen oder fortsetzen."
+msgstr "خذ أو استمر في الرائز."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO - Eine offene und vielseitige computerbasierte Bewertungsplattform"
+msgstr "TAO - منصة للتقييم المعتمد على الحاسوب مفتوحة ومتعددة الاستخدامات"
 
 msgid "TAO Delivery Server"
-msgstr "TAO Auslieferungs Server"
+msgstr "خدوم تسليم TAO"
 
 msgid "TAO Guest Access"
-msgstr "TAO Gastzugang"
+msgstr "وصول مدعو TAO"
 
 msgid "Test-Takers"
-msgstr "Testnutzer"
+msgstr "الخاضعين للرائز"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr "Dieser Test muss im Vollbildmodus durchgeführt werden"
+msgstr "يجب إجراء هذا الرائز في وضع ملء الشاشة"
 
 msgid "To activate press enter"
-msgstr "Zum Aktivieren drücken Sie Enter"
+msgstr "لتفعيل اضغط دخول"
 
 msgid "You are no longer allowed to take this test"
-msgstr "Sie dürfen diesen Test nicht mehr ablegen"
+msgstr "لم يعد مسموحًا لك بإجراء هذا الرائز"
 
