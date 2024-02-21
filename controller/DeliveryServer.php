@@ -235,16 +235,9 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
     }
 
-    public function startRoomScan(): void
+    public function waitingPage(): void
     {
-        $redirectUrl = _url(
-            'runDeliveryExecution',
-            'DeliveryServer',
-            'taoDelivery',
-            ['deliveryExecution' => $this->getCurrentDeliveryExecution()->getIdentifier()]
-        );
-
-        $this->setData('delivery-execution-url', $redirectUrl);
+        $this->setData('delivery-execution-url', $this->getGetParameter('deliveryExecutionUrl'));
         $this->setView('DeliveryServer/waiting_page.tpl', 'taoDelivery');
     }
 
