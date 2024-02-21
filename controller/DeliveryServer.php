@@ -235,12 +235,6 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
     }
 
-    public function waitingPage(): void
-    {
-        $this->setData('delivery-execution-url', $this->getGetParameter('deliveryExecutionUrl'));
-        $this->setView('DeliveryServer/waiting_page.tpl', 'taoDelivery');
-    }
-
     /**
      * Displays the execution screen
      *
@@ -251,6 +245,13 @@ class DeliveryServer extends \tao_actions_CommonModule
      */
     public function runDeliveryExecution(): void
     {
+        if ($this->hasGetParameter('waitingPage')) {
+            $this->setData('delivery-execution-url', $this->getGetParameter('deliveryExecutionUrl'));
+            $this->setView('DeliveryServer/waiting_page.tpl', 'taoDelivery');
+
+            return;
+        }
+
         $deliveryExecution = $this->getCurrentDeliveryExecution();
 
         if (!in_array($deliveryExecution->getState()->getUri(), $this->getDeliveryServer()->getResumableStates())) {
