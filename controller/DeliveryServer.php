@@ -331,7 +331,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         $this->redirect($this->getReturnUrl());
     }
 
-    protected function setTemplate(string $template, string $title)
+    private function setTemplate(string $template, string $title)
     {
         $session = common_session_SessionManager::getSession();
 
