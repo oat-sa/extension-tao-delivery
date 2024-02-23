@@ -223,6 +223,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         if ($this->hasGetParameter('waitingPage')) {
             $this->setData('delivery-execution-url', $this->getGetParameter('deliveryExecutionUrl'));
             $this->setData('block-title', __('Authorized, you may proceed'));
+            $this->setData('scope', 'waiting-page');
             $this->setTemplate('DeliveryServer/waiting_page.tpl', __('Waiting page'));
 
             return;
