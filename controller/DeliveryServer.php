@@ -116,32 +116,7 @@ class DeliveryServer extends \tao_actions_CommonModule
         }
         $this->setData('availableDeliveries', $deliveryData);
 
-        /**
-         * Header & footer info
-         */
-        $this->setData('showControls', $this->showControls());
-        $this->setData('userLabel', tao_helpers_Display::htmlEscape($session->getUserLabel()));
-
-        // Require JS config
-        $this->setData('client_config_url', $this->getClientConfigUrl());
-        $this->setData('client_timeout', $this->getClientTimeout());
-
-        $loaderRenderer = new \Renderer(Template::getTemplate('DeliveryServer/blocks/loader.tpl', 'taoDelivery'));
-        $loaderRenderer->setData('client_config_url', $this->getClientConfigUrl());
-        $loaderRenderer->setData('parameters', ['messages' => $this->getViewDataFromRequest()]);
-
-        /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
-        $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
-
-        /**
-         * Layout template + real template inclusion
-         */
-        $this->setData('additional-header', $loaderRenderer);
-        $this->setData('content-template', 'DeliveryServer/index.tpl');
-        $this->setData('content-extension', 'taoDelivery');
-        $this->setData('title', __('TAO: Test Selection'));
-        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
+        $this->setTemplate('DeliveryServer/index.tpl', __('TAO: Test Selection'));
     }
 
     /**
@@ -247,7 +222,11 @@ class DeliveryServer extends \tao_actions_CommonModule
     {
         if ($this->hasGetParameter('waitingPage')) {
             $this->setData('delivery-execution-url', $this->getGetParameter('deliveryExecutionUrl'));
-            $this->setView('DeliveryServer/waiting_page.tpl', 'taoDelivery');
+            $this->setData('block-title', __('Authorized, you may proceed'));
+            $this->setData('scope', 'waiting-page');
+            $this->setData('hideHomeButton', true);
+            $this->setData('hideLogoutButton', true);
+            $this->setTemplate('DeliveryServer/waiting_page.tpl', __('Waiting page'));
 
             return;
         }
@@ -350,6 +329,38 @@ class DeliveryServer extends \tao_actions_CommonModule
             );
         }
         $this->redirect($this->getReturnUrl());
+    }
+
+    private function setTemplate(string $template, string $title)
+    {
+        $session = common_session_SessionManager::getSession();
+
+        /**
+         * Header & footer info
+         */
+        $this->setData('showControls', $this->showControls());
+        $this->setData('userLabel', tao_helpers_Display::htmlEscape($session->getUserLabel()));
+
+        // Require JS config
+        $this->setData('client_config_url', $this->getClientConfigUrl());
+        $this->setData('client_timeout', $this->getClientTimeout());
+
+        $loaderRenderer = new \Renderer(Template::getTemplate('DeliveryServer/blocks/loader.tpl', 'taoDelivery'));
+        $loaderRenderer->setData('client_config_url', $this->getClientConfigUrl());
+        $loaderRenderer->setData('parameters', ['messages' => $this->getViewDataFromRequest()]);
+
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getUrl('logoutDelivery', []));
+
+        /**
+         * Layout template + real template inclusion
+         */
+        $this->setData('additional-header', $loaderRenderer);
+        $this->setData('content-template', $template);
+        $this->setData('content-extension', 'taoDelivery');
+        $this->setData('title', $title);
+        $this->setView('DeliveryServer/layout.tpl', 'taoDelivery');
     }
 
     /**
