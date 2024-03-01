@@ -24,7 +24,7 @@ use oat\tao\model\theme\Theme;
             ? get_data('additional-header')->render()
             : '' ?>
     </head>
-    <body class="delivery-scope">
+    <body class="delivery-scope <?= get_data('scope') ?>">
     <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
         <div class="content-wrap<?php if (!get_data('showControls')) :?> no-controls<?php endif; ?>">

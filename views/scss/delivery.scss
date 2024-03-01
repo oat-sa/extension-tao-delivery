@@ -69,4 +69,12 @@ html {
             }
         }
     }
+
+}
+
+.waiting-page {
+    .content-wrap{
+        display: flex;
+        flex-direction: column;
+    }
 }
