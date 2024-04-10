@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-13 12:55\n"
+"PO-Revision-Date: 2024-04-09 07:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgid "All rights reserved."
 msgstr "Tous droits réservés."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Une erreur s'est produite !"
 
 msgid "Available"
 msgstr ""
@@ -36,7 +36,7 @@ msgid "Close this prompt"
 msgstr "Fermer l'invite de commande"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "Exécution de la passation %s non trouvée"
 
 msgid "Enter full screen"
 msgstr "Mode plein écran"
@@ -63,19 +63,19 @@ msgid "Resume"
 msgstr "Continuer"
 
 msgid "Resume button"
-msgstr ""
+msgstr "Bouton Reprendre"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "Reprendre le test"
 
 msgid "Start"
 msgstr "Démarrer"
 
 msgid "Start button"
-msgstr ""
+msgstr "Bouton Démarrer"
 
 msgid "Start this test"
-msgstr ""
+msgstr "Démarrer le test"
 
 msgid "Started at %s"
 msgstr "Commencé à %s"
@@ -99,7 +99,7 @@ msgid "This test needs to be taken in full screen mode"
 msgstr "Ce test a besoin d'être en mode plein écran"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Pour activer, appuyer sur Entrée"
 
 msgid "You are no longer allowed to take this test"
 msgstr "Vous n'êtes plus autorisés à passer ce test"
