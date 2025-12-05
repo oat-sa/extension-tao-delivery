@@ -1,99 +1,106 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint125\n"
-"PO-Revision-Date: 2020-03-27T10:25:13\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2025-12-05 09:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: hu-HU\n"
+"Language: hu\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: hu-HU\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: hu\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 725\n"
+"Language-Team: Hungarian\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Hozzáférés a kiszállításokhoz vendégként"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Minden jog fenntartva."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "Hiba történt!"
 
 msgid "Available"
-msgstr ""
+msgstr "Elérhető"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Zárja be ezt a promptot"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "%s kézbesítés végrehajtása nem található"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Teljes képernyős módba váltás"
 
 msgid "Exit"
-msgstr ""
+msgstr "Kijárat"
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "Vissza a tesztek kiválasztásához"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Vendéghozzáférés"
 
 msgid "In progress"
-msgstr ""
+msgstr "Folyamatban van"
 
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Tesztjeim"
 
 msgid "Resume"
-msgstr ""
+msgstr "Önéletrajz"
 
 msgid "Resume button"
-msgstr ""
+msgstr "Folytatás gomb"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "Folytassa ezt a tesztet"
 
 msgid "Start"
-msgstr ""
+msgstr "Indul"
 
 msgid "Start button"
-msgstr ""
+msgstr "Start gomb"
 
 msgid "Start this test"
-msgstr ""
+msgstr "Indítsa el ezt a tesztet"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "Kezdés időpontja %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Tegyél vagy folytasd a tesztet."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - Nyílt és sokoldalú számítógépes értékelési platform"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO kézbesítési szerver"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "TAO vendéghozzáférés"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Tesztelők"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Ezt a tesztet teljes képernyős módban kell kitölteni"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Az aktiváláshoz nyomja meg az Entert"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Többé nem jogosult vagy ezen a teszten részt venni"
 

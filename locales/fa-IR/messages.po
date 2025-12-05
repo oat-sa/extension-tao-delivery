@@ -4,7 +4,7 @@ msgstr ""
 "PO-Revision-Date: 2025-12-04 11:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk\n"
+"Language: fa\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,95 +12,95 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: sk\n"
+"X-Crowdin-Language: fa\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/messages.po\n"
 "X-Crowdin-File-ID: 725\n"
-"Language-Team: Slovak\n"
+"Language-Team: Persian\n"
 
 msgid "Access deliveries as a guest"
-msgstr "Prístup k donáškam ako hosť"
+msgstr ""
 
 msgid "All rights reserved."
-msgstr "Všetky práva vyhradené."
+msgstr ""
 
 msgid "An error occurred!"
-msgstr "Vyskytla sa chyba!"
+msgstr ""
 
 msgid "Available"
-msgstr "K dispozícii"
+msgstr ""
 
 msgid "Close this prompt"
-msgstr "Zatvoriť túto výzvu"
+msgstr ""
 
 msgid "Delivery Execution for %s not found"
-msgstr "Vykonanie doručenia pre %s sa nenašlo"
+msgstr ""
 
 msgid "Enter full screen"
-msgstr "Prejsť na celú obrazovku"
+msgstr ""
 
 msgid "Exit"
-msgstr "Ukončiť"
+msgstr ""
 
 msgid "Go back to tests selection"
-msgstr "Späť k výberu testov"
+msgstr ""
 
 msgid "Guest access"
-msgstr "Prístup pre hostí"
+msgstr ""
 
 msgid "In progress"
-msgstr "Prebieha"
+msgstr ""
 
 msgid "Logout"
-msgstr "Odhlásiť sa"
+msgstr ""
 
 msgid "My Tests"
-msgstr "Moje testy"
+msgstr ""
 
 msgid "Resume"
-msgstr "Životopis"
+msgstr ""
 
 msgid "Resume button"
-msgstr "Tlačidlo Obnoviť"
+msgstr ""
 
 msgid "Resume this test"
-msgstr "Obnoviť tento test"
+msgstr ""
 
 msgid "Start"
-msgstr "Štart"
+msgstr ""
 
 msgid "Start button"
-msgstr "Tlačidlo Štart"
+msgstr ""
 
 msgid "Start this test"
-msgstr "Spustiť tento test"
+msgstr ""
 
 msgid "Started at %s"
-msgstr "Začaté o %s"
+msgstr ""
 
 msgid "Take or continue a test."
-msgstr "Urobte si test alebo v ňom pokračujte."
+msgstr ""
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO – otvorená a všestranná počítačová hodnotiaca platforma"
+msgstr ""
 
 msgid "TAO Delivery Server"
-msgstr "Doručovací server TAO"
+msgstr ""
 
 msgid "TAO Guest Access"
-msgstr "TAO Prístup pre hostí"
+msgstr ""
 
 msgid "Test-Takers"
-msgstr "Účastníci testov"
+msgstr ""
 
 msgid "This test needs to be taken in full screen mode"
-msgstr "Tento test je potrebné absolvovať v režime celej obrazovky"
+msgstr ""
 
 msgid "To activate press enter"
-msgstr "Pre aktiváciu stlačte Enter"
+msgstr ""
 
 msgid "You are no longer allowed to take this test"
-msgstr "Tento test už nemôžete absolvovať"
+msgstr ""
 
