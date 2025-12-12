@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 16:39\n"
+"PO-Revision-Date: 2025-12-12 12:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es\n"
@@ -60,12 +60,12 @@ msgstr "Tiempo máximo de Ejecución por sujeto"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Access"
-msgstr ""
+msgstr "Acceder"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Access"
-msgstr ""
+msgstr "Acceder"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -255,12 +255,12 @@ msgstr "El Rol de Gestion de Entrega"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Guest Access"
-msgstr ""
+msgstr "Acceso a Invitados"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Guest Access"
-msgstr ""
+msgstr "Acceso a Invitados"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
