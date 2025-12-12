@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-04-09 07:33\n"
+"PO-Revision-Date: 2025-12-12 12:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
@@ -30,7 +30,7 @@ msgid "An error occurred!"
 msgstr "Une erreur s'est produite !"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponible"
 
 msgid "Close this prompt"
 msgstr "Fermer l'invite de commande"

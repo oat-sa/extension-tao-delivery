@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-04 11:27\n"
+"PO-Revision-Date: 2025-12-12 12:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -21,86 +21,86 @@ msgstr ""
 "Language-Team: Romanian\n"
 
 msgid "Access deliveries as a guest"
-msgstr ""
+msgstr "Accesează livrările ca vizitator"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Toate drepturile rezervate."
 
 msgid "An error occurred!"
-msgstr ""
+msgstr "A apărut o eroare!"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponibil"
 
 msgid "Close this prompt"
-msgstr ""
+msgstr "Închide această solicitare"
 
 msgid "Delivery Execution for %s not found"
-msgstr ""
+msgstr "Execuția livrării pentru %s nu a fost găsită"
 
 msgid "Enter full screen"
-msgstr ""
+msgstr "Introduceți ecranul complet"
 
 msgid "Exit"
-msgstr ""
+msgstr "Ieșire"
 
 msgid "Go back to tests selection"
-msgstr ""
+msgstr "Înapoi la selecția de teste"
 
 msgid "Guest access"
-msgstr ""
+msgstr "Acces vizitatori"
 
 msgid "In progress"
-msgstr ""
+msgstr "În curs"
 
 msgid "Logout"
-msgstr ""
+msgstr "Deconectare"
 
 msgid "My Tests"
-msgstr ""
+msgstr "Testele mele"
 
 msgid "Resume"
-msgstr ""
+msgstr "Reluare"
 
 msgid "Resume button"
-msgstr ""
+msgstr "Reia butonul"
 
 msgid "Resume this test"
-msgstr ""
+msgstr "Reluați acest test"
 
 msgid "Start"
-msgstr ""
+msgstr "Pornire"
 
 msgid "Start button"
-msgstr ""
+msgstr "Buton de pornire"
 
 msgid "Start this test"
-msgstr ""
+msgstr "Începe acest test"
 
 msgid "Started at %s"
-msgstr ""
+msgstr "A început la %s"
 
 msgid "Take or continue a test."
-msgstr ""
+msgstr "Efectuați sau continuați un test."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
+msgstr "TAO - O platformă de evaluare pe suport electronic deschisă și versatile"
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO Server Livrare"
 
 msgid "TAO Guest Access"
-msgstr ""
+msgstr "Acces la vizitatori TAO"
 
 msgid "Test-Takers"
-msgstr ""
+msgstr "Test-Călugători"
 
 msgid "This test needs to be taken in full screen mode"
-msgstr ""
+msgstr "Acest test trebuie efectuat în modul ecran complet"
 
 msgid "To activate press enter"
-msgstr ""
+msgstr "Pentru a activa apăsați enter"
 
 msgid "You are no longer allowed to take this test"
-msgstr ""
+msgstr "Nu mai aveţi permisiunea să faceţi acest test"
 
