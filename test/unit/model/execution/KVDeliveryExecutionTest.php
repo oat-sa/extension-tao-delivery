@@ -37,6 +37,7 @@ use PHPUnit\Framework\TestCase;
 class KVDeliveryExecutionTest extends TestCase
 {
     private KeyValueService $keyValueServiceMock;
+    private array $dataset;
 
     public function setUp(): void
     {

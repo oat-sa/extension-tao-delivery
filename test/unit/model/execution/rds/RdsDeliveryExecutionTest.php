@@ -21,18 +21,18 @@
 namespace oat\taoDelivery\test\unit\model\execution\rds;
 
 use DateTime;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
 class RdsDeliveryExecutionTest extends TestCase
 {
-    private $classUnderTest;
+    private RdsDeliveryExecution $classUnderTest;
 
     protected function setUp(): void
     {
-        $serviceMock = $this->prophesize(RdsDeliveryExecutionService::class);
-        $this->classUnderTest = new RdsDeliveryExecution($serviceMock->reveal());
+        $serviceMock = $this->createMock(RdsDeliveryExecutionService::class);
+        $this->classUnderTest = new RdsDeliveryExecution($serviceMock);
     }
 
     /**
@@ -41,7 +41,7 @@ class RdsDeliveryExecutionTest extends TestCase
      *
      * @dataProvider variableProvider
      */
-    public function testGetters($variableName, $validator)
+    public function testGetters($variableName, $validator): void
     {
         $getterMethod = 'get' . ucfirst($variableName);
 
@@ -56,7 +56,7 @@ class RdsDeliveryExecutionTest extends TestCase
      *
      * @dataProvider variableProvider
      */
-    public function testSetters($variableName, $validator, $value)
+    public function testSetters($variableName, $validator, $value): void
     {
         $getterMethod = 'get' . ucfirst($variableName);
         $setterMethod = 'set' . ucfirst($variableName);
@@ -70,10 +70,8 @@ class RdsDeliveryExecutionTest extends TestCase
 
     /**
      * DataProvider for the variables of class under test
-     *
-     * @return array
      */
-    public function variableProvider()
+    public function variableProvider(): array
     {
         return [
             ['identifier', function ($value) {

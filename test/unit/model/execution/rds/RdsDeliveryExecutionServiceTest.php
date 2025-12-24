@@ -21,27 +21,31 @@
 
 namespace oat\taoDelivery\test\unit\model\execution\rds;
 
+use common_persistence_Persistence;
 use core_kernel_classes_Resource;
-use oat\generis\test\TestCase;
+use oat\generis\persistence\PersistenceManager;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\generis\test\SqlMockTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
-use Prophecy\Prophecy\ObjectProphecy;
 
 class RdsDeliveryExecutionServiceTest extends TestCase
 {
-    /** @var RdsDeliveryExecutionService */
-    private $classUnderTest;
+    use SqlMockTrait;
+    use ServiceManagerMockTrait;
 
-    /** @var \common_persistence_Persistence */
-    private $persistence;
+    private RdsDeliveryExecutionService|MockObject $classUnderTest;
+    private common_persistence_Persistence $persistence;
 
     public function setUp(): void
     {
         $managerMock = $this->getSqlMock("default");
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            \common_persistence_Manager::SERVICE_ID => $managerMock,
+        $serviceLocatorMock = $this->getServiceManagerMock([
+            PersistenceManager::SERVICE_ID => $managerMock,
         ]);
 
         $this->persistence = $managerMock->getPersistenceById("default");
@@ -51,20 +55,14 @@ class RdsDeliveryExecutionServiceTest extends TestCase
 
         $this->classUnderTest = $this
             ->getMockBuilder(RdsDeliveryExecutionService::class)
-            ->setMethods(["getNewUri"])
-            ->getMock()
-        ;
+            ->onlyMethods(["getNewUri"])
+            ->getMock();
 
         $this->classUnderTest->setServiceLocator($serviceLocatorMock);
         $this->classUnderTest->method("getNewUri")->willReturn("test");
     }
 
-    public function tearDown(): void
-    {
-        $this->classUnderTest = null;
-    }
-
-    public function testClassMethods()
+    public function testClassMethods(): void
     {
         $this->assertTrue(method_exists($this->classUnderTest, "deleteDeliveryExecutionData"));
         $this->assertTrue(method_exists($this->classUnderTest, "getExecutionsByDelivery"));
@@ -75,7 +73,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertTrue(method_exists($this->classUnderTest, "getDeliveryExecution"));
     }
 
-    public function testClassContants()
+    public function testClassContants(): void
     {
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::ID_PREFIX"));
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::TABLE_NAME"));
@@ -88,37 +86,37 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::COLUMN_LABEL"));
     }
 
-    public function testDeleteDeliveryExecutionData()
+    public function testDeleteDeliveryExecutionData(): void
     {
-        $deliveryExecutionMock = $this->prophesize(DeliveryExecution::class);
-        $deliveryExecutionMock->getIdentifier()->willReturn("test");
+        $deliveryExecutionMock = $this->createMock(DeliveryExecution::class);
+        $deliveryExecutionMock->method('getIdentifier')->willReturn("test");
 
-        $requestMock = $this->prophesize(DeliveryExecutionDeleteRequest::class);
-        $requestMock->getDeliveryExecution()->willReturn($deliveryExecutionMock);
+        $requestMock = $this->createMock(DeliveryExecutionDeleteRequest::class);
+        $requestMock->method('getDeliveryExecution')->willReturn($deliveryExecutionMock);
 
-        $result = $this->classUnderTest->deleteDeliveryExecutionData($requestMock->reveal());
+        $result = $this->classUnderTest->deleteDeliveryExecutionData($requestMock);
 
-        $this->assertTrue(is_integer($result));
-        $this->assertTrue($result === 0);
+        $this->assertIsInt($result);
+        $this->assertSame($result, 0);
     }
 
-    public function testDeleteDeliveryExecutionDataWithNonEmptyDatabase()
+    public function testDeleteDeliveryExecutionDataWithNonEmptyDatabase(): void
     {
         $this->insertNewRow();
 
-        $deliveryExecutionMock = $this->prophesize(DeliveryExecution::class);
-        $deliveryExecutionMock->getIdentifier()->willReturn("test");
+        $deliveryExecutionMock = $this->createMock(DeliveryExecution::class);
+        $deliveryExecutionMock->method('getIdentifier')->willReturn("test");
 
-        $requestMock = $this->prophesize(DeliveryExecutionDeleteRequest::class);
-        $requestMock->getDeliveryExecution()->willReturn($deliveryExecutionMock);
+        $requestMock = $this->createMock(DeliveryExecutionDeleteRequest::class);
+        $requestMock->method('getDeliveryExecution')->willReturn($deliveryExecutionMock);
 
-        $result = $this->classUnderTest->deleteDeliveryExecutionData($requestMock->reveal());
+        $result = $this->classUnderTest->deleteDeliveryExecutionData($requestMock);
 
-        $this->assertTrue(is_integer($result));
-        $this->assertTrue($result === 1);
+        $this->assertIsInt($result);
+        $this->assertSame(1, $result);
     }
 
-    public function testGetExecutionsByDeliveryWithEmptyDatabase()
+    public function testGetExecutionsByDeliveryWithEmptyDatabase(): void
     {
         $resource = $this->createResource();
 
@@ -128,19 +126,18 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertCount(0, $executions);
     }
 
-    public function testGetExecutionsByDeliveryWithNonEmptyDatabase()
+    public function testGetExecutionsByDeliveryWithNonEmptyDatabase(): void
     {
         $this->insertNewRow();
 
-        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock->method('getUri')->willReturn("test");
 
-        $resourceMock->getUri()->willReturn("test");
-
-        $this->assertTrue(is_array($this->classUnderTest->getExecutionsByDelivery($resourceMock->reveal())));
-        $this->assertTrue(count($this->classUnderTest->getExecutionsByDelivery($resourceMock->reveal())) === 1);
+        $this->assertIsArray($this->classUnderTest->getExecutionsByDelivery($resourceMock));
+        $this->assertCount(1, $this->classUnderTest->getExecutionsByDelivery($resourceMock));
     }
 
-    public function testGetUserExecutions()
+    public function testGetUserExecutions(): void
     {
         $resource = $this->createResource();
 
@@ -148,33 +145,32 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertCount(0, $this->classUnderTest->getExecutionsByDelivery($resource));
     }
 
-    public function testGetUserExecutionsWithNonEmptyDatabase()
+    public function testGetUserExecutionsWithNonEmptyDatabase(): void
     {
         $this->insertNewRow();
 
-        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock->method('getUri')->willReturn("test");
 
-        $resourceMock->getUri()->willReturn("test");
-
-        $this->assertTrue(is_array($this->classUnderTest->getUserExecutions($resourceMock->reveal(), "test")));
-        $this->assertTrue(count($this->classUnderTest->getUserExecutions($resourceMock->reveal(), "test")) === 1);
+        $this->assertIsArray($this->classUnderTest->getUserExecutions($resourceMock, "test"));
+        $this->assertCount(1, $this->classUnderTest->getUserExecutions($resourceMock, "test"));
     }
 
-    public function testGetDeliveryExecutionsByStatus()
+    public function testGetDeliveryExecutionsByStatus(): void
     {
-        $this->assertTrue(is_array($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test")));
-        $this->assertTrue(count($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test")) === 0);
+        $this->assertIsArray($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test"));
+        $this->assertCount(0, $this->classUnderTest->getDeliveryExecutionsByStatus("test", "test"));
     }
 
-    public function testGetDeliveryExecutionsByStatusWithNonEmptyDatabase()
+    public function testGetDeliveryExecutionsByStatusWithNonEmptyDatabase(): void
     {
         $this->insertNewRow();
 
-        $this->assertTrue(is_array($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test")));
-        $this->assertTrue(count($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test")) === 1);
+        $this->assertIsArray($this->classUnderTest->getDeliveryExecutionsByStatus("test", "test"));
+        $this->assertCount(1, $this->classUnderTest->getDeliveryExecutionsByStatus("test", "test"));
     }
 
-    public function testSpawnDeliveryExecution()
+    public function testSpawnDeliveryExecution(): void
     {
         $this->assertInstanceOf(
             DeliveryExecution::class,
@@ -182,30 +178,30 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         );
     }
 
-    public function testInitDeliveryExecution()
+    public function testInitDeliveryExecution(): void
     {
-        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
 
-        $resourceMock->getLabel()->willReturn("test");
-        $resourceMock->getUri()->willReturn("test");
+        $resourceMock->method('getLabel')->willReturn("test");
+        $resourceMock->method('getUri')->willReturn("test");
 
         $this->assertInstanceOf(
             DeliveryExecution::class,
-            $this->classUnderTest->initDeliveryExecution($resourceMock->reveal(), "test")
+            $this->classUnderTest->initDeliveryExecution($resourceMock, "test")
         );
     }
 
-    public function testGetDeliveryExecution()
+    public function testGetDeliveryExecution(): void
     {
         $this->assertInstanceOf(DeliveryExecution::class, $this->classUnderTest->getDeliveryExecution("test"));
     }
 
-    public function testGetPersistence()
+    public function testGetPersistence(): void
     {
         $this->assertInstanceOf(\common_persistence_SqlPersistence::class, $this->classUnderTest->getPersistence());
     }
 
-    private function insertNewRow()
+    private function insertNewRow(): void
     {
         $query = "INSERT INTO " . RdsDeliveryExecutionService::TABLE_NAME . " ("
             . RdsDeliveryExecutionService::COLUMN_ID . ", "
@@ -218,19 +214,16 @@ class RdsDeliveryExecutionServiceTest extends TestCase
             . ") VALUES ("
             . "'test', 'test', 'test', 'test', '', '"
             . $this->persistence->getPlatform()->getNowExpression() . "', 'test'"
-            . ")"
-        ;
+            . ")";
 
         $this->persistence->exec($query);
     }
 
-    private function createResource(): core_kernel_classes_Resource
+    private function createResource(): core_kernel_classes_Resource|MockObject
     {
-        /** @var core_kernel_classes_Resource|ObjectProphecy $resourceMock */
-        $resourceMock = $this->prophesize(core_kernel_classes_Resource::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock->method('getUri')->willReturn('http://tao.lu/test#1');
 
-        $resourceMock->getUri()->willReturn('http://tao.lu/test#1');
-
-        return $resourceMock->reveal();
+        return $resourceMock;
     }
 }

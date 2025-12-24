@@ -204,7 +204,7 @@ class DeliveryExecutionContext implements DeliveryExecutionContextInterface
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             self::PARAM_EXECUTION_ID => $this->getExecutionId(),
