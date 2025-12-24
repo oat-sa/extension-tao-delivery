@@ -298,11 +298,11 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             $rdsDeliveryExecution->setUserIdentifier($result[self::COLUMN_USER_ID]);
         }
 
-        if (array_key_exists(self::COLUMN_STARTED_AT, $result)) {
+        if (array_key_exists(self::COLUMN_STARTED_AT, $result) && $result[self::COLUMN_STARTED_AT] !== null) {
             $rdsDeliveryExecution->setStartTime(new \DateTime($result[self::COLUMN_STARTED_AT]));
         }
 
-        if (array_key_exists(self::COLUMN_FINISHED_AT, $result)) {
+        if (array_key_exists(self::COLUMN_FINISHED_AT, $result) && $result[self::COLUMN_FINISHED_AT] !== null) {
             $rdsDeliveryExecution->setFinishTime(new \DateTime($result[self::COLUMN_FINISHED_AT]));
         }
 

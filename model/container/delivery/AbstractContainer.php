@@ -52,7 +52,7 @@ abstract class AbstractContainer extends Configurable implements
         return $this->params;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'container' => $this->containerId,
