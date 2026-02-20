@@ -59,7 +59,8 @@ class OntologyServiceTest extends TestCase
         $this->subject->expects($this->once())->method('getClass')->willReturn($kernelClassMock);
 
         $loggerServiceMock = $this->createMock(LoggerService::class);
-        $loggerServiceMock->method('setLogger')->willReturn('ok');
+        $loggerServiceMock->method('setLogger')->willReturnCallback(function (): void {
+        });
 
         $this->subject->setServiceLocator($this->getServiceManagerMock([
             common_persistence_Manager::SERVICE_ID => $this->getPersistenceManagerMock('test'),

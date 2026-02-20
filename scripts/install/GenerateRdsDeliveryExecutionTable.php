@@ -24,7 +24,6 @@ namespace oat\taoDelivery\scripts\install;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
 use oat\oatbox\extension\AbstractAction;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
@@ -154,10 +153,10 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
      */
     private function createColumns(Table $table)
     {
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, Type::STRING, ["length" => 255, "notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_ID, 'string', ["length" => 255, "notnull" => true]);
         $table->addColumn(
             RdsDeliveryExecutionService::COLUMN_DELIVERY_ID,
-            Type::STRING,
+            'string',
             [
                 "length" => 255,
                 "notnull" => true,
@@ -165,7 +164,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         );
         $table->addColumn(
             RdsDeliveryExecutionService::COLUMN_USER_ID,
-            Type::STRING,
+            'string',
             [
                 "length" => 255,
                 "notnull" => true,
@@ -173,7 +172,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         );
         $table->addColumn(
             RdsDeliveryExecutionService::COLUMN_LABEL,
-            Type::STRING,
+            'string',
             [
                 "length" => 255,
                 "notnull" => true,
@@ -181,14 +180,14 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
         );
         $table->addColumn(
             RdsDeliveryExecutionService::COLUMN_STATUS,
-            Type::STRING,
+            'string',
             [
                 "length" => 255,
                 "notnull" => true,
             ]
         );
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, Type::DATETIME, ["notnull" => true]);
-        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, Type::DATETIME, ["notnull" => false]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, 'datetime', ["notnull" => true]);
+        $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, 'datetime', ["notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);
     }
 
