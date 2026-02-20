@@ -30,7 +30,7 @@ use oat\tao\model\metrics\MetricsService;
 use oat\taoDelivery\model\Capacity\InfrastructureCapacityService;
 use oat\taoDelivery\model\Metrics\AwsLoadMetric;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
 
 class InfrastructureCapacityServiceTest extends TestCase
@@ -187,7 +187,7 @@ class InfrastructureCapacityServiceTest extends TestCase
     private function createLockServiceMock()
     {
         $lockServiceMock = $this->createMock(LockService::class);
-        $lockFactoryMock = $this->createMock(Factory::class);
+        $lockFactoryMock = $this->createMock(LockFactory::class);
         $lockServiceMock->method('getLockFactory')->willReturn($lockFactoryMock);
         $lockMock = $this->createMock(LockInterface::class);
         $lockFactoryMock->method('createLock')->willReturn($lockMock);
