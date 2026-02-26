@@ -61,7 +61,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("id", $request->getDeliveryExecution()->getIdentifier())
         ;
 
-        return $query->execute();
+        return $query->executeStatement();
     }
 
     /**
@@ -81,7 +81,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
         return array_map(function ($row) {
             return $this->parseQueryResult($row);
-        }, $query->execute()->fetchAll());
+        }, $query->executeQuery()->fetchAllAssociative());
     }
 
     /**
@@ -104,7 +104,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
         return array_map(function ($row) {
             return $this->parseQueryResult($row);
-        }, $query->execute()->fetchAll());
+        }, $query->executeQuery()->fetchAllAssociative());
     }
 
     /**
@@ -127,7 +127,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
         return array_map(function ($row) {
             return $this->parseQueryResult($row);
-        }, $query->execute()->fetchAll());
+        }, $query->executeQuery()->fetchAllAssociative());
     }
 
     /**
@@ -190,7 +190,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             ->setParameter("id", $identifier)
         ;
 
-        $result = $query->execute()->fetch();
+        $result = $query->executeQuery()->fetchAssociative();
 
         if (!$result) {
             $result = [];
@@ -230,7 +230,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
                 ;
             }
 
-            return $query->execute() === 1;
+            return $query->executeStatement() === 1;
         } catch (\Exception $e) {
             return false;
         }
