@@ -105,7 +105,7 @@ class DeliveryExecutionCounterServiceTest extends TaoPhpUnitTestRunner
      */
     private function buildServiceManager()
     {
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $config = new \common_persistence_KeyValuePersistence(new \common_persistence_InMemoryKvDriver(), []);
         $serviceManager = new ServiceManager($config);
         $serviceManager->register(DeliveryExecutionCounterService::SERVICE_ID, new DeliveryExecutionCounterService(
             [DeliveryExecutionCounterService::OPTION_PERSISTENCE => 'kv_persistence']
