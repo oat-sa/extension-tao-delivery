@@ -339,7 +339,7 @@ class DeliveryServer extends \tao_actions_CommonModule
          * Header & footer info
          */
         $this->setData('showControls', $this->showControls());
-        $this->setData('userLabel', tao_helpers_Display::htmlizeAllowingRubyTags($session->getUserLabel()));
+        $this->setData('userLabel', $session->getUserLabel());
 
         // Require JS config
         $this->setData('client_config_url', $this->getClientConfigUrl());
