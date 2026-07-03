@@ -22,7 +22,7 @@ use oat\tao\model\theme\Theme;
                 <li class="infoControl sep-before">
                     <span class="a">
                         <span class="icon-test-taker"></span>
-                        <span class="text"><?= get_data('userLabel'); ?></span>
+                        <span class="text"><?= tao_helpers_Display::htmlizeAllowingRubyTags(get_data('userLabel')); ?></span>
                     </span>
                 </li>
                 <?php if (!get_data('hideLogoutButton')): ?>
