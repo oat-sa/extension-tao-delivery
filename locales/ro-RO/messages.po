@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-12 12:00\n"
+"PO-Revision-Date: 2026-07-03 11:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -87,7 +87,7 @@ msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
 msgstr "TAO - O platformă de evaluare pe suport electronic deschisă și versatile"
 
 msgid "TAO Delivery Server"
-msgstr "TAO Server Livrare"
+msgstr "Server TAO de administrare a subiectelor"
 
 msgid "TAO Guest Access"
 msgstr "Acces la vizitatori TAO"
