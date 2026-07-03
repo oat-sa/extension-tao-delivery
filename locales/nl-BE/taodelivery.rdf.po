@@ -1,0 +1,379 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-03 11:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: nl_BE\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-delivery] develop/locales/en-US/taodelivery.rdf.po\n"
+"X-Crowdin-File-ID: 1227\n"
+"Language-Team: Dutch, Belgium\n"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery"
+msgstr "Pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery"
+msgstr "Pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Start Date"
+msgstr "Startdatum"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The start date of the delivery"
+msgstr "De start datum van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "End Date"
+msgstr "Einddatum"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The end date of the delivery"
+msgstr "De einddatum van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Max. number of executions (default: unlimited)"
+msgstr "Max. aantal afnames (standaard: oneindig)"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Maximum Times of Execution per subject"
+msgstr "Maximale afnames per onderwerp"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Access"
+msgstr "Toegang"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AccessSettings
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Access"
+msgstr "Toegang"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Excluded Subjects"
+msgstr "Onderwerpen uitsluiten"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedSubjects
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Excluded Subjects"
+msgstr "Onderwerpen uitsluiten"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Result Server"
+msgstr "Resultaat server"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Result Server"
+msgstr "Resultaat server"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery execution"
+msgstr "Uitvoer van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Execution of a delivery"
+msgstr "Uitvoer van een pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Execution's delivery"
+msgstr "Uitvoerings pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery of this execution"
+msgstr "Uitvoer van deze uitgifte"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryExecution Subject"
+msgstr "Onderwerp van PakketUitvoer "
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "test-taker of the delivery execution"
+msgstr "Kandidaat van de pakket uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryExecution start"
+msgstr "PakketUitvoer start"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Timestamp of the delivery execution start"
+msgstr "Tijdstempel van de start van de pakket uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryExecution end"
+msgstr "PakketUitvoer einde"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Timestamp of the delivery finish"
+msgstr "Tijd stempel van het pakket einde"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryExecutions Status"
+msgstr "Status van PakketUitvoer(en)"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The current status of the DeliveryExecution"
+msgstr "De huidige status van PakketUitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryExecution status"
+msgstr "Status van PakketUitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Status of a delivery execution"
+msgstr "Status van een Pakket Uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Active"
+msgstr "Actief"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Activ status of a delivery execution"
+msgstr "Actieve status van een Pakket Uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Finished"
+msgstr "Gereed"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusFinished
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Finished status of a delivery execution"
+msgstr "Status na eindigen van een Pakket uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Abandoned status of a delivery execution"
+msgstr "De opgegeven status van een Pakket uitvoer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Assembled Delivery "
+msgstr "Samengesteld pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "An assembled Delivery"
+msgstr "Een samengesteld pakket"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Compilation Time"
+msgstr "Compilatie tijd"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The time of the compilation of the delivery"
+msgstr "De tijd van de compilatie van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Compilation Directory"
+msgstr "Compilatie map "
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The directory of the compilation of the delivery"
+msgstr "De directory van de compilatie van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery origin"
+msgstr "Publicatie oorsprong"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryOrigin
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The original test/template of the delivery"
+msgstr "De origineel toets/template van het pakketje"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Runtime"
+msgstr "Uitvoeringstijd"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Service call to run the compiled delivery"
+msgstr "Service call om een gecompileerd pakketje te laten draaien"
+
+# http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Deliveries"
+msgstr "Pakketten"
+
+# http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Deliveries of the group"
+msgstr "Pakketten van de groep"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Manager"
+msgstr "Pakket uitlevering beheer"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Delivery Manager Role"
+msgstr "De pakket beheer rol"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Guest Access"
+msgstr "Gasttoegang"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#GuestAccess
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Guest Access"
+msgstr "Gasttoegang"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Start Date"
+msgstr "Start datum"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#PeriodEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "End Date"
+msgstr "Eind datum"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Max. number of executions (default: unlimited)"
+msgstr "Max. aantal executies (standaard: ongelimiteerd)"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Content abstraction"
+msgstr "Aflevering inhoud abstractie"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AbstractDeliveryContent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Content abstraction"
+msgstr "Aflevering inhoud abstractie"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "DeliveryContent implementation"
+msgstr "DeliveryContent implementatie"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContentImplementation
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryContent implementation"
+msgstr "DeliveryContent implementatie"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Content"
+msgstr "Levering inhoud"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryContent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Content"
+msgstr "Levering inhoud"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery execution"
+msgstr "Levering uitvoering"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionDelivery
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Execution's delivery"
+msgstr "Uitvoering's levering"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryExecution Subject"
+msgstr "Onderwerp uitvoering aflevering"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStart
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryExecution start"
+msgstr "De levering-uitvoering begint"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionEnd
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryExecution end"
+msgstr "Einde levering uitvoering"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#StatusOfDeliveryExecution
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryExecutions Status"
+msgstr "Status van de levertijd"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "DeliveryExecution status"
+msgstr "Status uitvoering aflevering"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusActive
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Active"
+msgstr "actief"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryExecutionStatusAbandoned
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Finished"
+msgstr "Beëindigd"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationTime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Compilation Time"
+msgstr "Compilatie Tijd"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryCompilationDirectory
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Compilation Directory"
+msgstr "Compilatie map"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDeliveryRuntime
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Runtime"
+msgstr "Looptijd"
+
+# http://www.tao.lu/Ontologies/TAOGroup.rdf#Deliveries
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Deliveries"
+msgstr "Leveringen"
+
+# http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Manager"
+msgstr "Levering Beheerder"
+
