@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-04 11:28\n"
+"PO-Revision-Date: 2026-07-03 11:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language-Team: Slovak\n"
 
 msgid "Access deliveries as a guest"
-msgstr "Prístup k donáškam ako hosť"
+msgstr "Zobraziť dodávky ako hosť"
 
 msgid "All rights reserved."
 msgstr "Všetky práva vyhradené."
@@ -36,7 +36,7 @@ msgid "Close this prompt"
 msgstr "Zatvoriť túto výzvu"
 
 msgid "Delivery Execution for %s not found"
-msgstr "Vykonanie doručenia pre %s sa nenašlo"
+msgstr "Vykonanie dodávky pre %s sa nenašlo"
 
 msgid "Enter full screen"
 msgstr "Prejsť na celú obrazovku"
@@ -60,37 +60,37 @@ msgid "My Tests"
 msgstr "Moje testy"
 
 msgid "Resume"
-msgstr "Životopis"
+msgstr "Pokračovať"
 
 msgid "Resume button"
-msgstr "Tlačidlo Obnoviť"
+msgstr "Tlačidlo Pokračovať"
 
 msgid "Resume this test"
-msgstr "Obnoviť tento test"
+msgstr "Pokračovať v tomto teste"
 
 msgid "Start"
-msgstr "Štart"
+msgstr "Spustiť"
 
 msgid "Start button"
-msgstr "Tlačidlo Štart"
+msgstr "Tlačidlo Spustiť"
 
 msgid "Start this test"
 msgstr "Spustiť tento test"
 
 msgid "Started at %s"
-msgstr "Začaté o %s"
+msgstr "Spustené o %s"
 
 msgid "Take or continue a test."
-msgstr "Urobte si test alebo v ňom pokračujte."
+msgstr "Absolvujte alebo pokračujte v teste."
 
 msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr "TAO – otvorená a všestranná počítačová hodnotiaca platforma"
+msgstr "PET – otvorená a univerzálna počítačová platforma na hodnotenie"
 
 msgid "TAO Delivery Server"
-msgstr "Doručovací server TAO"
+msgstr "Distribučný server PET"
 
 msgid "TAO Guest Access"
-msgstr "TAO Prístup pre hostí"
+msgstr "Prístup pre hostí v PET"
 
 msgid "Test-Takers"
 msgstr "Účastníci testov"
