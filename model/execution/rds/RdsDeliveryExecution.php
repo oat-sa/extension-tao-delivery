@@ -23,7 +23,9 @@ namespace oat\taoDelivery\model\execution\rds;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
+use oat\taoDelivery\model\execution\LockDownBrowserAwareDeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\OriginalIdAwareDeliveryExecutionInterface;
 
 /**
@@ -31,7 +33,10 @@ use oat\taoDelivery\model\execution\OriginalIdAwareDeliveryExecutionInterface;
  *
  * @author Péter Halász <peter@taotesting.com>
  */
-class RdsDeliveryExecution implements DeliveryExecutionInterface, OriginalIdAwareDeliveryExecutionInterface
+class RdsDeliveryExecution implements
+    DeliveryExecutionInterface,
+    LockDownBrowserAwareDeliveryExecutionInterface,
+    OriginalIdAwareDeliveryExecutionInterface
 {
     use OntologyAwareTrait;
 
@@ -58,6 +63,9 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface, OriginalIdAwar
 
     /** @var RdsDeliveryExecutionService */
     private $service;
+
+    /** @var string */
+    private $lockDownBrowser = LockDownBrowser::PROVIDER_NONE;
 
     public function __construct(RdsDeliveryExecutionService $service)
     {
@@ -214,5 +222,19 @@ class RdsDeliveryExecution implements DeliveryExecutionInterface, OriginalIdAwar
     public function setFinishTime($finishTime)
     {
         $this->finishTime = $finishTime;
+    }
+
+    public function getLockDownBrowser(): string
+    {
+        return $this->lockDownBrowser;
+    }
+
+    public function setLockDownBrowser(string $lockDownBrowser): void
+    {
+        $this->lockDownBrowser = $lockDownBrowser;
+
+        if ($this->identifier !== null) {
+            $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $lockDownBrowser);
+        }
     }
 }

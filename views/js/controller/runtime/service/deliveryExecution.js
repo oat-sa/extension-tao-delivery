@@ -21,16 +21,48 @@ define([
     'lodash',
     'jquery',
     'taoDelivery/controller/runtime/service/fullScreen',
+    'taoDelivery/controller/runtime/service/kioskLockdownDelivery',
     'layout/loading-bar',
     'ui/dialog/alert',
     'layout/logout-event'
-], function(_, $, fullScreen, loadingBar, dialogAlert, logoutEvent){
+], function(_, $, fullScreen, kioskLockdownDelivery, loadingBar, dialogAlert, logoutEvent){
     'use strict';
+
+    var MSG_DEFER_FINISH = 'taoKioskLockdownDeferFinish';
+    var MSG_EXIT = 'taoKioskLockdownExit';
 
     var $frameContainer,
         $frame,
         $headerHeight,
         $footerHeight;
+
+    function iframeHasKioskApi(frameWin) {
+        if (!frameWin) {
+            return false;
+        }
+
+        try {
+            return !!(frameWin.kiosked || (frameWin.kiosk && frameWin.kiosk.isLocked));
+        } catch (err) {
+            return false;
+        }
+    }
+
+    function isKioskLockdownActive() {
+        if (kioskLockdownDelivery.isKioskEnvironment()) {
+            return true;
+        }
+
+        if ($frame && $frame.length) {
+            return iframeHasKioskApi($frame[0].contentWindow);
+        }
+
+        return false;
+    }
+
+    function isSameOriginMessage(event) {
+        return event.source === window || event.origin === window.location.origin;
+    }
 
     /**
      * Forces a browser repaint
@@ -56,6 +88,8 @@ define([
     return {
         start: function(options){
             var serviceApi = options.serviceApi;
+            var finishRedirectUrl = options.finishDeliveryExecution;
+            var finishRedirectDeferred = false;
 
             if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();
@@ -70,9 +104,51 @@ define([
                 logoutEvent();
             });
 
+            function redirectAfterFinish() {
+                window.location = finishRedirectUrl;
+            }
+
+            window.addEventListener('message', function onKioskLockdownMessage(event) {
+                if (!isSameOriginMessage(event)) {
+                    return;
+                }
+
+                var data = event.data;
+
+                if (!data || typeof data.type !== 'string') {
+                    return;
+                }
+
+                if (data.type === MSG_DEFER_FINISH) {
+                    finishRedirectDeferred = true;
+
+                    return;
+                }
+
+                if (data.type === MSG_EXIT && finishRedirectDeferred) {
+                    redirectAfterFinish();
+                }
+            });
 
             serviceApi.onFinish(function() {
-                window.location = options.finishDeliveryExecution;
+                function maybeDeferRedirect() {
+                    if (finishRedirectDeferred || isKioskLockdownActive()) {
+                        finishRedirectDeferred = true;
+
+                        return;
+                    }
+
+                    redirectAfterFinish();
+                }
+
+                if (finishRedirectDeferred || isKioskLockdownActive()) {
+                    finishRedirectDeferred = true;
+
+                    return;
+                }
+
+                // ponytail: runner finish postMessage can arrive after onFinish; brief wait per Kiosk flow
+                setTimeout(maybeDeferRedirect, 400);
             }).onExit(function() {
                 window.location = options.exitDeliveryExecution;
             });
