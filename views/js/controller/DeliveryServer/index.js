@@ -34,8 +34,8 @@ define([
     'context',
     'util/locale',
     'url-polyfill',
-    'taoDelivery/controller/runtime/service/kioskLockdownDelivery'
-], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale, urlPolyfill, kioskLockdownDelivery){
+    'taoDelivery/controller/runtime/service/lockDownBrowserDelivery'
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale, urlPolyfill, lockDownBrowserDelivery){
     'use strict';
 
     const logger = loggerFactory('deliveryServer');
@@ -82,7 +82,7 @@ define([
          * @param {Object} [parameters.messages] - message data to display
          */
         start(parameters){
-            kioskLockdownDelivery.showExitBarIfNeeded();
+            lockDownBrowserDelivery.showExitBarIfNeeded();
 
             let deliveryStarted = false;
 

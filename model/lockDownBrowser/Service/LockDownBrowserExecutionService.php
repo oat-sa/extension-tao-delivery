@@ -1,47 +1,94 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
+ */
+
 declare(strict_types=1);
 
 namespace oat\taoDelivery\model\lockDownBrowser\Service;
 
+use common_Logger;
 use common_exception_NotImplemented;
 use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectionService;
+use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
+use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
-use oat\taoDelivery\model\execution\ServiceProxy;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Persists combined Kiosk{ed} detection on delivery execution (INV-1263).
  */
 final class LockDownBrowserExecutionService
 {
-    public const SERVICE_ID = 'taoDelivery/LockDownBrowserExecution';
+    private LockDownBrowserDetectorInterface $detector;
 
-    private LockDownBrowserDetectionService $detection;
+    private DeliveryExecutionService $deliveryExecutionService;
 
-    public function __construct(LockDownBrowserDetectionService $detection)
-    {
-        $this->detection = $detection;
+    public function __construct(
+        LockDownBrowserDetectorInterface $detector,
+        DeliveryExecutionService $deliveryExecutionService
+    ) {
+        $this->detector = $detector;
+        $this->deliveryExecutionService = $deliveryExecutionService;
     }
 
-    /**
-     * Called from Runner/init when the client sends clientKioskApiOk on the same request as the Kiosk UA.
-     */
-    /**
-     * @param mixed|null $clientKioskApiOk From Runner/init POST (clientKioskApiOk)
-     */
-    public function recordAtInit(string $deliveryExecutionId, $clientKioskApiOk = null): string
+    public function recordAtInit(string $deliveryExecutionId, ServerRequestInterface $request): string
     {
-        $execution = ServiceProxy::singleton()->getDeliveryExecution($deliveryExecutionId);
+        try {
+            $provider = $this->recordFromRequest($deliveryExecutionId, $request);
 
-        if ($execution->getLockDownBrowser() === LockDownBrowser::PROVIDER_KIOSKED) {
-            return LockDownBrowser::PROVIDER_KIOSKED;
+            if ($provider === LockDownBrowser::PROVIDER_KIOSKED
+                || $provider === LockDownBrowser::PROVIDER_KIOSKED_MOCK
+            ) {
+                common_Logger::i(
+                    'Lock down browser recorded as ' . $provider . ' for delivery execution '
+                    . $deliveryExecutionId
+                );
+            }
+
+            return $provider;
+        } catch (\Throwable $exception) {
+            common_Logger::w(
+                'Lock down browser init recording skipped: ' . $exception->getMessage()
+            );
+
+            return LockDownBrowser::PROVIDER_NONE;
+        }
+    }
+
+    private function recordFromRequest(string $deliveryExecutionId, ServerRequestInterface $request): string
+    {
+        $execution = $this->deliveryExecutionService->getDeliveryExecution($deliveryExecutionId);
+
+        $existing = $execution->getLockDownBrowser();
+
+        if ($existing === LockDownBrowser::PROVIDER_KIOSKED
+            || $existing === LockDownBrowser::PROVIDER_KIOSKED_MOCK
+        ) {
+            return $existing;
         }
 
-        $provider = $this->detection->detect($clientKioskApiOk);
+        $provider = $this->detector->detect($request);
 
-        if ($provider !== LockDownBrowser::PROVIDER_KIOSKED) {
+        if ($provider !== LockDownBrowser::PROVIDER_KIOSKED
+            && $provider !== LockDownBrowser::PROVIDER_KIOSKED_MOCK
+        ) {
             return LockDownBrowser::PROVIDER_NONE;
         }
 

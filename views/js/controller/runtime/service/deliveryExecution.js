@@ -21,43 +21,23 @@ define([
     'lodash',
     'jquery',
     'taoDelivery/controller/runtime/service/fullScreen',
-    'taoDelivery/controller/runtime/service/kioskLockdownDelivery',
+    'taoDelivery/controller/runtime/service/lockDownBrowserDelivery',
+    'tao/lockDownBrowser/lockDownBrowserUiProtocol',
     'layout/loading-bar',
     'ui/dialog/alert',
     'layout/logout-event'
-], function(_, $, fullScreen, kioskLockdownDelivery, loadingBar, dialogAlert, logoutEvent){
+], function (_, $, fullScreen, lockDownBrowserDelivery, uiProtocol, loadingBar, dialogAlert, logoutEvent) {
     'use strict';
 
-    var MSG_DEFER_FINISH = 'taoKioskLockdownDeferFinish';
-    var MSG_EXIT = 'taoKioskLockdownExit';
+    var ui = uiProtocol;
 
     var $frameContainer,
         $frame,
         $headerHeight,
         $footerHeight;
 
-    function iframeHasKioskApi(frameWin) {
-        if (!frameWin) {
-            return false;
-        }
-
-        try {
-            return !!(frameWin.kiosked || (frameWin.kiosk && frameWin.kiosk.isLocked));
-        } catch (err) {
-            return false;
-        }
-    }
-
-    function isKioskLockdownActive() {
-        if (kioskLockdownDelivery.isKioskEnvironment()) {
-            return true;
-        }
-
-        if ($frame && $frame.length) {
-            return iframeHasKioskApi($frame[0].contentWindow);
-        }
-
-        return false;
+    function isLockDownBrowserActive() {
+        return lockDownBrowserDelivery.isLockDownBrowserSessionActive();
     }
 
     function isSameOriginMessage(event) {
@@ -71,6 +51,7 @@ define([
      */
     var forceRepaint = function($target) {
         var sel = $target[0];
+
         if (sel) {
             sel.style.display = 'none';
             sel.offsetHeight; // no need to store this anywhere, the reference is enough
@@ -80,6 +61,7 @@ define([
 
     function resizeMainFrame() {
         var height = $(window).outerHeight() - $headerHeight - $footerHeight;
+
         $frameContainer.height(height);
         $frame.height(height);
         forceRepaint($frameContainer);
@@ -108,7 +90,7 @@ define([
                 window.location = finishRedirectUrl;
             }
 
-            window.addEventListener('message', function onKioskLockdownMessage(event) {
+            window.addEventListener('message', function onLockDownBrowserMessage(event) {
                 if (!isSameOriginMessage(event)) {
                     return;
                 }
@@ -119,20 +101,20 @@ define([
                     return;
                 }
 
-                if (data.type === MSG_DEFER_FINISH) {
+                if (ui.isDeferFinishMessage(data.type)) {
                     finishRedirectDeferred = true;
 
                     return;
                 }
 
-                if (data.type === MSG_EXIT && finishRedirectDeferred) {
+                if (ui.isExitMessage(data.type) && finishRedirectDeferred) {
                     redirectAfterFinish();
                 }
             });
 
             serviceApi.onFinish(function() {
                 function maybeDeferRedirect() {
-                    if (finishRedirectDeferred || isKioskLockdownActive()) {
+                    if (finishRedirectDeferred || isLockDownBrowserActive()) {
                         finishRedirectDeferred = true;
 
                         return;
@@ -141,13 +123,13 @@ define([
                     redirectAfterFinish();
                 }
 
-                if (finishRedirectDeferred || isKioskLockdownActive()) {
+                if (finishRedirectDeferred || isLockDownBrowserActive()) {
                     finishRedirectDeferred = true;
 
                     return;
                 }
 
-                // ponytail: runner finish postMessage can arrive after onFinish; brief wait per Kiosk flow
+                // ponytail: runner finish postMessage can arrive after onFinish; brief wait
                 setTimeout(maybeDeferRedirect, 400);
             }).onExit(function() {
                 window.location = options.exitDeliveryExecution;
