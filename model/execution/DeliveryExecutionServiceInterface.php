@@ -38,6 +38,7 @@ interface DeliveryExecutionServiceInterface
         string $deliveryId,
         string $userId,
         string $status,
-        string $deliveryExecutionId = null
+        string $deliveryExecutionId = null,
+        ?string $lockDownBrowser = null
     );
 }

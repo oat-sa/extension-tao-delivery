@@ -111,8 +111,16 @@ class KeyValueService extends ConfigurableService implements
      * @param string| null $deliveryExecutionId
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
-    {
+    public function spawnDeliveryExecution(
+        $label,
+        $deliveryId,
+        $userId,
+        $status,
+        $deliveryExecutionId = null,
+        ?string $lockDownBrowser = null
+    ) {
+        $lockDownBrowser = $lockDownBrowser ?? \oat\tao\model\lockDownBrowser\Entity\LockDownBrowser::PROVIDER_NONE;
+
         $deliveryExecutionId = self::DELIVERY_EXECUTION_PREFIX . ($deliveryExecutionId ?: \common_Utils::getNewUri());
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
@@ -121,6 +129,7 @@ class KeyValueService extends ConfigurableService implements
             DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
             DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection(),
+            \oat\tao\model\lockDownBrowser\Entity\LockDownBrowser::PROPERTY_LOCK_DOWN_BROWSER => $lockDownBrowser,
         ];
         $kvDe = new KVDeliveryExecution($this, $deliveryExecutionId, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);

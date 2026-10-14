@@ -33,8 +33,9 @@ define([
     'layout/loading-bar',
     'context',
     'util/locale',
-    'url-polyfill'
-], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale){
+    'url-polyfill',
+    'taoDelivery/controller/runtime/service/lockDownBrowserDelivery'
+], function($, _, __, module, router, feedback, loggerFactory, loadingBar, context, locale, urlPolyfill, lockDownBrowserDelivery){
     'use strict';
 
     const logger = loggerFactory('deliveryServer');
@@ -81,6 +82,8 @@ define([
          * @param {Object} [parameters.messages] - message data to display
          */
         start(parameters){
+            lockDownBrowserDelivery.showExitBarIfNeeded();
+
             let deliveryStarted = false;
 
             /**

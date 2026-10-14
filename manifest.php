@@ -33,6 +33,7 @@ use oat\taoDelivery\scripts\install\RegisterServiceContainer;
 use oat\taoDelivery\scripts\install\RegisterWebhookEvents;
 use oat\taoDelivery\scripts\install\RegisterFrontOfficeEntryPoint;
 use oat\taoDelivery\controller\RestExecution;
+use oat\taoDelivery\model\lockDownBrowser\ServiceProvider\LockDownBrowserServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -68,5 +69,8 @@ return [
 
         #BASE URL (usually the domain root), required for js
         'BASE_URL'              => ROOT_URL . 'taoDelivery/',
-    ]
+    ],
+    'containerServiceProviders' => [
+        LockDownBrowserServiceProvider::class,
+    ],
 ];
