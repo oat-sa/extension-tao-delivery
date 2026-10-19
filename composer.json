@@ -57,6 +57,7 @@
       "oat\\taoDelivery\\": ""
     }
   },
+  "minimum-stability": "dev",
   "require": {
     "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
     "oat-sa/generis": ">=17.0.0",
