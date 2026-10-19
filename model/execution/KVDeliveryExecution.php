@@ -27,7 +27,7 @@ use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 
@@ -141,13 +141,13 @@ class KVDeliveryExecution implements
         return $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
     }
 
-    public function getLockDownBrowser(): string
+    public function getLockDownBrowser(): ?string
     {
-        if (!$this->hasData(LockDownBrowser::PROPERTY_LOCK_DOWN_BROWSER)) {
-            return LockDownBrowser::PROVIDER_NONE;
+        if ($this->hasData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER)) {
+            return $this->getData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER);
         }
 
-        return (string)$this->getData(LockDownBrowser::PROPERTY_LOCK_DOWN_BROWSER);
+        return null;
     }
 
     /**

@@ -25,7 +25,7 @@ use common_exception_NotFound;
 use common_exception_ResourceNotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 
 /**
  * Service to manage the execution of deliveries
@@ -143,22 +143,17 @@ class OntologyDeliveryExecution extends core_kernel_classes_Resource implements
      * (non-PHPdoc)
      * @see DeliveryExecution::setState()
      */
-    public function getLockDownBrowser(): string
+    public function getLockDownBrowser(): ?string
     {
-        $property = $this->getProperty(LockDownBrowser::PROPERTY_LOCK_DOWN_BROWSER);
-        $value = $this->getOnePropertyValue($property);
+        $property = $this->getProperty(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER);
 
-        if ($value === null) {
-            return LockDownBrowser::PROVIDER_NONE;
-        }
-
-        return (string)$value;
+        return $this->getOnePropertyValue($property);
     }
 
     public function setLockDownBrowser(string $provider): void
     {
         $this->setPropertyValue(
-            $this->getProperty(LockDownBrowser::PROPERTY_LOCK_DOWN_BROWSER),
+            $this->getProperty(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER),
             $provider
         );
     }

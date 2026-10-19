@@ -25,7 +25,7 @@ namespace oat\taoDelivery\model\execution;
 interface LockDownBrowserAwareDeliveryExecutionInterface
 {
     /**
-     * @return string Recorded provider id, or empty string when none
+     * @return string|null Recorded provider id, or null when not set
      */
-    public function getLockDownBrowser(): string;
+    public function getLockDownBrowser(): ?string;
 }

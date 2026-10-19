@@ -23,7 +23,6 @@ namespace oat\taoDelivery\model\execution\rds;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\LockDownBrowserAwareDeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\OriginalIdAwareDeliveryExecutionInterface;
@@ -64,8 +63,8 @@ class RdsDeliveryExecution implements
     /** @var RdsDeliveryExecutionService */
     private $service;
 
-    /** @var string */
-    private $lockDownBrowser = LockDownBrowser::PROVIDER_NONE;
+    /** @var string|null */
+    private $lockDownBrowser = null;
 
     public function __construct(RdsDeliveryExecutionService $service)
     {
@@ -224,17 +223,17 @@ class RdsDeliveryExecution implements
         $this->finishTime = $finishTime;
     }
 
-    public function getLockDownBrowser(): string
+    public function getLockDownBrowser(): ?string
     {
         return $this->lockDownBrowser;
     }
 
-    public function setLockDownBrowser(string $lockDownBrowser): void
+    public function setLockDownBrowser(string $provider): void
     {
-        $this->lockDownBrowser = $lockDownBrowser;
+        $this->lockDownBrowser = $provider;
 
         if ($this->identifier !== null) {
-            $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $lockDownBrowser);
+            $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $provider);
         }
     }
 }

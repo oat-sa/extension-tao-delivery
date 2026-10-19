@@ -27,7 +27,7 @@ use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryExecution implements
@@ -160,7 +160,7 @@ class DeliveryExecution implements
         return $this->getImplementation()->getUserIdentifier();
     }
 
-    public function getLockDownBrowser(): string
+    public function getLockDownBrowser(): ?string
     {
         $implementation = $this->getImplementation();
 
@@ -168,7 +168,7 @@ class DeliveryExecution implements
             return $implementation->getLockDownBrowser();
         }
 
-        return LockDownBrowser::PROVIDER_NONE;
+        return null;
     }
 
     /**

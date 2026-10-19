@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoDelivery\model\lockDownBrowser\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\lockDownBrowser\Service\LockDownBrowserExecutionService;
@@ -45,6 +46,7 @@ class LockDownBrowserServiceProvider implements ContainerServiceProviderInterfac
             ->args([
                 service(LockDownBrowserDetectorInterface::class),
                 service(DeliveryExecutionService::SERVICE_ID),
+                service(LoggerService::SERVICE_ID),
             ]);
     }
 }

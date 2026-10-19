@@ -148,19 +148,22 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         $deliveryExecutionId = null,
         ?string $lockDownBrowser = null
     ) {
-        $lockDownBrowser = $lockDownBrowser ?? \oat\tao\model\lockDownBrowser\Entity\LockDownBrowser::PROVIDER_NONE;
-
         $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ?: $this->getNewUri());
 
-        $this->getPersistence()->insert(self::TABLE_NAME, [
+        $row = [
             self::COLUMN_ID => $deliveryExecutionId,
             self::COLUMN_LABEL => $label,
             self::COLUMN_DELIVERY_ID => $deliveryId,
             self::COLUMN_USER_ID => $userId,
             self::COLUMN_STATUS => $status,
             self::COLUMN_STARTED_AT => $this->getCurrentDateTime(),
-            self::COLUMN_LOCK_DOWN_BROWSER => $lockDownBrowser,
-        ]);
+        ];
+
+        if ($lockDownBrowser) {
+            $row[self::COLUMN_LOCK_DOWN_BROWSER] = $lockDownBrowser;
+        }
+
+        $this->getPersistence()->insert(self::TABLE_NAME, $row);
 
         return $this->getDeliveryExecution($deliveryExecutionId);
     }
@@ -217,14 +220,14 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      * @param string $toState                            the desired state
      * @return bool                                      true if the update went well, false otherwise
      */
-    public function updateDeliveryExecutionLockDownBrowser(string $identifier, string $lockDownBrowser): bool
+    public function updateDeliveryExecutionLockDownBrowser(string $identifier, string $provider): bool
     {
         try {
             return $this->getQueryBuilder()
                     ->update(self::TABLE_NAME)
                     ->set(self::COLUMN_LOCK_DOWN_BROWSER, ':lockDownBrowser')
                     ->where(self::COLUMN_ID . ' = :id')
-                    ->setParameter('lockDownBrowser', $lockDownBrowser)
+                    ->setParameter('lockDownBrowser', $provider)
                     ->setParameter('id', $identifier)
                     ->executeStatement() === 1;
         } catch (\Exception $e) {
@@ -331,7 +334,11 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             $rdsDeliveryExecution->setFinishTime(new \DateTime($result[self::COLUMN_FINISHED_AT]));
         }
 
-        if (array_key_exists(self::COLUMN_LOCK_DOWN_BROWSER, $result)) {
+        if (
+            array_key_exists(self::COLUMN_LOCK_DOWN_BROWSER, $result)
+            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== null
+            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== ''
+        ) {
             $rdsDeliveryExecution->setLockDownBrowser((string)$result[self::COLUMN_LOCK_DOWN_BROWSER]);
         }
 

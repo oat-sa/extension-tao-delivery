@@ -22,101 +22,74 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\model\lockDownBrowser\Service;
 
-use common_Logger;
 use common_exception_NotImplemented;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowser;
 use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
-/**
- * Persists combined Kiosk{ed} detection on delivery execution (INV-1263).
- */
 final class LockDownBrowserExecutionService
 {
-    private LockDownBrowserDetectorInterface $detector;
-
-    private DeliveryExecutionService $deliveryExecutionService;
-
     public function __construct(
-        LockDownBrowserDetectorInterface $detector,
-        DeliveryExecutionService $deliveryExecutionService
+        private LockDownBrowserDetectorInterface $detector,
+        private DeliveryExecutionService $deliveryExecutionService,
+        private LoggerInterface $logger
     ) {
-        $this->detector = $detector;
-        $this->deliveryExecutionService = $deliveryExecutionService;
     }
 
-    public function recordAtInit(string $deliveryExecutionId, ServerRequestInterface $request): string
+    public function recordAtInit(string $deliveryExecutionId, ServerRequestInterface $request): void
     {
         try {
             $provider = $this->recordFromRequest($deliveryExecutionId, $request);
 
-            if ($provider === LockDownBrowser::PROVIDER_KIOSKED
-                || $provider === LockDownBrowser::PROVIDER_KIOSKED_MOCK
-            ) {
-                common_Logger::i(
-                    'Lock down browser recorded as ' . $provider . ' for delivery execution '
-                    . $deliveryExecutionId
+            if ($provider !== null) {
+                $this->logger->debug(
+                    sprintf(
+                        'Lock down browser recorded as %s for delivery execution %s',
+                        $provider,
+                        $deliveryExecutionId
+                    )
                 );
             }
-
-            return $provider;
-        } catch (\Throwable $exception) {
-            common_Logger::w(
-                'Lock down browser init recording skipped: ' . $exception->getMessage()
+        } catch (Throwable $exception) {
+            $this->logger->error(
+                sprintf(
+                    'Lock down browser init recording skipped: (%s) %s',
+                    get_class($exception),
+                    $exception->getMessage()
+                )
             );
-
-            return LockDownBrowser::PROVIDER_NONE;
         }
     }
 
-    private function recordFromRequest(string $deliveryExecutionId, ServerRequestInterface $request): string
+    private function recordFromRequest(string $deliveryExecutionId, ServerRequestInterface $request): ?string
     {
         $execution = $this->deliveryExecutionService->getDeliveryExecution($deliveryExecutionId);
-
         $existing = $execution->getLockDownBrowser();
 
-        if ($existing === LockDownBrowser::PROVIDER_KIOSKED
-            || $existing === LockDownBrowser::PROVIDER_KIOSKED_MOCK
-        ) {
+        if ($existing) {
             return $existing;
         }
 
         $provider = $this->detector->detect($request);
 
-        if ($provider !== LockDownBrowser::PROVIDER_KIOSKED
-            && $provider !== LockDownBrowser::PROVIDER_KIOSKED_MOCK
-        ) {
-            return LockDownBrowser::PROVIDER_NONE;
+        if ($provider === null) {
+            return null;
         }
 
-        $this->applyProvider($execution->getImplementation(), $provider);
+        $implementation = $execution->getImplementation();
 
-        return $provider;
-    }
-
-    /**
-     * @param OntologyDeliveryExecution|RdsDeliveryExecution $implementation
-     */
-    private function applyProvider($implementation, string $provider): void
-    {
-        if ($implementation instanceof OntologyDeliveryExecution) {
+        if ($implementation instanceof OntologyDeliveryExecution || $implementation instanceof RdsDeliveryExecution) {
             $implementation->setLockDownBrowser($provider);
 
-            return;
-        }
-
-        if ($implementation instanceof RdsDeliveryExecution) {
-            $implementation->setLockDownBrowser($provider);
-            // ponytail: in-memory only until delivery execution is flushed by existing RDS lifecycle
-
-            return;
+            return $provider;
         }
 
         throw new common_exception_NotImplemented(
-            'Lock down browser recording is only implemented for ontology and RDS executions'
+            sprintf('Lock down browser recording is not implemented for %s', get_class($implementation))
         );
     }
 }

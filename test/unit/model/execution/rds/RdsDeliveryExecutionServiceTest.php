@@ -30,6 +30,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
+use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
 
@@ -84,6 +86,7 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::COLUMN_FINISHED_AT"));
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::COLUMN_STARTED_AT"));
         $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::COLUMN_LABEL"));
+        $this->assertTrue(defined(RdsDeliveryExecutionService::class . "::COLUMN_LOCK_DOWN_BROWSER"));
     }
 
     public function testDeleteDeliveryExecutionData(): void
@@ -178,6 +181,42 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         );
     }
 
+    public function testSpawnDeliveryExecutionOmitsLockDownBrowserWhenNotProvided(): void
+    {
+        $execution = $this->classUnderTest->spawnDeliveryExecution('label', 'delivery', 'user', 'status', 'spawn-id');
+
+        $this->assertNull($execution->getLockDownBrowser());
+    }
+
+    public function testSpawnDeliveryExecutionStoresLockDownBrowserWhenProvided(): void
+    {
+        $execution = $this->classUnderTest->spawnDeliveryExecution(
+            'label',
+            'delivery',
+            'user',
+            'status',
+            'spawn-ldb-id',
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $execution->getLockDownBrowser());
+        $this->assertInstanceOf(RdsDeliveryExecution::class, $execution->getImplementation());
+    }
+
+    public function testGetDeliveryExecutionLoadsLockDownBrowserFromDatabase(): void
+    {
+        $this->insertNewRow(
+            LockDownBrowserConfiguration::PROVIDER_MOCK,
+            RdsDeliveryExecutionService::ID_PREFIX . 'ldb-load'
+        );
+
+        $execution = $this->classUnderTest->getDeliveryExecution(
+            RdsDeliveryExecutionService::ID_PREFIX . 'ldb-load'
+        );
+
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_MOCK, $execution->getLockDownBrowser());
+    }
+
     public function testInitDeliveryExecution(): void
     {
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
@@ -201,20 +240,42 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertInstanceOf(\common_persistence_SqlPersistence::class, $this->classUnderTest->getPersistence());
     }
 
-    private function insertNewRow(): void
+    private function insertNewRow(?string $lockDownBrowser = null, string $id = 'test'): void
     {
-        $query = "INSERT INTO " . RdsDeliveryExecutionService::TABLE_NAME . " ("
-            . RdsDeliveryExecutionService::COLUMN_ID . ", "
-            . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . ", "
-            . RdsDeliveryExecutionService::COLUMN_USER_ID . ", "
-            . RdsDeliveryExecutionService::COLUMN_STATUS . ", "
-            . RdsDeliveryExecutionService::COLUMN_FINISHED_AT . ", "
-            . RdsDeliveryExecutionService::COLUMN_STARTED_AT . ", "
-            . RdsDeliveryExecutionService::COLUMN_LABEL
+        $now = $this->persistence->getPlatform()->getNowExpression();
+
+        if ($lockDownBrowser === null) {
+            $query = 'INSERT INTO ' . RdsDeliveryExecutionService::TABLE_NAME . ' ('
+                . RdsDeliveryExecutionService::COLUMN_ID . ', '
+                . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . ', '
+                . RdsDeliveryExecutionService::COLUMN_USER_ID . ', '
+                . RdsDeliveryExecutionService::COLUMN_STATUS . ', '
+                . RdsDeliveryExecutionService::COLUMN_FINISHED_AT . ', '
+                . RdsDeliveryExecutionService::COLUMN_STARTED_AT . ', '
+                . RdsDeliveryExecutionService::COLUMN_LABEL
+                . ") VALUES ("
+                . "'" . $id . "', 'test', 'test', 'test', '', '"
+                . $now . "', 'test'"
+                . ')';
+
+            $this->persistence->exec($query);
+
+            return;
+        }
+
+        $query = 'INSERT INTO ' . RdsDeliveryExecutionService::TABLE_NAME . ' ('
+            . RdsDeliveryExecutionService::COLUMN_ID . ', '
+            . RdsDeliveryExecutionService::COLUMN_DELIVERY_ID . ', '
+            . RdsDeliveryExecutionService::COLUMN_USER_ID . ', '
+            . RdsDeliveryExecutionService::COLUMN_STATUS . ', '
+            . RdsDeliveryExecutionService::COLUMN_FINISHED_AT . ', '
+            . RdsDeliveryExecutionService::COLUMN_STARTED_AT . ', '
+            . RdsDeliveryExecutionService::COLUMN_LABEL . ', '
+            . RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER
             . ") VALUES ("
-            . "'test', 'test', 'test', 'test', '', '"
-            . $this->persistence->getPlatform()->getNowExpression() . "', 'test'"
-            . ")";
+            . "'" . $id . "', 'test', 'test', 'test', '', '"
+            . $now . "', 'test', '" . $lockDownBrowser . "'"
+            . ')';
 
         $this->persistence->exec($query);
     }
