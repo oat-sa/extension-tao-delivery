@@ -20,13 +20,13 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\lockDownBrowser\ServiceProvider;
+namespace oat\taoDelivery\model\browser\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
+use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-use oat\taoDelivery\model\lockDownBrowser\Service\LockDownBrowserExecutionService;
+use oat\taoDelivery\model\browser\Service\LockDownBrowserExecutionService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -34,7 +34,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 /**
  * @codeCoverageIgnore
  */
-class LockDownBrowserServiceProvider implements ContainerServiceProviderInterface
+class BrowserServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
@@ -44,7 +44,7 @@ class LockDownBrowserServiceProvider implements ContainerServiceProviderInterfac
             ->set(LockDownBrowserExecutionService::class, LockDownBrowserExecutionService::class)
             ->public()
             ->args([
-                service(LockDownBrowserDetectorInterface::class),
+                service(HttpRequestLockDownBrowserDetector::class),
                 service(DeliveryExecutionService::SERVICE_ID),
                 service(LoggerService::SERVICE_ID),
             ]);

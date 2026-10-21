@@ -27,7 +27,7 @@ use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 

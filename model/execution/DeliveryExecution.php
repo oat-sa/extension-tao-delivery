@@ -27,7 +27,7 @@ use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryExecution implements

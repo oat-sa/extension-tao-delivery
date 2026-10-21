@@ -26,7 +26,7 @@ use common_persistence_Manager;
 use oat\generis\test\MockObject;
 use oat\generis\test\PersistenceManagerMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;

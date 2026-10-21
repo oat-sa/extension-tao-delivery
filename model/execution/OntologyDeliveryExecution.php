@@ -25,7 +25,7 @@ use common_exception_NotFound;
 use common_exception_ResourceNotFound;
 use common_Logger;
 use core_kernel_classes_Resource;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 
 /**
  * Service to manage the execution of deliveries

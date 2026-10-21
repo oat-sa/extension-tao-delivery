@@ -20,10 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\lockDownBrowser\Service;
+namespace oat\taoDelivery\model\browser\Service;
 
 use common_exception_NotImplemented;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
+use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
@@ -34,7 +34,7 @@ use Throwable;
 final class LockDownBrowserExecutionService
 {
     public function __construct(
-        private LockDownBrowserDetectorInterface $detector,
+        private HttpRequestLockDownBrowserDetector $detector,
         private DeliveryExecutionService $deliveryExecutionService,
         private LoggerInterface $logger
     ) {
@@ -83,9 +83,9 @@ final class LockDownBrowserExecutionService
         $implementation = $execution->getImplementation();
 
         if ($implementation instanceof OntologyDeliveryExecution || $implementation instanceof RdsDeliveryExecution) {
-            $implementation->setLockDownBrowser($provider);
+            $implementation->setLockDownBrowser($provider->name);
 
-            return $provider;
+            return $provider->name;
         }
 
         throw new common_exception_NotImplemented(

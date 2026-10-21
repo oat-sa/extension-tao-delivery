@@ -6,7 +6,7 @@ Persists lock down browser **provider** on delivery execution at runner init (IN
 
 | Component | Role |
 |-----------|------|
-| `LockDownBrowserExecutionService` | Detect via `LockDownBrowserDetectorInterface`, set provider on execution |
+| `LockDownBrowserExecutionService` | Detect via `HttpRequestLockDownBrowserDetector`, set provider on execution |
 | `LockDownBrowserAwareDeliveryExecutionInterface` | `getLockDownBrowser()` / `setLockDownBrowser()` |
 | RDS | Column `lock_down_browser`; migration `Version202610091630002236_taoDelivery` |
 

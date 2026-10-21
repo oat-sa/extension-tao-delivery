@@ -30,7 +30,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 use oat\taoDelivery\model\execution\DeliveryExecution;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 use oat\taoDelivery\scripts\install\GenerateRdsDeliveryExecutionTable;
