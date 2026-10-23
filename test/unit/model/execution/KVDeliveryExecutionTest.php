@@ -28,6 +28,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\DeliveryExecutionMetadataInterface;
 use oat\taoDelivery\model\execution\exception\NonExistentMetadataException;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
@@ -116,6 +117,23 @@ class KVDeliveryExecutionTest extends TestCase
         $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
         $subject->getMetadata('metadata2');
         self::assertNull($subject->getMetadata('metadata2'));
+    }
+
+    public function testGetLockDownBrowserReturnsNullWhenNotStored(): void
+    {
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
+
+        self::assertNull($subject->getLockDownBrowser());
+    }
+
+    public function testGetLockDownBrowserReturnsStoredProvider(): void
+    {
+        $dataset = $this->dataset + [
+            LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER => LockDownBrowserConfiguration::PROVIDER_KIOSKED,
+        ];
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $dataset);
+
+        self::assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $subject->getLockDownBrowser());
     }
 
     public function getNonExistentPropertyWillThrowError(): void

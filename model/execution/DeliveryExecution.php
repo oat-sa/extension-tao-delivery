@@ -27,13 +27,15 @@ use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryExecution implements
     DeliveryExecutionInterface,
     ServiceManagerAwareInterface,
     JsonSerializable,
-    OriginalIdAwareDeliveryExecutionInterface
+    OriginalIdAwareDeliveryExecutionInterface,
+    LockDownBrowserAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 
@@ -157,6 +159,17 @@ class DeliveryExecution implements
     public function getUserIdentifier()
     {
         return $this->getImplementation()->getUserIdentifier();
+    }
+
+    public function getLockDownBrowser(): ?string
+    {
+        $implementation = $this->getImplementation();
+
+        if ($implementation instanceof LockDownBrowserAwareDeliveryExecutionInterface) {
+            return $implementation->getLockDownBrowser();
+        }
+
+        return null;
     }
 
     /**

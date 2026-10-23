@@ -22,6 +22,7 @@ namespace oat\taoDelivery\test\unit\model\execution\rds;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 
@@ -89,6 +90,9 @@ class RdsDeliveryExecutionTest extends TestCase
             ['finishTime', function ($value) {
                 return $value === null || is_int($value);
             }, new DateTime()],
+            ['lockDownBrowser', function ($value) {
+                return $value === null || is_string($value);
+            }, LockDownBrowserConfiguration::PROVIDER_KIOSKED],
         ];
     }
 }

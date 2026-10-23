@@ -26,8 +26,10 @@ use common_persistence_Manager;
 use oat\generis\test\MockObject;
 use oat\generis\test\PersistenceManagerMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use PHPUnit\Framework\TestCase;
 
 class KeyValueServiceTest extends TestCase
@@ -64,6 +66,53 @@ class KeyValueServiceTest extends TestCase
         $this->assertInstanceOf(
             DeliveryExecution::class,
             $this->subject->spawnDeliveryExecution("test", "test", "test", "test", "test")
+        );
+    }
+
+    public function testSpawnDeliveryExecutionOmitsLockDownBrowserWhenNotProvided(): void
+    {
+        $this->subject->expects($this->once())->method('updateDeliveryExecutionStatus')->willReturn('ok');
+
+        $execution = $this->subject->spawnDeliveryExecution('label', 'delivery', 'user', 'status', 'exec-id');
+        $implementation = $execution->getImplementation();
+
+        $this->assertInstanceOf(KVDeliveryExecution::class, $implementation);
+        $this->assertNull($implementation->getLockDownBrowser());
+    }
+
+    public function testSpawnDeliveryExecutionOmitsLockDownBrowserWhenEmptyString(): void
+    {
+        $this->subject->expects($this->once())->method('updateDeliveryExecutionStatus')->willReturn('ok');
+
+        $execution = $this->subject->spawnDeliveryExecution(
+            'label',
+            'delivery',
+            'user',
+            'status',
+            'exec-id',
+            ''
+        );
+
+        $this->assertNull($execution->getImplementation()->getLockDownBrowser());
+    }
+
+    public function testSpawnDeliveryExecutionStoresLockDownBrowserWhenProvided(): void
+    {
+        $this->subject->expects($this->once())->method('updateDeliveryExecutionStatus')->willReturn('ok');
+
+        $execution = $this->subject->spawnDeliveryExecution(
+            'label',
+            'delivery',
+            'user',
+            'status',
+            'exec-id',
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $execution->getLockDownBrowser());
+        $this->assertSame(
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED,
+            $execution->getImplementation()->getLockDownBrowser()
         );
     }
 }

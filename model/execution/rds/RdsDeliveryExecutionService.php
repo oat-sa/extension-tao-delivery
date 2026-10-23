@@ -47,6 +47,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
     public const COLUMN_FINISHED_AT = "finished_at";
     public const COLUMN_STARTED_AT  = "started_at";
     public const COLUMN_LABEL       = "label";
+    public const COLUMN_LOCK_DOWN_BROWSER = 'lock_down_browser';
 
     /**
      * @param DeliveryExecutionDeleteRequest $request
@@ -139,18 +140,30 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      * @return DeliveryExecution
      * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
-    {
+    public function spawnDeliveryExecution(
+        $label,
+        $deliveryId,
+        $userId,
+        $status,
+        $deliveryExecutionId = null,
+        ?string $lockDownBrowser = null
+    ) {
         $deliveryExecutionId = self::ID_PREFIX . ($deliveryExecutionId ?: $this->getNewUri());
 
-        $this->getPersistence()->insert(self::TABLE_NAME, [
+        $row = [
             self::COLUMN_ID => $deliveryExecutionId,
             self::COLUMN_LABEL => $label,
             self::COLUMN_DELIVERY_ID => $deliveryId,
             self::COLUMN_USER_ID => $userId,
             self::COLUMN_STATUS => $status,
             self::COLUMN_STARTED_AT => $this->getCurrentDateTime(),
-        ]);
+        ];
+
+        if ($lockDownBrowser) {
+            $row[self::COLUMN_LOCK_DOWN_BROWSER] = $lockDownBrowser;
+        }
+
+        $this->getPersistence()->insert(self::TABLE_NAME, $row);
 
         return $this->getDeliveryExecution($deliveryExecutionId);
     }
@@ -207,6 +220,21 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
      * @param string $toState                            the desired state
      * @return bool                                      true if the update went well, false otherwise
      */
+    public function updateDeliveryExecutionLockDownBrowser(string $identifier, string $provider): bool
+    {
+        try {
+            return $this->getQueryBuilder()
+                    ->update(self::TABLE_NAME)
+                    ->set(self::COLUMN_LOCK_DOWN_BROWSER, ':lockDownBrowser')
+                    ->where(self::COLUMN_ID . ' = :id')
+                    ->setParameter('lockDownBrowser', $provider)
+                    ->setParameter('id', $identifier)
+                    ->executeStatement() === 1;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function updateDeliveryExecutionState($identifier, $fromState, $toState)
     {
         try {
@@ -304,6 +332,14 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
         if (array_key_exists(self::COLUMN_FINISHED_AT, $result) && $result[self::COLUMN_FINISHED_AT] !== null) {
             $rdsDeliveryExecution->setFinishTime(new \DateTime($result[self::COLUMN_FINISHED_AT]));
+        }
+
+        if (
+            array_key_exists(self::COLUMN_LOCK_DOWN_BROWSER, $result)
+            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== null
+            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== ''
+        ) {
+            $rdsDeliveryExecution->setLockDownBrowser((string)$result[self::COLUMN_LOCK_DOWN_BROWSER]);
         }
 
         return $this->propagate(new DeliveryExecution($rdsDeliveryExecution));
