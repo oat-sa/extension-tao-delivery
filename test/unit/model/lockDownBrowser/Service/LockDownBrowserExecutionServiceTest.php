@@ -84,8 +84,9 @@ class LockDownBrowserExecutionServiceTest extends TestCase
         $this->subject->recordAtInit('execution-id', $request);
     }
 
-    public function testRecordAtInitDoesNotDetectWhenProviderAlreadySet(): void
+    public function testRecordAtInitDoesNotOverwriteWhenProviderAlreadySet(): void
     {
+        $request = new ServerRequest('POST', '/');
         $implementation = $this->createMock(OntologyDeliveryExecution::class);
         $implementation->expects($this->once())
             ->method('getLockDownBrowser')
@@ -93,24 +94,27 @@ class LockDownBrowserExecutionServiceTest extends TestCase
         $implementation->expects($this->never())->method('setLockDownBrowser');
 
         $this->deliveryExecutionService
+            ->expects($this->once())
             ->method('getDeliveryExecution')
+            ->with('execution-id')
             ->willReturn(new DeliveryExecution($implementation));
 
-        $this->detector->expects($this->never())->method('detect');
+        $this->detector
+            ->expects($this->once())
+            ->method('detect')
+            ->with($request)
+            ->willReturn(new Browser(LockDownBrowserConfiguration::PROVIDER_KIOSKED));
+
         $this->logger->expects($this->once())->method('debug');
 
-        $this->subject->recordAtInit('execution-id', new ServerRequest('POST', '/'));
+        $this->subject->recordAtInit('execution-id', $request);
     }
 
     public function testRecordAtInitDoesNotPersistWhenDetectionIsNull(): void
     {
-        $implementation = $this->createMock(OntologyDeliveryExecution::class);
-        $implementation->method('getLockDownBrowser')->willReturn(null);
-        $implementation->expects($this->never())->method('setLockDownBrowser');
-
         $this->deliveryExecutionService
-            ->method('getDeliveryExecution')
-            ->willReturn(new DeliveryExecution($implementation));
+            ->expects($this->never())
+            ->method('getDeliveryExecution');
 
         $this->detector->method('detect')->willReturn(null);
         $this->logger->expects($this->never())->method('debug');
@@ -118,7 +122,7 @@ class LockDownBrowserExecutionServiceTest extends TestCase
         $this->subject->recordAtInit('execution-id', new ServerRequest('POST', '/'));
     }
 
-    public function testRecordAtInitLogsErrorWhenImplementationIsUnsupported(): void
+    public function testRecordAtInitSkipsWhenImplementationIsUnsupported(): void
     {
         $implementation = $this->createMock(DeliveryExecutionInterface::class);
 
@@ -130,7 +134,8 @@ class LockDownBrowserExecutionServiceTest extends TestCase
             ->method('detect')
             ->willReturn(new Browser(LockDownBrowserConfiguration::PROVIDER_MOCK));
 
-        $this->logger->expects($this->once())->method('error');
+        $this->logger->expects($this->never())->method('debug');
+        $this->logger->expects($this->never())->method('error');
 
         $this->subject->recordAtInit('execution-id', new ServerRequest('POST', '/'));
     }

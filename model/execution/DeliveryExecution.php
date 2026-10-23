@@ -34,7 +34,8 @@ class DeliveryExecution implements
     DeliveryExecutionInterface,
     ServiceManagerAwareInterface,
     JsonSerializable,
-    OriginalIdAwareDeliveryExecutionInterface
+    OriginalIdAwareDeliveryExecutionInterface,
+    LockDownBrowserAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 

@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\model\browser\Service;
 
-use common_exception_NotImplemented;
 use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
@@ -67,17 +66,18 @@ final class LockDownBrowserExecutionService
 
     private function recordFromRequest(string $deliveryExecutionId, ServerRequestInterface $request): ?string
     {
+        // Keep the cheap detection based on the request headers to avoid querying the database for delivery execution
+        $provider = $this->detector->detect($request);
+
+        if ($provider === null) {
+            return null;
+        }
+
         $execution = $this->deliveryExecutionService->getDeliveryExecution($deliveryExecutionId);
         $existing = $execution->getLockDownBrowser();
 
         if ($existing) {
             return $existing;
-        }
-
-        $provider = $this->detector->detect($request);
-
-        if ($provider === null) {
-            return null;
         }
 
         $implementation = $execution->getImplementation();
@@ -88,8 +88,6 @@ final class LockDownBrowserExecutionService
             return $provider->name;
         }
 
-        throw new common_exception_NotImplemented(
-            sprintf('Lock down browser recording is not implemented for %s', get_class($implementation))
-        );
+        return null;
     }
 }
