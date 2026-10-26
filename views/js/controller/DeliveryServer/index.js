@@ -82,7 +82,7 @@ define([
          * @param {Object} [parameters.messages] - message data to display
          */
         start(parameters){
-            lockDownBrowserDelivery.showExitBarIfNeeded();
+            lockDownBrowserDelivery.showExitMenuIfNeeded();
 
             let deliveryStarted = false;
 

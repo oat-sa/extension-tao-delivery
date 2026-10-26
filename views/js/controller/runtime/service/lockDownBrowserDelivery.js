@@ -15,55 +15,54 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  *
- * Lock down browser exit bar on delivery server pages (test list after redirect).
+ * Lock down browser exit menu on delivery server pages.
  */
 define([
-    'lodash',
     'context',
     'tao/lockDownBrowser/lockDownBrowserService'
-], function (_, context, lockDownBrowserModule) {
+], function (context, lockDownBrowserModule) {
     'use strict';
 
     var ui = lockDownBrowserModule.uiProtocol;
+    var ldb;
 
     function getClientConfig() {
         return (context && context.lockDownBrowser) || {};
     }
 
     function createService() {
-        var clientConfig = getClientConfig();
+        if (!ldb) {
+            ldb = lockDownBrowserModule.createLockDownBrowserService(getClientConfig());
+        }
 
-        return lockDownBrowserModule.createLockDownBrowserService(
-            _.extend({}, clientConfig, { driver: lockDownBrowserModule.DRIVER_KIOSKED })
-        );
+        return ldb;
     }
 
-    function showExitBarIfNeeded() {
-        var ldb = createService();
+    function showExitMenuIfNeeded() {
+        var service = createService();
 
-        if (!ldb) {
-            return;
+        if (!lockDownBrowserModule.isLockDownBrowserContext(service)) {
+            return Promise.resolve(false);
         }
 
-        if (!ui.hasPendingExitInStorage(sessionStorage) && !ldb.isSessionActive()) {
-            return;
-        }
-
-        lockDownBrowserModule.mountExitBar({
-            onExitClick: function (ctx) {
+        lockDownBrowserModule.mountExitMenu({
+            onExitClick: function () {
                 ui.clearPendingExitInStorage(sessionStorage);
-                ctx.$bar.remove();
-                ldb.exitApplication();
+                service.exitApplication();
             }
+        });
+
+        return service.whenAvailable().then(function () {
+            return true;
         });
     }
 
     return {
-        showExitBarIfNeeded: showExitBarIfNeeded,
+        showExitMenuIfNeeded: showExitMenuIfNeeded,
         isLockDownBrowserSessionActive: function isLockDownBrowserSessionActive() {
-            var ldb = createService();
+            var service = createService();
 
-            return ldb ? ldb.isSessionActive() : false;
+            return service.isSessionActive();
         }
     };
 });

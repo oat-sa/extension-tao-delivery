@@ -73,6 +73,8 @@ define([
             var finishRedirectUrl = options.finishDeliveryExecution;
             var finishRedirectDeferred = false;
 
+            lockDownBrowserDelivery.showExitMenuIfNeeded();
+
             if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();
             }
