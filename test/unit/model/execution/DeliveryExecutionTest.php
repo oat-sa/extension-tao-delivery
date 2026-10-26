@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\test\unit\model\execution;
 
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\KVDeliveryExecution;

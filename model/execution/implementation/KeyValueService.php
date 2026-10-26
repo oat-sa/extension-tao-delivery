@@ -36,7 +36,7 @@ use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 
 /**
  * Service to manage the execution of deliveries

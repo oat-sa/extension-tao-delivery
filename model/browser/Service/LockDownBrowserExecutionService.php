@@ -20,10 +20,9 @@
 
 declare(strict_types=1);
 
-namespace oat\taoDelivery\model\lockDownBrowser\Service;
+namespace oat\taoDelivery\model\browser\Service;
 
-use common_exception_NotImplemented;
-use oat\tao\model\lockDownBrowser\Service\LockDownBrowserDetectorInterface;
+use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
@@ -34,7 +33,7 @@ use Throwable;
 final class LockDownBrowserExecutionService
 {
     public function __construct(
-        private LockDownBrowserDetectorInterface $detector,
+        private HttpRequestLockDownBrowserDetector $detector,
         private DeliveryExecutionService $deliveryExecutionService,
         private LoggerInterface $logger
     ) {
@@ -67,6 +66,13 @@ final class LockDownBrowserExecutionService
 
     private function recordFromRequest(string $deliveryExecutionId, ServerRequestInterface $request): ?string
     {
+        // Keep the cheap detection based on the request headers to avoid querying the database for delivery execution
+        $provider = $this->detector->detect($request);
+
+        if ($provider === null) {
+            return null;
+        }
+
         $execution = $this->deliveryExecutionService->getDeliveryExecution($deliveryExecutionId);
         $existing = $execution->getLockDownBrowser();
 
@@ -74,22 +80,14 @@ final class LockDownBrowserExecutionService
             return $existing;
         }
 
-        $provider = $this->detector->detect($request);
-
-        if ($provider === null) {
-            return null;
-        }
-
         $implementation = $execution->getImplementation();
 
         if ($implementation instanceof OntologyDeliveryExecution || $implementation instanceof RdsDeliveryExecution) {
-            $implementation->setLockDownBrowser($provider);
+            $implementation->setLockDownBrowser($provider->name);
 
-            return $provider;
+            return $provider->name;
         }
 
-        throw new common_exception_NotImplemented(
-            sprintf('Lock down browser recording is not implemented for %s', get_class($implementation))
-        );
+        return null;
     }
 }

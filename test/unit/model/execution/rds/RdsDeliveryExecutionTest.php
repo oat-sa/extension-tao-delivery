@@ -22,7 +22,7 @@ namespace oat\taoDelivery\test\unit\model\execution\rds;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use oat\tao\model\lockDownBrowser\Entity\LockDownBrowserConfiguration;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
 use oat\taoDelivery\model\execution\rds\RdsDeliveryExecutionService;
 

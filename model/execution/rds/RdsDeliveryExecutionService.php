@@ -339,7 +339,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== null
             && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== ''
         ) {
-            $rdsDeliveryExecution->setLockDownBrowser((string)$result[self::COLUMN_LOCK_DOWN_BROWSER]);
+            $rdsDeliveryExecution->hydrateLockDownBrowser((string)$result[self::COLUMN_LOCK_DOWN_BROWSER]);
         }
 
         return $this->propagate(new DeliveryExecution($rdsDeliveryExecution));

@@ -80,6 +80,34 @@ final class Version202610091630002236_taoDelivery extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addReport(Report::createSuccess('Down migration not implemented for lock_down_browser column'));
+        $persistence = $this->getServiceManager()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById('default');
+
+        $schemaManager = $persistence->getSchemaManager();
+        $updatedSchema = $schemaManager->createSchema();
+        $currentSchema = clone $updatedSchema;
+
+        $tableName = RdsDeliveryExecutionService::TABLE_NAME;
+
+        if (!$updatedSchema->hasTable($tableName)) {
+            $this->addReport(Report::createSuccess('delivery_executions table not present, skipping RDS column drop'));
+
+            return;
+        }
+
+        $table = $updatedSchema->getTable($tableName);
+
+        if ($table->hasColumn(RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER)) {
+            $table->dropColumn(RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER);
+        }
+
+        $queries = $persistence->getPlatForm()->getMigrateSchemaSql($currentSchema, $updatedSchema);
+
+        foreach ($queries as $query) {
+            $persistence->exec($query);
+        }
+
+        $this->addReport(Report::createSuccess('Dropped lock_down_browser column when applicable'));
     }
 }

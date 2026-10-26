@@ -63,8 +63,7 @@ class RdsDeliveryExecution implements
     /** @var RdsDeliveryExecutionService */
     private $service;
 
-    /** @var string|null */
-    private $lockDownBrowser = null;
+    private ?string $lockDownBrowser = null;
 
     public function __construct(RdsDeliveryExecutionService $service)
     {
@@ -228,12 +227,22 @@ class RdsDeliveryExecution implements
         return $this->lockDownBrowser;
     }
 
-    public function setLockDownBrowser(string $provider): void
+    /**
+     * Necessary to avoid any update in database when mapping the value
+     */
+    public function hydrateLockDownBrowser(?string $lockDownBrowser): void
     {
-        $this->lockDownBrowser = $provider;
+        $this->lockDownBrowser = $lockDownBrowser;
+    }
+
+    public function setLockDownBrowser(?string $lockDownBrowser): void
+    {
+        $this->lockDownBrowser = $lockDownBrowser;
 
         if ($this->identifier !== null) {
-            $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $provider);
+            $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $lockDownBrowser);
         }
+
+        $this->hydrateLockDownBrowser($lockDownBrowser);
     }
 }
