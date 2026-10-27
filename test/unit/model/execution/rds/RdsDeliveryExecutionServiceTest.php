@@ -217,6 +217,31 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertSame(LockDownBrowserConfiguration::PROVIDER_MOCK, $execution->getLockDownBrowser());
     }
 
+    public function testUpdateDeliveryExecutionLockDownBrowserPersistsProvider(): void
+    {
+        $id = RdsDeliveryExecutionService::ID_PREFIX . 'ldb-update';
+        $this->insertNewRow(null, $id);
+
+        $this->classUnderTest->updateDeliveryExecutionLockDownBrowser(
+            $id,
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+
+        $execution = $this->classUnderTest->getDeliveryExecution($id);
+
+        $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $execution->getLockDownBrowser());
+    }
+
+    public function testUpdateDeliveryExecutionLockDownBrowserThrowsWhenExecutionIsMissing(): void
+    {
+        $this->expectException(\common_exception_NotFound::class);
+
+        $this->classUnderTest->updateDeliveryExecutionLockDownBrowser(
+            RdsDeliveryExecutionService::ID_PREFIX . 'missing',
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+    }
+
     public function testInitDeliveryExecution(): void
     {
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);

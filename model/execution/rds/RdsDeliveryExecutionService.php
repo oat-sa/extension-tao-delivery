@@ -212,26 +212,20 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
         return $this->parseQueryResult($result);
     }
 
-    /**
-     * Updates the state of the given deliveryexecution
-     *
-     * @param string $identifier                         the ID of the delivery execution
-     * @param core_kernel_classes_Resource $fromState    the original state
-     * @param string $toState                            the desired state
-     * @return bool                                      true if the update went well, false otherwise
-     */
-    public function updateDeliveryExecutionLockDownBrowser(string $identifier, string $provider): bool
+    public function updateDeliveryExecutionLockDownBrowser(string $identifier, ?string $provider): void
     {
-        try {
-            return $this->getQueryBuilder()
-                    ->update(self::TABLE_NAME)
-                    ->set(self::COLUMN_LOCK_DOWN_BROWSER, ':lockDownBrowser')
-                    ->where(self::COLUMN_ID . ' = :id')
-                    ->setParameter('lockDownBrowser', $provider)
-                    ->setParameter('id', $identifier)
-                    ->executeStatement() === 1;
-        } catch (\Exception $e) {
-            return false;
+        $affectedRows = $this->getQueryBuilder()
+            ->update(self::TABLE_NAME)
+            ->set(self::COLUMN_LOCK_DOWN_BROWSER, ':lockDownBrowser')
+            ->where(self::COLUMN_ID . ' = :id')
+            ->setParameter('lockDownBrowser', $provider)
+            ->setParameter('id', $identifier)
+            ->executeStatement();
+
+        if ($affectedRows !== 1) {
+            throw new \common_exception_NotFound(
+                sprintf('Delivery execution "%s" not found for lock down browser update', $identifier)
+            );
         }
     }
 
@@ -334,11 +328,7 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
             $rdsDeliveryExecution->setFinishTime(new \DateTime($result[self::COLUMN_FINISHED_AT]));
         }
 
-        if (
-            array_key_exists(self::COLUMN_LOCK_DOWN_BROWSER, $result)
-            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== null
-            && $result[self::COLUMN_LOCK_DOWN_BROWSER] !== ''
-        ) {
+        if (!empty($result[self::COLUMN_LOCK_DOWN_BROWSER])) {
             $rdsDeliveryExecution->hydrateLockDownBrowser((string)$result[self::COLUMN_LOCK_DOWN_BROWSER]);
         }
 

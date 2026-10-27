@@ -47,15 +47,13 @@ final class Version202610091630002236_taoDelivery extends AbstractMigration
         $updatedSchema = $schemaManager->createSchema();
         $currentSchema = clone $updatedSchema;
 
-        $tableName = RdsDeliveryExecutionService::TABLE_NAME;
-
-        if (!$updatedSchema->hasTable($tableName)) {
+        if (!$updatedSchema->hasTable(RdsDeliveryExecutionService::TABLE_NAME)) {
             $this->addReport(Report::createSuccess('delivery_executions table not present, skipping RDS column'));
 
             return;
         }
 
-        $table = $updatedSchema->getTable($tableName);
+        $table = $updatedSchema->getTable(RdsDeliveryExecutionService::TABLE_NAME);
 
         if (!$table->hasColumn(RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER)) {
             $table->addColumn(
@@ -63,8 +61,7 @@ final class Version202610091630002236_taoDelivery extends AbstractMigration
                 'string',
                 [
                     'length' => 64,
-                    'notnull' => true,
-                    'default' => '',
+                    'notnull' => false,
                 ]
             );
         }
@@ -88,15 +85,13 @@ final class Version202610091630002236_taoDelivery extends AbstractMigration
         $updatedSchema = $schemaManager->createSchema();
         $currentSchema = clone $updatedSchema;
 
-        $tableName = RdsDeliveryExecutionService::TABLE_NAME;
-
-        if (!$updatedSchema->hasTable($tableName)) {
+        if (!$updatedSchema->hasTable(RdsDeliveryExecutionService::TABLE_NAME)) {
             $this->addReport(Report::createSuccess('delivery_executions table not present, skipping RDS column drop'));
 
             return;
         }
 
-        $table = $updatedSchema->getTable($tableName);
+        $table = $updatedSchema->getTable(RdsDeliveryExecutionService::TABLE_NAME);
 
         if ($table->hasColumn(RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER)) {
             $table->dropColumn(RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER);

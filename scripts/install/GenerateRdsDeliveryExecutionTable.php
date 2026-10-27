@@ -192,8 +192,7 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
             'string',
             [
                 'length' => 64,
-                'notnull' => true,
-                'default' => '',
+                'notnull' => false,
             ]
         );
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, 'datetime', ["notnull" => false]);

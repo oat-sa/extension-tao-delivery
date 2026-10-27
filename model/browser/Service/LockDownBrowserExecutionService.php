@@ -33,9 +33,9 @@ use Throwable;
 final class LockDownBrowserExecutionService
 {
     public function __construct(
-        private HttpRequestLockDownBrowserDetector $detector,
-        private DeliveryExecutionService $deliveryExecutionService,
-        private LoggerInterface $logger
+        private readonly HttpRequestLockDownBrowserDetector $detector,
+        private readonly DeliveryExecutionService $deliveryExecutionService,
+        private readonly LoggerInterface $logger
     ) {
     }
 
