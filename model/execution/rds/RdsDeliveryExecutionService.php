@@ -214,19 +214,13 @@ class RdsDeliveryExecutionService extends ConfigurableService implements Monitor
 
     public function updateDeliveryExecutionLockDownBrowser(string $identifier, ?string $provider): void
     {
-        $affectedRows = $this->getQueryBuilder()
+        $this->getQueryBuilder()
             ->update(self::TABLE_NAME)
             ->set(self::COLUMN_LOCK_DOWN_BROWSER, ':lockDownBrowser')
             ->where(self::COLUMN_ID . ' = :id')
             ->setParameter('lockDownBrowser', $provider)
             ->setParameter('id', $identifier)
             ->executeStatement();
-
-        if ($affectedRows !== 1) {
-            throw new \common_exception_NotFound(
-                sprintf('Delivery execution "%s" not found for lock down browser update', $identifier)
-            );
-        }
     }
 
     public function updateDeliveryExecutionState($identifier, $fromState, $toState)

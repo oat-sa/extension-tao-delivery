@@ -232,13 +232,29 @@ class RdsDeliveryExecutionServiceTest extends TestCase
         $this->assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $execution->getLockDownBrowser());
     }
 
-    public function testUpdateDeliveryExecutionLockDownBrowserThrowsWhenExecutionIsMissing(): void
+    public function testUpdateDeliveryExecutionLockDownBrowserIgnoresMissingExecution(): void
     {
-        $this->expectException(\common_exception_NotFound::class);
+        $this->expectNotToPerformAssertions();
 
         $this->classUnderTest->updateDeliveryExecutionLockDownBrowser(
             RdsDeliveryExecutionService::ID_PREFIX . 'missing',
             LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+    }
+
+    public function testUpdateDeliveryExecutionLockDownBrowserSucceedsWhenValueIsUnchanged(): void
+    {
+        $id = RdsDeliveryExecutionService::ID_PREFIX . 'ldb-no-op';
+        $this->insertNewRow(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $id);
+
+        $this->classUnderTest->updateDeliveryExecutionLockDownBrowser(
+            $id,
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED
+        );
+
+        $this->assertSame(
+            LockDownBrowserConfiguration::PROVIDER_KIOSKED,
+            $this->classUnderTest->getDeliveryExecution($id)->getLockDownBrowser()
         );
     }
 
