@@ -237,8 +237,6 @@ class RdsDeliveryExecution implements
 
     public function setLockDownBrowser(?string $lockDownBrowser): void
     {
-        $this->lockDownBrowser = $lockDownBrowser;
-
         if ($this->identifier !== null) {
             $this->service->updateDeliveryExecutionLockDownBrowser($this->identifier, $lockDownBrowser);
         }
