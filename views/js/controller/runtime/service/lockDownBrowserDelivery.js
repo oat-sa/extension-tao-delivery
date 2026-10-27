@@ -23,8 +23,8 @@ define([
 ], function (context, lockDownBrowserModule) {
     'use strict';
 
-    var ui = lockDownBrowserModule.uiProtocol;
-    var ldb;
+    const ui = lockDownBrowserModule.uiProtocol;
+    let ldb;
 
     function getClientConfig() {
         return (context && context.lockDownBrowser) || {};
@@ -39,7 +39,7 @@ define([
     }
 
     function showExitMenuIfNeeded() {
-        var service = createService();
+        const service = createService();
 
         if (!lockDownBrowserModule.isLockDownBrowserContext(service)) {
             return Promise.resolve(false);
@@ -60,7 +60,7 @@ define([
     return {
         showExitMenuIfNeeded: showExitMenuIfNeeded,
         isLockDownBrowserSessionActive: function isLockDownBrowserSessionActive() {
-            var service = createService();
+            const service = createService();
 
             return service.isSessionActive();
         }

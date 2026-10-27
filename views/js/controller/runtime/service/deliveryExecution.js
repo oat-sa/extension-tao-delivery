@@ -29,9 +29,9 @@ define([
 ], function (_, $, fullScreen, lockDownBrowserDelivery, uiProtocol, loadingBar, dialogAlert, logoutEvent) {
     'use strict';
 
-    var ui = uiProtocol;
+    const ui = uiProtocol;
 
-    var $frameContainer,
+    let $frameContainer,
         $frame,
         $headerHeight,
         $footerHeight;
@@ -49,8 +49,8 @@ define([
      * Solution from http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?answertab=votes#tab-top
      * @param {jQuery} $target
      */
-    var forceRepaint = function($target) {
-        var sel = $target[0];
+    const forceRepaint = function($target) {
+        const sel = $target[0];
 
         if (sel) {
             sel.style.display = 'none';
@@ -60,7 +60,7 @@ define([
     };
 
     function resizeMainFrame() {
-        var height = $(window).outerHeight() - $headerHeight - $footerHeight;
+        const height = $(window).outerHeight() - $headerHeight - $footerHeight;
 
         $frameContainer.height(height);
         $frame.height(height);
@@ -69,9 +69,9 @@ define([
 
     return {
         start: function(options){
-            var serviceApi = options.serviceApi;
-            var finishRedirectUrl = options.finishDeliveryExecution;
-            var finishRedirectDeferred = false;
+            const serviceApi = options.serviceApi;
+            const finishRedirectUrl = options.finishDeliveryExecution;
+            let finishRedirectDeferred = false;
 
             lockDownBrowserDelivery.showExitMenuIfNeeded();
 
@@ -97,7 +97,7 @@ define([
                     return;
                 }
 
-                var data = event.data;
+                const data = event.data;
 
                 if (!data || typeof data.type !== 'string') {
                     return;
