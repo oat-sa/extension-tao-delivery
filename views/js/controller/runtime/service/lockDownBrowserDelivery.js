@@ -27,12 +27,18 @@ define([
     let ldb;
 
     function getClientConfig() {
-        return (context && context.lockDownBrowser) || {};
+        return context && context.lockDownBrowser;
     }
 
     function createService() {
+        const clientConfig = getClientConfig();
+
+        if (!clientConfig) {
+            return null;
+        }
+
         if (!ldb) {
-            ldb = lockDownBrowserModule.createLockDownBrowserService(getClientConfig());
+            ldb = lockDownBrowserModule.createLockDownBrowserService(clientConfig);
         }
 
         return ldb;
@@ -41,7 +47,7 @@ define([
     function showExitMenuIfNeeded() {
         const service = createService();
 
-        if (!lockDownBrowserModule.isLockDownBrowserContext(service)) {
+        if (!service || !lockDownBrowserModule.isLockDownBrowserContext(service)) {
             return Promise.resolve(false);
         }
 
@@ -62,7 +68,7 @@ define([
         isLockDownBrowserSessionActive: function isLockDownBrowserSessionActive() {
             const service = createService();
 
-            return service.isSessionActive();
+            return service ? service.isSessionActive() : false;
         }
     };
 });
