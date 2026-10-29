@@ -21,24 +21,37 @@ define([
     'lodash',
     'jquery',
     'taoDelivery/controller/runtime/service/fullScreen',
+    'taoDelivery/controller/runtime/service/lockDownBrowserDelivery',
+    'tao/lockDownBrowser/lockDownBrowserUiProtocol',
     'layout/loading-bar',
     'ui/dialog/alert',
     'layout/logout-event'
-], function(_, $, fullScreen, loadingBar, dialogAlert, logoutEvent){
+], function (_, $, fullScreen, lockDownBrowserDelivery, uiProtocol, loadingBar, dialogAlert, logoutEvent) {
     'use strict';
 
-    var $frameContainer,
+    const ui = uiProtocol;
+
+    let $frameContainer,
         $frame,
         $headerHeight,
         $footerHeight;
+
+    function isLockDownBrowserActive() {
+        return lockDownBrowserDelivery.isLockDownBrowserSessionActive();
+    }
+
+    function isSameOriginMessage(event) {
+        return event.source === window || event.origin === window.location.origin;
+    }
 
     /**
      * Forces a browser repaint
      * Solution from http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes?answertab=votes#tab-top
      * @param {jQuery} $target
      */
-    var forceRepaint = function($target) {
-        var sel = $target[0];
+    const forceRepaint = function($target) {
+        const sel = $target[0];
+
         if (sel) {
             sel.style.display = 'none';
             sel.offsetHeight; // no need to store this anywhere, the reference is enough
@@ -47,7 +60,8 @@ define([
     };
 
     function resizeMainFrame() {
-        var height = $(window).outerHeight() - $headerHeight - $footerHeight;
+        const height = $(window).outerHeight() - $headerHeight - $footerHeight;
+
         $frameContainer.height(height);
         $frame.height(height);
         forceRepaint($frameContainer);
@@ -55,7 +69,11 @@ define([
 
     return {
         start: function(options){
-            var serviceApi = options.serviceApi;
+            const serviceApi = options.serviceApi;
+            const finishRedirectUrl = options.finishDeliveryExecution;
+            let finishRedirectDeferred = false;
+
+            lockDownBrowserDelivery.showExitMenuIfNeeded();
 
             if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();
@@ -70,9 +88,51 @@ define([
                 logoutEvent();
             });
 
+            function redirectAfterFinish() {
+                window.location = finishRedirectUrl;
+            }
+
+            window.addEventListener('message', function onLockDownBrowserMessage(event) {
+                if (!isSameOriginMessage(event)) {
+                    return;
+                }
+
+                const data = event.data;
+
+                if (!data || typeof data.type !== 'string') {
+                    return;
+                }
+
+                if (ui.isDeferFinishMessage(data.type)) {
+                    finishRedirectDeferred = true;
+
+                    return;
+                }
+
+                if (ui.isExitMessage(data.type) && finishRedirectDeferred) {
+                    redirectAfterFinish();
+                }
+            });
 
             serviceApi.onFinish(function() {
-                window.location = options.finishDeliveryExecution;
+                function maybeDeferRedirect() {
+                    if (finishRedirectDeferred || isLockDownBrowserActive()) {
+                        finishRedirectDeferred = true;
+
+                        return;
+                    }
+
+                    redirectAfterFinish();
+                }
+
+                if (finishRedirectDeferred || isLockDownBrowserActive()) {
+                    finishRedirectDeferred = true;
+
+                    return;
+                }
+
+                // ponytail: runner finish postMessage can arrive after onFinish; brief wait
+                setTimeout(maybeDeferRedirect, 400);
             }).onExit(function() {
                 window.location = options.exitDeliveryExecution;
             });
