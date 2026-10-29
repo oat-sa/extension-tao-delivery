@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoDelivery\test\unit\model\execution;
 
+use common_exception_NoImplementation;
 use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
@@ -47,5 +48,24 @@ class DeliveryExecutionTest extends TestCase
         $subject = new DeliveryExecution($implementation);
 
         $this->assertNull($subject->getLockDownBrowser());
+    }
+
+    public function testSetLockDownBrowserDelegatesToAwareImplementation(): void
+    {
+        $implementation = $this->createMock(KVDeliveryExecution::class);
+        $implementation->expects($this->once())
+            ->method('setLockDownBrowser')
+            ->with(LockDownBrowserConfiguration::PROVIDER_KIOSKED);
+
+        $subject = new DeliveryExecution($implementation);
+        $subject->setLockDownBrowser(LockDownBrowserConfiguration::PROVIDER_KIOSKED);
+    }
+
+    public function testSetLockDownBrowserThrowsWhenImplementationIsNotAware(): void
+    {
+        $this->expectException(common_exception_NoImplementation::class);
+
+        $subject = new DeliveryExecution($this->createMock(DeliveryExecutionInterface::class));
+        $subject->setLockDownBrowser(LockDownBrowserConfiguration::PROVIDER_KIOSKED);
     }
 }

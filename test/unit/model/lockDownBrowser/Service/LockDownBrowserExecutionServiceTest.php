@@ -29,6 +29,7 @@ use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
+use oat\taoDelivery\model\execution\KVDeliveryExecution;
 use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
 use oat\taoDelivery\model\browser\Service\LockDownBrowserExecutionService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -75,6 +76,31 @@ class LockDownBrowserExecutionServiceTest extends TestCase
         $request = new ServerRequest('POST', '/');
         $this->detector
             ->expects($this->once())
+            ->method('detect')
+            ->with($request)
+            ->willReturn(new Browser(LockDownBrowserConfiguration::PROVIDER_KIOSKED));
+
+        $this->logger->expects($this->once())->method('debug');
+
+        $this->subject->recordAtInit('execution-id', $request);
+    }
+
+    public function testRecordAtInitPersistsDetectedProviderForKvExecution(): void
+    {
+        $implementation = $this->createMock(KVDeliveryExecution::class);
+        $implementation->expects($this->once())
+            ->method('getLockDownBrowser')
+            ->willReturn(null);
+        $implementation->expects($this->once())
+            ->method('setLockDownBrowser')
+            ->with(LockDownBrowserConfiguration::PROVIDER_KIOSKED);
+
+        $this->deliveryExecutionService
+            ->method('getDeliveryExecution')
+            ->willReturn(new DeliveryExecution($implementation));
+
+        $request = new ServerRequest('POST', '/');
+        $this->detector
             ->method('detect')
             ->with($request)
             ->willReturn(new Browser(LockDownBrowserConfiguration::PROVIDER_KIOSKED));

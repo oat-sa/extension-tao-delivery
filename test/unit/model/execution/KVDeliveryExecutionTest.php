@@ -136,6 +136,18 @@ class KVDeliveryExecutionTest extends TestCase
         self::assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $subject->getLockDownBrowser());
     }
 
+    public function testSetLockDownBrowserPersistsViaKeyValueService(): void
+    {
+        $this->keyValueServiceMock->expects(self::once())
+            ->method('update')
+            ->with(self::isInstanceOf(KVDeliveryExecution::class));
+
+        $subject = new KVDeliveryExecution($this->keyValueServiceMock, 'id', $this->dataset);
+        $subject->setLockDownBrowser(LockDownBrowserConfiguration::PROVIDER_KIOSKED);
+
+        self::assertSame(LockDownBrowserConfiguration::PROVIDER_KIOSKED, $subject->getLockDownBrowser());
+    }
+
     public function getNonExistentPropertyWillThrowError(): void
     {
         $this->expectException(common_exception_NotFound::class);

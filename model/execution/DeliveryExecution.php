@@ -27,7 +27,6 @@ use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\fields\DeliveryFieldsService;
 
 class DeliveryExecution implements
@@ -170,6 +169,21 @@ class DeliveryExecution implements
         }
 
         return null;
+    }
+
+    public function setLockDownBrowser(?string $lockDownBrowser): void
+    {
+        $implementation = $this->getImplementation();
+
+        if ($implementation instanceof LockDownBrowserAwareDeliveryExecutionInterface) {
+            $implementation->setLockDownBrowser($lockDownBrowser);
+
+            return;
+        }
+
+        throw new common_exception_NoImplementation(
+            'Delivery execution implementation does not support lock down browser persistence'
+        );
     }
 
     /**

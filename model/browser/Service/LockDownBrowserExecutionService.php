@@ -24,8 +24,7 @@ namespace oat\taoDelivery\model\browser\Service;
 
 use oat\tao\model\browser\Service\HttpRequestLockDownBrowserDetector;
 use oat\taoDelivery\model\execution\DeliveryExecutionService;
-use oat\taoDelivery\model\execution\OntologyDeliveryExecution;
-use oat\taoDelivery\model\execution\rds\RdsDeliveryExecution;
+use oat\taoDelivery\model\execution\LockDownBrowserAwareDeliveryExecutionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -82,7 +81,7 @@ final class LockDownBrowserExecutionService
 
         $implementation = $execution->getImplementation();
 
-        if ($implementation instanceof OntologyDeliveryExecution || $implementation instanceof RdsDeliveryExecution) {
+        if ($implementation instanceof LockDownBrowserAwareDeliveryExecutionInterface) {
             $implementation->setLockDownBrowser($provider->name);
 
             return $provider->name;

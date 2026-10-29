@@ -150,6 +150,12 @@ class KVDeliveryExecution implements
         return null;
     }
 
+    public function setLockDownBrowser(?string $lockDownBrowser): void
+    {
+        $this->setData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER, $lockDownBrowser);
+        $this->service->update($this);
+    }
+
     /**
      * (non-PHPdoc)
      * @see DeliveryExecutionInterface::setState()

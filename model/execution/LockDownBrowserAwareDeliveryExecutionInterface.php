@@ -28,4 +28,6 @@ interface LockDownBrowserAwareDeliveryExecutionInterface
      * @return string|null Recorded provider id, or null when not set
      */
     public function getLockDownBrowser(): ?string;
+
+    public function setLockDownBrowser(?string $lockDownBrowser): void;
 }
