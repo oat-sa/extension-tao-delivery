@@ -73,7 +73,7 @@ define([
             const finishRedirectUrl = options.finishDeliveryExecution;
             let finishRedirectDeferred = false;
 
-            lockDownBrowserDelivery.showExitMenuIfNeeded();
+            lockDownBrowserDelivery.showExitMenuIfNeeded('displayExitButtonTestRunner');
 
             if(!!options.deliveryServerConfig.requireFullScreen){
                 fullScreen.init();

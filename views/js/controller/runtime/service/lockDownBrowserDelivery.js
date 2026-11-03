@@ -44,11 +44,16 @@ define([
         return ldb;
     }
 
-    function showExitMenuIfNeeded() {
+    function showExitMenuIfNeeded(configProperty) {
+        const clientConfig = getClientConfig();
         const service = createService();
 
-        if (!service || !lockDownBrowserModule.isLockDownBrowserContext(service)) {
-            return Promise.resolve(false);
+        if (
+            !service ||
+            clientConfig[configProperty] !== true ||
+            !lockDownBrowserModule.isLockDownBrowserContext(service)
+        ) {
+            return false;
         }
 
         lockDownBrowserModule.mountExitMenu({
@@ -58,9 +63,7 @@ define([
             }
         });
 
-        return service.whenAvailable().then(function () {
-            return true;
-        });
+        return true;
     }
 
     return {
