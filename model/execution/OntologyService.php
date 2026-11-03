@@ -29,6 +29,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
 
 /**
@@ -128,8 +129,14 @@ class OntologyService extends ConfigurableService implements
      * @return DeliveryExecution
      * @throws \common_exception_Error
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
-    {
+    public function spawnDeliveryExecution(
+        $label,
+        $deliveryId,
+        $userId,
+        $status,
+        $deliveryExecutionId = null,
+        ?string $lockDownBrowser = null
+    ) {
         $propertyList = [
             OntologyRdfs::RDFS_LABEL => $label,
             DeliveryExecutionInterface::PROPERTY_DELIVERY => $deliveryId,
@@ -137,6 +144,10 @@ class OntologyService extends ConfigurableService implements
             DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
         ];
+
+        if ($lockDownBrowser) {
+            $propertyList[LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER] = $lockDownBrowser;
+        }
 
         $executionClass = $this->getClass(DeliveryExecutionInterface::CLASS_URI);
         if (empty($deliveryExecutionId)) {

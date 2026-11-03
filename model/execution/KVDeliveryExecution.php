@@ -27,6 +27,7 @@ use common_Logger;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\taoDelivery\model\execution\implementation\KeyValueService;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 
@@ -38,7 +39,10 @@ use oat\taoDelivery\model\execution\metadata\MetadataCollection;
  * @package taoDelivery
  *
  */
-class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, OriginalIdAwareDeliveryExecutionInterface
+class KVDeliveryExecution implements
+    DeliveryExecutionMetadataInterface,
+    LockDownBrowserAwareDeliveryExecutionInterface,
+    OriginalIdAwareDeliveryExecutionInterface
 {
     /**
      * @var KeyValueService
@@ -135,6 +139,21 @@ class KVDeliveryExecution implements DeliveryExecutionMetadataInterface, Origina
     public function getUserIdentifier()
     {
         return $this->getData(OntologyDeliveryExecution::PROPERTY_SUBJECT);
+    }
+
+    public function getLockDownBrowser(): ?string
+    {
+        if ($this->hasData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER)) {
+            return $this->getData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER);
+        }
+
+        return null;
+    }
+
+    public function setLockDownBrowser(?string $lockDownBrowser): void
+    {
+        $this->setData(LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER, $lockDownBrowser);
+        $this->service->update($this);
     }
 
     /**

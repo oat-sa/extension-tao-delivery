@@ -187,6 +187,14 @@ class GenerateRdsDeliveryExecutionTable extends AbstractAction
             ]
         );
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_STARTED_AT, 'datetime', ["notnull" => true]);
+        $table->addColumn(
+            RdsDeliveryExecutionService::COLUMN_LOCK_DOWN_BROWSER,
+            'string',
+            [
+                'length' => 64,
+                'notnull' => false,
+            ]
+        );
         $table->addColumn(RdsDeliveryExecutionService::COLUMN_FINISHED_AT, 'datetime', ["notnull" => false]);
         $table->setPrimaryKey([RdsDeliveryExecutionService::COLUMN_ID]);
     }
