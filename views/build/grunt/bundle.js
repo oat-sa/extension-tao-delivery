@@ -31,15 +31,23 @@ module.exports = function(grunt) {
                 options : {
                     extension : 'taoDelivery',
                     outputDir : 'loader',
+                    dependencies : ['tao'],
                     bundles : [{
                         name : 'taoDelivery',
                         default : true,
-                        babel : true
+                        babel : true,
+                        excludeNested: [
+                            'tao/lockDownBrowser/lockDownBrowserService',
+                            'tao/lockDownBrowser/lockDownBrowserUiProtocol'
+                        ],
+                        dependencies : ['tao/loader/lockDownBrowser.min']
                     }, {
                         name : 'deliveryServerIndex',
                         bootstrap : true,
                         babel : true,
-                        entryPoint : 'taoDelivery/controller/DeliveryServer/index'
+                        entryPoint : 'taoDelivery/controller/DeliveryServer/index',
+                        excludeNested: ['tao/lockDownBrowser/lockDownBrowserService'],
+                        dependencies : ['tao/loader/lockDownBrowser.min']
                     }]
                 }
             }

@@ -33,7 +33,8 @@ class DeliveryExecution implements
     DeliveryExecutionInterface,
     ServiceManagerAwareInterface,
     JsonSerializable,
-    OriginalIdAwareDeliveryExecutionInterface
+    OriginalIdAwareDeliveryExecutionInterface,
+    LockDownBrowserAwareDeliveryExecutionInterface
 {
     use ServiceManagerAwareTrait;
 
@@ -157,6 +158,32 @@ class DeliveryExecution implements
     public function getUserIdentifier()
     {
         return $this->getImplementation()->getUserIdentifier();
+    }
+
+    public function getLockDownBrowser(): ?string
+    {
+        $implementation = $this->getImplementation();
+
+        if ($implementation instanceof LockDownBrowserAwareDeliveryExecutionInterface) {
+            return $implementation->getLockDownBrowser();
+        }
+
+        return null;
+    }
+
+    public function setLockDownBrowser(?string $lockDownBrowser): void
+    {
+        $implementation = $this->getImplementation();
+
+        if ($implementation instanceof LockDownBrowserAwareDeliveryExecutionInterface) {
+            $implementation->setLockDownBrowser($lockDownBrowser);
+
+            return;
+        }
+
+        throw new common_exception_NoImplementation(
+            'Delivery execution implementation does not support lock down browser persistence'
+        );
     }
 
     /**

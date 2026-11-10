@@ -36,6 +36,7 @@ use oat\taoDelivery\model\execution\metadata\Metadata;
 use oat\taoDelivery\model\execution\metadata\MetadataCollection;
 use oat\taoDelivery\model\execution\DeliveryExecution as DeliveryExecutionWrapper;
 use oat\taoDelivery\model\execution\Delete\DeliveryExecutionDeleteRequest;
+use oat\tao\model\browser\Entity\LockDownBrowserConfiguration;
 
 /**
  * Service to manage the execution of deliveries
@@ -111,8 +112,14 @@ class KeyValueService extends ConfigurableService implements
      * @param string| null $deliveryExecutionId
      * @return \oat\taoDelivery\model\execution\DeliveryExecution
      */
-    public function spawnDeliveryExecution($label, $deliveryId, $userId, $status, $deliveryExecutionId = null)
-    {
+    public function spawnDeliveryExecution(
+        $label,
+        $deliveryId,
+        $userId,
+        $status,
+        $deliveryExecutionId = null,
+        ?string $lockDownBrowser = null
+    ) {
         $deliveryExecutionId = self::DELIVERY_EXECUTION_PREFIX . ($deliveryExecutionId ?: \common_Utils::getNewUri());
         $data = [
             OntologyRdfs::RDFS_LABEL => $label,
@@ -120,8 +127,13 @@ class KeyValueService extends ConfigurableService implements
             DeliveryExecutionInterface::PROPERTY_SUBJECT => $userId,
             DeliveryExecutionInterface::PROPERTY_TIME_START => microtime(),
             DeliveryExecutionInterface::PROPERTY_STATUS => $status,
-            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection(),
+            DeliveryExecutionInterface::PROPERTY_METADATA => new MetadataCollection()
         ];
+
+        if ($lockDownBrowser) {
+            $data[LockDownBrowserConfiguration::PROPERTY_LOCK_DOWN_BROWSER] = $lockDownBrowser;
+        }
+
         $kvDe = new KVDeliveryExecution($this, $deliveryExecutionId, $data);
         $this->updateDeliveryExecutionStatus($kvDe, null, $status);
         $this->addDeliveryToUserExecutionList($userId, $deliveryId, $kvDe->getIdentifier());
